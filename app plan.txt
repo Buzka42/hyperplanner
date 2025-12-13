@@ -1,0 +1,133 @@
+### FINAL ONE-SHOT ANTIGRAVITY PROMPT – COPY & PASTE THIS EXACTLY
+
+Create a complete, production-ready, fully functional web app using React 18 + TypeScript + Vite + Tailwind CSS + shadcn/ui components. Deploy it to Google Firebase Hosting + Firestore + Anonymous Authentication using the exact Firebase project below.
+
+**USE THIS EXACT FIREBASE CONFIG – DO NOT CHANGE ANYTHING:**
+
+```js
+const firebaseConfig = {
+  apiKey: "AIzaSyBaVAyAt3GIKkZ_W6eOULq20s_g-KztsBo",
+  authDomain: "workout-planner-b5bd6.firebaseapp.com",
+  projectId: "workout-planner-b5bd6",
+  storageBucket: "workout-planner-b5bd6.firebasestorage.app",
+  messagingSenderId: "93180527378",
+  appId: "1:93180527378:web:f4b0c339dcef86766669cb"
+};
+```
+
+Project is already created with:
+- Firestore in test mode (allow read, write: if true;)
+- Anonymous auth enabled
+- Hosting ready
+
+### App Name & Purpose
+“Bench Domination” – a private, codeword-protected 12-week bench-press specialisation program with full auto-progression, AMRAP tracking, and future-proof architecture for adding more programs later.
+
+### Entry System (First Screen)
+- Single input field + big submit button
+- User types any codeword → Enter
+  - First time codeword → modal: “Choose your program” → only option right now: “12-Week Bench Domination”
+  - Same codeword again → instantly opens that user’s saved program
+  - Codeword “judziek” → opens full ADMIN PANEL (view/edit/delete any user, see all codewords, manually change 1RMs, etc.)
+
+### Onboarding (Only Once)
+Ask for these exact 1RMs (all paused, competition legal):
+1. Paused Bench Press 1RM (kg or lbs – user chooses once)
+2. Wide-Grip Bench Press 1RM
+3. Spoto Press 1RM
+4. Low Pin Press 1RM  
+All weights in the entire program are calculated from these four numbers using the exact percentages below.
+
+### Statistics Dashboard (Always Accessible via Sidebar)
+- Current estimated 1RM for all four bench variations (updated every Saturday from AMRAP)
+- Line graph of Paused Bench 1RM progression
+- Sessions completed / Current week / Days remaining
+
+### Exact 12-Week Program (DO NOT CHANGE ANYTHING)
+
+**Bench Days (Mon, Wed, Thu, Sat)**  
+**Leg Days (Tue, Fri)** – Sunday always off
+
+#### Monday – Heavy Strength
+1. Paused Bench Press – 4 × 3  
+   Weeks 1–4: 82.5% | 5–8: 85% | 9–12: 87.5–90% of current 1RM
+2. Wide-Grip Bench Press – 3 × 6–8 @ 67.5% of regular bench 1RM
+3. Behind-the-Neck Press – 4 × 5–8
+4. Tricep Giant Set (0 rest between exercises, 2–3 min between giants)  
+   5 paused BW dips → 12 rolling tricep extensions → 25 banded skullcrushers  
+   Weeks 1–8: 2 giants | Weeks 9–12: 3 giants
+5. Dragon Flags – 3 × failure (forced eccentrics, cheat concentric)
+
+#### Wednesday – Volume Hypertrophy
+1. Paused Bench Press – 4 × 8–10  
+   Weeks 1–4: 72.5% | 5–8: 75% | 9–12: 77.5–80%
+2. Spoto Press – 3 × 5 @ 72.5% of regular bench 1RM
+3. Weighted Pull-ups – EMOM protocol (see table below)
+4. Y-Raises (prone/cable) – 5 × 12–15 (weak side +2–3 extra reps)
+5. Around-the-Worlds – 3 × 12–15
+
+#### Thursday – Power / Speed
+1. Paused Bench Press – 5 × 3–5 @ 77.5% (explosive)
+2. Low Pin Press (pins at sticking point) – 2 × 4 @ 77.5%
+3. Behind-the-Neck Press – 4 × 8–12
+4. Same Tricep Giant Set as Monday
+5. Dragon Flags – 3 × failure
+
+#### Saturday – AMRAP Test Day (DRIVES ALL PROGRESSION)
+1. Paused Bench Press  
+   - 1st working set = AMRAP @ exactly 67.5% of current 1RM (fresh)  
+   - Then 3 × 5 @ same weight (technique)
+2. Wide-Grip Bench Press – 2 × 6 @ 62.5%
+3. Weighted Pull-ups – same EMOM as Wednesday
+4. Y-Raises & Around-the-Worlds same as Wednesday
+
+**AMRAP Auto-Regulation Rule (execute instantly):**
+- ≥8 reps → +10 lb / +4.5 kg next week on ALL bench working sets
+- 5–7 reps → +5 lb / +2.5 kg
+- ≤4 reps → hold weight; two consecutive ≤4 → auto 10% deload
+- Recalculate estimated 1RM using Epley formula: weight × (1 + reps/30)
+
+#### Tuesday & Friday – Legs (identical)
+1. Walking Lunges – 3 × 10–15 each leg
+2. Heels-Off Narrow Leg Press – 3 × 10–15
+3. Reverse Nordic Curls – 2 × failure (1 weighted, 2 weighted + drop to BW)
+4. Single-Leg Machine Hip Thrust – 3 × 10–15 each
+5. Nordic Curls – 3 × failure
+6. Hack Squat Calf Raises – 3 × 15–20
+7. Hip Adduction – 2 × 8–12
+
+Weeks 11–12 only – add intensity techniques:
+- Lunges last set → rest-pause
+- Leg press last set → triple drop
+- Both Nordic variations → weighted + drop
+- Hip thrusts & calves → 20-sec iso + partials
+
+#### Weighted Pull-up 12-Week Plan (Wed + Sat)
+Weeks 1–3: +smallest plate, max strict reps EMOM until form breaks  
+Weeks 4–6: +20–30 lb, 3–5 reps EMOM × 12–15 min  
+Weeks 7–9: Daily max triple + 4–6 back-off triples @ 85–90%  
+Weeks 10–12: Test max weighted rep (week 10) → 3–5 × 2–3 @ 90–95%
+
+### UI & Logging (Critical)
+Every single set must show:
+- Exercise name
+- Target reps
+- Pre-filled weight (rounded to nearest 2.5/5 lb or kg)
+- Input boxes: actual reps + actual weight used
+- Green check if hit target range / Red X if missed
+- All data saved instantly to Firestore
+- Calendar view with green/red days
+- Dark mode, mobile-first, beautiful & fast
+
+### Future-Proofing (MANDATORY)
+Store the entire program as JSON in Firestore so new programs can be added later with zero code changes. All exercises, percentages, and rules must be data-driven, not hard-coded.
+
+Deliver the complete repository with:
+- `src/firebase.ts` containing the exact config above
+- Full working code
+- `firebase.json` and `.firebaserc` ready
+- Exact deploy commands in README
+
+Start coding now – make it perfect. This must work on the first deploy at https://workout-planner-b5bd6.web.app
+
+GO.
