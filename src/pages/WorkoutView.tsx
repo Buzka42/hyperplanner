@@ -624,10 +624,7 @@ export const WorkoutView: React.FC = () => {
                         "Single-Leg Machine Hip Thrust": (weekNum >= 11 && weekNum <= 12) ? "singleLegHipThrustWeek11" : "singleLegHipThrust",
                         "Nordic Curls": "nordicCurls",
                         "Hack Squat Calf Raises": programData.id === 'peachy-glute-plan' ? undefined : "hackSquatCalves",
-                        "Hip Adduction": "hipAdduction",
                         "Around-the-Worlds": "aroundTheWorlds",
-                        "Y-Raises": programData.id === 'peachy-glute-plan' ? "yRaisesPeachy" : "yRaises",
-                        "Assisted Pull-ups": programData.id === 'peachy-glute-plan' ? "assistedPullups" : undefined,
                         "High-Elbow Facepulls": "highElbowFacepulls"
                     };
 
@@ -636,7 +633,7 @@ export const WorkoutView: React.FC = () => {
                         displayTips.push(translations.en.tips[tipKey]);
                     }
 
-                    if (ex.name.includes("Pull-ups")) {
+                    if (ex.name.includes("Pull-ups") && programData.id === 'bench-domination') {
                         let pKey: keyof typeof translations.en.tips | null = null;
                         if (weekNum <= 3) pKey = "pullupWeeks1to3";
                         else if (weekNum <= 6) pKey = "pullupWeeks4to6";

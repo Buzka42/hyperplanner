@@ -10,7 +10,7 @@ export const BADGES: Badge[] = [
     { id: 'bench_jump_30kg', name: '30 kg Bench Jump', description: '≥30 kg gain in one run', icon: 'Rocket', image: '/badges/bench_jump_30kg.png' },
     { id: 'deload_denier', name: 'Deload Denier', description: 'Never triggered reactive deload', icon: 'Shield', image: '/badges/deload_denier.png' },
     { id: 'rear_delt_reaper', name: 'Rear-Delt Reaper', description: 'Rear-delt rope pulls 4×30+ (Pencilneck)', icon: 'Anchor', image: '/badges/rear_delt_reaper.png' },
-    { id: '3d_delts', name: '3D Delts Unlocked', description: 'Lying laterals 3×20 @ ≥10 kg', icon: 'Box', image: '/badges/3d_delts.png' },
+    { id: '3d_delts', name: '3D Delts Unlocked', description: 'Lying laterals 3×20 @ ≥20 kg', icon: 'Box', image: '/badges/3d_delts.png' },
     { id: 'cannonball_delts', name: 'Cannonball Delts', description: 'Both Reaper and 3D Delts badges', icon: 'Bomb', image: '/badges/cannonball_delts.png' },
     { id: 'first_blood', name: 'First Blood', description: 'First workout ever logged', icon: 'Droplet', image: '/badges/first_blood.png' },
     { id: '100_sessions', name: '100 Sessions Club', description: '100 total sessions', icon: 'Crown', image: '/badges/100_sessions.png' },

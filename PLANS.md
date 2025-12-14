@@ -349,7 +349,7 @@ Specific messages are triggered in the "Advice" box when previous week's perform
 6.  **30 kg Bench Jump:** ≥30 kg gain (Bench Domination or Pencilneck)
 7.  **Deload Denier:** Never triggered reactive deload in Bench Domination
 8.  **Rear-Delt Reaper:** Rear-delt rope pulls 4×30+
-9.  **3D Delts Unlocked:** Lying laterals 3×20 @ ≥10 kg
+9.  **3D Delts Unlocked:** Lying laterals 3×20 @ ≥20 kg
 10. **Cannonball Delts:** Both #8 and #9 in same run
 11. **First Blood:** First workout ever
 12. **100 Sessions Club:** 100 total sessions

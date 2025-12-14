@@ -88,7 +88,19 @@ export const PEACHY_CONFIG: PlanConfig = {
             }
             return processedDay;
         },
-        calculateWeight: (target, user) => {
+        calculateWeight: (target, user, exerciseName, context) => {
+            // Paused Squat (Thursday/Friday): 80% of same week's Monday Squat
+            if (exerciseName === "Paused Squat" && context && user.squatHistory) {
+                // Find Monday's log for this week
+                const historyEntry = user.squatHistory.find(h => h.week === context.week);
+                if (historyEntry) {
+                    const base = historyEntry.weight;
+                    const p = target.percentage || 0.8;
+                    // "Round it down to 2.5kg" -> Floor
+                    return (Math.floor((base * p) / 2.5) * 2.5).toString();
+                }
+            }
+
             if (target.percentageRef === 'squat' && user.stats.squat) {
                 return (Math.round((user.stats.squat * (target.percentage || 1)) / 2.5) * 2.5).toString();
             }

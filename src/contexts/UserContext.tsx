@@ -263,8 +263,19 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const checkBadges = async () => {
         if (!user) return;
 
+
         const currentBadges = new Set(user.badges || []);
         const newBadges: BadgeId[] = [];
+
+        // Perfect Attendance: Awarded on completion of ANY program
+        if (!currentBadges.has('perfect_attendance')) {
+            const pCompleted = (user.benchDominationStatus?.completedWeeks ?? 0) >= 15 ||
+                user.pencilneckStatus?.completed ||
+                user.skeletonStatus?.completed ||
+                (user.programProgress?.['peachy-glute-plan']?.completedSessions || 0) >= 48;
+
+            if (pCompleted) newBadges.push('perfect_attendance');
+        }
 
         // Basic Checks
         if (user.skeletonStatus?.completed && !currentBadges.has('certified_threat')) newBadges.push('certified_threat');
