@@ -313,7 +313,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (user.gluteMeasurements && user.gluteMeasurements.length >= 2) {
             const first = user.gluteMeasurements[0].sizeCm;
             const last = user.gluteMeasurements[user.gluteMeasurements.length - 1].sizeCm;
-            if ((last - first) >= 5 && !currentBadges.has('glute_gainz_queen')) {
+            if ((last - first) >= 3 && !currentBadges.has('glute_gainz_queen')) {
                 newBadges.push('glute_gainz_queen');
             }
         }

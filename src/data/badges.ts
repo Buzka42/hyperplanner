@@ -18,6 +18,6 @@ export const BADGES: Badge[] = [
     { id: 'final_boss', name: 'The Final Boss', description: '10+ badges earned', icon: 'Sword', image: '/badges/final_boss.png' },
     { id: 'peachy_perfection', name: 'Peachy Perfection', description: 'Complete Peachy Glute Plan', icon: 'Crown', image: '/badges/peachy.png' },
     { id: 'squat_30kg', name: 'Thick Thighs Save Lives', description: '+30 kg on Squat', icon: 'Weight', image: '/badges/squat_30kg.png' },
-    { id: 'glute_gainz_queen', name: 'Glute Gainz Queen', description: '≥5 cm glute growth', icon: 'Ruler', image: '/badges/glute_queen.png' },
+    { id: 'glute_gainz_queen', name: 'Glute Gainz Queen', description: '≥3 cm glute growth', icon: 'Ruler', image: '/badges/glute_queen.png' },
     { id: 'kas_glute_bridge_100', name: 'Kas Glute Bridge 100 kg', description: '100 kg+ for reps', icon: 'Dumbbell', image: '/badges/kas_glute_bridge_100.png' },
 ];

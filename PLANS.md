@@ -32,11 +32,15 @@ These toggles strictly **remove** exercises if disabled. There are **no replacem
         *   **Volume:** Sets reduced by 50% (floored, min 1).
         *   **Tagline:** `[DELOAD: -15% Weight, Half Volume]` added to notes.
 *   **Warm-up Optimization:**
-    *   **Paused Bench & BTN Press:** Static warm-up sets displayed before working sets:
-        *   Empty Bar x 10
-        *   40% x 8
-        *   60% x 5
-        *   75% x 3
+    *   **Paused Bench & BTN Press:** Dynamic warm-up generation:
+        *   **Set 1:** Empty Bar (20kg) x 12
+        *   **Set 2:**
+            *   If Working Weight ≥ 100kg: 60kg x 8
+            *   If Working Weight < 100kg: 40% x 8
+        *   **Sets 3-4 (Bridge):** Interpolated jumps (5 reps, then 3 reps) to approach 90%
+        *   **Sets 5+ (Peak):**
+            *   If Working Weight ≤ 120kg: 90% x 1
+            *   If Working Weight > 120kg: 10kg jumps (singles) from Set 4 up to 90%
 
 ### **Phase 1: Accumulation & Intensity (Weeks 1-12)**
 *Percentages and Volumes adjust dynamically at Week 5 and Week 9.*
@@ -341,8 +345,8 @@ Specific messages are triggered in the "Advice" box when previous week's perform
 2.  **Certified Shoulder Boulder:** Complete “Pencilneck Eradication Protocol”
 3.  **Perfect Attendance War Criminal:** Zero missed sessions in any program
 4.  **Bench Psychopath:** Full Bench Domination + peaking + new PR
-5.  **50-lb Bench Jump:** ≥50 lb / 22.5 kg gain
-6.  **100-lb Bench Jump:** ≥100 lb / 45 kg gain
+5.  **20 kg Bench Jump:** ≥20 kg gain (Bench Domination or Pencilneck)
+6.  **30 kg Bench Jump:** ≥30 kg gain (Bench Domination or Pencilneck)
 7.  **Deload Denier:** Never triggered reactive deload in Bench Domination
 8.  **Rear-Delt Reaper:** Rear-delt rope pulls 4×30+
 9.  **3D Delts Unlocked:** Lying laterals 3×20 @ ≥10 kg
@@ -352,8 +356,8 @@ Specific messages are triggered in the "Advice" box when previous week's perform
 13. **Immortal:** All programs completed at least once
 14. **The Final Boss:** 10+ badges earned
 15. **Peachy Perfection:** All 48 Peachy sessions
-16. **+30 kg Squat Club:** Hit the squat goal
-17. **Glute Gainz Queen:** ≥5 cm glute growth
+16. **Thick Thighs Save Lives:** +30 kg on Squat
+17. **Glute Gainz Queen:** ≥3 cm glute growth
 18. **Kas Glute Bridge 100 kg:** 100 kg+ for reps
 
 ---

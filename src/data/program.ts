@@ -585,67 +585,132 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
 
             // 3. Exercise Specific Logic (Warmups, BTN, Swap)
             processedDay.exercises = processedDay.exercises.map(ex => {
-                // A. Warm-up Sets (Paused Bench & BTN)
-                const isPausedBench = ex.name === "Paused Bench Press" && ex.target.percentageRef === 'pausedBench';
-                const isBTN = ex.name === "Behind-the-Neck Press";
+                const round = (w: number) => Math.floor(w / 2.5) * 2.5;
 
-                if (isPausedBench || isBTN) {
+                // A. Warm-up Sets
+                // Targeting "Paused Bench Press" and "Paused Bench Press (AMRAP)"
+                if (ex.name === "Paused Bench Press" || ex.name === "Paused Bench Press (AMRAP)") {
                     let targetLoad = 0;
-                    if (isPausedBench) {
+                    if (ex.target.percentageRef === 'pausedBench') {
+                        // Standard calc
+                        const currentBase = getPausedBenchBase(user, { week: weekNum });
                         const perc = ex.target.percentage || 1;
-                        const benchStats = user.stats.pausedBench || 0;
-                        targetLoad = benchStats * perc;
-                    } else if (isBTN) {
-                        // Calculate BTN Target Load
-                        const monWeight = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
-                        if (day.dayOfWeek === 1) { // Monday
-                            targetLoad = monWeight;
-                        } else { // Thursday
-                            const thuWeight = Math.floor((monWeight * 0.85) / 2.5) * 2.5;
-                            targetLoad = thuWeight;
-                        }
+                        targetLoad = currentBase * perc;
+                    } else if (ex.target.weightAbsolute) {
+                        targetLoad = ex.target.weightAbsolute;
                     }
 
-                    // Create Warmups
-                    const round = (w: number) => Math.floor(w / 2.5) * 2.5;
+                    if (targetLoad > 0) {
+                        const warmupSets: { reps: string; weight: string; completed: boolean }[] = [];
 
-                    if (isBTN) {
-                        // BTN Specific Warmups
-                        // Minimal weight 20kg (Empty Bar)
-                        const startWeight = 20;
-                        const gap = Math.max(0, targetLoad - startWeight);
+                        // Set 1: 12 reps @ 20kg (Empty Bar)
+                        warmupSets.push({ reps: "12", weight: "20", completed: false });
 
-                        if (day.dayOfWeek === 1) { // Monday - 3 Warmups
-                            ex.warmups = {
-                                sets: [
-                                    { reps: "10", weight: "20 (Empty Bar)", completed: false },
-                                    { reps: "5", weight: round(startWeight + (gap * 0.40)).toString(), completed: false },
-                                    { reps: "3", weight: round(startWeight + (gap * 0.75)).toString(), completed: false },
-                                ]
-                            };
-                        } else { // Thursday - 2 Warmups
-                            ex.warmups = {
-                                sets: [
-                                    { reps: "10", weight: "20 (Empty Bar)", completed: false },
-                                    { reps: "5", weight: round(startWeight + (gap * 0.60)).toString(), completed: false },
-                                ]
-                            };
+                        // Set 2: 8 reps
+                        let set2Weight = 0;
+                        if (targetLoad >= 100) {
+                            set2Weight = 60;
+                        } else {
+                            set2Weight = Math.floor(targetLoad * 0.40);
+                            // Ensure it's not below 20? The prompt says "40% of weight rounded down".
+                            // If load is 40kg, 40% is 16kg. Let's floor it but keep it logical?
+                            // Usually you don't go below empty bar. Let's assume min 20 or plate logic.
+                            // But strictly following prompt: "40% of weight rounded down".
+                            // I'll stick to prompt but ensure it's at least 20 if user can lift 20.
+                            if (set2Weight < 20) set2Weight = 20;
                         }
-                    } else {
-                        // Paused Bench Standard Warmups
+                        // Rounding set 2 to nearest plate/logical increment? Prompt only says "rounded down".
+                        // Assuming integer or 2.5 step? "rounded down" usually means integer.
+                        // I'll apply standard gym rounding (2.5) for consistency if not specified "integer".
+                        set2Weight = round(set2Weight);
+                        warmupSets.push({ reps: "8", weight: set2Weight.toString(), completed: false });
+
+                        // Progression to 90%
+                        const target90 = round(targetLoad * 0.90);
+                        const startProg = set2Weight;
+                        const gap = target90 - startProg;
+
+                        // Set 3 (5 reps) & Set 4 (3 reps) - Interpolate
+                        // Jump roughly gap / 3
+                        const jump = gap / 3;
+                        const set3Weight = round(startProg + jump);
+                        const set4Weight = round(startProg + (jump * 2));
+
+                        warmupSets.push({ reps: "5", weight: set3Weight.toString(), completed: false });
+                        warmupSets.push({ reps: "3", weight: set4Weight.toString(), completed: false });
+
+                        // Set 5+ (1 rep)
+                        if (targetLoad <= 120) {
+                            // "Finally 90% ... for 1 rep"
+                            warmupSets.push({ reps: "1", weight: target90.toString(), completed: false });
+                        } else {
+                            // "Progress from the 3 rep warm up set to 90% in 10kg jumps, all for 1 rep"
+                            let current = set4Weight + 10;
+                            // Just in case set4Weight + 10 > target90 (unlikely with >120kg load, but good to be safe)
+                            while (current <= target90) {
+                                warmupSets.push({ reps: "1", weight: round(current).toString(), completed: false });
+                                if (current >= target90) break; // Reached target
+                                current += 10;
+                                // If next step overshoots significantly? 
+                                // "in 10kg jumps". If target is 125 (90% of ~139). Set 4 might be 90.
+                                // 100, 110, 120, 130(stop). 
+                                // Should we hit exact 90% at end? "progress ... to 90%".
+                                // If last jump is small, just do target90?
+                                // Let's strictly do +10s up to target. 
+                                // If the last increment creates a step > target90, we cap it or add the final set?
+                                // "Finally 90% working weight for 1 rep" applies to the general logic, 
+                                // but >120kg logic overrides "how" we get there.
+                                // I will ensure the last set IS target90.
+                            }
+                            // If the loop didn't land exactly on target90 (e.g. ended at target90-5), add it?
+                            // Using a small tolerance
+                            const lastAdded = parseFloat(warmupSets[warmupSets.length - 1].weight);
+                            if (lastAdded < target90) {
+                                warmupSets.push({ reps: "1", weight: target90.toString(), completed: false });
+                            }
+                        }
+
+                        ex.warmups = { sets: warmupSets };
+                    }
+                }
+
+                // BTN Warmups
+                if (ex.name === "Behind-the-Neck Press") {
+                    // Previous BTN Logic maintained but refactored into this map block to avoid duplicate overrides
+                    let targetLoad = 0;
+                    // Calculate BTN Target Load
+                    const monWeight = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
+                    if (day.dayOfWeek === 1) { // Monday
+                        targetLoad = monWeight;
+                    } else { // Thursday
+                        // Approx Check: if day 4 is volume
+                        const thuWeight = Math.floor((monWeight * 0.85) / 2.5) * 2.5;
+                        targetLoad = thuWeight;
+                    }
+
+                    const startWeight = 20;
+                    const gap = Math.max(0, targetLoad - startWeight);
+
+                    if (day.dayOfWeek === 1) { // Monday - 3 Warmups
                         ex.warmups = {
                             sets: [
-                                { reps: "10", weight: "20", completed: false },
-                                { reps: "8", weight: round(targetLoad * 0.40).toString(), completed: false },
-                                { reps: "5", weight: round(targetLoad * 0.60).toString(), completed: false },
-                                { reps: "3", weight: round(targetLoad * 0.75).toString(), completed: false },
+                                { reps: "10", weight: "20 (Empty Bar)", completed: false },
+                                { reps: "5", weight: round(startWeight + (gap * 0.40)).toString(), completed: false },
+                                { reps: "3", weight: round(startWeight + (gap * 0.75)).toString(), completed: false },
+                            ]
+                        };
+                    } else { // Thursday - 2 Warmups
+                        ex.warmups = {
+                            sets: [
+                                { reps: "10", weight: "20 (Empty Bar)", completed: false },
+                                { reps: "5", weight: round(startWeight + (gap * 0.60)).toString(), completed: false },
                             ]
                         };
                     }
                 }
 
-                // B. BTN Specific Configuration (Sets/Reps/Weight)
-                if (isBTN) {
+                // C. BTN Specific Configuration (Sets/Reps/Weight) - Moved logic for clarity
+                if (ex.name === "Behind-the-Neck Press") {
                     // Monday
                     if (day.dayOfWeek === 1) {
                         ex.sets = 4;
@@ -665,7 +730,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                     }
                 }
 
-                // C. Y-Raises / Facepulls Swap
+                // D. Y-Raises / Facepulls Swap
                 if (ex.name === "Y-Raises") {
                     ex.sets = 3;
                     ex.alternates = ["High-Elbow Facepulls"];
@@ -681,23 +746,6 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                             alternates: ["Y-Raises"]
                         };
                     }
-                }
-
-                // D. Warmups for AMRAP (Saturday)
-                if (ex.name === "Paused Bench Press (AMRAP)") {
-                    const currentBase = getPausedBenchBase(user, { week: weekNum });
-                    const perc = ex.target.percentage || 1;
-                    const targetWeight = currentBase * perc;
-
-                    const round = (w: number) => Math.floor(w / 2.5) * 2.5;
-
-                    ex.warmups = {
-                        sets: [
-                            { reps: "10", weight: "20 (Empty Bar)", completed: false },
-                            { reps: "8", weight: round(targetWeight * 0.50).toString(), completed: false },
-                            { reps: "1", weight: round(targetWeight * 0.90).toString(), completed: false }
-                        ]
-                    };
                 }
 
                 return ex;
