@@ -360,13 +360,34 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 if (heavyBridge) newBadges.push('kas_glute_bridge_100');
             }
 
-            // Cannonball Delts (Military Press >= 60kg)
-            if (!currentBadges.has('cannonball_delts')) {
-                const heavyPress = logs.some(l => l.exercises?.some(e =>
-                    e.name === "Standing Military Press" &&
-                    e.setsData.some(s => parseFloat(s.weight) >= 60 && s.completed)
-                ));
-                if (heavyPress) newBadges.push('cannonball_delts');
+            // Check 3D Delts (Lying Laterals 3x20 @ >= 20kg)
+            if (!currentBadges.has('3d_delts')) {
+                const has3d = logs.some(l => l.exercises?.some(e => {
+                    if (e.name !== "Lying Lateral Raises") return false;
+                    const validSets = e.setsData.filter(s => s.completed && parseInt(s.reps) >= 20 && parseFloat(s.weight) >= 20);
+                    return validSets.length >= 3;
+                }));
+                if (has3d) newBadges.push('3d_delts');
+            }
+
+            // Check Rear Delt Reaper (Rope Pulls 4x30+)
+            if (!currentBadges.has('rear_delt_reaper')) {
+                const hasReaper = logs.some(l => l.exercises?.some(e => {
+                    if (e.name !== "Rear-Delt Rope Pulls to Face") return false;
+                    const validSets = e.setsData.filter(s => s.completed && parseInt(s.reps) >= 30);
+                    return validSets.length >= 4;
+                }));
+                if (hasReaper) newBadges.push('rear_delt_reaper');
+            }
+
+            // Cannonball Delts (Both of above) - Override existing logic if mismatched, or keep "AND" logic?
+            // Badge desc: "Both Reaper and 3D Delts badges"
+            // The existing code checked Military Press for incorrect reasons likely.
+            // Let's rely on badge ownership.
+            if ((currentBadges.has('3d_delts') || newBadges.includes('3d_delts')) &&
+                (currentBadges.has('rear_delt_reaper') || newBadges.includes('rear_delt_reaper')) &&
+                !currentBadges.has('cannonball_delts')) {
+                newBadges.push('cannonball_delts');
             }
 
         } catch (e) {

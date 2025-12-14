@@ -79,8 +79,9 @@ These toggles strictly **remove** exercises if disabled. There are **no replacem
 3.  **Weighted Pull-ups** (Module dependant)
     *   **Sets:** 0 (User managed)
     *   **Reps:** "Max" (W1-3), "3-5" (W4-6), "3" (W7-9), "2-3" (W10-12)
-4.  **Y-Raises** (Module dependant): 5 sets, 12-15 reps.
-    *   *Tip:* "Focus on scapular retraction support - swap to facepulls if needed"
+4.  **Y-Raises** (Module dependant): 3 sets, 12-15 reps.
+    *   *Option:* Can be swapped for "High-Elbow Facepulls".
+    *   *Tip:* "Focus on scapular retraction support."
 5.  **Around-the-Worlds** (Module dependant): 3 sets, 12-15 reps.
 
 #### **Thursday - Power / Speed**

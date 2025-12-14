@@ -131,7 +131,7 @@ export const translations = {
             deficitReverseLunge: "Front foot on red plate. Back knee touches floor every rep.",
             singleLegHipThrust: "Drive through heel, full extension, brutal squeeze.",
             deficitPushups: "Chest to floor. Can’t hit 5? Drop to knees and keep going.",
-            assistedPullups: "Strict reps first, then push off box/bench to finish.",
+            assistedPullups: "Use a box/bench in front of you to push off with your leg, try to limit the assistance to minimum (especially at the bottom where the rep is the easiest). Strict reps first, then push off box/bench to finish.",
             yRaisesPeachy: "Pinky leads, thumbs up, external rotation at top.",
             lyingCableLatRaises: "Pull ‘away’ from body, not up.",
             glutePumpFinisher: "Chase the insane pump. This is why you came.",
