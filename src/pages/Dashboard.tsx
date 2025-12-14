@@ -337,7 +337,7 @@ export const Dashboard: React.FC = () => {
                         ) : (
                             <div className="flex flex-col gap-2">
                                 <h2 className="text-4xl font-black tracking-tight">
-                                    Feeling <span className="shimmer-active-peachy">Peachy</span>
+                                    Feeling <span className="shimmer-active-peachy">Peachy</span> 🍑
                                 </h2>
                             </div>
                         )}
@@ -424,6 +424,7 @@ export const Dashboard: React.FC = () => {
                                     <div className="h-[60px] w-full">
                                         <ResponsiveContainer width="100%" height="100%">
                                             <LineChart data={user.gluteMeasurements.slice(-5)}>
+                                                <YAxis domain={['dataMin', 'auto']} hide />
                                                 <Line type="monotone" dataKey="sizeCm" stroke="#FF7A5C" strokeWidth={2} dot={false} />
                                             </LineChart>
                                         </ResponsiveContainer>

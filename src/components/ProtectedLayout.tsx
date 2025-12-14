@@ -11,6 +11,7 @@ export const ProtectedLayout: React.FC = () => {
     const { user, logout, notification, clearNotification } = useUser();
     const location = useLocation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [expandedBadgeId, setExpandedBadgeId] = useState<string | null>(null);
 
     if (!user) {
         return <Navigate to="/" replace />;
@@ -155,19 +156,39 @@ export const ProtectedLayout: React.FC = () => {
                             <div className="grid grid-cols-4 gap-2 justify-items-center">
                                 {BADGES.map((badge) => {
                                     const isEarned = user.badges?.includes(badge.id);
+                                    const isExpanded = expandedBadgeId === badge.id;
                                     return (
-                                        <div key={badge.id} className="group relative">
-                                            <div className="absolute bottom-full mb-2 -left-8 w-24 bg-black text-white text-[10px] p-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                                                <div className="font-bold">{badge.name}</div>
-                                                <div className="text-[8px] text-gray-300">{badge.description}</div>
-                                            </div>
-                                            <div className={`w-8 h-8 flex items-center justify-center transition-all duration-500 ${isEarned ? 'grayscale-0 opacity-100 scale-100' : 'grayscale opacity-20 scale-90'}`}>
-                                                {badge.image ? (
-                                                    <img src={badge.image} alt={badge.name} className="w-full h-full object-contain filter drop-shadow-sm cursor-help" />
-                                                ) : (
-                                                    <span className="text-xl filter drop-shadow-sm cursor-help">{badge.icon}</span>
-                                                )}
-                                            </div>
+                                        <div
+                                            key={badge.id}
+                                            className={`group relative transition-all duration-300 ${isExpanded ? 'col-span-4 w-full bg-secondary/50 p-2 rounded-lg border border-yellow-500/50 z-10' : ''}`}
+                                            onClick={() => setExpandedBadgeId(isExpanded ? null : badge.id)}
+                                        >
+                                            {!isExpanded && (
+                                                <div className="absolute bottom-full mb-2 -left-8 w-24 bg-black text-white text-[10px] p-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
+                                                    <div className="font-bold">{badge.name}</div>
+                                                    <div className="text-[8px] text-gray-300">{badge.description}</div>
+                                                </div>
+                                            )}
+
+                                            {isExpanded ? (
+                                                <div className="flex flex-col items-center animate-in fade-in zoom-in duration-200">
+                                                    <div className="text-sm font-bold text-primary mb-1 text-center">{badge.name}</div>
+                                                    {badge.image ? (
+                                                        <img src={badge.image} alt={badge.name} className="w-24 h-24 object-contain mb-2 filter drop-shadow-md" />
+                                                    ) : (
+                                                        <span className="text-4xl mb-2">{badge.icon}</span>
+                                                    )}
+                                                    <div className="text-[10px] text-muted-foreground text-center px-2">{badge.description}</div>
+                                                </div>
+                                            ) : (
+                                                <div className={`w-8 h-8 flex items-center justify-center transition-all duration-500 ${isEarned ? 'grayscale-0 opacity-100 scale-100' : 'grayscale opacity-20 scale-90'}`}>
+                                                    {badge.image ? (
+                                                        <img src={badge.image} alt={badge.name} className="w-full h-full object-contain filter drop-shadow-sm cursor-pointer" />
+                                                    ) : (
+                                                        <span className="text-xl filter drop-shadow-sm cursor-pointer">{badge.icon}</span>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     );
                                 })}
@@ -194,28 +215,32 @@ export const ProtectedLayout: React.FC = () => {
             {/* Badge Unlock Notification Overlay */}
             {notification && notification.type === 'badge' && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 animate-in fade-in duration-300">
-                    <div className="bg-gradient-to-br from-yellow-900/90 to-black border border-yellow-500/50 p-8 rounded-xl max-w-sm text-center shadow-[0_0_50px_rgba(234,179,8,0.3)] relative">
-                        <button onClick={clearNotification} className="absolute top-2 right-2 text-yellow-500/50 hover:text-yellow-500"><X /></button>
-                        <h2 className="text-2xl font-black text-yellow-500 mb-2 tracking-widest uppercase animate-pulse">Badge Unlocked!</h2>
+                    <div className={cn(
+                        "p-8 rounded-xl max-w-sm text-center relative border",
+                        isPeachy
+                            ? "bg-white border-rose-300 shadow-[0_0_50px_rgba(251,113,133,0.5)]"
+                            : "bg-gradient-to-br from-yellow-900/90 to-black border-yellow-500/50 shadow-[0_0_50px_rgba(234,179,8,0.3)]"
+                    )}>
+                        <button onClick={clearNotification} className={cn("absolute top-2 right-2", isPeachy ? "text-rose-300 hover:text-rose-500" : "text-yellow-500/50 hover:text-yellow-500")}><X /></button>
+                        <h2 className={cn("text-2xl font-black mb-2 tracking-widest uppercase animate-pulse", isPeachy ? "text-rose-500" : "text-yellow-500")}>Badge Unlocked!</h2>
 
                         {(() => {
                             const b = BADGES.find(x => x.id === notification.badgeId);
                             if (!b) return null;
                             return (
                                 <div className="space-y-4">
-                                    <div className="text-6xl my-4 animate-bounce filter drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]">
+                                    <div className={cn("text-6xl my-4 animate-bounce", isPeachy ? "filter drop-shadow-[0_0_15px_rgba(251,113,133,0.5)]" : "filter drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]")}>
                                         {b.image ? <img src={b.image} alt={b.name} className="w-32 h-32 object-contain mx-auto" /> : b.icon}
                                     </div>
-                                    <h3 className="text-xl font-bold text-white">{b.name}</h3>
-                                    <p className="text-yellow-200/80 text-sm">{b.description}</p>
-                                    <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white font-bold mt-4" onClick={clearNotification}>
+                                    <h3 className={cn("text-xl font-bold", isPeachy ? "text-gray-800" : "text-white")}>{b.name}</h3>
+                                    <p className={cn("text-sm", isPeachy ? "text-rose-400" : "text-yellow-200/80")}>{b.description}</p>
+                                    <Button className={cn("w-full font-bold mt-4", isPeachy ? "bg-rose-500 hover:bg-rose-600 text-white" : "bg-yellow-600 hover:bg-yellow-700 text-white")} onClick={clearNotification}>
                                         CLAIM GLORY
                                     </Button>
                                 </div>
                             )
                         })()}
                     </div>
-                    {/* CSS Confetti would go here, simpler to just use CSS animations on elements */}
                 </div>
             )}
         </div>

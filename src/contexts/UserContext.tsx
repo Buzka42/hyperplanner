@@ -272,13 +272,33 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (user.completedSessions > 0 && !currentBadges.has('first_blood')) newBadges.push('first_blood');
         if (user.completedSessions >= 100 && !currentBadges.has('100_sessions')) newBadges.push('100_sessions');
 
+        // Check Bench Gains (Domination OR Pencilneck)
+        const benchSamples: number[] = [];
         if (user.benchHistory && user.benchHistory.length >= 2) {
-            const weights = user.benchHistory.map(h => h.actualWeight || h.weight);
-            const minW = Math.min(...weights);
-            const maxW = Math.max(...weights);
+            benchSamples.push(...user.benchHistory.map(h => h.weight || 0));
+        }
+        if (user.pencilneckBenchHistory && user.pencilneckBenchHistory.length >= 2) {
+            // Merge or separate? User intent implies gaining "in one run".
+            // If they switch programs, it's arguably separate runs.
+            // But if they just do Pencilneck, we check that history separately.
+            // Let's calculate max gain found in EITHER history.
+            const pnWeights = user.pencilneckBenchHistory.map(h => h.weight || 0);
+            const minPn = Math.min(...pnWeights);
+            const maxPn = Math.max(...pnWeights);
+            if ((maxPn - minPn) >= 20 && !currentBadges.has('bench_jump_20kg')) newBadges.push('bench_jump_20kg');
+            if ((maxPn - minPn) >= 30 && !currentBadges.has('bench_jump_30kg')) newBadges.push('bench_jump_30kg');
+        }
+
+        if (benchSamples.length >= 2) {
+            const minW = Math.min(...benchSamples);
+            const maxW = Math.max(...benchSamples);
             const gain = maxW - minW;
-            if (gain >= 22.5 && !currentBadges.has('bench_jump_50')) newBadges.push('bench_jump_50');
-            if (gain >= 45 && !currentBadges.has('bench_jump_100')) newBadges.push('bench_jump_100');
+            if (gain >= 20 && !currentBadges.has('bench_jump_20kg')) {
+                if (!newBadges.includes('bench_jump_20kg')) newBadges.push('bench_jump_20kg');
+            }
+            if (gain >= 30 && !currentBadges.has('bench_jump_30kg')) {
+                if (!newBadges.includes('bench_jump_30kg')) newBadges.push('bench_jump_30kg');
+            }
         }
 
         const hasBench = user.benchDominationStatus && (user.benchDominationStatus.completedWeeks ?? 0) >= 12;
@@ -309,7 +329,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 squatLogs.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
                 const getMaxSquat = (log: WorkoutLog) => {
-                    const sqEx = log.exercises?.find(e => e.name.toLowerCase().includes('squat'));
+                    const sqEx = log.exercises?.find(e => e.name === "Squats" || e.name === "Paused Squat");
                     if (!sqEx) return 0;
                     return Math.max(...sqEx.setsData.map(s => parseFloat(s.weight) || 0));
                 };

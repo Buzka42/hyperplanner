@@ -338,7 +338,7 @@ export const PENCILNECK_CONFIG: PlanConfig = {
                                 const upper = parseInt(rangeMatch[2]);
                                 const allHit = completedSets.every((s: any) => parseInt(s.reps || "0") >= upper);
                                 if (allHit) {
-                                    return "Upper rep range hit! Increase weight by 2.5kg (5lbs).";
+                                    return "Upper rep range hit! Increase weight by 2.5kg.";
                                 }
                             }
                         }

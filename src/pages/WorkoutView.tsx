@@ -430,6 +430,94 @@ export const WorkoutView: React.FC = () => {
             if (updated) updatePayload.stats = newStats;
             if (historyEntry) updatePayload.benchHistory = arrayUnion(historyEntry);
 
+            if (Object.keys(updatePayload).length > 0) {
+                await updateDoc(userRef, updatePayload);
+            }
+
+            // Squat History Logic (For Peachy Program)
+            let squatHistoryEntry = null;
+            if (programData.id === 'peachy-glute-plan' && !isExistingLog) {
+                dayData?.exercises.forEach(ex => {
+                    if (ex.name === "Squats") {
+                        const sets = exerciseData[ex.id];
+                        if (sets && sets.length > 0) {
+                            // Find max weight for valid set
+                            let maxWeight = 0;
+                            let maxReps = 0;
+                            sets.forEach(s => {
+                                const w = parseFloat(s.weight);
+                                const r = parseInt(s.reps);
+                                if (!isNaN(w) && !isNaN(r) && s.completed) {
+                                    if (w > maxWeight) {
+                                        maxWeight = w;
+                                        maxReps = r;
+                                    }
+                                }
+                            });
+
+                            if (maxWeight > 0) {
+                                squatHistoryEntry = {
+                                    date: new Date().toISOString(),
+                                    week: weekNum,
+                                    weight: maxWeight,
+                                    actualWeight: maxWeight,
+                                    actualReps: maxReps
+                                };
+                            }
+                        }
+                    }
+                });
+            }
+
+            if (squatHistoryEntry) {
+                await updateDoc(userRef, {
+                    squatHistory: arrayUnion(squatHistoryEntry)
+                });
+            }
+
+            // Pencilneck Bench History Check
+            let pencilneckBenchEntry = null;
+            if (programData.id === 'pencilneck-eradication' && !isExistingLog) {
+                dayData?.exercises.forEach(ex => {
+                    if (ex.name === "Flat Barbell Bench Press") {
+                        const sets = exerciseData[ex.id];
+                        if (sets && sets.length > 0) {
+                            // Calculate Best Est 1RM
+                            let bestEst1RM = 0;
+                            let bestSet: { w: number, r: number } | null = null;
+
+                            for (const s of sets) {
+                                const w = parseFloat(s.weight);
+                                const r = parseInt(s.reps);
+                                if (!isNaN(w) && !isNaN(r) && s.completed) {
+                                    const est1RM = w * (1 + r / 30);
+                                    if (est1RM > bestEst1RM) {
+                                        bestEst1RM = est1RM;
+                                        bestSet = { w, r };
+                                    }
+                                }
+                            }
+
+                            if (bestEst1RM > 0 && bestSet) {
+                                pencilneckBenchEntry = {
+                                    date: new Date().toISOString(),
+                                    week: weekNum,
+                                    weight: Math.round(bestEst1RM), // Store Est 1RM as 'weight'
+                                    actualWeight: bestSet.w,
+                                    actualReps: bestSet.r
+                                };
+                            }
+                        }
+                    }
+                });
+            }
+
+            if (pencilneckBenchEntry) {
+                await updateDoc(userRef, {
+                    pencilneckBenchHistory: arrayUnion(pencilneckBenchEntry)
+                });
+            }
+
             // Completion Logic Check (Persist Status)
             let navigateToDashboard = null;
 
@@ -437,19 +525,17 @@ export const WorkoutView: React.FC = () => {
                 if (user.selectedDays && user.selectedDays.length > 0) {
                     const maxSelectedDay = Math.max(...user.selectedDays);
                     if (dayNum === maxSelectedDay) {
-                        updatePayload.skeletonStatus = { completed: true, completionDate: new Date().toISOString() };
+                        await updateDoc(userRef, { skeletonStatus: { completed: true, completionDate: new Date().toISOString() } });
                         navigateToDashboard = { showSkeletonCompletion: true };
                     }
                 }
             }
 
-            if (programData.id === 'pencilneck-eradication' && weekNum === 8 && dayNum === 5) {
-                updatePayload.pencilneckStatus = { completed: true, completionDate: new Date().toISOString() };
+            // Check for Pull B completion explicitly by name or day 5 fallback
+            const isPullB = dayData?.dayName.includes("Pull B") || (weekNum === 8 && dayNum === 5); // Fallback to day 5 if name check fails
+            if (programData.id === 'pencilneck-eradication' && weekNum === 8 && isPullB) {
+                await updateDoc(userRef, { pencilneckStatus: { completed: true, completionDate: new Date().toISOString() } });
                 navigateToDashboard = { showPencilneckCompletion: true };
-            }
-
-            if (Object.keys(updatePayload).length > 0) {
-                await updateDoc(userRef, updatePayload);
             }
 
             const sessionLog = {

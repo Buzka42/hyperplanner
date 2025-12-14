@@ -33,8 +33,8 @@ export type BadgeId =
     | 'certified_boulder'
     | 'perfect_attendance'
     | 'bench_psychopath'
-    | 'bench_jump_50'
-    | 'bench_jump_100'
+    | 'bench_jump_20kg'
+    | 'bench_jump_30kg'
     | 'deload_denier'
     | 'rear_delt_reaper'
     | '3d_delts'
@@ -87,6 +87,7 @@ export type UserProfile = {
     // New Fields
     badges?: BadgeId[];
     gluteMeasurements?: { date: string; sizeCm: number }[];
+    pencilneckBenchHistory?: { date: string; week?: number; weight: number; actualWeight?: number; actualReps?: number }[]; // Separate tracking for Pencilneck
 };
 
 export type SetTarget = {
