@@ -22,25 +22,41 @@ These toggles strictly **remove** exercises if disabled. There are **no replacem
 
 ### **Progression Logic**
 *   **User Base Weight (`pausedBench`):**
-    *   **≥ 12 Reps on AMRAP:** Base increases by **+5.0** (kg/lbs).
-    *   **8-11 Reps on AMRAP:** Base increases by **+2.5** (kg/lbs).
-    *   **< 8 Reps:** No increase (Stall).
+    *   **≥ 12 Reps on AMRAP:** Base increases by **+2.5 kg**.
+    *   **9-11 Reps on AMRAP:** No increase (Stall).
+    *   **< 9 Reps:** No increase (Stall).
+    *   **Note:** No microplates available – progression uses full 2.5 kg jumps only.
+    *   **Logic:** Adds +2.5kg directly to base weight for every qualifying AMRAP week found in history.
+
+*   **Bench Press Variations (Independent Double Progression):**
+    *   **Wide-Grip Bench Press (6-8 reps):**
+        *   Requires **2 consecutive MONDAY weeks** hitting top reps (8) on ALL sets to increase weight by +2.5 kg.
+        *   Saturday follows Monday's weight (does not drive progression).
+    *   **Spoto Press (5 reps) & Low Pin Press (4 reps):**
+        *   **Immediate Progression**: Hit target reps on ALL sets = **+2.5 kg** next session.
+    *   **Smart Weighing**: Automatically detects if stored stat is 1RM (>85% of Bench) or Working Weight to prevent drops.
+
+*   **Behind-the-Neck Press:**
+    *   **Monday (Heavy)**: Independent progression. Hit max reps (5) on all sets = **+2.5 kg** for NEXT week.
+    *   **Thursday (Volume)**: Auto-scaled to **85%** of Monday's weight.
+    *   **Sync**: Thursday progression is locked to Monday. Increases only apply to the *following* week.
+
 *   **Reactive Deload:**
-    *   **Trigger:** If Saturday's AMRAP is **≤ 7 reps** for **2 consecutive weeks**.
+    *   **Trigger:** If Saturday's AMRAP is **≤ 8 reps** for **2 consecutive weeks**.
     *   **Effect:** The *next* week becomes a "Reactive Deload".
         *   **Weight:** Reduced by 15% (multiplied by 0.85).
         *   **Volume:** Sets reduced by 50% (floored, min 1).
         *   **Tagline:** `[DELOAD: -15% Weight, Half Volume]` added to notes.
-*   **Warm-up Optimization:**
-    *   **Paused Bench & BTN Press:** Dynamic warm-up generation:
-        *   **Set 1:** Empty Bar (20kg) x 12
-        *   **Set 2:**
-            *   If Working Weight ≥ 100kg: 60kg x 8
-            *   If Working Weight < 100kg: 40% x 8
-        *   **Sets 3-4 (Bridge):** Interpolated jumps (5 reps, then 3 reps) to approach 90%
-        *   **Sets 5+ (Peak):**
-            *   If Working Weight ≤ 120kg: 90% x 1
-            *   If Working Weight > 120kg: 10kg jumps (singles) from Set 4 up to 90%
+
+*   **Elite Warm-up Protocol:**
+    *   **Applied to:** Paused Bench Press & BTN Press.
+    *   **Goal:** Minimal fatigue, maximal potentiation.
+    *   **Structure (Paused every rep):**
+        1.  **Empty Bar (20kg)**: 8-10 reps.
+        2.  **50%**: 5 reps.
+        3.  **70%**: 3 reps.
+        4.  **85%**: 2 reps.
+        5.  **95%**: 1 rep (**Heavy Days Only**: Mon/Thu).
 
 ### **Phase 1: Accumulation & Intensity (Weeks 1-12)**
 *Percentages and Volumes adjust dynamically at Week 5 and Week 9.*
@@ -50,11 +66,15 @@ These toggles strictly **remove** exercises if disabled. There are **no replacem
 #### **Monday - Heavy Strength**
 1.  **Paused Bench Press**
     *   **Sets:** 4 | **Reps:** 3
+    *   **Recall:** Elite Warm-up (incl. 95% single).
     *   **Intensity:** 82.5% (W1-4), 85% (W5-8), 87.5% (W9+)
 2.  **Wide-Grip Bench Press**
-    *   **Sets:** 3 | **Reps:** 6-8 | **Intensity:** 67.5%
+    *   **Sets:** 3 | **Reps:** 6-8 | **Intensity:** 67.5% (Relative to Working Weight)
+    *   **Note:** +2.5kg after 2 consecutive Mondays @ 8 reps.
 3.  **Behind-the-Neck Press** (Module dependant)
-    *   **Sets:** 4 | **Reps:** 3-5 | **Note:** "Heavy Strength"
+    *   **Sets:** 4 | **Reps:** 3-5 (Heavy)
+    *   **Recall:** Elite Warm-up (incl. 95% single).
+    *   **Note:** +2.5kg next week if max reps hit.
 4.  **Tricep Giant Set** (Module dependant)
     *   **Sets:** 2 (W1-8), 3 (W9+) | **Reps:** "Giant"
     *   *Tip:* "~10 second rest between exercises. 2 minute rest between sets."
@@ -67,44 +87,67 @@ These toggles strictly **remove** exercises if disabled. There are **no replacem
 3.  **Reverse Nordic Curls:** 2 sets, Failure.
 4.  **Single-Leg Machine Hip Thrust:** 3 sets, 10-15 reps.
 5.  **Nordic Curls:** 3 sets, Failure.
+    *   **Swap:** "Glute-Ham Raise" | **Sets:** 3 | **Reps:** Failure.
+    *   *Tip (Both):* "If the original exercise is too hard, swap to the alternative for better progression and safety."
 6.  **Hack Squat Calf Raises:** 3 sets, 15-20 reps.
 7.  **Hip Adduction:** 2 sets, 8-12 reps.
 
 #### **Wednesday - Volume Hypertrophy**
 1.  **Paused Bench Press**
     *   **Sets:** 4 | **Reps:** 8-10
+    *   **Recall:** Elite Warm-up (No 95% single).
     *   **Intensity:** 72.5% (W1-4), 75% (W5-8), 77.5% (W9+)
 2.  **Spoto Press**
     *   **Sets:** 3 | **Reps:** 5 | **Intensity:** 72.5%
-3.  **Weighted Pull-ups** (Module dependant)
-    *   **Sets:** 0 (User managed)
-    *   **Reps:** "Max" (W1-3), "3-5" (W4-6), "3" (W7-9), "2-3" (W10-12)
-4.  **Y-Raises** (Module dependant): 3 sets, 12-15 reps.
-    *   *Option:* Can be swapped for "High-Elbow Facepulls".
-    *   *Tip:* "Focus on scapular retraction support."
+    *   **Note:** +2.5kg immediately if all sets @ 5 reps.
+3.  **Weighted Pull-ups (EMOM)** (Module dependant)
+    *   **Sets:** Dynamic (Max 15) | **Reps:** "Max" (W1-3), "3-5" (W4-6), "3" (W7-9), "2-3" (W10-12)
+    *   **EMOM Features:**
+        *   **Live Rep Counter:** Tracks total reps in real-time.
+        *   **15-Set Cap:** Stops generating new sets after 15 sets.
+        *   **Completion Message:** "EMOM Complete – 15 sets reached! Total reps: X"
+4.  **Accessory Slot** (Module: Accessories):
+    *   **Default:** "Y-Raises" | **Sets:** 3 | **Reps:** 12-15.
+    *   **Swap:** "High-Elbow Facepulls" | **Sets:** 3 | **Reps:** 15-20.
 5.  **Around-the-Worlds** (Module dependant): 3 sets, 12-15 reps.
+    *   **Swap:** "Power Hanging Leg Raises" | **Sets:** 3 | **Reps:** 10-15.
+    *   *Tip (Power Hanging Leg Raises):* "Explosive movement – knees to chest fast, slow eccentric (3-5 sec), full stretch at bottom. Build power and core strength."
 
 #### **Thursday - Power / Speed**
 1.  **Paused Bench Press**
     *   **Sets:** 5 | **Reps:** 3-5 | **Intensity:** 77.5% ("Explosive")
+    *   **Recall:** Elite Warm-up (incl. 95% single).
 2.  **Low Pin Press**
     *   **Sets:** 2 | **Reps:** 4 | **Intensity:** 77.5%
+    *   **Note:** +2.5kg immediately if all sets @ 4 reps.
 3.  **Behind-the-Neck Press** (Module dependant)
-    *   **Sets:** 4 | **Reps:** 5-8 ("Volume Work")
-4.  **Tricep Giant Set:** Same as Monday.
-5.  **Dragon Flags:** 3 sets, Failure.
+    *   **Sets:** 4 | **Reps:** 5-8 (Volume)
+    *   **Recall:** Elite Warm-up (incl. 95% single).
+    *   **Note:** Weight = 85% of Monday.
+4.  **Tricep Giant Set:** 3 sets (W1-8), 4 sets (W9+).
 
 #### **Friday - Legs** (Module dependant)
-*   Exact copy of Tuesday.
+1.  **Lying Hamstring Curls:** 3 sets, 10-12 reps.
+2.  **Leg Extensions:** 3 sets, 15-20 reps.
+3.  **Bulgarian Split Squats:** 3 sets, 8-12 reps.
+4.  **Sissy Squats:** 3 sets, Failure.
+5.  **Dumbbell RDL:** 3 sets, 10-12 reps.
+6.  **Seated Calf Raises:** 3 sets, 10-15 reps.
 
 #### **Saturday - AMRAP Test**
 1.  **Paused Bench Press (AMRAP)**
     *   **Sets:** 1 | **Reps:** AMRAP
-    *   **Intensity:** 67.5% (Standard Weeks)
-2.  **Paused Bench Press (Back-off):** 3 sets, 5 reps @ 67.5%.
-3.  **Wide-Grip Bench Press:** 3 sets, 6-8 reps @ 67.5%.
-4.  **Weighted Pull-ups:** 0 sets, reps match Wednesday.
-5.  **High-Elbow Facepulls:** 3 sets, 15-20 reps.
+    *   **Recall:** Elite Warm-up (No 95% single).
+    *   **Intensity:** 82.5% (matches Monday)
+    *   **Progression:** ≥12 Reps = +2.5kg Base (Next Week).
+2.  **Paused Bench Press (Back-off)**
+    *   **Sets:** 3 | **Reps:** 5 | **Intensity:** 82.5%
+3.  **Wide-Grip Bench Press**
+    *   **Sets:** 3 | **Reps:** 6-8 | **Intensity:** Matches Monday weight.
+4.  **Weighted Pull-ups:** Same as Wed.
+5.  **Accessory Slot** (Module: Accessories):
+    *   **Default:** "Y-Raises" | **Sets:** 3 | **Reps:** 12-15.
+    *   **Swap:** "High-Elbow Facepulls" | **Sets:** 3 | **Reps:** 15-20.
 
 #### **Sunday**
 *   **Rest Day** (Empty).
@@ -191,12 +234,12 @@ These toggles strictly **remove** exercises if disabled. There are **no replacem
 ### **Forced Progression Rules**
 Specific messages are triggered in the "Advice" box when previous week's performance meets goals:
 *   **Deficit Push-ups:** Shows "Try to beat: X reps" (Based on last week's best set).
-*   **Leg Extensions:** "+5 kg next session" (Trigger: Hit 20 reps on all sets).
+*   **Leg Extensions:** "Target reps hit across all sets last week! Add +7 kg" (Trigger: Hit 20 reps on all sets).
 *   **Supported Stiff Legged DB Deadlift:** "+1 kg each dumbbell" (or +2.5kg if >10kg). (Trigger: Hit 15 reps on all sets).
 *   **Standing Calf Raises:** "Now switch to single-leg" (Trigger: Hit 20 reps on all sets).
     *   **Single Leg Calf Raises:** "Add +5 kg dumbbell" (Trigger: Hit 20 reps).
 *   **Inverted Rows:** "Go deeper than last time" (Trigger: Hit 15 reps on all sets).
-*   **Overhand Mid-Grip Pulldown:** "+7 kg next session" (Trigger: Hit 15 reps on all sets).
+*   **Overhand Mid-Grip Pulldown:** "Target reps hit across all sets last week! Add +7 kg" (Trigger: Hit 15 reps on all sets).
 
 ### **Daily Workout (Repeated)**
 1.  **Deficit Push-ups:** 3 sets, AMRAP. (Moved to First Exercise)
@@ -362,4 +405,4 @@ Specific messages are triggered in the "Advice" box when previous week's perform
 18. **Kas Glute Bridge 100 kg:** 100 kg+ for reps
 
 ---
-*Generated from source code – December 13, 2025*
+*Generated from source code – December 20, 2025*

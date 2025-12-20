@@ -99,9 +99,13 @@ export const Onboarding: React.FC = () => {
 
     const handleStatsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+        // Handle mobile keyboards sending comma (e.g. "100,5")
+        const sanitizedValue = value.replace(',', '.');
+        const numValue = parseFloat(sanitizedValue);
+
         setStats(prev => ({
             ...prev,
-            [name]: Number(value)
+            [name]: isNaN(numValue) ? 0 : numValue
         }));
     };
 

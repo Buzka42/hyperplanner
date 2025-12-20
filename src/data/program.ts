@@ -1,4 +1,4 @@
-import type { Program, ProgramWeek, WorkoutDay, PlanConfig, UserProfile, SetTarget, Exercise } from '../types';
+import type { Program, ProgramWeek, WorkoutDay, PlanConfig, UserProfile, SetTarget, Exercise, LiftingStats } from '../types';
 
 const createWeeks = (): ProgramWeek[] => {
     const weeks: ProgramWeek[] = [];
@@ -222,7 +222,7 @@ const createWeeks = (): ProgramWeek[] => {
                 { id: `w${w}-d2-e2`, name: "Heels-Off Narrow Leg Press", sets: 3, target: { type: "range", reps: "10-15" } },
                 { id: `w${w}-d2-e3`, name: "Reverse Nordic Curls", sets: 2, target: { type: "failure", reps: "Failure" } },
                 { id: `w${w}-d2-e4`, name: "Single-Leg Machine Hip Thrust", sets: 3, target: { type: "range", reps: "10-15" } },
-                { id: `w${w}-d2-e5`, name: "Nordic Curls", sets: 3, target: { type: "failure", reps: "Failure" } },
+                { id: `w${w}-d2-e5`, name: "Nordic Curls", sets: 3, target: { type: "failure", reps: "Failure" }, alternates: ["Glute-Ham Raise"] },
                 { id: `w${w}-d2-e6`, name: "Hack Squat Calf Raises", sets: 3, target: { type: "range", reps: "15-20" } },
                 { id: `w${w}-d2-e7`, name: "Hip Adduction", sets: 2, target: { type: "range", reps: "8-12" } }
             ]
@@ -265,7 +265,7 @@ const createWeeks = (): ProgramWeek[] => {
                     name: "Around-the-Worlds",
                     sets: 3,
                     target: { type: "range", reps: "12-15" },
-
+                    alternates: ["Power Hanging Leg Raises"]
                 }
             ]
         });
@@ -301,7 +301,6 @@ const createWeeks = (): ProgramWeek[] => {
                     name: "Tricep Giant Set",
                     sets: giantSets,
                     target: { type: "failure", reps: "Giant" },
-                    notes: "Same protocol.",
                     giantSetConfig: {
                         steps: [
                             { name: "Bodyweight Dips", targetReps: "5", inputPlaceholder: "-" },
@@ -361,9 +360,9 @@ const createWeeks = (): ProgramWeek[] => {
                 },
                 {
                     id: `w${w}-d6-e5`,
-                    name: "High-Elbow Facepulls",
+                    name: "Y-Raises",
                     sets: 3,
-                    target: { type: "range", reps: "15-20" },
+                    target: { type: "range", reps: "12-15" },
 
                 }
             ]
@@ -387,24 +386,31 @@ const getPausedBenchBase = (user: UserProfile, context?: { week: number }) => {
     let currentBase = user.stats.pausedBench;
 
     if (user.benchHistory && user.benchHistory.length > 0) {
-        const sortedAMRAPs = [...user.benchHistory].sort((a, b) => {
-            return (a.week || 0) - (b.week || 0);
-        });
+        // Sort by week ascending
+        const sortedAMRAPs = [...user.benchHistory]
+            .filter(entry => entry.week !== undefined && entry.week !== null)
+            .sort((a, b) => (a.week || 0) - (b.week || 0));
 
-        let consecutiveStalls = 0;
-        for (const entry of sortedAMRAPs) {
-            // Filter out future entries relative to context
-            if (context && entry.week && entry.week >= context.week) continue;
+        // Filter out future entries relative to context
+        const relevantEntries = sortedAMRAPs.filter(entry =>
+            !context || !entry.week || entry.week < context.week
+        );
+
+        // Apply progression for each completed AMRAP week
+        // Track which weeks we've processed to avoid duplicates
+        const processedWeeks = new Set<number>();
+
+        for (const entry of relevantEntries) {
+            const entryWeek = entry.week || 0;
+
+            // Skip if we already processed this week (take first entry only)
+            if (processedWeeks.has(entryWeek)) continue;
+            processedWeeks.add(entryWeek);
 
             const reps = entry.actualReps || 0;
-            if (reps >= 12) {
-                currentBase += 5.0;
-                consecutiveStalls = 0;
-            } else if (reps >= 8) {
+            // Progression: +2.5 kg if >11 reps (12+), otherwise stall
+            if (reps > 11) {
                 currentBase += 2.5;
-                consecutiveStalls = 0;
-            } else {
-                consecutiveStalls++;
             }
         }
     }
@@ -439,7 +445,8 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 if (amraps.length >= 2) {
                     const r1 = amraps[0].actualReps ?? 10;
                     const r2 = amraps[1].actualReps ?? 10;
-                    if (r1 <= 7 && r2 <= 7) {
+                    // Updated threshold: 2 consecutive ≤8 reps trigger reactive deload
+                    if (r1 <= 8 && r2 <= 8) {
                         applyReactiveDeload = true;
                     }
                 }
@@ -587,12 +594,10 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
             processedDay.exercises = processedDay.exercises.map(ex => {
                 const round = (w: number) => Math.floor(w / 2.5) * 2.5;
 
-                // A. Warm-up Sets
-                // Targeting "Paused Bench Press" and "Paused Bench Press (AMRAP)"
+                // A. Elite Warm-up Sets for Paused Bench Press
                 if (ex.name === "Paused Bench Press" || ex.name === "Paused Bench Press (AMRAP)") {
                     let targetLoad = 0;
                     if (ex.target.percentageRef === 'pausedBench') {
-                        // Standard calc
                         const currentBase = getPausedBenchBase(user, { week: weekNum });
                         const perc = ex.target.percentage || 1;
                         targetLoad = currentBase * perc;
@@ -602,75 +607,26 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
 
                     if (targetLoad > 0) {
                         const warmupSets: { reps: string; weight: string; completed: boolean }[] = [];
+                        const isHeavyDay = day.dayOfWeek === 1 || day.dayOfWeek === 4; // Monday or Thursday
 
-                        // Set 1: 12 reps @ 20kg (Empty Bar)
-                        warmupSets.push({ reps: "12", weight: "20", completed: false });
+                        // Elite warm-up protocol
+                        warmupSets.push({ reps: "8-10", weight: "20", completed: false });
+                        const w50 = round(targetLoad * 0.50);
+                        warmupSets.push({ reps: "5", weight: w50.toString(), completed: false });
+                        const w70 = round(targetLoad * 0.70);
+                        warmupSets.push({ reps: "3", weight: w70.toString(), completed: false });
+                        const w85 = round(targetLoad * 0.85);
+                        warmupSets.push({ reps: "2", weight: w85.toString(), completed: false });
 
-                        // Set 2: 8 reps
-                        let set2Weight = 0;
-                        if (targetLoad >= 100) {
-                            set2Weight = 60;
-                        } else {
-                            set2Weight = Math.floor(targetLoad * 0.40);
-                            // Ensure it's not below 20? The prompt says "40% of weight rounded down".
-                            // If load is 40kg, 40% is 16kg. Let's floor it but keep it logical?
-                            // Usually you don't go below empty bar. Let's assume min 20 or plate logic.
-                            // But strictly following prompt: "40% of weight rounded down".
-                            // I'll stick to prompt but ensure it's at least 20 if user can lift 20.
-                            if (set2Weight < 20) set2Weight = 20;
-                        }
-                        // Rounding set 2 to nearest plate/logical increment? Prompt only says "rounded down".
-                        // Assuming integer or 2.5 step? "rounded down" usually means integer.
-                        // I'll apply standard gym rounding (2.5) for consistency if not specified "integer".
-                        set2Weight = round(set2Weight);
-                        warmupSets.push({ reps: "8", weight: set2Weight.toString(), completed: false });
-
-                        // Progression to 90%
-                        const target90 = round(targetLoad * 0.90);
-                        const startProg = set2Weight;
-                        const gap = target90 - startProg;
-
-                        // Set 3 (5 reps) & Set 4 (3 reps) - Interpolate
-                        // Jump roughly gap / 3
-                        const jump = gap / 3;
-                        const set3Weight = round(startProg + jump);
-                        const set4Weight = round(startProg + (jump * 2));
-
-                        warmupSets.push({ reps: "5", weight: set3Weight.toString(), completed: false });
-                        warmupSets.push({ reps: "3", weight: set4Weight.toString(), completed: false });
-
-                        // Set 5+ (1 rep)
-                        if (targetLoad <= 120) {
-                            // "Finally 90% ... for 1 rep"
-                            warmupSets.push({ reps: "1", weight: target90.toString(), completed: false });
-                        } else {
-                            // "Progress from the 3 rep warm up set to 90% in 10kg jumps, all for 1 rep"
-                            let current = set4Weight + 10;
-                            // Just in case set4Weight + 10 > target90 (unlikely with >120kg load, but good to be safe)
-                            while (current <= target90) {
-                                warmupSets.push({ reps: "1", weight: round(current).toString(), completed: false });
-                                if (current >= target90) break; // Reached target
-                                current += 10;
-                                // If next step overshoots significantly? 
-                                // "in 10kg jumps". If target is 125 (90% of ~139). Set 4 might be 90.
-                                // 100, 110, 120, 130(stop). 
-                                // Should we hit exact 90% at end? "progress ... to 90%".
-                                // If last jump is small, just do target90?
-                                // Let's strictly do +10s up to target. 
-                                // If the last increment creates a step > target90, we cap it or add the final set?
-                                // "Finally 90% working weight for 1 rep" applies to the general logic, 
-                                // but >120kg logic overrides "how" we get there.
-                                // I will ensure the last set IS target90.
-                            }
-                            // If the loop didn't land exactly on target90 (e.g. ended at target90-5), add it?
-                            // Using a small tolerance
-                            const lastAdded = parseFloat(warmupSets[warmupSets.length - 1].weight);
-                            if (lastAdded < target90) {
-                                warmupSets.push({ reps: "1", weight: target90.toString(), completed: false });
-                            }
+                        if (isHeavyDay) {
+                            const w95 = round(targetLoad * 0.95);
+                            warmupSets.push({ reps: "1", weight: w95.toString(), completed: false });
                         }
 
-                        ex.warmups = { sets: warmupSets };
+                        ex.warmups = {
+                            sets: warmupSets,
+                            note: "Elite warm-up – minimal fatigue, maximal potentiation. Pause every rep."
+                        };
                     }
                 }
 
@@ -711,22 +667,64 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
 
                 // C. BTN Specific Configuration (Sets/Reps/Weight) - Moved logic for clarity
                 if (ex.name === "Behind-the-Neck Press") {
+                    const currentWeek = weekNum;
+                    let baseWeight = 0;
+
+                    // Only use saved btnPress if we're in a week AFTER it was earned
+                    if (user.stats.btnPress && user.stats.btnPressWeek !== undefined) {
+                        // If current week > btnPressWeek, use the new weight
+                        if (currentWeek > user.stats.btnPressWeek) {
+                            baseWeight = user.stats.btnPress;
+                        } else {
+                            // Same week as progression was earned - use seed weight
+                            baseWeight = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
+                        }
+                    } else if (user.stats.btnPress) {
+                        // Old data without week tracking - use btnPress
+                        baseWeight = user.stats.btnPress;
+                    } else if (user.stats.pausedBench) {
+                        // No btnPress saved - seed from pausedBench
+                        baseWeight = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
+                    }
+
                     // Monday
                     if (day.dayOfWeek === 1) {
                         ex.sets = 4;
                         ex.target.reps = "3-5";
-                        const w = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
-                        ex.target.weightAbsolute = w;
-                        ex.notes = "Start here. +2.5kg if all sets 5 reps.";
+                        ex.target.weightAbsolute = baseWeight;
+                        ex.notes = "Go as wide as is comfortable for your shoulders in the beginning, try to tighten your grip width on consecutive weeks if you want more tricep engagement.";
+                        // Add elite warmups for BTN Press
+                        const btnLoad = baseWeight;
+                        if (btnLoad > 0) {
+                            const warmupSets: { reps: string; weight: string; completed: boolean }[] = [];
+                            const isHeavyDay = day.dayOfWeek === 1 || day.dayOfWeek === 4;
+
+                            warmupSets.push({ reps: "8-10", weight: "20", completed: false });
+                            const w50 = Math.floor((btnLoad * 0.50 + 1.25) / 2.5) * 2.5;
+                            warmupSets.push({ reps: "5", weight: w50.toString(), completed: false });
+                            const w70 = Math.floor((btnLoad * 0.70 + 1.25) / 2.5) * 2.5;
+                            warmupSets.push({ reps: "3", weight: w70.toString(), completed: false });
+                            const w85 = Math.floor((btnLoad * 0.85 + 1.25) / 2.5) * 2.5;
+                            warmupSets.push({ reps: "2", weight: w85.toString(), completed: false });
+
+                            if (isHeavyDay) {
+                                const w95 = Math.floor((btnLoad * 0.95 + 1.25) / 2.5) * 2.5;
+                                warmupSets.push({ reps: "1", weight: w95.toString(), completed: false });
+                            }
+
+                            ex.warmups = {
+                                sets: warmupSets,
+                                note: "Elite warm-up – minimal fatigue, maximal potentiation. Pause every rep."
+                            };
+                        }
                     }
                     // Thursday
                     if (day.dayOfWeek === 4) {
                         ex.sets = 4;
                         ex.target.reps = "5-8";
-                        const monW = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
-                        const thuW = Math.floor((monW * 0.85) / 2.5) * 2.5;
+                        const thuW = Math.floor((baseWeight * 0.85) / 2.5) * 2.5;
                         ex.target.weightAbsolute = thuW;
-                        ex.notes = "Volume Day. +2.5kg if all sets 8 reps.";
+                        ex.notes = "Go as wide as is comfortable for your shoulders in the beginning, try to tighten your grip width on consecutive weeks if you want more tricep engagement.";
                     }
                 }
 
@@ -744,6 +742,36 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                             sets: 3,
                             target: { type: "range", reps: "15-20" },
                             alternates: ["Y-Raises"]
+                        };
+                    }
+                }
+
+                // E. Around-the-Worlds / Power Hanging Leg Raises Swap
+                if (ex.name === "Around-the-Worlds") {
+                    const pref = user.exercisePreferences?.['around-worlds-variant'];
+                    if (pref === "Power Hanging Leg Raises") {
+                        return {
+                            ...ex,
+                            id: ex.id + "-phlr",
+                            name: "Power Hanging Leg Raises",
+                            sets: 3,
+                            target: { type: "range", reps: "10-15" },
+                            alternates: ["Around-the-Worlds"]
+                        };
+                    }
+                }
+
+                // F. Nordic Curls / Glute-Ham Raise Swap
+                if (ex.name === "Nordic Curls") {
+                    const pref = user.exercisePreferences?.['nordic-variant'];
+                    if (pref === "Glute-Ham Raise") {
+                        return {
+                            ...ex,
+                            id: ex.id + "-ghr",
+                            name: "Glute-Ham Raise",
+                            sets: 3,
+                            target: { type: "failure", reps: "Failure" },
+                            alternates: ["Nordic Curls"]
                         };
                     }
                 }
@@ -797,42 +825,106 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
             // 0. Absolute Weight
             if (target.weightAbsolute) return target.weightAbsolute.toString();
 
-            // 1. Paused Bench Special AMRAP Logic
-            if (target.percentageRef === 'pausedBench' && user.stats.pausedBench) {
-                const currentBase = getPausedBenchBase(user, context ? { week: context.week } : undefined);
+            // 1. Paused Bench Special AMRAP Logic with Direct Weight Progression
+            if (target.percentageRef === 'pausedBench' && user.stats.pausedBench && context) {
                 const perc = target.percentage || 1;
-                // Reactive Deload applied in preprocessDay via percentage modification, so we just use target.percentage
-                const raw = currentBase * perc;
-                return (Math.round(raw / 2.5) * 2.5).toString();
-            }
 
-            // 2. Behind-the-Neck Press Auto-Progression
-            if (exerciseName === "Behind-the-Neck Press" && context) {
-                // Base weight calculation (Monday Heavy)
-                let baseWeight = 0;
+                // Start with base week 1 weight
+                let baseWeight = user.stats.pausedBench * perc;
+                baseWeight = Math.floor((baseWeight + 1.25) / 2.5) * 2.5;
 
-                if (user.stats.btnPress) {
-                    baseWeight = user.stats.btnPress;
-                } else if (user.stats.pausedBench) {
-                    // Initial seed: 40% of Bench, rounded down
-                    baseWeight = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
-                }
+                // Count qualifying AMRAPs before current week and add +2.5kg for each
+                if (user.benchHistory && user.benchHistory.length > 0) {
+                    const relevantAMRAPs = user.benchHistory
+                        .filter(entry =>
+                            entry.week !== undefined &&
+                            entry.week !== null &&
+                            entry.week < context.week &&
+                            (entry.actualReps || 0) > 11
+                        );
 
-                // If Monday (Day 1), return Base
-                if (context.day === 1) {
-                    return baseWeight.toString();
-                }
+                    // Track unique weeks to avoid duplicates
+                    const qualifyingWeeks = new Set(relevantAMRAPs.map(e => e.week));
 
-                // If Thursday (Day 4/5 depending on schedule?), checks Day 4 in program structure
-                // Just check difference?
-                // Or assume usually Volume day is lighter. 
-                // Program structure: Mn (Heavy), Thu (Volume).
-                // Let's assume if not Day 1, it's volume.
-                if (context.day !== 1) {
-                    return (Math.floor((baseWeight * 0.85) / 2.5) * 2.5).toString();
+                    // Add +2.5kg for each qualifying week
+                    baseWeight += qualifyingWeeks.size * 2.5;
                 }
 
                 return baseWeight.toString();
+            }
+
+            // 2. Bench Press Variations - Detect 1RM vs Working Weight via Ratio
+            if (exerciseName && ["Wide-Grip Bench Press", "Spoto Press", "Low Pin Press"].includes(exerciseName) && context) {
+                const statMap: Record<string, keyof LiftingStats> = {
+                    "Wide-Grip Bench Press": "wideGripBench",
+                    "Spoto Press": "spotoPress",
+                    "Low Pin Press": "lowPinPress"
+                };
+                const statKey = statMap[exerciseName];
+
+                // Get reference 1RM for heuristics
+                const bench1RM = user.stats.pausedBench || 0;
+
+                if (statKey && user.stats[statKey]) {
+                    const storedValue = user.stats[statKey];
+
+                    // Heuristic: If stored value is > 85% of Bench 1RM, it's likely a 1RM (calculate working weight)
+                    // If it's <= 85%, it's likely already a working weight (use directly)
+                    const threshold = bench1RM > 0 ? bench1RM * 0.85 : 999;
+
+                    if (storedValue > threshold) {
+                        // Likely 1RM - convert to working weight
+                        const perc = target.percentage || 1;
+                        let baseWeight = storedValue * perc;
+                        baseWeight = Math.floor((baseWeight + 1.25) / 2.5) * 2.5;
+                        return baseWeight.toString();
+                    } else {
+                        // Likely Working Weight - use directly
+                        return storedValue.toString();
+                    }
+                }
+            }
+
+            // 3. Behind-the-Neck Press Auto-Progression (Monday drives both days)
+            if (exerciseName === "Behind-the-Neck Press" && context) {
+                let baseWeight = 0;
+
+                console.log(`[BTN CALC] Week ${context.week}, Day ${context.day}`);
+                console.log(`[BTN CALC] user.stats.btnPress:`, user.stats.btnPress);
+                console.log(`[BTN CALC] user.stats.pausedBench:`, user.stats.pausedBench);
+
+                // Week 1: Seed from pausedBench if btnPress not set
+                if (context.week === 1) {
+                    if (user.stats.btnPress) {
+                        baseWeight = user.stats.btnPress;
+                        console.log(`[BTN CALC] Week 1 using saved btnPress: ${baseWeight}`);
+                    } else if (user.stats.pausedBench) {
+                        // Initial seed: 40% of Bench, rounded down
+                        baseWeight = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
+                        console.log(`[BTN CALC] Week 1 seeding from pausedBench: ${baseWeight}`);
+                    }
+                } else {
+                    // Week 2+: Use stored value (includes progression)
+                    if (user.stats.btnPress) {
+                        baseWeight = user.stats.btnPress;
+                        console.log(`[BTN CALC] Week 2+ using saved btnPress: ${baseWeight}`);
+                    } else if (user.stats.pausedBench) {
+                        // Fallback if somehow not saved
+                        baseWeight = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
+                        console.log(`[BTN CALC] Week 2+ fallback seed: ${baseWeight}`);
+                    }
+                }
+
+                // Monday returns base weight
+                if (context.day === 1) {
+                    console.log(`[BTN CALC] Monday returning: ${baseWeight}`);
+                    return baseWeight.toString();
+                }
+
+                // Thursday returns 85% of Monday's weight
+                const thursdayWeight = Math.floor((baseWeight * 0.85) / 2.5) * 2.5;
+                console.log(`[BTN CALC] Thursday returning: ${thursdayWeight}`);
+                return thursdayWeight.toString();
             }
 
             // 3. Pullups Logic
@@ -861,27 +953,11 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 }
             }
 
-            // 2. BTN Progression Advice (Visual only, actual weight calc should happen on save)
-            // But here we calculate based on logs for Advice?
-            if (exercise.name === "Behind-the-Neck Press" && history.length > 0) {
-                const lastLog = history[0];
-                const targetReps = exercise.target.reps.split("-").map(Number);
-                const topRep = targetReps[1] || targetReps[0];
-                const bottomRep = targetReps[0];
+            // 2. Standard Progression Check (exclude auto-progressing exercises)
+            const autoProgressExercises = ["Pull-ups", "Behind-the-Neck Press", "Wide-Grip Bench Press", "Spoto Press", "Low Pin Press"];
+            const shouldSkipAdvice = autoProgressExercises.some(name => exercise.name.includes(name));
 
-                // "Hit top of rep range on all 4 sets → +5 lb / +2.5 kg"
-                if (lastLog.setResults) {
-                    const allTop = lastLog.setResults.slice(0, exercise.sets).every(s => s.reps >= topRep);
-                    if (allTop) return "Increase Weight (+2.5kg)!";
-
-                    // "Miss bottom of range on 2+ sets"
-                    const failedBottom = lastLog.setResults.filter(s => s.reps < bottomRep).length >= 2;
-                    if (failedBottom) return "Keep Weight";
-                }
-            }
-
-            // 3. Standard Progression Check
-            if (exercise.target.type === 'range') {
+            if (exercise.target.type === 'range' && !shouldSkipAdvice) {
                 const rangeParts = exercise.target.reps.split("-");
                 const maxRep = rangeParts.length > 1 ? parseInt(rangeParts[1]) : parseInt(rangeParts[0]);
 

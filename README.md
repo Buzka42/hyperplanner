@@ -106,8 +106,10 @@ To maintain and expand the app, it is crucial to understand what is generic and 
 
 ### `src/data/program.ts` (Bench Domination)
 *   **Smart Scheduling:** Logic inside `preprocessDay` analyzes `user.selectedDays` to map "Heavy" workouts to isolated days and "Volume" to consecutive blocks.
-*   **Reactive Deload:** Checks if last week's AMRAP was <= 7 reps. If so, effectively rewrites the current week's sets/reps in the hook.
+*   **Reactive Deload:** Checks if last 2 consecutive AMRAPs were ≤ 8 reps. If so, effectively rewrites the current week's sets/reps in the hook.
 *   **Peaking Block:** `createWeeks` function generates different content for W13-15.
+*   **Main Progression:** ≥12 reps on Saturday AMRAP = +2.5kg, 9-11 reps = stall, <9 reps = stall. No microplates (no fractional increases).
+*   **Variation Progression:** Wide-Grip Bench (2 consecutive Mondays max reps = +2.5kg). Spoto/Low Pin Press (Immediate max reps = +2.5kg). Elite warmups added.
 
 ### `src/data/peachy.ts` (Peachy Plan)
 *   **Finisher Injection:** Logic in `createPeachyWeeks` specifically pushes the "Glute Pump Finisher" to the Saturday array if `w === 12`.
@@ -166,4 +168,69 @@ All programs can adopt this pattern by:
 2. No UI changes needed - automatic display
 
 ---
-*Generated from source code – December 13, 2025*
+
+## 🔄 Exercise Swap System
+
+**Feature:** Exercises can be swapped for alternatives that suit user preferences or equipment availability.
+
+### Implementation Pattern
+
+1. **Data Layer (`Exercise` type)**:
+   ```typescript
+   alternates?: string[]; // e.g., ["Power Hanging Leg Raises"]
+   ```
+
+2. **Set in data files or `preprocessDay` hooks**:
+   ```typescript
+   // Example from program.ts
+   { name: "Around-the-Worlds", alternates: ["Power Hanging Leg Raises"] }
+   ```
+
+3. **User Preferences**:
+   - Stored in `user.exercisePreferences` as key-value pairs
+   - Keys: `'y-raise-variant'`, `'around-worlds-variant'`, `'nordic-variant'`
+
+4. **Swap Handling (`WorkoutView.tsx` and `program.ts`)**:
+   - `handleSwap()` saves preference to Firestore
+   - `preprocessDay` hook checks preference and returns swapped exercise
+
+### Current Swaps (Bench Domination)
+
+| Original Exercise | Alternative | Sets | Reps |
+|-------------------|-------------|------|------|
+| Y-Raises | High-Elbow Facepulls | 3 | 15-20 |
+| Around-the-Worlds | Power Hanging Leg Raises | 3 | 10-15 |
+| Nordic Curls | Glute-Ham Raise | 3 | Failure |
+
+### Tips for Swapped Exercises
+- **Power Hanging Leg Raises**: "Explosive movement – knees to chest fast, slow eccentric (3-5 sec), full stretch at bottom. Build power and core strength."
+- **Glute-Ham Raise**: "Control the eccentric, explode up. Use assistance if needed for full ROM."
+- **Nordic/Glute-Ham Swap Tip (Both)**: "If the original exercise is too hard, swap to the alternative for better progression and safety."
+
+---
+
+## ⏱️ EMOM Features (Weighted Pull-ups)
+
+**Feature:** Enhanced Every-Minute-On-the-Minute tracking for Weighted Pull-ups in Bench Domination.
+
+### Features
+
+1. **Live Total Rep Counter**
+   - Real-time tracking of total reps across all EMOM sets
+   - Displays: "Total reps: X"
+
+2. **15-Set Cap**
+   - Stops auto-generating new set fields after 15 sets
+   - Represents ~15 minutes of EMOM work
+
+3. **Completion Message**
+   - When 15 sets are completed:
+   - "EMOM Complete – 15 sets reached! Total reps: X"
+
+### Implementation
+- **Set Cap Logic**: `handleSetChange()` in `WorkoutView.tsx` checks `currentSets.length < MAX_EMOM_SETS`
+- **Rep Counter UI**: Rendered after intensity techniques block, before notes section
+- **Styling**: Primary color theme, prominent display
+
+---
+*Generated from source code – December 20, 2025*

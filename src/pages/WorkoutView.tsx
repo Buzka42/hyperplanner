@@ -102,46 +102,59 @@ export const WorkoutView: React.FC = () => {
                 let loaded = false;
 
                 if (!todaySnapshot.empty) {
-                    setIsExistingLog(true);
-                    loaded = true;
-                    // Load data into state
-                    const loadedData: Record<string, SetLog[]> = {};
-                    const loadedNotes: Record<string, string> = {};
-
-                    // Filter docs by programId, similar to the original logic
+                    // Filter docs by programId AND date (must be after current program start)
                     const relevantDocs = todaySnapshot.docs.filter(doc => {
                         const d = doc.data();
-                        return d.programId === programData.id || (!d.programId && programData.id === 'bench-domination');
+                        const isProgramMatch = d.programId === programData.id || (!d.programId && programData.id === 'bench-domination');
+
+                        // Date Check: Prevent loading "ghost" logs from previous runs of the same program
+                        // Verify log is chronological with current PROGRAM start date
+                        const logDate = new Date(d.date);
+                        const currentRefStart = user.programProgress?.[programData.id]?.startDate || user.startDate;
+                        const startDate = currentRefStart ? new Date(currentRefStart) : null;
+
+                        // Allow 5 min buffer for clock drift/setup time, but generally exclude old logs
+                        const isNewEnough = startDate ? logDate.getTime() >= (startDate.getTime() - 5 * 60 * 1000) : true;
+
+                        return isProgramMatch && isNewEnough;
                     });
 
-                    relevantDocs.forEach(doc => {
-                        const log = doc.data() as WorkoutLog;
+                    if (relevantDocs.length > 0) {
+                        setIsExistingLog(true);
+                        loaded = true;
+                        // Load data into state
+                        const loadedData: Record<string, SetLog[]> = {};
+                        const loadedNotes: Record<string, string> = {};
 
-                        if (log.exercises) {
-                            log.exercises.forEach(exLog => {
-                                loadedData[exLog.id] = exLog.setsData.map(s => ({
+                        relevantDocs.forEach(doc => {
+                            const log = doc.data() as WorkoutLog;
+
+                            if (log.exercises) {
+                                log.exercises.forEach(exLog => {
+                                    loadedData[exLog.id] = exLog.setsData.map(s => ({
+                                        reps: s.reps.toString(),
+                                        weight: s.weight.toString(),
+                                        completed: s.completed
+                                    }));
+                                    if (exLog.notes) loadedNotes[exLog.id] = exLog.notes;
+                                });
+                            } else if (log.exerciseId && log.setResults) {
+                                // Legacy Log
+                                loadedData[log.exerciseId] = log.setResults.map(s => ({
                                     reps: s.reps.toString(),
                                     weight: s.weight.toString(),
                                     completed: s.completed
                                 }));
-                                if (exLog.notes) loadedNotes[exLog.id] = exLog.notes;
-                            });
-                        } else if (log.exerciseId && log.setResults) {
-                            // Legacy Log
-                            loadedData[log.exerciseId] = log.setResults.map(s => ({
-                                reps: s.reps.toString(),
-                                weight: s.weight.toString(),
-                                completed: s.completed
-                            }));
-                            if (log.notes) {
-                                loadedNotes[log.exerciseId] = log.notes;
+                                if (log.notes) {
+                                    loadedNotes[log.exerciseId] = log.notes;
+                                }
                             }
-                        }
 
-                        if (!logId) setLogId(doc.id);
-                    });
-                    setExerciseData(loadedData);
-                    setExerciseNotes(loadedNotes);
+                            if (!logId) setLogId(doc.id);
+                        });
+                        setExerciseData(loadedData);
+                        setExerciseNotes(loadedNotes);
+                    }
                 }
 
                 if (!loaded) {
@@ -311,10 +324,12 @@ export const WorkoutView: React.FC = () => {
                 const reps = parseInt(value);
                 const target = parseInt(suggestedReps.replace(/[^0-9]/g, '') || "0");
                 const isMax = suggestedReps.toLowerCase().includes("max");
+                const MAX_EMOM_SETS = 15; // 15-minute/15-set cap
+
                 if (setIndex === currentSets.length - 1) {
                     if (!isNaN(reps)) {
-                        // Add new set if target hit
-                        if ((reps >= target && target > 0) || (isMax && reps > 0)) {
+                        // Add new set if target hit AND under the cap
+                        if (((reps >= target && target > 0) || (isMax && reps > 0)) && currentSets.length < MAX_EMOM_SETS) {
                             currentSets.push({ reps: '', weight: currentSets[setIndex].weight, completed: null });
                         }
                     }
@@ -351,6 +366,8 @@ export const WorkoutView: React.FC = () => {
         if (!user) return;
         let prefKey = '';
         if (exName === "Y-Raises" || exName === "High-Elbow Facepulls") prefKey = 'y-raise-variant';
+        if (exName === "Around-the-Worlds" || exName === "Power Hanging Leg Raises") prefKey = 'around-worlds-variant';
+        if (exName === "Nordic Curls" || exName === "Glute-Ham Raise") prefKey = 'nordic-variant';
 
         if (prefKey) {
             const userRef = doc(db, 'users', user.id);
@@ -392,32 +409,92 @@ export const WorkoutView: React.FC = () => {
                         }
                     }
 
-                    // Behind-the-Neck Press Progression Logic
-                    if (ex.name === "Behind-the-Neck Press" && sets.length > 0) {
+                    // Behind-the-Neck Press Progression Logic (Monday Only)
+                    if (ex.name === "Behind-the-Neck Press" && sets.length > 0 && dayNum === 1) {
                         const targetRepsArr = ex.target.reps.split('-').map(Number);
                         const topRep = targetRepsArr[1] || targetRepsArr[0];
-                        const bottomRep = targetRepsArr[0] || 0;
                         const currentWeight = parseFloat(sets[0].weight || "0");
 
+                        console.log(`[BTN DEBUG] Current weight: ${currentWeight}, Top rep: ${topRep}`);
+                        console.log(`[BTN DEBUG] Sets:`, sets.map(s => ({ weight: s.weight, reps: s.reps })));
+
                         if (currentWeight > 0) {
+                            // Check if all sets hit top of rep range
                             const allTop = sets.every(s => parseInt(s.reps) >= topRep);
-                            const failedBottom = sets.filter(s => parseInt(s.reps) < bottomRep).length >= 2;
+                            console.log(`[BTN DEBUG] All sets hit top? ${allTop}`);
 
-                            let nextWeight = currentWeight;
                             if (allTop) {
-                                nextWeight += 2.5;
-                            } else if (failedBottom) {
-                                // Prompt says "keep same weight" but technically it implies failing.
-                                // We keep it same.
-                                nextWeight = currentWeight;
+                                // Save progression for NEXT week
+                                newStats.btnPress = currentWeight + 2.5;
+                                newStats.btnPressWeek = weekNum; // Track which week this was earned in
+                                updated = true;
+                                console.log(`[BTN DEBUG] Saving new weight: ${newStats.btnPress} for week ${weekNum}`);
+                            } else {
+                                // Keep current weight
+                                newStats.btnPress = currentWeight;
+                                newStats.btnPressWeek = weekNum;
+                                updated = true;
+                                console.log(`[BTN DEBUG] Keeping weight: ${newStats.btnPress}`);
                             }
+                        }
+                    }
 
-                            // Update Snapshot
-                            newStats.btnPress = nextWeight;
-                            updated = true;
+                    // Bench Press Variations - Different progression rules
+                    if (ex.name === "Spoto Press" || ex.name === "Low Pin Press") {
+                        // FIXED TARGET: Immediate progression if all sets hit target
+                        const variationKey = ex.name === "Spoto Press" ? "spotoPress" : "lowPinPress";
+                        if (sets.length > 0) {
+                            const targetReps = parseInt(ex.target.reps);
+                            const currentWeight = parseFloat(sets[0].weight || "0");
+
+                            if (currentWeight > 0) {
+                                const allHitTarget = sets.every(s => parseInt(s.reps) >= targetReps);
+                                if (allHitTarget) {
+                                    newStats[variationKey] = currentWeight + 2.5;
+                                    updated = true;
+                                } else {
+                                    newStats[variationKey] = currentWeight;
+                                    updated = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if (ex.name === "Wide-Grip Bench Press" && dayNum === 1) {
+                        // REP RANGE: Need 2 consecutive MONDAY weeks at top of range
+                        if (sets.length > 0) {
+                            const targetRepsArr = ex.target.reps.split('-').map(Number);
+                            const topRep = targetRepsArr[1] || targetRepsArr[0];
+                            const currentWeight = parseFloat(sets[0].weight || "0");
+                            const currentConsecutive = user.stats.wideGripConsecutive || 0;
+
+                            if (currentWeight > 0) {
+                                const allHitTop = sets.every(s => parseInt(s.reps) >= topRep);
+
+                                if (allHitTop) {
+                                    const newConsecutive = currentConsecutive + 1;
+                                    if (newConsecutive >= 2) {
+                                        // 2 consecutive weeks - progress!
+                                        newStats.wideGripBench = currentWeight + 2.5;
+                                        newStats.wideGripConsecutive = 0; // Reset counter
+                                        updated = true;
+                                    } else {
+                                        // 1 week done, keep same weight
+                                        newStats.wideGripBench = currentWeight;
+                                        newStats.wideGripConsecutive = newConsecutive;
+                                        updated = true;
+                                    }
+                                } else {
+                                    // Missed - reset counter and keep weight
+                                    newStats.wideGripBench = currentWeight;
+                                    newStats.wideGripConsecutive = 0;
+                                    updated = true;
+                                }
+                            }
                         }
                     }
                 });
+                // Variations update stats for next week's auto-progression
             }
 
             const userRef = doc(db, 'users', user.id);
@@ -599,8 +676,8 @@ export const WorkoutView: React.FC = () => {
                     const isGiantSet = !!ex.giantSetConfig;
                     const isPullup = ex.name.includes("Pull-ups");
                     const isDragonFlag = ex.name.includes("Dragon Flags");
-                    const isNordic = ex.name.includes("Nordic Curls");
-                    const isAroundWorlds = ex.name.includes("Around-the-Worlds");
+                    const isNordic = ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise";
+                    const isAroundWorlds = ex.name === "Around-the-Worlds" || ex.name === "Power Hanging Leg Raises";
 
                     const weightDisabled = isDragonFlag || isNordic || isAroundWorlds;
 
@@ -623,14 +700,21 @@ export const WorkoutView: React.FC = () => {
                         "Reverse Nordic Curls": "reverseNordic",
                         "Single-Leg Machine Hip Thrust": (weekNum >= 11 && weekNum <= 12) ? "singleLegHipThrustWeek11" : "singleLegHipThrust",
                         "Nordic Curls": "nordicCurls",
+                        "Glute-Ham Raise": "gluteHamRaise",
                         "Hack Squat Calf Raises": programData.id === 'peachy-glute-plan' ? undefined : "hackSquatCalves",
                         "Around-the-Worlds": "aroundTheWorlds",
+                        "Power Hanging Leg Raises": "powerHangingLegRaises",
                         "High-Elbow Facepulls": "highElbowFacepulls"
                     };
 
                     const tipKey = tipMap[ex.name];
                     if (tipKey && translations.en.tips[tipKey]) {
                         displayTips.push(translations.en.tips[tipKey]);
+                    }
+
+                    // Add Nordic/Glute-Ham swap tip for both original and alternative
+                    if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {
+                        displayTips.push(translations.en.tips.nordicSwapTip);
                     }
 
                     if (ex.name.includes("Pull-ups") && programData.id === 'bench-domination') {
@@ -838,6 +922,43 @@ export const WorkoutView: React.FC = () => {
                                                 <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
                                             </svg>
                                         </div>
+                                    </div>
+                                )}
+
+                                {/* EMOM Total Rep Counter for Pull-ups */}
+                                {isPullup && programData.id === 'bench-domination' && (
+                                    <div className="mx-3 mt-3 p-3 bg-primary/10 border border-primary/30 rounded-lg">
+                                        {(() => {
+                                            const totalReps = sets.reduce((sum, s) => sum + (parseInt(s.reps) || 0), 0);
+                                            const completedSets = sets.filter(s => s.completed).length;
+                                            const MAX_SETS = 15;
+                                            const isEMOMComplete = completedSets >= MAX_SETS;
+
+                                            if (isEMOMComplete) {
+                                                return (
+                                                    <div className="flex flex-col items-center gap-1">
+                                                        <div className="flex items-center gap-2 text-green-500 font-bold text-sm">
+                                                            <CheckCircle2 className="w-5 h-5" />
+                                                            <span>EMOM Complete – 15 sets reached!</span>
+                                                        </div>
+                                                        <div className="text-lg font-bold text-primary">
+                                                            Total reps this session: {totalReps}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            }
+
+                                            return (
+                                                <div className="flex justify-between items-center">
+                                                    <span className="text-sm font-medium text-muted-foreground">
+                                                        Sets: {completedSets}/{MAX_SETS}
+                                                    </span>
+                                                    <span className="text-sm font-bold text-primary">
+                                                        Total reps: {totalReps}
+                                                    </span>
+                                                </div>
+                                            );
+                                        })()}
                                     </div>
                                 )}
 

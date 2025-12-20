@@ -1,9 +1,11 @@
 export type LiftingStats = {
     pausedBench: number;
     wideGripBench: number;
+    wideGripConsecutive?: number; // Track consecutive weeks at top reps for Wide-Grip
     spotoPress: number;
     lowPinPress: number;
     btnPress?: number; // Behind-the-Neck Press 1RM (snapshot) or Working Weight
+    btnPressWeek?: number; // Week number when btnPress was last updated
     squat?: number;
 };
 
@@ -119,6 +121,7 @@ export type Exercise = {
     // New: Warmups configuration
     warmups?: {
         sets: { reps: string; weight: string; completed?: boolean }[];
+        note?: string;
     };
     // New: Swappable Alternates
     alternates?: string[];

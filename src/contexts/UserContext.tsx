@@ -166,45 +166,93 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         exercisePreferences?: Record<string, string>,
         benchDominationModules?: any
     ) => {
+        console.log('[REGISTER] Starting registration for:', codeword, 'program:', programId);
+
         const sanitized = codeword.trim().toLowerCase();
         const userRef = doc(db, 'users', sanitized);
-        const snap = await getDoc(userRef);
-        const existingData = snap.exists() ? snap.data() as UserProfile : null;
 
-        const startDate = existingData?.startDate || new Date().toISOString();
+        try {
+            console.log('[REGISTER] Fetching existing user data...');
+            const snap = await getDoc(userRef);
+            const existingData = snap.exists() ? snap.data() as UserProfile : null;
+            console.log('[REGISTER] Existing data:', existingData ? 'Found' : 'New user');
 
-        const newUser: UserProfile = {
-            id: sanitized,
-            codeword: sanitized,
-            stats,
-            startDate,
-            programId,
-            ...(selectedDays && { selectedDays }),
-            ...(exercisePreferences && { exercisePreferences }),
-            ...(benchDominationModules && { benchDominationModules }),
-            completedSessions: 0,
-            benchHistory: existingData?.benchHistory || [],
-            programProgress: existingData?.programProgress || {
-                [programId]: { completedSessions: 0, startDate: new Date().toISOString() }
-            },
-            ...(existingData?.benchDominationStatus && { benchDominationStatus: existingData.benchDominationStatus }),
-            ...(existingData?.pencilneckStatus && { pencilneckStatus: existingData.pencilneckStatus }),
-            ...(existingData?.skeletonStatus && { skeletonStatus: existingData.skeletonStatus })
-        };
+            const now = new Date().toISOString();
+            const startDate = existingData?.startDate || now;
 
-        const progress = newUser.programProgress || {};
-        if (!progress[programId]) {
-            progress[programId] = {
+            const newUser: UserProfile = {
+                id: sanitized,
+                codeword: sanitized,
+                stats,
+                startDate,
+                programId,
+                ...(selectedDays && { selectedDays }),
+                ...(exercisePreferences && { exercisePreferences }),
+                ...(benchDominationModules && { benchDominationModules }),
                 completedSessions: 0,
-                startDate: new Date().toISOString()
+                benchHistory: existingData?.benchHistory || [],
+                programProgress: existingData?.programProgress || {},
+                badges: existingData?.badges || [],
+                gluteMeasurements: existingData?.gluteMeasurements || [],
+                pencilneckBenchHistory: existingData?.pencilneckBenchHistory || [],
+                ...(existingData?.benchDominationStatus && { benchDominationStatus: existingData.benchDominationStatus }),
+                ...(existingData?.pencilneckStatus && { pencilneckStatus: existingData.pencilneckStatus }),
+                ...(existingData?.skeletonStatus && { skeletonStatus: existingData.skeletonStatus })
             };
+
+            // FORCE RESET progress for the new program
+            if (!newUser.programProgress) newUser.programProgress = {};
+            newUser.programProgress[programId] = {
+                completedSessions: 0,
+                startDate: now
+            };
+
+            console.log('[REGISTER] Writing to Firestore...', { id: sanitized, programId });
+
+            // Write to Firestore
+            await setDoc(userRef, newUser, { merge: true });
+
+            console.log('[REGISTER] Write complete. Verifying server-side...');
+
+            // CRITICAL: Force a server read to verify the write succeeded
+            // This prevents Opera GX from running in offline mode
+            const verifySnap = await getDoc(userRef);
+
+            if (!verifySnap.exists()) {
+                console.error('[REGISTER] VERIFICATION FAILED: Document does not exist after write!');
+                throw new Error('Failed to create user in database. Please check your internet connection and try again.');
+            }
+
+            const verifiedData = verifySnap.data() as UserProfile;
+            if (verifiedData.programId !== programId) {
+                console.error('[REGISTER] VERIFICATION FAILED: Program ID mismatch!', {
+                    expected: programId,
+                    actual: verifiedData.programId
+                });
+                throw new Error('Database verification failed. Please try again.');
+            }
+
+            console.log('[REGISTER] ✓ Verification successful. User created in Firestore.');
+
+            // Only set local state after server confirmation
+            setListeningId(sanitized);
+            localStorage.setItem('bench-domination-id', sanitized);
+
+            console.log('[REGISTER] ✓ Registration complete');
+        } catch (error: any) {
+            console.error('[REGISTER] ERROR:', error);
+
+            // Clear any partial state
+            setListeningId(null);
+            localStorage.removeItem('bench-domination-id');
+
+            // Re-throw with user-friendly message
+            if (error.code === 'unavailable' || error.message?.includes('network')) {
+                throw new Error('Network error: Unable to connect to the server. Please check your internet connection and try again.');
+            }
+
+            throw error;
         }
-        newUser.programProgress = progress;
-
-        await setDoc(userRef, newUser, { merge: true });
-
-        setListeningId(sanitized);
-        localStorage.setItem('bench-domination-id', sanitized);
     };
 
     const updateUserProfile = async (updates: Partial<UserProfile>) => {
