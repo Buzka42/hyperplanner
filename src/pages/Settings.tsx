@@ -17,7 +17,7 @@ import type { BenchDominationModules, LiftingStats } from '../types';
 
 export const Settings: React.FC = () => {
     const { user, resetProgram } = useUser();
-    const { t } = useLanguage();
+    const { t, tObject } = useLanguage();
     const navigate = useNavigate();
     const [preferences, setPreferences] = useState<Record<string, string>>({});
     const [benchModules, setBenchModules] = useState<BenchDominationModules>({
@@ -147,7 +147,7 @@ export const Settings: React.FC = () => {
                     <CardContent className="space-y-6">
                         {/* Leg Primary */}
                         <div className="space-y-3">
-                            <Label className="text-base font-semibold">Push A: Leg Primary</Label>
+                            <Label className="text-base font-semibold">{t('settings.pushALegPrimary')}</Label>
                             <RadioGroup value={preferences["push-a-leg-primary"]} onValueChange={(v) => handlePrefChange("push-a-leg-primary", v)}>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="Hack Squat" id="hack" />
@@ -164,7 +164,7 @@ export const Settings: React.FC = () => {
 
                         {/* Chest Fly */}
                         <div className="space-y-3">
-                            <Label className="text-base font-semibold">Push B: Chest Isolation</Label>
+                            <Label className="text-base font-semibold">{t('settings.pushBChestIsolation')}</Label>
                             <RadioGroup value={preferences["push-b-fly"]} onValueChange={(v) => handlePrefChange("push-b-fly", v)}>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="Pec-Dec" id="pecdec" />
@@ -181,7 +181,7 @@ export const Settings: React.FC = () => {
 
                         {/* Leg Secondary */}
                         <div className="space-y-3">
-                            <Label className="text-base font-semibold">Push B: Leg Secondary</Label>
+                            <Label className="text-base font-semibold">{t('settings.pushBLegSecondary')}</Label>
                             <RadioGroup value={preferences["push-b-leg-secondary"]} onValueChange={(v) => handlePrefChange("push-b-leg-secondary", v)}>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="Front Squats" id="front" />
@@ -205,50 +205,50 @@ export const Settings: React.FC = () => {
                 <>
                     <Card className="max-w-2xl">
                         <CardHeader>
-                            <CardTitle>Program Modules</CardTitle>
+                            <CardTitle>{t('settings.programModules')}</CardTitle>
                             <CardDescription>
-                                Enable or disable optional components of the Bench Domination 12-week block.
+                                {t('settings.programModulesDesc')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <ModuleToggle
-                                title="Core Bench Progression"
-                                desc="Paused Bench, Variations (Wide/Spoto/Pin), Saturday AMRAP Test."
+                                title={tObject('onboarding.modules.coreBench').title}
+                                desc={tObject('onboarding.modules.coreBench').description}
                                 isOn={true}
                                 onToggle={() => { }}
                                 mandatory
                             />
                             <ModuleToggle
-                                title="Tricep Giant Sets"
-                                desc="The secret sauce for lockout strength. Mon & Thu."
+                                title={tObject('onboarding.modules.tricepGiantSets').title}
+                                desc={tObject('onboarding.modules.tricepGiantSets').description}
                                 isOn={benchModules.tricepGiantSet}
                                 onToggle={() => handleModuleToggle('tricepGiantSet')}
                             />
 
                             <ModuleToggle
-                                title="Behind-the-Neck Press"
-                                desc="Complete shoulder development & stability. Mon & Thu."
+                                title={tObject('onboarding.modules.behindNeckPress').title}
+                                desc={tObject('onboarding.modules.behindNeckPress').description}
                                 isOn={benchModules.behindNeckPress}
                                 onToggle={() => handleModuleToggle('behindNeckPress')}
                             />
 
                             <ModuleToggle
-                                title="Weighted Pull-ups"
-                                desc="Back strength for bench stability. Wed & Sat."
+                                title={tObject('onboarding.modules.weightedPullups').title}
+                                desc={tObject('onboarding.modules.weightedPullups').description}
                                 isOn={benchModules.weightedPullups}
                                 onToggle={() => handleModuleToggle('weightedPullups')}
                             />
 
                             <ModuleToggle
-                                title="Leg Days"
-                                desc="Squats, Leg Press, Lunges. Tue & Fri."
+                                title={tObject('onboarding.modules.legDays').title}
+                                desc={tObject('onboarding.modules.legDays').description}
                                 isOn={benchModules.legDays}
                                 onToggle={() => handleModuleToggle('legDays')}
                             />
 
                             <ModuleToggle
-                                title="Accessories"
-                                desc="Dragon Flags, Y-Raises, Around-the-Worlds."
+                                title={tObject('onboarding.modules.accessories').title}
+                                desc={tObject('onboarding.modules.accessories').description}
                                 isOn={benchModules.accessories}
                                 onToggle={() => handleModuleToggle('accessories')}
                             />
@@ -258,18 +258,18 @@ export const Settings: React.FC = () => {
                     <Card className="max-w-2xl border-red-500/20">
                         <CardHeader>
                             <CardTitle className="text-red-500 flex items-center gap-2">
-                                Manual 1RM Override
+                                {t('settings.manual1rmOverride')}
                             </CardTitle>
                             <CardDescription>
-                                Manually adjust your Paused Bench Press 1RM.
+                                {t('settings.manual1rmDesc')}
                                 <span className="block mt-2 text-yellow-600 dark:text-yellow-500 font-semibold bg-yellow-500/10 p-2 rounded border border-yellow-500/20">
-                                    ⚠️ WARNING: Only change this if absolutely necessary (e.g., injury restart, significant strength loss, or if the auto-regulation is way off). The program automatically adjusts your 1RM based on Saturday AMRAP performance. Artificial inflation will lead to failure.
+                                    {t('settings.manual1rmWarning')}
                                 </span>
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-2">
-                                <Label htmlFor="manual-bench">Paused Bench Press 1RM (kg)</Label>
+                                <Label htmlFor="manual-bench">{t('settings.pausedBench1rm')}</Label>
                                 <div className="flex items-center gap-4">
                                     <Input
                                         id="manual-bench"
@@ -282,7 +282,7 @@ export const Settings: React.FC = () => {
                                         step="0.5" // Allow 0.5 increments
                                         className="max-w-[150px] text-lg font-bold"
                                     />
-                                    <span className="text-sm text-muted-foreground">Current calculated max</span>
+                                    <span className="text-sm text-muted-foreground">{t('settings.currentCalculatedMax')}</span>
                                 </div>
                             </div>
                         </CardContent>
@@ -293,10 +293,10 @@ export const Settings: React.FC = () => {
             {!isPencilneck && !isBenchDomination && (
                 <Card>
                     <CardHeader>
-                        <CardTitle>Program Settings</CardTitle>
+                        <CardTitle>{t('settings.programSettings')}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-muted-foreground">This program has no configurable settings.</p>
+                        <p className="text-muted-foreground">{t('settings.noConfigurableSettings')}</p>
                     </CardContent>
                 </Card>
             )}
@@ -304,25 +304,25 @@ export const Settings: React.FC = () => {
             {/* Program Management */}
             <Card className="border-red-500/10">
                 <CardHeader>
-                    <CardTitle>Program Management</CardTitle>
-                    <CardDescription>Manage your active program and progress data.</CardDescription>
+                    <CardTitle>{t('settings.programManagement')}</CardTitle>
+                    <CardDescription>{t('settings.programManagementDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="flex flex-col gap-4">
                         <div className="flex items-center justify-between p-4 border rounded-lg">
                             <div>
-                                <h4 className="font-semibold">Switch Program</h4>
-                                <p className="text-sm text-muted-foreground">Keep your current progress and start a different protocol.</p>
+                                <h4 className="font-semibold">{t('settings.switchProgram')}</h4>
+                                <p className="text-sm text-muted-foreground">{t('settings.switchProgramDesc')}</p>
                             </div>
                             <Button variant="outline" onClick={() => navigate('/onboarding')}>
-                                Switch Program
+                                {t('settings.switchProgram')}
                             </Button>
                         </div>
 
                         <div className="flex items-center justify-between p-4 border border-red-200 bg-red-50 dark:bg-red-900/10 dark:border-red-900/20 rounded-lg">
                             <div className="space-y-1">
-                                <h4 className="font-semibold text-red-600 dark:text-red-400">Reset Current Progress</h4>
-                                <p className="text-sm text-muted-foreground">Reset your sessions to Week 1 Day 1. Stats and history are preserved.</p>
+                                <h4 className="font-semibold text-red-600 dark:text-red-400">{t('settings.resetProgress')}</h4>
+                                <p className="text-sm text-muted-foreground">{t('settings.resetProgressDesc')}</p>
                             </div>
                             <Button
                                 variant="destructive"
@@ -335,7 +335,7 @@ export const Settings: React.FC = () => {
                                     }
                                 }}
                             >
-                                Reset Progress
+                                {t('settings.resetProgress')}
                             </Button>
                         </div>
                     </div>
@@ -349,9 +349,9 @@ export const Settings: React.FC = () => {
                     disabled={loading}
                 >
                     {saved ? (
-                        <>Saved <CheckCircle2 className="ml-2 h-5 w-5" /></>
+                        <>{t('common.saved')} <CheckCircle2 className="ml-2 h-5 w-5" /></>
                     ) : (
-                        <>Save Changes <Save className="ml-2 h-5 w-5" /></>
+                        <>{t('common.saveChanges')} <Save className="ml-2 h-5 w-5" /></>
                     )}
                 </Button>
 
