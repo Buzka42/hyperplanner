@@ -30,7 +30,62 @@ This caused duplicate tips to display. Now ALL tips are stored in translations.t
 
 **Note:** Some exercises in program.ts (Bench Domination) retain dynamic notes that vary by week/phase. These are intentionally kept as they represent context-specific instructions.
 
-### 2025-12-26 - Pencilneck Program Updates
+### 2025-12-26 - Internationalization (i18n) System Preparation
+
+**Major Expansion: Full i18n-Ready translations.ts**
+
+Expanded translations.ts to contain ALL user-facing text for future translation support.
+
+**New Sections Added:**
+- `common` - Shared UI elements (Back, Next, Save, Cancel, kg, reps, etc.)
+- `onboarding.programs` - All 4 program names, descriptions, and features
+- `onboarding.modules` - All Bench Domination module titles and descriptions
+- `onboarding.exerciseOptions` - All preference options
+- `dashboard.completion` - Victory/completion modal text
+- `dashboard.nextSteps` - Next level unlocked modal text
+- `dashboard.cards` - All stat card labels
+- `dashboard.pencilneck` / `dashboard.skeleton` - Program-specific widgets
+- `dashboard.commandments` - 5 Commandments of Growth
+- `dashboard.crossroads` - Week 13 decision card
+- `settings` - All settings page labels
+- `history` - History page text
+- `alerts` - All alert/error messages
+- `quotes.pencilneckStatus` - 8 weekly status quotes
+- `quotes.pencilneckRestDay` - 20 rest day thoughts
+
+**New Translation Utility (`useTranslation.ts`):**
+- `t(keyPath, replacements)` - Get string translation with optional {placeholder} replacements
+- `tArray(keyPath)` - Get array translations (lists, quotes)
+- `tObject(keyPath)` - Get object translations (programs, modules)
+- `setLanguage(lang)` - Switch active language
+- `hasTranslation(keyPath)` - Check if key exists
+
+**Files Created:**
+- `src/contexts/useTranslation.ts` - Translation utility functions
+
+**Files Modified:**
+- `src/contexts/translations.ts` - Comprehensive text collection (~400+ strings)
+- `TRANSLATION_AUDIT.md` - Full audit of hardcoded text locations
+
+**Usage Example:**
+```typescript
+import { t, tArray } from '../contexts/useTranslation';
+
+// Simple string
+<h1>{t('dashboard.timeTo')}</h1>
+
+// With replacement
+<p>{t('onboarding.selectDays', { count: 3 })}</p>
+
+// Array of strings
+{tArray('dashboard.commandments.list').map(cmd => <li>{cmd}</li>)}
+```
+
+**Next Steps for Full Translation:**
+1. Add language selector to Settings page
+2. Replace hardcoded strings in components with t() calls
+3. Add additional languages to translations.ts (e.g., `pl: { ... }`)
+
 
 
 **Exercise Changes:**
