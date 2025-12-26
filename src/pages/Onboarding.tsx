@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
+import { useLanguage } from '../contexts/useTranslation';
 import type { LiftingStats } from '../types';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -20,6 +21,7 @@ type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules';
 export const Onboarding: React.FC = () => {
     const { state } = useLocation();
     const { registerUser, user, switchProgram, updateUserProfile } = useUser();
+    const { t, tObject, tArray } = useLanguage();
     const navigate = useNavigate();
     const codeword = state?.codeword;
 
@@ -214,8 +216,8 @@ export const Onboarding: React.FC = () => {
             <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
                 <div className="w-full max-w-5xl space-y-8">
                     <div className="text-center space-y-2">
-                        <h1 className="text-3xl font-bold tracking-tight">Select Your Protocol</h1>
-                        <p className="text-muted-foreground">Choose the path to your transformation.</p>
+                        <h1 className="text-3xl font-bold tracking-tight">{t('onboarding.selectProtocol')}</h1>
+                        <p className="text-muted-foreground">{t('onboarding.choosePath')}</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -227,18 +229,17 @@ export const Onboarding: React.FC = () => {
                             <div className="h-48 bg-black relative flex items-center justify-center">
                                 <img src="/benchdomination.png" alt="Bench Domination" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">Bench Domination</h3>
+                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.benchDomination').name}</h3>
                                 </div>
                             </div>
                             <CardContent className="pt-4 p-4">
                                 <p className="text-muted-foreground text-xs mb-3">
-                                    12-week powerlifting program to explode your bench press. With optional 3 week peaking phase.
+                                    {tObject('onboarding.programs.benchDomination').description}
                                 </p>
                                 <ul className="space-y-1 text-xs">
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> Focus: Bench Strength</li>
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> 12 Week Peaking</li>
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> Optional 3 Week Peaking</li>
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> Auto-regulating progression and deloads based on AMRAP test</li>
+                                    {tArray('onboarding.programs.benchDomination.features').map((feature, i) => (
+                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
+                                    ))}
                                 </ul>
                             </CardContent>
                         </Card>
@@ -251,16 +252,17 @@ export const Onboarding: React.FC = () => {
                             <div className="h-48 bg-black relative flex items-center justify-center">
                                 <img src="/pencilneck.png" alt="Pencilneck Eradication" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">Pencilneck Eradication</h3>
+                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.pencilneck').name}</h3>
                                 </div>
                             </div>
                             <CardContent className="pt-4 p-4">
                                 <p className="text-muted-foreground text-xs mb-3">
-                                    Intense 8-week hypertrophy protocol. True Push/Pull split for size.
+                                    {tObject('onboarding.programs.pencilneck').description}
                                 </p>
                                 <ul className="space-y-1 text-xs">
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> Focus: Hypertrophy</li>
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> 4 Days/Week</li>
+                                    {tArray('onboarding.programs.pencilneck.features').map((feature, i) => (
+                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
+                                    ))}
                                 </ul>
                             </CardContent>
                         </Card>
@@ -273,16 +275,17 @@ export const Onboarding: React.FC = () => {
                             <div className="h-48 bg-black relative flex items-center justify-center">
                                 <img src="/SKELETON.png" alt="Skeleton Transformation" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">From Skeleton to Threat</h3>
+                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.skeleton').name}</h3>
                                 </div>
                             </div>
                             <CardContent className="pt-4 p-4">
                                 <p className="text-muted-foreground text-xs mb-3">
-                                    12-week beginner glow-up. Full body transformation logic.
+                                    {tObject('onboarding.programs.skeleton').description}
                                 </p>
                                 <ul className="space-y-1 text-xs">
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> Focus: Total Body</li>
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> 3 Days/Week</li>
+                                    {tArray('onboarding.programs.skeleton.features').map((feature, i) => (
+                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
+                                    ))}
                                 </ul>
                             </CardContent>
                         </Card>
@@ -295,24 +298,24 @@ export const Onboarding: React.FC = () => {
                             <div className="h-48 bg-black relative flex items-center justify-center">
                                 <img src="/peachy.png" alt="Peachy Plan" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">Peachy</h3>
+                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.peachy').name}</h3>
                                 </div>
                             </div>
                             <CardContent className="pt-4 p-4">
                                 <p className="text-muted-foreground text-xs mb-3">
-                                    12-week high frequency glute-focused hypertrophy program.
+                                    {tObject('onboarding.programs.peachy').description}
                                 </p>
                                 <ul className="space-y-1 text-xs">
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> Focus: Glutes & Legs</li>
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> 4 Days/Week</li>
-                                    <li className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> Upper Body Maintenance</li>
+                                    {tArray('onboarding.programs.peachy.features').map((feature, i) => (
+                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
+                                    ))}
                                 </ul>
                             </CardContent>
                         </Card>
                     </div>
 
                     <Button variant="ghost" onClick={() => navigate('/')} className="mx-auto block">
-                        Cancel
+                        {t('common.cancel')}
                     </Button>
                 </div>
             </div>
@@ -351,45 +354,45 @@ export const Onboarding: React.FC = () => {
                             <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2">
                                 <ArrowLeft className="h-5 w-5" />
                             </Button>
-                            <CardTitle>Build Your Perfect Bench Hell</CardTitle>
+                            <CardTitle>{t('onboarding.modules.title')}</CardTitle>
                         </div>
-                        <CardDescription>Customize the brutality. The core lift is sacred.</CardDescription>
+                        <CardDescription>{t('onboarding.modules.description')}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                         <div className="space-y-3">
                             <ModuleToggle
-                                title="Core Bench Progression"
-                                desc="Paused Bench, Variations (Wide/Spoto/Pin), Saturday AMRAP Test."
+                                title={tObject('onboarding.modules.coreBench').title}
+                                desc={tObject('onboarding.modules.coreBench').description}
                                 isOn={true}
                                 onToggle={() => { }}
                                 mandatory
                             />
 
                             <ModuleToggle
-                                title="Tricep Giant Sets"
-                                desc="The secret sauce for lockout strength. Mon & Thu."
+                                title={tObject('onboarding.modules.tricepGiantSets').title}
+                                desc={tObject('onboarding.modules.tricepGiantSets').description}
                                 isOn={benchModules.tricepGiantSet}
                                 onToggle={() => setBenchModules(p => ({ ...p, tricepGiantSet: !p.tricepGiantSet }))}
                                 recommended
                             />
 
                             <ModuleToggle
-                                title="Behind-the-Neck Press"
-                                desc="Complete shoulder development & stability. Mon & Thu."
+                                title={tObject('onboarding.modules.behindNeckPress').title}
+                                desc={tObject('onboarding.modules.behindNeckPress').description}
                                 isOn={benchModules.behindNeckPress}
                                 onToggle={() => setBenchModules(p => ({ ...p, behindNeckPress: !p.behindNeckPress }))}
                             />
 
                             <ModuleToggle
-                                title="Weighted Pull-ups"
-                                desc="Back strength for bench stability. Wed & Sat."
+                                title={tObject('onboarding.modules.weightedPullups').title}
+                                desc={tObject('onboarding.modules.weightedPullups').description}
                                 isOn={benchModules.weightedPullups}
                                 onToggle={() => setBenchModules(p => ({ ...p, weightedPullups: !p.weightedPullups }))}
                             />
 
                             <ModuleToggle
-                                title="Leg Days"
-                                desc="Squats, Leg Press, Lunges. Tue & Fri."
+                                title={tObject('onboarding.modules.legDays').title}
+                                desc={tObject('onboarding.modules.legDays').description}
                                 isOn={benchModules.legDays}
                                 onToggle={() => {
                                     setBenchModules(p => ({ ...p, legDays: !p.legDays }));
@@ -404,7 +407,7 @@ export const Onboarding: React.FC = () => {
                                 <div className="p-4 bg-secondary/10 border border-primary/20 rounded-lg space-y-4 animate-in fade-in slide-in-from-top-2">
                                     <div className="flex items-center gap-2 text-primary font-semibold">
                                         <AlertCircle className="w-4 h-4" />
-                                        <span>Select Your 4 Training Days</span>
+                                        <span>{t('onboarding.modules.selectDays')}</span>
                                     </div>
                                     <p className="text-xs text-muted-foreground">Select optimal days for the 4 core bench sessions. We recommend giving yourself a rest day after the heavy Monday session if possible, but the default suggestion (M/W/Th/Sat) works well.</p>
 
@@ -515,7 +518,7 @@ export const Onboarding: React.FC = () => {
                                 }
                             }}
                         >
-                            {isSkeleton || selectedProgramId === PEACHY_CONFIG.id ? "BUILD MY PROGRAM" : "Next: Exercise Selection"}
+                            {isSkeleton || selectedProgramId === PEACHY_CONFIG.id ? t('onboarding.buildProgram') : t('onboarding.nextExerciseSelection')}
                         </Button>
                     </CardContent>
                 </Card>
@@ -532,9 +535,9 @@ export const Onboarding: React.FC = () => {
                             <Button variant="ghost" size="icon" onClick={() => setStep('days')} className="-ml-2">
                                 <ArrowLeft className="h-5 w-5" />
                             </Button>
-                            <CardTitle>Customize Protocol</CardTitle>
+                            <CardTitle>{t('onboarding.preferences.title')}</CardTitle>
                         </div>
-                        <CardDescription>Choose your preferred movements.</CardDescription>
+                        <CardDescription>{t('onboarding.preferences.description')}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
 
