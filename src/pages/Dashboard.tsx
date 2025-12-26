@@ -493,7 +493,7 @@ export const Dashboard: React.FC = () => {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Trophy className="h-5 w-5 text-yellow-500" />
-                                5 Commandments of Growth
+                                {t('dashboard.pencilneck.commandmentsTitle')}
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -564,7 +564,7 @@ export const Dashboard: React.FC = () => {
 
                         <Card className="col-span-3 border-primary/10 bg-primary/5">
                             <CardHeader className="pb-2">
-                                <CardTitle className="text-sm font-medium">Rest Day Thought</CardTitle>
+                                <CardTitle className="text-sm font-medium">{t('dashboard.pencilneck.restDayThought')}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="italic text-sm text-muted-foreground">
@@ -733,7 +733,7 @@ export const Dashboard: React.FC = () => {
                                     if (disabled) return null; // Or render disabled option, but removing seems cleaner to avoid confusion
 
                                     return (
-                                        <option key={week} value={week}>Week {week}</option>
+                                        <option key={week} value={week}>{t('common.week')} {week}</option>
                                     );
                                 })}
                             </select>
@@ -753,7 +753,7 @@ export const Dashboard: React.FC = () => {
 
                         const isDone = completedSet.has(`${viewWeek}-${day.dayOfWeek}`);
                         const displayDayName = day.dayName;
-                        const subTitle = `${day.exercises.length} Exercises`;
+                        const subTitle = t('workout.exercisesCount', { count: day.exercises.length });
 
                         return (
                             <Link key={day.dayOfWeek} to={`/app/workout/${viewWeek}/${day.dayOfWeek}`}>
@@ -770,7 +770,7 @@ export const Dashboard: React.FC = () => {
                                             {day.exercises.slice(0, 3).map(ex => (
                                                 <li key={ex.id} className="truncate">• {ex.name}</li>
                                             ))}
-                                            {day.exercises.length > 3 && <li className="text-xs opacity-70">+ {day.exercises.length - 3} more</li>}
+                                            {day.exercises.length > 3 && <li className="text-xs opacity-70">{t('workout.andMore', { count: day.exercises.length - 3 })}</li>}
                                         </ul>
                                     </CardContent>
                                 </Card>

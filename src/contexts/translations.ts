@@ -267,7 +267,8 @@ export const translations = {
                 pencil: "Pencil",
                 boulder: "Boulder",
                 percentGone: "{percent}% GONE",
-                restDayThought: "Rest Day Thought"
+                restDayThought: "Rest Day Thought",
+                commandmentsTitle: "5 Commandments of Growth"
             },
 
             // Skeleton widgets
@@ -815,7 +816,8 @@ export const translations = {
                 pencil: "Patyczak",
                 boulder: "Głaz",
                 percentGone: "{percent}% ZNIKŁO",
-                restDayThought: "Myśl na dzień odpoczynku"
+                restDayThought: "Myśl na dzień odpoczynku",
+                commandmentsTitle: "5 Przykazań Wzrostu"
             },
 
             skeleton: {
