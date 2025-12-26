@@ -266,4 +266,103 @@ All programs can adopt this pattern by:
 - **Styling**: Primary color theme, prominent display
 
 ---
-*Generated from source code – December 20, 2025*
+
+## 🌍 Internationalization (i18n) System
+
+**Status:** Infrastructure complete, ready for multi-language support
+
+### Architecture
+
+The i18n system centralizes all user-facing text in `src/contexts/translations.ts` with utility functions for easy access.
+
+### Translation Files
+
+**`src/contexts/translations.ts`** (~400+ strings organized by feature):
+- `common` - Shared UI (Back, Next, Save, kg, reps, etc.)
+- `entry` - Entry page text
+- `onboarding` - All program descriptions, module info, preferences
+- `dashboard` - Dashboard widgets, completion modals, quotes
+- `workout` - Workout view labels
+- `settings` - Settings page text
+- `history` - History page text
+- `alerts` - All error/success messages
+- `exercises` - Exercise names
+- `tips` - All exercise tips (85+ exercises)
+- `quotes` - Program-specific quotes (28+ quotes)
+
+**`src/contexts/useTranslation.ts`** - Translation utilities:
+```typescript
+import { t, tArray, tObject } from './useTranslation';
+
+// Simple string translation
+t('common.save')  // => "Save"
+
+// With placeholder replacement
+t('dashboard.nExercises', { count: 5 })  // => "5 Exercises"
+
+// Array translations
+tArray('dashboard.commandments.list')  // => ["300-500 kcal...", ...]
+
+// Object translations
+tObject('onboarding.programs.benchDomination')  // => { name, description, features }
+```
+
+### Adding New Language
+
+1. Duplicate the `en` object in `translations.ts`
+2. Translate all strings
+3. Add language selector in Settings
+
+### References
+- Full audit: `TRANSLATION_AUDIT.md`
+- Usage examples in each translation section
+- Helper types for type-safe key access
+
+---
+
+## 💡 Tip System
+
+**Architecture:** Centralized in `translations.ts`, mapped in `WorkoutView.tsx`
+
+### Implementation
+
+**Previous System (Deprecated):**
+- Tips stored in two places causing duplicates:
+  1. Hardcoded `notes` field on exercises
+  2. `tips` object in translations.ts
+
+**Current System:**
+- ALL tips in `src/contexts/translations.ts` only
+- Mapped to exercises via `tipMap` in `WorkoutView.tsx`
+- 85+ exercise mappings with program-specific logic
+
+**Display Logic:**
+```typescript
+// In WorkoutView.tsx
+const tipMap: Record<string, keyof typeof translations.en.tips> = {
+    "Hack Squat": "hackSquat",
+    "Deficit Push-ups": programData.id === 'skeleton-to-threat' 
+        ? "deficitPushupsSkeleton" 
+        : "deficitPushups",
+    // Multiple tips can apply to same exercise based on context
+};
+```
+
+**Features:**
+- Program-specific tips (different tip for same exercise)
+- Week-based variations (e.g., week 11 intensity tips)
+- No duplicates - single source of truth
+
+**Files Modified (Dec 26, 2025):**
+- Removed all hardcoded `notes` from:
+  - `src/data/pencilneck.ts` (15 exercises)
+  - `src/data/peachy.ts` (23 exercises)
+  - `src/data/skeleton.ts` (6 exercises)
+- Expanded `tipMap` in `WorkoutView.tsx` to 85+ mappings
+- Organized tips by program in `translations.ts`
+
+**Note:** Dynamic notes in `program.ts` (Bench Domination) are intentionally kept as they vary by week/phase.
+
+---
+
+*Generated from source code – December 26, 2025*
