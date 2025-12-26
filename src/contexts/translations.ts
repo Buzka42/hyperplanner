@@ -32,6 +32,35 @@ export const translations = {
         },
 
         // ========================================
+        // SIDEBAR - Navigation
+        // ========================================
+        sidebar: {
+            dashboard: "Dashboard",
+            currentWorkout: "Current Workout",
+            settings: "Settings",
+            trophyCase: "Trophy Case",
+            loggedInAs: "Logged in as:",
+            logout: "Logout",
+        },
+
+        // ========================================
+        // WORKOUT VIEW
+        // ========================================
+        workout: {
+            restDayOrInvalid: "Rest Day or Invalid Date",
+            completed: "Completed",
+            last: "last",
+            target: "Target:",
+            giantSets: "giant sets",
+            notesPlaceholder: "Workout notes (optional)...",
+            saving: "SAVING...",
+            completeWorkout: "Complete Workout",
+            markAllCompleted: "Mark All Completed",
+            exercisesCount: "{count} Exercises",
+            andMore: "+ {count} more",
+        },
+
+        // ========================================
         // ENTRY PAGE
         // ========================================
         entry: {
@@ -285,27 +314,6 @@ export const translations = {
             mandatoryDeload: "MANDATORY DELOAD",
             peakingBlock: "PEAKING BLOCK",
             nExercises: "{count} Exercises"
-        },
-
-        // ========================================
-        // WORKOUT VIEW
-        // ========================================
-        workout: {
-            completed: "Completed",
-            lastLabel: "last:",
-            tip: "Tip:",
-            sets: "sets",
-            reps: "reps",
-            giantSets: "giant sets",
-            target: "Target:",
-            increaseWeight: "Increase Weight!",
-            increaseWeightNext: "Increase Weight Next Time!",
-            completeWorkout: "COMPLETE WORKOUT",
-            saving: "SAVING...",
-            setHeader: "SET",
-            kgHeader: "KG",
-            repsHeader: "REPS",
-            notesPlaceholder: "Notes...",
         },
 
         // ========================================
@@ -600,6 +608,29 @@ export const translations = {
             no: "Nie",
         },
 
+        sidebar: {
+            dashboard: "Pulpit",
+            currentWorkout: "Aktualny trening",
+            settings: "Ustawienia",
+            trophyCase: "Gablota trofeów",
+            loggedInAs: "Zalogowany jako:",
+            logout: "Wyloguj",
+        },
+
+        workout: {
+            restDayOrInvalid: "Dzień odpoczynku lub nieprawidłowa data",
+            completed: "Ukończono",
+            last: "ost.",
+            target: "Cel:",
+            giantSets: "serie gigantyczne",
+            notesPlaceholder: "Notatki z treningu (opcjonalne)...",
+            saving: "ZAPISYWANIE...",
+            completeWorkout: "Zakończ trening",
+            markAllCompleted: "Zaznacz wszystko jako ukończone",
+            exercisesCount: "{count} Ćwiczeń",
+            andMore: "+ {count} więcej",
+        },
+
         entry: {
             title: "HYPER",
             subtitle: "PLANNER",
@@ -827,24 +858,6 @@ export const translations = {
             mandatoryDeload: "OBOWIĄZKOWY DELOAD",
             peakingBlock: "BLOK PEAKINGOWY",
             nExercises: "{count} Ćwiczeń"
-        },
-
-        workout: {
-            completed: "Ukończono",
-            lastLabel: "poprz.:",
-            tip: "Wskazówka:",
-            sets: "serie",
-            reps: "powt.",
-            giantSets: "giant sety",
-            target: "Cel:",
-            increaseWeight: "Dodaj ciężar!",
-            increaseWeightNext: "Dodaj ciężar następnym razem!",
-            completeWorkout: "ZAKOŃCZ TRENING",
-            saving: "ZAPISYWANIE...",
-            setHeader: "SERIA",
-            kgHeader: "KG",
-            repsHeader: "POWT.",
-            notesPlaceholder: "Notatki...",
         },
 
         settings: {
