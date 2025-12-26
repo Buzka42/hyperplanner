@@ -49,7 +49,14 @@ Widgets are **semi-modular**. They are defined by string IDs in the `PlanConfig`
     *   `skeleton_quotes`: "Your muscles are knitting armor..."
     *   `trap_barometer`: **Hardcoded** to `pencilneck-eradication` ID check (not a strict widget ID, embedded logic).
 
-### 4. **Workout Execution (`src/pages/WorkoutView.tsx`)**
+### 4. **Localization (`src/contexts/useTranslation.tsx`)**
+The app supports full English/Polish localization (`en` / `pl`).
+*   **Mechanism:** React Context + `translations.ts` dictionary object.
+*   **Storage:** Persisted in `localStorage` under the key `'language'`.
+*   **Usage:** `const { t } = useLanguage();` -> `t('common.save')`.
+*   **Structure:** Translations are nested objects. `t()` supports dot-notation access (e.g., `t('dashboard.cards.est1rm')`).
+
+### 5. **Workout Execution (`src/pages/WorkoutView.tsx`)**
 *   **Dynamic Rendering:** Renders exercises based on the `currentDay` object returned by `preprocessDay` hook.
 *   **Tips Engine:** Displays tips from two sources:
     1.  **Static:** `exercise.notes` from the data file.

@@ -117,7 +117,7 @@ export const Settings: React.FC = () => {
             <div className="space-y-1">
                 <div className="flex items-center gap-2">
                     <h4 className="font-semibold">{title}</h4>
-                    {mandatory && <span className="text-xs bg-red-500/10 text-red-500 px-2 py-0.5 rounded font-bold">REQUIRED</span>}
+                    {mandatory && <span className="text-xs bg-red-500/10 text-red-500 px-2 py-0.5 rounded font-bold">{t('common.required')}</span>}
                 </div>
                 <p className="text-sm text-muted-foreground">{desc}</p>
             </div>
@@ -327,11 +327,11 @@ export const Settings: React.FC = () => {
                             <Button
                                 variant="destructive"
                                 onClick={async () => {
-                                    if (confirm("Are you sure you want to reset your progress for this program? This cannot be undone.")) {
+                                    if (confirm(t('alerts.confirmReset'))) {
                                         setLoading(true);
                                         await resetProgram();
                                         setLoading(false);
-                                        alert("Progress reset properly.");
+                                        alert(t('alerts.progressReset'));
                                     }
                                 }}
                             >
@@ -365,7 +365,7 @@ export const Settings: React.FC = () => {
                     downloadAnchorNode.click();
                     downloadAnchorNode.remove();
                 }}>
-                    Export Data Backup
+                    {t('common.exportData')}
                 </Button>
             </div>
         </div>

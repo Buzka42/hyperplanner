@@ -160,6 +160,7 @@ export const ProtectedLayout: React.FC = () => {
                                 {BADGES.map((badge) => {
                                     const isEarned = user.badges?.includes(badge.id);
                                     const isExpanded = expandedBadgeId === badge.id;
+                                    const description = t(`badges.${badge.id}.description`);
                                     return (
                                         <div
                                             key={badge.id}
@@ -169,7 +170,7 @@ export const ProtectedLayout: React.FC = () => {
                                             {!isExpanded && (
                                                 <div className="absolute bottom-full mb-2 -left-8 w-24 bg-black text-white text-[10px] p-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
                                                     <div className="font-bold">{badge.name}</div>
-                                                    <div className="text-[8px] text-gray-300">{badge.description}</div>
+                                                    <div className="text-[8px] text-gray-300">{description}</div>
                                                 </div>
                                             )}
 
@@ -181,7 +182,7 @@ export const ProtectedLayout: React.FC = () => {
                                                     ) : (
                                                         <span className="text-4xl mb-2">{badge.icon}</span>
                                                     )}
-                                                    <div className="text-[10px] text-muted-foreground text-center px-2">{badge.description}</div>
+                                                    <div className="text-[10px] text-muted-foreground text-center px-2">{description}</div>
                                                 </div>
                                             ) : (
                                                 <div className={`w-8 h-8 flex items-center justify-center transition-all duration-500 ${isEarned ? 'grayscale-0 opacity-100 scale-100' : 'grayscale opacity-20 scale-90'}`}>

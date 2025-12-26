@@ -14,7 +14,7 @@ import { db } from '../firebase';
 
 export const Dashboard: React.FC = () => {
     const { user, activePlanConfig, updateUserProfile } = useUser();
-    const { t } = useLanguage();
+    const { t, tArray } = useLanguage();
     const location = useLocation();
     const navigate = useNavigate();
     const [completedSet, setCompletedSet] = useState<Set<string>>(new Set());
@@ -568,28 +568,7 @@ export const Dashboard: React.FC = () => {
                             </CardHeader>
                             <CardContent>
                                 <p className="italic text-sm text-muted-foreground">
-                                    "{[
-                                        "Your former self is crying in the corner watching you eat 500 g of rice.",
-                                        "Somewhere a graphic designer just lost a client because your traps ate the logo.",
-                                        "Mirrors are filing complaints.",
-                                        "Your neck called – it’s not missing.",
-                                        "T-shirts have unionized against you.",
-                                        "Children now think you’re two people standing close.",
-                                        "Doorways whisper ‘not today’ when you approach.",
-                                        "Your shadow has stretch marks.",
-                                        "Old photos of you are now classified as missing person posters.",
-                                        "Airports charge you for two seats.",
-                                        "Your delts entered the chat.",
-                                        "The sun now orbits your shoulders.",
-                                        "Seatbelts go around you twice.",
-                                        "NASA just asked for your yoke measurements.",
-                                        "Your lats have their own postal code.",
-                                        "Your traps blocked someone’s Wi-Fi.",
-                                        "Hoodies file for asylum.",
-                                        "You no longer fit in selfies.",
-                                        "Your rear delts have rear delts.",
-                                        "Congratulations. You are now the final boss of planet Earth."
-                                    ][(viewWeek * 3 + 1) % 20]}"
+                                    "{tArray('pencilneck.quotes')[(viewWeek * 3 + 1) % tArray('pencilneck.quotes').length]}"
                                 </p>
                             </CardContent>
                         </Card>
@@ -599,14 +578,14 @@ export const Dashboard: React.FC = () => {
                 {activeWidgets.includes('skeleton_countdown') && (
                     <Card className="col-span-2 bg-slate-950 border-slate-800">
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-lg">Metamorphosis</CardTitle>
+                            <CardTitle className="text-lg">{t('skeleton.metamorphosis')}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-bold text-primary">
                                 {currentProgram.weeks.length - Math.min(viewWeek, currentProgram.weeks.length)} <span className="text-base font-normal text-muted-foreground">weeks left</span>
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">
-                                Until you are no longer a skeleton.
+                                {t('skeleton.untilNoLongerSkeleton')}
                             </p>
                         </CardContent>
                     </Card>
@@ -615,13 +594,13 @@ export const Dashboard: React.FC = () => {
                 {activeWidgets.includes('skeleton_pushup_max') && (
                     <Card className="col-span-2 bg-slate-950 border-slate-800">
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium">Deficit Push-up PR</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t('skeleton.deficitPushupPR')}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">
                                 {maxDeficitPushupReps > 0 ? maxDeficitPushupReps : '--'}
                             </div>
-                            <p className="text-xs text-muted-foreground">Perfect Reps (Single Set)</p>
+                            <p className="text-xs text-muted-foreground">{t('skeleton.perfectRepsSingleSet')}</p>
                         </CardContent>
                     </Card>
                 )}
@@ -629,11 +608,11 @@ export const Dashboard: React.FC = () => {
                 {activeWidgets.includes('skeleton_quotes') && (
                     <Card className="col-span-3 border-primary/10 bg-primary/5">
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium">Rest Day Thought</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t('pencilneck.restDayThought')}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <p className="italic text-sm text-muted-foreground">
-                                "Your muscles are knitting armor right now."
+                                "{t('skeleton.restDayQuote')}"
                             </p>
                         </CardContent>
                     </Card>
@@ -643,27 +622,27 @@ export const Dashboard: React.FC = () => {
                     <Card className="col-span-full border-yellow-500 bg-yellow-500/5 animate-pulse">
                         <CardHeader>
                             <CardTitle className="text-2xl text-yellow-500 flex items-center gap-2">
-                                <Activity className="w-6 h-6" /> CROSSROADS REACHED
+                                <Activity className="w-6 h-6" /> {t('crossroads.title')}
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <p className="text-muted-foreground">
-                                You have survived 12 weeks of hell. You must now take a mandatory 7-10 day deload.
+                                {t('crossroads.survived')}
                             </p>
 
                             {lastW12Date && (
                                 <div className="bg-black/20 p-4 rounded text-center border border-yellow-500/30">
-                                    <div className="text-sm uppercase tracking-widest text-muted-foreground">Mandatory Rest Timer</div>
+                                    <div className="text-sm uppercase tracking-widest text-muted-foreground">{t('crossroads.restTimer')}</div>
                                     <div className="text-4xl font-black text-white">
                                         {Math.max(0, 7 - Math.floor((new Date().getTime() - lastW12Date.getTime()) / (1000 * 60 * 60 * 24)))}
-                                        <span className="text-lg font-medium text-muted-foreground ml-2">DAYS LEFT</span>
+                                        <span className="text-lg font-medium text-muted-foreground ml-2">{t('crossroads.daysLeft')}</span>
                                     </div>
-                                    <p className="text-xs text-muted-foreground mt-2">Do not lift heavy. Sleep. Eat.</p>
+                                    <p className="text-xs text-muted-foreground mt-2">{t('crossroads.restAdvice')}</p>
                                 </div>
                             )}
 
                             <p className="text-muted-foreground">
-                                After your rest, how do you want to proceed?
+                                {t('crossroads.proceedQuestion')}
                             </p>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <Button
@@ -679,9 +658,9 @@ export const Dashboard: React.FC = () => {
                                         });
                                     }}
                                 >
-                                    <span className="font-bold text-lg text-left whitespace-normal w-full">Option A: The Peak (Recommended)</span>
+                                    <span className="font-bold text-lg text-left whitespace-normal w-full">{t('crossroads.optionA.title')}</span>
                                     <span className="text-xs font-normal text-muted-foreground text-left whitespace-normal w-full">
-                                        Enter a 3-week peaking block (Weeks 13-15) to acclimatize to heavy loads and explicitly peak for a new 1RM.
+                                        {t('crossroads.optionA.description')}
                                     </span>
                                 </Button>
 
@@ -698,9 +677,9 @@ export const Dashboard: React.FC = () => {
                                         });
                                     }}
                                 >
-                                    <span className="font-bold text-lg text-red-500 text-left whitespace-normal w-full">Option B: Test Now</span>
+                                    <span className="font-bold text-lg text-red-500 text-left whitespace-normal w-full">{t('crossroads.optionB.title')}</span>
                                     <span className="text-xs font-normal text-muted-foreground text-left whitespace-normal w-full">
-                                        Skip the peaking block and test your 1RM immediately aka "YOLO".
+                                        {t('crossroads.optionB.description')}
                                     </span>
                                 </Button>
                             </div>
@@ -752,9 +731,22 @@ export const Dashboard: React.FC = () => {
                         }
 
                         const isDone = completedSet.has(`${viewWeek}-${day.dayOfWeek}`);
-                        const displayDayName = day.dayName.startsWith('t:')
-                            ? t(day.dayName.substring(2))
-                            : day.dayName;
+                        let displayDayName = day.dayName;
+                        if (day.dayName.startsWith('t:')) {
+                            const raw = day.dayName.substring(2);
+                            const sepIndex = raw.indexOf('|');
+                            if (sepIndex !== -1) {
+                                const key = raw.substring(0, sepIndex);
+                                try {
+                                    const params = JSON.parse(raw.substring(sepIndex + 1));
+                                    displayDayName = t(key, params);
+                                } catch (e) {
+                                    displayDayName = t(key);
+                                }
+                            } else {
+                                displayDayName = t(raw);
+                            }
+                        }
                         const subTitle = t('workout.exercisesCount', { count: day.exercises.length });
 
                         return (

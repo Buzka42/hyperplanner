@@ -66,11 +66,11 @@ const createWeeks = (): ProgramWeek[] => {
                 });
             }
 
-            days.push({ dayName: `Monday - ${isWeek15 ? "Primer" : "Peaking"}`, dayOfWeek: 1, exercises: d1Exercises });
+            days.push({ dayName: isWeek15 ? "t:dayNames.mondayPrimer" : "t:dayNames.mondayPeaking", dayOfWeek: 1, exercises: d1Exercises });
 
             // Day 2: Legs (Maintenance)
             days.push({
-                dayName: "Tuesday - Legs (Maintenance)",
+                dayName: "t:dayNames.tuesdayLegsMaintenance",
                 dayOfWeek: 2,
                 exercises: [
                     { id: `w${w}-d2-e1`, name: "Walking Lunges", sets: 2, target: { type: "range", reps: "10" } },
@@ -97,11 +97,11 @@ const createWeeks = (): ProgramWeek[] => {
             } else {
                 d3Exercises.push({ id: `w${w}-d3-rest`, name: "Rest / Mobility", sets: 0, target: { type: "straight", reps: "0" }, notes: "Rest Day" });
             }
-            days.push({ dayName: "Wednesday - Light/Speed", dayOfWeek: 3, exercises: d3Exercises });
+            days.push({ dayName: "t:dayNames.wednesdayLightSpeed", dayOfWeek: 3, exercises: d3Exercises });
 
             // Day 4: Power (Skipped or very light)
             days.push({
-                dayName: "Thursday - Rest",
+                dayName: "t:dayNames.thursdayRest",
                 dayOfWeek: 4,
                 exercises: isWeek15 ? [] : [
                     { id: `w${w}-d4-e1`, name: "Behind-the-Neck Press", sets: 3, target: { type: "range", reps: "8-10" }, notes: "Light & Crisp" }
@@ -109,7 +109,7 @@ const createWeeks = (): ProgramWeek[] => {
             });
 
             // Day 5: Legs Copy
-            days.push({ dayName: "Friday - Legs", dayOfWeek: 5, exercises: days[1].exercises });
+            days.push({ dayName: "t:dayNames.fridayLegs", dayOfWeek: 5, exercises: days[1].exercises });
 
             // Day 6: Test / AMRAP
             const d6Exercises: Exercise[] = [];
@@ -135,7 +135,7 @@ const createWeeks = (): ProgramWeek[] => {
                     notes: "Push hard but leave 1 rep"
                 });
             }
-            days.push({ dayName: isWeek15 ? "Saturday - JUDGMENT DAY" : "Saturday - Peaking AMRAP", dayOfWeek: 6, exercises: d6Exercises });
+            days.push({ dayName: isWeek15 ? "t:dayNames.saturdayJudgmentDay" : "t:dayNames.saturdayPeakingAMRAP", dayOfWeek: 6, exercises: d6Exercises });
 
             weeks.push({ weekNumber: w, days });
             continue;
@@ -166,7 +166,7 @@ const createWeeks = (): ProgramWeek[] => {
 
         // MONDAY
         days.push({
-            dayName: "Monday - Heavy Strength",
+            dayName: "t:dayNames.mondayHeavyStrength",
             dayOfWeek: 1,
             exercises: [
                 {
@@ -215,7 +215,7 @@ const createWeeks = (): ProgramWeek[] => {
 
         // TUESDAY (Legs)
         days.push({
-            dayName: "Tuesday - Legs",
+            dayName: "t:dayNames.tuesdayLegs",
             dayOfWeek: 2,
             exercises: [
                 { id: `w${w}-d2-e1`, name: "Walking Lunges", sets: 3, target: { type: "range", reps: "10-15" } },
@@ -230,7 +230,7 @@ const createWeeks = (): ProgramWeek[] => {
 
         // WEDNESDAY
         days.push({
-            dayName: "Wednesday - Volume Hypertrophy",
+            dayName: "t:dayNames.wednesdayVolumeHypertrophy",
             dayOfWeek: 3,
             exercises: [
                 {
@@ -272,7 +272,7 @@ const createWeeks = (): ProgramWeek[] => {
 
         // THURSDAY
         days.push({
-            dayName: "Thursday - Power / Speed",
+            dayName: "t:dayNames.thursdayPowerSpeed",
             dayOfWeek: 4,
             exercises: [
                 {
@@ -320,14 +320,14 @@ const createWeeks = (): ProgramWeek[] => {
 
         // FRIDAY (Legs Copy)
         days.push({
-            dayName: "Friday - Legs",
+            dayName: "t:dayNames.fridayLegs",
             dayOfWeek: 5,
             exercises: days[1].exercises.map(e => ({ ...e, id: e.id.replace('d2', 'd5') }))
         });
 
         // SATURDAY (TEST)
         days.push({
-            dayName: "Saturday - AMRAP Test",
+            dayName: "t:dayNames.saturdayAMRAPTest",
             dayOfWeek: 6,
             exercises: [
                 {
@@ -370,7 +370,7 @@ const createWeeks = (): ProgramWeek[] => {
 
         // SUNDAY (Rest Day)
         days.push({
-            dayName: "Sunday - Rest",
+            dayName: "t:dayNames.sundayRest",
             dayOfWeek: 7,
             exercises: []
         });

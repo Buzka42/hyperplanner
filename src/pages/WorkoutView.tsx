@@ -656,6 +656,25 @@ export const WorkoutView: React.FC = () => {
         return <div className="p-8 text-center text-muted-foreground">{t('workout.restDayOrInvalid')}</div>;
     }
 
+    const resolveDayName = (name: string) => {
+        if (name.startsWith('t:')) {
+            const raw = name.substring(2);
+            const sepIndex = raw.indexOf('|');
+            if (sepIndex !== -1) {
+                const key = raw.substring(0, sepIndex);
+                try {
+                    const params = JSON.parse(raw.substring(sepIndex + 1));
+                    return t(key, params);
+                } catch (e) {
+                    return t(key);
+                }
+            } else {
+                return t(raw);
+            }
+        }
+        return name;
+    };
+
     return (
         <div className="space-y-6 pb-20">
             <div className="flex items-center gap-2 mb-6">
@@ -664,7 +683,7 @@ export const WorkoutView: React.FC = () => {
                 </Button>
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
-                        {dayData.dayName.startsWith('t:') ? t(dayData.dayName.substring(2)) : dayData.dayName}
+                        {resolveDayName(dayData.dayName)}
                     </h2>
                     <p className="text-muted-foreground">{t('common.week')} {weekNum} {isExistingLog && <span className="text-green-500 font-bold ml-2">({t('workout.completed')})</span>}</p>
                 </div>

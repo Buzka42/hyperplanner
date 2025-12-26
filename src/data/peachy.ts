@@ -49,10 +49,10 @@ const createPeachyWeeks = (): ProgramWeek[] => {
             d6.push({ id: `py-w${w}-d6-e7`, name: "Glute Pump Finisher", sets: 1, target: { type: "range", reps: "100" } });
         }
 
-        days.push({ dayName: "Monday - Glute/Legs Heavy", dayOfWeek: 1, exercises: d1 });
-        days.push({ dayName: "Wednesday - Glute/Upper Pump", dayOfWeek: 3, exercises: d3 });
-        days.push({ dayName: "Friday - Posterior Chain", dayOfWeek: 5, exercises: d5 });
-        days.push({ dayName: "Saturday - Unilateral & Pump", dayOfWeek: 6, exercises: d6 });
+        days.push({ dayName: "t:dayNames.mondayGluteLegHeavy", dayOfWeek: 1, exercises: d1 });
+        days.push({ dayName: "t:dayNames.wednesdayGluteUpperPump", dayOfWeek: 3, exercises: d3 });
+        days.push({ dayName: "t:dayNames.fridayPosteriorChain", dayOfWeek: 5, exercises: d5 });
+        days.push({ dayName: "t:dayNames.saturdayUnilateralPump", dayOfWeek: 6, exercises: d6 });
 
         weeks.push({ weekNumber: w, days });
     }

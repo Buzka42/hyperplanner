@@ -25,6 +25,7 @@ export const translations = {
             exercises: "Exercises",
             more: "more",
             required: "REQUIRED",
+            exportData: "Export Data Backup",
             optional: "Optional",
             primary: "Primary",
             yes: "Yes",
@@ -99,6 +100,27 @@ export const translations = {
 
             // Skeleton
             fullBodyWeek: "Full Body - Week {week}",
+        },
+
+        badges: {
+            certified_threat: { description: 'Complete "From Skeleton to Threat"' },
+            certified_boulder: { description: 'Complete "Pencilneck Eradication Protocol"' },
+            perfect_attendance: { description: 'Zero missed sessions ever' },
+            bench_psychopath: { description: 'Bench Domination + peaking + new PR' },
+            bench_jump_20kg: { description: '≥20 kg gain in one run' },
+            bench_jump_30kg: { description: '≥30 kg gain in one run' },
+            deload_denier: { description: 'Never triggered reactive deload' },
+            rear_delt_reaper: { description: 'Rear-delt rope pulls 4×30+ (Pencilneck)' },
+            "3d_delts": { description: 'Lying laterals 3×20 @ ≥20 kg' },
+            cannonball_delts: { description: 'Both Reaper and 3D Delts badges' },
+            first_blood: { description: 'First workout ever logged' },
+            "100_sessions": { description: '100 total sessions' },
+            immortal: { description: 'All programs completed at least once' },
+            final_boss: { description: '10+ badges earned' },
+            peachy_perfection: { description: 'Complete Peachy Glute Plan' },
+            squat_30kg: { description: '+30 kg on Squat' },
+            glute_gainz_queen: { description: '≥3 cm glute growth' },
+            kas_glute_bridge_100: { description: '100 kg+ for reps' }
         },
 
         // ========================================
@@ -301,61 +323,83 @@ export const translations = {
                 squatStrengthProgression: "Squat Strength Progression"
             },
 
-            // Pencilneck widgets
-            pencilneck: {
-                weekStatus: "Week {week} Status",
-                trapBarometer: "Trap Barometer",
-                pencil: "Pencil",
-                boulder: "Boulder",
-                percentGone: "{percent}% GONE",
-                restDayThought: "Rest Day Thought",
-                commandmentsTitle: "5 Commandments of Growth"
-            },
-
-            // Skeleton widgets
-            skeleton: {
-                metamorphosis: "Metamorphosis",
-                weeksLeft: "weeks left",
-                untilNoLongerSkeleton: "Until you are no longer a skeleton.",
-                deficitPushupPR: "Deficit Push-up PR",
-                perfectRepsSingleSet: "Perfect Reps (Single Set)",
-                restDayQuote: "Your muscles are knitting armor right now."
-            },
-
-            // 5 Commandments
-            commandments: {
-                title: "5 Commandments of Growth",
-                list: [
-                    "300–500 kcal surplus mandatory",
-                    "Control the eccentric, don't bounce out of the hole",
-                    "Always warm up with at least 1 set of 12 at 50% of your working weight",
-                    "Train hard, only 1–3 Reps In Reserve (RIR) every set",
-                    "Sleep 7+ hours"
-                ]
-            },
-
-            // Crossroads (Week 13)
-            crossroads: {
-                title: "CROSSROADS REACHED",
-                survived: "You have survived 12 weeks of hell. You must now take a mandatory 7-10 day deload.",
-                restTimer: "Mandatory Rest Timer",
-                daysLeft: "DAYS LEFT",
-                restAdvice: "Do not lift heavy. Sleep. Eat.",
-                proceedQuestion: "After your rest, how do you want to proceed?",
-                optionA: {
-                    title: "Option A: The Peak (Recommended)",
-                    description: "Enter a 3-week peaking block (Weeks 13-15) to acclimatize to heavy loads and explicitly peak for a new 1RM."
-                },
-                optionB: {
-                    title: "Option B: Test Now",
-                    description: "Skip the peaking block and test your 1RM immediately aka \"YOLO\"."
-                }
-            },
-
             // Week navigation
             mandatoryDeload: "MANDATORY DELOAD",
             peakingBlock: "PEAKING BLOCK",
             nExercises: "{count} Exercises"
+        },
+
+        // Pencilneck widgets
+        pencilneck: {
+            weekStatus: "Week {week} Status",
+            trapBarometer: "Trap Barometer",
+            pencil: "Pencil",
+            boulder: "Boulder",
+            percentGone: "{percent}% GONE",
+            restDayThought: "Rest Day Thought",
+            commandmentsTitle: "5 Commandments of Growth",
+            quotes: [
+                "Your former self is crying in the corner watching you eat 500 g of rice.",
+                "Somewhere a graphic designer just lost a client because your traps ate the logo.",
+                "Mirrors are filing complaints.",
+                "Your neck called – it’s not missing.",
+                "T-shirts have unionized against you.",
+                "Children now think you’re two people standing close.",
+                "Doorways whisper ‘not today’ when you approach.",
+                "Your shadow has stretch marks.",
+                "Old photos of you are now classified as missing person posters.",
+                "Airports charge you for two seats.",
+                "Your delts entered the chat.",
+                "The sun now orbits your shoulders.",
+                "Seatbelts go around you twice.",
+                "NASA just asked for your yoke measurements.",
+                "Your lats have their own postal code.",
+                "Your traps blocked someone’s Wi-Fi.",
+                "Hoodies file for asylum.",
+                "You no longer fit in selfies.",
+                "Your rear delts have rear delts.",
+                "Congratulations. You are now the final boss of planet Earth."
+            ]
+        },
+
+        // Skeleton widgets
+        skeleton: {
+            metamorphosis: "Metamorphosis",
+            weeksLeft: "weeks left",
+            untilNoLongerSkeleton: "Until you are no longer a skeleton.",
+            deficitPushupPR: "Deficit Push-up PR",
+            perfectRepsSingleSet: "Perfect Reps (Single Set)",
+            restDayQuote: "Your muscles are knitting armor right now."
+        },
+
+        // 5 Commandments
+        commandments: {
+            title: "5 Commandments of Growth",
+            list: [
+                "300–500 kcal surplus mandatory",
+                "Control the eccentric, don't bounce out of the hole",
+                "Always warm up with at least 1 set of 12 at 50% of your working weight",
+                "Train hard, only 1–3 Reps In Reserve (RIR) every set",
+                "Sleep 7+ hours"
+            ]
+        },
+
+        // Crossroads (Week 13)
+        crossroads: {
+            title: "CROSSROADS REACHED",
+            survived: "You have survived 12 weeks of hell. You must now take a mandatory 7-10 day deload.",
+            restTimer: "Mandatory Rest Timer",
+            daysLeft: "DAYS LEFT",
+            restAdvice: "Do not lift heavy. Sleep. Eat.",
+            proceedQuestion: "After your rest, how do you want to proceed?",
+            optionA: {
+                title: "Option A: The Peak (Recommended)",
+                description: "Enter a 3-week peaking block (Weeks 13-15) to acclimatize to heavy loads and explicitly peak for a new 1RM."
+            },
+            optionB: {
+                title: "Option B: Test Now",
+                description: "Skip the peaking block and test your 1RM immediately aka \"YOLO\"."
+            }
         },
 
         // ========================================
@@ -368,6 +412,9 @@ export const translations = {
             // Exercise Preferences
             exercisePreferences: "Exercise Preferences",
             exercisePreferencesDesc: "Customize your \"OR\" exercise selections. These changes will apply to future workouts.",
+            pushALegPrimary: "Push A: Leg Primary",
+            pushBChestIsolation: "Push B: Chest Isolation",
+            pushBLegSecondary: "Push B: Leg Secondary",
 
             // Program Modules
             programModules: "Program Modules",
@@ -644,6 +691,7 @@ export const translations = {
             exercises: "Ćwiczenia",
             more: "więcej",
             required: "WYMAGANE",
+            exportData: "Eksportuj kopię danych",
             optional: "Opcjonalne",
             primary: "Główne",
             yes: "Tak",
@@ -709,6 +757,27 @@ export const translations = {
 
             // Skeleton
             fullBodyWeek: "FBW - Tydzień {week}",
+        },
+
+        badges: {
+            certified_threat: { description: 'Ukończ "Ze Szkieletu w Zagrożenie"' },
+            certified_boulder: { description: 'Ukończ "Protokół Eliminacji Patyczaka"' },
+            perfect_attendance: { description: 'Zero opuszczonych sesji' },
+            bench_psychopath: { description: 'Dominacja Wyciskania + peaking + nowy PR' },
+            bench_jump_20kg: { description: 'Wzrost ≥20 kg w jednym cyklu' },
+            bench_jump_30kg: { description: 'Wzrost ≥30 kg w jednym cyklu' },
+            deload_denier: { description: 'Nigdy nie uruchomiono reaktywnego deloadu' },
+            rear_delt_reaper: { description: 'Przyciąganie linki na tył barków 4×30+ (Patyczak)' },
+            "3d_delts": { description: 'Wznosy bokiem leżąc 3×20 @ ≥20 kg' },
+            cannonball_delts: { description: 'Odznaki Reaper i 3D Delts zdobyte' },
+            first_blood: { description: 'Pierwszy zalogowany trening' },
+            "100_sessions": { description: '100 sesji łącznie' },
+            immortal: { description: 'Wszystkie programy ukończone przynajmniej raz' },
+            final_boss: { description: 'Zdobyto 10+ odznak' },
+            peachy_perfection: { description: 'Ukończ Peachy Glute Plan' },
+            squat_30kg: { description: '+30 kg w Przysiadzie' },
+            glute_gainz_queen: { description: 'Wzrost pośladków ≥3 cm' },
+            kas_glute_bridge_100: { description: '100 kg+ na powtórzenia' }
         },
 
         entry: {
@@ -889,56 +958,78 @@ export const translations = {
                 squatStrengthProgression: "Progresja siły w przysiadzie"
             },
 
-            pencilneck: {
-                weekStatus: "Status tyg. {week}",
-                trapBarometer: "Barometr kapturów",
-                pencil: "Patyczak",
-                boulder: "Głaz",
-                percentGone: "{percent}% ZNIKŁO",
-                restDayThought: "Myśl na dzień odpoczynku",
-                commandmentsTitle: "5 Przykazań Wzrostu"
-            },
-
-            skeleton: {
-                metamorphosis: "Metamorfoza",
-                weeksLeft: "tygodni zostało",
-                untilNoLongerSkeleton: "Do momentu, gdy przestaniesz być szkieletem.",
-                deficitPushupPR: "Rekord pompek z deficytu",
-                perfectRepsSingleSet: "Idealne powtórzenia (jedna seria)",
-                restDayQuote: "Twoje mięśnie właśnie budują zbroję."
-            },
-
-            commandments: {
-                title: "5 Przykazań Wzrostu",
-                list: [
-                    "Nadwyżka 300–500 kcal obowiązkowa",
-                    "Kontroluj fazę ekscentryczną, nie odbijaj z dołu",
-                    "Zawsze rozgrzewaj się min. 1 serią po 12 przy 50% ciężaru roboczego",
-                    "Trenuj ciężko, max 1–3 RIR (powtórzenia w zapasie) na serię",
-                    "Śpij 7+ godzin"
-                ]
-            },
-
-            crossroads: {
-                title: "ROZSTAJE",
-                survived: "Przetrwałeś 12 tygodni piekła. Teraz musisz zrobić obowiązkowy 7-10 dniowy deload.",
-                restTimer: "Obowiązkowy timer odpoczynku",
-                daysLeft: "DNI ZOSTAŁO",
-                restAdvice: "Nie podnoś ciężko. Śpij. Jedz.",
-                proceedQuestion: "Po odpoczynku, jak chcesz kontynuować?",
-                optionA: {
-                    title: "Opcja A: Szczyt (zalecane)",
-                    description: "Wejdź w 3-tygodniowy blok peakingowy (tyg. 13-15), by przyzwyczaić się do ciężkich obciążeń i wyraźnie szczytować na nowe 1RM."
-                },
-                optionB: {
-                    title: "Opcja B: Testuj teraz",
-                    description: "Pomiń blok peakingowy i testuj 1RM od razu, czyli \"YOLO\"."
-                }
-            },
-
             mandatoryDeload: "OBOWIĄZKOWY DELOAD",
             peakingBlock: "BLOK PEAKINGOWY",
             nExercises: "{count} Ćwiczeń"
+        },
+
+        pencilneck: {
+            weekStatus: "Status tyg. {week}",
+            trapBarometer: "Barometr kapturów",
+            pencil: "Patyczak",
+            boulder: "Głaz",
+            percentGone: "{percent}% ZNIKŁO",
+            restDayThought: "Myśl na dzień odpoczynku",
+            commandmentsTitle: "5 Przykazań Wzrostu",
+            quotes: [
+                "Twoje dawne ja płacze w kącie patrząc jak zjadasz 500g ryżu.",
+                "Gdzieś grafik stracił klienta bo twoje kaptury zjadły logo.",
+                "Lustra składają zażalenia.",
+                "Twoja szyja dzwoniła – nie zaginęła.",
+                "Koszulki założyły związek zawodowy przeciwko tobie.",
+                "Dzieci myślą że jesteś dwiema osobami stojącymi blisko siebie.",
+                "Drzwi szepczą 'nie dzisiaj' gdy podchodzisz.",
+                "Twój cień ma rozstępy.",
+                "Stare zdjęcia ciebie są teraz listami gończymi osób zaginionych.",
+                "Lotniska kasują cię za dwa miejsca.",
+                "Twoje barki dołączyły do czatu.",
+                "Słońce teraz orbituje wokół twoich barków.",
+                "Pasy bezpieczeństwa owijają cię dwa razy.",
+                "NASA właśnie pytała o wymiary twojego karku.",
+                "Twoje plecy mają własny kod pocztowy.",
+                "Twoje kaptury zablokowały komuś Wi-Fi.",
+                "Bluzy z kapturem ubiegają się o azyl.",
+                "Już nie mieścisz się w selfie.",
+                "Twoje tylne aktony mają własne tylne aktony.",
+                "Gratulacje. Jesteś teraz bossem planety Ziemia."
+            ]
+        },
+
+        skeleton: {
+            metamorphosis: "Metamorfoza",
+            weeksLeft: "tygodni zostało",
+            untilNoLongerSkeleton: "Do momentu, gdy przestaniesz być szkieletem.",
+            deficitPushupPR: "Rekord pompek z deficytu",
+            perfectRepsSingleSet: "Idealne powtórzenia (jedna seria)",
+            restDayQuote: "Twoje mięśnie właśnie budują zbroję."
+        },
+
+        commandments: {
+            title: "5 Przykazań Wzrostu",
+            list: [
+                "Nadwyżka 300–500 kcal obowiązkowa",
+                "Kontroluj fazę ekscentryczną, nie odbijaj z dołu",
+                "Zawsze rozgrzewaj się min. 1 serią po 12 przy 50% ciężaru roboczego",
+                "Trenuj ciężko, max 1–3 RIR (powtórzenia w zapasie) na serię",
+                "Śpij 7+ godzin"
+            ]
+        },
+
+        crossroads: {
+            title: "ROZSTAJE",
+            survived: "Przetrwałeś 12 tygodni piekła. Teraz musisz zrobić obowiązkowy 7-10 dniowy deload.",
+            restTimer: "Obowiązkowy timer odpoczynku",
+            daysLeft: "DNI ZOSTAŁO",
+            restAdvice: "Nie podnoś ciężko. Śpij. Jedz.",
+            proceedQuestion: "Po odpoczynku, jak chcesz kontynuować?",
+            optionA: {
+                title: "Opcja A: Szczyt (zalecane)",
+                description: "Wejdź w 3-tygodniowy blok peakingowy (tyg. 13-15), by przyzwyczaić się do ciężkich obciążeń i wyraźnie szczytować na nowe 1RM."
+            },
+            optionB: {
+                title: "Opcja B: Testuj teraz",
+                description: "Pomiń blok peakingowy i testuj 1RM od razu, czyli \"YOLO\"."
+            }
         },
 
         settings: {
@@ -947,6 +1038,9 @@ export const translations = {
 
             exercisePreferences: "Preferencje ćwiczeń",
             exercisePreferencesDesc: "Dostosuj swoje wybory ćwiczeń \"LUB\". Zmiany będą stosowane do przyszłych treningów.",
+            pushALegPrimary: "Push A: Główne nogi",
+            pushBChestIsolation: "Push B: Izolacja klatki",
+            pushBLegSecondary: "Push B: Dodatkowe nogi",
 
             programModules: "Moduły programu",
             programModulesDesc: "Włącz lub wyłącz opcjonalne komponenty 12-tygodniowego bloku Dominacji Wyciskania.",

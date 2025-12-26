@@ -15,7 +15,7 @@ const createSkeletonWeeks = (): ProgramWeek[] => {
         for (let d = 1; d <= 7; d++) {
             days.push({
                 id: `sk-w${w}-d${d}`,
-                dayName: "Rest & Recovery",
+                dayName: "t:dayNames.restAndRecovery",
                 dayOfWeek: d,
                 exercises: []
             });
@@ -35,7 +35,7 @@ const SKELETON_CONFIG: PlanConfig = {
     hooks: {
         preprocessDay: (day: WorkoutDay, user: UserProfile) => {
             const isTrainingDay = user.selectedDays?.includes(day.dayOfWeek);
-            if (!isTrainingDay) return { ...day, dayName: "Rest & Recovery", exercises: [] };
+            if (!isTrainingDay) return { ...day, dayName: "t:dayNames.restAndRecovery", exercises: [] };
 
             let w = 1;
             if (day.id) {
@@ -88,7 +88,7 @@ const SKELETON_CONFIG: PlanConfig = {
                 }
             ];
 
-            return { ...day, dayName: `Full Body - Week ${w}`, exercises };
+            return { ...day, dayName: `t:dayNames.fullBodyWeek|{"week":${w}}`, exercises };
         },
         calculateWeight: () => undefined,
         getExerciseAdvice: (exercise: Exercise, history: WorkoutLog[]) => {
