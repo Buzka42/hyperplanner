@@ -168,7 +168,7 @@ export const translations = {
             abWheelRollouts: "Start from knees, go as far as possible while hitting 5+ reps. Progress distance weekly.",
             frontSquats: "Full ROM, slow eccentric. Stay upright, elbows high.",
             stilettoSquats: "Ass to grass - touch calves with glutes. Elevated heels.",
-            inclineDBPress: "Upper chest focus. Slight elbow tuck, full stretch at bottom.",
+            inclineDBPress: "Flare elbows, arch back, go for full stretch. Think 'reaching' with your chest.",
             seatedCableRow: "Neutral or wide grip. Round shoulders forward for max stretch at bottom.",
             latPrayer: "Internal rotation at stretched position for maximum lat stretch.",
             wideGripBBRow: "Pinky fingers on the inner rings. Pull to lower chest.",
