@@ -53,44 +53,38 @@ const SKELETON_CONFIG: PlanConfig = {
                     id: `sk-w${w}-d${day.dayOfWeek}-e6`,
                     name: "Deficit Push-ups",
                     sets: 3,
-                    target: { type: "amrap", reps: "AMRAP" },
-                    notes: "Chest to floor every perfect rep. Drop to knees only when form breaks. If <5 perfect reps, immediately drop to knees until 5 total."
+                    target: { type: "amrap", reps: "AMRAP" }
                 },
                 {
                     id: `sk-w${w}-d${day.dayOfWeek}-e1`,
                     name: "Leg Extensions",
                     sets: getSets(3),
-                    target: { type: "range", reps: "12-20" },
-                    notes: "At least 120° angle between thighs and torso. Full stretch, hard quad squeeze."
+                    target: { type: "range", reps: "12-20" }
                 },
                 // 2. Renamed Deadlift
                 {
                     id: `sk-w${w}-d${day.dayOfWeek}-e2`,
                     name: "Supported Stiff Legged DB Deadlift",
                     sets: getSets(3),
-                    target: { type: "range", reps: "10-15" },
-                    notes: "Leaning over a smith machine or racked bar. Heels under or behind bar. 3–4 sec eccentric."
+                    target: { type: "range", reps: "10-15" }
                 },
                 {
                     id: `sk-w${w}-d${day.dayOfWeek}-e3`,
                     name: "Standing Calf Raises",
                     sets: getSets(3),
-                    target: { type: "range", reps: "15-20" },
-                    notes: "Full stretch at bottom, 2-sec pause at bottom. Step, hack machine, or leg-press."
+                    target: { type: "range", reps: "15-20" }
                 },
                 {
                     id: `sk-w${w}-d${day.dayOfWeek}-e4`,
                     name: "Inverted Rows",
                     sets: getSets(2),
-                    target: { type: "range", reps: "8-15" },
-                    notes: "Lower rings/bar or walk feet forward when you hit 15 reps."
+                    target: { type: "range", reps: "8-15" }
                 },
                 {
                     id: `sk-w${w}-d${day.dayOfWeek}-e5`,
                     name: "Overhand Mid-Grip Pulldown",
                     sets: getSets(2),
-                    target: { type: "range", reps: "10-15" },
-                    notes: "Slight lean, pull to upper chest, squeeze blades."
+                    target: { type: "range", reps: "10-15" }
                 }
             ];
 

@@ -687,6 +687,7 @@ export const WorkoutView: React.FC = () => {
                     const displayTips: string[] = [];
 
                     const tipMap: Record<string, keyof typeof translations.en.tips | undefined> = {
+                        // --- BENCH DOMINATION ---
                         "Paused Bench Press": "pausedBench",
                         "Wide-Grip Bench Press": "wideGripBench",
                         "Spoto Press": "spotoPress",
@@ -701,16 +702,43 @@ export const WorkoutView: React.FC = () => {
                         "Single-Leg Machine Hip Thrust": (weekNum >= 11 && weekNum <= 12) ? "singleLegHipThrustWeek11" : "singleLegHipThrust",
                         "Nordic Curls": "nordicCurls",
                         "Glute-Ham Raise": "gluteHamRaise",
-                        "Hack Squat Calf Raises": programData.id === 'peachy-glute-plan' ? undefined : "hackSquatCalves",
+                        "Hack Squat Calf Raises": programData.id === 'peachy-glute-plan' ? "legPressCalves" : "hackSquatCalves",
                         "Around-the-Worlds": "aroundTheWorlds",
                         "Power Hanging Leg Raises": "powerHangingLegRaises",
                         "High-Elbow Facepulls": "highElbowFacepulls",
+                        "Y-Raises": programData.id === 'peachy-glute-plan' ? "yRaisesPeachy" : "yRaises",
+                        "Behind-the-Neck Press": "behindNeckPress",
+                        "Hip Adduction": "hipAdduction",
+
+                        // --- PEACHY PROGRAM ---
+                        "Sumo Deadlift": "sumoDeadlift",
+                        "Front-Foot Elevated Bulgarian Split Squat": "bulgarianSplitSquat",
+                        "Squats": "squats",
+                        "Seated Hamstring Curl": "seatedHamstringCurl",
+                        "Kas Glute Bridge": "kasGluteBridge",
+                        "45-Degree Hyperextension": "hyperextension45",
+                        "Standing Military Press": "militaryPress",
+                        "Incline DB Bench Press (45°)": "inclineDBBench",
+                        "Inverted Rows": programData.id === 'skeleton-to-threat' ? "invertedRowsSkeleton" : "invertedRows",
+                        "Side-Lying Rear Delt Fly": "sideLyingRearDeltFly",
+                        "DB Romanian Deadlift": "dbRDL",
+                        "Paused Squat": "pausedSquat",
+                        "Glute Ham Raise (eccentric only)": "ghr",
+                        "Leg Press Calf Raises": "legPressCalves",
+                        "Deficit Reverse Lunge": "deficitReverseLunge",
+                        "Single Leg Machine Hip Thrust": "singleLegHipThrust",
+                        "Deficit Push-ups": programData.id === 'skeleton-to-threat' ? "deficitPushupsSkeleton" : "deficitPushups",
+                        "Assisted Pull-ups": "assistedPullups",
+                        "Lying Cable Lat Raises": "lyingCableLatRaises",
+                        "Glute Pump Finisher": "glutePumpFinisher",
+
+                        // --- PENCILNECK PROGRAM ---
                         "Flat Barbell Bench Press": "flatBarbellBenchPress",
                         "Cable Flyes (mid height)": "cableFlyes",
                         "Seated DB Shoulder Press": "seatedDBShoulderPress",
                         "Overhead Tricep Extensions": "overheadTricepExtensions",
                         "Hack Squat": "hackSquat",
-                        "Leg Extensions": "legExtensions",
+                        "Leg Extensions": programData.id === 'skeleton-to-threat' ? "legExtensionsSkeleton" : "legExtensions",
                         "Hammer Pulldown (Underhand)": "hammerPulldown",
                         "Preacher EZ-Bar Curls": "preacherEZBarCurls",
                         "Hanging Leg Raises": "hangingLegRaises",
@@ -726,7 +754,24 @@ export const WorkoutView: React.FC = () => {
                         "Stiff-Legged Deadlift": "stiffLeggedDeadlift",
                         "Ab Wheel Rollouts": "abWheelRollouts",
                         "Front Squats": "frontSquats",
-                        "Stiletto Squats": "stilettoSquats"
+                        "Stiletto Squats": "stilettoSquats",
+                        "Incline DB Press (45°)": "inclineDBPress",
+                        "Seated Cable Row": "seatedCableRow",
+                        "Lat Prayer": "latPrayer",
+                        "Wide Grip BB Row": "wideGripBBRow",
+                        "Side-Lying Rear Delt Flyes": "sideLyingRearDeltFly",
+                        "Romanian Deadlift": "romanianDeadlift",
+                        "Standing Barbell Military Press": "standingMilitaryPress",
+                        "Leaning Single Arm DB Lateral Raises": "leaningLateralRaises",
+                        "Walking Lunges (DB)": "walkingLungesDB",
+                        "Hack Calf Raises": "hackCalfRaises",
+                        "Seated Leg Curls": "seatedLegCurls",
+                        "Pec Deck": "pecDeck",
+
+                        // --- SKELETON PROGRAM ---
+                        "Supported Stiff Legged DB Deadlift": "supportedSLDL",
+                        "Standing Calf Raises": "standingCalfRaises",
+                        "Overhand Mid-Grip Pulldown": "overhandPulldown"
                     };
 
                     const tipKey = tipMap[ex.name];

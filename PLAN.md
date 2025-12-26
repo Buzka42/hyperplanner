@@ -2,7 +2,36 @@
 
 ## Change Log
 
+### 2025-12-26 - Tip System Consolidation
+
+**Major Refactoring: Centralized Tips in translations.ts**
+
+Previously tips were stored in two places:
+1. Hardcoded `notes` field on exercises in data files
+2. `tips` object in translations.ts
+
+This caused duplicate tips to display. Now ALL tips are stored in translations.ts only.
+
+**Changes Made:**
+- Removed all hardcoded `notes` from pencilneck.ts exercises
+- Removed all hardcoded `notes` from peachy.ts exercises  
+- Removed all hardcoded `notes` from skeleton.ts exercises
+- Expanded tipMap in WorkoutView.tsx to cover ALL exercises (85+ mappings)
+- Consolidated and refined all tips in translations.ts
+- Organized tips by program (Bench Dom, Peachy, Pencilneck, Skeleton)
+- Added new tips: behindNeckPress, seatedLegCurls, pecDeck, and more
+
+**Files Modified:**
+- `src/contexts/translations.ts` - Comprehensive tip collection
+- `src/pages/WorkoutView.tsx` - Expanded tipMap with program-specific logic
+- `src/data/pencilneck.ts` - Removed notes properties
+- `src/data/peachy.ts` - Removed notes properties
+- `src/data/skeleton.ts` - Removed notes properties
+
+**Note:** Some exercises in program.ts (Bench Domination) retain dynamic notes that vary by week/phase. These are intentionally kept as they represent context-specific instructions.
+
 ### 2025-12-26 - Pencilneck Program Updates
+
 
 **Exercise Changes:**
 1. **Lying Lateral Raises** → **Leaning Single Arm DB Lateral Raises**
