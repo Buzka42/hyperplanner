@@ -663,7 +663,9 @@ export const WorkoutView: React.FC = () => {
                     <ArrowLeft className="h-5 w-5" />
                 </Button>
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">{dayData.dayName}</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">
+                        {dayData.dayName.startsWith('t:') ? t(dayData.dayName.substring(2)) : dayData.dayName}
+                    </h2>
                     <p className="text-muted-foreground">{t('common.week')} {weekNum} {isExistingLog && <span className="text-green-500 font-bold ml-2">({t('workout.completed')})</span>}</p>
                 </div>
             </div>

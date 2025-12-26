@@ -33,7 +33,7 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
             weekNumber: w,
             days: [
                 {
-                    dayName: "Push A (Chest/Delts/Tri/Quads)",
+                    dayName: "t:dayNames.pushAChestDeltsTri",
                     dayOfWeek: 1,
                     exercises: [
                         { id: `pn-w${w}-d1-e1`, name: "Flat Barbell Bench Press", sets: 3, target: { type: "range", reps: "8-12" } },
@@ -48,7 +48,7 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                     ]
                 },
                 {
-                    dayName: "Pull A (Back/Rear Delt/Bi/Hams)",
+                    dayName: "t:dayNames.pullABackDeltBi",
                     dayOfWeek: 2,
                     exercises: [
                         { id: `pn-w${w}-d2-e1`, name: "Hammer Pulldown (Underhand)", sets: 3, target: { type: "range", reps: "8-12" } },
@@ -63,12 +63,12 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                     ]
                 },
                 {
-                    dayName: "Rest & Recovery",
+                    dayName: "t:dayNames.restAndRecovery",
                     dayOfWeek: 3,
                     exercises: []
                 },
                 {
-                    dayName: "Push B (Chest/Delts/Tri/Quads)",
+                    dayName: "t:dayNames.pushBChestDeltsTri",
                     dayOfWeek: 4,
                     exercises: [
                         { id: `pn-w${w}-d4-e1`, name: "Incline Barbell Bench Press (45°)", sets: 3, target: { type: "range", reps: "8-12" } },
@@ -83,7 +83,7 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                     ]
                 },
                 {
-                    dayName: "Pull B (Back/Rear Delt/Bi/Hams)",
+                    dayName: "t:dayNames.pullBBackDeltBi",
                     dayOfWeek: 5,
                     exercises: [
                         { id: `pn-w${w}-d5-e1`, name: "Lat Pulldown (Neutral)", sets: 3, target: { type: "range", reps: "10-14" } },
@@ -97,8 +97,8 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                         { id: `pn-w${w}-d5-e9`, name: "Ab Wheel Rollouts", sets: 3, target: { type: "failure", reps: "Failure" } }
                     ]
                 },
-                { dayName: "Rest", dayOfWeek: 6, exercises: [] },
-                { dayName: "Rest", dayOfWeek: 7, exercises: [] }
+                { dayName: "t:dayNames.rest", dayOfWeek: 6, exercises: [] },
+                { dayName: "t:dayNames.rest", dayOfWeek: 7, exercises: [] }
             ]
         });
     }

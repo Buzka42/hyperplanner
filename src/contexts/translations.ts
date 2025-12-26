@@ -61,6 +61,47 @@ export const translations = {
         },
 
         // ========================================
+        // DAY NAMES - For all programs
+        // ========================================
+        dayNames: {
+            // Common
+            rest: "Rest",
+            restAndRecovery: "Rest & Recovery",
+
+            // Bench Domination
+            mondayHeavyStrength: "Monday - Heavy Strength",
+            mondayPrimer: "Monday - Primer",
+            mondayPeaking: "Monday - Peaking",
+            tuesdayLegs: "Tuesday - Legs",
+            tuesdayLegsMaintenance: "Tuesday - Legs (Maintenance)",
+            wednesdayVolumeHypertrophy: "Wednesday - Volume Hypertrophy",
+            wednesdayLightSpeed: "Wednesday - Light/Speed",
+            thursdayPowerSpeed: "Thursday - Power / Speed",
+            thursdayRest: "Thursday - Rest",
+            fridayLegs: "Friday - Legs",
+            saturdayAMRAPTest: "Saturday - AMRAP Test",
+            saturdayPeakingAMRAP: "Saturday - Peaking AMRAP",
+            saturdayJudgmentDay: "Saturday - JUDGMENT DAY",
+            sundayRest: "Sunday - Rest",
+
+            // Pencilneck
+            pushAChestDeltsTri: "Push A (Chest/Delts/Tri/Quads)",
+            pullABackDeltBi: "Pull A (Back/Rear Delt/Bi/Hams)",
+            pushBChestDeltsTri: "Push B (Chest/Delts/Tri/Quads)",
+            pullBBackDeltBi: "Pull B (Back/Rear Delt/Bi/Hams)",
+
+            // Peachy
+            mondayGluteLegHeavy: "Monday - Glute/Legs Heavy",
+            wednesdayGluteUpperPump: "Wednesday - Glute/Upper Pump",
+            thursdayPausedSquat: "Thursday - Paused Squat",
+            fridayPosteriorChain: "Friday - Posterior Chain",
+            saturdayUnilateralPump: "Saturday - Unilateral & Pump",
+
+            // Skeleton
+            fullBodyWeek: "Full Body - Week {week}",
+        },
+
+        // ========================================
         // ENTRY PAGE
         // ========================================
         entry: {
@@ -630,6 +671,44 @@ export const translations = {
             markAllCompleted: "Zaznacz wszystko jako ukończone",
             exercisesCount: "{count} Ćwiczeń",
             andMore: "+ {count} więcej",
+        },
+
+        dayNames: {
+            // Common
+            rest: "Odpoczynek",
+            restAndRecovery: "Odpoczynek i regeneracja",
+
+            // Bench Domination
+            mondayHeavyStrength: "Poniedziałek - Ciężka siła",
+            mondayPrimer: "Poniedziałek - Rozruch",
+            mondayPeaking: "Poniedziałek - Peaking",
+            tuesdayLegs: "Wtorek - Nogi",
+            tuesdayLegsMaintenance: "Wtorek - Nogi (Podtrzymanie)",
+            wednesdayVolumeHypertrophy: "Środa - Objętość/Hipertrofia",
+            wednesdayLightSpeed: "Środa - Lekko/Szybko",
+            thursdayPowerSpeed: "Czwartek - Moc/Szybkość",
+            thursdayRest: "Czwartek - Odpoczynek",
+            fridayLegs: "Piątek - Nogi",
+            saturdayAMRAPTest: "Sobota - Test AMRAP",
+            saturdayPeakingAMRAP: "Sobota - AMRAP Peakingowy",
+            saturdayJudgmentDay: "Sobota - DZIEŃ SĄDU",
+            sundayRest: "Niedziela - Odpoczynek",
+
+            // Pencilneck
+            pushAChestDeltsTri: "Pchanie A (Klatka/Barki/Triceps/Czworogłowe)",
+            pullABackDeltBi: "Ciągnięcie A (Plecy/Tylne barki/Biceps/Dwugłowe ud)",
+            pushBChestDeltsTri: "Pchanie B (Klatka/Barki/Triceps/Czworogłowe)",
+            pullBBackDeltBi: "Ciągnięcie B (Plecy/Tylne barki/Biceps/Dwugłowe ud)",
+
+            // Peachy
+            mondayGluteLegHeavy: "Poniedziałek - Pośladki/Nogi Ciężko",
+            wednesdayGluteUpperPump: "Środa - Pośladki/Góra Pampa",
+            thursdayPausedSquat: "Czwartek - Przysiad z pauzą",
+            fridayPosteriorChain: "Piątek - Łańcuch tylny",
+            saturdayUnilateralPump: "Sobota - Jednostronnie i pampa",
+
+            // Skeleton
+            fullBodyWeek: "FBW - Tydzień {week}",
         },
 
         entry: {

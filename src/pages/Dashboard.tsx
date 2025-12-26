@@ -752,7 +752,9 @@ export const Dashboard: React.FC = () => {
                         }
 
                         const isDone = completedSet.has(`${viewWeek}-${day.dayOfWeek}`);
-                        const displayDayName = day.dayName;
+                        const displayDayName = day.dayName.startsWith('t:')
+                            ? t(day.dayName.substring(2))
+                            : day.dayName;
                         const subTitle = t('workout.exercisesCount', { count: day.exercises.length });
 
                         return (
