@@ -5,6 +5,7 @@ import { useUser } from '../contexts/UserContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { ArrowRight, Loader2 } from 'lucide-react';
+import { LanguageSwitcher } from '../components/LanguageSwitcher';
 
 export const Entry: React.FC = () => {
     const [codeword, setCodeword] = useState('');
@@ -48,6 +49,10 @@ export const Entry: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative">
+            {/* Language Switcher - Top Right */}
+            <div className="absolute top-4 right-4">
+                <LanguageSwitcher size="md" />
+            </div>
             <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                 <div className="text-center space-y-2 flex flex-col items-center">
                     <img src="/logo.png" alt="Hyper Planner Logo" className="w-24 h-24 object-contain mb-4 opacity-90 grayscale contrast-125" />

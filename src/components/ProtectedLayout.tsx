@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { LayoutDashboard, Dumbbell, LogOut, Menu, X, Settings } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { BADGES } from '../data/badges';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 export const ProtectedLayout: React.FC = () => {
     const { user, logout, notification, clearNotification } = useUser();
@@ -202,6 +203,9 @@ export const ProtectedLayout: React.FC = () => {
                         <Button variant="outline" className="w-full" onClick={logout}>
                             <LogOut className="mr-2 h-4 w-4" /> Logout
                         </Button>
+                        <div className="mt-4 flex justify-center">
+                            <LanguageSwitcher size="sm" />
+                        </div>
                     </div>
                 </div>
             </div>

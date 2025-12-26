@@ -318,6 +318,48 @@ tObject('onboarding.programs.benchDomination')  // => { name, description, featu
 - Usage examples in each translation section
 - Helper types for type-safe key access
 
+### Language Switcher Component
+
+**Status:** Implemented and functional (EN/PL)
+
+**Location:**
+- Entry page: Top-right corner (absolute positioned)
+- Protected pages: Sidebar bottom, below Logout button
+
+**Implementation:**
+```tsx
+import { LanguageSwitcher } from './components/LanguageSwitcher';
+
+// Usage
+<LanguageSwitcher size="md" />  // Entry page
+<LanguageSwitcher size="sm" />  // Sidebar
+```
+
+**Features:**
+- Flag-based UI (EN/PL flags from `/public`)
+- Active language highlighted with primary border + shadow
+- Persists selection to localStorage (`language` key)
+- Reactive state via React Context (LanguageProvider)
+- Smooth hover animations (scale 1.1x)
+- English fallback for missing Polish translations
+
+**Files:**
+- `src/components/LanguageSwitcher.tsx` - Flag button component
+- `src/contexts/useTranslation.tsx` - Context provider with t(), tArray(), tObject()
+- `src/App.tsx` - Wrapped with LanguageProvider
+- `src/pages/Entry.tsx` - Switcher in top-right
+- `src/components/ProtectedLayout.tsx` - Switcher in sidebar
+- `public/eng.png` - English flag icon
+- `public/pl.png` - Polish flag icon
+
+**Current Status:**
+- ✅ Infrastructure complete
+- ✅ English translations (~400+ strings)
+- ⏸️ Polish translations pending
+- ✅ Switcher UI visible on all pages
+- ✅ State persists across sessions
+
+
 ---
 
 ## 💡 Tip System
