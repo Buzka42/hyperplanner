@@ -189,6 +189,10 @@ export const Settings: React.FC = () => {
                                     <RadioGroupItem value="Narrow-Stance Leg Press" id="narrow" />
                                     <Label htmlFor="narrow">Narrow-Stance Leg Press</Label>
                                 </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="Stiletto Squats" id="stiletto" />
+                                    <Label htmlFor="stiletto">Stiletto Squats</Label>
+                                </div>
                             </RadioGroup>
                         </div>
                     </CardContent>

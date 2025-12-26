@@ -124,10 +124,24 @@ export const PENCILNECK_CONFIG: PlanConfig = {
             // 1. Swaps
             exercises = exercises.map(ex => {
                 let name = ex.name;
-                // Simple preferences check (e.g. "Hack Squat" -> "Leg Press")
-                const key = ex.name.toLowerCase().replace(/ /g, '-');
-                const pref = user.exercisePreferences?.[key] || user.exercisePreferences?.[ex.name];
-                if (pref) name = pref;
+
+                // Map exercise names to preference keys
+                const exerciseToPreferenceKey: Record<string, string> = {
+                    "Hack Squat": "push-a-leg-primary",
+                    "High-Foot Leg Press": "push-a-leg-primary",
+                    "Pec Deck": "push-b-fly",
+                    "Pec-Dec": "push-b-fly",
+                    "Low-to-High Cable Flyes": "push-b-fly",
+                    "Front Squats": "push-b-leg-secondary",
+                    "Narrow-Stance Leg Press": "push-b-leg-secondary",
+                    "Stiletto Squats": "push-b-leg-secondary"
+                };
+
+                const prefKey = exerciseToPreferenceKey[ex.name];
+                if (prefKey && user.exercisePreferences?.[prefKey]) {
+                    name = user.exercisePreferences[prefKey];
+                }
+
                 return { ...ex, name };
             });
 
