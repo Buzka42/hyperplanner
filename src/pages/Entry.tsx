@@ -4,13 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../components/ui/dialog';
 import { ArrowRight, Loader2 } from 'lucide-react';
 
 export const Entry: React.FC = () => {
     const [codeword, setCodeword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [showProgramModal, setShowProgramModal] = useState(false);
     const { checkCodeword } = useUser();
     const navigate = useNavigate();
 
@@ -31,7 +29,8 @@ export const Entry: React.FC = () => {
             } else if (result === 'admin') {
                 navigate('/admin');
             } else {
-                setShowProgramModal(true);
+                // New user - go straight to plan selection
+                navigate('/onboarding', { state: { codeword } });
             }
         } catch (err: any) {
             console.error("Entry Error:", err);
@@ -45,10 +44,6 @@ export const Entry: React.FC = () => {
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleStartProgram = () => {
-        navigate('/onboarding', { state: { codeword } });
     };
 
     return (
@@ -85,34 +80,6 @@ export const Entry: React.FC = () => {
                     </Button>
                 </form>
             </div>
-
-            <Dialog open={showProgramModal} onOpenChange={setShowProgramModal}>
-                <DialogContent className="sm:max-w-md border-zinc-800 bg-zinc-950">
-                    <DialogHeader>
-                        <DialogTitle className="text-2xl font-bold">New Recruit Found</DialogTitle>
-                        <DialogDescription>
-                            Codeword <span className="font-mono text-white font-bold">"{codeword}"</span> is not registered.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className="py-4">
-                        <p className="text-muted-foreground mb-4">
-                            You are about to begin a new training protocol.
-                        </p>
-                        <ul className="space-y-2 mb-4">
-                            <li className="flex items-center text-sm"><ArrowRight className="mr-2 h-4 w-4" /> 12-Week Bench Domination</li>
-                            <li className="flex items-center text-sm"><ArrowRight className="mr-2 h-4 w-4" /> 8-Week Pencilneck Eradication</li>
-                        </ul>
-                        <p className="text-xs text-zinc-500">
-                            You will select your specific program in the next step.
-                        </p>
-                    </div>
-                    <DialogFooter>
-                        <Button onClick={handleStartProgram} className="w-full text-lg font-bold bg-white text-black hover:bg-zinc-200">
-                            START PROGRAM
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
-        </div >
+        </div>
     );
 };

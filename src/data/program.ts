@@ -625,7 +625,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
 
                         ex.warmups = {
                             sets: warmupSets,
-                            note: "Elite warm-up – minimal fatigue, maximal potentiation. Pause every rep."
+                            note: "Minimal fatigue, maximal potentiation. Pause every rep."
                         };
                     }
                 }
@@ -714,7 +714,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
 
                             ex.warmups = {
                                 sets: warmupSets,
-                                note: "Elite warm-up – minimal fatigue, maximal potentiation. Pause every rep."
+                                note: "Minimal fatigue, maximal potentiation. Pause every rep."
                             };
                         }
                     }

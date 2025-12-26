@@ -11,7 +11,7 @@ const COMPOUND_EXERCISES = new Set([
     "Close-Grip Bench Press",
     "Hammer Pulldown (Underhand)",
     "Seated Cable Row",
-    "Wide-Grip Seated Row",
+    "Lat Prayer",
     "Single-Arm Hammer Strength Row",
     "Single-Arm DB Row",
     "Lat Pulldown (Neutral)",
@@ -19,7 +19,9 @@ const COMPOUND_EXERCISES = new Set([
     "Stiff-Legged Deadlift",
     "Hack Squat",
     "Front Squats",
-    "Walking Lunges (DB)"
+    "Stiletto Squats",
+    "Walking Lunges (DB)",
+    "Wide Grip BB Row"
 ]);
 
 // 8 Weeks Duration
@@ -38,7 +40,7 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                         { id: `pn-w${w}-d1-e2`, name: "Incline DB Press (45°)", sets: 3, target: { type: "range", reps: "10-14" }, notes: "Upper chest focus. Slight elbow tuck, full stretch." },
                         { id: `pn-w${w}-d1-e3`, name: "Cable Flyes (mid height)", sets: 3, target: { type: "range", reps: "12-15" } },
                         { id: `pn-w${w}-d1-e4`, name: "Seated DB Shoulder Press", sets: 3, target: { type: "range", reps: "8-12" } },
-                        { id: `pn-w${w}-d1-e5`, name: "Lying Lateral Raises", sets: 3, target: { type: "range", reps: "15-20" }, notes: "Pull ‘away’ from body, not up." },
+                        { id: `pn-w${w}-d1-e5`, name: "Leaning Single Arm DB Lateral Raises", sets: 3, target: { type: "range", reps: "15-20" }, notes: "Pull ‘away’ from body, not up." },
                         { id: `pn-w${w}-d1-e6`, name: "Overhead Tricep Extensions", sets: 3, target: { type: "range", reps: "12-15" } },
                         { id: `pn-w${w}-d1-e7`, name: "Hack Squat", sets: 3, target: { type: "range", reps: "10-15" }, alternates: ["Leg Press"] },
                         { id: `pn-w${w}-d1-e8`, name: "Leg Extensions", sets: 3, target: { type: "range", reps: "15-20" } },
@@ -50,10 +52,10 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                     dayOfWeek: 2,
                     exercises: [
                         { id: `pn-w${w}-d2-e1`, name: "Hammer Pulldown (Underhand)", sets: 3, target: { type: "range", reps: "8-12" } },
-                        { id: `pn-w${w}-d2-e2`, name: "Seated Cable Row", sets: 3, target: { type: "range", reps: "10-14" }, notes: "Neutral or Wide grip" },
-                        { id: `pn-w${w}-d2-e3`, name: "Wide-Grip Seated Row", sets: 3, target: { type: "range", reps: "12-15" }, notes: "Mag grip preferably" },
-                        { id: `pn-w${w}-d2-e4`, name: "Face Pulls", sets: 3, target: { type: "range", reps: "15-25" } },
-                        { id: `pn-w${w}-d2-e5`, name: "Single-Arm DB Rear Delt Fly", sets: 3, target: { type: "range", reps: "15-20" }, notes: "Chest-supported" },
+                        { id: `pn-w${w}-d2-e2`, name: "Seated Cable Row", sets: 3, target: { type: "range", reps: "10-14" }, notes: "Neutral or Wide grip. Round shoulders and go for maximum stretch at the bottom." },
+                        { id: `pn-w${w}-d2-e3`, name: "Lat Prayer", sets: 3, target: { type: "range", reps: "12-15" }, notes: "Internal Rotation at the stretched position for maximum lat stretch" },
+                        { id: `pn-w${w}-d2-e4`, name: "Wide Grip BB Row", sets: 3, target: { type: "range", reps: "15-25" }, notes: "Pinky fingers on the inner rings" },
+                        { id: `pn-w${w}-d2-e5`, name: "Side-Lying Rear Delt Flyes", sets: 3, target: { type: "range", reps: "15-20" }, notes: "Pinky leads, think 'pouring water' at top." },
                         { id: `pn-w${w}-d2-e6`, name: "Preacher EZ-Bar Curls", sets: 3, target: { type: "range", reps: "10-15" } },
                         { id: `pn-w${w}-d2-e7`, name: "Romanian Deadlift", sets: 3, target: { type: "range", reps: "8-12" }, notes: "Heavy. Straps OK. 1–2 sec glute squeeze at top." },
                         { id: `pn-w${w}-d2-e8`, name: "Lying Leg Curls", sets: 3, target: { type: "range", reps: "12-16" } },
@@ -71,13 +73,13 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                     exercises: [
                         { id: `pn-w${w}-d4-e1`, name: "Incline Barbell Bench Press (45°)", sets: 3, target: { type: "range", reps: "8-12" } },
                         { id: `pn-w${w}-d4-e2`, name: "Flat DB Press", sets: 3, target: { type: "range", reps: "10-14" } },
-                        { id: `pn-w${w}-d4-e3`, name: "Pec-Dec", sets: 3, target: { type: "range", reps: "12-15" }, alternates: ["Cable Flyes"] },
+                        { id: `pn-w${w}-d4-e3`, name: "Pec Deck", sets: 3, target: { type: "range", reps: "12-15" }, notes: "Full stretch at the bottom" },
                         { id: `pn-w${w}-d4-e4`, name: "Standing Barbell Military Press", sets: 3, target: { type: "range", reps: "8-12" }, notes: "Strict, no leg drive. Proud chest, squeeze delts." },
-                        { id: `pn-w${w}-d4-e5`, name: "Lying Lateral Raises", sets: 3, target: { type: "range", reps: "15-20" } },
+                        { id: `pn-w${w}-d4-e5`, name: "Leaning Single Arm DB Lateral Raises", sets: 3, target: { type: "range", reps: "15-20" }, notes: "Lean against a wall at 15-30°, rep ends when DB is pointing straight down." },
                         { id: `pn-w${w}-d4-e6`, name: "Close-Grip Bench Press", sets: 3, target: { type: "range", reps: "10-14" } },
-                        { id: `pn-w${w}-d4-e7`, name: "Front Squats", sets: 3, target: { type: "range", reps: "10-15" } },
-                        { id: `pn-w${w}-d4-e8`, name: "Walking Lunges (DB)", sets: 3, target: { type: "range", reps: "12-16" }, notes: "Steps per leg. Long strides, do not push off back leg" },
-                        { id: `pn-w${w}-d4-e9`, name: "Hack Calf Raises", sets: 3, target: { type: "range", reps: "15-20" }, notes: "5-sec stretch at bottom" }
+                        { id: `pn-w${w}-d4-e7`, name: "Front Squats", sets: 3, target: { type: "range", reps: "10-15" }, notes: "Full ROM, slow down the eccentric", alternates: ["Stiletto Squats"] },
+                        { id: `pn-w${w}-d4-e8`, name: "Walking Lunges (DB)", sets: 3, target: { type: "range", reps: "12-16" }, notes: "Long strides, do not push off back leg" },
+                        { id: `pn-w${w}-d4-e9`, name: "Hack Calf Raises", sets: 3, target: { type: "range", reps: "15-20" }, notes: "1 second pause at the bottom, slow eccentric." }
                     ]
                 },
                 {
@@ -91,7 +93,7 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                         { id: `pn-w${w}-d5-e5`, name: "Machine Rear Delt Fly", sets: 3, target: { type: "range", reps: "15-20" } },
                         { id: `pn-w${w}-d5-e6`, name: "Incline DB Curls", sets: 3, target: { type: "range", reps: "12-15" } },
                         { id: `pn-w${w}-d5-e7`, name: "Stiff-Legged Deadlift", sets: 3, target: { type: "range", reps: "10-14" } },
-                        { id: `pn-w${w}-d5-e8`, name: "Seated Leg Curls", sets: 3, target: { type: "range", reps: "12-16" }, notes: "Lean torso forward... Control the eccentric." },
+                        { id: `pn-w${w}-d5-e8`, name: "Seated Leg Curls", sets: 3, target: { type: "range", reps: "12-16" }, notes: "Lean torso forward. Control the eccentric." },
                         { id: `pn-w${w}-d5-e9`, name: "Ab Wheel Rollouts", sets: 3, target: { type: "failure", reps: "Failure" } }
                     ]
                 },
@@ -195,7 +197,7 @@ export const PENCILNECK_CONFIG: PlanConfig = {
             if (weekNum === 8 && dayNum === 4) {
                 exercises.push({
                     id: `pn-w8-d4-bonus1`, // Will get cycle tag below
-                    name: "Lying Lateral Raises (FINAL EXAM)",
+                    name: "Leaning Single Arm DB Lateral Raises (FINAL EXAM)",
                     sets: 1,
                     target: { type: "failure", reps: "Failure" },
                     notes: "Failure + Drop set to oblivion"
@@ -338,7 +340,7 @@ export const PENCILNECK_CONFIG: PlanConfig = {
                                 const upper = parseInt(rangeMatch[2]);
                                 const allHit = completedSets.every((s: any) => parseInt(s.reps || "0") >= upper);
                                 if (allHit) {
-                                    return "Upper rep range hit! Increase weight by 2.5kg.";
+                                    return "Upper rep range hit! Increase weight!";
                                 }
                             }
                         }

@@ -704,7 +704,29 @@ export const WorkoutView: React.FC = () => {
                         "Hack Squat Calf Raises": programData.id === 'peachy-glute-plan' ? undefined : "hackSquatCalves",
                         "Around-the-Worlds": "aroundTheWorlds",
                         "Power Hanging Leg Raises": "powerHangingLegRaises",
-                        "High-Elbow Facepulls": "highElbowFacepulls"
+                        "High-Elbow Facepulls": "highElbowFacepulls",
+                        "Flat Barbell Bench Press": "flatBarbellBenchPress",
+                        "Cable Flyes (mid height)": "cableFlyes",
+                        "Seated DB Shoulder Press": "seatedDBShoulderPress",
+                        "Overhead Tricep Extensions": "overheadTricepExtensions",
+                        "Hack Squat": "hackSquat",
+                        "Leg Extensions": "legExtensions",
+                        "Hammer Pulldown (Underhand)": "hammerPulldown",
+                        "Preacher EZ-Bar Curls": "preacherEZBarCurls",
+                        "Hanging Leg Raises": "hangingLegRaises",
+                        "Lying Leg Curls": "lyingLegCurls",
+                        "Incline Barbell Bench Press (45°)": "inclineBarbellBenchPress",
+                        "Flat DB Press": "flatDBPress",
+                        "Close-Grip Bench Press": "closeGripBenchPress",
+                        "Lat Pulldown (Neutral)": "latPulldownNeutral",
+                        "Single-Arm Hammer Strength Row": "singleArmHammerStrengthRow",
+                        "Single-Arm DB Row": "singleArmDBRow",
+                        "Machine Rear Delt Fly": "machineRearDeltFly",
+                        "Incline DB Curls": "inclineDBCurls",
+                        "Stiff-Legged Deadlift": "stiffLeggedDeadlift",
+                        "Ab Wheel Rollouts": "abWheelRollouts",
+                        "Front Squats": "frontSquats",
+                        "Stiletto Squats": "stilettoSquats"
                     };
 
                     const tipKey = tipMap[ex.name];

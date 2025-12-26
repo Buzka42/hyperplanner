@@ -18,8 +18,7 @@ const app = initializeApp(firebaseConfig);
 export const db = initializeFirestore(app, {
   cacheSizeBytes: CACHE_SIZE_UNLIMITED,
   // Force server-side operations - no local persistence
-  experimentalForceLongPolling: true,
-  experimentalAutoDetectLongPolling: true
+  experimentalForceLongPolling: true
 });
 
 export const auth = getAuth(app);

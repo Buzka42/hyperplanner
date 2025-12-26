@@ -507,7 +507,7 @@ export const Dashboard: React.FC = () => {
                                     "Control the eccentric, don't bounce out of the hole",
                                     "Always warm up with at least 1 set of 12 at 50% of your working weight",
                                     "Train hard, only 1–3 Reps In Reserve (RIR) every set",
-                                    "Sleep 8+ hours"
+                                    "Sleep 7+ hours"
                                 ].map((p, i) => (
                                     <li key={i} className="flex items-start gap-2 text-sm md:text-base">
                                         <span className="font-bold text-primary">{i + 1}.</span>

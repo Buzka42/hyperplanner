@@ -120,6 +120,39 @@ To maintain and expand the app, it is crucial to understand what is generic and 
 *   **Cycle 2 Logic:** Checks `user.pencilneckStatus.cycle` to apply heavier weights and mandatory intensity techniques.
 *   **Suggested Weights:** `getExerciseAdvice` calculates recommended loads based on historical W3-4 performance.
 *   **Intensity Techniques:** Uses `intensityTechnique` field for weeks 7-8 (cycle 1) and all weeks (cycle 2+) on compounds.
+*   **Exercise Swaps:** Front Squats can be swapped for Stiletto Squats via alternates array
+*   **Comprehensive Tips:** 22+ exercise-specific tips covering form, tempo, and technique cues
+*   **Recent Updates (Dec 2025):**
+    *   Replaced Lying Lateral Raises with Leaning Single Arm DB Lateral Raises (wall-assisted technique)
+    *   Updated Pec-Dec to Pec Deck (standardized naming, removed alternates)
+    *   Changed Wide-Grip Seated Row to Lat Prayer (internal rotation focus)
+    *   Replaced Face Pulls with Wide Grip BB Row (compound movement)
+    *   Updated Single-Arm DB Rear Delt Fly to Side-Lying Rear Delt Flyes
+    *   Added Stiletto Squats as Front Squat alternative
+    *   All new exercises added to COMPOUND_EXERCISES set for proper phase logic
+
+### Pencilneck Exercise Swaps
+
+| Original Exercise | Alternative | Sets | Reps | Notes |
+|-------------------|-------------|------|------|-------|
+| Front Squats | Stiletto Squats | 3 | 10-15 | Full ROM vs. ATG focus |
+
+### Pencilneck Tip System
+
+The Pencilneck program features extensive exercise guidance through the tip system:
+
+**Implementation:**
+- Tips defined in `src/contexts/translations.ts`
+- Mapped to exercises in `WorkoutView.tsx` tipMap
+- Displayed as yellow alert boxes with 💡 icon
+- Multiple tips can stack (exercise notes + global tips)
+
+**Coverage:**
+- All major compound movements (bench press, rows, squats)
+- Isolation exercises (curls, extensions, raises)
+- Technique-specific cues (tempo, ROM, positioning)
+- Equipment alternatives and variations
+
 
 ### `src/data/skeleton.ts`
 *   **Forced Progression:** `getExerciseAdvice` checks previous logs to trigger specific messages (e.g., "Try to beat X reps" for push-ups).
