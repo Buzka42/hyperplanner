@@ -10,7 +10,6 @@ import { CheckCircle2, ArrowLeft, Save, AlertCircle } from 'lucide-react';
 import { doc, updateDoc, arrayUnion, increment, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { cn } from '../lib/utils';
-import { translations } from '../contexts/translations';
 import type { LiftingStats, WorkoutLog } from '../types';
 
 interface SetLog {
@@ -654,7 +653,7 @@ export const WorkoutView: React.FC = () => {
     };
 
     if (!weekData || !dayData) {
-        return <div className="p-8 text-center text-muted-foreground">Rest Day or Invalid Date</div>;
+        return <div className="p-8 text-center text-muted-foreground">{t('workout.restDayOrInvalid')}</div>;
     }
 
     return (
@@ -665,7 +664,7 @@ export const WorkoutView: React.FC = () => {
                 </Button>
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">{dayData.dayName}</h2>
-                    <p className="text-muted-foreground">Week {weekNum} {isExistingLog && <span className="text-green-500 font-bold ml-2">(Completed)</span>}</p>
+                    <p className="text-muted-foreground">{t('common.week')} {weekNum} {isExistingLog && <span className="text-green-500 font-bold ml-2">({t('workout.completed')})</span>}</p>
                 </div>
             </div>
 
@@ -688,7 +687,7 @@ export const WorkoutView: React.FC = () => {
                     // Tip Logic
                     const displayTips: string[] = [];
 
-                    const tipMap: Record<string, keyof typeof translations.en.tips | undefined> = {
+                    const tipMap: Record<string, string | undefined> = {
                         // --- BENCH DOMINATION ---
                         "Paused Bench Press": "pausedBench",
                         "Wide-Grip Bench Press": "wideGripBench",
@@ -777,25 +776,31 @@ export const WorkoutView: React.FC = () => {
                     };
 
                     const tipKey = tipMap[ex.name];
-                    if (tipKey && translations.en.tips[tipKey]) {
-                        displayTips.push(translations.en.tips[tipKey]);
+                    if (tipKey) {
+                        const tipText = t(`tips.${tipKey}`);
+                        if (tipText && tipText !== `tips.${tipKey}`) { // Check if translation exists
+                            displayTips.push(tipText);
+                        }
                     }
 
                     // Add Nordic/Glute-Ham swap tip for both original and alternative
                     if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {
-                        displayTips.push(translations.en.tips.nordicSwapTip);
+                        displayTips.push(t('tips.nordicSwapTip'));
                     }
 
                     if (ex.name.includes("Pull-ups") && programData.id === 'bench-domination') {
-                        let pKey: keyof typeof translations.en.tips | null = null;
+                        let pKey: string | null = null;
                         if (weekNum <= 3) pKey = "pullupWeeks1to3";
                         else if (weekNum <= 6) pKey = "pullupWeeks4to6";
                         else if (weekNum <= 9) pKey = "pullupWeeks7to9";
                         else if (weekNum === 10) pKey = "pullupWeek10";
                         else if (weekNum >= 11) pKey = "pullupWeeks11to12";
 
-                        if (pKey && translations.en.tips[pKey]) {
-                            displayTips.push(translations.en.tips[pKey]);
+                        if (pKey) {
+                            const pullupTip = t(`tips.${pKey}`);
+                            if (pullupTip && pullupTip !== `tips.${pKey}`) {
+                                displayTips.push(pullupTip);
+                            }
                         }
                     }
 
@@ -816,7 +821,7 @@ export const WorkoutView: React.FC = () => {
                                                 <CardTitle className="text-lg leading-tight">{ex.name}</CardTitle>
                                                 {prevStat && prevStat.weight !== "-" && (
                                                     <div className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded w-fit">
-                                                        last: {prevStat.weight}kg x {prevStat.reps}
+                                                        {t('workout.last')}: {prevStat.weight}{t('common.kg')} x {prevStat.reps}
                                                     </div>
                                                 )}
                                             </div>

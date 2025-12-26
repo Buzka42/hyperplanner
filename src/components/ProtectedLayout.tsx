@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
+import { useLanguage } from '../contexts/useTranslation';
 import { Button } from './ui/button';
 import { LayoutDashboard, Dumbbell, LogOut, Menu, X, Settings } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -10,6 +11,7 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 
 export const ProtectedLayout: React.FC = () => {
     const { user, logout, notification, clearNotification } = useUser();
+    const { t } = useLanguage();
     const location = useLocation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [expandedBadgeId, setExpandedBadgeId] = useState<string | null>(null);
@@ -22,9 +24,9 @@ export const ProtectedLayout: React.FC = () => {
     const lastOpened = localStorage.getItem("lastOpenedPath") || "/app/workout/1/1";
 
     const navItems = [
-        { label: 'Dashboard', path: '/app/dashboard', icon: LayoutDashboard },
-        { label: 'Current Workout', path: lastOpened, icon: Dumbbell },
-        { label: 'Settings', path: '/app/settings', icon: Settings },
+        { label: t('sidebar.dashboard'), path: '/app/dashboard', icon: LayoutDashboard },
+        { label: t('sidebar.currentWorkout'), path: lastOpened, icon: Dumbbell },
+        { label: t('sidebar.settings'), path: '/app/settings', icon: Settings },
     ];
 
     const isPencilneck = user?.programId === 'pencilneck-eradication';
@@ -153,7 +155,7 @@ export const ProtectedLayout: React.FC = () => {
 
                     <div className="border-t pt-4">
                         <div className="px-2 mb-4">
-                            <h4 className="text-[10px] uppercase font-bold text-muted-foreground mb-2 text-center">Trophy Case</h4>
+                            <h4 className="text-[10px] uppercase font-bold text-muted-foreground mb-2 text-center">{t('sidebar.trophyCase')}</h4>
                             <div className="grid grid-cols-4 gap-2 justify-items-center">
                                 {BADGES.map((badge) => {
                                     const isEarned = user.badges?.includes(badge.id);
@@ -197,11 +199,11 @@ export const ProtectedLayout: React.FC = () => {
                         </div>
                         <div className="border-t pt-2"></div>
                         <div className="px-4 py-2 mb-4 bg-muted/50 rounded text-sm">
-                            <p className="text-muted-foreground">Logged in as:</p>
+                            <p className="text-muted-foreground">{t('sidebar.loggedInAs')}</p>
                             <p className="font-mono text-primary font-bold truncate">{user.codeword}</p>
                         </div>
                         <Button variant="outline" className="w-full" onClick={logout}>
-                            <LogOut className="mr-2 h-4 w-4" /> Logout
+                            <LogOut className="mr-2 h-4 w-4" /> {t('sidebar.logout')}
                         </Button>
                         <div className="mt-4 flex justify-center">
                             <LanguageSwitcher size="sm" />
