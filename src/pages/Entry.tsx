@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
+import { useLanguage } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { ArrowRight, Loader2 } from 'lucide-react';
@@ -11,6 +12,7 @@ export const Entry: React.FC = () => {
     const [codeword, setCodeword] = useState('');
     const [loading, setLoading] = useState(false);
     const { checkCodeword } = useUser();
+    const { t } = useLanguage();
     const navigate = useNavigate();
 
     const [error, setError] = useState<string | null>(null);
@@ -57,11 +59,11 @@ export const Entry: React.FC = () => {
                 <div className="text-center space-y-2 flex flex-col items-center">
                     <img src="/logo.png" alt="Hyper Planner Logo" className="w-24 h-24 object-contain mb-4 opacity-90 grayscale contrast-125" />
                     <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
-                        HYPER
-                        <span className="text-zinc-800 block text-6xl mt-1 tracking-tighter">PLANNER</span>
+                        {t('entry.title')}
+                        <span className="text-zinc-800 block text-6xl mt-1 tracking-tighter">{t('entry.subtitle')}</span>
                     </h1>
                     <p className="text-muted-foreground mt-4 text-lg">
-                        Enter your codeword to access your program.
+                        {t('entry.description')}
                     </p>
                 </div>
 
@@ -69,7 +71,7 @@ export const Entry: React.FC = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-4 mt-8">
                     <Input
-                        placeholder="Enter Codeword..."
+                        placeholder={t('entry.placeholder')}
                         value={codeword}
                         onChange={(e) => setCodeword(e.target.value)}
                         className="h-14 text-lg px-6 bg-zinc-900/50 border-zinc-800 focus-visible:ring-zinc-600 transition-all font-mono tracking-wider text-center"
@@ -78,10 +80,10 @@ export const Entry: React.FC = () => {
                     <Button
                         type="submit"
                         className="w-full h-14 text-lg font-bold shadow-lg shadow-black/50 hover:bg-white hover:text-black transition-all bg-zinc-100 text-black border border-transparent"
-                        disabled={loading}
+                        disabled={loading || !codeword.trim()}
                     >
-                        {loading ? <Loader2 className="animate-spin mr-2" /> : 'ENTER'}
-                        {!loading && <ArrowRight className="ml-2 h-5 w-5" />}
+                        {loading ? <Loader2 className="mr-2 animate-spin" /> : <ArrowRight className="mr-2" />}
+                        {loading ? t('common.loading') : t('entry.button')}
                     </Button>
                 </form>
             </div>

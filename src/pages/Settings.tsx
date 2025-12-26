@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
+import { useLanguage } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
 import { Label } from '../components/ui/label';
@@ -16,6 +17,7 @@ import type { BenchDominationModules, LiftingStats } from '../types';
 
 export const Settings: React.FC = () => {
     const { user, resetProgram } = useUser();
+    const { t } = useLanguage();
     const navigate = useNavigate();
     const [preferences, setPreferences] = useState<Record<string, string>>({});
     const [benchModules, setBenchModules] = useState<BenchDominationModules>({
@@ -130,16 +132,16 @@ export const Settings: React.FC = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500 pb-20">
             <div>
-                <h2 className="text-3xl font-bold tracking-tight">Settings</h2>
-                <p className="text-muted-foreground">Manage your program preferences.</p>
+                <h2 className="text-3xl font-bold tracking-tight">{t('settings.title')}</h2>
+                <p className="text-muted-foreground">{t('settings.description')}</p>
             </div>
 
             {isPencilneck && (
                 <Card className="max-w-2xl">
                     <CardHeader>
-                        <CardTitle>Exercise Preferences</CardTitle>
+                        <CardTitle>{t('settings.exercisePreferences')}</CardTitle>
                         <CardDescription>
-                            Customize your "OR" exercise selections. These changes will apply to future workouts.
+                            {t('settings.exercisePreferencesDesc')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">

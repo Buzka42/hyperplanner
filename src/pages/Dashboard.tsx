@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
+import { useLanguage } from '../contexts/useTranslation';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -13,6 +14,7 @@ import { db } from '../firebase';
 
 export const Dashboard: React.FC = () => {
     const { user, activePlanConfig, updateUserProfile } = useUser();
+    const { t } = useLanguage();
     const location = useLocation();
     const navigate = useNavigate();
     const [completedSet, setCompletedSet] = useState<Set<string>>(new Set());
@@ -150,7 +152,7 @@ export const Dashboard: React.FC = () => {
 
     // Use squat history for Peachy, bench history for others
     const strengthHistory = isPeachy ? (user.squatHistory || []) : (user.benchHistory || []);
-    const strengthChartTitle = isPeachy ? "Squat Strength Progression" : "Strength Progression";
+    const strengthChartTitle = isPeachy ? t('dashboard.cards.squatStrengthProgression') : t('dashboard.cards.strengthProgression');
     const initialStat = isPeachy ? user.stats.squat : user.stats.pausedBench;
 
     const data = strengthHistory?.map((entry: any) => ({
@@ -175,10 +177,10 @@ export const Dashboard: React.FC = () => {
         if (viewWeek > 12) {
             if (viewWeek === 13) {
                 weekTitleColor = "text-blue-500";
-                weekBadge = <div className="flex items-center text-blue-500 text-sm font-bold ml-2"><ShieldCheck className="w-4 h-4 mr-1" /> MANDATORY DELOAD</div>;
+                weekBadge = <div className="flex items-center text-blue-500 text-sm font-bold ml-2"><ShieldCheck className="w-4 h-4 mr-1" /> {t('dashboard.mandatoryDeload')}</div>;
             } else if (viewWeek >= 14) {
                 weekTitleColor = "text-red-600";
-                weekBadge = <div className="flex items-center text-red-600 text-sm font-bold ml-2"><Skull className="w-4 h-4 mr-1" /> PEAKING BLOCK</div>;
+                weekBadge = <div className="flex items-center text-red-600 text-sm font-bold ml-2"><Skull className="w-4 h-4 mr-1" /> {t('dashboard.peakingBlock')}</div>;
             }
         }
     }
@@ -224,10 +226,10 @@ export const Dashboard: React.FC = () => {
                             {completionType === 'skeleton' ? "💀 🎉 💀" : "🎉 🗿 🎉"}
                         </div>
                         <h1 className="text-4xl md:text-6xl font-black text-center mb-4 text-primary uppercase tracking-tighter">
-                            {completionType === 'skeleton' ? "You Are Now A Threat" : "ERADICATED"}
+                            {completionType === 'skeleton' ? t('dashboard.completion.skeletonTitle') : t('dashboard.completion.pencilneckTitle')}
                         </h1>
                         <p className="text-xl text-center text-muted-foreground mb-12">
-                            {completionType === 'skeleton' ? "The Skeleton is dead. Long live the machine." : "Pencilneck Status: REVOKED. Shoulders: 3D."}
+                            {completionType === 'skeleton' ? t('dashboard.completion.skeletonSubtitle') : t('dashboard.completion.pencilneckSubtitle')}
                         </p>
                         <div className="bg-yellow-500/20 border border-yellow-500 p-6 rounded-lg mb-8">
                             {badgeImage ? (
@@ -235,7 +237,7 @@ export const Dashboard: React.FC = () => {
                             ) : null}
                             <Trophy className={`w-12 h-12 text-yellow-500 mx-auto mb-2 ${badgeImage ? 'hidden' : ''}`} />
                             <div className="text-center font-bold text-yellow-500 text-lg">
-                                {completionType === 'skeleton' ? "CERTIFIED THREAT" : "CERTIFIED BOULDER"}
+                                {completionType === 'skeleton' ? t('dashboard.completion.certifiedThreat') : t('dashboard.completion.certifiedBoulder')}
                             </div>
                         </div>
 
@@ -256,7 +258,7 @@ export const Dashboard: React.FC = () => {
                                     setCompletionType(null);
                                 }
                             }} size="lg" className="font-bold text-xl w-full py-8">
-                                CLAIM VICTORY
+                                {t('dashboard.completion.claimVictory')}
                             </Button>
 
                             {completionType === 'pencilneck' && (user.pencilneckStatus?.cycle || 1) === 1 && (
@@ -287,7 +289,7 @@ export const Dashboard: React.FC = () => {
                                     size="lg"
                                     className="font-bold text-xl w-full py-8 border-2 border-red-500 bg-red-900/50 hover:bg-red-800"
                                 >
-                                    START CYCLE 2 (HEAVIER)
+                                    {t('dashboard.completion.startCycle2')}
                                 </Button>
                             )}
                         </div>
@@ -297,19 +299,13 @@ export const Dashboard: React.FC = () => {
 
             {showNextSteps && (
                 <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 text-white p-4 animate-in fade-in duration-500">
-                    <h1 className="text-4xl font-black text-center mb-6 text-primary">NEXT LEVEL UNLOCKED</h1>
+                    <h1 className="text-4xl font-black text-center mb-6 text-primary">{t('dashboard.nextSteps.title')}</h1>
                     <p className="text-xl text-center text-muted-foreground mb-8 max-w-lg">
-                        {completionType === 'skeleton' ? (
-                            <>You have completed "From Skeleton to Threat". You are now ready for advanced programming.
-                                Consult with your personal trainer for personalized next steps.</>
-                        ) : (
-                            <>You have completed 2 cycles of "Pencilneck Eradication Protocol". Your shoulders are now certified boulders.
-                                Consult with your personal trainer for personalized next steps.</>
-                        )}
+                        {completionType === 'skeleton' ? t('dashboard.nextSteps.skeletonDescription') : t('dashboard.nextSteps.pencilneckDescription')}
                     </p>
                     <a href="https://placeholder-contact.com" target="_blank" rel="noreferrer">
                         <Button size="lg" className="font-bold text-xl px-12 py-8 bg-blue-600 hover:bg-blue-700 text-white">
-                            CONTACT TRAINER
+                            {t('dashboard.nextSteps.contactTrainer')}
                         </Button>
                     </a>
                     <button
@@ -330,14 +326,14 @@ export const Dashboard: React.FC = () => {
                         {viewWeek <= 4 ? (
                             <div className="flex items-center gap-4">
                                 <h2 className="text-4xl font-black tracking-tight">
-                                    Feeling <span className="shimmer-active-froggy">Froggy</span>
+                                    {t('dashboard.feelingFroggy')}
                                 </h2>
                                 <img src="/frog.png" alt="Froggy" className="w-24 h-24 object-contain shimmer-img" />
                             </div>
                         ) : (
                             <div className="flex flex-col gap-2">
                                 <h2 className="text-4xl font-black tracking-tight">
-                                    Feeling <span className="shimmer-active-peachy">Peachy</span> 🍑
+                                    {t('dashboard.feelingPeachy')} 🍑
                                 </h2>
                             </div>
                         )}
@@ -349,24 +345,24 @@ export const Dashboard: React.FC = () => {
                                 <Dumbbell className="h-8 w-8 text-red-500" />
                                 <div>
                                     <div className="font-black text-2xl text-red-500 uppercase tracking-tight">
-                                        Cycle {user.pencilneckStatus.cycle}: Heavier. Meaner. Shoulders incoming.
+                                        {t('dashboard.cycleTitle', { cycle: user.pencilneckStatus.cycle })}
                                     </div>
                                     <div className="text-sm text-red-300">
-                                        Mandatory intensity techniques engaged. Weights increased. Good luck.
+                                        {t('dashboard.cycleDescription')}
                                     </div>
                                 </div>
                             </div>
                         )}
                         <h2 className="text-3xl font-bold tracking-tight">
-                            {activePlanConfig.id === 'pencilneck-eradication' ? "Eradicate the" :
-                                activePlanConfig.id === 'skeleton-to-threat' ? "Become a" :
-                                    "Time to"} <span className="shimmer-text">
-                                {activePlanConfig.id === 'pencilneck-eradication' ? "Weakness" :
-                                    activePlanConfig.id === 'skeleton-to-threat' ? "Threat" :
-                                        "Dominate"}
+                            {activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.eradicateThe') :
+                                activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.becomeA') :
+                                    t('dashboard.timeTo')} <span className="shimmer-text">
+                                {activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.weakness') :
+                                    activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.threat') :
+                                        t('dashboard.dominate')}
                             </span>
                         </h2>
-                        <p className="text-muted-foreground">Welcome back, {user?.codeword}.</p>
+                        <p className="text-muted-foreground">{t('dashboard.welcomeBack')}, {user?.codeword}.</p>
                     </>
                 )}
             </div>
@@ -375,12 +371,12 @@ export const Dashboard: React.FC = () => {
                 {activeWidgets.includes('1rm') && (
                     <Card className="col-span-2 bg-primary/5 border-primary/20">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Est. 1RM (From AMRAP)</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t('dashboard.cards.est1rm')}</CardTitle>
                             <Trophy className="h-4 w-4 text-primary" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{display1RM} kg</div>
-                            <p className="text-xs text-muted-foreground">Calculated max</p>
+                            <div className="text-2xl font-bold">{display1RM} {t('common.kg')}</div>
+                            <p className="text-xs text-muted-foreground">{t('dashboard.cards.calculatedMax')}</p>
                         </CardContent>
                     </Card>
                 )}
@@ -389,14 +385,14 @@ export const Dashboard: React.FC = () => {
                     <Card className="col-span-3 border-primary/20 bg-primary/5">
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm font-medium flex items-center justify-between">
-                                <span>Weekly Glute Tracker</span>
+                                <span>{t('dashboard.cards.weeklyGluteTracker')}</span>
                                 <Activity className="w-4 h-4 text-primary" />
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="flex gap-2 items-end">
                                 <div className="grid gap-1.5 flex-1">
-                                    <label className="text-xs font-medium text-muted-foreground">Current Circumference (cm)</label>
+                                    <label className="text-xs font-medium text-muted-foreground">{t('dashboard.cards.currentCircumference')}</label>
                                     <Input
                                         type="number"
                                         placeholder="e.g. 102"
@@ -415,12 +411,12 @@ export const Dashboard: React.FC = () => {
                                         setGluteInput("");
                                     }}
                                 >
-                                    Log
+                                    {t('common.log')}
                                 </Button>
                             </div>
                             {user.gluteMeasurements && user.gluteMeasurements.length > 0 && (
                                 <div className="mt-4">
-                                    <div className="text-xs text-muted-foreground mb-1">Latest Growth Trend</div>
+                                    <div className="text-xs text-muted-foreground mb-1">{t('dashboard.cards.latestGrowthTrend')}</div>
                                     <div className="h-[60px] w-full">
                                         <ResponsiveContainer width="100%" height="100%">
                                             <LineChart data={user.gluteMeasurements.slice(-5)}>
@@ -438,12 +434,12 @@ export const Dashboard: React.FC = () => {
                 {activeWidgets.includes('program_status') && (
                     <Card className="col-span-2">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Program Status</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t('dashboard.cards.programStatus')}</CardTitle>
                             <Calendar className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">Week {viewWeek}</div>
-                            <p className="text-xs text-muted-foreground">Viewing Schedule</p>
+                            <div className="text-2xl font-bold">{t('common.week')} {viewWeek}</div>
+                            <p className="text-xs text-muted-foreground">{t('dashboard.cards.viewingSchedule')}</p>
                         </CardContent>
                     </Card>
                 )}
@@ -451,7 +447,7 @@ export const Dashboard: React.FC = () => {
                 {activePlanConfig.id === 'bench-domination' && user.benchDominationModules && (
                     <Card className="col-span-2 md:col-span-3 border-primary/10">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Active Modules</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t('dashboard.cards.activeModules')}</CardTitle>
                             <Activity className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>

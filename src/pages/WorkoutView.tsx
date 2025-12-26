@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
+import { useLanguage } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -21,6 +22,7 @@ interface SetLog {
 export const WorkoutView: React.FC = () => {
     const { week, day } = useParams();
     const { user, activePlanConfig } = useUser();
+    const { t } = useLanguage();
     const navigate = useNavigate();
 
     // Parse params
@@ -843,18 +845,18 @@ export const WorkoutView: React.FC = () => {
                                         <div className="flex flex-col gap-1 mt-2">
                                             {isGiantSet ? (
                                                 <div className="text-sm text-muted-foreground">
-                                                    {ex.sets} giant sets × {ex.giantSetConfig?.steps.map((s, i) =>
+                                                    {ex.sets} {t('workout.giantSets')} × {ex.giantSetConfig?.steps.map((s, i) =>
                                                         `${s.targetReps} ${s.name}${i < (ex.giantSetConfig?.steps.length || 0) - 1 ? ", " : ""}`
                                                     )}
                                                 </div>
                                             ) : ex.sets > 0 ? (
                                                 <p className="text-sm text-muted-foreground">
-                                                    {ex.sets} sets × {ex.target.reps === "Failure" ? "Failure" : `${ex.target.reps} reps`}
+                                                    {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? "Failure" : `${ex.target.reps} ${t('workout.reps')}`}
                                                 </p>
                                             ) : null}
                                             <div className="flex justify-between items-center">
                                                 {targetWeight && targetWeight !== "0" && !isGiantSet ? (
-                                                    <span className="text-sm font-mono text-primary font-bold">Target: {targetWeight}kg</span>
+                                                    <span className="text-sm font-mono text-primary font-bold">{t('workout.target')} {targetWeight}{t('common.kg')}</span>
                                                 ) : <span></span>}
 
                                                 {advice && (
@@ -1032,7 +1034,7 @@ export const WorkoutView: React.FC = () => {
                                 <div className="p-3 bg-secondary/5 border-t border-border space-y-3">
                                     <div className="relative">
                                         <Input
-                                            placeholder="Notes..."
+                                            placeholder={t('workout.notesPlaceholder')}
                                             value={exerciseNotes[ex.id] || ""}
                                             onChange={(e) => handleNotesChange(ex.id, e.target.value)}
                                             className="text-sm pr-8 bg-background"
@@ -1044,7 +1046,7 @@ export const WorkoutView: React.FC = () => {
                                         className="w-full text-xs h-8"
                                         onClick={() => handleMarkAll(ex.id, ex.target.reps, targetWeight)}
                                     >
-                                        <CheckCircle2 className="w-3 h-3 mr-2" /> Mark All Completed
+                                        <CheckCircle2 className="w-3 h-3 mr-2" /> {t('workout.completed')}
                                     </Button>
                                 </div>
                             </CardContent>
@@ -1059,7 +1061,7 @@ export const WorkoutView: React.FC = () => {
                     onClick={handleSaveSession}
                     disabled={submitting}
                 >
-                    {submitting ? "SAVING..." : "COMPLETE WORKOUT"} <Save className="ml-2 h-5 w-5" />
+                    {submitting ? t('workout.saving') : t('workout.completeWorkout')} <Save className="ml-2 h-5 w-5" />
                 </Button>
             </div>
         </div>

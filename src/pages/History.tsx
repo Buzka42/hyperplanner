@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../contexts/UserContext';
+import { useLanguage } from '../contexts/useTranslation';
 import { collection, query, orderBy, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
@@ -10,6 +11,7 @@ import { format } from 'date-fns';
 
 export const History: React.FC = () => {
     const { user } = useUser();
+    const { t } = useLanguage();
     const navigate = useNavigate();
     const [workouts, setWorkouts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -43,16 +45,16 @@ export const History: React.FC = () => {
                 <Button variant="ghost" size="icon" onClick={() => navigate('/app/dashboard')} className="-ml-2">
                     <ArrowLeft className="h-5 w-5" />
                 </Button>
-                <h2 className="text-3xl font-bold tracking-tight">Workout History</h2>
+                <h2 className="text-3xl font-bold tracking-tight">{t('history.title')}</h2>
             </div>
 
             {loading ? (
-                <div className="text-center py-12 text-muted-foreground">Loading logs...</div>
+                <div className="text-center py-12 text-muted-foreground">{t('history.loading')}</div>
             ) : workouts.length === 0 ? (
                 <div className="text-center py-12 border rounded-lg bg-secondary/10">
                     <Dumbbell className="h-10 w-10 mx-auto text-muted-foreground mb-4 opacity-50" />
-                    <h3 className="text-lg font-medium">No workouts logged yet</h3>
-                    <p className="text-muted-foreground">Get in there and crush some steel.</p>
+                    <h3 className="text-lg font-medium">{t('history.noWorkouts')}</h3>
+                    <p className="text-muted-foreground">{t('history.noWorkoutsDesc')}</p>
                 </div>
             ) : (
                 <div className="grid gap-4">
@@ -61,7 +63,7 @@ export const History: React.FC = () => {
                             <CardHeader className="pb-2">
                                 <div className="flex justify-between">
                                     <div className="space-y-1">
-                                        <CardTitle className="text-lg">{workout.dayName || `Week ${workout.week} Day ${workout.day}`}</CardTitle>
+                                        <CardTitle className="text-lg">{workout.dayName || t('history.weekDay', { week: workout.week, day: workout.day })}</CardTitle>
                                         <div className="flex items-center text-xs text-muted-foreground gap-3">
                                             <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> {format(new Date(workout.date), 'MMM d, yyyy')}</span>
                                             <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {format(new Date(workout.date), 'h:mm a')}</span>
