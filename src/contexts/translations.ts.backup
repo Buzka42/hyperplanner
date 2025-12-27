@@ -651,7 +651,7 @@ export const translations = {
             leaningLateralRaises: "Lean against wall at 15-30°. Rep ends when DB points straight down.",
             walkingLungesDB: "Long strides, do not push off back leg.",
             hackCalfRaises: "1 second pause at bottom, slow eccentric.",
-            seatedLegCurls: "Pochyl tułów do przodu. Control the eccentric.",
+            seatedLegCurls: "Lean torso forward. Control the eccentric.",
             pecDeck: "Full stretch at the bottom. Squeeze at contraction.",
 
             // --- SKELETON PROGRAM TIPS ---
@@ -702,24 +702,23 @@ export const translations = {
 
         sidebar: {
             dashboard: "Pulpit",
-            createAccount: "Utwórz konto",
             currentWorkout: "Aktualny trening",
             settings: "Ustawienia",
-            trophyCase: "Sala chwały",
+            trophyCase: "Gablota trofeów",
             loggedInAs: "Zalogowany jako:",
             logout: "Wyloguj",
         },
 
         workout: {
-            restDayOrInvalid: "Dzień wolny lub błędna data",
+            restDayOrInvalid: "Dzień odpoczynku lub nieprawidłowa data",
             completed: "Ukończono",
             last: "ost.",
             target: "Cel:",
             giantSets: "serie gigantyczne",
-            notesPlaceholder: "Notatki treningowe...",
+            notesPlaceholder: "Notatki z treningu (opcjonalne)...",
             saving: "ZAPISYWANIE...",
             completeWorkout: "Zakończ trening",
-            markAllCompleted: "Oznacz wszystko jako ukończone",
+            markAllCompleted: "Zaznacz wszystko jako ukończone",
             exercisesCount: "{count} Ćwiczeń",
             andMore: "+ {count} więcej",
             sets: "serie",
@@ -732,38 +731,36 @@ export const translations = {
             restAndRecovery: "Odpoczynek i regeneracja",
 
             // Bench Domination
-            mondayHeavyStrength: "Poniedziałek – Siła",
-            mondayPrimer: "Poniedziałek – Primer",
+            mondayHeavyStrength: "Poniedziałek - Ciężka siła",
+            mondayPrimer: "Poniedziałek - Rozruch",
             mondayPeaking: "Poniedziałek - Peaking",
             tuesdayLegs: "Wtorek - Nogi",
-            tuesdayLegsMaintenance: "Wtorek – Nogi (maintenance)",
-            wednesdayVolumeHypertrophy: "Środa – Hipertrofia",
-            wednesdayLightSpeed: "Środa – Prędkość",
-            thursdayPowerSpeed: "Czwartek – Moc / Prędkość",
+            tuesdayLegsMaintenance: "Wtorek - Nogi (Podtrzymanie)",
+            wednesdayVolumeHypertrophy: "Środa - Objętość/Hipertrofia",
+            wednesdayLightSpeed: "Środa - Lekko/Szybko",
+            thursdayPowerSpeed: "Czwartek - Moc/Szybkość",
             thursdayRest: "Czwartek - Odpoczynek",
             fridayLegs: "Piątek - Nogi",
             saturdayAMRAPTest: "Sobota - Test AMRAP",
-            saturdayPeakingAMRAP: "Sobota – Peaking AMRAP",
-            saturdayJudgmentDay: "Sobota – DZIEŃ SĄDU OSTATECZNEGO",
+            saturdayPeakingAMRAP: "Sobota - AMRAP Peakingowy",
+            saturdayJudgmentDay: "Sobota - DZIEŃ SĄDU",
             sundayRest: "Niedziela - Odpoczynek",
 
             // Pencilneck
-            pushAChestDeltsTri: "Push A",
-            pullABackDeltBi: "Pull A",
-            pushBChestDeltsTri: "Push B",
-            pullBBackDeltBi: "Pull B",
+            pushAChestDeltsTri: "Pchanie A (Klatka/Barki/Triceps/Czworogłowe)",
+            pullABackDeltBi: "Ciągnięcie A (Plecy/Tylne barki/Biceps/Dwugłowe ud)",
+            pushBChestDeltsTri: "Pchanie B (Klatka/Barki/Triceps/Czworogłowe)",
+            pullBBackDeltBi: "Ciągnięcie B (Plecy/Tylne barki/Biceps/Dwugłowe ud)",
 
             // Peachy
-            mondayGluteLegHeavy: "Poniedziałek – Pośladki i nogi (ciężki)",
-            wednesdayGluteUpperPump: "Środa – Pośladki i góra ciała",
+            mondayGluteLegHeavy: "Poniedziałek - Pośladki/Nogi Ciężko",
+            wednesdayGluteUpperPump: "Środa - Pośladki/Góra Pampa",
             thursdayPausedSquat: "Czwartek - Przysiad z pauzą",
             fridayPosteriorChain: "Piątek - Łańcuch tylny",
-            saturdayUnilateralPump: "Sobota – Lżejszy przysiad i góra ciała",
+            saturdayUnilateralPump: "Sobota - Jednostronnie i pampa",
 
             // Skeleton
-            fullBodyA: "Full Body A",
-            fullBodyB: "Full Body B",
-            fullBodyC: "Full Body C",
+            fullBodyWeek: "FBW - Tydzień {week}",
         },
 
         badges: {
@@ -790,7 +787,6 @@ export const translations = {
         entry: {
             title: "HYPER",
             subtitle: "PLANNER",
-            needStats: "Potrzebujemy kilku liczb, żeby spersonalizować program",
             description: "Wpisz swój kod dostępu.",
             placeholder: "Wpisz kod...",
             button: "WEJDŹ",
@@ -804,44 +800,43 @@ export const translations = {
 
         onboarding: {
             selectProtocol: "Wybierz swój protokół",
-            choosePath: "Krok 2: Wybierz program transformacji.",
+            choosePath: "Wybierz ścieżkę transformacji.",
 
             programs: {
                 benchDomination: {
-                    name: "12-tygodniowy plan 'Bench Press Domination'",
-                    benchLabel: "Aktualny 1RM – Paused Bench Press (kg)",
-                    description: "12-tygodniowy program siłowy z fokusem na wyciskanie. Z opcjonalną 3-tygodniową fazą szczytową.",
+                    name: "Dominacja Wyciskania",
+                    description: "12-tygodniowy program siłowy na eksplozję w wyciskaniu. Z opcjonalną 3-tygodniową fazą szczytowania.",
                     features: [
                         "Cel: Siła wyciskania",
-                        "6 dni/tydzień",
+                        "Program 12-tygodniowy",
                         "Opcjonalny 3-tyg. peaking",
                         "Autoregulacja oparta na teście AMRAP"
                     ]
                 },
                 pencilneck: {
-                    name: "Protokół Eradykacji Ołówkowej Szyji",
-                    description: "8-tygodniowy split na górę ciała. Dla tych, którzy wyglądają jak lizak na patyku.",
+                    name: "Eliminacja Patyczaka",
+                    description: "8-tygodniowy split na górną partię ciała. Dla tych, co wyglądają jak lizak.",
                     features: [
                         "Cel: Masa górnej partii",
-                        "4 dni/tydzień",
+                        "4 dni / tydzień",
                         "Split Push / Pull"
                     ]
                 },
                 skeleton: {
-                    name: "Od Szkieleta do Zagrożenia",
-                    description: "12-tygodniowy program dla początkujących. Dla tych, którzy nigdy nie ruszyli żelastwa.",
+                    name: "Ze Szkieletu w Zagrożenie",
+                    description: "12-tygodniowy program dla początkujących. Dla tych, co nigdy nie ruszali żelastwa.",
                     features: [
                         "Cel: Całe ciało",
-                        "3 dni/tydzień",
+                        "3 dni / tydzień",
                         "Elastyczny grafik"
                     ]
                 },
                 peachy: {
-                    name: "Peachy",
-                    description: "8-tygodniowy program hipertrofii pośladków. Zbuduj prawdziwą półkę.",
+                    name: "Brzoskwinia",
+                    description: "12-tygodniowa specjalizacja na pośladki. Dla tych, co chcą lepszy tyłek.",
                     features: [
                         "Cel: Pośladki i dół",
-                        "5 dni/tydzień",
+                        "4 dni / tydzień",
                         "Programowanie oparte na nauce"
                     ]
                 }
@@ -852,33 +847,32 @@ export const translations = {
             modules: {
                 coreBench: {
                     title: "Główna progresja wyciskania",
-                    description: "Najbrutalniejsza apka do śledzenia treningów, jakiej kiedykolwiek użyjesz.",
+                    description: "Wyciskanie pauzowane, wariacje (szeroki/Spoto/Pin), sobotni test AMRAP."
                 },
                 tricepGiantSets: {
-                    title: "Tricep Giant Set",
-                    description: "3× Giant Set: dips → rolling extensions → banded skullcrushers"
+                    title: "Giant sety na triceps",
+                    description: "Sekretny sos na siłę lockoutu. Pon. i Czw."
                 },
                 behindNeckPress: {
-                    title: "Behind-the-Neck Press",
-                    description: "Rozbudowanie barków dla zaawansowanych"
+                    title: "Wyciskanie zza karku",
+                    description: "Kompleksowy rozwój i stabilizacja barków. Pon. i Czw."
                 },
                 weightedPullups: {
-                    title: "Podciąganie z obciążeniem",
-                    pullupLabel: "Maks. podciągnięcie z obciążeniem (dodatkowe kg)",
+                    title: "Podciągania z obciążeniem",
                     description: "Siła pleców na stabilność w wyciskaniu. Śr. i Sob."
                 },
                 legDays: {
                     title: "Dni nóg",
-                    description: "Opcjonalne trening nóg"
+                    description: "Przysiady, Leg Press, Wykroki. Wt. i Pt."
                 },
                 accessories: {
-                    title: "Ćwiczenia akcesoryjne",
+                    title: "Akcesoria",
                     description: "Dragon Flags, Y-Raises, Around-the-Worlds."
                 }
             },
 
             trainingSchedule: "Grafik treningowy",
-            selectDays: "Wybierz dni treningowe",
+            selectDays: "Wybierz dokładnie {count} dni treningowe.",
             days: {
                 monday: "Poniedziałek",
                 tuesday: "Wtorek",
@@ -903,8 +897,7 @@ export const translations = {
                 lowToHighCableFlyes: "Rozpiętki w górę (wyciąg)",
                 frontSquats: "Przysiady frontowe",
                 narrowStanceLegPress: "Leg Press (wąski rozstaw)",
-                stilettoSquats: "Przysiady na podwyższeniu",
-                squatHelper: "Twój aktualny 1 Rep Max na przysiadzie",
+                stilettoSquats: "Przysiady na podwyższeniu"
             },
 
             calibrationPhase: "Faza kalibracji",
@@ -963,67 +956,66 @@ export const translations = {
                 latestGrowthTrend: "Ostatni trend wzrostu",
                 programStatus: "Status programu",
                 viewingSchedule: "Podgląd grafiku",
-                activeModules: "Włączone moduły",
+                activeModules: "Aktywne moduły",
                 coreBench: "Główne wyciskanie",
-                benchHelper: "Twój aktualny 1 Rep Max na pauzowanym wyciskaniu",
                 strengthProgression: "Progresja siły",
-                squatStrengthProgression: "Progresja przysiadu"
+                squatStrengthProgression: "Progresja siły w przysiadzie"
             },
 
             mandatoryDeload: "OBOWIĄZKOWY DELOAD",
-            peakingBlock: "PEAKINGBLOK",
+            peakingBlock: "BLOK PEAKINGOWY",
             nExercises: "{count} Ćwiczeń"
         },
 
         pencilneck: {
-            weekStatus: "Status tygodnia {week}",
+            weekStatus: "Status tyg. {week}",
             trapBarometer: "Barometr kapturów",
-            pencil: "Ołówkoszyjny",
-            boulder: "Głazoramienny",
-            percentGone: "{percent}% DROGI",
-            restDayThought: "Myśl na dzień wolny",
+            pencil: "Patyczak",
+            boulder: "Głaz",
+            percentGone: "{percent}% ZNIKŁO",
+            restDayThought: "Myśl na dzień odpoczynku",
             commandmentsTitle: "5 Przykazań Wzrostu",
             quotes: [
-                "Twoje dawne ja płacze w kącie, patrząc jak zjadasz 500 g ryżu.",
-                "Gdzieś grafik właśnie stracił zlecenie – twoje kaptury pożarły logo.",
-                "Lustra składają oficjalne skargi.",
+                "Twoje dawne ja płacze w kącie patrząc jak zjadasz 500g ryżu.",
+                "Gdzieś grafik stracił klienta bo twoje kaptury zjadły logo.",
+                "Lustra składają zażalenia.",
                 "Twoja szyja dzwoniła – nie zaginęła.",
                 "Koszulki założyły związek zawodowy przeciwko tobie.",
-                "Dzieci myślą, że jesteś dwiema osobami stojącymi blisko siebie.",
-                "Ościeżnice szepczą „nie dzisiaj”, gdy się zbliżasz.",
+                "Dzieci myślą że jesteś dwiema osobami stojącymi blisko siebie.",
+                "Drzwi szepczą 'nie dzisiaj' gdy podchodzisz.",
                 "Twój cień ma rozstępy.",
-                "Stare zdjęcia ciebie są teraz używane jako listy gończe.",
+                "Stare zdjęcia ciebie są teraz listami gończymi osób zaginionych.",
                 "Lotniska kasują cię za dwa miejsca.",
                 "Twoje barki dołączyły do czatu.",
                 "Słońce teraz orbituje wokół twoich barków.",
-                "Pasy bezpieczeństwa oplatają cię dwa razy.",
+                "Pasy bezpieczeństwa owijają cię dwa razy.",
                 "NASA właśnie pytała o wymiary twojego karku.",
-                "Twoje najszersze grzbietu mają własny kod pocztowy.",
+                "Twoje plecy mają własny kod pocztowy.",
                 "Twoje kaptury zablokowały komuś Wi-Fi.",
                 "Bluzy z kapturem ubiegają się o azyl.",
                 "Już nie mieścisz się w selfie.",
-                "Twoje tylne barki mają własne tylne barki.",
-                "Gratulacje. Jesteś teraz końcowym bossem planety Ziemia."
+                "Twoje tylne aktony mają własne tylne aktony.",
+                "Gratulacje. Jesteś teraz bossem planety Ziemia."
             ]
         },
 
         skeleton: {
             metamorphosis: "Metamorfoza",
-            weeksLeft: "tygodni do końca",
-            untilNoLongerSkeleton: "aż przestaniesz być szkieletem.",
+            weeksLeft: "tygodni",
+            untilNoLongerSkeleton: "Do momentu, gdy przestaniesz być szkieletem.",
             deficitPushupPR: "Rekord pompek z deficytu",
-            perfectRepsSingleSet: "Idealne powtórzenia w jednej serii",
-            restDayQuote: "Twoje mięśnie właśnie tkają zbroję."
+            perfectRepsSingleSet: "Idealne powtórzenia (jedna seria)",
+            restDayQuote: "Twoje mięśnie właśnie budują zbroję."
         },
 
         commandments: {
             title: "5 Przykazań Wzrostu",
             list: [
-                "Nadwyżka 300–500 kcal – OBOWIĄZKOWA",
-                "Kontroluj opuszczanie – nie odbijaj na dole powtórzenia",
-                "Zawsze rozgrzej się co najmniej 1 serią 12 powt. na 50% ciężaru roboczego",
-                "Trenuj ciężko – zostawiaj tylko 1–3 powtórzenia w zapasie (RIR) na każdej serii",
-                "Śpij minimum 7 godzin"
+                "Nadwyżka 300–500 kcal obowiązkowa",
+                "Kontroluj fazę ekscentryczną, nie odbijaj z dołu",
+                "Zawsze rozgrzewaj się min. 1 serią po 12 przy 50% ciężaru roboczego",
+                "Trenuj ciężko, max 1–3 RIR (powtórzenia w zapasie) na serię",
+                "Śpij 7+ godzin"
             ]
         },
 
@@ -1167,7 +1159,7 @@ export const translations = {
                 "Słońce teraz orbituje wokół twoich barków.",
                 "Pasy bezpieczeństwa owijają się dwa razy.",
                 "NASA właśnie poprosiła o wymiary twojego jarzma.",
-                "Twoje plecy mają własny kod pocztowy.",
+                "Twoje latsy mają własny kod pocztowy.",
                 "Twoje kapturki zablokowały komuś Wi-Fi.",
                 "Bluzy składają wnioski o azyl.",
                 "Nie mieścisz się już w selfie.",
@@ -1208,7 +1200,6 @@ export const translations = {
 
             sumoDeadlift: "Idź brutalnie ciężko. Używaj pasków. 1-2 sek ścisk na górze - rozgnieciesz orzech pośladkami.",
             bulgarianSplitSquat: "Trzymaj stojak jedną ręką, hantla w drugiej. Tylna stopa sznurówkami na ławce (palce W DÓŁ). Usiądź do tyłu, ogranicz ruch kolana do przodu, trzymaj się prosto.",
-            squatLabel: "Aktualny 1RM – Squat (kg)",
             squats: "Każde powtórzenie musi przejść poniżej równoległej. Dodaj 2.5 kg gdy zrobisz 3×10.",
             seatedHamstringCurl: "Pochyl tułów do przodu dla mega rozciągnięcia. Kontroluj ekscentrykę.",
             kasGluteBridge: "Górna część pleców na ławce. Opuszczaj tylko 5-10 cm, nigdy nie dotykaj podłogi. Ciągłe napięcie.",
@@ -1254,7 +1245,6 @@ export const translations = {
             stilettoSquats: "Pupa do trawy - dotknij łydek pośladkami. Pięty podniesione.",
             inclineDBPress: "Łokcie szeroko, arch pleców, pełne rozciągnięcie. Myśl 'sięganie' klatką.",
             seatedCableRow: "Neutralny lub szeroki chwyt. Zaokrąglaj ramiona do przodu dla max stretcha na dole.",
-            pullupHelper: "Maksymalny dodatkowy ciężar na 1 czyste podciągnięcie",
             latPrayer: "Rotacja wewnętrzna w pozycji rozciągniętej dla max rozciągnięcia latów.",
             wideGripBBRow: "Małe palce na wewnętrznych pierścieniach. Ciągnij do dolnej klatki.",
             romanianDeadlift: "Ciężko. Paski OK. 1-2 sek ścisk pośladków na górze.",
