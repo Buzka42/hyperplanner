@@ -567,7 +567,7 @@ export const Dashboard: React.FC = () => {
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-bold text-primary">
-                                {currentProgram.weeks.length - Math.min(viewWeek, currentProgram.weeks.length)} <span className="text-base font-normal text-muted-foreground">weeks left</span>
+                                {currentProgram.weeks.length - Math.min(viewWeek, currentProgram.weeks.length)} <span className="text-base font-normal text-muted-foreground">{t('skeleton.weeksLeft')}</span>
                             </div>
                             <p className="text-xs text-muted-foreground mt-1">
                                 {t('skeleton.untilNoLongerSkeleton')}
