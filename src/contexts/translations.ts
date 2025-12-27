@@ -928,7 +928,7 @@ export const translations = {
             timeTo: "Czas, by",
             eradicateThe: "Protokół Eradykacji Ołówkowej Szyji:",
             becomeA: "Stań się",
-            dominate: "Zdominować",
+            dominate: "Dominate",
             weakness: "Aktywowany",
             threat: "Zagrożeniem",
             welcomeBack: "Witaj",
