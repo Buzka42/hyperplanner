@@ -356,16 +356,26 @@ import { LanguageSwitcher } from './components/LanguageSwitcher';
 - `src/App.tsx` - Wrapped with LanguageProvider
 - `src/pages/Entry.tsx` - Switcher in top-right
 - `src/components/ProtectedLayout.tsx` - Switcher in sidebar
-- `public/eng.png` - English flag icon
-- `public/pl.png` - Polish flag icon
+-   `src/components/LanguageSwitcher.tsx` - Flag button component
+-   `src/contexts/useTranslation.tsx` - Context provider with t(), tArray(), tObject()
+-   `src/App.tsx` - Wrapped with LanguageProvider
+-   `src/pages/Entry.tsx` - Switcher in top-right
+-   `src/components/ProtectedLayout.tsx` - Switcher in sidebar
+-   `public/eng.png` - English flag icon
+-   `public/pl.png` - Polish flag icon
 
 **Current Status:**
 - ✅ Infrastructure complete
-- ✅ English translations (~400+ strings)
-- ⏸️ Polish translations pending
+- ✅ English translations (~500+ strings)
+- ✅ Polish translations complete (~500+ strings)
+- ✅ Exercise tips translated (85+ exercises)
+- ✅ Badge descriptions translated (18 badges)
 - ✅ Switcher UI visible on all pages
 - ✅ State persists across sessions
 
+**Translation Reference:**
+- Master document: `TRANSLATIONS.md` (all EN→PL mappings)
+- Contains: Common UI, Sidebar, Workout View, Day Names, Onboarding, Dashboard, Program Descriptions, Exercise Tips, Badges
 
 ---
 

@@ -327,3 +327,15 @@ When making changes:
 1.  Create backup in `/backups` folder (e.g. `PLAN_2025-12-26_commit-hash.md`).
 2.  Update this `PLAN.md` file.
 3.  **General Guideline:** Sleep 7+ hours/night for optimal recovery.
+
+---
+
+## Changelog
+
+### December 27, 2025
+- **Polish Translations Complete**: All 500+ strings translated to Polish
+  - Dashboard headers updated (Peachy, Pencilneck, Skeleton program-specific)
+  - Exercise tips translated (85+ exercises with improved form cues)
+  - Badge descriptions updated (18 badges)
+  - Program names updated to use English names where appropriate
+  - Master reference document: `TRANSLATIONS.md`
