@@ -284,7 +284,9 @@ export const translations = {
 
             // Peachy headers
             feelingFroggy: "Feeling Froggy",
+            froggyStatus: "Froggy",
             feelingPeachy: "Feeling Peachy",
+            peachyStatus: "Peachy",
 
             // Cycle banner
             cycleTitle: "Cycle {cycle}: Heavier. Meaner. Shoulders incoming.",
@@ -924,15 +926,17 @@ export const translations = {
 
         dashboard: {
             timeTo: "Czas, by",
-            eradicateThe: "Wyeliminować",
-            becomeA: "Zostać",
+            eradicateThe: "Protokół Eradykacji Ołówkowej Szyji:",
+            becomeA: "Stań się",
             dominate: "Zdominować",
-            weakness: "Słabość",
+            weakness: "Aktywowany",
             threat: "Zagrożeniem",
-            welcomeBack: "Witaj,",
+            welcomeBack: "Witaj",
 
-            feelingFroggy: "Czujesz się żabko",
-            feelingPeachy: "Czujesz się brzoskwiniowo",
+            feelingFroggy: "Status pośladków:",
+            froggyStatus: "Żabka",
+            feelingPeachy: "Status pośladków:",
+            peachyStatus: "Brzoskwinka",
 
             cycleTitle: "Cykl {cycle}: Ciężej. Brutalniej. Barki nadchodzą.",
             cycleDescription: "Obowiązkowe techniki intensywności aktywne. Ciężary podniesione. Powodzenia.",

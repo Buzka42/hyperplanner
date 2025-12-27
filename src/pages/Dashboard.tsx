@@ -326,14 +326,14 @@ export const Dashboard: React.FC = () => {
                         {viewWeek <= 4 ? (
                             <div className="flex items-center gap-4">
                                 <h2 className="text-4xl font-black tracking-tight">
-                                    {t('dashboard.feelingFroggy')}
+                                    {t('dashboard.feelingFroggy')} <span className="shimmer-text">{t('dashboard.froggyStatus')}</span>
                                 </h2>
                                 <img src="/frog.png" alt="Froggy" className="w-24 h-24 object-contain shimmer-img" />
                             </div>
                         ) : (
                             <div className="flex flex-col gap-2">
                                 <h2 className="text-4xl font-black tracking-tight">
-                                    {t('dashboard.feelingPeachy')} 🍑
+                                    {t('dashboard.feelingPeachy')} <span className="shimmer-text">{t('dashboard.peachyStatus')}</span> 🍑
                                 </h2>
                             </div>
                         )}
