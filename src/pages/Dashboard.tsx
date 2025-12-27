@@ -549,7 +549,7 @@ export const Dashboard: React.FC = () => {
 
                         <Card className="col-span-3 border-primary/10 bg-primary/5">
                             <CardHeader className="pb-2">
-                                <CardTitle className="text-sm font-medium">{t('dashboard.pencilneck.restDayThought')}</CardTitle>
+                                <CardTitle className="text-sm font-medium">{t('pencilneck.restDayThought')}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="italic text-sm text-muted-foreground">
