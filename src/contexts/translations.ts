@@ -59,6 +59,8 @@ export const translations = {
             markAllCompleted: "Mark All Completed",
             exercisesCount: "{count} Exercises",
             andMore: "+ {count} more",
+            sets: "sets",
+            reps: "reps",
         },
 
         // ========================================
@@ -719,6 +721,8 @@ export const translations = {
             markAllCompleted: "Zaznacz wszystko jako ukończone",
             exercisesCount: "{count} Ćwiczeń",
             andMore: "+ {count} więcej",
+            sets: "serie",
+            reps: "powt.",
         },
 
         dayNames: {
