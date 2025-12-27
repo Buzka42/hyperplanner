@@ -1001,7 +1001,7 @@ export const translations = {
 
         skeleton: {
             metamorphosis: "Metamorfoza",
-            weeksLeft: "tygodni zostało",
+            weeksLeft: "tygodni",
             untilNoLongerSkeleton: "Do momentu, gdy przestaniesz być szkieletem.",
             deficitPushupPR: "Rekord pompek z deficytu",
             perfectRepsSingleSet: "Idealne powtórzenia (jedna seria)",
