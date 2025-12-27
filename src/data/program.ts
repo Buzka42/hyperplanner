@@ -692,7 +692,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                         ex.sets = 4;
                         ex.target.reps = "3-5";
                         ex.target.weightAbsolute = baseWeight;
-                        ex.notes = "Go as wide as is comfortable for your shoulders in the beginning, try to tighten your grip width on consecutive weeks if you want more tricep engagement.";
+                        // Tip is in translations as 'behindNeckPressGrip'
                         // Add elite warmups for BTN Press
                         const btnLoad = baseWeight;
                         if (btnLoad > 0) {
@@ -724,7 +724,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                         ex.target.reps = "5-8";
                         const thuW = Math.floor((baseWeight * 0.85) / 2.5) * 2.5;
                         ex.target.weightAbsolute = thuW;
-                        ex.notes = "Go as wide as is comfortable for your shoulders in the beginning, try to tighten your grip width on consecutive weeks if you want more tricep engagement.";
+                        // Tip is in translations as 'behindNeckPressGrip'
                     }
                 }
 

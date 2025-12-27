@@ -498,13 +498,7 @@ export const Dashboard: React.FC = () => {
                         </CardHeader>
                         <CardContent>
                             <ul className="space-y-3">
-                                {[
-                                    "300–500 kcal surplus mandatory",
-                                    "Control the eccentric, don't bounce out of the hole",
-                                    "Always warm up with at least 1 set of 12 at 50% of your working weight",
-                                    "Train hard, only 1–3 Reps In Reserve (RIR) every set",
-                                    "Sleep 7+ hours"
-                                ].map((p, i) => (
+                                {tArray('commandments.list').map((p, i) => (
                                     <li key={i} className="flex items-start gap-2 text-sm md:text-base">
                                         <span className="font-bold text-primary">{i + 1}.</span>
                                         {p}
@@ -525,16 +519,7 @@ export const Dashboard: React.FC = () => {
                             </CardHeader>
                             <CardContent>
                                 <p className="text-2xl font-bold italic">
-                                    "{[
-                                        "Neck still looks like a coat hanger",
-                                        "Collarbones starting to hide",
-                                        "Delts now cast a shadow",
-                                        "T-shirts beginning to surrender",
-                                        "First recorded door-frame collision",
-                                        "Neck officially gone - mission successful",
-                                        "People asking if you 'even lift bro?' in fear",
-                                        "You are now a certified shoulder boulder"
-                                    ][Math.min(viewWeek, 8) - 1] || "ERADICATED"}"
+                                    "{tArray('quotes.pencilneckStatus')[Math.min(viewWeek, 8) - 1] || "ERADICATED"}"
                                 </p>
                             </CardContent>
                         </Card>
@@ -546,8 +531,8 @@ export const Dashboard: React.FC = () => {
                             <CardContent>
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-xs text-muted-foreground">
-                                        <span>Pencil</span>
-                                        <span>Boulder</span>
+                                        <span>{t('pencilneck.pencil')}</span>
+                                        <span>{t('pencilneck.boulder')}</span>
                                     </div>
                                     <div className="h-4 bg-secondary rounded-full overflow-hidden">
                                         <div
@@ -556,7 +541,7 @@ export const Dashboard: React.FC = () => {
                                         />
                                     </div>
                                     <p className="text-xs text-right text-red-400 font-bold">
-                                        {Math.round((viewWeek / 8) * 100)}% GONE
+                                        {t('pencilneck.percentGone', { percent: Math.round((viewWeek / 8) * 100) })}
                                     </p>
                                 </div>
                             </CardContent>

@@ -807,6 +807,14 @@ export const WorkoutView: React.FC = () => {
                     // Add Nordic/Glute-Ham swap tip for both original and alternative
                     if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {
                         displayTips.push(t('tips.nordicSwapTip'));
+
+                    // Add Behind-the-Neck Press grip tip
+                    if (ex.name === "Behind-the-Neck Press") {
+                        const gripTip = t('tips.behindNeckPressGrip');
+                        if (gripTip && gripTip !== 'tips.behindNeckPressGrip') {
+                            displayTips.push(gripTip);
+                        }
+                    }
                     }
 
                     if (ex.name.includes("Pull-ups") && programData.id === 'bench-domination') {
@@ -877,7 +885,7 @@ export const WorkoutView: React.FC = () => {
                                                 </div>
                                             ) : ex.sets > 0 ? (
                                                 <p className="text-sm text-muted-foreground">
-                                                    {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? "Failure" : `${ex.target.reps} ${t('workout.reps')}`}
+                                                    {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? t('common.failure') : `${ex.target.reps} ${t('workout.reps')}`}
                                                 </p>
                                             ) : null}
                                             <div className="flex justify-between items-center">
