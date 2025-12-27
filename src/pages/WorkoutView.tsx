@@ -808,13 +808,6 @@ export const WorkoutView: React.FC = () => {
                     if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {
                         displayTips.push(t('tips.nordicSwapTip'));
 
-                    // Add Behind-the-Neck Press grip tip
-                    if (ex.name === "Behind-the-Neck Press") {
-                        const gripTip = t('tips.behindNeckPressGrip');
-                        if (gripTip && gripTip !== 'tips.behindNeckPressGrip') {
-                            displayTips.push(gripTip);
-                        }
-                    }
                     }
 
                     if (ex.name.includes("Pull-ups") && programData.id === 'bench-domination') {
