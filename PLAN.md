@@ -23,18 +23,27 @@ These toggles strictly **remove** exercises if disabled.
 *   **Leg Days:** Enables/Disables the entire Tuesday and Friday workouts.
 
 ### Progression Logic
-*   **User Base Weight (`pausedBench`):**
-    *   **≥ 12 Reps on AMRAP:** Base increases by **+2.5 kg**.
-    *   **9-11 Reps on AMRAP:** No increase (Stall).
-    *   **< 9 Reps:** No increase (Stall).
+
+> **Sustainable progression for long-term gains – no large jumps, no microplates.**
+
+*   **User Base Weight (`pausedBench`) – Phased AMRAP Thresholds:**
+    *   **Weeks 1–6:** Saturday AMRAP **≥12 reps** = +2.5 kg next week
+    *   **Weeks 7–9:** Saturday AMRAP **≥10 reps** = +2.5 kg next week
+    *   **Weeks 10–12:** Saturday AMRAP **≥8 reps** = +2.5 kg next week
+    *   **Peaking Weeks 13–15:** Saturday AMRAP **≥6 reps** = +2.5 kg next week
+    *   **Below Threshold:** No increase (Stall)
+    *   **Max Jump:** +2.5 kg only (no larger jumps, no microplates)
     *   **Logic:** Adds +2.5kg directly to base weight for every qualifying AMRAP week found in history.
 
-*   **Bench Press Variations (Independent Double Progression):**
-    *   **Wide-Grip Bench Press (6-8 reps):**
-        *   Requires **2 consecutive MONDAY weeks** hitting top reps (8) on ALL sets to increase weight by +2.5 kg.
-        *   Saturday follows Monday's weight.
-    *   **Spoto Press (5 reps) & Low Pin Press (4 reps):**
-        *   **Immediate Progression**: Hit target reps on ALL sets = **+2.5 kg** next session.
+*   **Bench Press Variations (Independent from Main AMRAP):**
+    *   **FIXED Rep Targets (Spoto Press 5 reps, Low Pin Press 4 reps):**
+        *   Hit exact target reps on **ALL sets** in current session = automatic **+2.5 kg** next session
+        *   Miss any set = keep same weight
+        *   Message: *"Target reps hit – weight auto-increased +2.5 kg next time"*
+    *   **REP RANGES (Wide-Grip Bench Press 6–8 reps):**
+        *   Hit TOP of range (8 reps) on **ALL sets** for **2 consecutive weeks** = +2.5 kg
+        *   Otherwise = keep same weight
+        *   Message: *"Hit top reps on all sets for 2 straight weeks → +2.5 kg"*
     *   **Smart Weighing**: Automatically detects if stored stat is 1RM (>85% of Bench) or Working Weight.
 
 *   **Behind-the-Neck Press:**
@@ -42,7 +51,7 @@ These toggles strictly **remove** exercises if disabled.
     *   **Thursday (Volume)**: Auto-scaled to **85%** of Monday's weight.
 
 *   **Reactive Deload:**
-    *   **Trigger:** If Saturday's AMRAP is **≤ 8 reps** for **2 consecutive weeks**.
+    *   **Trigger:** If Saturday's AMRAP is **≤7 reps** for **2 consecutive weeks**.
     *   **Effect:** Next week is **-15% Weight, Half Volume**.
 
 *   **Elite Warm-up Protocol (Paused every rep):**
@@ -102,7 +111,7 @@ These toggles strictly **remove** exercises if disabled.
 
 #### Saturday - AMRAP Test
 1.  **Paused Bench Press (AMRAP)** (1 set)
-    *   Progression: ≥12 Reps = +2.5kg Base.
+    *   Progression: Phased thresholds (W1-6 ≥12, W7-9 ≥10, W10-12 ≥8, Peaking ≥6) = +2.5kg Base.
 2.  **Paused Bench Press (Back-off)** (3 sets x 5 reps)
 3.  **Wide-Grip Bench Press** (3 sets x 6-8 reps)
 4.  **Weighted Pull-ups** (Same as Wed)
@@ -332,6 +341,18 @@ When making changes:
 
 ## Changelog
 
+### December 28, 2025
+- **AMRAP Progression Phased Thresholds**: Bench Domination now uses gradual threshold lowering
+  - Weeks 1-6: ≥12 reps = +2.5 kg
+  - Weeks 7-9: ≥10 reps = +2.5 kg
+  - Weeks 10-12: ≥8 reps = +2.5 kg
+  - Peaking Weeks 13-15: ≥6 reps = +2.5 kg
+- **Variation Progression Rules Updated**:
+  - Fixed-rep targets (Spoto Press, Low Pin Press): Hit target on ALL sets = +2.5 kg next session
+  - Rep ranges (Wide-Grip Bench): Hit top reps on ALL sets for 2 consecutive weeks = +2.5 kg
+- **Exercise Tips Enhanced**: All variation cards now display their specific progression rules
+- **Sustainable Progression Note**: "No large jumps, no microplates" philosophy documented
+
 ### December 27, 2025
 - **Polish Translations Complete**: All 500+ strings translated to Polish
   - Dashboard headers updated (Peachy, Pencilneck, Skeleton program-specific)
@@ -339,3 +360,7 @@ When making changes:
   - Badge descriptions updated (18 badges)
   - Program names updated to use English names where appropriate
   - Master reference document: `TRANSLATIONS.md`
+
+---
+
+*Generated from source code – December 28, 2025*

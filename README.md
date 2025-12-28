@@ -113,10 +113,18 @@ To maintain and expand the app, it is crucial to understand what is generic and 
 
 ### `src/data/program.ts` (Bench Domination)
 *   **Smart Scheduling:** Logic inside `preprocessDay` analyzes `user.selectedDays` to map "Heavy" workouts to isolated days and "Volume" to consecutive blocks.
-*   **Reactive Deload:** Checks if last 2 consecutive AMRAPs were ≤ 8 reps. If so, effectively rewrites the current week's sets/reps in the hook.
+*   **Reactive Deload:** Checks if last 2 consecutive AMRAPs were ≤7 reps. If so, effectively rewrites the current week's sets/reps in the hook.
 *   **Peaking Block:** `createWeeks` function generates different content for W13-15.
-*   **Main Progression:** ≥12 reps on Saturday AMRAP = +2.5kg, 9-11 reps = stall, <9 reps = stall. No microplates (no fractional increases).
-*   **Variation Progression:** Wide-Grip Bench (2 consecutive Mondays max reps = +2.5kg). Spoto/Low Pin Press (Immediate max reps = +2.5kg). Elite warmups added.
+*   **Main Progression (Phased Thresholds):** Sustainable progression with gradual threshold lowering:
+    *   Weeks 1-6: ≥12 reps = +2.5 kg
+    *   Weeks 7-9: ≥10 reps = +2.5 kg
+    *   Weeks 10-12: ≥8 reps = +2.5 kg
+    *   Peaking Weeks 13-15: ≥6 reps = +2.5 kg
+    *   No microplates, no large jumps – +2.5 kg max increase.
+*   **Variation Progression:**
+    *   **Fixed-Rep Targets (Spoto Press 5 reps, Low Pin Press 4 reps):** Hit exact target on ALL sets = +2.5 kg next session. Message: *"Target reps hit – weight auto-increased +2.5 kg next time"*
+    *   **Rep Ranges (Wide-Grip Bench 6-8 reps):** Hit top reps (8) on ALL sets for 2 consecutive weeks = +2.5 kg. Message: *"Hit top reps on all sets for 2 straight weeks → +2.5 kg"*
+*   **Elite Warmups:** Added for main bench lifts.
 
 ### `src/data/peachy.ts` (Peachy Plan)
 *   **Finisher Injection:** Logic in `createPeachyWeeks` specifically pushes the "Glute Pump Finisher" to the Saturday array if `w === 12`.
@@ -424,4 +432,4 @@ const tipMap: Record<string, keyof typeof translations.en.tips> = {
 
 ---
 
-*Generated from source code – December 26, 2025*
+*Generated from source code – December 28, 2025*

@@ -380,6 +380,14 @@ const createWeeks = (): ProgramWeek[] => {
     return weeks;
 };
 
+// Helper function to get rep threshold based on week (phased progression)
+const getRepThresholdForWeek = (week: number): number => {
+    if (week >= 13) return 6;  // Peaking weeks 13-15: ≥6 reps
+    if (week >= 10) return 8;  // Weeks 10-12: ≥8 reps
+    if (week >= 7) return 10;  // Weeks 7-9: ≥10 reps
+    return 12;                  // Weeks 1-6: ≥12 reps
+};
+
 const getPausedBenchBase = (user: UserProfile, context?: { week: number }) => {
     if (!user.stats.pausedBench) return 0;
 
@@ -408,8 +416,9 @@ const getPausedBenchBase = (user: UserProfile, context?: { week: number }) => {
             processedWeeks.add(entryWeek);
 
             const reps = entry.actualReps || 0;
-            // Progression: +2.5 kg if >11 reps (12+), otherwise stall
-            if (reps > 11) {
+            // Phased progression: threshold depends on which week the AMRAP was performed
+            const threshold = getRepThresholdForWeek(entryWeek);
+            if (reps >= threshold) {
                 currentBase += 2.5;
             }
         }
@@ -445,8 +454,8 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 if (amraps.length >= 2) {
                     const r1 = amraps[0].actualReps ?? 10;
                     const r2 = amraps[1].actualReps ?? 10;
-                    // Updated threshold: 2 consecutive ≤8 reps trigger reactive deload
-                    if (r1 <= 8 && r2 <= 8) {
+                    // Reactive deload trigger: 2 consecutive weeks ≤7 reps
+                    if (r1 <= 7 && r2 <= 7) {
                         applyReactiveDeload = true;
                     }
                 }
@@ -834,20 +843,29 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 baseWeight = Math.floor((baseWeight + 1.25) / 2.5) * 2.5;
 
                 // Count qualifying AMRAPs before current week and add +2.5kg for each
+                // Uses phased thresholds: Weeks 1-6 ≥12, 7-9 ≥10, 10-12 ≥8, 13-15 ≥6
                 if (user.benchHistory && user.benchHistory.length > 0) {
-                    const relevantAMRAPs = user.benchHistory
-                        .filter(entry =>
-                            entry.week !== undefined &&
-                            entry.week !== null &&
-                            entry.week < context.week &&
-                            (entry.actualReps || 0) > 11
-                        );
+                    const processedWeeks = new Set<number>();
+                    let progressionCount = 0;
 
-                    // Track unique weeks to avoid duplicates
-                    const qualifyingWeeks = new Set(relevantAMRAPs.map(e => e.week));
+                    const sortedAMRAPs = [...user.benchHistory]
+                        .filter(entry => entry.week !== undefined && entry.week !== null && entry.week < context.week)
+                        .sort((a, b) => (a.week || 0) - (b.week || 0));
+
+                    for (const entry of sortedAMRAPs) {
+                        const entryWeek = entry.week || 0;
+                        if (processedWeeks.has(entryWeek)) continue;
+                        processedWeeks.add(entryWeek);
+
+                        const reps = entry.actualReps || 0;
+                        const threshold = getRepThresholdForWeek(entryWeek);
+                        if (reps >= threshold) {
+                            progressionCount++;
+                        }
+                    }
 
                     // Add +2.5kg for each qualifying week
-                    baseWeight += qualifyingWeeks.size * 2.5;
+                    baseWeight += progressionCount * 2.5;
                 }
 
                 return baseWeight.toString();
