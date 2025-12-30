@@ -489,7 +489,7 @@ export const Dashboard: React.FC = () => {
                 )}
 
                 {activeWidgets.includes('pencilneck_commandments') && (
-                    <Card className="w-full border-primary/20 shadow-lg md:col-span-4">
+                    <Card className="col-span-full md:col-span-4 border-primary/20 shadow-lg">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Trophy className="h-5 w-5 text-yellow-500" />
@@ -524,7 +524,7 @@ export const Dashboard: React.FC = () => {
                             </CardContent>
                         </Card>
 
-                        <Card className="col-span-2 border-slate-800 bg-slate-950">
+                        <Card className="col-span-full md:col-span-3 border-slate-800 bg-slate-950">
                             <CardHeader className="pb-2">
                                 <CardTitle className="text-sm font-medium">Trap Barometer</CardTitle>
                             </CardHeader>
@@ -547,7 +547,7 @@ export const Dashboard: React.FC = () => {
                             </CardContent>
                         </Card>
 
-                        <Card className="col-span-3 border-primary/10 bg-primary/5">
+                        <Card className="col-span-full md:col-span-4 border-primary/10 bg-primary/5">
                             <CardHeader className="pb-2">
                                 <CardTitle className="text-sm font-medium">{t('pencilneck.restDayThought')}</CardTitle>
                             </CardHeader>

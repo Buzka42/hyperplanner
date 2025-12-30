@@ -30,6 +30,7 @@ export const translations = {
             primary: "Primary",
             yes: "Yes",
             no: "No",
+            failure: "Failure",
         },
 
         // ========================================
@@ -195,6 +196,9 @@ export const translations = {
             buildPerfectHell: "Build Your Perfect Bench Hell",
             customizeBrutality: "Customize the brutality. The core lift is sacred.",
             modules: {
+                title: "Program Modules",
+                description: "Customize which modules to include in your program.",
+                selectDays: "Select Training Days",
                 coreBench: {
                     title: "Core Bench Progression",
                     description: "Paused Bench, Variations (Wide/Spoto/Pin), Saturday AMRAP Test."
@@ -238,6 +242,8 @@ export const translations = {
             customizeProtocol: "Customize Protocol",
             chooseMovements: "Choose your preferred movements.",
             preferences: {
+                title: "Customize Protocol",
+                description: "Choose your preferred movements.",
                 pushALegPrimary: "Push A: Leg Primary",
                 pushBChestIsolation: "Push B: Chest Isolation",
                 pushBLegSecondary: "Push B: Leg Secondary"
@@ -267,6 +273,7 @@ export const translations = {
             buildProgram: "BUILD PROGRAM",
             building: "BUILDING...",
             begin: "BEGIN TRAINING",
+            nextExerciseSelection: "NEXT: EXERCISE SELECTION",
         },
 
         // ========================================
@@ -700,6 +707,7 @@ export const translations = {
             primary: "Główne",
             yes: "Tak",
             no: "Nie",
+            failure: "Do upadku",
         },
 
         sidebar: {
@@ -852,6 +860,9 @@ export const translations = {
             buildPerfectHell: "Zbuduj swoje piekło wyciskania",
             customizeBrutality: "Dostosuj brutalność. Główny ruch jest świętością.",
             modules: {
+                title: "Moduły programu",
+                description: "Wybierz, które moduły chcesz włączyć do programu.",
+                selectDays: "Wybierz dni treningowe",
                 coreBench: {
                     title: "Główna progresja wyciskania",
                     description: "Najbrutalniejsza apka do śledzenia treningów, jakiej kiedykolwiek użyjesz.",
@@ -894,6 +905,8 @@ export const translations = {
             customizeProtocol: "Dostosuj protokół",
             chooseMovements: "Wybierz preferowane ruchy.",
             preferences: {
+                title: "Dostosuj protokół",
+                description: "Wybierz preferowane ruchy.",
                 pushALegPrimary: "Push A: Główne nogi",
                 pushBChestIsolation: "Push B: Izolacja klatki",
                 pushBLegSecondary: "Push B: Dodatkowe nogi"
@@ -922,6 +935,7 @@ export const translations = {
             buildProgram: "ZBUDUJ PROGRAM",
             building: "BUDOWANIE...",
             begin: "ZACZNIJ TRENING",
+            nextExerciseSelection: "DALEJ: WYBÓR ĆWICZEŃ",
         },
 
         dashboard: {

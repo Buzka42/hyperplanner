@@ -101,13 +101,14 @@ These toggles strictly **remove** exercises if disabled.
 4.  **Tricep Giant Set** (3-4 sets)
 
 #### Friday - Legs (Optional)
-1.  **Lying Hamstring Curls:** 3 sets, 10-12 reps.
-2.  **Leg Extensions:** 3 sets, 15-20 reps.
-    *   *Tip:* "Full ROM, 120° angle between legs and torso."
-3.  **Bulgarian Split Squats:** 3 sets, 8-12 reps.
-4.  **Sissy Squats:** 3 sets, Failure.
-5.  **Dumbbell RDL:** 3 sets, 10-12 reps.
-6.  **Seated Calf Raises:** 3 sets, 10-15 reps.
+1.  **Walking Lunges:** 3 sets, 10-15 reps.
+2.  **Heels-Off Narrow Leg Press:** 3 sets, 10-15 reps.
+3.  **Reverse Nordic Curls:** 2 sets, Failure.
+4.  **Single-Leg Machine Hip Thrust:** 3 sets, 10-15 reps.
+5.  **Nordic Curls / Glute-Ham Raise:** 3 sets, Failure.
+6.  **Hack Squat Calf Raises:** 3 sets, 15-20 reps.
+    *   *Tip:* "1 second pause at bottom."
+7.  **Hip Adduction:** 2 sets, 8-12 reps.
 
 #### Saturday - AMRAP Test
 1.  **Paused Bench Press (AMRAP)** (1 set)
