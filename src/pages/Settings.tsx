@@ -252,6 +252,43 @@ export const Settings: React.FC = () => {
                                 isOn={benchModules.accessories}
                                 onToggle={() => handleModuleToggle('accessories')}
                             />
+
+                            <div className="border-t mt-4 pt-4"></div>
+
+                            {/* Thursday Tricep Variant Selection */}
+                            <div className="space-y-3 p-4 border rounded-lg bg-background">
+                                <div className="space-y-1">
+                                    <h4 className="font-semibold">Thursday Tricep Exercise</h4>
+                                    <p className="text-sm text-muted-foreground">Choose between Tricep Giant Set (default) or Heavy Rolling Extensions for lockout strength</p>
+                                </div>
+                                <RadioGroup
+                                    value={benchModules.thursdayTricepVariant || 'giant-set'}
+                                    onValueChange={(v) => {
+                                        setBenchModules(prev => ({ ...prev, thursdayTricepVariant: v as 'giant-set' | 'heavy-extensions' }));
+                                        setSaved(false);
+                                    }}
+                                >
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="giant-set" id="tricep-giant" />
+                                        <Label htmlFor="tricep-giant">Tricep Giant Set (Default)</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="heavy-extensions" id="tricep-heavy" />
+                                        <Label htmlFor="tricep-heavy">Heavy Rolling Tricep Extensions (4×4-6)</Label>
+                                    </div>
+                                </RadioGroup>
+                            </div>
+
+                            {/* Low Pin Press Extra Set Toggle */}
+                            <ModuleToggle
+                                title="Low Pin Press Extra Set"
+                                desc="Move 1 set from Paused Bench (5→4) to Low Pin Press (2→3) on Thursday for extra lockout focus"
+                                isOn={benchModules.lowPinPressExtraSet || false}
+                                onToggle={() => {
+                                    setBenchModules(prev => ({ ...prev, lowPinPressExtraSet: !prev.lowPinPressExtraSet }));
+                                    setSaved(false);
+                                }}
+                            />
                         </CardContent>
                     </Card>
 
