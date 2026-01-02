@@ -671,8 +671,14 @@ export const translations = {
             invertedRowsSkeleton: "Lower rings/bar or walk feet forward when you hit 15 reps.",
             overhandPulldown: "Slight lean, pull to upper chest, squeeze blades together.",
 
+
             // --- SWAP TIPS ---
             nordicSwapTip: "If too difficult, swap to alternative for better progression and safety.",
+
+            // --- NEW: THURSDAY TRICEP SWAP & LOW PIN PRESS ---
+            heavyRollingTricepExtensions: "Heavy tricep option – focusing on lockout strength. 📈 Hit 6 reps on all 4 sets = +2.5 kg next Thursday",
+            lowPinPressSwapButton: "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press",
+            heavyTricepOptionSelected: "Heavy tricep option selected – focusing on lockout strength",
         },
     },
 
@@ -1291,6 +1297,11 @@ export const translations = {
             overhandPulldown: "Lekkie odchylenie do tyłu przy ściąganiu, ciągnij do górnej części klatki, ściśnij łopatki razem.",
 
             nordicSwapTip: "Jeśli ćwiczenie jest zbyt trudne, zamień na alternatywę dla lepszej progresji i bezpieczeństwa, lub dodaj gumy jako support.",
+
+            // --- NEW: THURSDAY TRICEP SWAP & LOW PIN PRESS ---
+            heavyRollingTricepExtensions: "Heavy Rolling Tricep Extensions",
+            lowPinPressSwapButton: "Problemy z lockoutem? Kliknij, aby zamienić 1 serię Paused Bench na Pin Press",
+            heavyTricepOptionSelected: "Wybrano ciężką opcję na triceps – skupienie na sile lockoutu",
         },
     }
 };

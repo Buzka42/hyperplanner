@@ -94,11 +94,18 @@ These toggles strictly **remove** exercises if disabled.
     *   *Tip (Leg Raises):* "Explosive movement, slow eccentric, full stretch at bottom. Straight legs if bent is too easy."
 
 #### Thursday - Power / Speed
-1.  **Paused Bench Press** (5 sets x 3-5 reps)
+1.  **Paused Bench Press** (5 sets x 3-5 reps OR 4 sets if Pin Press swap active)
     *   Intensity: 77.5% (Explosive)
-2.  **Low Pin Press** (2 sets x 4 reps)
+    *   *Optional Swap:* Enable "Low Pin Press Extra Set" to move 1 set from Paused Bench → Low Pin Press
+2.  **Low Pin Press** (2 sets x 4 reps OR 3 sets if swap active)
+    *   *Swap Button:* "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press"
 3.  **Behind-the-Neck Press** (4 sets x 5-8 reps @ 85% of Mon)
-4.  **Tricep Giant Set** (3-4 sets)
+4.  **Tricep Exercise** (3-4 sets) — SWAPPABLE:
+    *   **Default:** Tricep Giant Set (Dips 5 / Extensions 12 / Skullcrushers 25)
+    *   **Alternative:** Heavy Rolling Tricep Extensions (4 sets x 4-6 reps)
+        *   Progression: Hit 6 reps on all 4 sets = +2.5 kg next Thursday
+        *   Message: "Heavy tricep option selected – focusing on lockout strength"
+
 
 #### Friday - Legs (Optional)
 1.  **Walking Lunges:** 3 sets, 10-15 reps.
@@ -342,6 +349,24 @@ When making changes:
 
 ## Changelog
 
+### January 02, 2026
+- **Thursday Tricep Swap Option**: New customization for Thursday Power/Speed day
+  - Default: Tricep Giant Set (Dips / Extensions / Skullcrushers)
+  - Alternative: Heavy Rolling Tricep Extensions (4×4-6 reps)
+    - Progression: Hit 6 reps on all 4 sets → +2.5 kg next Thursday
+    - Message displays: "Heavy tricep option selected – focusing on lockout strength"
+  - Toggle available in exercise list or module settings
+- **Low Pin Press Set Swap**: Optional redistribution of sets for lockout emphasis
+  - Swap button available on Low Pin Press exercise card (pulsating hint button)
+  - Effect: Moves 1 set from Paused Bench Press (5→4) to Low Pin Press (2→3) on Thursday
+  - Button text: "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press"
+  - Persistent toggle (user can revert anytime)
+- **Polish Translations Added**:
+  - "Heavy Rolling Tricep Extensions" → "Heavy Rolling Tricep Extensions"
+  - "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press" → "Problemy z lockoutem? Kliknij, aby zamienić 1 serię Paused Bench na Pin Press"
+  - "Heavy tricep option selected – focusing on lockout strength" → "Wybrano ciężką opcję na triceps – skupienie na sile lockoutu"
+- **Documentation**: PLAN.md updated with new swap options and progression logic
+
 ### December 28, 2025
 - **AMRAP Progression Phased Thresholds**: Bench Domination now uses gradual threshold lowering
   - Weeks 1-6: ≥12 reps = +2.5 kg
@@ -364,4 +389,4 @@ When making changes:
 
 ---
 
-*Generated from source code – December 28, 2025*
+*Generated from source code – January 02, 2026*

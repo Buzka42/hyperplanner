@@ -15,6 +15,8 @@ export type BenchDominationModules = {
     weightedPullups: boolean;
     accessories: boolean;
     legDays: boolean; // Toggle for Tuesday/Friday leg sessions
+    thursdayTricepVariant?: 'giant-set' | 'heavy-extensions'; // Thursday tricep exercise option
+    lowPinPressExtraSet?: boolean; // Toggle to swap 1 set from Paused Bench to Low Pin Press
 };
 
 export type BenchDominationStatus = {

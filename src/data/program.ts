@@ -785,8 +785,52 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                     }
                 }
 
+                // G. Thursday Tricep Exercise Swap (Giant Set ↔ Heavy Rolling Tricep Extensions)
+                if (ex.name === "Tricep Giant Set" && day.dayOfWeek === 4) {
+                    const tricepVariant = modules.thursdayTricepVariant || 'giant-set';
+                    if (tricepVariant === 'heavy-extensions') {
+                        // Replace with Heavy Rolling Tricep Extensions
+                        return {
+                            ...ex,
+                            id: ex.id + "-hrte",
+                            name: "Heavy Rolling Tricep Extensions",
+                            sets: 4,
+                            target: { type: "range", reps: "4-6", percentageRef: undefined },
+                            notes: "Heavy tricep option – focusing on lockout strength",
+                            giantSetConfig: undefined,
+                            alternates: ["Tricep Giant Set"]
+                        };
+                    } else {
+                        // Default: Keep Giant Set but add alternate
+                        return {
+                            ...ex,
+                            alternates: ["Heavy Rolling Tricep Extensions"]
+                        };
+                    }
+                }
+
+                // H. Low Pin Press Extra Set Logic (Swap 1 set from Paused Bench to Low Pin Press)
+                // This affects Paused Bench on Thursday and Low Pin Press
+                if (modules.lowPinPressExtraSet && day.dayOfWeek === 4) {
+                    if (ex.name === "Paused Bench Press") {
+                        // Reduce by 1 set (from 5 to 4)
+                        return {
+                            ...ex,
+                            sets: Math.max(1, ex.sets - 1)
+                        };
+                    }
+                    if (ex.name === "Low Pin Press") {
+                        // Increase by 1 set (from 2 to 3)
+                        return {
+                            ...ex,
+                            sets: ex.sets + 1
+                        };
+                    }
+                }
+
                 return ex;
             });
+
 
 
             // 3. Post-Week 12 Logic
@@ -987,6 +1031,16 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                         const allHit = relevantSets.every((s: any) => s.reps >= maxRep);
                         if (allHit) return "Increase Weight!";
                     }
+                }
+            }
+
+            // 3. Heavy Rolling Tricep Extensions (Thursday variant)
+            if (exercise.name === "Heavy Rolling Tricep Extensions" && history.length > 0) {
+                const lastLog = history[0];
+                if (lastLog.setResults && lastLog.setResults.length >= 4) {
+                    // Check if all 4 sets hit 6 reps
+                    const allSetsAt6 = lastLog.setResults.slice(0, 4).every((s: any) => s.reps >= 6);
+                    if (allSetsAt6) return "All sets at 6 reps – +2.5 kg next Thursday!";
                 }
             }
 
