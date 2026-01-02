@@ -355,17 +355,22 @@ When making changes:
   - Alternative: Heavy Rolling Tricep Extensions (4×4-6 reps)
     - Progression: Hit 6 reps on all 4 sets → +2.5 kg next Thursday
     - Message displays: "Heavy tricep option selected – focusing on lockout strength"
-  - Toggle available in exercise list or module settings
+  - **UI Location**: Settings → Program Modules → Radio group for selection
+  - Module setting: `thursdayTricepVariant` ('giant-set' | 'heavy-extensions')
 - **Low Pin Press Set Swap**: Optional redistribution of sets for lockout emphasis
   - Swap button available on Low Pin Press exercise card (pulsating hint button)
   - Effect: Moves 1 set from Paused Bench Press (5→4) to Low Pin Press (2→3) on Thursday
   - Button text: "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press"
+  - **UI Location**: Settings → Program Modules → Toggle "Low Pin Press Extra Set"
+  - Module setting: `lowPinPressExtraSet` (boolean)
+  - Description: "Move 1 set from Paused Bench (5→4) to Low Pin Press (2→3) on Thursday for extra lockout focus"
   - Persistent toggle (user can revert anytime)
 - **Polish Translations Added**:
   - "Heavy Rolling Tricep Extensions" → "Heavy Rolling Tricep Extensions"
   - "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press" → "Problemy z lockoutem? Kliknij, aby zamienić 1 serię Paused Bench na Pin Press"
   - "Heavy tricep option selected – focusing on lockout strength" → "Wybrano ciężką opcję na triceps – skupienie na sile lockoutu"
-- **Documentation**: PLAN.md updated with new swap options and progression logic
+- **Documentation**: PLAN.md updated with new swap options, UI locations, and progression logic
+- **Deployment**: All changes deployed to https://workout-planner-b5bd6.web.app
 
 ### December 28, 2025
 - **AMRAP Progression Phased Thresholds**: Bench Domination now uses gradual threshold lowering
