@@ -264,7 +264,7 @@ const createWeeks = (): ProgramWeek[] => {
                     id: `w${w}-d3-e5`,
                     name: "Around-the-Worlds",
                     sets: 3,
-                    target: { type: "range", reps: "12-15" },
+                    target: { type: "range", reps: "10-16" },
                     alternates: ["Power Hanging Leg Raises"]
                 }
             ]
@@ -882,15 +882,11 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
             if (target.percentageRef === 'pausedBench' && user.stats.pausedBench && context) {
                 const perc = target.percentage || 1;
 
-                // Start with base week 1 weight
-                let baseWeight = user.stats.pausedBench * perc;
-                baseWeight = Math.floor((baseWeight + 1.25) / 2.5) * 2.5;
-
-                // Count qualifying AMRAPs before current week and add +2.5kg for each
+                // Count qualifying AMRAPs before current week
                 // Uses phased thresholds: Weeks 1-6 ≥12, 7-9 ≥10, 10-12 ≥8, 13-15 ≥6
+                let progressionCount = 0;
                 if (user.benchHistory && user.benchHistory.length > 0) {
                     const processedWeeks = new Set<number>();
-                    let progressionCount = 0;
 
                     const sortedAMRAPs = [...user.benchHistory]
                         .filter(entry => entry.week !== undefined && entry.week !== null && entry.week < context.week)
@@ -907,10 +903,13 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                             progressionCount++;
                         }
                     }
-
-                    // Add +2.5kg for each qualifying week
-                    baseWeight += progressionCount * 2.5;
                 }
+
+                // CORRECT: First calculate progressed base (add +2.5kg for each qualifying week)
+                // Then apply the percentage to the progressed base
+                const progressedBase = user.stats.pausedBench + (progressionCount * 2.5);
+                let baseWeight = progressedBase * perc;
+                baseWeight = Math.floor((baseWeight + 1.25) / 2.5) * 2.5;
 
                 return baseWeight.toString();
             }
@@ -1016,7 +1015,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
             }
 
             // 2. Standard Progression Check (exclude auto-progressing exercises)
-            const autoProgressExercises = ["Pull-ups", "Behind-the-Neck Press", "Wide-Grip Bench Press", "Spoto Press", "Low Pin Press"];
+            const autoProgressExercises = ["Pull-ups", "Behind-the-Neck Press", "Wide-Grip Bench Press", "Spoto Press", "Low Pin Press", "Paused Bench Press"];
             const shouldSkipAdvice = autoProgressExercises.some(name => exercise.name.includes(name));
 
             if (exercise.target.type === 'range' && !shouldSkipAdvice) {

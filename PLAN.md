@@ -349,6 +349,34 @@ When making changes:
 
 ## Changelog
 
+### January 11, 2026
+- **BUG FIX: AMRAP Weight Progression Calculation**
+  - **Issue**: Week 5 weights increased by +5kg on Monday/Wednesday instead of +2.5kg after qualifying AMRAP.
+  - **Fix**: Calculate progressed base first, then apply percentage in `calculateWeight`.
+  
+- **BUG FIX: EMOM Logic Missing (Weeks 4+)**
+  - Implemented week-specific Weighted Pull-ups behavior:
+    - Weeks 1-6: 1 set growing dynamically via EMOM (max 15 sets)
+    - Weeks 4-6: Fixed-weight EMOM (same weight auto-fills all sets)
+    - Weeks 7-9: 7 sets (1 max triple + 6 back-offs at 87.5%)
+    - Weeks 10-12: 5 sets at 92.5%
+  - Live total rep counter and 15-set cap working
+  - **Affected Code**: `WorkoutView.tsx` - `initializeEmptyState` and `handleSetChange`
+
+- **BUG FIX: Around-the-Worlds Rep Range**
+  - Changed from 12-15 to **10-16** reps
+  - **Affected Code**: `program.ts` line 267
+
+- **BUG FIX: Thursday Paused Bench "Increase Weight" Message**
+  - Added "Paused Bench Press" to `autoProgressExercises` skip list
+  - Prevents spurious "Increase Weight!" message on exercises with built-in progression
+  - **Affected Code**: `program.ts` - `getExerciseAdvice` (line ~1018)
+
+- **BUG FIX: Rest Day Translation Keys Missing**
+  - Added `tuesdayRest` and `fridayRest` to both EN and PL `dayNames` sections
+  - **Affected Code**: `translations.ts`
+
+
 ### January 02, 2026
 - **Thursday Tricep Swap Option**: New customization for Thursday Power/Speed day
   - Default: Tricep Giant Set (Dips / Extensions / Skullcrushers)
@@ -394,4 +422,4 @@ When making changes:
 
 ---
 
-*Generated from source code – January 02, 2026*
+*Generated from source code – January 11, 2026*

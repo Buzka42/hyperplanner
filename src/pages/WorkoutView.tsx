@@ -243,10 +243,27 @@ export const WorkoutView: React.FC = () => {
             const initialData: Record<string, SetLog[]> = {};
             dayData.exercises.forEach(ex => {
                 const isGiantSet = !!ex.giantSetConfig;
+                const isPullup = ex.name.includes("Pull-ups") && ex.sets === 0;
+
+                // Pull-up week-specific set count for Bench Domination EMOM
+                let pullupSetCount = 1;
+                if (isPullup && programData.id === 'bench-domination') {
+                    if (weekNum >= 1 && weekNum <= 6) {
+                        // Weeks 1-6: Start with 1 set, grows dynamically via EMOM
+                        pullupSetCount = 1;
+                    } else if (weekNum >= 7 && weekNum <= 9) {
+                        // Weeks 7-9: 1 max triple + 6 back-off sets = 7 total
+                        pullupSetCount = 7;
+                    } else if (weekNum >= 10 && weekNum <= 12) {
+                        // Weeks 10-12: 5 sets
+                        pullupSetCount = 5;
+                    }
+                }
+
                 // If giant set, sets = defined sets * steps count
                 const setsCount = isGiantSet
                     ? ex.sets * (ex.giantSetConfig?.steps.length || 1)
-                    : (ex.name.includes("Pull-ups") && ex.sets === 0 ? 1 : ex.sets);
+                    : (isPullup ? pullupSetCount : ex.sets);
 
                 // Pullup special case fallback: logic moved to hook but UI needs default init?
                 // Hook 'calculateWeight' might handle the 'weight' field init.
@@ -306,22 +323,34 @@ export const WorkoutView: React.FC = () => {
                 }
             }
 
-            // Pullup Backoff Logic (Specific to Bench Dom, should ideally be in hook or genericized?)
-            // This is UI behavior (auto-filling rows).
-            // It's hard to hook-ify "onChange behavior" without complex config.
-            // I'll leave the specific Pullup logic here for now but guard it?
-            // "if isPullup" is already a guard.
-            if (isPullup && weekNum >= 7 && weekNum <= 9 && setIndex === 0 && field === 'weight') {
+            // Pullup Week-Specific Auto-Fill Logic (Bench Domination EMOM)
+            // This is UI behavior (auto-filling rows based on first set input)
+            if (isPullup && programData.id === 'bench-domination' && setIndex === 0 && field === 'weight') {
                 const w = parseFloat(value);
                 if (!isNaN(w)) {
-                    const nextWeight = Math.ceil((w * 0.9) / 1.25) * 1.25;
-                    for (let i = 1; i < currentSets.length; i++) {
-                        currentSets[i].weight = nextWeight.toString();
+                    if (weekNum >= 4 && weekNum <= 6) {
+                        // Weeks 4-6: FIXED-weight EMOM - same weight for ALL sets
+                        for (let i = 1; i < currentSets.length; i++) {
+                            currentSets[i].weight = value;
+                        }
+                    } else if (weekNum >= 7 && weekNum <= 9) {
+                        // Weeks 7-9: Daily max triple + back-offs at 87.5%
+                        const nextWeight = Math.floor((w * 0.875) / 2.5) * 2.5;
+                        for (let i = 1; i < currentSets.length; i++) {
+                            currentSets[i].weight = nextWeight.toString();
+                        }
+                    } else if (weekNum >= 10 && weekNum <= 12) {
+                        // Weeks 10-12: Sets at 92.5% of week 10 max single
+                        const nextWeight = Math.floor((w * 0.925) / 2.5) * 2.5;
+                        for (let i = 1; i < currentSets.length; i++) {
+                            currentSets[i].weight = nextWeight.toString();
+                        }
                     }
                 }
             }
 
-            if (isPullup && field === 'reps') {
+            // EMOM Set Growth Logic (Weeks 1-6): Add new set when reps entered
+            if (isPullup && programData.id === 'bench-domination' && weekNum >= 1 && weekNum <= 6 && field === 'reps') {
                 const reps = parseInt(value);
                 const target = parseInt(suggestedReps.replace(/[^0-9]/g, '') || "0");
                 const isMax = suggestedReps.toLowerCase().includes("max");

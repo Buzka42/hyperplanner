@@ -1051,7 +1051,7 @@ export const translations = {
 
             manual1rmOverride: "Ręczne nadpisanie 1RM",
             manual1rmDesc: "Ręcznie dostosuj 1RM w wyciskaniu pauzowanym.",
-            manual1rmWarning: "⚠️ UWAGA: Zmieniaj to tylko gdy naprawdę konieczne (np. restart po kontuzji, znacząca utrata siły, lub gdy autoregulacja kompletnie nie działa). Program automatycznie dostosowuje 1RM na podstawie sobotnieh AMRAP. Sztuczne zawyżanie doprowadzi do porażki.",
+            manual1rmWarning: "⚠️ UWAGA: Zmieniaj to tylko gdy naprawdę konieczne (np. restart po kontuzji, znacząca utrata siły, lub gdy autoregulacja kompletnie nie działa). Program automatycznie dostosowuje 1RM na podstawie sobotniego AMRAP. Sztuczne zawyżanie doprowadzi do porażki.",
             pausedBench1rm: "Wyciskanie pauzowane 1RM (kg)",
             currentCalculatedMax: "Aktualne obliczone maksimum",
 

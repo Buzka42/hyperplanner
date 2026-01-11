@@ -121,6 +121,14 @@ To maintain and expand the app, it is crucial to understand what is generic and 
     *   Weeks 10-12: ≥8 reps = +2.5 kg
     *   Peaking Weeks 13-15: ≥6 reps = +2.5 kg
     *   No microplates, no large jumps – +2.5 kg max increase.
+*   **Weight Calculation Methodology (`calculateWeight` hook):**
+    ```
+    1. Count qualifying AMRAPs before current week (progressionCount)
+    2. Calculate progressed base: pausedBench + (progressionCount × 2.5)
+    3. Apply workout-specific percentage to progressed base
+    4. Round to nearest 2.5 kg
+    ```
+    **Important:** The progression (+2.5 kg per qualifying week) is applied to the BASE first, THEN the percentage is applied. This ensures consistent +2.5 kg increases across all days regardless of their different percentages (Monday 85%, Wednesday 75%, etc.).
 *   **Variation Progression:**
     *   **Fixed-Rep Targets (Spoto Press 5 reps, Low Pin Press 4 reps):** Hit exact target on ALL sets = +2.5 kg next session. Message: *"Target reps hit – weight auto-increased +2.5 kg next time"*
     *   **Rep Ranges (Wide-Grip Bench 6-8 reps):** Hit top reps (8) on ALL sets for 2 consecutive weeks = +2.5 kg. Message: *"Hit top reps on all sets for 2 straight weeks → +2.5 kg"*
@@ -432,4 +440,4 @@ const tipMap: Record<string, keyof typeof translations.en.tips> = {
 
 ---
 
-*Generated from source code – December 28, 2025*
+*Generated from source code – January 11, 2026*

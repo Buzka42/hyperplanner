@@ -83,6 +83,8 @@ export const translations = {
             thursdayPowerSpeed: "Thursday - Power / Speed",
             thursdayRest: "Thursday - Rest",
             fridayLegs: "Friday - Legs",
+            tuesdayRest: "Tuesday - Rest",
+            fridayRest: "Friday - Rest",
             saturdayAMRAPTest: "Saturday - AMRAP Test",
             saturdayPeakingAMRAP: "Saturday - Peaking AMRAP",
             saturdayJudgmentDay: "Saturday - JUDGMENT DAY",
@@ -758,6 +760,8 @@ export const translations = {
             thursdayPowerSpeed: "Czwartek – Moc / Prędkość",
             thursdayRest: "Czwartek - Odpoczynek",
             fridayLegs: "Piątek - Nogi",
+            tuesdayRest: "Wtorek - Odpoczynek",
+            fridayRest: "Piątek - Odpoczynek",
             saturdayAMRAPTest: "Sobota - Test AMRAP",
             saturdayPeakingAMRAP: "Sobota – Peaking AMRAP",
             saturdayJudgmentDay: "Sobota – DZIEŃ SĄDU OSTATECZNEGO",
@@ -1083,7 +1087,7 @@ export const translations = {
 
             manual1rmOverride: "Ręczne nadpisanie 1RM",
             manual1rmDesc: "Ręcznie dostosuj 1RM w wyciskaniu pauzowanym.",
-            manual1rmWarning: "⚠️ UWAGA: Zmieniaj to tylko gdy naprawdę konieczne (np. restart po kontuzji, znacząca utrata siły, lub gdy autoregulacja kompletnie nie działa). Program automatycznie dostosowuje 1RM na podstawie sobotnieh AMRAP. Sztuczne zawyżanie doprowadzi do porażki.",
+            manual1rmWarning: "⚠️ UWAGA: Zmieniaj to tylko gdy naprawdę konieczne (np. restart po kontuzji, znacząca utrata siły, lub gdy autoregulacja kompletnie nie działa). Program automatycznie dostosowuje 1RM na podstawie sobotniego AMRAP. Sztuczne zawyżanie doprowadzi do porażki.",
             pausedBench1rm: "Wyciskanie pauzowane 1RM (kg)",
             currentCalculatedMax: "Aktualne obliczone maksimum",
 
