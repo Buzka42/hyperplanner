@@ -226,17 +226,8 @@ const createPainGloryWeeks = (): ProgramWeek[] => {
                 target: { type: "range", reps: "3-5" },
                 notes: "t:tips.conventionalE2MOM"
             });
-        } else if (w >= 13 && w <= 14) {
-            // Weeks 13-14: Deficit Snatch Grip as accessory
-            pullDay2Exercises.push({
-                id: `pg-w${w}-d5-e1`,
-                name: "Deficit Snatch Grip Deadlift",
-                sets: 6,
-                target: { type: "straight", reps: "6" },
-                notes: "t:tips.deficitSnatchGrip"
-            });
-        } else if (w >= 15) {
-            // Weeks 15-16: CAT Conventional Deadlift
+        } else if (w >= 13 && w <= 16) {
+            // Weeks 13-16: CAT Conventional Deadlift (70% of Week 13 AMRAP)
             pullDay2Exercises.push({
                 id: `pg-w${w}-d5-e1`,
                 name: "Conventional Deadlift (CAT)",
@@ -335,12 +326,10 @@ export const PAIN_GLORY_CONFIG: PlanConfig = {
                         } else if (weekNum === 15 && ex.name.includes("Back-down")) {
                             const doubleWeight = Math.floor((e1rm * 0.93) / 2.5) * 2.5;
                             targetWeight = Math.floor((doubleWeight * 0.875) / 2.5) * 2.5;
-                        } else if (weekNum === 15 && ex.name.includes("CAT")) {
-                            // CAT @ 70% of Week 13 AMRAP weight
-                            targetWeight = Math.floor((user.painGloryStatus.amrapWeight || 0) * 0.7 / 2.5) * 2.5;
                         } else if (weekNum === 16 && ex.name.includes("Single")) {
                             targetWeight = Math.floor((e1rm * 0.97) / 2.5) * 2.5;
-                        } else if (weekNum === 16 && ex.name.includes("CAT")) {
+                        } else if ((weekNum >= 13 && weekNum <= 16) && ex.name.includes("CAT")) {
+                            // CAT @ 70% of Week 13 AMRAP weight (weeks 13-16)
                             targetWeight = Math.floor((user.painGloryStatus.amrapWeight || 0) * 0.7 / 2.5) * 2.5;
                         }
 
