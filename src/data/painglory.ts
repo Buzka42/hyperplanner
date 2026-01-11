@@ -414,6 +414,17 @@ export const PAIN_GLORY_CONFIG: PlanConfig = {
         },
 
         getExerciseAdvice: (exercise: Exercise, history: WorkoutLog[]): string | null => {
+            // Exercises with automatic progression - don't show manual tips
+            const autoProgressExercises = [
+                'Paused Low Bar Squat',
+                'Conventional Deadlift (E2MOM)',
+                'Deficit Snatch Grip Deadlift'
+            ];
+
+            if (autoProgressExercises.includes(exercise.name)) {
+                return null;
+            }
+
             // Standard accessory progression: hit top reps all sets = +2.5-5kg
             if (exercise.target.type === 'range') {
                 const parts = exercise.target.reps.split('-');

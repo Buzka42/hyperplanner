@@ -677,6 +677,57 @@ export const WorkoutView: React.FC = () => {
                 await addDoc(workoutsRef, sessionLog);
             }
 
+            // Pain & Glory: Automatic progression logic
+            if (programData.id === 'pain-and-glory') {
+                const userRef = doc(db, 'users', user.id);
+
+                // Paused Low Bar Squat automatic progression (weeks 1-8 only)
+                const squatExercise = sessionLog.exercises.find((ex: any) => ex.name === 'Paused Low Bar Squat');
+                if (squatExercise && weekNum >= 1 && weekNum <= 8) {
+                    const squatSets = squatExercise.setsData;
+                    const targetMet = squatSets.every((set: any) => {
+                        const reps = parseInt(set.reps || '0');
+                        return reps >= 4 && reps <= 6 && set.completed;
+                    });
+
+                    if (targetMet) {
+                        // +2.5 kg for next session
+                        const currentProgress = user.painGloryStatus?.squatProgress || 0;
+                        await updateDoc(userRef, {
+                            'painGloryStatus.squatProgress': currentProgress + 2.5
+                        });
+                    }
+
+                    // Save week 8 weight for maintenance phase
+                    if (weekNum === 8) {
+                        const week8Weight = parseFloat(squatSets[0]?.weight || '0');
+                        await updateDoc(userRef, {
+                            'painGloryStatus.week8SquatWeight': week8Weight
+                        });
+                    }
+                }
+
+                // E2MOM automatic progression (weeks 9-12)
+                const e2momExercise = sessionLog.exercises.find((ex: any) => ex.name === 'Conventional Deadlift (E2MOM)');
+                if (e2momExercise && weekNum >= 9 && weekNum <= 12) {
+                    const e2momSets = e2momExercise.setsData;
+                    if (e2momSets.length >= 6) {
+                        const allHit5Reps = e2momSets.slice(0, 6).every((set: any) => {
+                            const reps = parseInt(set.reps || '0');
+                            return reps >= 5 && set.completed;
+                        });
+
+                        if (allHit5Reps) {
+                            // +2.5 kg for next session
+                            const currentAdjustment = user.painGloryStatus?.e2momWeightAdjustment || 0;
+                            await updateDoc(userRef, {
+                                'painGloryStatus.e2momWeightAdjustment': currentAdjustment + 2.5
+                            });
+                        }
+                    }
+                }
+            }
+
             // Pain & Glory: Check for Deficit Snatch Grip exercise and show modal
             const hasDeficitSnatchGrip = dayData?.exercises.some(ex =>
                 ex.name === "Deficit Snatch Grip Deadlift"
