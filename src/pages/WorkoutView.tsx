@@ -755,7 +755,7 @@ export const WorkoutView: React.FC = () => {
                 ex.name === "Deficit Snatch Grip Deadlift"
             );
 
-            if (programData.id === 'pain-and-glory' && hasDeficitSnatchGrip && weekNum <= 12) {
+            if (programData.id === 'pain-and-glory' && hasDeficitSnatchGrip && weekNum >= 1 && weekNum <= 11) {
                 setPendingSessionLog(sessionLog);
                 setShowDeficitModal(true);
                 setSubmitting(false);
@@ -815,10 +815,13 @@ export const WorkoutView: React.FC = () => {
                         <div className="space-y-3">
                             <Button
                                 onClick={async () => {
+                                    // Get actual weight from the workout that was just completed
+                                    const deficitExercise = _pendingSessionLog?.exercises.find((ex: any) => ex.name === 'Deficit Snatch Grip Deadlift');
+                                    const actualWeight = deficitExercise?.setsData[0]?.weight ? parseFloat(deficitExercise.setsData[0].weight) : (user?.painGloryStatus?.deficitSnatchGripWeight || 0);
+
                                     // +5 kg next session
-                                    const currentWeight = user?.painGloryStatus?.deficitSnatchGripWeight || 0;
                                     await updateDoc(doc(db, 'users', user!.id), {
-                                        'painGloryStatus.deficitSnatchGripWeight': currentWeight + 5,
+                                        'painGloryStatus.deficitSnatchGripWeight': actualWeight + 5,
                                         'painGloryStatus.lastFeedback': 'ready_for_more',
                                         'painGloryStatus.lastFeedbackDate': new Date().toISOString()
                                     });
@@ -832,8 +835,13 @@ export const WorkoutView: React.FC = () => {
 
                             <Button
                                 onClick={async () => {
+                                    // Get actual weight from the workout that was just completed
+                                    const deficitExercise = _pendingSessionLog?.exercises.find((ex: any) => ex.name === 'Deficit Snatch Grip Deadlift');
+                                    const actualWeight = deficitExercise?.setsData[0]?.weight ? parseFloat(deficitExercise.setsData[0].weight) : (user?.painGloryStatus?.deficitSnatchGripWeight || 0);
+
                                     // Same weight
                                     await updateDoc(doc(db, 'users', user!.id), {
+                                        'painGloryStatus.deficitSnatchGripWeight': actualWeight,
                                         'painGloryStatus.lastFeedback': 'good_maintain',
                                         'painGloryStatus.lastFeedbackDate': new Date().toISOString()
                                     });
@@ -847,10 +855,13 @@ export const WorkoutView: React.FC = () => {
 
                             <Button
                                 onClick={async () => {
-                                    // -5 kg next session
-                                    const currentWeight = user?.painGloryStatus?.deficitSnatchGripWeight || 0;
+                                    // Get actual weight from the workout that was just completed
+                                    const deficitExercise = _pendingSessionLog?.exercises.find((ex: any) => ex.name === 'Deficit Snatch Grip Deadlift');
+                                    const actualWeight = deficitExercise?.setsData[0]?.weight ? parseFloat(deficitExercise.setsData[0].weight) : (user?.painGloryStatus?.deficitSnatchGripWeight || 0);
+
+                                    // -5 kg next session (minimum 20kg)
                                     await updateDoc(doc(db, 'users', user!.id), {
-                                        'painGloryStatus.deficitSnatchGripWeight': Math.max(20, currentWeight - 5),
+                                        'painGloryStatus.deficitSnatchGripWeight': Math.max(20, actualWeight - 5),
                                         'painGloryStatus.lastFeedback': 'wrecked',
                                         'painGloryStatus.lastFeedbackDate': new Date().toISOString()
                                     });
