@@ -7,6 +7,9 @@ export type LiftingStats = {
     btnPress?: number; // Behind-the-Neck Press 1RM (snapshot) or Working Weight
     btnPressWeek?: number; // Week number when btnPress was last updated
     squat?: number;
+    // Pain & Glory stats
+    conventionalDeadlift?: number;
+    lowBarSquat?: number;
 };
 
 export type BenchDominationModules = {
@@ -30,6 +33,17 @@ export type PencilneckStatus = {
     startDate: string;
     completed?: boolean;
     completionDate?: string;
+};
+
+export type PainGloryStatus = {
+    deficitSnatchGripWeight?: number; // Current working weight for Deficit Snatch Grip
+    deficitSnatchGripHistory?: { date: string; week: number; weight: number; feeling: 'more' | 'same' | 'wrecked' }[];
+    squatProgress?: number; // Accumulated +2.5kg progression for squat
+    week8SquatWeight?: number; // Final squat weight from week 8 for maintenance
+    e2momWeightAdjustment?: number; // Accumulated adjustment for E2MOM weeks
+    amrapWeight?: number; // Week 13 AMRAP weight
+    amrapReps?: number; // Week 13 AMRAP reps achieved
+    estimatedE1RM?: number; // Calculated via Epley formula
 };
 
 export type BadgeId =
@@ -86,6 +100,7 @@ export type UserProfile = {
         completionDate?: string;
     };
     skeletonStatus?: { completed: boolean; completionDate?: string };
+    painGloryStatus?: PainGloryStatus; // Pain & Glory program status
     programProgress?: Record<string, { completedSessions: number; startDate: string; }>;
 
     // New Fields
@@ -142,7 +157,7 @@ export interface PlanConfig {
     id: string;
     program: Program;
     ui?: {
-        dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker')[];
+        dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'deficit_snatch_tracker')[];
     };
     hooks?: {
         preprocessDay?: (day: WorkoutDay, user: UserProfile) => WorkoutDay;

@@ -105,6 +105,10 @@ export const translations = {
 
             // Skeleton
             fullBodyWeek: "Full Body - Week {week}",
+
+            // Pain & Glory
+            pullDay: "Pull Day",
+            pushDay: "Push Day",
         },
 
         badges: {
@@ -191,7 +195,30 @@ export const translations = {
                         "4 Days / Week",
                         "Science-Based Glute Programming"
                     ]
+                },
+                painGlory: {
+                    name: "Pain & Glory",
+                    description: "16-week intermediate deadlift specialization. Pain today, glory tomorrow.",
+                    features: [
+                        "Focus: Heavy Deadlifting",
+                        "4 Days / Week - Pull/Push",
+                        "16 Week Program with Peaking",
+                        "Self-regulating via RPE feedback"
+                    ]
                 }
+            },
+
+            // Pain & Glory Calibration
+            painGlory: {
+                calibrationTitle: "Calibration Phase",
+                calibrationDesc: "Enter your current 1RM for Conventional Deadlift and Low Bar Squat. Be honest - the program auto-regulates based on these.",
+                deadliftLabel: "Conventional Deadlift 1RM (kg)",
+                deadliftHint: "Your true max, not an estimate.",
+                squatLabel: "Low Bar Squat 1RM (kg)",
+                squatHint: "Competition depth, full ROM.",
+                scheduleTitle: "Suggested Schedule:",
+                scheduleDesc: "Mon: Pull / Tue: Push / Thu: Push / Fri: Pull (Rest: Wed, Sat, Sun)",
+                buildButton: "FORGE MY DESTINY"
             },
 
             // Modules Step (Bench Domination)
@@ -682,6 +709,33 @@ export const translations = {
             lowPinPressSwapButton: "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press",
             heavyTricepOptionSelected: "Heavy tricep option selected – focusing on lockout strength",
             explosiveThursday: "Explosive",
+
+            // --- PAIN & GLORY TIPS ---
+            deficitSnatchGrip: "4 second eccentric, no more than 2 minute rest between sets. Do NOT cheat on the eccentric as it will mess up self-regulation and push weight too fast.",
+            closeNeutralLatPulldown: "Full stretch 'dead hang' at top, split movement: pulldown + scap pull at bottom, squeeze scap pull.",
+            slowEccentricNordic: "Cheat up, lower as slowly as possible – aim to control more each week.",
+            singleLegHipThrustPG: "Explode up, think 'squeeze glutes' not just lift – go relatively light.",
+            deadHangPlanks: "Straight to planks after hangs, 2 min rest between supersets.",
+            pausedLowBarSquat: "Progression only weeks 1-8: +2.5 kg weekly on success. Weeks 9-16: fixed weight to prioritize deadlift peaking.",
+            legExtensionsPG: "120° hip angle, full ROM.",
+            hackCalfRaisesPG: "Full stretch, close to failure every set.",
+            inclineDBBenchPG: "Touch biceps with inside DBs at bottom, 'reach up' with chest.",
+            standingMilitaryPG: "No body english, strict full ROM.",
+            conventionalE2MOM: "E2MOM – every 2 minutes: perform 3-5 reps, rest remainder. Grip and form are priority. Aim for consistent 3-5 reps across all 6 sets.",
+            conventionalDeadliftAMRAP: "AMRAP test. Go all out but maintain perfect form. This determines your peaking weights.",
+            conventionalDeadliftTriple: "Heavy triple @ RPE 9. Leave 1 rep in the tank.",
+            conventionalDeadliftDouble: "Heavy double @ RPE 9.5. Very close to max effort.",
+            conventionalDeadliftSingle: "JUDGMENT DAY. Your moment of glory.",
+            conventionalDeadliftOptional: "Optional second single if you feel you have more.",
+            conventionalDeadliftBackdown: "Back-down work. Focus on speed and form.",
+            conventionalCAT: "Compensatory Acceleration Training – explode as fast as possible every rep.",
+            increaseWeight: "Increase Weight!",
+
+            // Pain & Glory Dashboard
+            painGloryDashboardTagline: "Intermediate heavy deadlifting – pain today, glory tomorrow",
+            deficitSnatchGripTracker: "Deficit Snatch Grip Progress",
+            currentWeight: "Current Weight",
+            trend: "Trend",
         },
     },
 
@@ -785,6 +839,10 @@ export const translations = {
             fullBodyA: "Full Body A",
             fullBodyB: "Full Body B",
             fullBodyC: "Full Body C",
+
+            // Pain & Glory
+            pullDay: "Dzień Ciągnięć",
+            pushDay: "Dzień Wypychów",
         },
 
         badges: {
@@ -865,7 +923,30 @@ export const translations = {
                         "5 dni/tydzień",
                         "Programowanie oparte na nauce"
                     ]
+                },
+                painGlory: {
+                    name: "Pain & Glory",
+                    description: "16-tygodniowy program specjalizacyjny na martwy ciąg. Dziś ból, jutro chwała.",
+                    features: [
+                        "Cel: Ciężkie martwaki",
+                        "4 dni/tydzień - Pull/Push",
+                        "16 tyg. z peakingiem",
+                        "Autoregulacja przez RPE"
+                    ]
                 }
+            },
+
+            // Pain & Glory Calibration
+            painGlory: {
+                calibrationTitle: "Faza kalibracji",
+                calibrationDesc: "Podaj swój 1RM klasycznego martwego ciągu i low bar przysiad. Bądź szczery - program sam się reguluje.",
+                deadliftLabel: "Klasyczny martwy ciąg 1RM (kg)",
+                deadliftHint: "Prawdziwe maksimum, nie szacunek.",
+                squatLabel: "Low Bar Squat 1RM (kg)",
+                squatHint: "Pełna głębokość, konkurencyjna.",
+                scheduleTitle: "Sugerowany grafik:",
+                scheduleDesc: "Pon: Pull / Wt: Push / Czw: Push / Pt: Pull (Odp: Śr, Sob, Ndz)",
+                buildButton: "WYKUJ MÓJ LOS"
             },
 
             buildPerfectHell: "Zbuduj swoje piekło wyciskania",
@@ -1308,6 +1389,33 @@ export const translations = {
             lowPinPressSwapButton: "Problemy z lockoutem? Kliknij, aby zamienić 1 serię Paused Bench na Pin Press",
             heavyTricepOptionSelected: "Wybrano ciężką opcję na triceps – skupienie na sile lockoutu",
             explosiveThursday: "Eksplozywnie",
+
+            // --- PAIN & GLORY TIPS ---
+            deficitSnatchGrip: "4 sekundy ekscentryka, max 2 min przerwy między seriami. NIE oszukuj na opadaniu - to zepsuje autoregulację.",
+            closeNeutralLatPulldown: "Pełne rozciągnięcie 'martwy zwis' na górze, rozbij ruch: ściąganie + ścisk łopatek na dole.",
+            slowEccentricNordic: "Oszukuj fazę wstępującą, opadaj jak najwolniej – celuj w lepszą kontrolę każdego tygodnia.",
+            singleLegHipThrustPG: "Wybuch w górę, myśl 'ścisk pośladków' nie tylko podnoszenie – idź względnie lekko.",
+            deadHangPlanks: "Od razu do planków po zwisach, 2 min przerwy między superseriami.",
+            pausedLowBarSquat: "Progresja tylko tygodnie 1-8: +2.5 kg tygodniowo przy sukcesie. Tygodnie 9-16: stały ciężar dla priorytetu peakingu martwego.",
+            legExtensionsPG: "Kąt bioder 120°, pełny ROM.",
+            hackCalfRaisesPG: "Pełne rozciągnięcie, blisko upadku w każdej serii.",
+            inclineDBBenchPG: "Dotknij bicepsami wewnętrznych hantli na dole, 'sięgaj w górę' klatką.",
+            standingMilitaryPG: "Bez szarpania, ścisła technika, pełny ROM.",
+            conventionalE2MOM: "E2MOM – co 2 minuty: 3-5 powt., reszta to odp. Chwyt i forma są priorytetem. Celuj w stałe 3-5 powt. we wszystkich 6 seriach.",
+            conventionalDeadliftAMRAP: "Test AMRAP. Daj z siebie wszystko zachowując perfekcyjną formę. To określa ciężary peakingowe.",
+            conventionalDeadliftTriple: "Ciężka trójka @ RPE 9. Zostaw 1 powt. w zapasie.",
+            conventionalDeadliftDouble: "Ciężka dwójka @ RPE 9.5. Bardzo blisko max wysiłku.",
+            conventionalDeadliftSingle: "DZIEŃ SĄDU. Twój moment chwały.",
+            conventionalDeadliftOptional: "Opcjonalne drugie podejście jeśli czujesz że masz więcej.",
+            conventionalDeadliftBackdown: "Praca zrzutowa. Skup się na prędkości i formie.",
+            conventionalCAT: "Compensatory Acceleration Training – eksploduj jak najszybciej w każdym powt.",
+            increaseWeight: "Zwiększ ciężar!",
+
+            // Pain & Glory Dashboard
+            painGloryDashboardTagline: "Średnio-zaawansowany martwy ciąg – dziś ból, jutro chwała",
+            deficitSnatchGripTracker: "Progres Deficit Snatch Grip",
+            currentWeight: "Aktualny ciężar",
+            trend: "Trend",
         },
     }
 };

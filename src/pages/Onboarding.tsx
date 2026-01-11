@@ -13,6 +13,7 @@ import { BENCH_DOMINATION_PROGRAM } from '../data/program';
 import { SKELETON_PROGRAM } from '../data/skeleton';
 import { PENCILNECK_PROGRAM } from '../data/pencilneck';
 import { PEACHY_CONFIG } from '../data/peachy';
+import { PAIN_GLORY_CONFIG } from '../data/painglory';
 import { Checkbox } from '../components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 
@@ -72,10 +73,10 @@ export const Onboarding: React.FC = () => {
             setStep('days');
         } else if (pid === BENCH_DOMINATION_PROGRAM.id) {
             setStep('bench-modules');
-        } else if (pid === BENCH_DOMINATION_PROGRAM.id) {
-            setStep('bench-modules');
         } else if (pid === PEACHY_CONFIG.id) {
             setStep('days');
+        } else if (pid === PAIN_GLORY_CONFIG.id) {
+            setStep('stats');
         } else {
             setStep('stats');
         }
@@ -172,6 +173,46 @@ export const Onboarding: React.FC = () => {
             await registerUser(codeword, zeroStats, PEACHY_CONFIG.id, selectedDays, {});
         }
         navigate('/app/dashboard');
+    };
+
+    const handlePainGlorySubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const deadlift1RM = (stats as any).conventionalDeadlift || 0;
+        const squat1RM = (stats as any).lowBarSquat || 0;
+
+        if (deadlift1RM <= 0 || squat1RM <= 0) {
+            alert("Please enter valid 1RM values for both lifts.");
+            return;
+        }
+
+        const painGloryStats = {
+            ...stats,
+            conventionalDeadlift: deadlift1RM,
+            lowBarSquat: squat1RM
+        };
+
+        const initialDeficitWeight = Math.floor((deadlift1RM * 0.45) / 2.5) * 2.5;
+
+        try {
+            if (user) {
+                await updateUserProfile({
+                    stats: painGloryStats,
+                    painGloryStatus: {
+                        deficitSnatchGripWeight: initialDeficitWeight,
+                        squatProgress: 0
+                    }
+                });
+                await switchProgram(PAIN_GLORY_CONFIG.id);
+            } else {
+                if (!codeword) throw new Error("No codeword found. Please restart.");
+                // @ts-ignore
+                await registerUser(codeword, painGloryStats, PAIN_GLORY_CONFIG.id, [1, 2, 4, 5], {});
+            }
+            navigate('/app/dashboard');
+        } catch (err: any) {
+            console.error("Registration failed:", err);
+            alert("Failed to build program: " + (err.message || "Unknown error"));
+        }
     };
 
     const handleBenchDominationSubmit = async (e: React.FormEvent) => {
@@ -308,6 +349,29 @@ export const Onboarding: React.FC = () => {
                                 <ul className="space-y-1 text-xs">
                                     {tArray('onboarding.programs.peachy.features').map((feature, i) => (
                                         <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
+                                    ))}
+                                </ul>
+                            </CardContent>
+                        </Card>
+
+                        {/* Pain & Glory Card */}
+                        <Card
+                            className="overflow-hidden cursor-pointer hover:border-red-800 transition-all hover:scale-105 group border-amber-900/30"
+                            onClick={() => handleProgramSelect(PAIN_GLORY_CONFIG.id)}
+                        >
+                            <div className="h-48 bg-gradient-to-br from-amber-900/30 to-red-950/50 relative flex items-center justify-center">
+                                <img src="/painglory.png" alt="Pain & Glory" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
+                                    <h3 className="text-xl font-bold text-amber-100 leading-tight">{tObject('onboarding.programs.painGlory').name}</h3>
+                                </div>
+                            </div>
+                            <CardContent className="pt-4 p-4 bg-gradient-to-b from-amber-950/10 to-transparent">
+                                <p className="text-muted-foreground text-xs mb-3">
+                                    {tObject('onboarding.programs.painGlory').description}
+                                </p>
+                                <ul className="space-y-1 text-xs">
+                                    {tArray('onboarding.programs.painGlory.features').map((feature, i) => (
+                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-red-500" /> {feature}</li>
                                     ))}
                                 </ul>
                             </CardContent>
@@ -608,7 +672,75 @@ export const Onboarding: React.FC = () => {
         );
     }
 
-    // Default Stats Step (Bench Domination)
+    // Default Stats Step - now conditional for Pain & Glory vs Bench Domination
+    if (selectedProgramId === PAIN_GLORY_CONFIG.id) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-amber-950/20 to-red-950/10 flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-red-900/30 shadow-2xl bg-gradient-to-b from-card to-amber-950/5">
+                    <CardHeader>
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2">
+                                <ArrowLeft className="h-5 w-5" />
+                            </Button>
+                            <CardTitle className="text-2xl text-amber-100">{t('onboarding.painGlory.calibrationTitle')}</CardTitle>
+                        </div>
+                        <CardDescription className="text-amber-200/70">
+                            {t('onboarding.painGlory.calibrationDesc')}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <form onSubmit={handlePainGlorySubmit} className="space-y-6">
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="conventionalDeadlift" className="text-base text-amber-100">{t('onboarding.painGlory.deadliftLabel')}</Label>
+                                    <Input
+                                        id="conventionalDeadlift"
+                                        name="conventionalDeadlift"
+                                        type="number"
+                                        min="0"
+                                        placeholder="e.g. 180"
+                                        className="text-lg bg-amber-950/20 border-amber-900/30"
+                                        onChange={handleStatsChange}
+                                        step="2.5"
+                                        required
+                                    />
+                                    <p className="text-xs text-amber-200/50">{t('onboarding.painGlory.deadliftHint')}</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="lowBarSquat" className="text-base text-amber-100">{t('onboarding.painGlory.squatLabel')}</Label>
+                                    <Input
+                                        id="lowBarSquat"
+                                        name="lowBarSquat"
+                                        type="number"
+                                        min="0"
+                                        placeholder="e.g. 140"
+                                        className="text-lg bg-amber-950/20 border-amber-900/30"
+                                        onChange={handleStatsChange}
+                                        step="2.5"
+                                        required
+                                    />
+                                    <p className="text-xs text-amber-200/50">{t('onboarding.painGlory.squatHint')}</p>
+                                </div>
+                            </div>
+
+                            <div className="bg-red-950/30 border border-red-900/30 rounded p-3 text-sm text-amber-100/80">
+                                <strong className="text-red-400">{t('onboarding.painGlory.scheduleTitle')}</strong><br />
+                                {t('onboarding.painGlory.scheduleDesc')}
+                            </div>
+
+                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-red-900 to-amber-900 hover:from-red-800 hover:to-amber-800" size="lg">
+                                <CheckCircle2 className="mr-2 h-5 w-5" />
+                                {t('onboarding.painGlory.buildButton')}
+                            </Button>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    // Bench Domination stats form
     return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
             <Card className="w-full max-w-lg border-primary/20 shadow-2xl">
