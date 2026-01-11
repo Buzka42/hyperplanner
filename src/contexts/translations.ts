@@ -681,6 +681,7 @@ export const translations = {
             heavyRollingTricepExtensions: "Heavy tricep option – focusing on lockout strength. 📈 Hit 6 reps on all 4 sets = +2.5 kg next Thursday",
             lowPinPressSwapButton: "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press",
             heavyTricepOptionSelected: "Heavy tricep option selected – focusing on lockout strength",
+            explosiveThursday: "Explosive",
         },
     },
 
@@ -1306,6 +1307,7 @@ export const translations = {
             heavyRollingTricepExtensions: "Heavy Rolling Tricep Extensions",
             lowPinPressSwapButton: "Problemy z lockoutem? Kliknij, aby zamienić 1 serię Paused Bench na Pin Press",
             heavyTricepOptionSelected: "Wybrano ciężką opcję na triceps – skupienie na sile lockoutu",
+            explosiveThursday: "Eksplozywnie",
         },
     }
 };

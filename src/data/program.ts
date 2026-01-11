@@ -280,7 +280,7 @@ const createWeeks = (): ProgramWeek[] => {
                     name: "Paused Bench Press",
                     sets: 5,
                     target: { type: "range", reps: "3-5", percentage: 0.775, percentageRef: "pausedBench" },
-                    notes: "Explosive"
+                    notes: "t:tips.explosiveThursday"
                 },
                 {
                     id: `w${w}-d4-e2`,

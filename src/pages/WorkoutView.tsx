@@ -254,8 +254,8 @@ export const WorkoutView: React.FC = () => {
                     } else if (weekNum >= 7 && weekNum <= 9) {
                         // Weeks 7-9: 1 max triple + 6 back-off sets = 7 total
                         pullupSetCount = 7;
-                    } else if (weekNum >= 10 && weekNum <= 12) {
-                        // Weeks 10-12: 5 sets
+                    } else if (weekNum >= 10 && weekNum <= 15) {
+                        // Weeks 10-15 (including peaking): 5 sets
                         pullupSetCount = 5;
                     }
                 }
@@ -654,7 +654,7 @@ export const WorkoutView: React.FC = () => {
                     id,
                     name: dayData?.exercises.find(e => e.id === id)?.name || "Unknown",
                     setsData: sets,
-                    notes: exerciseNotes[id] || null
+                    notes: exerciseNotes[id] || "t:tips.explosiveThursday" || null
                 })),
                 programId: programData.id
             };
