@@ -348,7 +348,87 @@ These toggles strictly **remove** exercises if disabled.
 
 ---
 
-## 5. Badges & Achievements
+## 5. Pain & Glory (`pain-and-glory`)
+*16-Week Intermediate Deadlift Specialization - Pain today, glory tomorrow.*
+
+### Plan Configuration
+*   **Duration:** 16 Weeks
+*   **Frequency:** 4 Days/Week (Pull/Push/Rest/Push/Pull/Rest/Rest)
+*   **Widgets:** `deficit_snatch_tracker`, `strength_chart`
+*   **Theme:** Sand background, blood-red accents
+
+### Stats Required (Onboarding)
+*   **Conventional Deadlift 1RM** (kg)
+*   **Low Bar Squat 1RM** (kg)
+
+### Progression Phases
+
+#### Phase 1: Accumulation (Weeks 1-8)
+
+**Pull Days:**
+1.  **Deficit Snatch Grip Deadlift** (10 × 6)
+    *   Starting weight: 45% of Conventional Deadlift 1RM
+    *   Tip: "4 second eccentric, max 2 min rest. Do NOT cheat on eccentric."
+    *   **Post-workout modal with 3 buttons:**
+        *   "Ready for more" → +5 kg next Pull day
+        *   "Good, maintain" → same weight
+        *   "Wrecked" → -5 kg next Pull day
+2.  **Close Neutral Grip Lat Pulldown** (4 × 6-10)
+3.  **Slow Eccentric Cheat Nordic Curls** (2 × failure)
+4.  **Single-Leg Machine Hip Thrust** (3 × 8-12)
+5.  **Dead Hang + Planks superset** (3 × failure)
+
+**Push Days:**
+1.  **Paused Low Bar Squat** (4 × 4-6)
+    *   Starting weight: ~70% of Squat 1RM
+    *   **Weeks 1-4:** RPE 7, +2.5 kg weekly on success
+    *   **Week 5 Reset:** +7.5% to 1RM (rounded to 2.5 kg), restart RPE 7
+    *   **Weeks 5-8:** +2.5 kg weekly on success
+2.  **Leg Extensions** (3 × 6-10)
+3.  **Hack Squat Calf Raises** (3 × 15-20)
+4.  **Incline DB Bench Press** (4 × 6-10)
+5.  **Standing Military Press** (3 × 6-10)
+
+#### Phase 2: E2MOM Transition (Weeks 9-12)
+
+**Second Pull Day (Friday):** Replace Deficit Snatch Grip with:
+*   **Conventional Deadlift E2MOM** (6 sets × 3-5 reps)
+    *   Starting weight = Highest Deficit Snatch Grip weight × 1.35 (rounded to 2.5 kg)
+    *   **Auto progression:** All 6 sets hit 5 reps → +2.5 kg next week
+
+**Push Days (Weeks 9-16):**
+*   **Squat weight FIXED** at ~85-90% of Week 8 final weight
+*   Maintain RPE 6-7, no weight progression
+
+#### Phase 3: Peaking (Weeks 13-16)
+
+**Week 13 - AMRAP Test:**
+*   Weight = Week 12 Deficit Snatch Grip × 2.22 (rounded to 2.5 kg)
+*   Targets ~5-8 reps
+*   **Calculate e1RM** using Epley: `weight × (1 + reps/30)`
+
+**Week 14 - Heavy Triple:**
+*   **Main:** 1 × 3 @ 90% e1RM (RPE 9)
+*   **Back-down:** 3 × 3 @ 85% of triple weight
+
+**Week 15 - Heavy Double:**
+*   **Main:** 1 × 2 @ 93% e1RM (RPE 9.5)
+*   **Back-down:** 3 × 2 @ 87.5% of double weight
+
+**Week 16 - Max Single:**
+*   **Main:** 1 × 1 @ 97% e1RM (RPE 9.5-10)
+*   **Optional:** Second single attempt
+
+**Second Pull Day (Weeks 15-16):**
+*   **CAT Conventional Deadlift** (4 × 6 @ 70% of Week 13 AMRAP weight)
+*   Tip: "Compensatory Acceleration Training – explode as fast as possible every rep."
+
+### Accessory Progression
+*   Hit top reps on ALL sets = +2.5-5 kg next session
+
+---
+
+## 6. Badges & Achievements
 *   **Certified Threat:** Complete "From Skeleton to Threat"
 *   **Certified Shoulder Boulder:** Complete "Pencilneck Eradication Protocol"
 *   **Bench Psychopath:** Full Bench Domination + peaking + new PR

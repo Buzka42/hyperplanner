@@ -443,6 +443,16 @@ const tipMap: Record<string, keyof typeof translations.en.tips> = {
 ## Changelog
 
 ### January 11, 2026
+- **NEW PROGRAM: Pain & Glory** (16-Week Intermediate Deadlift Specialization)
+  - Complete 16-week program with 3 phases: Accumulation (W1-8), E2MOM Transition (W9-12), Peaking (W13-16)
+  - **Pull Days:** Deficit Snatch Grip Deadlift 10×6 @ 45% with RPE feedback modal (+5kg/-5kg/same)
+  - **Push Days:** Paused Low Bar Squat with limited progression (W1-8 only, then fixed weight)
+  - **E2MOM Phase (W9-12):** Conventional Deadlift 6 sets every 2 min, auto +2.5kg on success
+  - **Peaking Phase:** AMRAP test (W13) → Epley e1RM → Triple (W14) → Double (W15) → Single (W16)
+  - Themed onboarding with sand background, blood-red accents
+  - Full EN/PL translations (25+ exercise tips each)
+  - **Affected Files**: `painglory.ts`, `Onboarding.tsx`, `translations.ts`, `types.ts`, `plans.ts`
+
 - **BUG FIX: AMRAP Weight Progression Calculation**
   - **Issue**: Week 5 weights increased by +5kg on Monday/Wednesday instead of +2.5kg after qualifying AMRAP.
   - **Fix**: Calculate progressed base first, then apply percentage in `calculateWeight`.
