@@ -50,6 +50,26 @@ These toggles strictly **remove** exercises if disabled.
     *   **Monday (Heavy)**: Hit max reps (5) on all sets = **+2.5 kg** for NEXT week.
     *   **Thursday (Volume)**: Auto-scaled to **85%** of Monday's weight.
 
+*   **Weighted Pull-ups (EMOM Progression):**
+    *   All weights in kilograms only (no lbs)
+    *   **Weeks 1-3:** Max reps EMOM until form breaks
+        *   Add smallest plate (2.5 kg)
+        *   Start every minute, rest for remainder
+        *   Variable sets (up to 15-set cap)
+    *   **Weeks 4-6:** Fixed-weight EMOM
+        *   User enters weight and reps on first set
+        *   App auto-fills ALL remaining sets with EXACT same weight
+        *   User can override individual sets
+        *   Max 15 fields, live total rep counter
+        *   Session ends: "EMOM complete – 15 minutes/sets reached. Total reps: X"
+    *   **Weeks 7-9:** Daily max triple + back-offs
+        *   1 field for max triple
+        *   6 back-off fields auto-filled at 87.5% of max triple weight (rounded to nearest 2.5 kg)
+        *   Total: 7 sets
+    *   **Weeks 10-12:**
+        *   Week 10: 1 field for max single (on Wednesday, Saturday follows Week 11-12 logic)
+        *   Weeks 11-12: 5 fields auto-filled at 92.5% of Week 10 max single (rounded to nearest 2.5 kg)
+
 *   **Reactive Deload:**
     *   **Trigger:** If Saturday's AMRAP is **≤7 reps** for **2 consecutive weeks**.
     *   **Effect:** Next week is **-15% Weight, Half Volume**.
@@ -89,8 +109,9 @@ These toggles strictly **remove** exercises if disabled.
 2.  **Spoto Press** (3 sets x 5 reps)
     *   *Note:* +2.5kg immediately if all sets @ 5 reps.
 3.  **Weighted Pull-ups (EMOM)** (Max 15 sets)
+    *   *See Weighted Pull-ups progression above for week-specific behavior*
 4.  **Y-Raises / High-Elbow Facepulls** (3 sets x 12-15 reps)
-5.  **Around-the-Worlds / Power Hanging Leg Raises** (3 sets)
+5.  **Around-the-Worlds / Power Hanging Leg Raises** (3 sets x 10-16 reps)
     *   *Tip (Leg Raises):* "Explosive movement, slow eccentric, full stretch at bottom. Straight legs if bent is too easy."
 
 #### Thursday - Power / Speed
@@ -328,8 +349,8 @@ These toggles strictly **remove** exercises if disabled.
 ---
 
 ## 5. Badges & Achievements
-*   **Certified Threat:** Complete “From Skeleton to Threat”
-*   **Certified Shoulder Boulder:** Complete “Pencilneck Eradication Protocol”
+*   **Certified Threat:** Complete "From Skeleton to Threat"
+*   **Certified Shoulder Boulder:** Complete "Pencilneck Eradication Protocol"
 *   **Bench Psychopath:** Full Bench Domination + peaking + new PR
 *   **Deload Denier:** Never triggered reactive deload in Bench Domination
 *   **Rear-Delt Reaper:** Rear-delt rope pulls 4×30+
@@ -339,86 +360,12 @@ These toggles strictly **remove** exercises if disabled.
 ---
 
 ## Backup Strategy
-All major workout plan changes are detailed here.
+All major workout plan changes are detailed in README.md changelog.
 When making changes:
 1.  Create backup in `/backups` folder (e.g. `PLAN_2025-12-26_commit-hash.md`).
-2.  Update this `PLAN.md` file.
-3.  **General Guideline:** Sleep 7+ hours/night for optimal recovery.
-
----
-
-## Changelog
-
-### January 11, 2026
-- **BUG FIX: AMRAP Weight Progression Calculation**
-  - **Issue**: Week 5 weights increased by +5kg on Monday/Wednesday instead of +2.5kg after qualifying AMRAP.
-  - **Fix**: Calculate progressed base first, then apply percentage in `calculateWeight`.
-  
-- **BUG FIX: EMOM Logic Missing (Weeks 4+)**
-  - Implemented week-specific Weighted Pull-ups behavior:
-    - Weeks 1-6: 1 set growing dynamically via EMOM (max 15 sets)
-    - Weeks 4-6: Fixed-weight EMOM (same weight auto-fills all sets)
-    - Weeks 7-9: 7 sets (1 max triple + 6 back-offs at 87.5%)
-    - Weeks 10-12: 5 sets at 92.5%
-  - Live total rep counter and 15-set cap working
-  - **Affected Code**: `WorkoutView.tsx` - `initializeEmptyState` and `handleSetChange`
-
-- **BUG FIX: Around-the-Worlds Rep Range**
-  - Changed from 12-15 to **10-16** reps
-  - **Affected Code**: `program.ts` line 267
-
-- **BUG FIX: Thursday Paused Bench "Increase Weight" Message**
-  - Added "Paused Bench Press" to `autoProgressExercises` skip list
-  - Prevents spurious "Increase Weight!" message on exercises with built-in progression
-  - **Affected Code**: `program.ts` - `getExerciseAdvice` (line ~1018)
-
-- **BUG FIX: Rest Day Translation Keys Missing**
-  - Added `tuesdayRest` and `fridayRest` to both EN and PL `dayNames` sections
-  - **Affected Code**: `translations.ts`
-
-
-### January 02, 2026
-- **Thursday Tricep Swap Option**: New customization for Thursday Power/Speed day
-  - Default: Tricep Giant Set (Dips / Extensions / Skullcrushers)
-  - Alternative: Heavy Rolling Tricep Extensions (4×4-6 reps)
-    - Progression: Hit 6 reps on all 4 sets → +2.5 kg next Thursday
-    - Message displays: "Heavy tricep option selected – focusing on lockout strength"
-  - **UI Location**: Settings → Program Modules → Radio group for selection
-  - Module setting: `thursdayTricepVariant` ('giant-set' | 'heavy-extensions')
-- **Low Pin Press Set Swap**: Optional redistribution of sets for lockout emphasis
-  - Swap button available on Low Pin Press exercise card (pulsating hint button)
-  - Effect: Moves 1 set from Paused Bench Press (5→4) to Low Pin Press (2→3) on Thursday
-  - Button text: "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press"
-  - **UI Location**: Settings → Program Modules → Toggle "Low Pin Press Extra Set"
-  - Module setting: `lowPinPressExtraSet` (boolean)
-  - Description: "Move 1 set from Paused Bench (5→4) to Low Pin Press (2→3) on Thursday for extra lockout focus"
-  - Persistent toggle (user can revert anytime)
-- **Polish Translations Added**:
-  - "Heavy Rolling Tricep Extensions" → "Heavy Rolling Tricep Extensions"
-  - "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press" → "Problemy z lockoutem? Kliknij, aby zamienić 1 serię Paused Bench na Pin Press"
-  - "Heavy tricep option selected – focusing on lockout strength" → "Wybrano ciężką opcję na triceps – skupienie na sile lockoutu"
-- **Documentation**: PLAN.md updated with new swap options, UI locations, and progression logic
-- **Deployment**: All changes deployed to https://workout-planner-b5bd6.web.app
-
-### December 28, 2025
-- **AMRAP Progression Phased Thresholds**: Bench Domination now uses gradual threshold lowering
-  - Weeks 1-6: ≥12 reps = +2.5 kg
-  - Weeks 7-9: ≥10 reps = +2.5 kg
-  - Weeks 10-12: ≥8 reps = +2.5 kg
-  - Peaking Weeks 13-15: ≥6 reps = +2.5 kg
-- **Variation Progression Rules Updated**:
-  - Fixed-rep targets (Spoto Press, Low Pin Press): Hit target on ALL sets = +2.5 kg next session
-  - Rep ranges (Wide-Grip Bench): Hit top reps on ALL sets for 2 consecutive weeks = +2.5 kg
-- **Exercise Tips Enhanced**: All variation cards now display their specific progression rules
-- **Sustainable Progression Note**: "No large jumps, no microplates" philosophy documented
-
-### December 27, 2025
-- **Polish Translations Complete**: All 500+ strings translated to Polish
-  - Dashboard headers updated (Peachy, Pencilneck, Skeleton program-specific)
-  - Exercise tips translated (85+ exercises with improved form cues)
-  - Badge descriptions updated (18 badges)
-  - Program names updated to use English names where appropriate
-  - Master reference document: `TRANSLATIONS.md`
+2.  Update this `PLAN.md` file with plan details.
+3.  Update `README.md` with changelog entry.
+4.  **General Guideline:** Sleep 7+ hours/night for optimal recovery.
 
 ---
 

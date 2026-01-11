@@ -440,4 +440,78 @@ const tipMap: Record<string, keyof typeof translations.en.tips> = {
 
 ---
 
+## Changelog
+
+### January 11, 2026
+- **BUG FIX: AMRAP Weight Progression Calculation**
+  - **Issue**: Week 5 weights increased by +5kg on Monday/Wednesday instead of +2.5kg after qualifying AMRAP.
+  - **Fix**: Calculate progressed base first, then apply percentage in `calculateWeight`.
+  
+- **BUG FIX: EMOM Logic Missing (Weeks 4+)**
+  - Implemented week-specific Weighted Pull-ups behavior:
+    - Weeks 1-6: 1 set growing dynamically via EMOM (max 15 sets)
+    - Weeks 4-6: Fixed-weight EMOM (same weight auto-fills all sets)
+    - Weeks 7-9: 7 sets (1 max triple + 6 back-offs at 87.5%)
+    - Weeks 10-12: 5 sets at 92.5%
+  - Live total rep counter and 15-set cap working
+  - **Affected Code**: `WorkoutView.tsx` - `initializeEmptyState` and `handleSetChange`
+
+- **BUG FIX: Around-the-Worlds Rep Range**
+  - Changed from 12-15 to **10-16** reps
+  - **Affected Code**: `program.ts` line 267
+
+- **BUG FIX: Thursday Paused Bench "Increase Weight" Message**
+  - Added "Paused Bench Press" to `autoProgressExercises` skip list
+  - Prevents spurious "Increase Weight!" message on exercises with built-in progression
+  - **Affected Code**: `program.ts` - `getExerciseAdvice` (line ~1018)
+
+- **BUG FIX: Rest Day Translation Keys Missing**
+  - Added `tuesdayRest` and `fridayRest` to both EN and PL `dayNames` sections
+  - **Affected Code**: `translations.ts`
+
+### January 02, 2026
+- **Thursday Tricep Swap Option**: New customization for Thursday Power/Speed day
+  - Default: Tricep Giant Set (Dips / Extensions / Skullcrushers)
+  - Alternative: Heavy Rolling Tricep Extensions (4×4-6 reps)
+    - Progression: Hit 6 reps on all 4 sets → +2.5 kg next Thursday
+    - Message displays: "Heavy tricep option selected – focusing on lockout strength"
+  - **UI Location**: Settings → Program Modules → Radio group for selection
+  - Module setting: `thursdayTricepVariant` ('giant-set' | 'heavy-extensions')
+- **Low Pin Press Set Swap**: Optional redistribution of sets for lockout emphasis
+  - Swap button available on Low Pin Press exercise card (pulsating hint button)
+  - Effect: Moves 1 set from Paused Bench Press (5→4) to Low Pin Press (2→3) on Thursday
+  - Button text: "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press"
+  - **UI Location**: Settings → Program Modules → Toggle "Low Pin Press Extra Set"
+  - Module setting: `lowPinPressExtraSet` (boolean)
+  - Description: "Move 1 set from Paused Bench (5→4) to Low Pin Press (2→3) on Thursday for extra lockout focus"
+  - Persistent toggle (user can revert anytime)
+- **Polish Translations Added**:
+  - "Heavy Rolling Tricep Extensions" → "Heavy Rolling Tricep Extensions"
+  - "Trouble with lockout? Click to swap 1 set of Paused Bench to Pin Press" → "Problemy z lockoutem? Kliknij, aby zamienić 1 serię Paused Bench na Pin Press"
+  - "Heavy tricep option selected – focusing on lockout strength" → "Wybrano ciężką opcję na triceps – skupienie na sile lockoutu"
+- **Documentation**: PLAN.md updated with new swap options, UI locations, and progression logic
+- **Deployment**: All changes deployed to https://workout-planner-b5bd6.web.app
+
+### December 28, 2025
+- **AMRAP Progression Phased Thresholds**: Bench Domination now uses gradual threshold lowering
+  - Weeks 1-6: ≥12 reps = +2.5 kg
+  - Weeks 7-9: ≥10 reps = +2.5 kg
+  - Weeks 10-12: ≥8 reps = +2.5 kg
+  - Peaking Weeks 13-15: ≥6 reps = +2.5 kg
+- **Variation Progression Rules Updated**:
+  - Fixed-rep targets (Spoto Press, Low Pin Press): Hit target on ALL sets = +2.5 kg next session
+  - Rep ranges (Wide-Grip Bench): Hit top reps on ALL sets for 2 consecutive weeks = +2.5 kg
+- **Exercise Tips Enhanced**: All variation cards now display their specific progression rules
+- **Sustainable Progression Note**: "No large jumps, no microplates" philosophy documented
+
+### December 27, 2025
+- **Polish Translations Complete**: All 500+ strings translated to Polish
+  - Dashboard headers updated (Peachy, Pencilneck, Skeleton program-specific)
+  - Exercise tips translated (85+ exercises with improved form cues)
+  - Badge descriptions updated (18 badges)
+  - Program names updated to use English names where appropriate
+  - Master reference document: `TRANSLATIONS.md`
+
+---
+
 *Generated from source code – January 11, 2026*
