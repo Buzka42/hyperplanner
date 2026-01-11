@@ -76,7 +76,7 @@ export const Onboarding: React.FC = () => {
         } else if (pid === PEACHY_CONFIG.id) {
             setStep('days');
         } else if (pid === PAIN_GLORY_CONFIG.id) {
-            setStep('stats');
+            setStep('days');
         } else {
             setStep('stats');
         }
@@ -197,6 +197,7 @@ export const Onboarding: React.FC = () => {
             if (user) {
                 await updateUserProfile({
                     stats: painGloryStats,
+                    selectedDays: selectedDays.length === 4 ? selectedDays : [1, 2, 4, 5],
                     painGloryStatus: {
                         deficitSnatchGripWeight: initialDeficitWeight,
                         squatProgress: 0
@@ -206,7 +207,7 @@ export const Onboarding: React.FC = () => {
             } else {
                 if (!codeword) throw new Error("No codeword found. Please restart.");
                 // @ts-ignore
-                await registerUser(codeword, painGloryStats, PAIN_GLORY_CONFIG.id, [1, 2, 4, 5], {});
+                await registerUser(codeword, painGloryStats, PAIN_GLORY_CONFIG.id, selectedDays.length === 4 ? selectedDays : [1, 2, 4, 5], {});
             }
             navigate('/app/dashboard');
         } catch (err: any) {
@@ -529,6 +530,7 @@ export const Onboarding: React.FC = () => {
     if (step === 'days') {
         const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         const isSkeleton = selectedProgramId === SKELETON_PROGRAM.id;
+        const isPainGlory = selectedProgramId === PAIN_GLORY_CONFIG.id;
         const targetCount = isSkeleton ? 3 : 4;
 
         return (
@@ -549,6 +551,8 @@ export const Onboarding: React.FC = () => {
                                 <strong>Best results: at least 1 rest day between training days (e.g., Mon-Wed-Fri or Tue-Thu-Sat)</strong>
                             ) : selectedProgramId === PEACHY_CONFIG.id ? (
                                 <strong>High Frequency: Select any 4 days. Suggestion: Mon/Wed/Fri/Sat with rest between Days 1-2 and 2-3.</strong>
+                            ) : isPainGlory ? (
+                                <strong>Classic 4-Day Split: Best results with a rest day in the middle (e.g., Mon-Tue-Thu-Fri).</strong>
                             ) : (
                                 <strong>Best recovery: at least 1 rest day between Push B and the next Pull A (e.g., Mon-Tue-Thu-Fri)</strong>
                             )}
@@ -577,6 +581,8 @@ export const Onboarding: React.FC = () => {
                                     handleSkeletonSubmit();
                                 } else if (selectedProgramId === PEACHY_CONFIG.id) {
                                     handlePeachySubmit();
+                                } else if (isPainGlory) {
+                                    setStep('stats');
                                 } else {
                                     setStep('preferences');
                                 }

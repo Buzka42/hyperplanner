@@ -393,7 +393,7 @@ export const Dashboard: React.FC = () => {
                         )}
                     </div>
                 ) : isPainGlory ? (
-                    <div className="text-center">
+                    <div className="text-left">
                         <h2 className="text-4xl font-black tracking-tight bg-gradient-to-r from-red-900 via-red-600 to-red-900 bg-clip-text text-transparent animate-pulse">
                             Pain today, glory tomorrow
                         </h2>
