@@ -321,6 +321,10 @@ export const PAIN_GLORY_CONFIG: PlanConfig = {
                             // AMRAP weight = highest deficit × 2.22 × 0.85
                             const deficitWeight = user.painGloryStatus.deficitSnatchGripWeight || 0;
                             targetWeight = Math.floor((deficitWeight * 2.22 * 0.85) / 2.5) * 2.5;
+                        } else if (weekNum === 13 && ex.name.includes("Back-down")) {
+                            // Week 13 backdown: 85% of AMRAP weight
+                            const amrapWeight = user.painGloryStatus.amrapWeight || 0;
+                            targetWeight = Math.floor((amrapWeight * 0.85) / 2.5) * 2.5;
                         } else if (weekNum === 14 && ex.name.includes("Triple")) {
                             targetWeight = Math.floor((e1rm * 0.90) / 2.5) * 2.5;
                         } else if (weekNum === 14 && ex.name.includes("Back-down")) {

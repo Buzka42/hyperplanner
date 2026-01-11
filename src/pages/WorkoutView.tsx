@@ -726,6 +726,28 @@ export const WorkoutView: React.FC = () => {
                         }
                     }
                 }
+
+                // Week 13 AMRAP: Calculate e1RM using Epley formula
+                const amrapExercise = sessionLog.exercises.find((ex: any) => ex.name === 'Conventional Deadlift (AMRAP)');
+                if (amrapExercise && weekNum === 13) {
+                    const amrapSet = amrapExercise.setsData[0];
+                    if (amrapSet && amrapSet.completed) {
+                        const weight = parseFloat(amrapSet.weight || '0');
+                        const reps = parseInt(amrapSet.reps || '0');
+
+                        if (weight > 0 && reps > 0) {
+                            // Epley formula: weight × (1 + reps/30)
+                            const e1rm = weight * (1 + reps / 30);
+                            const roundedE1RM = Math.floor(e1rm / 2.5) * 2.5;
+
+                            await updateDoc(userRef, {
+                                'painGloryStatus.amrapWeight': weight,
+                                'painGloryStatus.amrapReps': reps,
+                                'painGloryStatus.estimatedE1RM': roundedE1RM
+                            });
+                        }
+                    }
+                }
             }
 
             // Pain & Glory: Check for Deficit Snatch Grip exercise and show modal
