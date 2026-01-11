@@ -352,8 +352,14 @@ export const WorkoutView: React.FC = () => {
             // EMOM Set Growth Logic (Weeks 1-6): Add new set when reps entered
             if (isPullup && programData.id === 'bench-domination' && weekNum >= 1 && weekNum <= 6 && field === 'reps') {
                 const reps = parseInt(value);
-                const target = parseInt(suggestedReps.replace(/[^0-9]/g, '') || "0");
+                // Parse target: for "Max" use any reps, for "3-5" use first number (3)
                 const isMax = suggestedReps.toLowerCase().includes("max");
+                let target = 0;
+                if (!isMax) {
+                    // Extract first number from string like "3-5" or "5"
+                    const match = suggestedReps.match(/\d+/);
+                    target = match ? parseInt(match[0]) : 0;
+                }
                 const MAX_EMOM_SETS = 15; // 15-minute/15-set cap
 
                 if (setIndex === currentSets.length - 1) {
