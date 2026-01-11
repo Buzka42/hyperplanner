@@ -32,16 +32,19 @@ export const ProtectedLayout: React.FC = () => {
     const isPencilneck = user?.programId === 'pencilneck-eradication';
     const isSkeleton = user?.programId === 'skeleton-to-threat';
     const isPeachy = user?.programId === 'peachy-glute-plan';
+    const isPainGlory = user?.programId === 'pain-and-glory';
 
     let themeClass = "theme-bench-domination";
     if (isPencilneck) themeClass = "theme-pencilneck";
     if (isSkeleton) themeClass = "theme-skeleton";
     if (isPeachy) themeClass = "peachy-theme";
+    if (isPainGlory) themeClass = "theme-pain-glory";
 
     let logoSrc = "/benchdomination.png";
     if (isPencilneck) logoSrc = "/pencilneck.png";
     if (isSkeleton) logoSrc = "/SKELETON.png";
     if (isPeachy) logoSrc = "/peachy.png";
+    if (isPainGlory) logoSrc = "/painglory.png";
 
     return (
         <div className={cn("min-h-screen bg-background flex flex-col md:flex-row", themeClass)}>

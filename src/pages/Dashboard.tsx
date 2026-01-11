@@ -25,6 +25,8 @@ export const Dashboard: React.FC = () => {
     const [showNextSteps, setShowNextSteps] = useState(false);
     const [gluteInput, setGluteInput] = useState("");
     const isPeachy = activePlanConfig.id === 'peachy-glute-plan';
+    const isPainGlory = activePlanConfig.id === 'pain-and-glory';
+    const [gloryCounter, setGloryCounter] = useState<number>(0);
 
     useEffect(() => {
         if (location.state?.showSkeletonCompletion) {
@@ -104,6 +106,32 @@ export const Dashboard: React.FC = () => {
 
                 setCompletedSet(completedKeys);
                 setMaxDeficitPushupReps(localMaxDeficitPushupReps);
+
+                // Calculate Glory Counter for Pain & Glory (total kg lifted in deadlift variations)
+                if (activePlanConfig.id === 'pain-and-glory') {
+                    let totalGlory = 0;
+                    snapshot.docs.forEach(doc => {
+                        const d = doc.data();
+                        if (d.programId !== 'pain-and-glory') return;
+                        if (d.exercises) {
+                            d.exercises.forEach((ex: any) => {
+                                // Count deadlift variations
+                                if (ex.name && (ex.name.includes('Deadlift') || ex.name.includes('deadlift'))) {
+                                    if (ex.setsData) {
+                                        ex.setsData.forEach((set: any) => {
+                                            const weight = parseFloat(set.weight || '0');
+                                            const reps = parseInt(set.reps || '0');
+                                            if (weight > 0 && reps > 0) {
+                                                totalGlory += weight * reps;
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    setGloryCounter(totalGlory);
+                }
 
                 let targetWeek = 1;
                 if (savedViewWeek) {
@@ -213,6 +241,32 @@ export const Dashboard: React.FC = () => {
                     .peachy-theme .text-primary { color: #FF7A5C !important; }
                     .peachy-theme .bg-primary { background-color: #FF9F7A !important; }
                  `}</style>
+            )}
+
+            {isPainGlory && (
+                <style>{`
+                    :root {
+                        --background: 35 30% 12%;
+                        --foreground: 35 20% 90%;
+                        --card: 35 25% 15%;
+                        --card-foreground: 35 20% 90%;
+                        --popover: 35 25% 15%;
+                        --popover-foreground: 35 20% 90%;
+                        --primary: 0 65% 45%;
+                        --primary-foreground: 35 20% 95%;
+                        --secondary: 35 40% 25%;
+                        --secondary-foreground: 35 20% 90%;
+                        --muted: 35 20% 20%;
+                        --muted-foreground: 35 15% 60%;
+                        --accent: 0 65% 45%;
+                        --accent-foreground: 35 20% 95%;
+                        --destructive: 0 84.2% 60.2%;
+                        --destructive-foreground: 210 40% 98%;
+                        --border: 35 30% 25%;
+                        --input: 35 30% 25%;
+                        --ring: 0 65% 45%;
+                    }
+                `}</style>
             )}
 
             {completionType && (() => {
@@ -337,6 +391,12 @@ export const Dashboard: React.FC = () => {
                                 </h2>
                             </div>
                         )}
+                    </div>
+                ) : isPainGlory ? (
+                    <div className="text-center">
+                        <h2 className="text-4xl font-black tracking-tight bg-gradient-to-r from-red-900 via-red-600 to-red-900 bg-clip-text text-transparent animate-pulse">
+                            Pain today, glory tomorrow
+                        </h2>
                     </div>
                 ) : (
                     <>
@@ -484,6 +544,35 @@ export const Dashboard: React.FC = () => {
                                     </LineChart>
                                 </ResponsiveContainer>
                             </div>
+                        </CardContent>
+                    </Card>
+                )}
+
+                {/* Glory Counter widget for Pain & Glory */}
+                {isPainGlory && (
+                    <Card className="col-span-full md:col-span-4 border-red-900/30 bg-gradient-to-br from-amber-950/20 to-red-950/20">
+                        <CardHeader className="pb-2">
+                            <CardTitle className="text-xl text-red-500 font-black flex items-center gap-2">
+                                <Trophy className="h-5 w-5" />
+                                Glory Counter
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-4xl font-black text-amber-200">
+                                {gloryCounter.toLocaleString()} <span className="text-lg font-normal text-muted-foreground">kg</span>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">
+                                Total weight lifted in all deadlift variations
+                            </p>
+                            <div className="mt-4 h-2 bg-red-950/50 rounded-full overflow-hidden">
+                                <div
+                                    className="h-full bg-gradient-to-r from-red-600 to-amber-500 transition-all duration-1000"
+                                    style={{ width: `${Math.min(100, (gloryCounter / 50000) * 100)}%` }}
+                                />
+                            </div>
+                            <p className="text-xs text-right text-amber-500/70 mt-1">
+                                {Math.round((gloryCounter / 50000) * 100)}% to 50,000 kg milestone
+                            </p>
                         </CardContent>
                     </Card>
                 )}
@@ -736,11 +825,11 @@ export const Dashboard: React.FC = () => {
 
                         return (
                             <Link key={day.dayOfWeek} to={`/app/workout/${viewWeek}/${day.dayOfWeek}`}>
-                                <Card className={`h-full transition-colors ${isDone ? 'border-green-500/50 bg-green-500/5 hover:bg-green-500/10' : 'hover:border-primary/50'}`}>
+                                <Card className={`h-full transition-colors ${isDone ? (isPainGlory ? 'border-red-500/50 bg-red-500/5 hover:bg-red-500/10' : 'border-green-500/50 bg-green-500/5 hover:bg-green-500/10') : 'hover:border-primary/50'}`}>
                                     <CardHeader className="p-4">
                                         <div className="flex justify-between items-start">
                                             <CardTitle className="text-base truncate pr-2" title={displayDayName}>{displayDayName}</CardTitle>
-                                            {isDone && <CheckCircleIcon className="h-5 w-5 text-green-500 flex-shrink-0" />}
+                                            {isDone && <CheckCircleIcon className={`h-5 w-5 flex-shrink-0 ${isPainGlory ? 'text-red-500' : 'text-green-500'}`} />}
                                         </div>
                                         <p className="text-xs text-muted-foreground mt-1 truncate" title={subTitle}>{subTitle}</p>
                                     </CardHeader>

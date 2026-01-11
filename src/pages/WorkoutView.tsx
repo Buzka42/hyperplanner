@@ -40,6 +40,10 @@ export const WorkoutView: React.FC = () => {
     const [isExistingLog, setIsExistingLog] = useState(false);
     const [logId, setLogId] = useState<string | null>(null);
 
+    // Pain & Glory: Deficit Snatch Grip modal state
+    const [showDeficitModal, setShowDeficitModal] = useState(false);
+    const [_pendingSessionLog, setPendingSessionLog] = useState<any>(null);
+
     const programData = activePlanConfig.program;
     const weekData = programData.weeks.find(w => w.weekNumber === weekNum);
     const rawDayData = weekData?.days.find(d => d.dayOfWeek === dayNum);
@@ -660,7 +664,7 @@ export const WorkoutView: React.FC = () => {
                     id,
                     name: dayData?.exercises.find(e => e.id === id)?.name || "Unknown",
                     setsData: sets,
-                    notes: exerciseNotes[id] || "t:tips.explosiveThursday" || null
+                    notes: exerciseNotes[id] || null
                 })),
                 programId: programData.id
             };
@@ -671,6 +675,18 @@ export const WorkoutView: React.FC = () => {
                 await updateDoc(doc(workoutsRef, logId), sessionLog);
             } else {
                 await addDoc(workoutsRef, sessionLog);
+            }
+
+            // Pain & Glory: Check for Deficit Snatch Grip exercise and show modal
+            const hasDeficitSnatchGrip = dayData?.exercises.some(ex =>
+                ex.name === "Deficit Snatch Grip Deadlift"
+            );
+
+            if (programData.id === 'pain-and-glory' && hasDeficitSnatchGrip && weekNum <= 12) {
+                setPendingSessionLog(sessionLog);
+                setShowDeficitModal(true);
+                setSubmitting(false);
+                return; // Don't navigate yet - wait for modal response
             }
 
             if (navigateToDashboard) {
@@ -712,6 +728,102 @@ export const WorkoutView: React.FC = () => {
 
     return (
         <div className="space-y-6 pb-20">
+            {/* Pain & Glory: Deficit Snatch Grip RPE Modal */}
+            {showDeficitModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 animate-in fade-in duration-300">
+                    <div className="bg-gradient-to-br from-red-950/95 to-black border-2 border-red-900/70 p-8 rounded-xl max-w-md w-full shadow-2xl">
+                        <h2 className="text-2xl font-black text-amber-100 text-center mb-2">
+                            ⚔️ How Did That Feel? ⚔️
+                        </h2>
+                        <p className="text-amber-200/70 text-center text-sm mb-6">
+                            Based on your RPE, we'll adjust next session's weight
+                        </p>
+
+                        <div className="space-y-3">
+                            <Button
+                                onClick={async () => {
+                                    // +5 kg next session
+                                    const currentWeight = user?.painGloryStatus?.deficitSnatchGripWeight || 0;
+                                    await updateDoc(doc(db, 'users', user!.id), {
+                                        'painGloryStatus.deficitSnatchGripWeight': currentWeight + 5,
+                                        'painGloryStatus.lastFeedback': 'ready_for_more',
+                                        'painGloryStatus.lastFeedbackDate': new Date().toISOString()
+                                    });
+                                    setShowDeficitModal(false);
+                                    navigate('/app/dashboard');
+                                }}
+                                className="w-full h-14 text-lg font-bold bg-red-900/80 hover:bg-red-800 border-2 border-red-700 text-amber-100"
+                            >
+                                ⚔️ Ready For More (+5 kg)
+                            </Button>
+
+                            <Button
+                                onClick={async () => {
+                                    // Same weight
+                                    await updateDoc(doc(db, 'users', user!.id), {
+                                        'painGloryStatus.lastFeedback': 'good_maintain',
+                                        'painGloryStatus.lastFeedbackDate': new Date().toISOString()
+                                    });
+                                    setShowDeficitModal(false);
+                                    navigate('/app/dashboard');
+                                }}
+                                className="w-full h-14 text-lg font-bold bg-amber-900/80 hover:bg-amber-800 border-2 border-amber-700 text-amber-100"
+                            >
+                                🩸 Good, Maintain
+                            </Button>
+
+                            <Button
+                                onClick={async () => {
+                                    // -5 kg next session
+                                    const currentWeight = user?.painGloryStatus?.deficitSnatchGripWeight || 0;
+                                    await updateDoc(doc(db, 'users', user!.id), {
+                                        'painGloryStatus.deficitSnatchGripWeight': Math.max(20, currentWeight - 5),
+                                        'painGloryStatus.lastFeedback': 'wrecked',
+                                        'painGloryStatus.lastFeedbackDate': new Date().toISOString()
+                                    });
+                                    setShowDeficitModal(false);
+                                    navigate('/app/dashboard');
+                                }}
+                                className="w-full h-14 text-lg font-bold bg-black/80 hover:bg-black border-2 border-red-950 text-red-400"
+                            >
+                                💀 Wrecked (-5 kg)
+                            </Button>
+                        </div>
+
+                        <p className="text-xs text-center text-amber-200/50 mt-4">
+                            Current weight: {user?.painGloryStatus?.deficitSnatchGripWeight || '?'} kg
+                        </p>
+                    </div>
+                </div>
+            )}
+
+            {/* Pain & Glory Theme for WorkoutView */}
+            {activePlanConfig.id === 'pain-and-glory' && (
+                <style>{`
+                    :root {
+                        --background: 35 30% 12%;
+                        --foreground: 35 20% 90%;
+                        --card: 35 25% 15%;
+                        --card-foreground: 35 20% 90%;
+                        --popover: 35 25% 15%;
+                        --popover-foreground: 35 20% 90%;
+                        --primary: 0 65% 45%;
+                        --primary-foreground: 35 20% 95%;
+                        --secondary: 35 40% 25%;
+                        --secondary-foreground: 35 20% 90%;
+                        --muted: 35 20% 20%;
+                        --muted-foreground: 35 15% 60%;
+                        --accent: 0 65% 45%;
+                        --accent-foreground: 35 20% 95%;
+                        --destructive: 0 84.2% 60.2%;
+                        --destructive-foreground: 210 40% 98%;
+                        --border: 35 30% 25%;
+                        --input: 35 30% 25%;
+                        --ring: 0 65% 45%;
+                    }
+                `}</style>
+            )}
+
             <div className="flex items-center gap-2 mb-6">
                 <Button variant="ghost" size="icon" onClick={() => navigate('/app/dashboard')} className="-ml-2">
                     <ArrowLeft className="h-5 w-5" />
@@ -720,7 +832,7 @@ export const WorkoutView: React.FC = () => {
                     <h2 className="text-2xl font-bold tracking-tight">
                         {resolveDayName(dayData.dayName)}
                     </h2>
-                    <p className="text-muted-foreground">{t('common.week')} {weekNum} {isExistingLog && <span className="text-green-500 font-bold ml-2">({t('workout.completed')})</span>}</p>
+                    <p className="text-muted-foreground">{t('common.week')} {weekNum} {isExistingLog && <span className={`font-bold ml-2 ${activePlanConfig.id === 'pain-and-glory' ? 'text-red-500' : 'text-green-500'}`}>({t('workout.completed')})</span>}</p>
                 </div>
             </div>
 
@@ -831,39 +943,52 @@ export const WorkoutView: React.FC = () => {
                         "Overhand Mid-Grip Pulldown": "overhandPulldown"
                     };
 
-                    const tipKey = tipMap[ex.name];
-                    if (tipKey) {
-                        const tipText = t(`tips.${tipKey}`);
-                        if (tipText && tipText !== `tips.${tipKey}`) { // Check if translation exists
-                            displayTips.push(tipText);
+                    // For Pain & Glory, skip tipMap and only use ex.notes
+                    if (programData.id !== 'pain-and-glory') {
+                        const tipKey = tipMap[ex.name];
+                        if (tipKey) {
+                            const tipText = t(`tips.${tipKey}`);
+                            if (tipText && tipText !== `tips.${tipKey}`) { // Check if translation exists
+                                displayTips.push(tipText);
+                            }
                         }
-                    }
 
-                    // Add Nordic/Glute-Ham swap tip for both original and alternative
-                    if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {
-                        displayTips.push(t('tips.nordicSwapTip'));
+                        // Add Nordic/Glute-Ham swap tip for both original and alternative
+                        if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {
+                            displayTips.push(t('tips.nordicSwapTip'));
 
-                    }
+                        }
 
-                    if (ex.name.includes("Pull-ups") && programData.id === 'bench-domination') {
-                        let pKey: string | null = null;
-                        if (weekNum <= 3) pKey = "pullupWeeks1to3";
-                        else if (weekNum <= 6) pKey = "pullupWeeks4to6";
-                        else if (weekNum <= 9) pKey = "pullupWeeks7to9";
-                        else if (weekNum === 10) pKey = "pullupWeek10";
-                        else if (weekNum >= 11) pKey = "pullupWeeks11to12";
+                        if (ex.name.includes("Pull-ups") && programData.id === 'bench-domination') {
+                            let pKey: string | null = null;
+                            if (weekNum <= 3) pKey = "pullupWeeks1to3";
+                            else if (weekNum <= 6) pKey = "pullupWeeks4to6";
+                            else if (weekNum <= 9) pKey = "pullupWeeks7to9";
+                            else if (weekNum === 10) pKey = "pullupWeek10";
+                            else if (weekNum >= 11) pKey = "pullupWeeks11to12";
 
-                        if (pKey) {
-                            const pullupTip = t(`tips.${pKey}`);
-                            if (pullupTip && pullupTip !== `tips.${pKey}`) {
-                                displayTips.push(pullupTip);
+                            if (pKey) {
+                                const pullupTip = t(`tips.${pKey}`);
+                                if (pullupTip && pullupTip !== `tips.${pKey}`) {
+                                    displayTips.push(pullupTip);
+                                }
                             }
                         }
                     }
 
                     // Add dynamic notes from program (if not empty)
                     if (ex.notes) {
-                        displayTips.push(ex.notes);
+                        // Translate notes if they start with 't:'
+                        if (ex.notes.startsWith('t:')) {
+                            const noteKey = ex.notes.substring(2);
+                            const translatedNote = t(noteKey);
+                            // Only add if translation exists (not returning the key itself)
+                            if (translatedNote && translatedNote !== noteKey) {
+                                displayTips.push(translatedNote);
+                            }
+                        } else {
+                            displayTips.push(ex.notes);
+                        }
                     }
 
                     let advice = prevStat?.advice || "";

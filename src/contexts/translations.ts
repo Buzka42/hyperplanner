@@ -198,7 +198,7 @@ export const translations = {
                 },
                 painGlory: {
                     name: "Pain & Glory",
-                    description: "16-week intermediate deadlift specialization. Pain today, glory tomorrow.",
+                    description: "Pain today, glory tomorrow.",
                     features: [
                         "Focus: Heavy Deadlifting",
                         "4 Days / Week - Pull/Push",
@@ -841,8 +841,8 @@ export const translations = {
             fullBodyC: "Full Body C",
 
             // Pain & Glory
-            pullDay: "Dzień Ciągnięć",
-            pushDay: "Dzień Wypychów",
+            pullDay: "Dzień Pull",
+            pushDay: "Dzień Push",
         },
 
         badges: {
@@ -1412,7 +1412,7 @@ export const translations = {
             increaseWeight: "Zwiększ ciężar!",
 
             // Pain & Glory Dashboard
-            painGloryDashboardTagline: "Średnio-zaawansowany martwy ciąg – dziś ból, jutro chwała",
+            painGloryDashboardTagline: "Dziś ból, jutro chwała",
             deficitSnatchGripTracker: "Progres Deficit Snatch Grip",
             currentWeight: "Aktualny ciężar",
             trend: "Trend",

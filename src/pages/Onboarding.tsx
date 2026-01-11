@@ -356,22 +356,22 @@ export const Onboarding: React.FC = () => {
 
                         {/* Pain & Glory Card */}
                         <Card
-                            className="overflow-hidden cursor-pointer hover:border-red-800 transition-all hover:scale-105 group border-amber-900/30"
+                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(PAIN_GLORY_CONFIG.id)}
                         >
-                            <div className="h-48 bg-gradient-to-br from-amber-900/30 to-red-950/50 relative flex items-center justify-center">
+                            <div className="h-48 bg-black relative flex items-center justify-center">
                                 <img src="/painglory.png" alt="Pain & Glory" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-amber-100 leading-tight">{tObject('onboarding.programs.painGlory').name}</h3>
+                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.painGlory').name}</h3>
                                 </div>
                             </div>
-                            <CardContent className="pt-4 p-4 bg-gradient-to-b from-amber-950/10 to-transparent">
+                            <CardContent className="pt-4 p-4">
                                 <p className="text-muted-foreground text-xs mb-3">
                                     {tObject('onboarding.programs.painGlory').description}
                                 </p>
                                 <ul className="space-y-1 text-xs">
                                     {tArray('onboarding.programs.painGlory.features').map((feature, i) => (
-                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-red-500" /> {feature}</li>
+                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
                                     ))}
                                 </ul>
                             </CardContent>
