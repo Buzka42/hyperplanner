@@ -121,18 +121,25 @@ To maintain and expand the app, it is crucial to understand what is generic and 
     *   Weeks 10-12: ≥8 reps = +2.5 kg
     *   Peaking Weeks 13-15: ≥6 reps = +2.5 kg
     *   No microplates, no large jumps – +2.5 kg max increase.
-*   **Weight Calculation Methodology (`calculateWeight` hook):**
+*   **Weight Calculation Methodology (`calculateWeight` hook) – January 2026 Overhaul:**
     ```
-    1. Count qualifying AMRAPs before current week (progressionCount)
-    2. Calculate progressed base: pausedBench + (progressionCount × 2.5)
-    3. Apply workout-specific percentage to progressed base
-    4. Round to nearest 2.5 kg
+    1. Get current base from getPausedBenchBase():
+       a. Start with onboarding 1RM
+       b. Apply +2.5 kg for each qualifying AMRAP (phased thresholds)
+       c. At weeks 4, 8, 12: recalculate e1RM using Epley (weight × (1 + reps/30))
+       d. Reset base to e1RM rounded DOWN to nearest 2.5 kg
+    2. Calculate raw weight: currentBase × workout-specific percentage
+    3. Round to nearest 2.5 kg with UPWARD CAP SAFETY:
+       - Never round up more than +2.5 kg above raw value
+       - Example: raw 134.375 → 135 ✓, raw 135.1 → 135 ✓ (rounds down)
+    4. Peaking (W13-15): Uses final Week 12 e1RM for all % calculations
     ```
-    **Important:** The progression (+2.5 kg per qualifying week) is applied to the BASE first, THEN the percentage is applied. This ensures consistent +2.5 kg increases across all days regardless of their different percentages (Monday 85%, Wednesday 75%, etc.).
+    **Important:** The old onboarding jump system has been REMOVED. All progress is now driven exclusively by AMRAP performance and e1RM recalculations.
 *   **Variation Progression:**
     *   **Fixed-Rep Targets (Spoto Press 5 reps, Low Pin Press 4 reps):** Hit exact target on ALL sets = +2.5 kg next session. Message: *"Target reps hit – weight auto-increased +2.5 kg next time"*
     *   **Rep Ranges (Wide-Grip Bench 6-8 reps):** Hit top reps (8) on ALL sets for 2 consecutive weeks = +2.5 kg. Message: *"Hit top reps on all sets for 2 straight weeks → +2.5 kg"*
 *   **Elite Warmups:** Added for main bench lifts.
+
 
 ### `src/data/peachy.ts` (Peachy Plan)
 *   **Finisher Injection:** Logic in `createPeachyWeeks` specifically pushes the "Glute Pump Finisher" to the Saturday array if `w === 12`.
@@ -442,6 +449,34 @@ const tipMap: Record<string, keyof typeof translations.en.tips> = {
 
 ## Changelog
 
+### January 12, 2026 – **MAJOR: Paused Bench Press Calculation Overhaul**
+- **COMPLETE OVERHAUL**: Paused Bench Press weight calculation system has been completely rebuilt
+- **NEW: e1RM Recalculation Every 4 Weeks**
+  - End of Week 4, Week 8, Week 12: Calculate estimated 1RM from latest Saturday AMRAP
+  - Formula: Epley `e1RM = weight × (1 + reps/30)`
+  - New base = e1RM rounded DOWN to nearest 2.5 kg
+  - Console logging: `"e1RM updated from AMRAP: X kg. Base reset for next block."`
+- **NEW: Safe Rounding Rules (Working Weights)**
+  - All working weights now round to nearest 2.5 kg with **upward cap safety**
+  - Never rounds up more than +2.5 kg above raw calculated value
+  - Examples: raw 134.375 → 135 ✓ (up +0.625), raw 135.1 → 135 ✓ (down)
+- **REMOVED: Old Onboarding Jump System**
+  - No more direct weight jumps from onboarding values
+  - All progress now driven exclusively by AMRAP and phased thresholds
+  - Explicit note in PLAN.md: "Old onboarding jump system removed"
+- **AMRAP Progression Unchanged**
+  - Weeks 1-6: ≥12 reps = +2.5 kg
+  - Weeks 7-9: ≥10 reps = +2.5 kg
+  - Weeks 10-12: ≥8 reps = +2.5 kg
+  - Peaking Weeks 13-15: ≥6 reps = +2.5 kg
+- **Peaking Block (Weeks 13-15)**: Uses final Week 12 e1RM recalculation as base
+- **Reactive Deload Unchanged**: 2 consecutive ≤7 reps → -15% weight + half volume
+- **Backward Compatible**: Existing users get new logic forward (no retroactive weight changes)
+- **Helper Functions Added**: `roundToNearest2_5WithCap()`, `roundDownToNearest2_5()`, `calculateE1RM()`
+- **PLAN.md Regenerated**: Complete documentation of new system with tables and examples
+- **Affected Files**: `program.ts`, `PLAN.md`
+- **Backup Created**: `backups/PLAN_2026-01-12_e1rm-overhaul_6f8a510.md`
+
 ### January 11, 2026
 - **NEW PROGRAM: Pain & Glory** (16-Week Intermediate Deadlift Specialization)
   - Complete 16-week program with 3 phases: Accumulation (W1-8), E2MOM Transition (W9-12), Peaking (W13-16)
@@ -524,4 +559,4 @@ const tipMap: Record<string, keyof typeof translations.en.tips> = {
 
 ---
 
-*Generated from source code – January 11, 2026*
+*Generated from source code – January 12, 2026*

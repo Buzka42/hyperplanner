@@ -119,7 +119,7 @@ const createWeeks = (): ProgramWeek[] => {
                     name: "Paused Bench Press (1RM TEST)",
                     sets: 1,
                     target: { type: "straight", reps: "1", percentage: 1.05, percentageRef: "pausedBench" },
-                    notes: "Warm up well. Go for PR. YOU ARE A THREAT."
+                    notes: "Warm up well. Go for PR. DOMINATE."
                 });
             } else {
                 d6Exercises.push({
@@ -388,41 +388,153 @@ const getRepThresholdForWeek = (week: number): number => {
     return 12;                  // Weeks 1-6: ≥12 reps
 };
 
-const getPausedBenchBase = (user: UserProfile, context?: { week: number }) => {
+/**
+ * Safe rounding to nearest 2.5 kg with +2.5 kg upward cap.
+ * Ensures we never round up more than +2.5 kg above raw calculated value.
+ * - If raw is 134.375 kg → nearest is 135 kg (up +0.625 kg OK)
+ * - If raw is 134.9 kg → nearest is 135 kg (up +0.1 kg OK)
+ * - If raw is 135.1 kg → 135 kg (down, not up)
+ */
+const roundToNearest2_5WithCap = (rawWeight: number): number => {
+    // Calculate nearest 2.5 kg (standard rounding)
+    const nearestRounded = Math.round(rawWeight / 2.5) * 2.5;
+
+    // Check if we're rounding up more than 2.5 kg
+    const difference = nearestRounded - rawWeight;
+
+    if (difference > 2.5) {
+        // Safety cap: if rounding up by more than 2.5 kg, round down instead
+        return Math.floor(rawWeight / 2.5) * 2.5;
+    }
+
+    // If difference is positive but <= 2.5 kg, OK to round up
+    // If difference is negative or zero, we're rounding down (always OK)
+    return nearestRounded;
+};
+
+/**
+ * Round DOWN to nearest 2.5 kg (for e1RM base calculations)
+ */
+const roundDownToNearest2_5 = (weight: number): number => {
+    return Math.floor(weight / 2.5) * 2.5;
+};
+
+/**
+ * Round UP to nearest 2.5 kg (for Volume/AMRAP days to show clear progression)
+ * Used on Wednesday and Saturday to ensure visible weight increases after successful AMRAPs.
+ */
+const roundUpToNearest2_5 = (weight: number): number => {
+    return Math.ceil(weight / 2.5) * 2.5;
+};
+
+/**
+ * Calculate e1RM using Epley formula: weight × (1 + reps/30)
+ */
+const calculateE1RM = (weight: number, reps: number): number => {
+    if (reps <= 0) return weight;
+    return weight * (1 + reps / 30);
+};
+
+/**
+ * Get Paused Bench Base Weight with complete overhaul:
+ * - Base weight (pausedBench) starts from user onboarding 1RM
+ * - AMRAP progression: phased thresholds determine +2.5 kg increases
+ * - e1RM re-calculation every 4 weeks (end of week 4, 8, 12) using Epley formula
+ * - New base = e1RM rounded DOWN to nearest 2.5 kg
+ * - Peaking block (weeks 13-15): uses final w12 re-calc e1RM
+ * 
+ * NOTE: benchHistory.weight contains CALCULATED e1RM (from Epley)
+ *       benchHistory.actualWeight contains the ACTUAL weight lifted in AMRAP
+ *       benchHistory.actualReps contains the actual reps performed
+ * 
+ * OLD SYSTEM REMOVED: No direct jumps from onboarding weight, no old rounding rules.
+ * All progress driven by AMRAP and phased thresholds.
+ */
+const getPausedBenchBase = (user: UserProfile, context?: { week: number }): number => {
     if (!user.stats.pausedBench) return 0;
 
+    // Start with onboarding 1RM
     let currentBase = user.stats.pausedBench;
+    const currentWeek = context?.week || 1;
 
-    if (user.benchHistory && user.benchHistory.length > 0) {
-        // Sort by week ascending
-        const sortedAMRAPs = [...user.benchHistory]
-            .filter(entry => entry.week !== undefined && entry.week !== null)
-            .sort((a, b) => (a.week || 0) - (b.week || 0));
+    console.log(`[BASE CALC] Starting calculation for week ${currentWeek}, initial base: ${currentBase} kg`);
 
-        // Filter out future entries relative to context
-        const relevantEntries = sortedAMRAPs.filter(entry =>
-            !context || !entry.week || entry.week < context.week
-        );
+    if (!user.benchHistory || user.benchHistory.length === 0) {
+        console.log(`[BASE CALC] No benchHistory, returning initial base: ${currentBase} kg`);
+        return currentBase;
+    }
 
-        // Apply progression for each completed AMRAP week
-        // Track which weeks we've processed to avoid duplicates
-        const processedWeeks = new Set<number>();
+    // Sort by week ascending and filter to only weeks before current
+    const sortedAMRAPs = [...user.benchHistory]
+        .filter(entry => entry.week !== undefined && entry.week !== null && entry.week < currentWeek)
+        .sort((a, b) => (a.week || 0) - (b.week || 0));
 
-        for (const entry of relevantEntries) {
-            const entryWeek = entry.week || 0;
+    console.log(`[BASE CALC] Found ${sortedAMRAPs.length} AMRAP entries before week ${currentWeek}`);
 
-            // Skip if we already processed this week (take first entry only)
-            if (processedWeeks.has(entryWeek)) continue;
-            processedWeeks.add(entryWeek);
+    // Track which weeks we've processed to avoid duplicates
+    const processedWeeks = new Set<number>();
 
-            const reps = entry.actualReps || 0;
-            // Phased progression: threshold depends on which week the AMRAP was performed
-            const threshold = getRepThresholdForWeek(entryWeek);
-            if (reps >= threshold) {
-                currentBase += 2.5;
+    // e1RM recalculation checkpoints: at the START of weeks 5, 9, 13 (after completing 4, 8, 12)
+    // We recalculate based on the AMRAP from the checkpoint week (4, 8, 12)
+    const e1rmCheckpoints = [
+        { afterWeek: 4, forWeeksFrom: 5 },
+        { afterWeek: 8, forWeeksFrom: 9 },
+        { afterWeek: 12, forWeeksFrom: 13 }
+    ];
+
+    // First, determine if we need an e1RM reset based on current week
+    for (const checkpoint of e1rmCheckpoints) {
+        if (currentWeek >= checkpoint.forWeeksFrom) {
+            // Find the AMRAP from the checkpoint week
+            const checkpointEntry = sortedAMRAPs.find(e => e.week === checkpoint.afterWeek);
+            if (checkpointEntry && checkpointEntry.actualReps && checkpointEntry.actualWeight) {
+                // Calculate e1RM using Epley formula with ACTUAL weight lifted
+                const e1RM = calculateE1RM(checkpointEntry.actualWeight, checkpointEntry.actualReps);
+                // New base = e1RM rounded DOWN to nearest 2.5 kg
+                const newBase = roundDownToNearest2_5(e1RM);
+
+                console.log(`[e1RM RESET] Week ${checkpoint.afterWeek} checkpoint for week ${currentWeek}:`);
+                console.log(`[e1RM RESET] AMRAP: ${checkpointEntry.actualWeight}kg × ${checkpointEntry.actualReps} reps`);
+                console.log(`[e1RM RESET] e1RM = ${e1RM.toFixed(2)} kg → New base = ${newBase} kg`);
+
+                // Reset base to e1RM
+                currentBase = newBase;
+
+                // Now only count progressions AFTER this checkpoint week
+                // Clear processed weeks and start fresh from after the checkpoint
+                processedWeeks.clear();
+
+                // Mark all weeks up to and including checkpoint as processed (don't count them again)
+                for (const entry of sortedAMRAPs) {
+                    if ((entry.week || 0) <= checkpoint.afterWeek) {
+                        processedWeeks.add(entry.week || 0);
+                    }
+                }
             }
         }
     }
+
+    // Now apply weekly AMRAP progressions for weeks we haven't processed
+    for (const entry of sortedAMRAPs) {
+        const entryWeek = entry.week || 0;
+
+        // Skip if we already processed this week
+        if (processedWeeks.has(entryWeek)) continue;
+        processedWeeks.add(entryWeek);
+
+        const reps = entry.actualReps || 0;
+
+        // Apply weekly AMRAP progression (phased thresholds)
+        const threshold = getRepThresholdForWeek(entryWeek);
+        if (reps >= threshold) {
+            currentBase += 2.5;
+            console.log(`[AMRAP PROGRESS] Week ${entryWeek}: ${reps} reps >= ${threshold} threshold → +2.5 kg, base now ${currentBase} kg`);
+        } else {
+            console.log(`[AMRAP STALL] Week ${entryWeek}: ${reps} reps < ${threshold} threshold → no increase, base stays ${currentBase} kg`);
+        }
+    }
+
+    console.log(`[BASE CALC] Final base for week ${currentWeek}: ${currentBase} kg`);
     return currentBase;
 };
 
@@ -874,44 +986,48 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
             return processedDay;
         },
 
+        /**
+         * Calculate working weight for Paused Bench Press and variations.
+         * 
+         * NEW SYSTEM (January 2026 Overhaul):
+         * - Working weights = % of current base (from getPausedBenchBase)
+         * - Round to nearest 2.5 kg with +2.5 kg upward cap for safety
+         * - Base is determined by: onboarding 1RM → AMRAP progression → e1RM recalcs every 4 weeks
+         * 
+         * OLD SYSTEM REMOVED: No direct jumps from onboarding, no old rounding rules.
+         */
         calculateWeight: (target: SetTarget, user: UserProfile, exerciseName?: string, context?: { week: number; day: number }) => {
             // 0. Absolute Weight
             if (target.weightAbsolute) return target.weightAbsolute.toString();
 
-            // 1. Paused Bench Special AMRAP Logic with Direct Weight Progression
+            // 1. Paused Bench Press - Complete Overhaul
             if (target.percentageRef === 'pausedBench' && user.stats.pausedBench && context) {
+                // Get current base (includes all AMRAP progressions and e1RM recalculations)
+                const currentBase = getPausedBenchBase(user, { week: context.week });
                 const perc = target.percentage || 1;
 
-                // Count qualifying AMRAPs before current week
-                // Uses phased thresholds: Weeks 1-6 ≥12, 7-9 ≥10, 10-12 ≥8, 13-15 ≥6
-                let progressionCount = 0;
-                if (user.benchHistory && user.benchHistory.length > 0) {
-                    const processedWeeks = new Set<number>();
+                // Calculate raw percentage weight
+                const rawWeight = currentBase * perc;
 
-                    const sortedAMRAPs = [...user.benchHistory]
-                        .filter(entry => entry.week !== undefined && entry.week !== null && entry.week < context.week)
-                        .sort((a, b) => (a.week || 0) - (b.week || 0));
+                // Determine rounding strategy based on day:
+                // - Monday (day 1) Heavy: nearest rounding (conservative)
+                // - Wednesday (day 3) Volume: ceiling rounding (show progression)
+                // - Thursday (day 4) Power: nearest rounding (conservative)
+                // - Saturday (day 6) AMRAP: ceiling rounding (show progression)
+                let finalWeight: number;
+                const day = context.day;
 
-                    for (const entry of sortedAMRAPs) {
-                        const entryWeek = entry.week || 0;
-                        if (processedWeeks.has(entryWeek)) continue;
-                        processedWeeks.add(entryWeek);
-
-                        const reps = entry.actualReps || 0;
-                        const threshold = getRepThresholdForWeek(entryWeek);
-                        if (reps >= threshold) {
-                            progressionCount++;
-                        }
-                    }
+                if (day === 3 || day === 6) {
+                    // Volume (Wed) and AMRAP (Sat): round UP to show clear progression
+                    finalWeight = roundUpToNearest2_5(rawWeight);
+                    console.log(`[WEIGHT CALC] Paused Bench (${day === 3 ? 'Volume' : 'AMRAP'}): base ${currentBase} kg × ${(perc * 100).toFixed(1)}% = raw ${rawWeight.toFixed(2)} kg → CEIL ${finalWeight} kg`);
+                } else {
+                    // Heavy (Mon) and Power (Thu): round to nearest with safety cap
+                    finalWeight = roundToNearest2_5WithCap(rawWeight);
+                    console.log(`[WEIGHT CALC] Paused Bench (${day === 1 ? 'Heavy' : 'Power'}): base ${currentBase} kg × ${(perc * 100).toFixed(1)}% = raw ${rawWeight.toFixed(2)} kg → NEAREST ${finalWeight} kg`);
                 }
 
-                // CORRECT: First calculate progressed base (add +2.5kg for each qualifying week)
-                // Then apply the percentage to the progressed base
-                const progressedBase = user.stats.pausedBench + (progressionCount * 2.5);
-                let baseWeight = progressedBase * perc;
-                baseWeight = Math.floor((baseWeight + 1.25) / 2.5) * 2.5;
-
-                return baseWeight.toString();
+                return finalWeight.toString();
             }
 
             // 2. Bench Press Variations - Detect 1RM vs Working Weight via Ratio
@@ -934,11 +1050,12 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                     const threshold = bench1RM > 0 ? bench1RM * 0.85 : 999;
 
                     if (storedValue > threshold) {
-                        // Likely 1RM - convert to working weight
+                        // Likely 1RM - convert to working weight using new rounding rules
                         const perc = target.percentage || 1;
-                        let baseWeight = storedValue * perc;
-                        baseWeight = Math.floor((baseWeight + 1.25) / 2.5) * 2.5;
-                        return baseWeight.toString();
+                        const rawWeight = storedValue * perc;
+                        // Use safe rounding with upward cap for consistency
+                        const finalWeight = roundToNearest2_5WithCap(rawWeight);
+                        return finalWeight.toString();
                     } else {
                         // Likely Working Weight - use directly
                         return storedValue.toString();
