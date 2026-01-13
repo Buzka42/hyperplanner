@@ -14,8 +14,11 @@ import { SKELETON_PROGRAM } from '../data/skeleton';
 import { PENCILNECK_PROGRAM } from '../data/pencilneck';
 import { PEACHY_CONFIG } from '../data/peachy';
 import { PAIN_GLORY_CONFIG } from '../data/painglory';
+import { TRINARY_CONFIG } from '../data/trinary';
 import { Checkbox } from '../components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules';
 
@@ -77,6 +80,9 @@ export const Onboarding: React.FC = () => {
             setStep('days');
         } else if (pid === PAIN_GLORY_CONFIG.id) {
             setStep('days');
+        } else if (pid === TRINARY_CONFIG.id) {
+            // Trinary goes directly to stats - no schedule selection
+            setStep('stats');
         } else {
             setStep('stats');
         }
@@ -208,6 +214,59 @@ export const Onboarding: React.FC = () => {
                 if (!codeword) throw new Error("No codeword found. Please restart.");
                 // @ts-ignore
                 await registerUser(codeword, painGloryStats, PAIN_GLORY_CONFIG.id, selectedDays.length === 4 ? selectedDays : [1, 2, 4, 5], {});
+            }
+            navigate('/app/dashboard');
+        } catch (err: any) {
+            console.error("Registration failed:", err);
+            alert("Failed to build program: " + (err.message || "Unknown error"));
+        }
+    };
+
+    const handleTrinarySubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const bench1RM = (stats as any).trinaryBench || 0;
+        const deadlift1RM = (stats as any).trinaryDeadlift || 0;
+        const squat1RM = (stats as any).trinarySquat || 0;
+
+        if (bench1RM <= 0 || deadlift1RM <= 0 || squat1RM <= 0) {
+            alert("Please enter valid 1RM values for all three lifts.");
+            return;
+        }
+
+        const trinaryStats = {
+            ...stats,
+            trinaryBench1RM: bench1RM,
+            trinaryDeadlift1RM: deadlift1RM,
+            trinarySquat1RM: squat1RM
+        };
+
+        const initialTrinaryStatus = {
+            completedWorkouts: 0,
+            currentBlock: 1,
+            bench1RM: bench1RM,
+            deadlift1RM: deadlift1RM,
+            squat1RM: squat1RM,
+            workoutLog: [],
+            cycleNumber: 1,
+            isDeload: false
+        };
+
+        try {
+            if (user) {
+                await updateUserProfile({
+                    stats: trinaryStats,
+                    trinaryStatus: initialTrinaryStatus
+                });
+                await switchProgram(TRINARY_CONFIG.id);
+            } else {
+                if (!codeword) throw new Error("No codeword found. Please restart.");
+                // Register new user and then update trinaryStatus
+                await registerUser(codeword, trinaryStats, TRINARY_CONFIG.id, [], {});
+                // Set trinaryStatus after registration
+                const userRef = doc(db, 'users', codeword.toLowerCase());
+                await updateDoc(userRef, {
+                    trinaryStatus: initialTrinaryStatus
+                });
             }
             navigate('/app/dashboard');
         } catch (err: any) {
@@ -372,6 +431,29 @@ export const Onboarding: React.FC = () => {
                                 </p>
                                 <ul className="space-y-1 text-xs">
                                     {tArray('onboarding.programs.painGlory.features').map((feature, i) => (
+                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
+                                    ))}
+                                </ul>
+                            </CardContent>
+                        </Card>
+
+                        {/* Trinary Card */}
+                        <Card
+                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
+                            onClick={() => handleProgramSelect('trinary')}
+                        >
+                            <div className="h-48 bg-black relative flex items-center justify-center">
+                                <img src="/trinary.png" alt="Trinary" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
+                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.trinary').name}</h3>
+                                </div>
+                            </div>
+                            <CardContent className="pt-4 p-4">
+                                <p className="text-muted-foreground text-xs mb-3">
+                                    {tObject('onboarding.programs.trinary').description}
+                                </p>
+                                <ul className="space-y-1 text-xs">
+                                    {tArray('onboarding.programs.trinary.features').map((feature, i) => (
                                         <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
                                     ))}
                                 </ul>
@@ -738,6 +820,94 @@ export const Onboarding: React.FC = () => {
                             <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-red-900 to-amber-900 hover:from-red-800 hover:to-amber-800" size="lg">
                                 <CheckCircle2 className="mr-2 h-5 w-5" />
                                 {t('onboarding.painGlory.buildButton')}
+                            </Button>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    // Trinary stats form - heavy metal styled
+    if (selectedProgramId === TRINARY_CONFIG.id) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-950 via-zinc-900 to-slate-950 flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-zinc-700/50 shadow-2xl bg-gradient-to-b from-zinc-900 to-slate-950">
+                    <CardHeader>
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2 text-zinc-400 hover:text-zinc-200">
+                                <ArrowLeft className="h-5 w-5" />
+                            </Button>
+                            <CardTitle className="text-2xl bg-gradient-to-r from-zinc-200 via-zinc-400 to-zinc-200 bg-clip-text text-transparent">{t('onboarding.trinary.calibrationTitle')}</CardTitle>
+                        </div>
+                        <CardDescription className="text-zinc-400">
+                            {t('onboarding.trinary.calibrationDesc')}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex justify-center mb-6">
+                            <img src="/trinary.png" alt="Trinary" className="w-32 h-32 object-contain opacity-80" />
+                        </div>
+
+                        <form onSubmit={handleTrinarySubmit} className="space-y-6">
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="trinaryBench" className="text-base text-zinc-200">{t('onboarding.trinary.benchLabel')}</Label>
+                                    <Input
+                                        id="trinaryBench"
+                                        name="trinaryBench"
+                                        type="number"
+                                        min="0"
+                                        placeholder="e.g. 100"
+                                        className="text-lg bg-zinc-800/50 border-zinc-700/50 text-zinc-100"
+                                        onChange={handleStatsChange}
+                                        step="2.5"
+                                        required
+                                    />
+                                    <p className="text-xs text-zinc-500">{t('onboarding.trinary.benchHint')}</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="trinaryDeadlift" className="text-base text-zinc-200">{t('onboarding.trinary.deadliftLabel')}</Label>
+                                    <Input
+                                        id="trinaryDeadlift"
+                                        name="trinaryDeadlift"
+                                        type="number"
+                                        min="0"
+                                        placeholder="e.g. 180"
+                                        className="text-lg bg-zinc-800/50 border-zinc-700/50 text-zinc-100"
+                                        onChange={handleStatsChange}
+                                        step="2.5"
+                                        required
+                                    />
+                                    <p className="text-xs text-zinc-500">{t('onboarding.trinary.deadliftHint')}</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="trinarySquat" className="text-base text-zinc-200">{t('onboarding.trinary.squatLabel')}</Label>
+                                    <Input
+                                        id="trinarySquat"
+                                        name="trinarySquat"
+                                        type="number"
+                                        min="0"
+                                        placeholder="e.g. 140"
+                                        className="text-lg bg-zinc-800/50 border-zinc-700/50 text-zinc-100"
+                                        onChange={handleStatsChange}
+                                        step="2.5"
+                                        required
+                                    />
+                                    <p className="text-xs text-zinc-500">{t('onboarding.trinary.squatHint')}</p>
+                                </div>
+                            </div>
+
+                            <div className="bg-zinc-800/50 border border-zinc-700/30 rounded p-3 text-sm text-zinc-300">
+                                <strong className="text-zinc-200">{t('onboarding.trinary.scheduleTitle')}</strong><br />
+                                {t('onboarding.trinary.scheduleDesc')}
+                            </div>
+
+                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-zinc-700 to-slate-700 hover:from-zinc-600 hover:to-slate-600 text-zinc-100" size="lg">
+                                <CheckCircle2 className="mr-2 h-5 w-5" />
+                                {t('onboarding.trinary.buildButton')}
                             </Button>
                         </form>
                     </CardContent>

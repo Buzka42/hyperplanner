@@ -46,6 +46,33 @@ export type PainGloryStatus = {
     estimatedE1RM?: number; // Calculated via Epley formula
 };
 
+export type TrinaryStatus = {
+    completedWorkouts: number;
+    currentBlock: number;
+    bench1RM: number;
+    deadlift1RM: number;
+    squat1RM: number;
+    benchWeakPoint?: 'off-chest' | 'mid-range' | 'lockout';
+    deadliftWeakPoint?: 'lift-off' | 'over-knees' | 'lockout';
+    squatWeakPoint?: 'bottom' | 'mid-range' | 'lockout';
+    benchVariation?: string;
+    deadliftVariation?: string;
+    squatVariation?: string;
+    benchVariationHistory?: string[]; // Track used variations to rotate
+    deadliftVariationHistory?: string[];
+    squatVariationHistory?: string[];
+    workoutLog: { date: string; workoutNumber: number }[];
+    cycleNumber: number;
+    isDeload?: boolean;
+    meProgressionPending?: { lift: 'bench' | 'deadlift' | 'squat'; amount: number }[]; // +5kg pending for next ME
+    reProgressionPending?: { lift: 'bench' | 'deadlift' | 'squat'; amount: number }[]; // +2.5kg pending for next RE
+    excludedVariations?: string[];
+    // User preference for accessory days
+    preferredAccessoryType?: 'upper' | 'lower' | null;
+    accessoryDaysCompleted?: number;
+    skipNextAccessory?: boolean;
+};
+
 export type BadgeId =
     | 'certified_threat'
     | 'certified_boulder'
@@ -64,7 +91,13 @@ export type BadgeId =
     | 'peachy_perfection'
     | 'squat_30kg'
     | 'glute_gainz_queen'
-    | 'kas_glute_bridge_100';
+    | 'kas_glute_bridge_100'
+    | 'void_gazer'
+    | 'emom_executioner'
+    | 'glory_achieved'
+    | 'deficit_demon'
+    | 'single_supreme'
+    | '50_tonne_club';
 
 export type Badge = {
     id: BadgeId;
@@ -101,6 +134,7 @@ export type UserProfile = {
     };
     skeletonStatus?: { completed: boolean; completionDate?: string };
     painGloryStatus?: PainGloryStatus; // Pain & Glory program status
+    trinaryStatus?: TrinaryStatus; // Trinary conjugate periodization status
     programProgress?: Record<string, { completedSessions: number; startDate: string; }>;
 
     // New Fields

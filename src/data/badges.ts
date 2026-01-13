@@ -20,4 +20,10 @@ export const BADGES: Badge[] = [
     { id: 'squat_30kg', name: 'Thick Thighs Save Lives', description: '+30 kg on Squat', icon: 'Weight', image: '/badges/squat_30kg.png' },
     { id: 'glute_gainz_queen', name: 'Glute Gainz Queen', description: '≥3 cm glute growth', icon: 'Ruler', image: '/badges/glute_queen.png' },
     { id: 'kas_glute_bridge_100', name: 'Kas Glute Bridge 100 kg', description: '100 kg+ for reps', icon: 'Dumbbell', image: '/badges/kas_glute_bridge_100.png' },
+    { id: 'void_gazer', name: 'Void Gazer', description: 'Complete Weeks 1-8 of Pain & Glory', icon: 'Eye', image: '/badges/void_gazer.png' },
+    { id: 'emom_executioner', name: 'EMOM Executioner', description: 'Complete 6x5 E2MOM (Weeks 9-12)', icon: 'Timer', image: '/badges/emom_executioner.png' },
+    { id: 'glory_achieved', name: 'Glory Achieved', description: 'Complete Pain & Glory + New PR', icon: 'Trophy', image: '/badges/glory_achieved.png' },
+    { id: 'deficit_demon', name: 'Deficit Demon', description: '+30 kg on Deficit Snatch Grip (Weeks 1-8)', icon: 'Ghost', image: '/badges/deficit_demon.png' },
+    { id: 'single_supreme', name: 'Single Supreme', description: 'Week 16 Single @ ≥97% e1RM', icon: 'Crown', image: '/badges/single_supreme.png' },
+    { id: '50_tonne_club', name: '50 Tonne Club', description: '50,000 kg total volume in Pain & Glory', icon: 'Plane', image: '/badges/50_tonne_club.png' },
 ];

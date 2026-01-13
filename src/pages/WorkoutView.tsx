@@ -11,6 +11,10 @@ import { doc, updateDoc, arrayUnion, increment, collection, addDoc, query, where
 import { db } from '../firebase';
 import { cn } from '../lib/utils';
 import type { LiftingStats, WorkoutLog } from '../types';
+import { WeakPointModal } from '../components/WeakPointModal';
+import { VariationSwapModal } from '../components/VariationSwapModal';
+import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
+import { selectVariation, getBlockFromWorkout } from '../data/trinary';
 
 interface SetLog {
     reps: string;
@@ -43,6 +47,15 @@ export const WorkoutView: React.FC = () => {
     // Pain & Glory: Deficit Snatch Grip modal state
     const [showDeficitModal, setShowDeficitModal] = useState(false);
     const [_pendingSessionLog, setPendingSessionLog] = useState<any>(null);
+
+    // Trinary: RPE selection state for ME exercises (exerciseId -> RPE value or null)
+    const [meRpeSelected, setMeRpeSelected] = useState<Record<string, number | null>>({});
+    // Trinary: Modal states
+    const [showWeakPointModal, setShowWeakPointModal] = useState(false);
+    const [showVariationSwapModal, setShowVariationSwapModal] = useState(false);
+    const [pendingWeakPoints, setPendingWeakPoints] = useState<{ bench: string, deadlift: string, squat: string } | null>(null);
+    const [pendingVariations, setPendingVariations] = useState<{ bench: string, deadlift: string, squat: string } | null>(null);
+    const [showTrinaryRerunModal, setShowTrinaryRerunModal] = useState(false);
 
     const programData = activePlanConfig.program;
     const weekData = programData.weeks.find(w => w.weekNumber === weekNum);
@@ -762,6 +775,143 @@ export const WorkoutView: React.FC = () => {
                 return; // Don't navigate yet - wait for modal response
             }
 
+            // ========== TRINARY SPECIFIC LOGIC ==========
+            if (programData.id === 'trinary') {
+                const trinaryStatus = (user as any).trinaryStatus;
+                if (trinaryStatus) {
+                    const currentWorkout = trinaryStatus.completedWorkouts + 1;
+                    const userRef = doc(db, 'users', user.id);
+
+                    // Check if this is an accessory day (check if dayName contains 'AccessoryDay')
+                    const isAccessoryDay = dayData?.dayName?.includes('Accessory') || false;
+
+                    // Update completed workouts count
+                    const updates: any = {
+                        'trinaryStatus.workoutLog': arrayUnion({
+                            date: new Date().toISOString(),
+                            workoutNumber: currentWorkout
+                        })
+                    };
+
+                    // Only increment main program progress if NOT an accessory day
+                    if (!isAccessoryDay) {
+                        updates['trinaryStatus.completedWorkouts'] = currentWorkout;
+                        updates['trinaryStatus.currentBlock'] = getBlockFromWorkout(currentWorkout);
+                    }
+
+                    // If accessory day, increment the counter and reset preference
+                    if (isAccessoryDay) {
+                        updates['trinaryStatus.accessoryDaysCompleted'] = increment(1);
+                        updates['trinaryStatus.preferredAccessoryType'] = null;
+                    }
+
+                    // Always reset skip flag when completing a workout
+                    updates['trinaryStatus.skipNextAccessory'] = false;
+
+                    await updateDoc(userRef, updates);
+
+                    // ME Progression: Check for RPE selection and apply progression based on RPE
+                    for (const ex of dayData?.exercises || []) {
+                        if (ex.name.includes('(ME)') && meRpeSelected[ex.id]) {
+                            const sets = exerciseData[ex.id];
+                            if (sets && sets.length >= 3) {
+                                // Check if all sets hit 3 reps
+                                const allHit3 = sets.every(s => parseInt(s.reps) >= 3);
+                                if (allHit3) {
+                                    // Determine progression amount based on RPE
+                                    let progressionAmount = 0;
+                                    const rpe = meRpeSelected[ex.id];
+                                    if (rpe === 7) progressionAmount = 10; // RPE ≤7
+                                    else if (rpe === 7.5) progressionAmount = 5; // RPE 7-8
+                                    else if (rpe === 8.5) progressionAmount = 2.5; // RPE 8-9
+
+                                    if (progressionAmount > 0) {
+                                        // Determine which lift to update
+                                        const baseName = ex.name.replace(' (ME)', '');
+                                        let liftKey = '';
+                                        if (baseName.toLowerCase().includes('bench') || baseName.toLowerCase().includes('press') ||
+                                            baseName.toLowerCase().includes('floor') || baseName.toLowerCase().includes('board')) {
+                                            liftKey = 'bench1RM';
+                                        } else if (baseName.toLowerCase().includes('deadlift') || baseName.toLowerCase().includes('rdl') ||
+                                            baseName.toLowerCase().includes('deficit') || baseName.toLowerCase().includes('rack')) {
+                                            liftKey = 'deadlift1RM';
+                                        } else if (baseName.toLowerCase().includes('squat') || baseName.toLowerCase().includes('box')) {
+                                            liftKey = 'squat1RM';
+                                        }
+
+                                        if (liftKey) {
+                                            const current1RM = trinaryStatus[liftKey] || 0;
+                                            await updateDoc(userRef, {
+                                                [`trinaryStatus.${liftKey}`]: current1RM + progressionAmount
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // RE Progression: Double progression - hit 12 reps on all sets = +2.5kg
+                        if (ex.name.includes('(RE)')) {
+                            const sets = exerciseData[ex.id];
+                            if (sets && sets.length >= 4) {
+                                // Check if all sets hit 12 reps
+                                const allHit12 = sets.every(s => parseInt(s.reps) >= 12);
+                                if (allHit12) {
+                                    // Determine which lift
+                                    const baseName = ex.name.replace(' (RE)', '');
+                                    let liftType: 'bench' | 'deadlift' | 'squat' | null = null;
+                                    if (baseName.toLowerCase().includes('bench') || baseName.toLowerCase().includes('press')) {
+                                        liftType = 'bench';
+                                    } else if (baseName.toLowerCase().includes('deadlift') || baseName.toLowerCase().includes('rdl') ||
+                                        baseName.toLowerCase().includes('deficit')) {
+                                        liftType = 'deadlift';
+                                    } else if (baseName.toLowerCase().includes('squat') || baseName.toLowerCase().includes('box')) {
+                                        liftType = 'squat';
+                                    }
+
+                                    if (liftType) {
+                                        // Add to reProgressionPending array
+                                        const currentPending = trinaryStatus.reProgressionPending || [];
+                                        const existingIndex = currentPending.findIndex((p: any) => p.lift === liftType);
+
+                                        let newPending;
+                                        if (existingIndex >= 0) {
+                                            // Add to existing
+                                            newPending = currentPending.map((p: any, i: number) =>
+                                                i === existingIndex ? { ...p, amount: p.amount + 2.5 } : p
+                                            );
+                                        } else {
+                                            // Add new entry
+                                            newPending = [...currentPending, { lift: liftType, amount: 2.5 }];
+                                        }
+
+                                        await updateDoc(userRef, {
+                                            'trinaryStatus.reProgressionPending': newPending
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Check if workout 27 (end of program) - show re-run modal
+                    if (currentWorkout >= 27) {
+                        setShowTrinaryRerunModal(true);
+                        setSubmitting(false);
+                        return;
+                    }
+
+                    // Check if every 9th workout (9, 18) - show weak point modal for variation change
+                    // Program runs 3 blocks (9 workouts) on same variations, then asks for new weak points
+                    if (currentWorkout % 9 === 0 && currentWorkout < 27) {
+                        setShowWeakPointModal(true);
+                        setSubmitting(false);
+                        return;
+                    }
+                }
+            }
+            // ========== END TRINARY LOGIC ==========
+
             if (navigateToDashboard) {
                 navigate('/app/dashboard', { state: navigateToDashboard });
                 return;
@@ -904,6 +1054,33 @@ export const WorkoutView: React.FC = () => {
                         --border: 35 30% 25%;
                         --input: 35 30% 25%;
                         --ring: 0 65% 45%;
+                    }
+                `}</style>
+            )}
+
+            {/* Trinary Theme for WorkoutView */}
+            {activePlanConfig.id === 'trinary' && (
+                <style>{`
+                    :root {
+                        --background: 240 10% 10%;
+                        --foreground: 240 5% 90%;
+                        --card: 240 8% 14%;
+                        --card-foreground: 240 5% 90%;
+                        --popover: 240 8% 14%;
+                        --popover-foreground: 240 5% 90%;
+                        --primary: 240 5% 65%;
+                        --primary-foreground: 240 10% 10%;
+                        --secondary: 240 4% 20%;
+                        --secondary-foreground: 240 5% 90%;
+                        --muted: 240 4% 20%;
+                        --muted-foreground: 240 5% 60%;
+                        --accent: 240 4% 20%;
+                        --accent-foreground: 240 5% 90%;
+                        --destructive: 0 62% 30%;
+                        --destructive-foreground: 0 0% 98%;
+                        --border: 240 6% 25%;
+                        --input: 240 6% 25%;
+                        --ring: 240 5% 65%;
                     }
                 `}</style>
             )}
@@ -1302,6 +1479,59 @@ export const WorkoutView: React.FC = () => {
                                     </div>
                                 )}
 
+                                {/* Trinary: RPE Selector for ME exercises (appears only if all sets hit 3 reps) */}
+                                {programData.id === 'trinary' && ex.name.includes('(ME)') && (() => {
+                                    const sets = exerciseData[ex.id] || [];
+                                    const allHit3 = sets.length >= 3 && sets.every(s => parseInt(s.reps) >= 3);
+
+                                    if (!allHit3) return null;
+
+                                    return (
+                                        <div className="p-4 bg-zinc-800/50 border-t border-zinc-700 space-y-3">
+                                            <div className="text-sm font-bold text-zinc-200">{t('trinary.rpeSelector.title')}</div>
+                                            <p className="text-xs text-zinc-400">{t('trinary.rpeSelector.description')}</p>
+
+                                            <div className="grid grid-cols-3 gap-2">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 7 }))}
+                                                    className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 7
+                                                        ? 'bg-green-600 border-green-500 text-white'
+                                                        : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
+                                                        }`}
+                                                >
+                                                    <div className="font-bold">RPE ≤7</div>
+                                                    <div className="text-xs mt-1 opacity-80">+10kg</div>
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 7.5 }))}
+                                                    className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 7.5
+                                                        ? 'bg-yellow-600 border-yellow-500 text-white'
+                                                        : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
+                                                        }`}
+                                                >
+                                                    <div className="font-bold">RPE 7-8</div>
+                                                    <div className="text-xs mt-1 opacity-80">+5kg</div>
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 8.5 }))}
+                                                    className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 8.5
+                                                        ? 'bg-red-600 border-red-500 text-white'
+                                                        : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
+                                                        }`}
+                                                >
+                                                    <div className="font-bold">RPE 8-9</div>
+                                                    <div className="text-xs mt-1 opacity-80">+2.5kg</div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
+
                                 <div className="p-3 bg-secondary/5 border-t border-border space-y-3">
                                     <div className="relative">
                                         <Input
@@ -1335,6 +1565,121 @@ export const WorkoutView: React.FC = () => {
                     {submitting ? t('workout.saving') : t('workout.completeWorkout')} <Save className="ml-2 h-5 w-5" />
                 </Button>
             </div>
+
+            {/* Trinary: Weak Point Modal */}
+            <WeakPointModal
+                open={showWeakPointModal}
+                onClose={() => setShowWeakPointModal(false)}
+                onSubmit={async (weakPoints) => {
+                    if (!user) return;
+                    const status = (user as any).trinaryStatus;
+                    if (!status) return;
+
+                    // Select variations based on weak points
+                    const excluded = status.excludedVariations || [];
+                    const newBenchVariation = selectVariation('bench', weakPoints.bench, status.benchVariation, excluded);
+                    const newDeadliftVariation = selectVariation('deadlift', weakPoints.deadlift, status.deadliftVariation, excluded);
+                    const newSquatVariation = selectVariation('squat', weakPoints.squat, status.squatVariation, excluded);
+
+                    // STORE pending data and open swap modal
+                    setPendingWeakPoints(weakPoints);
+                    setPendingVariations({
+                        bench: newBenchVariation,
+                        deadlift: newDeadliftVariation,
+                        squat: newSquatVariation
+                    });
+                    setShowWeakPointModal(false);
+                    setShowVariationSwapModal(true);
+                }}
+                currentWeakPoints={{
+                    bench: (user as any)?.trinaryStatus?.benchWeakPoint,
+                    deadlift: (user as any)?.trinaryStatus?.deadliftWeakPoint,
+                    squat: (user as any)?.trinaryStatus?.squatWeakPoint
+                }}
+            />
+
+            {/* Trinary: Variation Swap Modal */}
+            {pendingVariations && pendingWeakPoints && (
+                <VariationSwapModal
+                    open={showVariationSwapModal}
+                    onClose={() => setShowVariationSwapModal(false)}
+                    initialVariations={pendingVariations}
+                    weakPoints={pendingWeakPoints}
+                    excludedVariations={(user as any).trinaryStatus?.excludedVariations || []}
+                    onConfirm={async (confirmedVariations) => {
+                        if (!user || !pendingWeakPoints) return;
+
+                        // Update user profile with weak points and confirmed variations
+                        const userRef = doc(db, 'users', user.id);
+                        await updateDoc(userRef, {
+                            'trinaryStatus.benchWeakPoint': pendingWeakPoints.bench,
+                            'trinaryStatus.deadliftWeakPoint': pendingWeakPoints.deadlift,
+                            'trinaryStatus.squatWeakPoint': pendingWeakPoints.squat,
+                            'trinaryStatus.benchVariation': confirmedVariations.bench,
+                            'trinaryStatus.deadliftVariation': confirmedVariations.deadlift,
+                            'trinaryStatus.squatVariation': confirmedVariations.squat
+                        });
+
+                        setShowVariationSwapModal(false);
+                        navigate('/app/dashboard');
+                    }}
+                />
+            )}
+
+            {/* Trinary: Re-run Modal */}
+            <TrinaryRerunModal
+                open={showTrinaryRerunModal}
+                onDeloadWeek={async () => {
+                    if (!user) return;
+                    const userRef = doc(db, 'users', user.id);
+
+                    // Option A: Deload week with reduced volume/intensity, new variations
+                    await updateDoc(userRef, {
+                        'trinaryStatus.completedWorkouts': 0,
+                        'trinaryStatus.currentBlock': 1,
+                        'trinaryStatus.cycleNumber': increment(1),
+                        'trinaryStatus.isDeload': true,
+                        'trinaryStatus.deloadType': 'week' // 50% volume, -25% ME, -15% DE/RE
+                    });
+
+                    // Show weak point modal for new variations
+                    setShowTrinaryRerunModal(false);
+                    setShowWeakPointModal(true);
+                }}
+                onContinueNoDeload={async () => {
+                    if (!user) return;
+                    const userRef = doc(db, 'users', user.id);
+
+                    // Option B: Continue without deload
+                    await updateDoc(userRef, {
+                        'trinaryStatus.completedWorkouts': 0,
+                        'trinaryStatus.currentBlock': 1,
+                        'trinaryStatus.cycleNumber': increment(1),
+                        'trinaryStatus.isDeload': false
+                    });
+
+                    // Show weak point modal for new variations
+                    setShowTrinaryRerunModal(false);
+                    setShowWeakPointModal(true);
+                }}
+                onRestDays={async () => {
+                    if (!user) return;
+                    const userRef = doc(db, 'users', user.id);
+
+                    // Option C: 4-5 days rest, accessory work at RPE 7-8
+                    await updateDoc(userRef, {
+                        'trinaryStatus.completedWorkouts': 0,
+                        'trinaryStatus.currentBlock': 1,
+                        'trinaryStatus.cycleNumber': increment(1),
+                        'trinaryStatus.isDeload': true,
+                        'trinaryStatus.deloadType': 'rest' // 4-5 days off
+                    });
+
+                    // Show weak point modal for new variations
+                    setShowTrinaryRerunModal(false);
+                    setShowWeakPointModal(true);
+                }}
+            />
         </div>
     );
 };

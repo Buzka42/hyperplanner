@@ -8,6 +8,7 @@ import { Dashboard } from './pages/Dashboard';
 import { WorkoutView } from './pages/WorkoutView';
 import { AdminPanel } from './pages/AdminPanel';
 import { Settings } from './pages/Settings';
+import { WorkoutHistory } from './pages/WorkoutHistory';
 
 const AppRoutes = () => {
     const { loading } = useUser();
@@ -21,6 +22,7 @@ const AppRoutes = () => {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="workout/:week/:day" element={<WorkoutView />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="history" element={<WorkoutHistory />} />
                 <Route index element={<Navigate to="dashboard" replace />} />
             </Route>
             <Route path="/admin" element={<AdminPanel />} />

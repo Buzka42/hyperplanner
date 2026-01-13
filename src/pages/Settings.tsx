@@ -8,11 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../co
 import { Label } from '../components/ui/label';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { Input } from '../components/ui/input';
+import { Checkbox } from '../components/ui/checkbox';
 import { Save, CheckCircle2 } from 'lucide-react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { PENCILNECK_PROGRAM } from '../data/pencilneck';
 import { BENCH_DOMINATION_PROGRAM } from '../data/program';
+import { BENCH_VARIATIONS, DEADLIFT_VARIATIONS, SQUAT_VARIATIONS } from '../data/trinary';
 import type { BenchDominationModules, LiftingStats } from '../types';
 
 export const Settings: React.FC = () => {
@@ -34,6 +36,12 @@ export const Settings: React.FC = () => {
         lowPinPress: 0,
         btnPress: 0
     });
+    const [trinaryStats, setTrinaryStats] = useState({
+        bench: 0,
+        squat: 0,
+        deadlift: 0
+    });
+    const [excludedVariations, setExcludedVariations] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const [saved, setSaved] = useState(false);
 
@@ -57,6 +65,15 @@ export const Settings: React.FC = () => {
 
         if (user.stats) {
             setStats(user.stats);
+        }
+
+        if (user.trinaryStatus) {
+            setTrinaryStats({
+                bench: user.trinaryStatus.bench1RM || 0,
+                squat: user.trinaryStatus.squat1RM || 0,
+                deadlift: user.trinaryStatus.deadlift1RM || 0
+            });
+            setExcludedVariations(user.trinaryStatus.excludedVariations || []);
         }
     }, [user]);
 
@@ -88,6 +105,16 @@ export const Settings: React.FC = () => {
                 if (stats.pausedBench !== user.stats?.pausedBench) {
                     updates.stats = stats;
                 }
+            } else if (user.programId === 'trinary') {
+                if (user.trinaryStatus) {
+                    updates.trinaryStatus = {
+                        ...user.trinaryStatus,
+                        bench1RM: trinaryStats.bench,
+                        squat1RM: trinaryStats.squat,
+                        deadlift1RM: trinaryStats.deadlift,
+                        excludedVariations: excludedVariations
+                    };
+                }
             }
 
             if (Object.keys(updates).length > 0) {
@@ -105,6 +132,7 @@ export const Settings: React.FC = () => {
 
     const isPencilneck = user?.programId === PENCILNECK_PROGRAM.id;
     const isBenchDomination = user?.programId === BENCH_DOMINATION_PROGRAM.id;
+    const isTrinary = user?.programId === 'trinary';
 
     const ModuleToggle = ({
         title,
@@ -327,7 +355,167 @@ export const Settings: React.FC = () => {
                 </>
             )}
 
-            {!isPencilneck && !isBenchDomination && (
+            {isTrinary && (
+                <Card className="max-w-2xl border-red-500/20">
+                    <CardHeader>
+                        <CardTitle className="text-red-500 flex items-center gap-2">
+                            Manual 1RM Overrides
+                        </CardTitle>
+                        <CardDescription>
+                            Manually update your contest maxes. These dictate all your percentage work.
+                            <div className="mt-2 text-yellow-600 dark:text-yellow-500 font-semibold bg-yellow-500/10 p-2 rounded border border-yellow-500/20">
+                                ⚠️ Only update if you have tested a new true 1RM.
+                            </div>
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        {/* Bench */}
+                        <div className="space-y-2">
+                            <Label htmlFor="trinary-bench">Bench Press 1RM</Label>
+                            <div className="flex items-center gap-4">
+                                <Input
+                                    id="trinary-bench"
+                                    type="number"
+                                    value={trinaryStats.bench || ''}
+                                    onChange={(e) => {
+                                        setTrinaryStats(prev => ({ ...prev, bench: parseFloat(e.target.value) || 0 }));
+                                        setSaved(false);
+                                    }}
+                                    step="2.5"
+                                    className="max-w-[150px] text-lg font-bold"
+                                />
+                                <span className="text-sm text-muted-foreground">kg</span>
+                            </div>
+                        </div>
+                        {/* Squat */}
+                        <div className="space-y-2">
+                            <Label htmlFor="trinary-squat">Squat 1RM</Label>
+                            <div className="flex items-center gap-4">
+                                <Input
+                                    id="trinary-squat"
+                                    type="number"
+                                    value={trinaryStats.squat || ''}
+                                    onChange={(e) => {
+                                        setTrinaryStats(prev => ({ ...prev, squat: parseFloat(e.target.value) || 0 }));
+                                        setSaved(false);
+                                    }}
+                                    step="2.5"
+                                    className="max-w-[150px] text-lg font-bold"
+                                />
+                                <span className="text-sm text-muted-foreground">kg</span>
+                            </div>
+                        </div>
+                        {/* Deadlift */}
+                        <div className="space-y-2">
+                            <Label htmlFor="trinary-deadlift">Deadlift 1RM</Label>
+                            <div className="flex items-center gap-4">
+                                <Input
+                                    id="trinary-deadlift"
+                                    type="number"
+                                    value={trinaryStats.deadlift || ''}
+                                    onChange={(e) => {
+                                        setTrinaryStats(prev => ({ ...prev, deadlift: parseFloat(e.target.value) || 0 }));
+                                        setSaved(false);
+                                    }}
+                                    step="2.5"
+                                    className="max-w-[150px] text-lg font-bold"
+                                />
+                                <span className="text-sm text-muted-foreground">kg</span>
+                            </div>
+                        </div>
+
+                        <div className="border-t my-4 py-4">
+                            <h3 className="text-lg font-semibold mb-2">Exclude Lift Variations</h3>
+                            <p className="text-sm text-muted-foreground mb-4">
+                                Select variations you cannot perform (e.g. due to equipment limitations).
+                                Excluded lifts will not be generated in future blocks.
+                            </p>
+
+                            <div className="space-y-6">
+                                {/* Bench Variations */}
+                                <div>
+                                    <h4 className="font-medium mb-2 text-primary">Bench Press Variations</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        {Object.values(BENCH_VARIATIONS).flat().map(variation => (
+                                            <div key={variation} className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id={`exclude-${variation}`}
+                                                    checked={excludedVariations.includes(variation)}
+                                                    onCheckedChange={(checked) => {
+                                                        setExcludedVariations(prev =>
+                                                            checked
+                                                                ? [...prev, variation]
+                                                                : prev.filter(v => v !== variation)
+                                                        );
+                                                        setSaved(false);
+                                                    }}
+                                                />
+                                                <Label htmlFor={`exclude-${variation}`} className="text-sm cursor-pointer font-normal">
+                                                    {variation}
+                                                </Label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Squat Variations */}
+                                <div>
+                                    <h4 className="font-medium mb-2 text-primary">Squat Variations</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        {Object.values(SQUAT_VARIATIONS).flat().map(variation => (
+                                            <div key={variation} className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id={`exclude-${variation}`}
+                                                    checked={excludedVariations.includes(variation)}
+                                                    onCheckedChange={(checked) => {
+                                                        setExcludedVariations(prev =>
+                                                            checked
+                                                                ? [...prev, variation]
+                                                                : prev.filter(v => v !== variation)
+                                                        );
+                                                        setSaved(false);
+                                                    }}
+                                                />
+                                                <Label htmlFor={`exclude-${variation}`} className="text-sm cursor-pointer font-normal">
+                                                    {variation}
+                                                </Label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Deadlift Variations */}
+                                <div>
+                                    <h4 className="font-medium mb-2 text-primary">Deadlift Variations</h4>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        {Object.values(DEADLIFT_VARIATIONS).flat().map(variation => (
+                                            <div key={variation} className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id={`exclude-${variation}`}
+                                                    checked={excludedVariations.includes(variation)}
+                                                    onCheckedChange={(checked) => {
+                                                        setExcludedVariations(prev =>
+                                                            checked
+                                                                ? [...prev, variation]
+                                                                : prev.filter(v => v !== variation)
+                                                        );
+                                                        setSaved(false);
+                                                    }}
+                                                />
+                                                <Label htmlFor={`exclude-${variation}`} className="text-sm cursor-pointer font-normal">
+                                                    {variation}
+                                                </Label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
+
+            {!isPencilneck && !isBenchDomination && !isTrinary && (
                 <Card>
                     <CardHeader>
                         <CardTitle>{t('settings.programSettings')}</CardTitle>

@@ -352,14 +352,179 @@ Hit top reps on ALL sets = +2.5-5 kg next session
 
 ---
 
-## 6. Badges & Achievements
+## 6. Trinary (`trinary`)
+*Conjugate Periodization Powerlifting - Adapt to your weak points.*
+
+### Plan Configuration
+*   **Duration:** 27 Workouts (9 Blocks × 3 Workouts each)
+*   **Frequency:** Flexible 3-4 Days/Week (workout-based, not calendar-based)
+*   **Theme:** Heavy metal (dark zinc/slate color palette)
+*   **Widgets:** `program_status`, Schedule Tip, Workout Progress, Next Workout button
+
+### Stats Required (Onboarding)
+*   **Paused Bench Press 1RM** (kg)
+*   **Conventional Deadlift 1RM** (kg)
+*   **Low Bar Squat 1RM** (kg)
+
+### Workout Structure
+
+#### ME/DE/RE Rotation Pattern
+Each workout contains three exercises in this rotation:
+| Workout # | ME (Max Effort) | DE (Dynamic Effort) | RE (Repeated Effort) |
+|-----------|-----------------|---------------------|---------------------|
+| 1, 4, 7... | Deadlift | Squat | Bench |
+| 2, 5, 8... | Squat | Bench | Deadlift |
+| 3, 6, 9... | Bench | Deadlift | Squat |
+
+#### Set/Rep Targets by Effort Type
+| Effort Type | Sets | Reps | Notes |
+|-------------|------|------|-------|
+| ME (Max Effort) | 3 | 1-3 | RPE 9, heavy singles/doubles/triples |
+| DE (Dynamic Effort) | 8 | 2-3 | Explosive speed, consider bands/chains |
+| RE (Repeated Effort) | 4 | 8-12 | Hypertrophy focus |
+
+### Phased Progression
+
+#### Block Percentages (of Current 1RM)
+| Phase | Blocks | ME % | DE % | RE % |
+|-------|--------|------|------|------|
+| Build Base | 1-3 (Workouts 1-9) | 90% | 60% | 70% |
+| Intensify | 4-6 (Workouts 10-18) | 92% | 65% | 75% |
+| Peak | 7-9 (Workouts 19-27) | 95% | 70% | 80% |
+
+### Weight Calculation Rules
+
+#### 1RM Tracking
+*   Separate 1RM tracked for Bench, Deadlift, and Squat
+*   Updated from ME PRs using Epley formula: `weight × (1 + reps/30)`
+*   Rounded DOWN to nearest 2.5 kg
+
+#### Working Weight Calculation
+```
+Working Weight = Current 1RM × Block % × Variation %
+→ Rounded DOWN to nearest 2.5 kg
+```
+
+#### Variation-Specific Percentages
+**Bench Variations:**
+| Weak Point | Variations | % of Bench 1RM |
+|------------|------------|----------------|
+| Off-chest | Long Pause Bench, Wide-Grip, Spoto (1cm) | 92.5% |
+| Mid-range | Spoto (4-8cm), Mid Pin Press, Board Press | 94.5% |
+| Lockout | Close Grip, Floor Press, High Pin Press | 100% |
+
+**Deadlift Variations:**
+| Weak Point | Variations | % of Deadlift 1RM |
+|------------|------------|-------------------|
+| Lift-off | Deficit Deadlift, Snatch Grip Deficit | 75% |
+| Over-knees | RDLs, Paused DL (mid-shin), Block Pull | 90% |
+| Lockout | Paused DL (knee), Rack Pulls, Snatch Grip RDLs | 110% |
+
+**Squat Variations:**
+| Weak Point | Variations | % of Squat 1RM |
+|------------|------------|----------------|
+| Bottom | Paused Squat, Low Box Squat | 92.5% |
+| Mid-range | Stiletto Squat, Safety Bar | 92.5% |
+| Lockout | High Box Squat, Banded Squat | 105% |
+
+### Progression Rules
+
+#### ME Progression
+*   **Trigger:** Hit 3 reps on ALL sets.
+*   **RPE Selection:**
+    *   RPE ≤ 7: +10 kg
+    *   RPE 7-8: +5 kg
+    *   RPE 8-9: +2.5 kg
+
+#### DE Progression
+*   +2.5 kg OR add bands/chains as needed
+*   Focus on bar speed, not weight
+
+#### RE Progression (Double Progression)
+*   Hit 12 reps on ALL 4 sets → +2.5 kg next RE session
+*   Message: *"Double progression: 12 reps on all sets → +2.5 kg"*
+
+### Weak Point Modal & Transition
+*   **Trigger:** After workouts 3, 6, 9, 12, 15, 18, 21, 24 (every 3rd workout)
+*   **Selection:** User identifies sticking points per lift.
+*   **Confirmation:** App proposes variations; user can confirm or swap them (filtering out excluded lifts).
+*   **Rotation:** If same weak point selected multiple blocks, variations rotate (unless manually swapped).
+
+### Accessory Days
+*   **Trigger:** If >4 workouts logged in rolling 7-day period
+*   **Message:** *"Excess workouts this week – accessory day triggered to hit weak points"*
+
+#### Upper-Focused (if bench/deadlift lockout weak)
+1. Tricep Extensions (4×8-12)
+2. Rows - neutral grip (4×8-12)
+3. Shoulder Press (4×8-12)
+4. Rear Delt Flys (4×8-12)
+
+#### Lower-Focused (other weak points)
+1. Leg Extensions (4×8-12)
+2. Ham Curls (4×8-12)
+3. Calf Raises (4×8-12)
+4. Hip Thrusts (4×8-12)
+
+*Accessory progression: Double progression (+2.5 kg on 12 reps)*
+
+### Blocks 1-3 (Workouts 1-9)
+Uses standard competition lifts:
+*   Paused Bench Press
+*   Conventional Deadlift
+*   Low Bar Squat (paused)
+
+### Blocks 4-9 (Workouts 10-27)
+Uses variations selected from Weak Point Modal
+
+### Re-run Modal (After Workout 27)
+*   **Options:**
+    1. **Run Again:** 1-week deload (50% volume, 70% intensity) → Reset cycle with updated 1RMs
+    2. **End Program:** Return to program selection
+*   **1RM Update:** Automatically updated from best ME PRs of the cycle
+
+### Accessory Day System
+*   **Trigger:** Automatically triggers after 4 workouts in a 7-day rolling window.
+*   **Flow:**
+    1.  User sees "Accessory Day" prompt on Dashboard.
+    2.  User can **START** (triggers choice modal: Upper/Lower) or **SKIP** (bypasses accessory check for current workout).
+    3.  Accessory days do **not** increment the main 27-workout program counter (`completedWorkouts`).
+    4.  Resetting: `skipNextAccessory` and `preferredAccessoryType` are reset upon completion of ANY workout.
+
+### Workout History & Review
+*   **Access:** Available via Sidebar or Dashboard header button.
+*   **Review:** Detailed view of past workouts (all exercises, sets, weights, and reps) with a premium dark theme.
+*   **Edit:** Supports a "Full Edit" flow - clicking edit redirects the user to the standard `WorkoutView`, allowing them to modify any part of the historical session using the live training interface.
+
+---
+
+## 7. Badges & Achievements
 *   **Certified Threat:** Complete "From Skeleton to Threat"
 *   **Certified Shoulder Boulder:** Complete "Pencilneck Eradication Protocol"
-*   **Bench Psychopath:** Full Bench Domination + peaking + new PR
-*   **Deload Denier:** Never triggered reactive deload in Bench Domination
-*   **Rear-Delt Reaper:** Rear-delt rope pulls 4×30+
+*   **Perfect Attendance War Criminal:** Zero missed sessions ever
+*   **Bench Psychopath:** Bench Domination + peaking + new PR
+*   **20 kg Bench Jump:** ≥20 kg gain in one run
+*   **30 kg Bench Jump:** ≥30 kg gain in one run
+*   **Deload Denier:** Never triggered reactive deload
+*   **Rear-Delt Reaper:** Rear-delt rope pulls 4×30+ (Pencilneck)
 *   **3D Delts Unlocked:** Lying laterals 3×20 @ ≥20 kg
+*   **Cannonball Delts:** Both Reaper and 3D Delts badges
+*   **First Blood:** First workout ever logged
+*   **100 Sessions Club:** 100 total sessions
 *   **Immortal:** All programs completed at least once
+*   **The Final Boss:** 10+ badges earned
+*   **Peachy Perfection:** Complete Peachy Glute Plan
+*   **Thick Thighs Save Lives:** +30 kg on Squat
+*   **Glute Gainz Queen:** ≥3 cm glute growth
+*   **Kas Glute Bridge 100 kg:** 100 kg+ for reps
+*   **Void Gazer:** Complete weeks 1–8 of "Pain & Glory". "You stared into the deficit abyss – and it blinked first."
+*   **EMOM Executioner:** Complete all 6 E2MOM sets with 5 reps each (Weeks 9–12). "6×5 every 2 minutes. You didn't quit. The bar did."
+*   **Glory Achieved:** Finish 16 weeks + hit new Deadlift PR. "Pain paid off. Glory is yours. Now go break it again."
+*   **Deficit Demon:** Add +30 kg to Deficit Snatch Grip (Weeks 1–8). "Most people run from deficits. You made them your bitch."
+*   **Single Supreme:** Hit Week 16 heavy single at ≥97% e1RM. "One rep. One moment. One legend."
+*   **50 tonne club:** Accumulate 50,000kg total deadlifted weight. "That's literally a Boeing 737."
+
+**Note:** Badges auto-unlock on completion. Retroactive for past runs.
 
 ---
 

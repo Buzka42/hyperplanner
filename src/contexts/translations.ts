@@ -43,6 +43,7 @@ export const translations = {
             trophyCase: "Trophy Case",
             loggedInAs: "Logged in as:",
             logout: "Logout",
+            history: "Workout History",
         },
 
         // ========================================
@@ -109,6 +110,10 @@ export const translations = {
             // Pain & Glory
             pullDay: "Pull Day",
             pushDay: "Push Day",
+
+            // Trinary
+            trinaryWorkout: "Workout {num}",
+            trinaryAccessory: "Accessory Day ({type})",
         },
 
         badges: {
@@ -129,7 +134,13 @@ export const translations = {
             peachy_perfection: { description: 'Complete Peachy Glute Plan' },
             squat_30kg: { description: '+30 kg on Squat' },
             glute_gainz_queen: { description: '≥3 cm glute growth' },
-            kas_glute_bridge_100: { description: '100 kg+ for reps' }
+            kas_glute_bridge_100: { description: '100 kg+ for reps' },
+            pain_embracer: { description: 'Complete Weeks 1-8 of Pain & Glory' },
+            emom_executioner: { description: 'Complete 6x5 E2MOM (Weeks 9-12)' },
+            glory_achieved: { description: 'Complete Pain & Glory + New PR' },
+            deficit_demon: { description: '+30 kg on Deficit Snatch Grip (Weeks 1-8)' },
+            single_supreme: { description: 'Week 16 Single @ ≥97% e1RM' },
+            "50_tonne_club": { description: '50,000 kg total volume in Pain & Glory' }
         },
 
         // ========================================
@@ -205,6 +216,16 @@ export const translations = {
                         "16 Week Program with Peaking",
                         "Self-regulating via RPE feedback"
                     ]
+                },
+                trinary: {
+                    name: "Trinary",
+                    description: "Conjugate periodization powerlifting. Adapt to your weak points.",
+                    features: [
+                        "Focus: Bench / Deadlift / Squat",
+                        "Flexible 3-4 Days / Week",
+                        "27 Workouts (9 Blocks)",
+                        "Auto-adapts to weak point selection"
+                    ]
                 }
             },
 
@@ -218,6 +239,21 @@ export const translations = {
                 squatHint: "Competition depth, full ROM.",
                 scheduleTitle: "Suggested Schedule:",
                 scheduleDesc: "Mon: Pull / Tue: Push / Thu: Push / Fri: Pull (Rest: Wed, Sat, Sun)",
+                buildButton: "FORGE MY DESTINY"
+            },
+
+            // Trinary Calibration
+            trinary: {
+                calibrationTitle: "Calibration Phase",
+                calibrationDesc: "Enter your current 1RM for all three competition lifts. Be honest - the program auto-regulates based on these.",
+                benchLabel: "Paused Bench Press 1RM (kg)",
+                benchHint: "Competition pause, full ROM.",
+                deadliftLabel: "Conventional Deadlift 1RM (kg)",
+                deadliftHint: "Your true max, not an estimate.",
+                squatLabel: "Low Bar Squat 1RM (kg)",
+                squatHint: "Competition depth, full ROM.",
+                scheduleTitle: "Suggested Schedule:",
+                scheduleDesc: "Train 3-4 days per week (e.g., Mon/Wed/Fri/Sat). The app tracks weekly workouts – after 4 workouts/week, accessory days auto-trigger.",
                 buildButton: "FORGE MY DESTINY"
             },
 
@@ -366,7 +402,77 @@ export const translations = {
             // Week navigation
             mandatoryDeload: "MANDATORY DELOAD",
             peakingBlock: "PEAKING BLOCK",
-            nExercises: "{count} Exercises"
+            nExercises: "{count} Exercises",
+
+            // Trinary Dashboard
+            trinary: {
+                title: "TRINARY",
+                tagline: "Conjugate powerlifting – adapt to your weak points",
+                workoutProgress: "Workout {current} of {total}",
+                scheduleTip: "Schedule Tip",
+                scheduleAdvice: "For best gains train 3–4 days/week (e.g., Mon/Wed/Fri/Sat). The app tracks weekly workouts – after 4 workouts/week, accessory days auto-trigger.",
+                progressTitle: "Workouts Completed",
+                block: "Block",
+                nextWorkout: "Workout {num}",
+                readyWhenYouAre: "Ready when you are. Train on your schedule.",
+                startWorkout: "START WORKOUT",
+                accessoryTriggered: "Excess workouts this week – accessory day triggered to hit weak points",
+                startAccessory: "START ACCESSORY DAY",
+                skipAccessory: "SKIP ACCESSORY",
+                accessoryRecommendation: "⚠️ Skipping not recommended – accessories target weak points"
+            }
+        },
+
+        // Trinary Modals
+        trinary: {
+            weakPointModal: {
+                title: "Identify Your Weak Points",
+                description: "For each lift, select where the bar slows or sticks. This determines your exercise variations for the next block.",
+                tipTitle: "Tip",
+                tipText: "Review videos or feel where the bar slows/sticks. If unsure, select the phase where it feels hardest.",
+                benchTitle: "Bench Press",
+                benchOffChest: "Off chest (first 2-3 inches)",
+                benchMidRange: "Mid-range (halfway up)",
+                benchLockout: "Lockout (final few inches)",
+                deadliftTitle: "Deadlift",
+                deadliftLiftOff: "Lift-off (breaking from floor)",
+                deadliftOverKnees: "Over knees (mid-shin to knee)",
+                deadliftLockout: "Lockout (knee to hip)",
+                squatTitle: "Squat",
+                squatBottom: "Bottom (out of the hole)",
+                squatMidRange: "Mid-range (halfway up)",
+                squatLockout: "Lockout (final drive)",
+                variations: "Possible variations",
+                submit: "SAVE & CONTINUE"
+            },
+            rerunModal: {
+                title: "Trinary Complete! 🎉",
+                description: "You've finished 27 workouts (9 blocks). Choose your next step – a deload is recommended.",
+                optionATitle: "Deload Week (Recommended)",
+                optionADesc: "1 week at 50% volume on ME/DE/RE, with reduced intensity:",
+                optionADetail1: "ME: -25% intensity (blocks restart at lower %)",
+                optionADetail2: "DE: -15% intensity",
+                optionADetail3: "RE: -15% intensity",
+                optionAButton: "DELOAD & RESTART",
+                optionBTitle: "Continue Without Deload",
+                optionBDesc: "Restart immediately with new variations based on updated weak points.",
+                optionBButton: "NO DELOAD, CONTINUE",
+                optionCTitle: "4-5 Days Off",
+                optionCDesc: "Take a complete rest or do light accessory work at RPE 7-8. Then restart with new variations.",
+                optionCButton: "TAKE REST DAYS"
+            },
+            rpeSelector: {
+                title: "How did the last set feel? (RPE on final set)",
+                description: "Select based on your perceived exertion – this determines your 1RM progression for next block."
+            },
+            accessoryModal: {
+                title: "Choose Accessory Focus",
+                description: "Select which muscle groups you want to target today",
+                upperTitle: "Upper Body",
+                upperDesc: "Triceps, shoulders, back",
+                lowerTitle: "Lower Body",
+                lowerDesc: "Glutes, hamstrings, quads, core"
+            }
         },
 
         // Pencilneck widgets
@@ -564,6 +670,14 @@ export const translations = {
         // QUOTES (Pencilneck)
         // ========================================
         quotes: {
+            painGloryBadges: {
+                void_gazer: "You stared into the deficit abyss – and it blinked first.",
+                emom_executioner: "6×5 every 2 minutes. You didn't quit. The bar did.",
+                glory_achieved: "Pain paid off. Glory is yours. Now go break it again.",
+                deficit_demon: "Most people run from deficits. You made them your bitch.",
+                single_supreme: "One rep. One moment. One legend.",
+                "50_tonne_club": "That's literally a Boeing 737."
+            },
             pencilneckStatus: [
                 "Neck still looks like a coat hanger",
                 "Collarbones starting to hide",
@@ -736,6 +850,17 @@ export const translations = {
             deficitSnatchGripTracker: "Deficit Snatch Grip Progress",
             currentWeight: "Current Weight",
             trend: "Trend",
+
+            // --- TRINARY TIPS ---
+            trinaryMEStandard: "Max Effort – work up to 90-95% of 1RM. Focus on perfect technique. 📈 RPE 9 or lower + 3 clean reps = +5 kg next ME session.",
+            trinaryMEVariation: "Max Effort Variation – targeting your weak point. Start with suggested weight, adjust based on feel.",
+            trinaryDE: "Dynamic Effort – explosive speed is the goal. Move the bar as fast as possible. Consider bands/chains.",
+            trinaryRE: "Repeated Effort – hypertrophy focus. 📈 Hit 12 reps on ALL sets = +2.5 kg next session.",
+            trinaryREProgression: "Double progression: hit 12 reps on all sets → +2.5 kg next RE session for this lift.",
+            trinaryDESpeed: "Focus on bar speed, not weight. Explode through the entire range of motion.",
+            trinaryAccessory: "Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.",
+            trinaryRPECheck: "RPE 9 or lower with perfect form?",
+            trinaryStartingWeight: "Suggested starting weight: {weight} kg (~{percent}% of your {lift} 1RM). Adjust based on feel.",
         },
     },
 
@@ -781,6 +906,7 @@ export const translations = {
             trophyCase: "Sala chwały",
             loggedInAs: "Zalogowany jako:",
             logout: "Wyloguj",
+            history: "Historia treningów",
         },
 
         workout: {
@@ -843,6 +969,10 @@ export const translations = {
             // Pain & Glory
             pullDay: "Dzień Pull",
             pushDay: "Dzień Push",
+
+            // Trinary
+            trinaryWorkout: "Trening {num}",
+            trinaryAccessory: "Dzień akcesoryjny ({type})",
         },
 
         badges: {
@@ -863,7 +993,13 @@ export const translations = {
             peachy_perfection: { description: 'Ukończono plan Peachy' },
             squat_30kg: { description: '+30 kg w przysiadzie' },
             glute_gainz_queen: { description: 'Wzrost pośladków ≥3 cm' },
-            kas_glute_bridge_100: { description: '100 kg+ na powtórzenia' }
+            kas_glute_bridge_100: { description: '100 kg+ na powtórzenia' },
+            void_gazer: { description: 'Ukończ Tygodnie 1-8 programu Pain & Glory' },
+            emom_executioner: { description: 'Ukończ 6x5 E2MOM (Tygodnie 9-12)' },
+            glory_achieved: { description: 'Ukończ Pain & Glory + Nowy PR' },
+            deficit_demon: { description: '+30 kg w Deficit Snatch Grip (Tygodnie 1-8)' },
+            single_supreme: { description: 'Singiel w 16. tygodniu @ ≥97% e1RM' },
+            "50_tonne_club": { description: '50,000 kg łącznej objętości w Pain & Glory' }
         },
 
         entry: {
@@ -887,21 +1023,21 @@ export const translations = {
 
             programs: {
                 benchDomination: {
-                    name: "12-tygodniowy plan 'Bench Press Domination'",
+                    name: "Bench Press Domination",
                     benchLabel: "Aktualny 1RM – Paused Bench Press (kg)",
                     description: "12-tygodniowy program siłowy z fokusem na wyciskanie. Z opcjonalną 3-tygodniową fazą szczytową.",
                     features: [
                         "Cel: Siła wyciskania",
-                        "6 dni/tydzień",
+                        "4-6 dni/tydzień",
                         "Opcjonalny 3-tyg. peaking",
                         "Autoregulacja oparta na teście AMRAP"
                     ]
                 },
                 pencilneck: {
-                    name: "Protokół Eradykacji Ołówkowej Szyji",
+                    name: "Protokół Pencilneck",
                     description: "8-tygodniowy split na górę ciała. Dla tych, którzy wyglądają jak lizak na patyku.",
                     features: [
-                        "Cel: Masa górnej partii",
+                        "Cel: Hipertrofia upper body",
                         "4 dni/tydzień",
                         "Split Push / Pull"
                     ]
@@ -910,7 +1046,7 @@ export const translations = {
                     name: "Od Szkieleta do Zagrożenia",
                     description: "12-tygodniowy program dla początkujących. Dla tych, którzy nigdy nie ruszyli żelastwa.",
                     features: [
-                        "Cel: Całe ciało",
+                        "Cel: Hipertrofia całego ciała",
                         "3 dni/tydzień",
                         "Elastyczny grafik"
                     ]
@@ -928,10 +1064,20 @@ export const translations = {
                     name: "Pain & Glory",
                     description: "16-tygodniowy program specjalizacyjny na martwy ciąg. Dziś ból, jutro chwała.",
                     features: [
-                        "Cel: Ciężkie martwaki",
+                        "Cel: Siła w martwym ciągu",
                         "4 dni/tydzień - Pull/Push",
                         "16 tyg. z peakingiem",
-                        "Autoregulacja przez RPE"
+                        "Autoregulacja przez uproszczony system RPE"
+                    ]
+                },
+                trinary: {
+                    name: "Trinary",
+                    description: "Zaawansowana periodyzacja trójboju siłowego na podstawie metody Conjugate z elastycznym grafikiem.",
+                    features: [
+                        "Cel: Wycisk / Martwy / Przysiad",
+                        "Elastyczny 3-4 dni/tydzień",
+                        "27 treningów (9 bloków)",
+                        "Autoregulacja przez słabe punkty"
                     ]
                 }
             },
@@ -939,17 +1085,32 @@ export const translations = {
             // Pain & Glory Calibration
             painGlory: {
                 calibrationTitle: "Faza kalibracji",
-                calibrationDesc: "Podaj swój 1RM klasycznego martwego ciągu i low bar przysiad. Bądź szczery - program sam się reguluje.",
+                calibrationDesc: "Podaj swój 1RM klasycznego martwego ciągu i przysiadu low bar. Bądź szczery - program sam się reguluje (lepiej zacząć konserwatywnie).",
                 deadliftLabel: "Klasyczny martwy ciąg 1RM (kg)",
                 deadliftHint: "Prawdziwe maksimum, nie szacunek.",
                 squatLabel: "Low Bar Squat 1RM (kg)",
-                squatHint: "Pełna głębokość, konkurencyjna.",
+                squatHint: "Głębokość poniżej kąta 90 stopni w kolanie.",
                 scheduleTitle: "Sugerowany grafik:",
                 scheduleDesc: "Pon: Pull / Wt: Push / Czw: Push / Pt: Pull (Odp: Śr, Sob, Ndz)",
                 buildButton: "WYKUJ MÓJ LOS"
             },
 
-            buildPerfectHell: "Zbuduj swoje piekło wyciskania",
+            // Trinary Calibration
+            trinary: {
+                calibrationTitle: "Faza kalibracji",
+                calibrationDesc: "Podaj swój 1RM dla wszystkich trzech bojów. Bądź szczery - program sam się reguluje (lepiej zacząć konserwatywnie).",
+                benchLabel: "Wyciskanie na ławce 1RM (kg)",
+                benchHint: "Z sekundową pauzą.",
+                deadliftLabel: "Klasyczny martwy ciąg 1RM (kg)",
+                deadliftHint: "Prawdziwe maksimum, nie szacunek.",
+                squatLabel: "Low Bar Squat 1RM (kg)",
+                squatHint: "Głębokość poniżej kąta 90 stopni w kolanie.",
+                scheduleTitle: "Sugerowany grafik:",
+                scheduleDesc: "Trenuj 3-4 dni w tygodniu (np. Pon/Śr/Pt/Sob). Aplikacja śledzi treningi – po 4 treningach/tydzień, dni akcesoryjne aktywują się automatycznie.",
+                buildButton: "ZACZYNAMY!"
+            },
+
+            buildPerfectHell: "Zbuduj swój idealny program!",
             customizeBrutality: "Dostosuj brutalność. Główny ruch jest świętością.",
             modules: {
                 title: "Moduły programu",
@@ -968,16 +1129,16 @@ export const translations = {
                     description: "Rozbudowanie barków dla zaawansowanych"
                 },
                 weightedPullups: {
-                    title: "Podciąganie z obciążeniem",
+                    title: "Podciąganie z obciążeniem w stylu EMOM",
                     pullupLabel: "Maks. podciągnięcie z obciążeniem (dodatkowe kg)",
                     description: "Siła pleców na stabilność w wyciskaniu. Śr. i Sob."
                 },
                 legDays: {
                     title: "Dni nóg",
-                    description: "Opcjonalne trening nóg"
+                    description: "Opcjonalny trening nóg"
                 },
                 accessories: {
-                    title: "Ćwiczenia akcesoryjne",
+                    title: "Ćwiczenia akcesoryjne - core i stabilność łopatek",
                     description: "Dragon Flags, Y-Raises, Around-the-Worlds."
                 }
             },
@@ -999,23 +1160,23 @@ export const translations = {
             preferences: {
                 title: "Dostosuj protokół",
                 description: "Wybierz preferowane ruchy.",
-                pushALegPrimary: "Push A: Główne nogi",
+                pushALegPrimary: "Push A: Główne ćwiczenie na nogi",
                 pushBChestIsolation: "Push B: Izolacja klatki",
-                pushBLegSecondary: "Push B: Dodatkowe nogi"
+                pushBLegSecondary: "Push B: Dodatkowe ćwiczenie na nogi"
             },
             exerciseOptions: {
                 hackSquat: "Hack Squat",
-                highFootLegPress: "Leg Press (stopy wysoko)",
+                highFootLegPress: "Leg Press (stopy wysoko na platformie)",
                 pecDec: "Pec-Dec",
                 lowToHighCableFlyes: "Rozpiętki w górę (wyciąg)",
-                frontSquats: "Przysiady frontowe",
-                narrowStanceLegPress: "Leg Press (wąski rozstaw)",
+                frontSquats: "Front Squat",
+                narrowStanceLegPress: "Leg Press (wąski rozstaw stóp)",
                 stilettoSquats: "Przysiady na podwyższeniu",
                 squatHelper: "Twój aktualny 1 Rep Max na przysiadzie",
             },
 
             calibrationPhase: "Faza kalibracji",
-            enterStats: "Wpisz aktualne maksima. Od nich zależą wszystkie obliczenia.",
+            enterStats: "Wpisz aktualne 1RM. Od nich zależą wszystkie obliczenia. Bądź szczery - program sam się reguluje (lepiej zacząć konserwatywnie).",
             stats: {
                 pausedBench: "Wyciskanie pauzowane 1RM (główne)",
                 wideGripBench: "Szeroki chwyt 1RM (opcja)",
@@ -1039,9 +1200,9 @@ export const translations = {
             threat: "Zagrożeniem",
             welcomeBack: "Witaj",
 
-            feelingFroggy: "Status pośladków:",
+            feelingFroggy: "Status:",
             froggyStatus: "Żabka",
-            feelingPeachy: "Status pośladków:",
+            feelingPeachy: "Status:",
             peachyStatus: "Brzoskwinka",
 
             cycleTitle: "Cykl {cycle}: Ciężej. Brutalniej. Barki nadchodzą.",
@@ -1082,7 +1243,77 @@ export const translations = {
 
             mandatoryDeload: "OBOWIĄZKOWY DELOAD",
             peakingBlock: "PEAKINGBLOK",
-            nExercises: "{count} Ćwiczeń"
+            nExercises: "{count} Ćwiczeń",
+
+            // Trinary Dashboard
+            trinary: {
+                title: "TRINARY",
+                tagline: "Metoda Conjugate – trening dostosowany do słabych punktów",
+                workoutProgress: "Trening {current} z {total}",
+                scheduleTip: "Wskazówka",
+                scheduleAdvice: "Dla najlepszych rezultatów trenuj 3-4 dni/tydzień (np. Pon/Śr/Pt/Sob). Aplikacja śledzi treningi – po 4 treningach/tydzień, dni akcesoryjne aktywują się automatycznie.",
+                progressTitle: "Ukończone treningi",
+                block: "Blok",
+                nextWorkout: "Trening {num}",
+                readyWhenYouAre: "Gotowe, kiedy ty. Trenuj według swojego grafiku.",
+                startWorkout: "ROZPOCZNIJ TRENING",
+                accessoryTriggered: "Nadmiar treningów w tym tygodniu – dni akcesoryjne wyzwolone",
+                startAccessory: "ROZPOCZNIJ AKCESORIA",
+                skipAccessory: "POMIŃ AKCESORIA",
+                accessoryRecommendation: "⚠️ Pomijanie niezalecane – akcesoria celują w słabe punkty"
+            }
+        },
+
+        // Trinary Modals
+        trinary: {
+            weakPointModal: {
+                title: "Zidentyfikuj słabe punkty",
+                description: "Dla każdego boju wybierz, gdzie sztanga zwalnia lub się zatrzymuje. To określi warianty ćwiczeń na następny blok.",
+                tipTitle: "Wskazówka",
+                tipText: "Obejrzyj nagrania lub poczuj, gdzie sztanga zwalnia/zatrzymuje się. Jeśli nie jesteś pewny, wybierz fazę, która wydaje się najtrudniejsza.",
+                benchTitle: "Wyciskanie na ławce",
+                benchOffChest: "Z klatki (pierwsze 5-8 cm)",
+                benchMidRange: "Środek zakresu (w połowie drogi)",
+                benchLockout: "Lockout (ostatnie centymetry)",
+                deadliftTitle: "Martwy ciąg",
+                deadliftLiftOff: "Start z podłogi",
+                deadliftOverKnees: "Nad kolanami (do kolan)",
+                deadliftLockout: "Lockout (od kolan do bioder)",
+                squatTitle: "Przysiad",
+                squatBottom: "Dół (wyjście z dołka)",
+                squatMidRange: "Środek zakresu (w połowie drogi)",
+                squatLockout: "Lockout (końcowy napęd)",
+                variations: "Możliwe warianty",
+                submit: "ZAPISZ I KONTYNUUJ"
+            },
+            rerunModal: {
+                title: "Trinary ukończony! 🎉",
+                description: "Ukończyłeś 27 treningów (9 bloków). Wybierz następny krok – deload jest zalecany.",
+                optionATitle: "Tydzień deloadu (zalecane)",
+                optionADesc: "1 tydzień przy 50% objętości ME/DE/RE, ze zredukowaną intensywnością:",
+                optionADetail1: "ME: -25% intensywności (bloki zaczynają od niższych %)",
+                optionADetail2: "DE: -15% intensywności",
+                optionADetail3: "RE: -15% intensywności",
+                optionAButton: "DELOAD I RESTART",
+                optionBTitle: "Kontynuuj bez deloadu",
+                optionBDesc: "Zacznij od razu z nowymi wariantami na podstawie zaktualizowanych słabych punktów.",
+                optionBButton: "BEZ DELOADU, KONTYNUUJ",
+                optionCTitle: "4-5 dni odpoczynku",
+                optionCDesc: "Weź kompletny odpoczynek lub zrób lekką pracę akcesoryjną na RPE 7-8. Potem zacznij z nowymi wariantami.",
+                optionCButton: "WEZMĘ ODPOCZYNEK"
+            },
+            rpeSelector: {
+                title: "Jak czułeś się w ostatniej serii? (RPE na ostatnim secie)",
+                description: "Wybierz na podstawie odczuwanego wysiłku – to określa progresję 1RM na następny blok."
+            },
+            accessoryModal: {
+                title: "Wybierz fokus akcesoryjny",
+                description: "Wybierz, które grupy mięśniowe chcesz dzisiaj trenować",
+                upperTitle: "Góra ciała",
+                upperDesc: "Triceps, barki, plecy",
+                lowerTitle: "Dół ciała",
+                lowerDesc: "Pośladki, ścięgna, czworogłowe, core"
+            }
         },
 
         pencilneck: {
@@ -1145,7 +1376,7 @@ export const translations = {
             restAdvice: "Nie podnoś ciężko. Śpij. Jedz.",
             proceedQuestion: "Po odpoczynku, jak chcesz kontynuować?",
             optionA: {
-                title: "Opcja A: Szczyt (zalecane)",
+                title: "Opcja A: Peaking (zalecane)",
                 description: "Wejdź w 3-tygodniowy blok peakingowy (tyg. 13-15), by przyzwyczaić się do ciężkich obciążeń i wyraźnie szczytować na nowe 1RM."
             },
             optionB: {
@@ -1252,6 +1483,14 @@ export const translations = {
         },
 
         quotes: {
+            painGloryBadges: {
+                void_gazer: "Spojrzałeś w otchłań deficytu – i to ona pierwsza mrugnęła.",
+                emom_executioner: "6×5 co 2 minuty. Nie odpuściłeś. Sztanga odpuściła.",
+                glory_achieved: "Ból się opłacił. Chwała jest Twoja. Teraz idź i pobij to jeszcze raz.",
+                deficit_demon: "Większość ucieka przed deficytami. Ty uczyniłeś je swoimi niewolnikami.",
+                single_supreme: "Jedno powtórzenie. Jeden moment. Jedna legenda.",
+                "50_tonne_club": "Cały Boeing 737."
+            },
             pencilneckStatus: [
                 "Szyja wciąż wygląda jak wieszak na ubrania",
                 "Obojczyki zaczynają się chować",
@@ -1416,6 +1655,17 @@ export const translations = {
             deficitSnatchGripTracker: "Progres Deficit Snatch Grip",
             currentWeight: "Aktualny ciężar",
             trend: "Trend",
+
+            // --- TRINARY TIPS ---
+            trinaryMEStandard: "Max Effort – dojdź do 90-95% 1RM. Skup się na perfekcyjnej technice. 📈 RPE 9 lub mniej + 3 czyste powt. = +5 kg następna sesja ME.",
+            trinaryMEVariation: "Max Effort Variation – celuj w słaby punkt. Zacznij od sugerowanego ciężaru, dostosuj wg samopoczucia.",
+            trinaryDE: "Dynamic Effort – eksplozywny ruch. Rozważ gumy/łańcuchy.",
+            trinaryRE: "Repeated Effort – cel: hipertrofia. 📈 Zrób 12 powt. we WSZYSTKICH seriach = +2.5 kg następna sesja.",
+            trinaryREProgression: "Podwójna progresja: 12 powt. we wszystkich seriach → +2.5 kg następna sesja RE dla tego boju.",
+            trinaryDESpeed: "Skup się na prędkości, nie na ciężarze.",
+            trinaryAccessory: "Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.",
+            trinaryRPECheck: "RPE 9 (lekki zapas) lub niższe z perfekcyjną formą? ",
+            trinaryStartingWeight: "Sugerowany ciężar startowy: {weight} kg (~{percent}% twojego {lift} 1RM). Dostosuj wg samopoczucia.",
         },
     }
 };

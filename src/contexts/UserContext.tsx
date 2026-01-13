@@ -438,6 +438,128 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 newBadges.push('cannonball_delts');
             }
 
+            // ==========================================
+            // PAIN & GLORY BADGES
+            // ==========================================
+            const pgLogs = logs.filter(l => l.programId === 'pain-and-glory');
+            if (pgLogs.length > 0) {
+                pgLogs.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+                // 1. Pain Embracer: Complete Weeks 1-8
+                if (!currentBadges.has('void_gazer')) {
+                    const weeksCompleted = new Set(pgLogs.filter(l => (l.week || 0) <= 8).map(l => l.week || 0));
+                    // Check if at least 6 unique weeks recorded or max week >= 8
+                    // "Complete weeks 1-8" implies 8 weeks of work.
+                    // Let's require at least 6 unique weeks to account for skips, and max week >= 8.
+                    if (weeksCompleted.size >= 6 && Math.max(...Array.from(weeksCompleted)) >= 8) {
+                        newBadges.push('void_gazer');
+                    }
+                }
+
+                // 2. EMOM Executioner: Complete 6x5 E2MOM (Weeks 9-12)
+                if (!currentBadges.has('emom_executioner')) {
+                    const emomSuccess = pgLogs.some(l => {
+                        const w = l.week || 0;
+                        if (w < 9 || w > 12) return false;
+                        const dl = l.exercises?.find(e => e.name.includes("Conventional Deadlift"));
+                        // Look for 6 sets of >= 5 reps
+                        if (!dl) return false;
+                        const validSets = dl.setsData.filter(s => s.completed && parseInt(s.reps) >= 5);
+                        return validSets.length >= 6;
+                    });
+                    if (emomSuccess) newBadges.push('emom_executioner');
+                }
+
+                // 3. Deficit Demon: +30 kg on Deficit Snatch Grip (Weeks 1-8)
+                if (!currentBadges.has('deficit_demon')) {
+                    const deficitWeights = pgLogs
+                        .filter(l => (l.week || 0) <= 8)
+                        .map(l => {
+                            const ex = l.exercises?.find(e => e.name.includes("Deficit Snatch Grip"));
+                            if (!ex) return 0;
+                            return Math.max(...ex.setsData.map(s => parseFloat(s.weight) || 0));
+                        })
+                        .filter(w => w > 0);
+
+                    if (deficitWeights.length >= 2) {
+                        const first = deficitWeights[0];
+                        const last = deficitWeights[deficitWeights.length - 1];
+                        if (last - first >= 30) newBadges.push('deficit_demon');
+                    }
+                }
+
+                // 4. Glory Achieved: Finish 16 wks + New PR
+                if (!currentBadges.has('glory_achieved')) {
+                    const week16Logs = pgLogs.filter(l => (l.week || 0) === 16);
+                    if (week16Logs.length > 0) {
+                        // Find Week 16 Max
+                        let maxWeek16 = 0;
+                        week16Logs.forEach(l => {
+                            const dl = l.exercises?.find(e => e.name.includes("Deadlift") && !e.name.includes("Romanian") && !e.name.includes("Stiff"));
+                            if (dl) {
+                                const w = Math.max(...dl.setsData.map(s => parseFloat(s.weight) || 0));
+                                if (w > maxWeek16) maxWeek16 = w;
+                            }
+                        });
+
+                        // Find Previous Max (Weeks 1-15)
+                        let maxPrev = 0;
+                        pgLogs.forEach(l => {
+                            const w = l.week || 0;
+                            if (w < 16) {
+                                const dl = l.exercises?.find(e => e.name.includes("Deadlift") && !e.name.includes("Romanian") && !e.name.includes("Stiff"));
+                                if (dl) {
+                                    const val = Math.max(...dl.setsData.map(s => parseFloat(s.weight) || 0));
+                                    if (val > maxPrev) maxPrev = val;
+                                }
+                            }
+                        });
+
+
+                        if (maxWeek16 > maxPrev && maxWeek16 > 0 && maxPrev > 0) {
+                            newBadges.push('glory_achieved');
+                        }
+                    }
+                }
+
+                // 5. Single Supreme: Week 16 Single @ >= 97% e1RM
+                if (!currentBadges.has('single_supreme')) {
+                    const e1rm = user.painGloryStatus?.estimatedE1RM || 0;
+                    if (e1rm > 0) {
+                        const week16Logs = pgLogs.filter(l => (l.week || 0) === 16);
+                        let hit = false;
+                        week16Logs.forEach(l => {
+                            const dl = l.exercises?.find(e => e.name.includes("Deadlift") && !e.name.includes("Romanian"));
+                            if (dl) {
+                                dl.setsData.forEach(s => {
+                                    if (parseFloat(s.weight) >= (e1rm * 0.97)) hit = true;
+                                });
+                            }
+                        });
+                        if (hit) newBadges.push('single_supreme');
+                    }
+                }
+
+                // 6. 50 Tonne Club
+                if (!currentBadges.has('50_tonne_club')) {
+                    let totalGlory = 0;
+                    pgLogs.forEach(l => {
+                        l.exercises?.forEach(e => {
+                            if (e.name && (e.name.includes('Deadlift') || e.name.includes('deadlift'))) {
+                                e.setsData.forEach(s => {
+                                    const weight = parseFloat(s.weight || '0');
+                                    const reps = parseInt(s.reps || '0');
+                                    if (weight > 0 && reps > 0) {
+                                        totalGlory += weight * reps;
+                                    }
+                                });
+                            }
+                        });
+                    });
+                    if (totalGlory >= 50000) newBadges.push('50_tonne_club');
+                }
+            }
+
         } catch (e) {
             console.error("Failed to check logs for badges", e);
         }

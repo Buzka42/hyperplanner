@@ -13,6 +13,8 @@ The core of the modularity lies here. Each plan is defined as a self-contained `
 *   **`peachy.ts`**: Configuration for *Peachy Glute Plan*. Contains theme triggers and Saturday finisher injection logic.
 *   **`pencilneck.ts`**: Configuration for *Pencilneck Eradication*. Contains heavy phase logic (Weeks 5-8), Cycle 2 re-run adjustments, and suggested weight calculations.
 *   **`skeleton.ts`**: Configuration for *Skeleton to Threat*. Contains 12-week structure and "Forced Progression" advice logic.
+*   **`painglory.ts`**: Configuration for *Pain & Glory*. Contains 16-week deadlift specialization with E2MOM phases and peaking logic.
+*   **`trinary.ts`**: Configuration for *Trinary*. Contains conjugate periodization with ME/DE/RE rotation, weak-point based exercise variations, and accessory day triggers.
 
 **Key Interface (`src/types.ts`):**
 ```typescript
@@ -449,6 +451,27 @@ const tipMap: Record<string, keyof typeof translations.en.tips> = {
 
 ## Changelog
 
+### January 12, 2026 – **Trinary Feature Update**
+- **Manual 1RM Overrides**: Added Settings card to manually update Bench/Squat/Deadlift 1RMs.
+- **Variation Exclusion**: Added Settings section to exclude specific lift variations (e.g. bad equipment).
+- **Variation Swap Modal**: Users can now review and swap auto-selected variations during block transitions.
+
+### January 12, 2026 – **NEW PROGRAM: Trinary (Conjugate Periodization)**
+- **Trinary Program Added**: Complete conjugate periodization powerlifting program
+  - 27 workouts structured into 9 blocks (3 workouts per block)
+  - ME/DE/RE (Max Effort/Dynamic Effort/Repeated Effort) rotation across Bench/Deadlift/Squat
+  - Phased progression: Build Base (Blocks 1-3) → Intensify (Blocks 4-6) → Peak (Blocks 7-9)
+- **Weak Point System**: Exercise variations selected based on user-identified weak points
+  - Bench: Off-chest / Mid-range / Lockout
+  - Deadlift: Lift-off / Over-knees / Lockout
+  - Squat: Bottom / Mid-range / Lockout
+- **Accessory Day Trigger**: Automatically triggered when >4 workouts in rolling 7-day period
+- **Weight Calculation**: Block-specific percentages × Variation-specific percentages
+- **Theme**: Heavy metal inspired dark zinc/slate color palette
+- **Dashboard Widgets**: Schedule Tip, Workout Progress, Next Workout button
+- **Full EN/PL Translations**: Complete translations for all UI elements
+- **Affected Files**: `trinary.ts`, `types.ts`, `plans.ts`, `Onboarding.tsx`, `Dashboard.tsx`, `translations.ts`
+
 ### January 12, 2026 – **MAJOR: Paused Bench Press Calculation Overhaul**
 - **COMPLETE OVERHAUL**: Paused Bench Press weight calculation system has been completely rebuilt
 - **NEW: e1RM Recalculation Every 4 Weeks**
@@ -476,6 +499,7 @@ const tipMap: Record<string, keyof typeof translations.en.tips> = {
 - **PLAN.md Regenerated**: Complete documentation of new system with tables and examples
 - **Affected Files**: `program.ts`, `PLAN.md`
 - **Backup Created**: `backups/PLAN_2026-01-12_e1rm-overhaul_6f8a510.md`
+- **Doc Update**: Updated `PLAN.md` with complete list of badges from `src/data/badges.ts` to match current app state.
 
 ### January 11, 2026
 - **NEW PROGRAM: Pain & Glory** (16-Week Intermediate Deadlift Specialization)
