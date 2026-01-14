@@ -161,9 +161,18 @@ Same as Tuesday
 ### Phase 2: Peaking Block (Weeks 13-15)
 *Uses final Week 12 e1RM recalculation as base for all percentages*
 
-*   **Week 13 (Doubles):** Mon 4×2 @ 90-92.5%. Sat AMRAP @ 75%
-*   **Week 14 (Singles):** Mon 5×1 @ 95-97.5%. Sat AMRAP @ 81%
-*   **Week 15 (Test):** Mon Active Recovery. Sat **1RM TEST** (105%)
+**Saturday Strategy Change (No AMRAPs in Peaking):**
+- **Week 13 Saturday:** Light Technique Day – Paused Bench Press 4×3 @ 60-70% e1RM (explosive, perfect form, RPE 6-7)
+- **Week 14 Saturday:** Very Light Technique or Rest – Paused Bench Press 2-3×2-3 @ 60% e1RM (optional, focus speed/form) or full rest
+- **Week 15 Saturday:** Pure 1RM Test Day – warm-ups + max attempt only (no back-offs or extra volume)
+
+**Note:** No AMRAPs in peaking weeks 13–14. Replaced with light technique/rest to maximize recovery for heavy singles and final test. Message on peaking Saturdays: "Peaking phase – light technique for confidence, no AMRAP fatigue. Save energy for heavy days and test."
+
+**Monday Heavy Work:**
+*   **Week 13 (Doubles):** Mon 4×2 @ 90-92.5%
+*   **Week 14 (Singles):** Mon 5×1 @ 95-97.5%
+*   **Week 15 (Active Recovery):** Light work only
+
 
 ---
 
@@ -538,4 +547,4 @@ When making changes:
 
 ---
 
-*Generated from source code – January 12, 2026*
+*Generated from source code – January 14, 2026*

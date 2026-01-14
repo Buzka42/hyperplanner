@@ -111,9 +111,10 @@ const createWeeks = (): ProgramWeek[] => {
             // Day 5: Legs Copy
             days.push({ dayName: "t:dayNames.fridayLegs", dayOfWeek: 5, exercises: days[1].exercises });
 
-            // Day 6: Test / AMRAP
+            // Day 6: Test / Light Technique
             const d6Exercises: Exercise[] = [];
             if (isWeek15) {
+                // Week 15: Pure 1RM Test Day
                 d6Exercises.push({
                     id: `w${w}-d6-e1`,
                     name: "Paused Bench Press (1RM TEST)",
@@ -121,21 +122,26 @@ const createWeeks = (): ProgramWeek[] => {
                     target: { type: "straight", reps: "1", percentage: 1.05, percentageRef: "pausedBench" },
                     notes: "Warm up well. Go for PR. DOMINATE."
                 });
-            } else {
+            } else if (isWeek13) {
+                // Week 13: Light Technique Day - 4×3 @ 60-70%
                 d6Exercises.push({
                     id: `w${w}-d6-e1`,
-                    name: "Paused Bench Press (AMRAP)",
-                    sets: 1,
-                    target: {
-                        type: "amrap",
-                        reps: "AMRAP",
-                        percentage: isWeek13 ? 0.75 : 0.81, // Avg of range 
-                        percentageRef: "pausedBench"
-                    },
-                    notes: "Push hard but leave 1 rep"
+                    name: "Paused Bench Press",
+                    sets: 4,
+                    target: { type: "straight", reps: "3", percentage: 0.65, percentageRef: "pausedBench" },
+                    notes: "Peaking phase – light technique for confidence, no AMRAP fatigue. Save energy for heavy days and test. Focus: explosive, perfect form, RPE 6-7."
+                });
+            } else {
+                // Week 14: Very Light Technique - 2-3×2-3 @ 60%
+                d6Exercises.push({
+                    id: `w${w}-d6-e1`,
+                    name: "Paused Bench Press",
+                    sets: 3,
+                    target: { type: "range", reps: "2-3", percentage: 0.60, percentageRef: "pausedBench" },
+                    notes: "Peaking phase – light technique for confidence, no AMRAP fatigue. Save energy for heavy days and test. Optional: focus speed/form or full rest."
                 });
             }
-            days.push({ dayName: isWeek15 ? "t:dayNames.saturdayJudgmentDay" : "t:dayNames.saturdayPeakingAMRAP", dayOfWeek: 6, exercises: d6Exercises });
+            days.push({ dayName: isWeek15 ? "t:dayNames.saturdayJudgmentDay" : "t:dayNames.saturdayLightTechnique", dayOfWeek: 6, exercises: d6Exercises });
 
             weeks.push({ weekNumber: w, days });
             continue;
@@ -237,7 +243,8 @@ const createWeeks = (): ProgramWeek[] => {
                     id: `w${w}-d3-e1`,
                     name: "Paused Bench Press",
                     sets: 4,
-                    target: { type: "range", reps: "8-10", percentage: wedBenchPerc, percentageRef: "pausedBench" }
+                    target: { type: "range", reps: "8-10", percentage: wedBenchPerc, percentageRef: "pausedBench" },
+                    notes: "t:tips.pausedBenchWednesday"
                 },
                 {
                     id: `w${w}-d3-e2`,
@@ -264,7 +271,7 @@ const createWeeks = (): ProgramWeek[] => {
                     id: `w${w}-d3-e5`,
                     name: "Around-the-Worlds",
                     sets: 3,
-                    target: { type: "range", reps: "10-16" },
+                    target: { type: "range", reps: "4-16" },
                     alternates: ["Power Hanging Leg Raises"]
                 }
             ]
