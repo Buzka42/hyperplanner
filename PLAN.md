@@ -2,6 +2,7 @@
 
 This document serves as the single source of truth for all workout programs, progression logic, and exercise specifications available in the application. It consolidates previous documentation and includes the latest updates.
 
+**Last Updated:** January 14, 2026 - Ritual of Strength Finalization  
 **Note:** For technical implementation details, see `README.md`.
 
 ---
@@ -537,13 +538,214 @@ Uses variations selected from Weak Point Modal
 
 ---
 
-## Backup Strategy
-All major workout plan changes are detailed in README.md changelog.
-When making changes:
-1.  Create backup in `/backups` folder (e.g. `PLAN_2026-01-12_commit-hash.md`)
-2.  Update this `PLAN.md` file with plan details
-3.  Update `README.md` with changelog entry
-4.  **General Guideline:** Sleep 7+ hours/night for optimal recovery
+## 7. Ritual of Strength (`ritual-of-strength`)
+*The ritual of iron – sacrifice for ascension. Cult-themed powerlifting program.*
+
+### Plan Configuration
+*   **Duration:** 16+ Weeks (4-week ramp-in optional + 12-week main phase + reactive deload weeks if needed)
+*   **Frequency:** 3 Days/Week (Mon/Wed/Fri recommended, minimum 1 day rest between sessions)
+*   **Widgets:** `strength_altar` (3 pillars tracker), `program_status`
+*   **Theme:** Dark cult aesthetic – black background, dark red accents, gothic fonts, blood drip animations on PRs
+
+### Onboarding
+#### First Program Question
+*   **Question:** "Is this your first powerlifting program?"
+    *   **Yes** → Force 4-week ramp-in (Weeks 1-4)
+    *   **No** → Jump directly to main phase (Week 5)
+
+#### 1RM Entry (kg only)
+*   Paused Bench Press 1RM
+*   Conventional Deadlift 1RM
+*   Low Bar Squat 1RM
+
+#### Training Days Selection
+*   User selects 3 training days
+*   Recommended: Mon/Wed/Fri (at least 1 day rest between sessions)
+
+### Ramp-In Phase (Weeks 1-4, Only if First Program = Yes)
+All lifts competition style: Paused Bench Press, Conventional Deadlift, Low Bar Squat
+
+#### Progression Schedule
+*   **Week 1:** 3 × 9 @ ~70% 1RM (RPE 7-8)
+*   **Week 2:** 3 × 6 @ ~80% 1RM (RPE 8)
+*   **Week 3:** 3 × 3 @ ~90% 1RM (RPE 9)
+*   **Week 4: Ascension Test**
+    *   AMRAP on all 3 lifts @ ~85% estimated 1RM (target 5-8 reps)
+    *   Back-down: 3 × 5 @ 80% AMRAP weight
+    *   Updates all 1RMs using Epley formula: `e1RM = weight × (1 + reps/30)`
+
+#### Daily Structure (Ramp-In)
+*   **Day 1 (Bench Focus):** Bench Press + 2 accessories (Rows, Face Pulls)
+*   **Day 2 (Squat Focus):** Squat + 2 accessories (Ham Curls, Leg Extensions)
+*   **Day 3 (Deadlift Focus):** Deadlift + 2 accessories (Farmer Holds [grip], Ab Wheel)
+
+### Main Ritual Phase (Weeks 5-16)
+3 days/week fixed rotation – ME (Max Effort) singles on focus lift
+
+#### Workout Structure
+**Day 1: Bench ME**
+1.  Bench Press ME Single (work up to 1 clean rep @ 90-100% 1RM)
+2.  Low Bar Squat (Light): 3 × 5 @ 70% 1RM
+3.  Conventional Deadlift (Light): 3 × 5 @ 70% 1RM
+4.  + 2-3 Ritual Accessories (user-selected from bench list)
+
+**Day 2: Squat ME**
+1.  Low Bar Squat ME Single (work up to 1 clean rep @ 90-100% 1RM)
+2.  Paused Bench Press (Light): 3 × 5 @ 70% 1RM
+3.  Conventional Deadlift (Light): 3 × 5 @ 70% 1RM
+4.  + 2-3 Ritual Accessories (user-selected from squat list)
+
+**Day 3: Deadlift ME**
+1.  Conventional Deadlift ME Single (work up to 1 clean rep @ 90-100% 1RM)
+2.  Paused Bench Press (Light): 3 × 5 @ 70% 1RM
+3.  Low Bar Squat (Light): 3 × 5 @ 70% 1RM
+4.  **Mandatory Grip Work:** Farmer Holds or Fat Grip Deadlift Holds 3 × 20-30 sec
+5.  + 2-3 Ritual Accessories (user-selected from deadlift list)
+
+### Progression Rules
+
+#### ME Single Progression
+*   **Goal:** Work up to 1 clean rep @ 90-100% 1RM
+*   **Progression Trigger:** Clean execution (no hitch, full ROM) + RPE ≤9
+    *   **Safety Checkbox (Red):** "RPE 9 or lower with perfect form?" 
+    *   Appears immediately when user enters "1" in any rep field
+    *   Must be ticked for ANY progression
+*   **Progression Amount:**
+    *   +2.5 kg default (if checkbox ticked)
+    *   +5 kg if "Exceptionally easy" secondary checkbox is also ticked
+    *   No progression if checkbox unticked (same weight next session)
+*   **Implementation:** Checkbox state saves to `ritualStatus.benchMEProgression/squatMEProgression/deadliftMEProgression` and accumulates over sessions
+
+#### Light Lifts (3 × 5 @ 70% 1RM)
+*   **Goal:** Speed and explosive form focus (target bar velocity >0.8 m/s)
+*   **Velocity Check (Blue Checkbox):** "Good bar speed? (Target: >0.8 m/s)"
+    *   Appears after entering reps in all 3 sets
+    *   If checked: Weight stays same next session
+    *   If unchecked: -5% weight reduction next session (bar was too slow)
+*   **Purpose:** Auto-regulates light work to maintain explosive quality
+*   **Fixed percentage:** 70% of 1RM (no manual progression, only velocity-triggered adjustments)
+
+#### Grip Work (Deadlift Day Only)
+*   Mandatory: Farmer Holds or Fat Grip Deadlift Holds 3 × 20-30 sec @ bodyweight or light
+*   **Progression:** +time or +weight when current load feels easy
+
+### Accessory System
+
+#### Base Accessories (2 per day, auto-suggested from weak point modal or default)
+
+**Bench Day Accessories:**
+*   Rows, Rear Delt Flyes, Tricep Extensions, Face Pulls
+
+**Squat Day Accessories:**
+*   Ham Curls, Leg Extensions, Hip Thrusts, Calves
+
+**Deadlift Day Accessories:**
+*   Shrugs, Band Pull-Aparts, Ab Wheel, Planks (+ mandatory grip work)
+
+#### Add Accessory Button
+*   **In-Workout Button:** "Add Ritual Accessory" (up to 3 total per day)
+*   **Click** → Modal with day-specific list + "Custom" field (user types name/reps/sets)
+
+#### Accessory Progression
+*   **Double Progression:** Hit top reps on all sets → +2.5 kg next session
+*   Message: "Hit top reps all sets → +2.5 kg next time"
+
+### Weak Point Auto-Suggest
+*   **Trigger:** After ramp-in (Week 4) OR every 4 weeks during main phase
+*   **Modal:** "What feels weakest?"
+    *   **Bench:** Off chest / Mid-range / Lockout
+    *   **Deadlift:** Lift-off / Over knees / Lockout
+    *   **Squat:** Bottom / Mid-range / Lockout
+*   **Auto-Suggest:** App proposes 1-2 accessories targeting weak point for next sessions
+
+### Ascension Tests (Every 4 Weeks)
+*   **Schedule:** Weeks 4 (ramp-in), 8, 12, 16
+*   **Format:** Full Ascension Test on all 3 lifts
+    *   AMRAP @ ~85% current 1RM (target 5-8 reps)
+    *   Back-down: 3 × 5 @ 80% test weight
+*   **1RM Update:** All 1RMs recalculated using Epley formula: `e1RM = weight × (1 + reps/30)`
+*   **Visual:** Dark ritual frame with flames. On PR: blood rain confetti + quote
+
+### Deload Logic
+
+#### Auto-Deload (Week 16 Only)
+*   **Trigger:** After completing Week 16 (program completion)
+*   **Effect:** 1-week Purge Week before re-run option
+    *   50% volume (2 sets instead of 3)
+    *   70% intensity
+    *   All lifts remain but lighter
+*   **Purpose:** Mandatory deload before starting a new cycle
+
+#### Reactive Recovery Check (Weeks 8 & 12 Only)
+*   **Trigger:** After completing the final workout of Weeks 8 and 12
+*   **Modal:** "How was your recovery over the last 4 weeks? Rate 1-10 (10 = perfect)"
+*   **Response Actions:**
+    *   **If ≤6 (Poor Recovery):** INSERT a 1-week Purge Week NEXT, extending the program by 1 week
+        *   User continues to scheduled Week 9 or Week 13 AFTER the deload
+        *   Example: Week 8 → Recovery ≤6 → Purge Week → Week 9 → ... → Week 17 (instead of 16)
+    *   **If >6 (Good Recovery):** Continue to next scheduled week (no deload inserted)
+*   **Note:** No recovery check at Week 16 (auto-deload handles it)
+
+### Re-Run Modal (After Final Workout - Week 16)
+*   **Trigger:** After completing Week 16 final workout
+*   **Message:** "The ritual is complete. Continue the path of ascension?"
+    *   **Yes** → Purge Week (deload) + new cycle with updated 1RMs
+    *   **No** → "Mortal weakness returns." (End program, return to selection)
+
+### Cult Theme Elements
+
+#### Strength Altar Widget (Dashboard)
+*   Visual tracker with 3 pillars (Bench/Squat/Deadlift)
+*   Pillars fill with "blood" (dark red liquid) as 1RM increases
+*   Display: Current 1RM, Next Target, "Sacrifices Completed" (workouts done)
+*   Flame effects on PR updates
+
+#### Ascension Test Rename
+*   AMRAP weeks renamed to "Ascension Test"
+*   Dark ritual frame with flames
+*   **On PR:** Blood rain confetti + quote: "You have ascended. The iron gods are pleased." (English + Polish)
+
+#### Cult Badges (Trophy Case)
+All badges auto-unlock, retroactive, with confetti + savage quote (English + Polish):
+
+1.  **Initiate of Iron** (`initiate.png`) – Complete Week 1 (all 3 workouts)
+    *   Quote: "The first sacrifice is complete. The iron gods acknowledge you." / "Pierwsza ofiara została złożona. Żelazni bogowie cię dostrzegają."
+2.  **Disciple of Pain** (`disciple.png`) – Complete ramp-in (all 3 workouts of Week 4)
+    *   Quote: "Four weeks of devotion. You've earned the right to suffer more." / "Cztery tygodnie oddania. Zasłużyłeś na prawo do dalszego cierpienia."
+3.  **Acolyte of Strength** (`acolyte.png`) – First cycle complete (Week 16)
+    *   Quote: "Sixteen weeks of ritual. The path of ascension continues." / "Szesnaście tygodni rytuału. Ścieżka ascenzji trwa."
+4.  **High Priest of Power** (`highpriest.png`) – Multiple cycles + big PRs
+    *   Quote: "Multiple cycles. Multiple PRs. You are one with the iron." / "Wiele cykli. Wiele rekordów życiowych. Jesteś jednością z żelazem."
+5.  **Eternal Worshipper** (`worshipper.png`) – All-time PRs smashed (Ritual PRs in ALL 3 lifts beat every other program)
+    *   Quote: "Mortal limits shattered. You have become legend." / "Śmiertelne ograniczenia zniszczone. Stałeś się legendą."
+
+#### Ritual Modal at End (Week 16)
+*   "The ritual is complete. Continue the path of ascension?"
+    *   **Yes** → Purge Week (deload) + new cycle
+    *   **No** → "Mortal weakness returns." (return to program selection)
+
+### Translations
+*   Program name: "Ritual of Strength" → Polish: "Rytuał Siły"
+*   Tagline: "The ritual of iron – sacrifice for ascension" → Polish: "Rytuał żelaza – poświęcenie dla wzniesienia"
+*   All UI elements, modal questions, tips translated (exercise names NOT translated)
+*   Badge names NOT translated (descriptions translated)
+
+### Implementation Status
+**✅ Fully Implemented:**
+- 16-week program structure (4 ramp-in + 12 main)
+- Auto-updating 1RMs (Week 4 Ascension Test + ME singles)
+- ME checkbox system (+2.5kg/+5kg progression)
+- Light work velocity checkbox (-5% if slow)
+- 5 cult badges with bilingual quotes
+- Strength Altar widget
+- Full bilingual support (EN/PL)
+- Week 16 auto-deload
+- Re-run modal
+
+**⏳ Pending Implementation:**
+- Recovery check modals (weeks 8, 12)
+- Week insertion logic for reactive deloads
+- Purge week workout generation
 
 ---
 

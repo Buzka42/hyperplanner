@@ -26,4 +26,9 @@ export const BADGES: Badge[] = [
     { id: 'deficit_demon', name: 'Deficit Demon', description: '+30 kg on Deficit Snatch Grip (Weeks 1-8)', icon: 'Ghost', image: '/badges/deficit_demon.png' },
     { id: 'single_supreme', name: 'Single Supreme', description: 'Week 16 Single @ ≥97% e1RM', icon: 'Crown', image: '/badges/single_supreme.png' },
     { id: '50_tonne_club', name: '50 Tonne Club', description: '50,000 kg total volume in Pain & Glory', icon: 'Plane', image: '/badges/50_tonne_club.png' },
+    { id: 'initiate_of_iron', name: 'Initiate of Iron', description: 'Complete Week 1', icon: 'Flame', image: '/badges/initiate.png' },
+    { id: 'disciple_of_pain', name: 'Disciple of Pain', description: 'Complete ramp-in (Weeks 1-4)', icon: 'Shield', image: '/badges/disciple.png' },
+    { id: 'acolyte_of_strength', name: 'Acolyte of Strength', description: 'First cycle complete (Week 16)', icon: 'Swords', image: '/badges/acolyte.png' },
+    { id: 'high_priest_of_power', name: 'High Priest of Power', description: 'Multiple cycles + big PRs', icon: 'Crown', image: '/badges/highpriest.png' },
+    { id: 'eternal_worshipper', name: 'Eternal Worshipper', description: 'All-time PRs smashed', icon: 'Infinity', image: '/badges/worshipper.png' },
 ];

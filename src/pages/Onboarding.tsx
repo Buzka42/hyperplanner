@@ -15,6 +15,7 @@ import { PENCILNECK_PROGRAM } from '../data/pencilneck';
 import { PEACHY_CONFIG } from '../data/peachy';
 import { PAIN_GLORY_CONFIG } from '../data/painglory';
 import { TRINARY_CONFIG } from '../data/trinary';
+import { RITUAL_CONFIG } from '../data/ritual';
 import { Checkbox } from '../components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -60,6 +61,8 @@ export const Onboarding: React.FC = () => {
         btnPress: 0
     });
 
+    const [ritualIsFirstProgram, setRitualIsFirstProgram] = useState<boolean | null>(null);
+
     // ... (rest of code)
 
 
@@ -80,8 +83,8 @@ export const Onboarding: React.FC = () => {
             setStep('days');
         } else if (pid === PAIN_GLORY_CONFIG.id) {
             setStep('days');
-        } else if (pid === TRINARY_CONFIG.id) {
-            // Trinary goes directly to stats - no schedule selection
+        } else if (pid === TRINARY_CONFIG.id || pid === RITUAL_CONFIG.id) {
+            // Trinary and Ritual go directly to stats - no schedule selection
             setStep('stats');
         } else {
             setStep('stats');
@@ -454,6 +457,29 @@ export const Onboarding: React.FC = () => {
                                 </p>
                                 <ul className="space-y-1 text-xs">
                                     {tArray('onboarding.programs.trinary.features').map((feature, i) => (
+                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
+                                    ))}
+                                </ul>
+                            </CardContent>
+                        </Card>
+
+                        {/* Ritual of Strength Card */}
+                        <Card
+                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
+                            onClick={() => handleProgramSelect(RITUAL_CONFIG.id)}
+                        >
+                            <div className="h-48 bg-black relative flex items-center justify-center">
+                                <img src="/ritual.png" alt="Ritual of Strength" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
+                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.ritualOfStrength').name}</h3>
+                                </div>
+                            </div>
+                            <CardContent className="pt-4 p-4">
+                                <p className="text-muted-foreground text-xs mb-3">
+                                    {tObject('onboarding.programs.ritualOfStrength').description}
+                                </p>
+                                <ul className="space-y-1 text-xs">
+                                    {tArray('onboarding.programs.ritualOfStrength.features').map((feature, i) => (
                                         <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
                                     ))}
                                 </ul>
@@ -908,6 +934,187 @@ export const Onboarding: React.FC = () => {
                             <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-zinc-700 to-slate-700 hover:from-zinc-600 hover:to-slate-600 text-zinc-100" size="lg">
                                 <CheckCircle2 className="mr-2 h-5 w-5" />
                                 {t('onboarding.trinary.buildButton')}
+                            </Button>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    // Ritual of Strength - First Program Question (before stats)
+    if (selectedProgramId === RITUAL_CONFIG.id && ritualIsFirstProgram === null) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-black via-red-950/20 to-black flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-red-900/40 shadow-2xl bg-gradient-to-b from-zinc-950 to-red-950/10">
+                    <CardHeader>
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2 text-red-200 hover:text-red-100">
+                                <ArrowLeft className="h-5 w-5" />
+                            </Button>
+                            <CardTitle className="text-2xl bg-gradient-to-r from-red-200 via-red-400 to-red-200 bg-clip-text text-transparent">Ritual of Strength</CardTitle>
+                        </div>
+                        <CardDescription className="text-red-200/70">
+                            {t('onboarding.ritualOfStrength.firstProgramQuestion')}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                            <Button
+                                onClick={() => setRitualIsFirstProgram(true)}
+                                className="w-full h-16 text-lg bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-red-50"
+                                size="lg"
+                            >
+                                {t('onboarding.ritualOfStrength.firstProgramYes')}
+                            </Button>
+
+                            <Button
+                                onClick={() => setRitualIsFirstProgram(false)}
+                                variant="outline"
+                                className="w-full h-16 text-lg border-red-900/50 bg-red-950/20 text-red-400 hover:bg-red-900/40 hover:text-red-300"
+                                size="lg"
+                            >
+                                {t('onboarding.ritualOfStrength.firstProgramNo')}
+                            </Button>
+                        </div>
+
+                        <div className="mt-6 p-4 bg-red-950/20 border border-red-900/30 rounded text-sm text-red-200/70">
+                            {t('onboarding.ritualOfStrength.firstProgramNote')}
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    // Ritual of Strength stats form - dark cult theme
+    if (selectedProgramId === RITUAL_CONFIG.id) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-black via-red-950/20 to-black flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-red-900/40 shadow-2xl bg-gradient-to-b from-zinc-950 to-red-950/10">
+                    <CardHeader>
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="icon" onClick={() => setRitualIsFirstProgram(null)} className="-ml-2 text-red-200 hover:text-red-100">
+                                <ArrowLeft className="h-5 w-5" />
+                            </Button>
+                            <CardTitle className="text-2xl bg-gradient-to-r from-red-200 via-red-400 to-red-200 bg-clip-text text-transparent">{t('onboarding.ritualOfStrength.calibrationTitle')}</CardTitle>
+                        </div>
+                        <CardDescription className="text-red-200/70">
+                            {t('onboarding.ritualOfStrength.calibrationDesc')}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex justify-center mb-6">
+                            <img src="/ritual.png" alt="Ritual of Strength" className="w-32 h-32 object-contain opacity-70" />
+                        </div>
+
+                        <form onSubmit={async (e: React.FormEvent) => {
+                            e.preventDefault();
+                            const bench1RM = (stats as any).ritualBench || 0;
+                            const deadlift1RM = (stats as any).ritualDeadlift || 0;
+                            const squat1RM = (stats as any).ritualSquat || 0;
+
+                            if (bench1RM <= 0 || deadlift1RM <= 0 || squat1RM <= 0) {
+                                alert("Please enter valid 1RM values for all three lifts.");
+                                return;
+                            }
+
+                            const ritualStats = {
+                                ...stats,
+                                ritualBench1RM: bench1RM,
+                                ritualDeadlift1RM: deadlift1RM,
+                                ritualSquat1RM: squat1RM
+                            };
+
+                            const initialRitualStatus = {
+                                benchPress1RM: bench1RM,
+                                deadlift1RM: deadlift1RM,
+                                squat1RM: squat1RM,
+                                completedWorkouts: 0,
+                                currentWeek: ritualIsFirstProgram ? 1 : 5, // Week 1 for ramp-in, Week 5 to skip
+                                isFirstProgram: ritualIsFirstProgram || false,
+                                rampInComplete: !ritualIsFirstProgram // true if skipping ramp-in
+                            };
+
+                            try {
+                                if (user) {
+                                    await updateUserProfile({
+                                        stats: ritualStats,
+                                        ritualStatus: initialRitualStatus
+                                    });
+                                    await switchProgram(RITUAL_CONFIG.id);
+                                } else {
+                                    if (!codeword) throw new Error("No codeword found. Please restart.");
+                                    await registerUser(codeword, ritualStats, RITUAL_CONFIG.id, [], {});
+                                    const userRef = doc(db, 'users', codeword.toLowerCase());
+                                    await updateDoc(userRef, {
+                                        ritualStatus: initialRitualStatus
+                                    });
+                                }
+                                navigate('/app/dashboard');
+                            } catch (err: any) {
+                                console.error("Registration failed:", err);
+                                alert("Failed to build program: " + (err.message || "Unknown error"));
+                            }
+                        }} className="space-y-6">
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="ritualBench" className="text-base text-red-100">{t('onboarding.ritualOfStrength.benchLabel')}</Label>
+                                    <Input
+                                        id="ritualBench"
+                                        name="ritualBench"
+                                        type="number"
+                                        min="0"
+                                        placeholder="e.g. 100"
+                                        className="text-lg bg-red-950/30 border-red-900/50 text-red-50"
+                                        onChange={handleStatsChange}
+                                        step="2.5"
+                                        required
+                                    />
+                                    <p className="text-xs text-red-300/50">{t('onboarding.ritualOfStrength.benchHint')}</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="ritualDeadlift" className="text-base text-red-100">{t('onboarding.ritualOfStrength.deadliftLabel')}</Label>
+                                    <Input
+                                        id="ritualDeadlift"
+                                        name="ritualDeadlift"
+                                        type="number"
+                                        min="0"
+                                        placeholder="e.g. 180"
+                                        className="text-lg bg-red-950/30 border-red-900/50 text-red-50"
+                                        onChange={handleStatsChange}
+                                        step="2.5"
+                                        required
+                                    />
+                                    <p className="text-xs text-red-300/50">{t('onboarding.ritualOfStrength.deadliftHint')}</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="ritualSquat" className="text-base text-red-100">{t('onboarding.ritualOfStrength.squatLabel')}</Label>
+                                    <Input
+                                        id="ritualSquat"
+                                        name="ritualSquat"
+                                        type="number"
+                                        min="0"
+                                        placeholder="e.g. 140"
+                                        className="text-lg bg-red-950/30 border-red-900/50 text-red-50"
+                                        onChange={handleStatsChange}
+                                        step="2.5"
+                                        required
+                                    />
+                                    <p className="text-xs text-red-300/50">{t('onboarding.ritualOfStrength.squatHint')}</p>
+                                </div>
+                            </div>
+
+                            <div className="bg-red-950/30 border border-red-900/30 rounded p-3 text-sm text-red-200">
+                                <strong className="text-red-100">{t('onboarding.ritualOfStrength.scheduleTitle')}</strong><br />
+                                {t('onboarding.ritualOfStrength.scheduleDesc')}
+                            </div>
+
+                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-red-50" size="lg">
+                                <CheckCircle2 className="mr-2 h-5 w-5" />
+                                {t('onboarding.ritualOfStrength.buildButton')}
                             </Button>
                         </form>
                     </CardContent>

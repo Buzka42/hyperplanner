@@ -35,6 +35,7 @@ export const ProtectedLayout: React.FC = () => {
     const isPeachy = user?.programId === 'peachy-glute-plan';
     const isPainGlory = user?.programId === 'pain-and-glory';
     const isTrinary = user?.programId === 'trinary';
+    const isRitual = user?.programId === 'ritual-of-strength';
 
     let themeClass = "theme-bench-domination";
     if (isPencilneck) themeClass = "theme-pencilneck";
@@ -42,6 +43,7 @@ export const ProtectedLayout: React.FC = () => {
     if (isPeachy) themeClass = "peachy-theme";
     if (isPainGlory) themeClass = "theme-pain-glory";
     if (isTrinary) themeClass = "theme-trinary";
+    if (isRitual) themeClass = "theme-ritual";
 
     let logoSrc = "/benchdomination.png";
     if (isPencilneck) logoSrc = "/pencilneck.png";
@@ -49,6 +51,7 @@ export const ProtectedLayout: React.FC = () => {
     if (isPeachy) logoSrc = "/peachy.png";
     if (isPainGlory) logoSrc = "/painglory.png";
     if (isTrinary) logoSrc = "/trinary.png";
+    if (isRitual) logoSrc = "/ritual.png";
 
     return (
         <div className={cn("min-h-screen bg-background flex flex-col md:flex-row", themeClass)}>
@@ -101,6 +104,31 @@ export const ProtectedLayout: React.FC = () => {
                     .peachy-theme h1, .peachy-theme h2, .peachy-theme h3, .peachy-theme h4, .peachy-theme h5, .peachy-theme h6 { 
                         color: hsl(340, 80%, 15%) !important; 
                     }
+
+                    /* Ritual of Strength - Dark Cult Theme */
+                    .theme-ritual {
+                        --background: 0 0% 5%;  /* Pure black */
+                        --foreground: 0 90% 95%; /* Off-white */
+                        --card: 0 5% 8%;  /* Very dark gray */
+                        --card-foreground: 0 90% 95%;
+                        --popover: 0 5% 8%;
+                        --popover-foreground: 0 90% 95%;
+                        --primary: 0 85% 35%;  /* Dark red */
+                        --primary-foreground: 0 0% 100%;
+                        --secondary: 0 10% 15%; /* Dark gray-red */
+                        --secondary-foreground: 0 85% 95%;
+                        --muted: 0 5% 20%;
+                        --muted-foreground: 0 20% 60%;
+                        --accent: 0 80% 25%;  /* Deep red */
+                        --accent-foreground: 0 85% 95%;
+                        --destructive: 0 84.2% 60.2%;
+                        --destructive-foreground: 0 0% 98%;
+                        --border: 0 30% 18%;  /* Dark red border */
+                        --input: 0 30% 18%;
+                        --ring: 0 85% 35%;
+                    }
+                    .theme-ritual .text-primary { color: hsl(0, 85%, 45%) !important; }
+                    .theme-ritual .bg-primary { background-color: hsl(0, 85%, 35%) !important; }
                     
                     /* Shimmer Effect for Text/Images */
                     .shimmer-active-froggy {

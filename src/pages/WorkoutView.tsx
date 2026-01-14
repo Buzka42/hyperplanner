@@ -912,6 +912,92 @@ export const WorkoutView: React.FC = () => {
             }
             // ========== END TRINARY LOGIC ==========
 
+            // ========== RITUAL OF STRENGTH LOGIC ==========
+            if (programData.id === 'ritual-of-strength') {
+                const ritualStatus = (user as any).ritualStatus;
+                if (ritualStatus) {
+                    const userRef = doc(db, 'users', user.id);
+                    const updates: any = {};
+
+                    // Week 4 Ascension Test: Update 1RMs based on AMRAP performance
+                    if (weekNum === 4 && !isExistingLog) {
+                        for (const ex of dayData?.exercises || []) {
+                            const sets = exerciseData[ex.id];
+                            if (ex.name.includes('Ascension Test') && sets && sets.length > 0) {
+                                // Find the AMRAP set (first set should be the AMRAP)
+                                const amrapSet = sets[0];
+                                if (amrapSet && amrapSet.completed) {
+                                    const weight = parseFloat(amrapSet.weight);
+                                    const reps = parseInt(amrapSet.reps);
+
+                                    if (weight > 0 && reps > 0) {
+                                        // Calculate new 1RM using Epley formula: weight × (1 + reps/30)
+                                        const new1RM = weight * (1 + reps / 30);
+                                        const rounded1RM = Math.floor(new1RM / 2.5) * 2.5;
+
+                                        if (ex.name.includes('Bench')) {
+                                            updates['ritualStatus.benchPress1RM'] = rounded1RM;
+                                        } else if (ex.name.includes('Squat')) {
+                                            updates['ritualStatus.squat1RM'] = rounded1RM;
+                                        } else if (ex.name.includes('Deadlift')) {
+                                            updates['ritualStatus.deadlift1RM'] = rounded1RM;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Weeks 5+: ME singles update 1RM if heavier weight is hit
+                    if (weekNum >= 5 && !isExistingLog) {
+                        for (const ex of dayData?.exercises || []) {
+                            const sets = exerciseData[ex.id];
+                            if (ex.name.includes('(ME)') && sets && sets.length > 0) {
+                                // Find the heaviest successful single
+                                const successfulSingles = sets
+                                    .filter(s => s.completed && parseInt(s.reps) === 1)
+                                    .map(s => parseFloat(s.weight))
+                                    .filter(w => !isNaN(w) && w > 0);
+
+                                if (successfulSingles.length > 0) {
+                                    const heaviest = Math.max(...successfulSingles);
+                                    const roundedWeight = Math.floor(heaviest / 2.5) * 2.5;
+
+                                    // Only update if it's higher than current 1RM
+                                    if (ex.name.includes('Bench') && roundedWeight > ritualStatus.benchPress1RM) {
+                                        updates['ritualStatus.benchPress1RM'] = roundedWeight;
+                                    } else if (ex.name.includes('Squat') && roundedWeight > ritualStatus.squat1RM) {
+                                        updates['ritualStatus.squat1RM'] = roundedWeight;
+                                    } else if (ex.name.includes('Deadlift') && roundedWeight > ritualStatus.deadlift1RM) {
+                                        updates['ritualStatus.deadlift1RM'] = roundedWeight;
+                                    }
+
+                                    // Checkbox-based progression: If safety checkbox is ticked, apply progression
+                                    const progressionAmount = meRpeSelected[ex.id];
+                                    if (progressionAmount && (progressionAmount === 2.5 || progressionAmount === 5)) {
+                                        // Add progression marker for next session
+                                        const progressionKey = ex.name.includes('Bench') ? 'benchMEProgression' :
+                                            ex.name.includes('Squat') ? 'squatMEProgression' :
+                                                ex.name.includes('Deadlift') ? 'deadliftMEProgression' : null;
+
+                                        if (progressionKey) {
+                                            const currentProgression = (ritualStatus as any)[progressionKey] || 0;
+                                            updates[`ritualStatus.${progressionKey}`] = currentProgression + progressionAmount;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Apply updates if any
+                    if (Object.keys(updates).length > 0) {
+                        await updateDoc(userRef, updates);
+                    }
+                }
+            }
+            // ========== END RITUAL LOGIC ==========
+
             if (navigateToDashboard) {
                 navigate('/app/dashboard', { state: navigateToDashboard });
                 return;
@@ -1528,6 +1614,114 @@ export const WorkoutView: React.FC = () => {
                                                     <div className="text-xs mt-1 opacity-80">+2.5kg</div>
                                                 </button>
                                             </div>
+                                        </div>
+                                    );
+                                })()}
+
+                                {/* Ritual: Safety Checkbox for ME exercises (appears when user enters 1 rep) */}
+                                {programData.id === 'ritual-of-strength' && ex.name.includes('(ME)') && (() => {
+                                    const sets = exerciseData[ex.id] || [];
+                                    // Show checkbox as soon as user enters "1" in any rep field
+                                    const hasAnySingle = sets.some(s => parseInt(s.reps) === 1);
+
+                                    if (!hasAnySingle) return null;
+
+                                    const isChecked = meRpeSelected[ex.id] !== null && meRpeSelected[ex.id] !== undefined;
+                                    const progressionAmount = meRpeSelected[ex.id];
+
+                                    return (
+                                        <div className="p-4 bg-red-950/30 border-t border-red-900/50 space-y-3">
+                                            <div className="text-sm font-bold text-red-200">ME Single Progression</div>
+
+                                            {/* Safety Checkbox */}
+                                            <label className="flex items-start gap-3 cursor-pointer p-3 bg-red-900/20 border border-red-800/50 rounded hover:bg-red-900/30 transition-colors">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked}
+                                                    onChange={(e) => {
+                                                        if (e.target.checked) {
+                                                            setMeRpeSelected(prev => ({ ...prev, [ex.id]: 2.5 })); // Default +2.5kg
+                                                        } else {
+                                                            setMeRpeSelected(prev => ({ ...prev, [ex.id]: null }));
+                                                        }
+                                                    }}
+                                                    className="mt-1 w-5 h-5 accent-red-600 cursor-pointer"
+                                                />
+                                                <div className="flex-1">
+                                                    <div className="font-semibold text-red-100">RPE 9 or lower with perfect form?</div>
+                                                    <div className="text-xs text-red-300/70 mt-1">
+                                                        Clean execution (no hitch, full ROM, stable movement)
+                                                    </div>
+                                                </div>
+                                            </label>
+
+                                            {/* Optional: Increase to +5kg if exceptionally easy */}
+                                            {isChecked && (
+                                                <div className="pl-8 space-y-2">
+                                                    <label className="flex items-center gap-2 cursor-pointer text-sm text-red-200">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={progressionAmount === 5}
+                                                            onChange={(e) => {
+                                                                setMeRpeSelected(prev => ({
+                                                                    ...prev,
+                                                                    [ex.id]: e.target.checked ? 5 : 2.5
+                                                                }));
+                                                            }}
+                                                            className="w-4 h-4 accent-green-600 cursor-pointer"
+                                                        />
+                                                        <span className="text-green-400">Exceptionally easy? Add +5kg instead of +2.5kg</span>
+                                                    </label>
+                                                    <div className="text-xs text-red-300/60">
+                                                        💡 Next session: <span className="font-bold text-red-200">+{progressionAmount}kg</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    );
+                                })()}
+
+                                {/* Ritual: Velocity Check for Light work exercises */}
+                                {programData.id === 'ritual-of-strength' && ex.name.includes('(Light)') && (() => {
+                                    const sets = exerciseData[ex.id] || [];
+                                    // Show checkbox only after user has entered reps in all 3 sets
+                                    const allSetsHaveReps = sets.length >= 3 && sets.slice(0, 3).every(s => s.reps && s.reps !== '');
+
+                                    if (!allSetsHaveReps) return null;
+
+                                    const isChecked = meRpeSelected[ex.id] !== null && meRpeSelected[ex.id] !== undefined;
+                                    const needsReduction = meRpeSelected[ex.id] === -5;
+
+                                    return (
+                                        <div className="p-4 bg-blue-950/30 border-t border-blue-900/50 space-y-3">
+                                            <div className="text-sm font-bold text-blue-200">Velocity Work Check</div>
+
+                                            {/* Velocity Checkbox */}
+                                            <label className="flex items-start gap-3 cursor-pointer p-3 bg-blue-900/20 border border-blue-800/50 rounded hover:bg-blue-900/30 transition-colors">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isChecked && !needsReduction}
+                                                    onChange={(e) => {
+                                                        if (e.target.checked) {
+                                                            setMeRpeSelected(prev => ({ ...prev, [ex.id]: 0 })); // No change
+                                                        } else {
+                                                            setMeRpeSelected(prev => ({ ...prev, [ex.id]: -5 })); // Reduce by 5%
+                                                        }
+                                                    }}
+                                                    className="mt-1 w-5 h-5 accent-blue-600 cursor-pointer"
+                                                />
+                                                <div className="flex-1">
+                                                    <div className="font-semibold text-blue-100">Good bar speed? (Target: &gt;0.8 m/s)</div>
+                                                    <div className="text-xs text-blue-300/70 mt-1">
+                                                        Explosive, fast movement with perfect form
+                                                    </div>
+                                                    {needsReduction && (
+                                                        <div className="text-xs text-orange-400 mt-2 font-semibold">
+                                                            ⚠️ Next session: -5% weight (bar was slow)
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </label>
                                         </div>
                                     );
                                 })()}

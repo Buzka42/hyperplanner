@@ -97,7 +97,12 @@ export type BadgeId =
     | 'glory_achieved'
     | 'deficit_demon'
     | 'single_supreme'
-    | '50_tonne_club';
+    | '50_tonne_club'
+    | 'initiate_of_iron'
+    | 'disciple_of_pain'
+    | 'acolyte_of_strength'
+    | 'high_priest_of_power'
+    | 'eternal_worshipper';
 
 export type Badge = {
     id: BadgeId;
@@ -135,6 +140,7 @@ export type UserProfile = {
     skeletonStatus?: { completed: boolean; completionDate?: string };
     painGloryStatus?: PainGloryStatus; // Pain & Glory program status
     trinaryStatus?: TrinaryStatus; // Trinary conjugate periodization status
+    ritualStatus?: any; // Ritual of Strength status (imported from ritual.ts to avoid circular dependency)
     programProgress?: Record<string, { completedSessions: number; startDate: string; }>;
 
     // New Fields
@@ -191,7 +197,7 @@ export interface PlanConfig {
     id: string;
     program: Program;
     ui?: {
-        dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'deficit_snatch_tracker')[];
+        dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'deficit_snatch_tracker' | 'strength_altar')[];
     };
     hooks?: {
         preprocessDay?: (day: WorkoutDay, user: UserProfile) => WorkoutDay;

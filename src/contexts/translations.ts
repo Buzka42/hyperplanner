@@ -115,6 +115,17 @@ export const translations = {
             // Trinary
             trinaryWorkout: "Workout {num}",
             trinaryAccessory: "Accessory Day ({type})",
+
+            // Ritual of Strength
+            ritualDay1RampIn: "Day 1 - Bench (Ramp-In)",
+            ritualDay2RampIn: "Day 2 - Squat (Ramp-In)",
+            ritualDay3RampIn: "Day 3 - Deadlift (Ramp-In)",
+            ritualDay1Bench: "Day 1 - Bench ME",
+            ritualDay2Squat: "Day 2 - Squat ME",
+            ritualDay3Deadlift: "Day 3 - Deadlift ME",
+            ritualPurgeDay1: "Purge Week - Day 1",
+            ritualPurgeDay2: "Purge Week - Day 2",
+            ritualPurgeDay3: "Purge Week - Day 3",
         },
 
         badges: {
@@ -141,7 +152,12 @@ export const translations = {
             glory_achieved: { description: 'Complete Pain & Glory + New PR' },
             deficit_demon: { description: '+30 kg on Deficit Snatch Grip (Weeks 1-8)' },
             single_supreme: { description: 'Week 16 Single @ ≥97% e1RM' },
-            "50_tonne_club": { description: '50,000 kg total volume in Pain & Glory' }
+            "50_tonne_club": { description: '50,000 kg total volume in Pain & Glory' },
+            initiate_of_iron: { description: 'Week 1 of the Ritual of Strength completed' },
+            disciple_of_pain: { description: 'Ramp in of the Ritual of Strength completed' },
+            acolyte_of_strength: { description: 'First cycle of the Ritual of Strength completed' },
+            high_priest_of_power: { description: 'Multiple cycles of the Ritual of Strength completed + PR' },
+            eternal_worshipper: { description: 'All-time PRs smashed during the Ritual of Strength' }
         },
 
         // ========================================
@@ -227,6 +243,16 @@ export const translations = {
                         "27 Workouts (9 Blocks)",
                         "Auto-adapts to weak point selection"
                     ]
+                },
+                ritualOfStrength: {
+                    name: "Ritual of Strength",
+                    description: "The ritual of iron – sacrifice for ascension",
+                    features: [
+                        "Focus: Bench / Deadlift / Squat",
+                        "3 Days / Week (Mon/Wed/Fri ideal)",
+                        "16 Week Program (with optional 4-week ramp-in)",
+                        "ME singles + RPE based progression"
+                    ]
                 }
             },
 
@@ -256,6 +282,59 @@ export const translations = {
                 scheduleTitle: "Suggested Schedule:",
                 scheduleDesc: "Train 3-4 days per week (e.g., Mon/Wed/Fri/Sat). The app tracks weekly workouts – after 4 workouts/week, accessory days auto-trigger.",
                 buildButton: "FORGE MY DESTINY"
+            },
+
+            // Ritual of Strength Calibration
+            ritualOfStrength: {
+                firstProgramQuestion: "Is this your first powerlifting program?",
+                firstProgramYes: "Yes - I need the ramp-in",
+                firstProgramNo: "No - Jump to main phase",
+                firstProgramNote: "Note: If this is your first powerlifting program, you'll start with a 4-week ramp-in phase to build proper technique and confidence.",
+                calibrationTitle: "Enter Your 1RM (kg only)",
+                calibrationDesc: "Enter your approximate 1RM for each lift. The program auto-regulates based on these.",
+                benchLabel: "Paused Bench Press 1RM (kg)",
+                benchHint: "Competition pause, full ROM.",
+                deadliftLabel: "Conventional Deadlift 1RM (kg)",
+                deadliftHint: "Your true max, not an estimate.",
+                squatLabel: "Low Bar Squat 1RM (kg)",
+                squatHint: "Competition depth, full ROM.",
+                scheduleTitle: "Training Frequency",
+                scheduleDesc: "3 days/week recommended (Mon/Wed/Fri ideal). Suggest at least 1 day rest between sessions.",
+                selectDaysPrompt: "Select your 3 training days:",
+                buildButton: "BEGIN THE RITUAL",
+
+                // Recovery Check Modal (Weeks 8, 12, 16)
+                recoveryCheckTitle: "Recovery Status Check",
+                recoveryCheckDesc: "Rate your recovery over the last 4 weeks (1-10, where 10 = perfect)",
+                recoveryRating: "Recovery Rating",
+                recoveryPoor: "Poor (≤6) - Immediate Purge Week recommended",
+                recoveryGood: "Good - Continue as planned",
+                submitRecovery: "SUBMIT",
+
+                // Weak Point Modal (After Ascension Tests)
+                weakPointTitle: "Identify Your Weak Points",
+                weakPointDesc: "Where did you struggle most during the Ascension Test?",
+                weakPointBench: "Bench Press weak point:",
+                weakPointSquat: "Squat weak point:",
+                weakPointDeadlift: "Deadlift weak point:",
+                weakPointOffChest: "Off-chest",
+                weakPointMid: "Mid-range",
+                weakPointLockout: "Lockout",
+                weakPointBottom: "Bottom",
+                weakPointTop: "Top",
+                submitWeakPoints: "SAVE WEAK POINTS",
+
+                // Re-Run Modal (End of Week 16)
+                rerunTitle: "Cycle Complete - The Ritual Continues?",
+                rerunDesc: "You have completed one full cycle of the Ritual. Your strength has ascended.",
+                rerunStats: "Your Progress:",
+                rerunContinue: "BEGIN NEW CYCLE",
+                rerunEnd: "END RITUAL",
+
+                // Ascension Test UI
+                ascensionTestComplete: "ASCENSION TEST COMPLETE",
+                ascensionTestCongrats: "The iron gods have witnessed your sacrifice",
+                new1RMs: "New Estimated 1RMs:"
             },
 
             // Modules Step (Bench Domination)
@@ -677,7 +756,12 @@ export const translations = {
                 glory_achieved: "Pain paid off. Glory is yours. Now go break it again.",
                 deficit_demon: "Most people run from deficits. You made them your bitch.",
                 single_supreme: "One rep. One moment. One legend.",
-                "50_tonne_club": "That's literally a Boeing 737."
+                "50_tonne_club": "That's literally a Boeing 737.",
+                initiate_of_iron: "The first sacrifice is complete. The iron gods acknowledge you.",
+                disciple_of_pain: "Four weeks of devotion. You've earned the right to suffer more.",
+                acolyte_of_strength: "Sixteen weeks of ritual. The path of ascension continues.",
+                high_priest_of_power: "Multiple cycles. Multiple PRs. You are one with the iron.",
+                eternal_worshipper: "Mortal limits shattered. You have become legend."
             },
             pencilneckStatus: [
                 "Neck still looks like a coat hanger",
@@ -863,6 +947,20 @@ export const translations = {
             trinaryAccessory: "Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.",
             trinaryRPECheck: "RPE 9 or lower with perfect form?",
             trinaryStartingWeight: "Suggested starting weight: {weight} kg (~{percent}% of your {lift} 1RM). Adjust based on feel.",
+
+            // --- RITUAL OF STRENGTH TIPS ---
+            ritualRampIn: "Competition style – focus on perfect form. RPE 7-8. Build confidence with the big 3.",
+            ritualAscensionTest: "ASCENSION TEST – 3×AMRAP @ ~85% 1RM + back-down 3×5 @ 80%. Target 5-8 reps. Updates all 1RMs via Epley formula. The iron gods judge your sacrifice.",
+            ritualMESingle: "MAX EFFORT SINGLE – work up to 1 clean rep @ 90-100% 1RM. +2.5-5 kg if clean (no hitch, full ROM). Check RPE 9 or lower for progression.",
+            ritualLightWork: "Light work @ 70% 1RM. Speed and form focus. Aim bar velocity >0.8 m/s. If slow, drop 5% next session.",
+            ritualBackDown: "Back-down sets @ 80% of Ascension Test weight. Technique work after the test.",
+            ritualGripWork: "Mandatory grip work on deadlift days. Farmer Holds or Fat Grip Deadlift Holds 3×20-30 sec @ bodyweight or light. Progress time or weight when easy.",
+            ritualAccessory: "Ritual Accessories – double progression. Hit  top reps all sets → +2.5 kg next session. Target weak points.",
+            ritualPurgeWeek: "PURGE WEEK (Deload) – 50% volume, 70% intensity. Rest and recover. The ritual demands sacrifice, but also respite.",
+            ritualMEAdvice: "Work up to 1 clean rep @ 90-100% 1RM. Progression: +2.5-5 kg if clean (no hitch, full ROM, RPE ≤9). Safety checkbox required.",
+            ritualVelocityTip: "Aim bar velocity >0.8 m/s – use phone app or feel. If slow, drop 5% next session.",
+            ritualRecoveryCheck: "Recovery last 4 weeks? Rate 1-10 (10 = perfect). If ≤6: immediate Purge Week triggered.",
+            ritualDashboardTagline: "The ritual of iron – sacrifice for ascension"
         },
     },
 
@@ -905,7 +1003,7 @@ export const translations = {
             createAccount: "Utwórz konto",
             currentWorkout: "Aktualny trening",
             settings: "Ustawienia",
-            trophyCase: "Sala chwały",
+            trophyCase: "Trofea",
             loggedInAs: "Zalogowany jako:",
             logout: "Wyloguj",
             history: "Historia treningów",
@@ -975,6 +1073,17 @@ export const translations = {
             // Trinary
             trinaryWorkout: "Trening {num}",
             trinaryAccessory: "Dzień akcesoryjny ({type})",
+
+            // Ritual of Strength
+            ritualDay1RampIn: "Dzień 1 - Bench",
+            ritualDay2RampIn: "Dzień 2 - Przysiad",
+            ritualDay3RampIn: "Dzień 3 - Martwy ciąg",
+            ritualDay1Bench: "Dzień 1 - Bench ME",
+            ritualDay2Squat: "Dzień 2 - Przysiad ME",
+            ritualDay3Deadlift: "Dzień 3 - Martwy ciąg ME",
+            ritualPurgeDay1: "Tydzień Oczyszczenia - Dzień 1",
+            ritualPurgeDay2: "Tydzień Oczyszczenia - Dzień 2",
+            ritualPurgeDay3: "Tydzień Oczyszczenia - Dzień 3",
         },
 
         badges: {
@@ -1001,7 +1110,12 @@ export const translations = {
             glory_achieved: { description: 'Ukończ Pain & Glory + Nowy PR' },
             deficit_demon: { description: '+30 kg w Deficit Snatch Grip (Tygodnie 1-8)' },
             single_supreme: { description: 'Singiel w 16. tygodniu @ ≥97% e1RM' },
-            "50_tonne_club": { description: '50,000 kg łącznej objętości w Pain & Glory' }
+            "50_tonne_club": { description: '50,000 kg łącznej objętości w Pain & Glory' },
+            initiate_of_iron: { description: 'Ukończono 1 tydzień Rytuału siły' },
+            disciple_of_pain: { description: 'Ukończono Ramp-up Rytuału siły' },
+            acolyte_of_strength: { description: 'Pierwszy cykl Rytuału siły ukończony' },
+            high_priest_of_power: { description: 'Ukończono wiele cyklu Rytuału siły + Nowy PR' },
+            eternal_worshipper: { description: 'Wszystkie PR pobite podczas Rytuału siły' }
         },
 
         entry: {
@@ -1027,7 +1141,7 @@ export const translations = {
                 benchDomination: {
                     name: "Bench Press Domination",
                     benchLabel: "Aktualny 1RM – Paused Bench Press (kg)",
-                    description: "12-tygodniowy program siłowy z fokusem na wyciskanie. Z opcjonalną 3-tygodniową fazą szczytową.",
+                    description: "12-tygodniowy program siłowy z fokusem na wyciskanie. Z opcjonalną 3-tygodniową fazą peakingową.",
                     features: [
                         "Cel: Siła wyciskania",
                         "4-6 dni/tydzień",
@@ -1081,6 +1195,16 @@ export const translations = {
                         "27 treningów (9 bloków)",
                         "Autoregulacja przez słabe punkty"
                     ]
+                },
+                ritualOfStrength: {
+                    name: "Rytuał Siły",
+                    description: "Rytuał żelaza – poświęcenie dla wzniesienia",
+                    features: [
+                        "Cel: Wycisk / Martwy / Przysiad",
+                        "3 dni/tydzień (Pon/Śr/Pt idealnie)",
+                        "16 tyg. (z opcjonalną 4-tyg. rozgrzewką)",
+                        "ME single + progresja na podstawie oceny RPE"
+                    ]
                 }
             },
 
@@ -1110,6 +1234,59 @@ export const translations = {
                 scheduleTitle: "Sugerowany grafik:",
                 scheduleDesc: "Trenuj 3-4 dni w tygodniu (np. Pon/Śr/Pt/Sob). Aplikacja śledzi treningi – po 4 treningach/tydzień, dni akcesoryjne aktywują się automatycznie.",
                 buildButton: "ZACZYNAMY!"
+            },
+
+            // Ritual of Strength Calibration
+            ritualOfStrength: {
+                firstProgramQuestion: "Czy to Twój pierwszy program trójboju siłowego?",
+                firstProgramYes: "Tak - Potrzebuję rozgrzewki",
+                firstProgramNo: "Nie - Przejdź do fazy głównej",
+                firstProgramNote: "Uwaga: Jeśli to Twój pierwszy program trójboju siłowego, rozpoczniesz od 4-tygodniowej fazy rozgrzewkowej, aby zbudować właściwą technikę i pewność siebie.",
+                calibrationTitle: "Podaj swój 1RM (tylko kg)",
+                calibrationDesc: "Wpisz przybliżony 1RM dla każdego ruchu. Program automatycznie reguluje się na ich podstawie.",
+                benchLabel: "Wyciskanie z pauzą 1RM (kg)",
+                benchHint: "Z pauzą na klatce, pełny ROM.",
+                deadliftLabel: "Klasyczny martwy ciąg 1RM (kg)",
+                deadliftHint: "Prawdziwe maksimum, nie szacunek.",
+                squatLabel: "Low Bar Squat 1RM (kg)",
+                squatHint: "Głębokość poniżej równoległej, pełny ROM.",
+                scheduleTitle: "Częstotliwość treningu",
+                scheduleDesc: "Zalecane 3 dni/tydzień (idealnie Pon/Śr/Pt). Przynajmniej 1 dzień odpoczynku między sesjami.",
+                selectDaysPrompt: "Wybierz swoje 3 dni treningowe:",
+                buildButton: "ROZPOCZNIJ RYTUAŁ",
+
+                // Recovery Check Modal (Weeks 8, 12, 16)
+                recoveryCheckTitle: "Sprawdzenie Regeneracji",
+                recoveryCheckDesc: "Oceń swoją regenerację przez ostatnie 4 tygodnie (1-10, gdzie 10 = perfekcja)",
+                recoveryRating: "Ocena Regeneracji",
+                recoveryPoor: "Słaba (≤6) - Zalecany natychmiastowy Tydzień Oczyszczenia",
+                recoveryGood: "Dobra - Kontynuuj zgodnie z planem",
+                submitRecovery: "ZATWIERDŹ",
+
+                // Weak Point Modal (After Ascension Tests)
+                weakPointTitle: "Zidentyfikuj Swoje Słabe Punkty",
+                weakPointDesc: "Gdzie miałeś największe trudności podczas Testu Wzniesienia?",
+                weakPointBench: "Słaby punkt w wyciskaniu:",
+                weakPointSquat: "Słaby punkt w przysiadzie:",
+                weakPointDeadlift: "Słaby punkt w martwym ciągu:",
+                weakPointOffChest: "Z klatki",
+                weakPointMid: "Środek ruchu",
+                weakPointLockout: "Zamknięcie",
+                weakPointBottom: "Dół",
+                weakPointTop: "Góra",
+                submitWeakPoints: "ZAPISZ SŁABE PUNKTY",
+
+                // Re-Run Modal (End of Week 16)
+                rerunTitle: "Cykl Ukończony - Czy Rytuał Trwa?",
+                rerunDesc: "Ukończyłeś pełny cykl Rytuału. Twoja siła wzniosła się.",
+                rerunStats: "Twój Postęp:",
+                rerunContinue: "ROZPOCZNIJ NOWY CYKL",
+                rerunEnd: "ZAKOŃCZ RYTUAŁ",
+
+                // Ascension Test UI
+                ascensionTestComplete: "TEST WZNIESIENIA UKOŃCZONY",
+                ascensionTestCongrats: "Żelazni bogowie byli świadkami twojego poświęcenia",
+                new1RMs: "Nowe Szacowane 1RM:"
             },
 
             buildPerfectHell: "Zbuduj swój idealny program!",
@@ -1491,7 +1668,12 @@ export const translations = {
                 glory_achieved: "Ból się opłacił. Chwała jest Twoja. Teraz idź i pobij to jeszcze raz.",
                 deficit_demon: "Większość ucieka przed deficytami. Ty uczyniłeś je swoimi niewolnikami.",
                 single_supreme: "Jedno powtórzenie. Jeden moment. Jedna legenda.",
-                "50_tonne_club": "Cały Boeing 737."
+                "50_tonne_club": "Cały Boeing 737.",
+                initiate_of_iron: "Pierwsza ofiara została złożona. Żelazni bogowie cię dostrzegają.",
+                disciple_of_pain: "Cztery tygodnie oddania. Zasłużyłeś na prawo do dalszego cierpienia.",
+                acolyte_of_strength: "Szesnaście tygodni rytuału. Ścieżka ascenzji trwa.",
+                high_priest_of_power: "Wiele cykli. Wiele rekordów życiowych. Jesteś jednością z żelazem.",
+                eternal_worshipper: "Śmiertelne ograniczenia zniszczone. Stałeś się legendą."
             },
             pencilneckStatus: [
                 "Szyja wciąż wygląda jak wieszak na ubrania",
@@ -1669,7 +1851,21 @@ export const translations = {
             trinaryAccessory: "Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.",
             trinaryRPECheck: "RPE 9 (lekki zapas) lub niższe z perfekcyjną formą? ",
             trinaryStartingWeight: "Sugerowany ciężar startowy: {weight} kg (~{percent}% twojego {lift} 1RM). Dostosuj wg samopoczucia.",
-        },
+
+            // --- RITUAL OF STRENGTH TIPS ---
+            ritualRampIn: "Skup się na perfekcyjnej formie. RPE 7-8. Technika trójbojowa.",
+            ritualAscensionTest: "TEST ASCENSJI – 3×AMRAP @ ~85% 1RM + back-down 3×5 @ 80%. Cel: 5-8 powt. Aktualizuje wszystkie 1RM wzorem Epleya. Żelazni bogowie osądzają twoje poświęcenie.",
+            ritualMESingle: "MAX EFFORT SINGLE – dojdź do 1 prawidłowego technicznie powtórzenia @ 90-100% 1RM. Jeśli RPE <9, możesz progresować w kolejnej sesji.",
+            ritualLightWork: "Lekka praca @ 70% 1RM. Skupienie na prędkości i formie. Celuj w prędkość sztangi >0.8 m/s. Jeśli sztanga porusza się wolno, zredukuj ciężar o 5% w kolejnej sesji.",
+            ritualBackDown: "Serie back-down @ 80% ciężaru z Testu Ascensji. Praca nad techniką po teście.",
+            ritualGripWork: "Trening chwytu. Farmer Holds lub Fat Grip Deadlift Holds 3×20-30 sek @ waga ciała lub lżejsza. Progresja: +czas lub +ciężar jeśli zbyt łatwe.",
+            ritualAccessory: "Rytualne akcesoria – osiągnij max powt. we wszystkich seriach → +2.5 kg następną sesją. Celuj w słabe punkty.",
+            ritualPurgeWeek: "TYDZIEŃ OCZYSZCZENIA (Deload) – 50% objętości, 70% intensywności. Odpoczynek i regeneracja. Rytuał wymaga poświęcenia, ale też wytchnienia.",
+            ritualMEAdvice: "Dojdź do 1 prawidłowego technicznie powtórzenia @ 90-100% 1RM. Jeśli RPE <9, możesz progresować w kolejnej sesji.",
+            ritualVelocityTip: "Celuj w prędkość sztangi >0.8 m/s – użyj aplikacji lub czuj. Jeśli sztanga porusza się wolno, zredukuj ciężar o 5% w kolejnej sesji.",
+            ritualRecoveryCheck: "Regeneracja ostatnie 4 tyg.? Oceń 1-10 (10 = perfekcja). Jeśli ≤6: natychmiastowy Tydzień Oczyszczenia.",
+            ritualDashboardTagline: "Rytuał siły - ofiara dla bogów żelaza"
+        }
     }
 };
 

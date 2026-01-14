@@ -458,6 +458,20 @@ export const Dashboard: React.FC = () => {
                             </Button>
                         </Link>
                     </div>
+                ) : activePlanConfig.id === 'ritual-of-strength' ? (
+                    <div className="flex items-center justify-between w-full">
+                        <div className="text-left">
+                            <h2 className="text-4xl font-black tracking-tight bg-gradient-to-r from-red-900 via-red-600 to-red-900 bg-clip-text text-transparent animate-pulse">
+                                {t('tips.ritualDashboardTagline')}
+                            </h2>
+                        </div>
+                        <Link to="/app/history">
+                            <Button variant="outline" className="border-red-900/50 bg-red-950/20 text-red-400 hover:bg-red-900/40 hover:text-red-300 gap-2">
+                                <History className="h-4 w-4" />
+                                <span className="hidden sm:inline">{t('sidebar.history')}</span>
+                            </Button>
+                        </Link>
+                    </div>
                 ) : (
                     <div className="flex items-center justify-between w-full">
                         <div className="flex flex-col gap-1">
@@ -642,6 +656,94 @@ export const Dashboard: React.FC = () => {
                                 </div>
                                 <p className="text-xs text-right text-amber-500/70 mt-1">
                                     {Math.round((gloryCounter / 50000) * 100)}% to 50,000 kg milestone
+                                </p>
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {/* Strength Altar widget for Ritual of Strength */}
+                    {activeWidgets.includes('strength_altar') && activePlanConfig.id === 'ritual-of-strength' && (
+                        <Card className="col-span-full md:col-span-4 border-red-900/30 bg-gradient-to-br from-black via-red-950/20 to-black relative overflow-hidden">
+                            {/* Flame shimmer background effect */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-red-900/10 to-transparent animate-pulse pointer-events-none" />
+
+                            <CardHeader className="pb-2 relative z-10">
+                                <CardTitle className="text-xl text-red-500 font-black flex items-center justify-center gap-2">
+                                    <span className="text-red-600">⛧</span>
+                                    <span className="bg-gradient-to-r from-red-600 via-orange-500 to-red-600 bg-clip-text text-transparent animate-pulse">
+                                        STRENGTH ALTAR
+                                    </span>
+                                    <span className="text-red-600">⛧</span>
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="relative z-10">
+                                <div className="grid grid-cols-3 gap-6 px-4">
+                                    {/* Bench Press Candle */}
+                                    <div className="flex flex-col items-center">
+                                        <div className="text-sm text-red-400 mb-6 font-black uppercase tracking-widest bg-gradient-to-r from-orange-600 via-red-500 to-orange-600 bg-clip-text text-transparent animate-pulse">
+                                            BENCH
+                                        </div>
+                                        <div className="relative w-16">
+                                            {/* Flame effect on top */}
+                                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl animate-pulse">
+                                                🔥
+                                            </div>
+                                            {/* Candle body */}
+                                            <div className="bg-gradient-to-t from-red-950 via-red-800 to-red-600 h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
+                                                <div className="text-2xl font-black text-red-50 drop-shadow-[0_0_8px_rgba(255,100,100,0.8)]">
+                                                    {((user as any)?.ritualStatus?.benchPress1RM || 0)}
+                                                </div>
+                                            </div>
+                                            {/* Candle base */}
+                                            <div className="bg-red-950 h-3 border-x-2 border-b-2 border-red-800/50"></div>
+                                        </div>
+                                    </div>
+
+                                    {/* Squat Candle */}
+                                    <div className="flex flex-col items-center">
+                                        <div className="text-sm text-red-400 mb-6 font-black uppercase tracking-widest bg-gradient-to-r from-orange-600 via-red-500 to-orange-600 bg-clip-text text-transparent animate-pulse">
+                                            SQUAT
+                                        </div>
+                                        <div className="relative w-16">
+                                            {/* Flame effect on top */}
+                                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl animate-pulse">
+                                                🔥
+                                            </div>
+                                            {/* Candle body */}
+                                            <div className="bg-gradient-to-t from-red-950 via-red-800 to-red-600 h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
+                                                <div className="text-2xl font-black text-red-50 drop-shadow-[0_0_8px_rgba(255,100,100,0.8)]">
+                                                    {((user as any)?.ritualStatus?.squat1RM || 0)}
+                                                </div>
+                                            </div>
+                                            {/* Candle base */}
+                                            <div className="bg-red-950 h-3 border-x-2 border-b-2 border-red-800/50"></div>
+                                        </div>
+                                    </div>
+
+                                    {/* Deadlift Candle */}
+                                    <div className="flex flex-col items-center">
+                                        <div className="text-sm text-red-400 mb-6 font-black uppercase tracking-widest bg-gradient-to-r from-orange-600 via-red-500 to-orange-600 bg-clip-text text-transparent animate-pulse">
+                                            DEAD
+                                        </div>
+                                        <div className="relative w-16">
+                                            {/* Flame effect on top */}
+                                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl animate-pulse">
+                                                🔥
+                                            </div>
+                                            {/* Candle body */}
+                                            <div className="bg-gradient-to-t from-red-950 via-red-800 to-red-600 h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
+                                                <div className="text-2xl font-black text-red-50 drop-shadow-[0_0_8px_rgba(255,100,100,0.8)]">
+                                                    {((user as any)?.ritualStatus?.deadlift1RM || 0)}
+                                                </div>
+                                            </div>
+                                            {/* Candle base */}
+                                            <div className="bg-red-950 h-3 border-x-2 border-b-2 border-red-800/50"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p className="text-xs text-center text-red-400/70 mt-6 italic font-serif">
+                                    "The three pillars of iron — your ascension to power"
                                 </p>
                             </CardContent>
                         </Card>

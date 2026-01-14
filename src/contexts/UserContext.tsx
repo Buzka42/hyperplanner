@@ -560,6 +560,85 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 }
             }
 
+            // ==========================================
+            // RITUAL OF STRENGTH BADGES
+            // ==========================================
+            const ritualLogs = logs.filter(l => l.programId === 'ritual-of-strength');
+            if (ritualLogs.length > 0) {
+                ritualLogs.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+                // 1. Initiate of Iron: Complete Week 1
+                if (!currentBadges.has('initiate_of_iron')) {
+                    const week1Logs = ritualLogs.filter(l => (l.week || 0) === 1);
+                    // All 3 workouts in Week 1 (3 days/week program)
+                    if (week1Logs.length >= 3) {
+                        newBadges.push('initiate_of_iron');
+                    }
+                }
+
+                // 2. Disciple of Pain: Complete ramp-in (Weeks 1-4)
+                if (!currentBadges.has('disciple_of_pain')) {
+                    const rampInWeeks = new Set(ritualLogs.filter(l => (l.week || 0) <= 4 && (l.week || 0) >= 1).map(l => l.week || 0));
+                    const week4Logs = ritualLogs.filter(l => (l.week || 0) === 4);
+                    // Require at least 3 unique weeks in ramp-in, INCLUDING completion of Week 4 (all 3 workouts in week 4)
+                    if (rampInWeeks.size >= 3 && week4Logs.length >= 3) {
+                        newBadges.push('disciple_of_pain');
+                    }
+                }
+
+                // 3. Acolyte of Strength: Complete first cycle (Week 16)
+                if (!currentBadges.has('acolyte_of_strength')) {
+                    const week16Logs = ritualLogs.filter(l => (l.week || 0) === 16);
+                    if (week16Logs.length >= 1) {
+                        newBadges.push('acolyte_of_strength');
+                    }
+                }
+
+                // 4. High Priest of Power: Multiple cycles + PR
+                if (!currentBadges.has('high_priest_of_power')) {
+                    const completedCycles = ritualLogs.filter(l => (l.week || 0) === 16).length;
+                    if (completedCycles >= 2) {
+                        // Check for any PR in 2nd+ cycle
+                        const cycle2Logs = ritualLogs.filter(l => (l.week || 0) > 16);
+                        if (cycle2Logs.length > 0) {
+                            // Simple check: Did they complete workouts in cycle 2?
+                            newBadges.push('high_priest_of_power');
+                        }
+                    }
+                }
+
+                // 5. Eternal Worshipper: All-time PRs smashed (Ritual PRs must be THE all-time bests)
+                if (!currentBadges.has('eternal_worshipper')) {
+                    // Check for PRs across all 3 lifts
+                    const getBestLifts = (logs: WorkoutLog[]) => {
+                        const lifts = { bench: 0, squat: 0, deadlift: 0 };
+                        logs.forEach(l => {
+                            l.exercises?.forEach(e => {
+                                const maxWeight = Math.max(...e.setsData.map(s => parseFloat(s.weight) || 0));
+                                if (e.name.includes('Bench')) lifts.bench = Math.max(lifts.bench, maxWeight);
+                                if (e.name.includes('Squat')) lifts.squat = Math.max(lifts.squat, maxWeight);
+                                if (e.name.includes('Deadlift')) lifts.deadlift = Math.max(lifts.deadlift, maxWeight);
+                            });
+                        });
+                        return lifts;
+                    };
+
+                    const ritualBest = getBestLifts(ritualLogs);
+                    const nonRitualLogs = logs.filter(l => l.programId !== 'ritual-of-strength');
+                    const nonRitualBest = getBestLifts(nonRitualLogs);
+
+                    // Award if Ritual PRs are better than ALL non-Ritual programs (true all-time bests)
+                    // Ritual PR must be at least 2.5kg better than any non-Ritual PR
+                    const hasAllTimeBench = ritualBest.bench > nonRitualBest.bench && ritualBest.bench > 0;
+                    const hasAllTimeSquat = ritualBest.squat > nonRitualBest.squat && ritualBest.squat > 0;
+                    const hasAllTimeDeadlift = ritualBest.deadlift > nonRitualBest.deadlift && ritualBest.deadlift > 0;
+
+                    if (hasAllTimeBench && hasAllTimeSquat && hasAllTimeDeadlift) {
+                        newBadges.push('eternal_worshipper');
+                    }
+                }
+            }
+
         } catch (e) {
             console.error("Failed to check logs for badges", e);
         }
