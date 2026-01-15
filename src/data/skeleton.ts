@@ -30,7 +30,7 @@ const SKELETON_CONFIG: PlanConfig = {
     id: SKELETON_PROGRAM.id,
     program: SKELETON_PROGRAM,
     ui: {
-        dashboardWidgets: ['skeleton_countdown', 'skeleton_pushup_max', 'skeleton_quotes']
+        dashboardWidgets: ['skeleton_countdown', 'skeleton_pushup_max', 'skeleton_quotes', 'workout_history']
     },
     hooks: {
         preprocessDay: (day: WorkoutDay, user: UserProfile) => {

@@ -115,7 +115,7 @@ export const PENCILNECK_CONFIG: PlanConfig = {
     id: PENCILNECK_PROGRAM.id,
     program: PENCILNECK_PROGRAM,
     ui: {
-        dashboardWidgets: ['pencilneck_commandments', 'program_status', 'trap_barometer'] // trap_barometer hardcoded logic check in dashboard
+        dashboardWidgets: ['pencilneck_commandments', 'program_status', 'trap_barometer', 'workout_history'] // trap_barometer hardcoded logic check in dashboard
     },
     hooks: {
         preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {

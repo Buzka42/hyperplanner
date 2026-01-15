@@ -281,7 +281,7 @@ export const translations = {
                 squatHint: "Competition depth, full ROM.",
                 scheduleTitle: "Suggested Schedule:",
                 scheduleDesc: "Train 3-4 days per week (e.g., Mon/Wed/Fri/Sat). The app tracks weekly workouts – after 4 workouts/week, accessory days auto-trigger.",
-                buildButton: "FORGE MY DESTINY"
+                buildButton: "BUILD MY PROGRAM"
             },
 
             // Ritual of Strength Calibration
@@ -322,7 +322,7 @@ export const translations = {
                 weakPointLockout: "Lockout",
                 weakPointBottom: "Bottom",
                 weakPointTop: "Top",
-                submitWeakPoints: "SAVE WEAK POINTS",
+                submitWeakPoints: "NEXT",
 
                 // Re-Run Modal (End of Week 16)
                 rerunTitle: "Cycle Complete - The Ritual Continues?",
@@ -1274,23 +1274,23 @@ export const translations = {
                 weakPointLockout: "Zamknięcie",
                 weakPointBottom: "Dół",
                 weakPointTop: "Góra",
-                submitWeakPoints: "ZAPISZ SŁABE PUNKTY",
+                submitWeakPoints: "DALEJ",
 
                 // Re-Run Modal (End of Week 16)
-                rerunTitle: "Cykl Ukończony - Czy Rytuał Trwa?",
-                rerunDesc: "Ukończyłeś pełny cykl Rytuału. Twoja siła wzniosła się.",
+                rerunTitle: "Rytuał ukończony, czy zaczynamy kolejny cykl?",
+                rerunDesc: "Ukończyłeś Rytuał Siły.",
                 rerunStats: "Twój Postęp:",
                 rerunContinue: "ROZPOCZNIJ NOWY CYKL",
                 rerunEnd: "ZAKOŃCZ RYTUAŁ",
 
                 // Ascension Test UI
-                ascensionTestComplete: "TEST WZNIESIENIA UKOŃCZONY",
+                ascensionTestComplete: "TEST ASCENSJI UKOŃCZONY",
                 ascensionTestCongrats: "Żelazni bogowie byli świadkami twojego poświęcenia",
                 new1RMs: "Nowe Szacowane 1RM:"
             },
 
             buildPerfectHell: "Zbuduj swój idealny program!",
-            customizeBrutality: "Dostosuj brutalność. Główny ruch jest świętością.",
+            customizeBrutality: "Dostosuj brutalność.",
             modules: {
                 title: "Moduły programu",
                 description: "Wybierz, które moduły chcesz włączyć do programu.",
@@ -1335,10 +1335,10 @@ export const translations = {
             },
 
             customizeProtocol: "Dostosuj protokół",
-            chooseMovements: "Wybierz preferowane ruchy.",
+            chooseMovements: "Wybierz preferowane ćwiczenia.",
             preferences: {
                 title: "Dostosuj protokół",
-                description: "Wybierz preferowane ruchy.",
+                description: "Wybierz preferowane ćwiczenia.",
                 pushALegPrimary: "Push A: Główne ćwiczenie na nogi",
                 pushBChestIsolation: "Push B: Izolacja klatki",
                 pushBLegSecondary: "Push B: Dodatkowe ćwiczenie na nogi"
@@ -1421,7 +1421,7 @@ export const translations = {
             },
 
             mandatoryDeload: "OBOWIĄZKOWY DELOAD",
-            peakingBlock: "PEAKINGBLOK",
+            peakingBlock: "PEAKING BLOK",
             nExercises: "{count} Ćwiczeń",
 
             // Trinary Dashboard
@@ -1552,7 +1552,7 @@ export const translations = {
             survived: "Przetrwałeś 12 tygodni piekła. Teraz musisz zrobić obowiązkowy 7-10 dniowy deload.",
             restTimer: "Obowiązkowy timer odpoczynku",
             daysLeft: "DNI ZOSTAŁO",
-            restAdvice: "Nie podnoś ciężko. Śpij. Jedz.",
+            restAdvice: "Zluzuj z treningiem. Śpij. Jedz.",
             proceedQuestion: "Po odpoczynku, jak chcesz kontynuować?",
             optionA: {
                 title: "Opcja A: Peaking (zalecane)",
@@ -1600,7 +1600,7 @@ export const translations = {
             title: "Historia treningów",
             loading: "Ładowanie logów...",
             noWorkouts: "Brak zapisanych treningów",
-            noWorkoutsDesc: "Wejdź tam i zmiażdż stalówę.",
+            noWorkoutsDesc: "Czas przerzucić trochę żelastwa.",
             weekDay: "Tydzień {week} Dzień {day}"
         },
 

@@ -197,7 +197,7 @@ export interface PlanConfig {
     id: string;
     program: Program;
     ui?: {
-        dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'deficit_snatch_tracker' | 'strength_altar')[];
+        dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'deficit_snatch_tracker' | 'strength_altar' | 'workout_history')[];
     };
     hooks?: {
         preprocessDay?: (day: WorkoutDay, user: UserProfile) => WorkoutDay;

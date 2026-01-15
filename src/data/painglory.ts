@@ -291,7 +291,7 @@ export const PAIN_GLORY_CONFIG: PlanConfig = {
     id: PAIN_GLORY_PROGRAM.id,
     program: PAIN_GLORY_PROGRAM,
     ui: {
-        dashboardWidgets: ['deficit_snatch_tracker']
+        dashboardWidgets: ['deficit_snatch_tracker', 'workout_history']
     },
     hooks: {
         preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {

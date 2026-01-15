@@ -430,6 +430,37 @@ export const WorkoutView: React.FC = () => {
         }
     };
 
+    // Add Extra Set Handler - allows adding one extra set to any exercise
+    const handleAddExtraSet = (exId: string) => {
+        setExerciseData(prev => {
+            const currentSets = [...(prev[exId] || [])];
+            if (currentSets.length === 0) return prev;
+
+            // Find the last completed set to auto-fill weight
+            let lastCompletedWeight = "";
+            for (let i = currentSets.length - 1; i >= 0; i--) {
+                if (currentSets[i].completed && currentSets[i].weight) {
+                    lastCompletedWeight = currentSets[i].weight;
+                    break;
+                }
+            }
+
+            // If no completed set found, use the weight from the last set (even if not completed)
+            if (!lastCompletedWeight && currentSets[currentSets.length - 1].weight) {
+                lastCompletedWeight = currentSets[currentSets.length - 1].weight;
+            }
+
+            // Add the new set with auto-filled weight
+            currentSets.push({
+                reps: '',
+                weight: lastCompletedWeight,
+                completed: null
+            });
+
+            return { ...prev, [exId]: currentSets };
+        });
+    };
+
     const handleSaveSession = async () => {
         if (!user) return;
         setSubmitting(true);
@@ -1511,6 +1542,19 @@ export const WorkoutView: React.FC = () => {
                                             </div>
                                         ))
                                     )}
+                                </div>
+
+                                {/* Add Extra Set Button */}
+                                <div className="mx-3 mt-2 pb-2 border-b border-border">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="w-full text-xs text-muted-foreground hover:text-foreground"
+                                        onClick={() => handleAddExtraSet(ex.id)}
+                                    >
+                                        + Add Extra Set
+                                    </Button>
+                                    <p className="text-[10px] text-center text-orange-400/60 mt-1">⚠️ Not recommended - only if needed</p>
                                 </div>
 
                                 {/* Flashy Intensity Technique Message */}

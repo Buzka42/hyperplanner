@@ -69,7 +69,7 @@ export const PEACHY_CONFIG: PlanConfig = {
     id: PEACHY_PROGRAM.id,
     program: PEACHY_PROGRAM,
     ui: {
-        dashboardWidgets: ['glute_tracker', 'strength_chart']
+        dashboardWidgets: ['glute_tracker', 'strength_chart', 'workout_history']
     },
     hooks: {
         preprocessDay: (day) => {

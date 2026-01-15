@@ -555,7 +555,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
     id: BENCH_DOMINATION_PROGRAM.id,
     program: BENCH_DOMINATION_PROGRAM,
     ui: {
-        dashboardWidgets: ['1rm', 'program_status', 'strength_chart']
+        dashboardWidgets: ['1rm', 'program_status', 'strength_chart', 'workout_history']
     },
     hooks: {
         preprocessDay: (day, user) => {

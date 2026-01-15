@@ -499,12 +499,14 @@ export const Dashboard: React.FC = () => {
                             </h2>
                             <p className="text-muted-foreground">{t('dashboard.welcomeBack')}, {user?.codeword}.</p>
                         </div>
-                        <Link to="/app/history">
-                            <Button variant="outline" className="gap-2">
-                                <History className="h-4 w-4" />
-                                <span className="hidden sm:inline">{t('sidebar.history')}</span>
-                            </Button>
-                        </Link>
+                        {activeWidgets.includes('workout_history') && (
+                            <Link to="/app/history">
+                                <Button variant="outline" className="gap-2">
+                                    <History className="h-4 w-4" />
+                                    <span className="hidden sm:inline">{t('sidebar.history')}</span>
+                                </Button>
+                            </Link>
+                        )}
                     </div>
                 )}
             </div>
@@ -1123,12 +1125,24 @@ export const Dashboard: React.FC = () => {
                                     }
 
                                     return (
-                                        <Button
-                                            className="w-full bg-zinc-600 hover:bg-zinc-500 text-zinc-100 font-bold"
-                                            onClick={() => navigate(`/app/workout/${currentBlock}/${workoutPositionInBlock}`)}
-                                        >
-                                            {t('dashboard.trinary.startWorkout')}
-                                        </Button>
+                                        <>
+                                            <Button
+                                                className="w-full bg-zinc-600 hover:bg-zinc-500 text-zinc-100 font-bold"
+                                                onClick={() => navigate(`/app/workout/${currentBlock}/${workoutPositionInBlock}`)}
+                                            >
+                                                {t('dashboard.trinary.startWorkout')}
+                                            </Button>
+                                            <div className="mt-4 pt-4 border-t border-zinc-700">
+                                                <p className="text-xs text-zinc-500 text-center mb-3">Need extra recovery or volume? Trigger an accessory day manually.</p>
+                                                <Button
+                                                    variant="outline"
+                                                    className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700"
+                                                    onClick={() => setShowAccessoryModal(true)}
+                                                >
+                                                    Start Manual Accessory Day
+                                                </Button>
+                                            </div>
+                                        </>
                                     );
                                 })()}
                             </CardContent>
@@ -1254,7 +1268,6 @@ export const Dashboard: React.FC = () => {
                     onSelectType={async (type) => {
                         if (!user) return;
 
-                        // Calculate next workout path
                         const status = (user as any).trinaryStatus;
                         const completed = status?.completedWorkouts || 0;
                         const nextCtx = completed + 1;
@@ -1262,11 +1275,31 @@ export const Dashboard: React.FC = () => {
                         const pos = ((nextCtx - 1) % 3) + 1;
 
                         const userRef = doc(db, 'users', user.id);
+
+                        // Force accessory day by setting preferred type and adding fake workout logs
+                        // to meet the 4+ workouts in 7 days condition
+                        const now = new Date();
+                        const fakeWorkoutLogs = [];
+                        for (let i = 0; i < 4; i++) {
+                            const date = new Date(now);
+                            date.setDate(date.getDate() - i);
+                            fakeWorkoutLogs.push({
+                                date: date.toISOString(),
+                                workoutNumber: completed - i
+                            });
+                        }
+
                         await updateDoc(userRef, {
-                            'trinaryStatus.preferredAccessoryType': type
+                            'trinaryStatus.preferredAccessoryType': type,
+                            'trinaryStatus.workoutLog': fakeWorkoutLogs
                         });
+
                         setShowAccessoryModal(false);
-                        navigate(`/app/workout/${block}/${pos}`);
+
+                        // Small delay to ensure Firestore update propagates
+                        setTimeout(() => {
+                            navigate(`/app/workout/${block}/${pos}`);
+                        }, 100);
                     }}
                 />
             )}

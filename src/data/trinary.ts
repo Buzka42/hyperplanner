@@ -378,7 +378,7 @@ export const TRINARY_CONFIG: PlanConfig = {
     id: TRINARY_PROGRAM.id,
     program: TRINARY_PROGRAM,
     ui: {
-        dashboardWidgets: ['program_status']
+        dashboardWidgets: ['program_status', 'workout_history']
     },
     hooks: {
         preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {

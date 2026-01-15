@@ -94,14 +94,14 @@ const createRitualWeeks = (): ProgramWeek[] => {
                             id: `ritual-w${w}-d1-e1-amrap`,
                             name: 'Paused Bench Press (Ascension Test)',
                             sets: 1,
-                            target: { type: 'straight', reps: 'AMRAP' },
+                            target: { type: 'straight' as const, reps: 'AMRAP' },
                             notes: 't:tips.ritualAscensionTest'
                         },
                         {
                             id: `ritual-w${w}-d1-e1-backdown`,
                             name: 'Paused Bench Press (Back-down)',
                             sets: 3,
-                            target: { type: 'straight', reps: '5' },
+                            target: { type: 'straight' as const, reps: '5' },
                             notes: 't:tips.ritualBackDown'
                         }
                     ] : [
@@ -109,7 +109,7 @@ const createRitualWeeks = (): ProgramWeek[] => {
                             id: `ritual-w${w}-d1-e1`,
                             name: 'Paused Bench Press',
                             sets: 3,
-                            target: { type: 'straight', reps: w === 1 ? '9' : w === 2 ? '6' : '3' },
+                            target: { type: 'straight' as const, reps: w === 1 ? '9' : w === 2 ? '6' : '3' },
                             notes: 't:tips.ritualRampIn'
                         }
                     ]),
@@ -117,13 +117,13 @@ const createRitualWeeks = (): ProgramWeek[] => {
                         id: `ritual-w${w}-d1-e2`,
                         name: 'Rows',
                         sets: 3,
-                        target: { type: 'range', reps: '10-12' }
+                        target: { type: 'range' as const, reps: '10-12' }
                     },
                     {
                         id: `ritual-w${w}-d1-e3`,
                         name: 'Face Pulls',
                         sets: 3,
-                        target: { type: 'range', reps: '10-12' }
+                        target: { type: 'range' as const, reps: '10-12' }
                     }
                 ]
             });
@@ -162,13 +162,13 @@ const createRitualWeeks = (): ProgramWeek[] => {
                         id: `ritual-w${w}-d2-e2`,
                         name: 'Ham Curls',
                         sets: 3,
-                        target: { type: 'range', reps: '10-12' }
+                        target: { type: 'range' as const, reps: '10-12' }
                     },
                     {
                         id: `ritual-w${w}-d2-e3`,
                         name: 'Leg Extensions',
                         sets: 3,
-                        target: { type: 'range', reps: '10-12' }
+                        target: { type: 'range' as const, reps: '10-12' }
                     }
                 ]
             });
@@ -207,7 +207,7 @@ const createRitualWeeks = (): ProgramWeek[] => {
                         id: `ritual-w${w}-d3-e2`,
                         name: 'Farmer Holds',
                         sets: 3,
-                        target: { type: 'straight', reps: '30sec' },
+                        target: { type: 'straight' as const, reps: '30sec' },
                         notes: 't:tips.ritualGripWork'
                     },
                     {
@@ -240,21 +240,21 @@ const createRitualWeeks = (): ProgramWeek[] => {
                         id: `ritual-w${w}-d1-e1b`,
                         name: 'Paused Bench Press (Back-down)',
                         sets: 3,
-                        target: { type: 'straight', reps: '5' },
+                        target: { type: 'straight' as const, reps: '5' },
                         notes: 't:tips.ritualBackDown'
                     }] : []),
                     {
                         id: `ritual-w${w}-d1-e2`,
                         name: 'Low Bar Squat (Light)',
                         sets: 3,
-                        target: { type: 'straight', reps: '5' },
+                        target: { type: 'straight' as const, reps: '5' },
                         notes: 't:tips.ritualLightWork'
                     },
                     {
                         id: `ritual-w${w}-d1-e3`,
                         name: 'Conventional Deadlift (Light)',
                         sets: 3,
-                        target: { type: 'straight', reps: '5' },
+                        target: { type: 'straight' as const, reps: '5' },
                         notes: 't:tips.ritualLightWork'
                     }
                     // Accessories added dynamically by user
@@ -279,7 +279,7 @@ const createRitualWeeks = (): ProgramWeek[] => {
                         id: `ritual-w${w}-d2-e1b`,
                         name: 'Low Bar Squat (Back-down)',
                         sets: 3,
-                        target: { type: 'straight', reps: '5' },
+                        target: { type: 'straight' as const, reps: '5' },
                         notes: 't:tips.ritualBackDown'
                     }] : []),
                     {
@@ -318,28 +318,28 @@ const createRitualWeeks = (): ProgramWeek[] => {
                         id: `ritual-w${w}-d3-e1b`,
                         name: 'Conventional Deadlift (Back-down)',
                         sets: 3,
-                        target: { type: 'straight', reps: '5' },
+                        target: { type: 'straight' as const, reps: '5' },
                         notes: 't:tips.ritualBackDown'
                     }] : []),
                     {
                         id: `ritual-w${w}-d3-e2`,
                         name: 'Paused Bench Press (Light)',
                         sets: 3,
-                        target: { type: 'straight', reps: '5' },
+                        target: { type: 'straight' as const, reps: '5' },
                         notes: 't:tips.ritualLightWork'
                     },
                     {
                         id: `ritual-w${w}-d3-e3`,
                         name: 'Low Bar Squat (Light)',
                         sets: 3,
-                        target: { type: 'straight', reps: '5' },
+                        target: { type: 'straight' as const, reps: '5' },
                         notes: 't:tips.ritualLightWork'
                     },
                     {
                         id: `ritual-w${w}-d3-e4`,
                         name: 'Farmer Holds',
                         sets: 3,
-                        target: { type: 'straight', reps: '20-30sec' },
+                        target: { type: 'straight' as const, reps: '20-30sec' },
                         notes: 't:tips.ritualGripWork'
                     }
                     // Accessories added dynamically
@@ -363,7 +363,7 @@ export const RITUAL_CONFIG: PlanConfig = {
     id: RITUAL_PROGRAM.id,
     program: RITUAL_PROGRAM,
     ui: {
-        dashboardWidgets: ['strength_altar', 'program_status']
+        dashboardWidgets: ['strength_altar', 'program_status', 'workout_history']
     },
     hooks: {
         preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {

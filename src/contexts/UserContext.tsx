@@ -315,12 +315,16 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const currentBadges = new Set(user.badges || []);
         const newBadges: BadgeId[] = [];
 
-        // Perfect Attendance: Awarded on completion of ANY program
+        // Perfect Attendance: Awarded on completion of ANY program without missing sessions
+        // Check completion for all available programs
         if (!currentBadges.has('perfect_attendance')) {
             const pCompleted = (user.benchDominationStatus?.completedWeeks ?? 0) >= 15 ||
                 user.pencilneckStatus?.completed ||
                 user.skeletonStatus?.completed ||
-                (user.programProgress?.['peachy-glute-plan']?.completedSessions || 0) >= 48;
+                (user.programProgress?.['peachy-glute-plan']?.completedSessions || 0) >= 48 ||
+                (user as any).trinaryStatus?.completedWorkouts >= 27 ||  // Trinary: 27 total workouts
+                (user as any).ritualStatus?.completedWorkouts >= 48 ||  // Ritual: 16 weeks * 3 days/week = 48 workouts
+                (user.programProgress?.['pain-and-glory']?.completedSessions || 0) >= 96; // Pain & Glory: 16 weeks * 6 days/week = 96 workouts
 
             if (pCompleted) newBadges.push('perfect_attendance');
         }
