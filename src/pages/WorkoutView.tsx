@@ -1236,16 +1236,26 @@ export const WorkoutView: React.FC = () => {
                         const firstSetWeight = parseFloat(targetWeight);
                         const roundTo2_5 = (w: number) => Math.floor(w / 2.5) * 2.5;
 
-                        warmupSets = [
-                            { weight: '20', reps: '8-10' }, // Empty bar
-                            { weight: roundTo2_5(firstSetWeight * 0.5).toString(), reps: '5' },
-                            { weight: roundTo2_5(firstSetWeight * 0.7).toString(), reps: '3' },
-                            { weight: roundTo2_5(firstSetWeight * 0.85).toString(), reps: '2' }
-                        ];
+                        // Special case: Deficit Snatch Grip Deadlift only gets 3 warm-up sets
+                        if (ex.name === "Deficit Snatch Grip Deadlift") {
+                            warmupSets = [
+                                { weight: '20', reps: '8-10' }, // Empty bar
+                                { weight: roundTo2_5(firstSetWeight * 0.5).toString(), reps: '5' },
+                                { weight: roundTo2_5(firstSetWeight * 0.7).toString(), reps: '3' }
+                            ];
+                        } else {
+                            // Standard warm-up progression for other lifts
+                            warmupSets = [
+                                { weight: '20', reps: '8-10' }, // Empty bar
+                                { weight: roundTo2_5(firstSetWeight * 0.5).toString(), reps: '5' },
+                                { weight: roundTo2_5(firstSetWeight * 0.7).toString(), reps: '3' },
+                                { weight: roundTo2_5(firstSetWeight * 0.85).toString(), reps: '2' }
+                            ];
 
-                        // Add 95% single only on heavy days
-                        if (isHeavyDay) {
-                            warmupSets.push({ weight: roundTo2_5(firstSetWeight * 0.95).toString(), reps: '1' });
+                            // Add 95% single only on heavy days
+                            if (isHeavyDay) {
+                                warmupSets.push({ weight: roundTo2_5(firstSetWeight * 0.95).toString(), reps: '1' });
+                            }
                         }
                     }
 
