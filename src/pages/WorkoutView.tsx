@@ -1220,6 +1220,35 @@ export const WorkoutView: React.FC = () => {
                     const prevStat = previousStats[ex.name];
                     const targetWeight = calculateWeight(ex);
 
+                    // Generate warm-up sets for bench/squat/deadlift variations
+                    const isMainLift = ex.name.toLowerCase().includes('bench') ||
+                        ex.name.toLowerCase().includes('squat') ||
+                        ex.name.toLowerCase().includes('deadlift');
+
+                    const isHeavyDay = ex.name.includes('(ME)') ||
+                        ex.name.includes('Heavy') ||
+                        ex.name.includes('Ascension Test') ||
+                        (!ex.name.includes('(Light)') && !ex.name.includes('(DE)') && !ex.name.includes('(RE)'));
+
+                    let warmupSets: { weight: string; reps: string }[] | null = null;
+
+                    if (isMainLift && targetWeight && parseFloat(targetWeight) > 20) {
+                        const firstSetWeight = parseFloat(targetWeight);
+                        const roundTo2_5 = (w: number) => Math.floor(w / 2.5) * 2.5;
+
+                        warmupSets = [
+                            { weight: '20', reps: '8-10' }, // Empty bar
+                            { weight: roundTo2_5(firstSetWeight * 0.5).toString(), reps: '5' },
+                            { weight: roundTo2_5(firstSetWeight * 0.7).toString(), reps: '3' },
+                            { weight: roundTo2_5(firstSetWeight * 0.85).toString(), reps: '2' }
+                        ];
+
+                        // Add 95% single only on heavy days
+                        if (isHeavyDay) {
+                            warmupSets.push({ weight: roundTo2_5(firstSetWeight * 0.95).toString(), reps: '1' });
+                        }
+                    }
+
                     const isGiantSet = !!ex.giantSetConfig;
                     const isPullup = ex.name.includes("Pull-ups");
                     const isDragonFlag = ex.name.includes("Dragon Flags");
@@ -1437,13 +1466,13 @@ export const WorkoutView: React.FC = () => {
                             </CardHeader>
                             <CardContent className="p-0">
                                 {/* Warmups Section */}
-                                {ex.warmups && (
+                                {warmupSets && warmupSets.length > 0 && (
                                     <div className="bg-muted/30 border-b border-border">
-                                        <div className="p-1 text-[10px] font-bold text-muted-foreground uppercase tracking-wider text-center bg-muted/50">Warm Up</div>
-                                        {ex.warmups.sets.map((w, i) => (
+                                        <div className="p-1 text-[10px] font-bold text-muted-foreground uppercase tracking-wider text-center bg-muted/50">Warm Up (Not Logged)</div>
+                                        {warmupSets.map((w, i) => (
                                             <div key={`warmup-${i}`} className="grid grid-cols-10 gap-2 p-1 px-2 items-center text-sm text-muted-foreground/60 select-none">
                                                 <div className="col-span-1 text-center text-[10px]">W{i + 1}</div>
-                                                <div className="col-span-4 text-center font-mono bg-muted/20 rounded mx-1">{w.weight}</div>
+                                                <div className="col-span-4 text-center font-mono bg-muted/20 rounded mx-1">{w.weight} kg</div>
                                                 <div className="col-span-4 text-center font-mono bg-muted/20 rounded mx-1">{w.reps}</div>
                                                 <div className="col-span-1 text-center text-[10px]"></div>
                                             </div>

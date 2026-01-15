@@ -807,7 +807,7 @@ export const translations = {
             warmupDeadlift: "Do some hip swings, hip airplanes, barbell/banded good mornings + stiff legged good mornings, bodyweight lunges/bulgarian split squats, light lat activation pump (single arm banded lat prayer recommended) and single leg glute bridges with concentric hold before main warm up.",
 
             // --- BENCH DOMINATION TIPS ---
-            pausedBench: "Warm-up: ramp fast, low reps, paused every set. Save energy for working sets. Bar comes to complete stop at chest, 0.5-1 second full pause. General warm-up (rotator cuff, dynamic arching, lat activation, glute bridges) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1 (heavy days only). All warm-up sets paused.",
+            pausedBench: "Warm-up: ramp fast, low reps, paused every set. Save energy for working sets. Bar comes to complete stop at chest, 0.5-1 second full pause. General warm-up (rotator cuff, dynamic arching, lat activation, glute bridges) → Barbell warm-up. All warm-up sets paused.",
             wideGripBench: "Wide grip with elbows flared. Focus on deep stretch at the bottom. 📈 Hit top reps (8) on ALL sets for 2 straight weeks → +2.5 kg",
             spotoPress: "Stop bar 4-8 cm above chest, hold 1 second, then press explosively. 📈 Target reps hit on ALL sets = +2.5 kg next session",
             lowPinPress: "Set pins at your sticking point. Explosive press from dead stop. 📈 Target reps hit on ALL sets = +2.5 kg next session",
@@ -965,7 +965,23 @@ export const translations = {
             ritualMEAdvice: "Work up to 1 clean rep @ 90-100% 1RM. Progression: +2.5-5 kg if clean (no hitch, full ROM, RPE ≤9). Safety checkbox required.",
             ritualVelocityTip: "Aim bar velocity >0.8 m/s – use phone app or feel. If slow, drop 5% next session.",
             ritualRecoveryCheck: "Recovery last 4 weeks? Rate 1-10 (10 = perfect). If ≤6: immediate Purge Week triggered.",
-            ritualDashboardTagline: "The ritual of iron – sacrifice for ascension"
+            ritualDashboardTagline: "The ritual of iron – sacrifice for ascension",
+
+            // --- WARM-UP TIPS FOR ALL LIFT VARIATIONS ---
+            // These apply to ANY bench/squat/deadlift variation in Trinary, Pain & Glory, Ritual
+            "Paused Bench Press (ME)": "General warm-up (rotator cuff, dynamic arching, lat activation, glute bridges) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1 (heavy days). All warm-up sets paused. Max Effort – work up to 90-95% of 1RM.",
+            "Paused Bench Press (Light)": "General warm-up (rotator cuff, dynamic arching, lat activation, glute bridges) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3 (skip 85% and 95% on light days). All sets paused. Light work @ 70% 1RM for speed.",
+            "Paused Bench Press (Ascension Test)": "General warm-up (rotator cuff, dynamic arching, lat activation, glute bridges) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2. All warm-up sets paused. ASCENSION TEST – AMRAP @ 85% 1RM.",
+            "Low Bar Squat (ME)": "General warm-up (hip swings, hip airplanes, cossack squats, banded good mornings, hamstring stretches, glute bridges, bodyweight squats) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1. All warm-up sets paused. Max Effort single.",
+            "Low Bar Squat (Light)": "General warm-up (hip swings, hip airplanes, cossack squats, banded good mornings, hamstring stretches, glute bridges, bodyweight squats) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3 (skip heavy sets). All paused. Light work @ 70% for speed.",
+            "Low Bar Squat (Ascension Test)": "General warm-up (hip swings, hip airplanes, cossack squats, banded good mornings, hamstring stretches, glute bridges, bodyweight squats) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2. All paused. ASCENSION TEST.",
+            "Conventional Deadlift (ME)": "General warm-up (hip swings, hip airplanes, good mornings, lunges, lat activation, glute bridges) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1. All warm-up sets paused off floor. Max Effort single.",
+            "Conventional Deadlift (Light)": "General warm-up (hip swings, hip airplanes, good mornings, lunges, lat activation, glute bridges) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3 (skip heavy sets). All paused. Light work @ 70% for speed.",
+            "Conventional Deadlift (Ascension Test)": "General warm-up (hip swings, hip airplanes, good mornings, lunges, lat activation, glute bridges) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2. All paused. ASCENSION TEST.",
+            "Conventional Deadlift": "General warm-up (hip swings, hip airplanes, good mornings, lunges, lat activation, glute bridges) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1 (heavy days only). All warm-up sets paused off floor.",
+            "Low Bar Squat": "General warm-up (hip swings, hip airplanes, cossack squats, banded good mornings, hamstring stretches, glute bridges, bodyweight squats) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1 (heavy days only). All warm-up sets paused.",
+            "Paused Low Bar Squat": "General warm-up (hip swings, hip airplanes, cossack squats, banded good mornings, hamstring stretches, glute bridges, bodyweight squats) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2. All warm-up sets paused. Focus on 2-sec pause in the hole.",
+            "Deficit Snatch Grip Deadlift": "General warm-up (hip swings, hip airplanes, good mornings, lunges, lat activation, glute bridges) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3 (use lighter percentages due to deficit + snatch grip). 4 second eccentric on all sets."
         },
     },
 
@@ -1715,7 +1731,7 @@ export const translations = {
         },
 
         tips: {
-            pausedBench: "Rozgrzewka: szybka rampa, mało powtórzeń, pauza w każdej serii. Oszczędzaj energię. Sztanga zatrzymuje się całkowicie na klatce, 0.5-1 sek pełnej pauzy.",
+            pausedBench: "Rozgrzewka: szybka progresja ciężaru, mało powtórzeń, pauza w każdej serii. Oszczędzaj energię. Sztanga zatrzymuje się całkowicie na klatce, 0.5-1 sek pełnej pauzy.",
             wideGripBench: "Szeroki chwyt z łokciami na zewnątrz. Skup się na głębokim rozciągnięciu na dole. 📈 Zrób max powt. (8) na WSZYSTKICH seriach przez 2 tygodnie z rzędu → +2.5 kg",
             spotoPress: "Zatrzymaj sztangę 4-8 cm nad klatką, trzymaj 1 sek, potem wyciśnij eksplozywnie. 📈 Docelowe powt. na WSZYSTKICH seriach = +2.5 kg następna sesja",
             lowPinPress: "Ustaw piny na swoim martwym punkcie. Eksplozywne wyciskanie z martwego startu. 📈 Docelowe powt. na WSZYSTKICH seriach = +2.5 kg następna sesja",
