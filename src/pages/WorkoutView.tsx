@@ -1362,38 +1362,66 @@ export const WorkoutView: React.FC = () => {
                         "Conventional Deadlift": "Conventional Deadlift",
                         "Low Bar Squat": "Low Bar Squat",
                         "Paused Low Bar Squat": "Paused Low Bar Squat",
-                        "Deficit Snatch Grip Deadlift": "Deficit Snatch Grip Deadlift"
+                        "Deficit Snatch Grip Deadlift": "Deficit Snatch Grip Deadlift",
+
+                        // Pain & Glory specific variations
+                        "Conventional Deadlift E2MOM": "Conventional Deadlift E2MOM",
+                        "Conventional Deadlift (AMRAP Test)": "Conventional Deadlift (AMRAP Test)",
+                        "Conventional Deadlift (Heavy Triple)": "Conventional Deadlift (Heavy Triple)",
+                        "Conventional Deadlift (Heavy Double)": "Conventional Deadlift (Heavy Double)",
+                        "Conventional Deadlift (Max Single)": "Conventional Deadlift (Max Single)",
+                        "Conventional Deadlift (CAT)": "Conventional Deadlift (CAT)"
                     };
 
-                    // For Pain & Glory, skip tipMap and only use ex.notes
-                    if (programData.id !== 'pain-and-glory') {
-                        const tipKey = tipMap[ex.name];
-                        if (tipKey) {
-                            const tipText = t(`tips.${tipKey}`);
-                            if (tipText && tipText !== `tips.${tipKey}`) { // Check if translation exists
-                                displayTips.push(tipText);
-                            }
+                    // Add general warm-up tip FIRST for bench/squat/deadlift exercises
+                    const isBenchVariation = ex.name.toLowerCase().includes('bench');
+                    const isSquatVariation = ex.name.toLowerCase().includes('squat');
+                    const isDeadliftVariation = ex.name.toLowerCase().includes('deadlift');
+
+                    if (isBenchVariation) {
+                        const warmupBenchTip = t('tips.warmupBench');
+                        if (warmupBenchTip && warmupBenchTip !== 'tips.warmupBench') {
+                            displayTips.push(warmupBenchTip);
                         }
-
-                        // Add Nordic/Glute-Ham swap tip for both original and alternative
-                        if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {
-                            displayTips.push(t('tips.nordicSwapTip'));
-
+                    } else if (isSquatVariation) {
+                        const warmupSquatTip = t('tips.warmupSquat');
+                        if (warmupSquatTip && warmupSquatTip !== 'tips.warmupSquat') {
+                            displayTips.push(warmupSquatTip);
                         }
+                    } else if (isDeadliftVariation) {
+                        const warmupDeadliftTip = t('tips.warmupDeadlift');
+                        if (warmupDeadliftTip && warmupDeadliftTip !== 'tips.warmupDeadlift') {
+                            displayTips.push(warmupDeadliftTip);
+                        }
+                    }
 
-                        if (ex.name.includes("Pull-ups") && programData.id === 'bench-domination') {
-                            let pKey: string | null = null;
-                            if (weekNum <= 3) pKey = "pullupWeeks1to3";
-                            else if (weekNum <= 6) pKey = "pullupWeeks4to6";
-                            else if (weekNum <= 9) pKey = "pullupWeeks7to9";
-                            else if (weekNum === 10) pKey = "pullupWeek10";
-                            else if (weekNum >= 11) pKey = "pullupWeeks11to12";
+                    // Apply tipMap for all programs (specific variation tip)
+                    const tipKey = tipMap[ex.name];
+                    if (tipKey) {
+                        const tipText = t(`tips.${tipKey}`);
+                        if (tipText && tipText !== `tips.${tipKey}`) { // Check if translation exists
+                            displayTips.push(tipText);
+                        }
+                    }
 
-                            if (pKey) {
-                                const pullupTip = t(`tips.${pKey}`);
-                                if (pullupTip && pullupTip !== `tips.${pKey}`) {
-                                    displayTips.push(pullupTip);
-                                }
+                    // Add Nordic/Glute-Ham swap tip for both original and alternative
+                    if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {
+                        displayTips.push(t('tips.nordicSwapTip'));
+
+                    }
+
+                    if (ex.name.includes("Pull-ups") && programData.id === 'bench-domination') {
+                        let pKey: string | null = null;
+                        if (weekNum <= 3) pKey = "pullupWeeks1to3";
+                        else if (weekNum <= 6) pKey = "pullupWeeks4to6";
+                        else if (weekNum <= 9) pKey = "pullupWeeks7to9";
+                        else if (weekNum === 10) pKey = "pullupWeek10";
+                        else if (weekNum >= 11) pKey = "pullupWeeks11to12";
+
+                        if (pKey) {
+                            const pullupTip = t(`tips.${pKey}`);
+                            if (pullupTip && pullupTip !== `tips.${pKey}`) {
+                                displayTips.push(pullupTip);
                             }
                         }
                     }
