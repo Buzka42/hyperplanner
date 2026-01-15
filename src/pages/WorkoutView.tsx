@@ -1347,7 +1347,22 @@ export const WorkoutView: React.FC = () => {
                         // --- SKELETON PROGRAM ---
                         "Supported Stiff Legged DB Deadlift": "supportedSLDL",
                         "Standing Calf Raises": "standingCalfRaises",
-                        "Overhand Mid-Grip Pulldown": "overhandPulldown"
+                        "Overhand Mid-Grip Pulldown": "overhandPulldown",
+
+                        // --- MAIN LIFT VARIATIONS (Trinary, Pain & Glory, Ritual) ---
+                        "Paused Bench Press (ME)": "Paused Bench Press (ME)",
+                        "Paused Bench Press (Light)": "Paused Bench Press (Light)",
+                        "Paused Bench Press (Ascension Test)": "Paused Bench Press (Ascension Test)",
+                        "Low Bar Squat (ME)": "Low Bar Squat (ME)",
+                        "Low Bar Squat (Light)": "Low Bar Squat (Light)",
+                        "Low Bar Squat (Ascension Test)": "Low Bar Squat (Ascension Test)",
+                        "Conventional Deadlift (ME)": "Conventional Deadlift (ME)",
+                        "Conventional Deadlift (Light)": "Conventional Deadlift (Light)",
+                        "Conventional Deadlift (Ascension Test)": "Conventional Deadlift (Ascension Test)",
+                        "Conventional Deadlift": "Conventional Deadlift",
+                        "Low Bar Squat": "Low Bar Squat",
+                        "Paused Low Bar Squat": "Paused Low Bar Squat",
+                        "Deficit Snatch Grip Deadlift": "Deficit Snatch Grip Deadlift"
                     };
 
                     // For Pain & Glory, skip tipMap and only use ex.notes

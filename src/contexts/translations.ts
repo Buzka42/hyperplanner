@@ -1731,11 +1731,11 @@ export const translations = {
         },
 
         tips: {
-            pausedBench: "Rozgrzewka: szybka progresja ciężaru, mało powtórzeń, pauza w każdej serii. Oszczędzaj energię. Sztanga zatrzymuje się całkowicie na klatce, 0.5-1 sek pełnej pauzy.",
+            pausedBench: "Rozgrzewka: szybka progresja ciężaru, mało powtórzeń, pauza w każdej serii. Oszczędzaj energię. Sztanga zatrzymuje się całkowicie na klatce, 0.5-1 sek pełnej pauzy. Rozgrzej obręcz barkową, lekko spompuj najszerszy grzbietu, wykonaj kilka dynamicznych ruchów a'la mostkowanie i glute bridge jednonóż z przytrzymaniem w spięciu zanim przejdziesz do rozgrzewki ze sztangą (lub pomiędzy seriami rozgrzewkowymi).",
             wideGripBench: "Szeroki chwyt z łokciami na zewnątrz. Skup się na głębokim rozciągnięciu na dole. 📈 Zrób max powt. (8) na WSZYSTKICH seriach przez 2 tygodnie z rzędu → +2.5 kg",
             spotoPress: "Zatrzymaj sztangę 4-8 cm nad klatką, trzymaj 1 sek, potem wyciśnij eksplozywnie. 📈 Docelowe powt. na WSZYSTKICH seriach = +2.5 kg następna sesja",
             lowPinPress: "Ustaw piny na swoim martwym punkcie. Eksplozywne wyciskanie z martwego startu. 📈 Docelowe powt. na WSZYSTKICH seriach = +2.5 kg następna sesja",
-            pausedBenchAMRAP: "AMRAP napędza progresję! Tyg. 1-6: ≥12 powt., Tyg. 7-9: ≥10 powt., Tyg. 10-12: ≥8 powt., Peaking: ≥6 powt. = +2.5 kg następny tydzień. Zrównoważona progresja – bez dużych skoków, bez mikroobciążeń.",
+            pausedBenchAMRAP: "AMRAP napędza progresję! Tyg. 1-6: ≥12 powt., Tyg. 7-9: ≥10 powt., Tyg. 10-12: ≥8 powt., Peaking: ≥6 powt. = +2.5 kg następny tydzień.",
             pausedBenchWednesday: "Zostaw 2 powtórzenia w zapasie w serii 1 i 2 oraz 1 powtórzenie w serii 3 i 4.",
             pausedBenchBackoff: "Praca nad techniką - skup się na idealnej formie, kontrolowane tempo.",
             tricepGiantSet: "~10 sek przerwy między ćwiczeniami. 2 min przerwy między seriami. Zrób 25 powt. Skullcrusherów z gumą, by progresnąć ciężar.",
@@ -1885,7 +1885,26 @@ export const translations = {
             ritualMEAdvice: "Dojdź do 1 prawidłowego technicznie powtórzenia @ 90-100% 1RM. Jeśli RPE <9, możesz progresować w kolejnej sesji.",
             ritualVelocityTip: "Celuj w prędkość sztangi >0.8 m/s – użyj aplikacji lub czuj. Jeśli sztanga porusza się wolno, zredukuj ciężar o 5% w kolejnej sesji.",
             ritualRecoveryCheck: "Regeneracja ostatnie 4 tyg.? Oceń 1-10 (10 = perfekcja). Jeśli ≤6: natychmiastowy Tydzień Oczyszczenia.",
-            ritualDashboardTagline: "Rytuał siły - ofiara dla bogów żelaza"
+            ritualDashboardTagline: "Rytuał siły - ofiara dla bogów żelaza",
+
+            // --- ROZGRZEWKA DLA WSZYSTKICH WARIANTÓW ĆWICZEŃ ---
+            warmupBench: "Rozgrzej rotatory, wykonaj dynamiczne mostkowanie, lekką spompuj najszerszy grzbietu i zrób glute bridge jednonóż z przytrzymaniem w spięciu przed główną rozgrzewką (lub pomiędzy seriami rozgrzewkowymi).",
+            warmupSquat: "Wykonaj wymachy bioder, airplanes, przysiady kozackie, goodmorningi z gumą, rozciąganie ścięgien, mosty pośladkowe na jednej nodze z przytrzymaniem i przysiady bodyweight dupa-ziemia przed główną rozgrzewką (lub pomiędzy seriami rozgrzewkowymi).",
+            warmupDeadlift: "Wykonaj wymachy bioder, airplanes, goodmorningi z gumą/sztangą + goodmorningi na sztywnych nogach, wykroki/split squaty bodyweight, lekko spompuj najszerszy grzbietu i glute bridge jednonóż z przytrzymaniem w spięciu przed główną rozgrzewką (lub pomiędzy seriami rozgrzewkowymi).",
+
+            "Paused Bench Press (ME)": "Rozgrzewka ogólna (rotatory, dynamiczne łuki, aktywacja grzbietu, mosty pośladkowe) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1 (tylko ciężkie dni). Wszystkie serie rozgrzewkowe z pauzą. Max Effort – dojdź do 90-95% 1RM.",
+            "Paused Bench Press (Light)": "Rozgrzewka ogólna (rotatory, dynamiczne łuki, aktywacja grzbietu, mosty pośladkowe) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3 (pomiń 85% i 95% w lekkie dni). Wszystkie serie z pauzą. Lekka work @ 70% 1RM na prędkość.",
+            "Paused Bench Press (Ascension Test)": "Rozgrzewka ogólna (rotatory, dynamiczne łuki, aktywacja grzbietu, mosty pośladkowe) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3, 85% × 2. Wszystkie serie rozgrzewkowe z pauzą. TEST ASCENSJI – AMRAP @ 85% 1RM.",
+            "Low Bar Squat (ME)": "Rozgrzewka ogólna (wymachy bioder, airplanes, przysiady kozackie, przegięcia, rozciąganie, mosty, bodyweight squaty) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1. Wszystkie serie rozgrzewkowe z pauzą. Max Effort singiel.",
+            "Low Bar Squat (Light)": "Rozgrzewka ogólna (wymachy bioder, airplanes, przysiady kozackie, przegięcia, rozciąganie, mosty, bodyweight squaty) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3 (pomiń ciężkie serie). Wszystkie z pauzą. Lekka praca @ 70% na prędkość.",
+            "Low Bar Squat (Ascension Test)": "Rozgrzewka ogólna (wymachy bioder, airplanes, przysiady kozackie, przegięcia, rozciąganie, mosty, bodyweight squaty) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3, 85% × 2. Wszystkie z pauzą. TEST ASCENSJI.",
+            "Conventional Deadlift (ME)": "Rozgrzewka ogólna (wymachy bioder, airplanes, przegięcia, wykroki, aktywacja grzbietu, mosty) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1. Wszystkie serie rozgrzewkowe z pauzą od podłogi. Max Effort singiel.",
+            "Conventional Deadlift (Light)": "Rozgrzewka ogólna (wymachy bioder, airplanes, przegięcia, wykroki, aktywacja grzbietu, mosty) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3 (pomiń ciężkie serie). Wszystkie z pauzą. Lekka praca @ 70% na prędkość.",
+            "Conventional Deadlift (Ascension Test)": "Rozgrzewka ogólna (wymachy bioder, airplanes, przegięcia, wykroki, aktywacja grzbietu, mosty) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3, 85% × 2. Wszystkie z pauzą. TEST ASCENSJI.",
+            "Conventional Deadlift": "Rozgrzewka ogólna (wymachy bioder, airplanes, przegięcia, wykroki, aktywacja grzbietu, mosty) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1 (tylko ciężkie dni). Wszystkie serie rozgrzewkowe z pauzą od podłogi.",
+            "Low Bar Squat": "Rozgrzewka ogólna (wymachy bioder, airplanes, przysiady kozackie, przegięcia, rozciąganie, mosty, bodyweight squaty) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1 (tylko ciężkie dni). Wszystkie serie rozgrzewkowe z pauzą.",
+            "Paused Low Bar Squat": "Rozgrzewka ogólna (wymachy bioder, airplanes, przysiady kozackie, przegięcia, rozciąganie, mosty, bodyweight squaty) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3, 85% × 2. Wszystkie serie rozgrzewkowe z pauzą. Skupienie na 2-sek pauzie w dole.",
+            "Deficit Snatch Grip Deadlift": "Rozgrzewka ogólna (wymachy bioder, airplanes, przegięcia, wykroki, aktywacja grzbietu, mosty) → Rozgrzewka sztangą: Pusty gryf × 8-10, 50% × 5, 70% × 3 (użyj lżejszych % ze względu na deficyt + snatch grip). 4 sekundy faza ekscentryczna we wszystkich seriach."
         }
     }
 };
