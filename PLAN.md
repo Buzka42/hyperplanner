@@ -2,8 +2,48 @@
 
 This document serves as the single source of truth for all workout programs, progression logic, and exercise specifications available in the application. It consolidates previous documentation and includes the latest updates.
 
-**Last Updated:** January 14, 2026 - Ritual of Strength Finalization  
+**Last Updated:** January 15, 2026 - Elite Warm-up Scheme Implementation  
 **Note:** For technical implementation details, see `README.md`.
+
+---
+
+## Elite Warm-up Scheme (Main Lifts)
+*Applied to Squat, Bench Press, and Deadlift in: Trinary, Pain & Glory, Ritual of Strength*
+
+### General Warm-up (Before Barbell)
+**For Bench Press:**
+- Warm up rotator cuff, do some dynamic arching motion
+- Light lat activation pump work (single arm banded lat prayer recommended)
+- Single leg glute bridges with concentric hold for glute activation
+
+**For Squat:**
+- Hip swings, hip airplanes, cossack squats
+- Banded good mornings, hamstring stretches
+- Single leg glute bridges with concentric hold
+- Ass-to-grass bodyweight squats
+
+**For Deadlift:**
+- Hip swings, hip airplanes
+- Barbell/banded good mornings + stiff legged good mornings
+- Bodyweight lunges/bulgarian split squats
+- Light lat activation pump (single arm banded lat prayer recommended)
+- Single leg glute bridges with concentric hold
+
+### Barbell Warm-up Sets
+*Static, grayed-out, non-logged sets displayed before working sets*
+
+**Progression:**
+1. **Empty Bar × 8-10** (fast touch-and-go, groove speed/pattern)
+2. **50% × 5**
+3. **70% × 3**
+4. **85% × 2**
+5. **95% × 1** (only on heavy/ME days; skip on volume/DE/light days to save energy)
+
+**Rules:**
+- All warm-up sets paused (1-sec pause at bottom/chest for bench/squat, brief pause off floor for deadlift)
+- Total warm-up reps: ~19-21 max on heavy days
+- Percentages calculated from the weight that will be used on the first working set
+- Rounded down to nearest 2.5 kg
 
 ---
 

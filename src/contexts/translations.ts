@@ -801,8 +801,13 @@ export const translations = {
         // EXERCISE TIPS - CONSOLIDATED & REFINED
         // ========================================
         tips: {
+            // --- ELITE WARM-UP SCHEME (Bench, Squat, Deadlift) ---
+            warmupBench: "Warm up rotator cuff, do some dynamic arching motion, light lat activation pump work (single arm banded lat prayer recommended) and single leg glute bridges with concentric hold for glute activation before the main warm up.",
+            warmupSquat: "Do some hip swings, hip air planes, cossack squats, banded good mornings, hamstring stretches, single leg glute bridges with concentric hold and ass-to-grass bodyweight squats before main warm up.",
+            warmupDeadlift: "Do some hip swings, hip airplanes, barbell/banded good mornings + stiff legged good mornings, bodyweight lunges/bulgarian split squats, light lat activation pump (single arm banded lat prayer recommended) and single leg glute bridges with concentric hold before main warm up.",
+
             // --- BENCH DOMINATION TIPS ---
-            pausedBench: "Warm-up: ramp fast, low reps, paused every set. Save energy for working sets. Bar comes to complete stop at chest, 0.5-1 second full pause.",
+            pausedBench: "Warm-up: ramp fast, low reps, paused every set. Save energy for working sets. Bar comes to complete stop at chest, 0.5-1 second full pause. General warm-up (rotator cuff, dynamic arching, lat activation, glute bridges) → Barbell warm-up: Empty bar × 8-10, 50% × 5, 70% × 3, 85% × 2, 95% × 1 (heavy days only). All warm-up sets paused.",
             wideGripBench: "Wide grip with elbows flared. Focus on deep stretch at the bottom. 📈 Hit top reps (8) on ALL sets for 2 straight weeks → +2.5 kg",
             spotoPress: "Stop bar 4-8 cm above chest, hold 1 second, then press explosively. 📈 Target reps hit on ALL sets = +2.5 kg next session",
             lowPinPress: "Set pins at your sticking point. Explosive press from dead stop. 📈 Target reps hit on ALL sets = +2.5 kg next session",
