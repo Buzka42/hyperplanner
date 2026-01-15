@@ -189,11 +189,12 @@ export const translations = {
             programs: {
                 benchDomination: {
                     name: "Bench Domination",
-                    description: "12-week powerlifting program to explode your bench press. With optional 3 week peaking phase.",
+                    description: "12-week powerlifting program to explode your bench press. Daily Undulating Periodization - build muscle and strength at the same time.",
                     features: [
                         "Focus: Bench Strength",
                         "12 Week Program",
                         "Optional 3 Week Peaking",
+                        "4 Benching days a week + 2 Lower Body days, optional accessories",
                         "Auto-regulating progression based on AMRAP test"
                     ]
                 },
@@ -246,7 +247,7 @@ export const translations = {
                 },
                 ritualOfStrength: {
                     name: "Ritual of Strength",
-                    description: "The ritual of iron – sacrifice for ascension",
+                    description: "3 day/week minimum effective dose powerlifting program.",
                     features: [
                         "Focus: Bench / Deadlift / Squat",
                         "3 Days / Week (Mon/Wed/Fri ideal)",
@@ -1168,17 +1169,18 @@ export const translations = {
                 benchDomination: {
                     name: "Bench Press Domination",
                     benchLabel: "Aktualny 1RM – Paused Bench Press (kg)",
-                    description: "12-tygodniowy program siłowy z fokusem na wyciskanie. Z opcjonalną 3-tygodniową fazą peakingową.",
+                    description: "12-tygodniowy program siłowy z fokusem na wyciskanie. Daily Undulating Periodization - buduj siłę i masę jednocześnie.",
                     features: [
                         "Cel: Siła wyciskania",
                         "4-6 dni/tydzień",
                         "Opcjonalny 3-tyg. peaking",
+                        "4 dni wyciskania + 2 dni dolnej części ciała, opcjonalne akcesoria",
                         "Autoregulacja oparta na teście AMRAP"
                     ]
                 },
                 pencilneck: {
                     name: "Protokół Pencilneck",
-                    description: "8-tygodniowy split na górę ciała. Dla tych, którzy wyglądają jak lizak na patyku.",
+                    description: "8-tygodniowy split na górę ciała. Dla tych, których szyja wygląda jak ołówek.",
                     features: [
                         "Cel: Hipertrofia upper body",
                         "4 dni/tydzień",
@@ -1225,7 +1227,7 @@ export const translations = {
                 },
                 ritualOfStrength: {
                     name: "Rytuał Siły",
-                    description: "Rytuał żelaza – poświęcenie dla wzniesienia",
+                    description: "3 dni/tydzień prograu trójboju siłowego z minimalną efektywną dawką.",
                     features: [
                         "Cel: Wycisk / Martwy / Przysiad",
                         "3 dni/tydzień (Pon/Śr/Pt idealnie)",

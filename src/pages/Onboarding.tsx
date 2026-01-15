@@ -330,7 +330,7 @@ export const Onboarding: React.FC = () => {
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(BENCH_DOMINATION_PROGRAM.id)}
                         >
-                            <div className="h-48 bg-black relative flex items-center justify-center">
+                            <div className="h-60 bg-black relative flex items-center justify-center">
                                 <img src="/benchdomination.png" alt="Bench Domination" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
                                     <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.benchDomination').name}</h3>
@@ -353,7 +353,7 @@ export const Onboarding: React.FC = () => {
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(PENCILNECK_PROGRAM.id)}
                         >
-                            <div className="h-48 bg-black relative flex items-center justify-center">
+                            <div className="h-60 bg-black relative flex items-center justify-center">
                                 <img src="/pencilneck.png" alt="Pencilneck Eradication" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
                                     <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.pencilneck').name}</h3>
@@ -376,7 +376,7 @@ export const Onboarding: React.FC = () => {
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(SKELETON_PROGRAM.id)}
                         >
-                            <div className="h-48 bg-black relative flex items-center justify-center">
+                            <div className="h-60 bg-black relative flex items-center justify-center">
                                 <img src="/SKELETON.png" alt="Skeleton Transformation" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
                                     <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.skeleton').name}</h3>
@@ -399,7 +399,7 @@ export const Onboarding: React.FC = () => {
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(PEACHY_CONFIG.id)}
                         >
-                            <div className="h-48 bg-black relative flex items-center justify-center">
+                            <div className="h-60 bg-black relative flex items-center justify-center">
                                 <img src="/peachy.png" alt="Peachy Plan" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
                                     <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.peachy').name}</h3>
@@ -422,7 +422,7 @@ export const Onboarding: React.FC = () => {
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(PAIN_GLORY_CONFIG.id)}
                         >
-                            <div className="h-48 bg-black relative flex items-center justify-center">
+                            <div className="h-60 bg-black relative flex items-center justify-center">
                                 <img src="/painglory.png" alt="Pain & Glory" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
                                     <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.painGlory').name}</h3>
@@ -445,7 +445,7 @@ export const Onboarding: React.FC = () => {
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect('trinary')}
                         >
-                            <div className="h-48 bg-black relative flex items-center justify-center">
+                            <div className="h-60 bg-black relative flex items-center justify-center">
                                 <img src="/trinary.png" alt="Trinary" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
                                     <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.trinary').name}</h3>
@@ -468,7 +468,7 @@ export const Onboarding: React.FC = () => {
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(RITUAL_CONFIG.id)}
                         >
-                            <div className="h-48 bg-black relative flex items-center justify-center">
+                            <div className="h-60 bg-black relative flex items-center justify-center">
                                 <img src="/ritual.png" alt="Ritual of Strength" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
                                     <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.ritualOfStrength').name}</h3>
