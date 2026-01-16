@@ -2,7 +2,7 @@
 
 This document serves as the single source of truth for all workout programs, progression logic, and exercise specifications available in the application. It consolidates previous documentation and includes the latest updates.
 
-**Last Updated:** January 15, 2026 - Elite Warm-up Scheme Implementation  
+**Last Updated:** January 16, 2026 - Deload System Philosophy Update  
 **Note:** For technical implementation details, see `README.md`.
 
 ---
@@ -51,8 +51,8 @@ This document serves as the single source of truth for all workout programs, pro
 *The flagship program designed to detonate your bench press 1RM.*
 
 ### Plan Configuration
-*   **Duration:** 15 Weeks
-*   **Frequency:** Up to 6 Days/Week (User Selectable & Smart Assigned)
+*   **Duration:** Nominal 15 weeks (13 weeks core cycle + optional 3 week peaking phase), extended with added deload weeks for optimal recovery and gains
+*   **Frequency:** Up to 6 Days/Week (User Select able & Smart Assigned)
 *   **Widgets:** `1rm` (Base Management), `program_status` (Progress), `strength_chart` (History)
 
 ### Modules (User Customization)
@@ -79,7 +79,6 @@ These toggles strictly **remove** exercises if disabled.
 | Weeks 1–6  | ≥12 reps      | +2.5 kg to base next week |
 | Weeks 7–9  | ≥10 reps      | +2.5 kg to base next week |
 | Weeks 10–12| ≥8 reps       | +2.5 kg to base next week |
-| Weeks 13–15 (Peaking) | ≥6 reps | +2.5 kg to base next week |
 | Below threshold | — | No increase (stall) |
 
 #### e1RM Re-Calculation (Every 4 Weeks)
@@ -113,9 +112,48 @@ These toggles strictly **remove** exercises if disabled.
 *   Week 14: 95–97.5% Singles + 81% AMRAP
 *   Week 15: 1RM Test Day (105% attempt)
 
-#### Reactive Deload (Unchanged)
+#### Deload Logic (January 2026 Philosophy Update)
+
+**Core Philosophy: Deloads ADD Extra Weeks, Never Replace Existing Weeks**
+
+This preserves full progression flow and ensures no training stimulus is skipped. Program duration extends organically with recovery needs.
+
+**1. Forced Deload (Always After Week 8)**
+*   **Trigger:** Automatically added after completing week 8
+*   **Insertion:** Deload week 8.5 (extends program by 1 week)
+*   **Details:** -15% all weights, half volume, light technique focus
+*   **Message:** "Deload added – recover hard to rebound stronger. Program extended for full progression."
+*   **Base Update:** No change to pre-deload base (maintains continuity)
+*   **Purpose:** Mandatory recovery before final intensity block
+
+**2. Reactive Deload (Weeks 5-8 Performance Trigger)**
 *   **Trigger:** 2 consecutive Saturday AMRAPs ≤7 reps
-*   **Effect:** Next week = -15% weight drop + half volume
+*   **Weeks 5-8 Logic:** If triggered, immediately adds the forced deload (triggers forced deload quicker, no secondary deload)
+    *   Example: If poor performance in weeks 6-7 → forced deload added after week 7 (not week 8)
+    *   Only one deload added (reactive triggers forced earlier, prevents double-deload)
+*   **After Week 8:** If triggered after forced deload already happened, add extra reactive deload week normally
+*   **Message:** "Performance drop detected – deload triggered for recovery. Program extended to preserve progression."
+
+**3. Big Drop Trigger (Week 5 e1RM Recalculation)**
+*   **Trigger:** If e1RM recalc at week 5 drops >15% from previous base
+*   **Action:** Immediately add a second forced deload week
+*   **Message:** "Significant strength drop detected – extra recovery week added to rebuild foundation."
+*   **Purpose:** Catch overreaching/underlift early and course-correct
+
+**Deload Week Characteristics:**
+*   All exercises: 50% volume (half sets), 85% intensity (-15% all weights)
+*   Light technique focus, RPE 6-7 max
+*   Maintains movement patterns without fatigue accumulation
+*   Full week rest between last hard session and return to progression
+
+**Program Duration Flexibility:**
+*   Nominal: 15 weeks (13 core + 3 peaking)
+*   Real Duration: 15+ weeks depending on deloads triggered
+*   Example scenarios:
+    *   No triggers: 15 weeks
+    *   Forced only (week 8): 16 weeks
+    *   Reactive in week 6 (triggers forced early) + big drop at week 5: 18 weeks
+*   Tips/Dashboard: "13 weeks core cycle, optional 3 week peaking phase, extended with extra deload weeks for optimal recovery and gains"
 
 ### Bench Press Variations (Independent Progression)
 
@@ -578,7 +616,7 @@ Uses variations selected from Weak Point Modal
 
 ---
 
-## 7. Ritual of Strength (`ritual-of-strength`)
+## 8. Ritual of Strength (`ritual-of-strength`)
 *The ritual of iron – sacrifice for ascension. Cult-themed powerlifting program.*
 
 ### Plan Configuration
@@ -789,4 +827,4 @@ All badges auto-unlock, retroactive, with confetti + savage quote (English + Pol
 
 ---
 
-*Generated from source code – January 14, 2026*
+*Generated from source code – January 16, 2026*

@@ -1385,7 +1385,7 @@ export const WorkoutView: React.FC = () => {
 
                     // Add general warm-up tip FIRST for bench/squat/deadlift exercises
                     const isBenchVariation = ex.name.toLowerCase().includes('bench');
-                    const isSquatVariation = ex.name.toLowerCase().includes('squat');
+                    const isSquatVariation = ex.name.toLowerCase().includes('squat') && ex.name !== 'Hack Squat Calf Raises';
                     const isDeadliftVariation = ex.name.toLowerCase().includes('deadlift');
 
                     if (isBenchVariation) {
