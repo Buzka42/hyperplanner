@@ -591,9 +591,89 @@ export const WorkoutView: React.FC = () => {
             if (updated) updatePayload.stats = newStats;
             if (historyEntry) updatePayload.benchHistory = arrayUnion(historyEntry);
 
+
             if (Object.keys(updatePayload).length > 0) {
                 await updateDoc(userRef, updatePayload);
             }
+
+            // ========== BENCH DOMINATION DELOAD TRIGGERS ==========
+            if (programData.id === 'bench-domination' && !isExistingLog) {
+                const bdStatus = (user.benchDominationStatus || { completedWeeks: 0 }) as any; // Use 'as any' to access new fields
+                const deloadUpdates: any = {};
+                const addedDeloads = bdStatus.addedDeloadWeeks || [];
+
+                // 1. FORCED DELOAD: After week 8 completion (Saturday)
+                if (weekNum === 8 && dayNum === 6 && !bdStatus.forcedDeloadCompleted) {
+                    const hasForcedDeload = addedDeloads.some((d: any) => d.insertAfterWeek === 8 && d.type === 'forced');
+                    if (!hasForcedDeload) {
+                        deloadUpdates['benchDominationStatus.addedDeloadWeeks'] = arrayUnion({
+                            insertAfterWeek: 8,
+                            type: 'forced'
+                        });
+                        deloadUpdates['benchDominationStatus.forcedDeloadCompleted'] = true;
+                        // Show message via toast or notification
+                        console.log('[DELOAD] Forced deload added after week 8');
+                    }
+                }
+
+                // 2. REACTIVE DELOAD: Check for 2 consecutive Saturday AMRAPs ≤7 reps (weeks 5-8 only)
+                if (weekNum >= 5 && weekNum <= 8 && dayNum === 6 && historyEntry) {
+                    // Get the last 2 AMRAP entries including the one we just logged
+                    const fullHistory = [...(user.benchHistory || []), historyEntry];
+                    const sortedHistory = fullHistory
+                        .filter(h => h.actualReps !== undefined && h.week !== undefined && h.week >= 5 && h.week <= 8)
+                        .sort((a, b) => (b.week || 0) - (a.week || 0));
+
+                    if (sortedHistory.length >= 2) {
+                        const [latest, previous] = sortedHistory;
+                        // Check if both are ≤7 reps and from consecutive weeks
+                        if (latest.actualReps! <= 7 && previous.actualReps! <= 7 &&
+                            Math.abs((latest.week || 0) - (previous.week || 0)) === 1) {
+                            // Reactive trigger in weeks 5-8: triggers forced deload quicker (no secondary deload)
+                            const hasForcedDeload = addedDeloads.some((d: any) => d.type === 'forced');
+                            if (!hasForcedDeload && !bdStatus.forcedDeloadCompleted) {
+                                // Add forced deload NOW instead of waiting until week 8
+                                deloadUpdates['benchDominationStatus.addedDeloadWeeks'] = arrayUnion({
+                                    insertAfterWeek: weekNum,
+                                    type: 'forced' // Reactive trigger adds forced early
+                                });
+                                deloadUpdates['benchDominationStatus.forcedDeloadCompleted'] = true;
+                                console.log(`[DELOAD] Reactive deload triggered early at week ${weekNum} - poor AMRAP performance`);
+                            }
+                        }
+                    }
+                }
+
+                // 3. BIG DROP TRIGGER: Check on week 5 e1RM recalculation for >15% drop
+                if (weekNum === 5 && dayNum === 6 && historyEntry) {
+                    // Week 5 is a recalc week - check if e1RM dropped >15% from week 4's base
+                    const week5Base = user.stats.pausedBench || 0;
+                    const week4Base = bdStatus.week5BaseBeforeRecalc || week5Base;
+
+                    // Calculate drop percentage
+                    const dropPercentage = week4Base > 0 ? ((week4Base - week5Base) / week4Base) * 100 : 0;
+
+                    if (dropPercentage > 15) {
+                        // Add a second forced deload week for big drop
+                        deloadUpdates['benchDominationStatus.addedDeloadWeeks'] = arrayUnion({
+                            insertAfterWeek: 5,
+                            type: 'drop-recalc'
+                        });
+                        console.log(`[DELOAD] Big drop detected at week 5: ${dropPercentage.toFixed(1)}% - extra deload week added`);
+                    }
+                }
+
+                // Save week 4's base weight for the week 5 drop check
+                if (weekNum === 4 && dayNum === 6) {
+                    deloadUpdates['benchDominationStatus.week5BaseBeforeRecalc'] = user.stats.pausedBench || 0;
+                }
+
+                // Apply all deload updates if any
+                if (Object.keys(deloadUpdates).length > 0) {
+                    await updateDoc(userRef, deloadUpdates);
+                }
+            }
+            // ========== END BENCH DOMINATION DELOAD TRIGGERS ==========
 
             // Squat History Logic (For Peachy Program)
             let squatHistoryEntry = null;
@@ -873,7 +953,7 @@ export const WorkoutView: React.FC = () => {
                                         if (liftKey) {
                                             const current1RM = trinaryStatus[liftKey] || 0;
                                             await updateDoc(userRef, {
-                                                [`trinaryStatus.${liftKey}`]: current1RM + progressionAmount
+                                                [`trinaryStatus.${liftKey} `]: current1RM + progressionAmount
                                             });
                                         }
                                     }
@@ -1013,7 +1093,7 @@ export const WorkoutView: React.FC = () => {
 
                                         if (progressionKey) {
                                             const currentProgression = (ritualStatus as any)[progressionKey] || 0;
-                                            updates[`ritualStatus.${progressionKey}`] = currentProgression + progressionAmount;
+                                            updates[`ritualStatus.${progressionKey} `] = currentProgression + progressionAmount;
                                         }
                                     }
                                 }
@@ -1152,54 +1232,54 @@ export const WorkoutView: React.FC = () => {
             {activePlanConfig.id === 'pain-and-glory' && (
                 <style>{`
                     :root {
-                        --background: 35 30% 12%;
-                        --foreground: 35 20% 90%;
-                        --card: 35 25% 15%;
-                        --card-foreground: 35 20% 90%;
-                        --popover: 35 25% 15%;
-                        --popover-foreground: 35 20% 90%;
-                        --primary: 0 65% 45%;
-                        --primary-foreground: 35 20% 95%;
-                        --secondary: 35 40% 25%;
-                        --secondary-foreground: 35 20% 90%;
-                        --muted: 35 20% 20%;
-                        --muted-foreground: 35 15% 60%;
-                        --accent: 0 65% 45%;
-                        --accent-foreground: 35 20% 95%;
-                        --destructive: 0 84.2% 60.2%;
-                        --destructive-foreground: 210 40% 98%;
-                        --border: 35 30% 25%;
-                        --input: 35 30% 25%;
-                        --ring: 0 65% 45%;
-                    }
-                `}</style>
+    --background: 35 30 % 12 %;
+    --foreground: 35 20 % 90 %;
+    --card: 35 25 % 15 %;
+    --card - foreground: 35 20 % 90 %;
+    --popover: 35 25 % 15 %;
+    --popover - foreground: 35 20 % 90 %;
+    --primary: 0 65 % 45 %;
+    --primary - foreground: 35 20 % 95 %;
+    --secondary: 35 40 % 25 %;
+    --secondary - foreground: 35 20 % 90 %;
+    --muted: 35 20 % 20 %;
+    --muted - foreground: 35 15 % 60 %;
+    --accent: 0 65 % 45 %;
+    --accent - foreground: 35 20 % 95 %;
+    --destructive: 0 84.2 % 60.2 %;
+    --destructive - foreground: 210 40 % 98 %;
+    --border: 35 30 % 25 %;
+    --input: 35 30 % 25 %;
+    --ring: 0 65 % 45 %;
+}
+`}</style>
             )}
 
             {/* Trinary Theme for WorkoutView */}
             {activePlanConfig.id === 'trinary' && (
                 <style>{`
                     :root {
-                        --background: 240 10% 10%;
-                        --foreground: 240 5% 90%;
-                        --card: 240 8% 14%;
-                        --card-foreground: 240 5% 90%;
-                        --popover: 240 8% 14%;
-                        --popover-foreground: 240 5% 90%;
-                        --primary: 240 5% 65%;
-                        --primary-foreground: 240 10% 10%;
-                        --secondary: 240 4% 20%;
-                        --secondary-foreground: 240 5% 90%;
-                        --muted: 240 4% 20%;
-                        --muted-foreground: 240 5% 60%;
-                        --accent: 240 4% 20%;
-                        --accent-foreground: 240 5% 90%;
-                        --destructive: 0 62% 30%;
-                        --destructive-foreground: 0 0% 98%;
-                        --border: 240 6% 25%;
-                        --input: 240 6% 25%;
-                        --ring: 240 5% 65%;
-                    }
-                `}</style>
+    --background: 240 10 % 10 %;
+    --foreground: 240 5 % 90 %;
+    --card: 240 8 % 14 %;
+    --card - foreground: 240 5 % 90 %;
+    --popover: 240 8 % 14 %;
+    --popover - foreground: 240 5 % 90 %;
+    --primary: 240 5 % 65 %;
+    --primary - foreground: 240 10 % 10 %;
+    --secondary: 240 4 % 20 %;
+    --secondary - foreground: 240 5 % 90 %;
+    --muted: 240 4 % 20 %;
+    --muted - foreground: 240 5 % 60 %;
+    --accent: 240 4 % 20 %;
+    --accent - foreground: 240 5 % 90 %;
+    --destructive: 0 62 % 30 %;
+    --destructive - foreground: 0 0 % 98 %;
+    --border: 240 6 % 25 %;
+    --input: 240 6 % 25 %;
+    --ring: 240 5 % 65 %;
+}
+`}</style>
             )}
 
             <div className="flex items-center gap-2 mb-6">
@@ -1210,7 +1290,7 @@ export const WorkoutView: React.FC = () => {
                     <h2 className="text-2xl font-bold tracking-tight">
                         {resolveDayName(dayData.dayName)}
                     </h2>
-                    <p className="text-muted-foreground">{t('common.week')} {weekNum} {isExistingLog && <span className={`font-bold ml-2 ${activePlanConfig.id === 'pain-and-glory' ? 'text-red-500' : 'text-green-500'}`}>({t('workout.completed')})</span>}</p>
+                    <p className="text-muted-foreground">{t('common.week')} {weekNum} {isExistingLog && <span className={`font - bold ml - 2 ${activePlanConfig.id === 'pain-and-glory' ? 'text-red-500' : 'text-green-500'} `}>({t('workout.completed')})</span>}</p>
                 </div>
             </div>
 
@@ -1244,17 +1324,25 @@ export const WorkoutView: React.FC = () => {
                                 { weight: roundTo2_5(firstSetWeight * 0.7).toString(), reps: '3' }
                             ];
                         } else {
+                            // Check if this is a 1RM test
+                            const is1RMTest = ex.name.includes('1RM') || ex.name.includes('TEST');
+
                             // Standard warm-up progression for other lifts
+                            // For 1RM tests: use 80%/90% (more conservative)
+                            // For normal: use 85%/95%
+                            const doublePercent = is1RMTest ? 0.80 : 0.85;
+                            const singlePercent = is1RMTest ? 0.90 : 0.95;
+
                             warmupSets = [
                                 { weight: '20', reps: '8-10' }, // Empty bar
                                 { weight: roundTo2_5(firstSetWeight * 0.5).toString(), reps: '5' },
                                 { weight: roundTo2_5(firstSetWeight * 0.7).toString(), reps: '3' },
-                                { weight: roundTo2_5(firstSetWeight * 0.85).toString(), reps: '2' }
+                                { weight: roundTo2_5(firstSetWeight * doublePercent).toString(), reps: '2' }
                             ];
 
-                            // Add 95% single only on heavy days
+                            // Add final single only on heavy days
                             if (isHeavyDay) {
-                                warmupSets.push({ weight: roundTo2_5(firstSetWeight * 0.95).toString(), reps: '1' });
+                                warmupSets.push({ weight: roundTo2_5(firstSetWeight * singlePercent).toString(), reps: '1' });
                             }
                         }
                     }
@@ -1493,12 +1581,12 @@ export const WorkoutView: React.FC = () => {
                                             {isGiantSet ? (
                                                 <div className="text-sm text-muted-foreground">
                                                     {ex.sets} {t('workout.giantSets')} × {ex.giantSetConfig?.steps.map((s, i) =>
-                                                        `${s.targetReps} ${s.name}${i < (ex.giantSetConfig?.steps.length || 0) - 1 ? ", " : ""}`
+                                                        `${s.targetReps} ${s.name}${i < (ex.giantSetConfig?.steps.length || 0) - 1 ? ", " : ""} `
                                                     )}
                                                 </div>
                                             ) : ex.sets > 0 ? (
                                                 <p className="text-sm text-muted-foreground">
-                                                    {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? t('common.failure') : `${ex.target.reps} ${t('workout.reps')}`}
+                                                    {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? t('common.failure') : `${ex.target.reps} ${t('workout.reps')} `}
                                                 </p>
                                             ) : null}
                                             <div className="flex justify-between items-center">
@@ -1523,7 +1611,7 @@ export const WorkoutView: React.FC = () => {
                                     <div className="bg-muted/30 border-b border-border">
                                         <div className="p-1 text-[10px] font-bold text-muted-foreground uppercase tracking-wider text-center bg-muted/50">Warm Up (Not Logged)</div>
                                         {warmupSets.map((w, i) => (
-                                            <div key={`warmup-${i}`} className="grid grid-cols-10 gap-2 p-1 px-2 items-center text-sm text-muted-foreground/60 select-none">
+                                            <div key={`warmup - ${i} `} className="grid grid-cols-10 gap-2 p-1 px-2 items-center text-sm text-muted-foreground/60 select-none">
                                                 <div className="col-span-1 text-center text-[10px]">W{i + 1}</div>
                                                 <div className="col-span-4 text-center font-mono bg-muted/20 rounded mx-1">{w.weight} kg</div>
                                                 <div className="col-span-4 text-center font-mono bg-muted/20 rounded mx-1">{w.reps}</div>
@@ -1707,10 +1795,10 @@ export const WorkoutView: React.FC = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 7 }))}
-                                                    className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 7
+                                                    className={`p - 3 rounded border text - sm transition - all ${meRpeSelected[ex.id] === 7
                                                         ? 'bg-green-600 border-green-500 text-white'
                                                         : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
-                                                        }`}
+                                                        } `}
                                                 >
                                                     <div className="font-bold">RPE ≤7</div>
                                                     <div className="text-xs mt-1 opacity-80">+10kg</div>
@@ -1719,10 +1807,10 @@ export const WorkoutView: React.FC = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 7.5 }))}
-                                                    className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 7.5
+                                                    className={`p - 3 rounded border text - sm transition - all ${meRpeSelected[ex.id] === 7.5
                                                         ? 'bg-yellow-600 border-yellow-500 text-white'
                                                         : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
-                                                        }`}
+                                                        } `}
                                                 >
                                                     <div className="font-bold">RPE 7-8</div>
                                                     <div className="text-xs mt-1 opacity-80">+5kg</div>
@@ -1731,10 +1819,10 @@ export const WorkoutView: React.FC = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 8.5 }))}
-                                                    className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 8.5
+                                                    className={`p - 3 rounded border text - sm transition - all ${meRpeSelected[ex.id] === 8.5
                                                         ? 'bg-red-600 border-red-500 text-white'
                                                         : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
-                                                        }`}
+                                                        } `}
                                                 >
                                                     <div className="font-bold">RPE 8-9</div>
                                                     <div className="text-xs mt-1 opacity-80">+2.5kg</div>

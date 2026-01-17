@@ -205,14 +205,18 @@ export const Dashboard: React.FC = () => {
     let weekTitleColor = "text-foreground";
     let weekBadge = null;
     if (activePlanConfig.id === 'bench-domination') {
-        if (viewWeek > 12) {
-            if (viewWeek === 13) {
-                weekTitleColor = "text-blue-500";
-                weekBadge = <div className="flex items-center text-blue-500 text-sm font-bold ml-2"><ShieldCheck className="w-4 h-4 mr-1" /> {t('dashboard.mandatoryDeload')}</div>;
-            } else if (viewWeek >= 14) {
-                weekTitleColor = "text-red-600";
-                weekBadge = <div className="flex items-center text-red-600 text-sm font-bold ml-2"><Skull className="w-4 h-4 mr-1" /> {t('dashboard.peakingBlock')}</div>;
-            }
+        if (viewWeek === 9) {
+            // Week 9: Mandatory Deload
+            weekTitleColor = "text-blue-500";
+            weekBadge = <div className="flex items-center text-blue-500 text-sm font-bold ml-2"><ShieldCheck className="w-4 h-4 mr-1" /> {t('dashboard.mandatoryDeload')}</div>;
+        } else if (viewWeek === 13) {
+            // Week 13: Second mandatory deload (peaking prep)
+            weekTitleColor = "text-blue-500";
+            weekBadge = <div className="flex items-center text-blue-500 text-sm font-bold ml-2"><ShieldCheck className="w-4 h-4 mr-1" /> {t('dashboard.mandatoryDeload')}</div>;
+        } else if (viewWeek >= 14) {
+            // Weeks 14-16: Peaking/Testing
+            weekTitleColor = "text-red-600";
+            weekBadge = <div className="flex items-center text-red-600 text-sm font-bold ml-2"><Skull className="w-4 h-4 mr-1" /> {t('dashboard.peakingBlock')}</div>;
         }
     }
 
@@ -584,7 +588,9 @@ export const Dashboard: React.FC = () => {
                                 <Calendar className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{t('common.week')} {viewWeek}</div>
+                                <div className="text-2xl font-bold">
+                                    {t('common.week')} {viewWeek}
+                                </div>
                                 <p className="text-xs text-muted-foreground">{t('dashboard.cards.viewingSchedule')}</p>
                             </CardContent>
                         </Card>

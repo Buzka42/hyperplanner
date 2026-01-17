@@ -26,6 +26,11 @@ export type BenchDominationStatus = {
     completedWeeks: number;
     post12WeekChoice?: 'test' | 'peak';
     phase?: 'training' | 'preattempt' | 'peaking' | 'test';
+    // Deload week tracking (added weeks, not replaced)
+    addedDeloadWeeks?: { insertAfterWeek: number; type: 'forced' | 'reactive' | 'drop-recalc' }[];
+    forcedDeloadCompleted?: boolean; // Tracks if forced week-8 deload happened
+    lastReactiveCheckWeek?: number; // Tracks last week we checked reactive deload
+    week5BaseBeforeRecalc?: number; // Base weight before week 5 e1RM recalc (for >15% drop check)
 };
 
 export type PencilneckStatus = {

@@ -2,7 +2,7 @@
 
 This document serves as the single source of truth for all workout programs, progression logic, and exercise specifications available in the application. It consolidates previous documentation and includes the latest updates.
 
-**Last Updated:** January 16, 2026 - Deload System Philosophy Update  
+**Last Updated:** January 17, 2026 - Final Deload System Implementation  
 **Note:** For technical implementation details, see `README.md`.
 
 ---
@@ -112,48 +112,77 @@ These toggles strictly **remove** exercises if disabled.
 *   Week 14: 95–97.5% Singles + 81% AMRAP
 *   Week 15: 1RM Test Day (105% attempt)
 
-#### Deload Logic (January 2026 Philosophy Update)
+#### Deload & Recovery System (January 2026 - Final Implementation)
 
-**Core Philosophy: Deloads ADD Extra Weeks, Never Replace Existing Weeks**
+**Core Philosophy: Strategic Recovery for Maximum Performance**
 
-This preserves full progression flow and ensures no training stimulus is skipped. Program duration extends organically with recovery needs.
+The program includes two mandatory deload weeks at critical points to optimize recovery and peak performance.
 
-**1. Forced Deload (Always After Week 8)**
-*   **Trigger:** Automatically added after completing week 8
-*   **Insertion:** Deload week 8.5 (extends program by 1 week)
-*   **Details:** -15% all weights, half volume, light technique focus
-*   **Message:** "Deload added – recover hard to rebound stronger. Program extended for full progression."
-*   **Base Update:** No change to pre-deload base (maintains continuity)
-*   **Purpose:** Mandatory recovery before final intensity block
+**WEEK 9: Mandatory Deload (Post-Base Building)**
+*   **Position:** Always appears after Week 8 (extends program from 15 to 16 weeks)
+*   **Structure:** Clones Week 8 exercises with automatic modifications:
+    *   All exercises: -15% weight reduction (85% of normal weight)
+    *   All exercises: Half volume (sets ÷ 2, minimum 1 set)
+    *   Day names: "Monday Recovery", "Wednesday Light", "Saturday Technique", etc.
+*   **Purpose:** Mandatory recovery after intense base-building phase (weeks 1-8)
+*   **Display:** Blue "MANDATORY DELOAD" badge in Dashboard
+*   **Base Weight:** No change to pausedBench base (maintains progression continuity)
 
-**2. Reactive Deload (Weeks 5-8 Performance Trigger)**
-*   **Trigger:** 2 consecutive Saturday AMRAPs ≤7 reps
-*   **Weeks 5-8 Logic:** If triggered, immediately adds the forced deload (triggers forced deload quicker, no secondary deload)
-    *   Example: If poor performance in weeks 6-7 → forced deload added after week 7 (not week 8)
-    *   Only one deload added (reactive triggers forced earlier, prevents double-deload)
-*   **After Week 8:** If triggered after forced deload already happened, add extra reactive deload week normally
-*   **Message:** "Performance drop detected – deload triggered for recovery. Program extended to preserve progression."
+**WEEK 13: Peaking Deload (Pre-Test Week)**
+*   **Position:** After week 12, before final peaking/testing phase
+*   **Structure:** Heavily reduced volume, bench-specific deload:
+    *   **Monday:** Paused Bench ONLY (4x2 @ 91%), NO accessories, NO triceps
+    *   **Tuesday:** Legs (maintenance)
+    *   **Wednesday:** 
+        *   Paused Bench: 2 sets @ 55.25% (3 sets → 2 sets, 65% → 55.25%)
+        *   Weighted Pull-ups: 3 sets (unchanged)
+        *   Deload note added: "[Week 13 Deload: -15% weight, half volume]"
+    *   **Thursday:**
+        *   BTN Press: 2 sets with -15% weight (if module enabled)
+        *   NO tricep exercises
+    *   **Friday:** Legs (maintenance)
+    *   **Saturday:** CONDITIONAL test day (see below)
+*   **Display:** Blue "MANDATORY DELOAD" badge
+*   **Purpose:** Taper for peak performance, reduce fatigue before test
 
-**3. Big Drop Trigger (Week 5 e1RM Recalculation)**
-*   **Trigger:** If e1RM recalc at week 5 drops >15% from previous base
-*   **Action:** Immediately add a second forced deload week
-*   **Message:** "Significant strength drop detected – extra recovery week added to rebuild foundation."
-*   **Purpose:** Catch overreaching/underlift early and course-correct
+**Week 13 Saturday - Conditional Test Day:**
+*   **Option A (Peaking Block):** AMRAP @ 80% + accessories → Continue to Weeks 14-16 peaking
+*   **Option B (Test Now):** 1RM attempt @ 105% + accessories → End program after test
+*   User chooses via post-Week 12 modal
+*   Only the test exercise appears (no other benching accessories)
 
-**Deload Week Characteristics:**
-*   All exercises: 50% volume (half sets), 85% intensity (-15% all weights)
-*   Light technique focus, RPE 6-7 max
-*   Maintains movement patterns without fatigue accumulation
-*   Full week rest between last hard session and return to progression
+**1RM Test Warmup Protocol (Weeks 13 or 16):**
+*   Special warmup percentages for max attempts:
+    1. Empty bar × 8-10
+    2. 50% × 5
+    3. 70% × 3
+    4. **80% × 2** (conservative double, prevents fatigue)
+    5. **90% × 1** (potentiation single, not too close to max)
+*   Compared to normal heavy days (85% double, 95% single)
 
-**Program Duration Flexibility:**
-*   Nominal: 15 weeks (13 core + 3 peaking)
-*   Real Duration: 15+ weeks depending on deloads triggered
-*   Example scenarios:
-    *   No triggers: 15 weeks
-    *   Forced only (week 8): 16 weeks
-    *   Reactive in week 6 (triggers forced early) + big drop at week 5: 18 weeks
-*   Tips/Dashboard: "13 weeks core cycle, optional 3 week peaking phase, extended with extra deload weeks for optimal recovery and gains"
+**Deload Trigger Detection (Future Dynamic System):**
+*   System tracks but doesn't currently insert dynamic deloads:
+    1. **Forced tracker:** Logs Week 8 completion to Firebase
+    2. **Reactive tracker:** Detects 2 consecutive AMRAPs ≤7 reps
+    3. **Big drop tracker:** Monitors >15% e1RM drops at recalculation
+*   Data saved for future enhancement: dynamic deload week insertion
+
+**Final Program Structure:**
+*   Weeks 1-8: Base building
+*   Week 9: DELOAD (mandatory recovery)
+*   Weeks 10-12: Final training block
+*   Week 13: DELOAD (peaking taper)
+*   Weeks 14-16: Peaking/Testing (if user chose Option A)
+*   **Total Duration:** 16 weeks (with both deloads)
+
+**Weighted Pull-ups Progression (Weeks 10-12):**
+*   **Week 10 Wednesday:**
+    *   Set 1: 1RM max effort test (record weight!)
+    *   Sets 2-4: 2-3 reps @ 92.5% of new 1RM
+    *   Rep display: "1, 2-3, 2-3, 2-3"
+*   **Week 11-12 Wednesday:**
+    *   All 4 sets: 2+ reps @ 92.5% of Week 10 max
+    *   Focus on quality reps, beat Week 10 volume
 
 ### Bench Press Variations (Independent Progression)
 

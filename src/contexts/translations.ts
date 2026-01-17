@@ -189,11 +189,11 @@ export const translations = {
             programs: {
                 benchDomination: {
                     name: "Bench Domination",
-                    description: "12-week powerlifting program to explode your bench press. Daily Undulating Periodization - build muscle and strength at the same time.",
+                    description: "13-week powerlifting program to explode your bench press, extended with added deload weeks for optimal recovery. Daily Undulating Periodization - build muscle and strength at the same time.",
                     features: [
                         "Focus: Bench Strength",
-                        "12 Week Program",
-                        "Optional 3 Week Peaking",
+                        "13 Week Core Cycle + Optional 3 Week Peaking",
+                        "Flexible Duration: Extended with deload weeks for recovery",
                         "4 Benching days a week + 2 Lower Body days, optional accessories",
                         "Auto-regulating progression based on AMRAP test"
                     ]
@@ -614,14 +614,14 @@ export const translations = {
         // Crossroads (Week 13)
         crossroads: {
             title: "CROSSROADS REACHED",
-            survived: "You have survived 12 weeks of hell. You must now take a mandatory 7-10 day deload.",
+            survived: "You have survived 12 weeks of hell. You must now take a small deload and decide your fate.",
             restTimer: "Mandatory Rest Timer",
             daysLeft: "DAYS LEFT",
             restAdvice: "Do not lift heavy. Sleep. Eat.",
             proceedQuestion: "After your rest, how do you want to proceed?",
             optionA: {
                 title: "Option A: The Peak (Recommended)",
-                description: "Enter a 3-week peaking block (Weeks 13-15) to acclimatize to heavy loads and explicitly peak for a new 1RM."
+                description: "Enter a 3-week peaking block (Weeks 14-16) to acclimatize to heavy loads and explicitly peak for a new 1RM."
             },
             optionB: {
                 title: "Option B: Test Now",
@@ -1169,11 +1169,11 @@ export const translations = {
                 benchDomination: {
                     name: "Bench Press Domination",
                     benchLabel: "Aktualny 1RM – Paused Bench Press (kg)",
-                    description: "12-tygodniowy program siłowy z fokusem na wyciskanie. Daily Undulating Periodization - buduj siłę i masę jednocześnie.",
+                    description: "13-tygodniowy program siłowy z fokusem na wyciskanie, rozszerzony o tygodnie odciążeniowe dla optymalnej regeneracji. Daily Undulating Periodization - buduj siłę i masę jednocześnie.",
                     features: [
                         "Cel: Siła wyciskania",
-                        "4-6 dni/tydzień",
-                        "Opcjonalny 3-tyg. peaking",
+                        "13 tygodni cyklu głównego + opcjonalnie 3 tygodnie peakingu",
+                        "Elastyczny czas trwania: Rozszerzony o tygodnie odciążeniowe dla regeneracji",
                         "4 dni wyciskania + 2 dni dolnej części ciała, opcjonalne akcesoria",
                         "Autoregulacja oparta na teście AMRAP"
                     ]
@@ -1578,7 +1578,7 @@ export const translations = {
 
         crossroads: {
             title: "ROZSTAJE",
-            survived: "Przetrwałeś 12 tygodni piekła. Teraz musisz zrobić obowiązkowy 7-10 dniowy deload.",
+            survived: "Przetrwałeś 12 tygodni piekła. Teraz musisz zrobić zrobić mały deload i zadecydować o swoim losie.",
             restTimer: "Obowiązkowy timer odpoczynku",
             daysLeft: "DNI ZOSTAŁO",
             restAdvice: "Zluzuj z treningiem. Śpij. Jedz.",

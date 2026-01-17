@@ -148,6 +148,7 @@ const createWeeks = (): ProgramWeek[] => {
         }
 
         // --- NORMAL BLOCKS (Weeks 1-12) ---
+        // Week 12 uses special preprocessDay logic for selective deload
         // Dynamic Percentages
         let monBenchPerc = 0.825;
         if (w >= 5) monBenchPerc = 0.85;
@@ -383,7 +384,48 @@ const createWeeks = (): ProgramWeek[] => {
         });
 
         weeks.push({ weekNumber: w, days });
+
+        // === INSERT WEEK 9 DELOAD (after completing week 8) ===
+        if (w === 8) {
+            const week8 = weeks[weeks.length - 1];
+            const deloadDayNames = ["Monday Recovery", "Tuesday Light Legs", "Wednesday Light", "Thursday Light Power", "Friday Light Legs", "Saturday Technique"];
+
+            const deloadDays: WorkoutDay[] = week8.days.map((day, index) => ({
+                ...day,
+                dayName: deloadDayNames[index] + " DELOAD", // Hidden marker for detection, will be cleaned in preprocessDay
+                exercises: day.exercises.map(ex => ({
+                    ...ex,
+                    id: ex.id.replace('w8', 'w9deload')
+                }))
+            }));
+
+            weeks.push({ weekNumber: 9, days: deloadDays });
+        }
     }
+
+    // === RENUMBER WEEKS (shift weeks 9-15 to 10-16 after deload insertion) ===
+    const hasDeloadWeek = weeks.some(week =>
+        week.days.some(day => day.dayName.includes('DELOAD'))
+    );
+
+    if (hasDeloadWeek) {
+        weeks.forEach((week) => {
+            // Find original week 9-15 and renumber them to 10-16
+            if (week.weekNumber >= 9 && !week.days.some(day => day.dayName.includes('DELOAD'))) {
+                week.weekNumber += 1;
+                // Update exercise IDs
+                week.days.forEach(day => {
+                    day.exercises.forEach(ex => {
+                        const oldWeekNum = ex.id.match(/w(\d+)/)?.[1];
+                        if (oldWeekNum && parseInt(oldWeekNum) >= 9) {
+                            ex.id = ex.id.replace(/w\d+/, `w${parseInt(oldWeekNum) + 1}`);
+                        }
+                    });
+                });
+            }
+        });
+    }
+
     return weeks;
 };
 
@@ -596,6 +638,150 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 }));
             }
 
+            // === WEEK 12 DELOAD HANDLING (becomes Week 13 after renumbering) ===
+
+            // Handle conditional Saturday
+            if (weekNum === 12 && day.dayOfWeek === 6) {
+                const userChoice = user.benchDominationStatus?.post12WeekChoice;
+                processedDay.exercises = processedDay.exercises.map(ex => {
+                    if (ex.notes?.includes('W12_CONDITIONAL_PLACEHOLDER')) {
+                        if (userChoice === 'test') {
+                            return {
+                                ...ex,
+                                name: "Paused Bench Press (1RM TEST)",
+                                sets: 1,
+                                target: { type: "straight", reps: "1", percentage: 1.05, percentageRef: "pausedBench" },
+                                notes: "Test your strength! Warm up well, go for a new PR."
+                            };
+                        } else {
+                            return {
+                                ...ex,
+                                name: "Paused Bench Press (AMRAP)",
+                                sets: 1,
+                                target: { type: "amrap", reps: "AMRAP", percentage: 0.80, percentageRef: "pausedBench" },
+                                notes: "Final AMRAP before peaking block. Push for max reps at 80%."
+                            };
+                        }
+                    }
+                    return ex;
+                });
+            }
+
+            // Handle W12DE LOAD marker on exercises (apply -15% weight, half volume, remove marker from name)
+            processedDay.exercises = processedDay.exercises.map(ex => {
+                if (ex.name.includes('W12DELOAD')) {
+                    return {
+                        ...ex,
+                        name: ex.name.replace(' W12DELOAD', ''),
+                        sets: Math.max(1, Math.floor(ex.sets / 2)),
+                        target: {
+                            ...ex.target,
+                            percentage: ex.target.percentage ? ex.target.percentage * 0.85 : undefined,
+                        },
+                        notes: (ex.notes || "") + " [Week 13 Deload: -15% weight, half volume]"
+                    };
+                }
+                return ex;
+            });
+
+            // === WEEK 9 DELOAD DETECTION ===
+            const isDeload = processedDay.dayName.includes('DELOAD');
+            if (isDeload) {
+                // Remove DELOAD marker from display
+                processedDay.dayName = processedDay.dayName.replace(' DELOAD', '');
+
+                processedDay.exercises = processedDay.exercises.map(ex => ({
+                    ...ex,
+                    sets: Math.max(1, Math.floor(ex.sets / 2)),
+                    target: {
+                        ...ex.target,
+                        percentage: ex.target.percentage ? ex.target.percentage * 0.85 : undefined,
+                        weightAbsolute: ex.target.weightAbsolute ? ex.target.weightAbsolute * 0.85 : undefined
+                    },
+                    notes: (ex.notes || "") + " [DELOAD: -15% weight, half volume]"
+                }));
+            }
+
+            // === WEEK 12 SATURDAY (becomes Week 13 after renumbering) ===
+            // Keep only AMRAP/1RM test + pullups + core
+            if (weekNum === 13 && day.dayOfWeek === 6) {
+                const userChoice = user.benchDominationStatus?.post12WeekChoice;
+
+                processedDay.exercises = processedDay.exercises.filter(ex =>
+                    ex.name.includes('Paused Bench Press (AMRAP)') ||
+                    ex.name.includes('Weighted Pull-ups') ||
+                    ex.name.includes('Y-Raises') ||
+                    ex.name.includes('Around-the-Worlds')
+                ).map(ex => {
+                    if (ex.name.includes('Paused Bench Press (AMRAP)')) {
+                        if (userChoice === 'test') {
+                            return {
+                                ...ex,
+                                name: "Paused Bench Press (1RM TEST)",
+                                sets: 1,
+                                target: { type: "straight", reps: "1", percentage: 1.0, percentageRef: "pausedBench" },
+                                notes: "Test your strength! Warm up well, go for a new PR."
+                            };
+                        }
+                    }
+                    return ex;
+                });
+            }
+
+            // === WEEK 12 MONDAY: Remove Wide-Grip and Triceps ===
+            if (weekNum === 13 && day.dayOfWeek === 1) {
+                processedDay.exercises = processedDay.exercises.filter(ex =>
+                    !ex.name.includes('Wide-Grip Bench') &&
+                    !ex.name.includes('Tricep') &&
+                    !ex.name.includes('Rolling')
+                );
+            }
+
+            // === WEEK 12 WEDNESDAY/THURSDAY: Bench deload only ===
+            if (weekNum === 13 && (day.dayOfWeek === 3 || day.dayOfWeek === 4)) {
+                processedDay.exercises = processedDay.exercises.map(ex => {
+                    const isBenchExercise = ex.name.includes('Bench') ||
+                        (ex.name.includes('Press') && !ex.name.includes('Leg'));
+
+                    if (isBenchExercise) {
+                        return {
+                            ...ex,
+                            sets: Math.max(1, Math.floor(ex.sets / 2)),
+                            target: {
+                                ...ex.target,
+                                percentage: ex.target.percentage ? ex.target.percentage * 0.85 : undefined,
+                            },
+                            notes: (ex.notes || "") + " [Week 13: -15% weight, half volume]"
+                        };
+                    }
+                    return ex;
+                });
+            }
+
+            // === WEIGHTED PULL-UPS PROGRESSION (Weeks 10-12) ===
+            if (weekNum >= 10 && weekNum <= 12 && day.dayOfWeek === 3) {
+                processedDay.exercises = processedDay.exercises.map(ex => {
+                    if (ex.name === "Weighted Pull-ups") {
+                        if (weekNum === 10) {
+                            return {
+                                ...ex,
+                                sets: 4,
+                                target: { ...ex.target, reps: "1, 2-3, 2-3, 2-3" },
+                                notes: "Set 1: MAX EFFORT 1RM (record this weight!). Sets 2-4: Use 92.5% of your 1RM for 2-3 reps."
+                            };
+                        } else {
+                            return {
+                                ...ex,
+                                sets: 4,
+                                target: { ...ex.target, reps: "2+" },
+                                notes: `All sets @ 92.5% of your Week 10 max. Aim for quality reps, beat Week 10's back-off volume.`
+                            };
+                        }
+                    }
+                    return ex;
+                });
+            }
+
             // 2. Module Filtering
             const modules = user.benchDominationModules || {
                 tricepGiantSet: true,
@@ -723,7 +909,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 const round = (w: number) => Math.floor(w / 2.5) * 2.5;
 
                 // A. Elite Warm-up Sets for Paused Bench Press
-                if (ex.name === "Paused Bench Press" || ex.name === "Paused Bench Press (AMRAP)") {
+                if (ex.name.includes("Paused") || (ex.name.includes("Bench") && ex.target.percentageRef === 'pausedBench')) {
                     let targetLoad = 0;
                     if (ex.target.percentageRef === 'pausedBench') {
                         const currentBase = getPausedBenchBase(user, { week: weekNum });
@@ -736,6 +922,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                     if (targetLoad > 0) {
                         const warmupSets: { reps: string; weight: string; completed: boolean }[] = [];
                         const isHeavyDay = day.dayOfWeek === 1 || day.dayOfWeek === 4; // Monday or Thursday
+                        const is1RMTest = ex.name.includes('1RM') || ex.name.includes('TEST') || ex.name.includes('Test');
 
                         // Elite warm-up protocol
                         warmupSets.push({ reps: "8-10", weight: "20", completed: false });
@@ -743,12 +930,19 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                         warmupSets.push({ reps: "5", weight: w50.toString(), completed: false });
                         const w70 = round(targetLoad * 0.70);
                         warmupSets.push({ reps: "3", weight: w70.toString(), completed: false });
-                        const w85 = round(targetLoad * 0.85);
-                        warmupSets.push({ reps: "2", weight: w85.toString(), completed: false });
 
-                        if (isHeavyDay) {
-                            const w95 = round(targetLoad * 0.95);
-                            warmupSets.push({ reps: "1", weight: w95.toString(), completed: false });
+                        // For 1RM tests: 80% double, 90% single (more conservative)
+                        // For normal heavy days: 85% double, 95% single
+                        // DEBUG: Using 75%/88% to verify is1RMTest is true
+                        const doublePercent = is1RMTest ? 0.75 : 0.85;
+                        const singlePercent = is1RMTest ? 0.88 : 0.95;
+
+                        const wDouble = round(targetLoad * doublePercent);
+                        warmupSets.push({ reps: "2", weight: wDouble.toString(), completed: false });
+
+                        if (isHeavyDay || is1RMTest) {
+                            const wSingle = round(targetLoad * singlePercent);
+                            warmupSets.push({ reps: "1", weight: wSingle.toString(), completed: false });
                         }
 
                         ex.warmups = {
@@ -959,35 +1153,6 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
             if (weekNum > 12) {
                 // Mandatory Deload Logic: "After week 12 completion -> mandatory 7-10 day full deload"
                 // How do we enforce time? We can't easily. We just show text.
-                // If User chose 'test', Week 13 becomes "Max Test Day".
-                // If User chose 'peak', Week 13-15 are shown (already generated).
-
-                const choice = user.benchDominationStatus?.post12WeekChoice;
-
-                if (choice === 'test') {
-                    // User wants to test immediately.
-                    // If this is Week 13, show Test Day.
-                    // If Week 14+, show nothing/reset?
-                    if (weekNum === 13) {
-                        // Override Week 13 content to be a simple Test Day
-                        if (day.dayOfWeek === 6) { // Saturday
-                            processedDay.dayName = "TEST DAY";
-                            processedDay.exercises = [{
-                                id: `w13-d6-test`,
-                                name: "Paused Bench Press (1RM TEST)",
-                                sets: 1,
-                                target: { type: "straight", reps: "1", percentage: 1.05, percentageRef: "pausedBench" },
-                                notes: "Go for it."
-                            }];
-                        } else {
-                            // Rest days
-                            processedDay.exercises = [];
-                            processedDay.dayName = "Rest / Prep";
-                        }
-                    } else {
-                        // Week 14/15 should be empty if 'test' selected? Or we just guide them to finish?
-                    }
-                }
             }
 
             return processedDay;

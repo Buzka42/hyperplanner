@@ -141,6 +141,34 @@ To maintain and expand the app, it is crucial to understand what is generic and 
     *   **Fixed-Rep Targets (Spoto Press 5 reps, Low Pin Press 4 reps):** Hit exact target on ALL sets = +2.5 kg next session. Message: *"Target reps hit – weight auto-increased +2.5 kg next time"*
     *   **Rep Ranges (Wide-Grip Bench 6-8 reps):** Hit top reps (8) on ALL sets for 2 consecutive weeks = +2.5 kg. Message: *"Hit top reps on all sets for 2 straight weeks → +2.5 kg"*
 *   **Elite Warmups:** Added for main bench lifts.
+*   **Deload System (January 2026 Final Implementation):**
+    *   **Week 9 Static Deload:**
+        *   Inserted after week 8 in `createWeeks()` function
+        *   Clones week 8 structure, applies -15% weight and half volume via `preprocessDay` hook
+        *   Detection: `dayName.includes('DELOAD')` triggers automatic modifications
+        *   All exercises modified: `sets = Math.max(1, Math.floor(sets / 2))`, `percentage *= 0.85`
+        *   Weeks renumbered after insertion: original weeks 9-15 become 10-16
+        *   Total program: 16 weeks (was 15)
+    *   **Week 13 Peaking Deload:**
+        *   Monday: Only Paused Bench (4x2 @ 91%), no accessories, triceps removed via preprocessDay filter
+        *   Wednesday/Thursday: Bench exercises get -15% weight and half volume
+        *   Tricep exercises filtered out: `!ex.name.includes('Tricep') && !ex.name.includes('Rolling')`
+        *   Saturday: Conditional test (AMRAP or 1RM based on `user.benchDominationStatus.post12WeekChoice`)
+        *   Placeholder exercise replaced in preprocessDay based on modal selection
+    *   **1RM Test Warmup Protocol:**
+        *   Detection: `ex.name.includes('1RM TEST')`
+        *   Modified percentages: 80% double (was 85%), 90% single (was 95%)
+        *   Applied in warmup generation logic to reduce fatigue before max attempt
+    *   **Weighted Pull-ups Progression (W10-12):**
+        *   Week 10: Set 1 = "1" reps (1RM test), Sets 2-4 = "2-3" reps @ 92.5%
+        *   Week 11-12: All sets = "2+" reps @ 92.5% of Week 10 max
+        *   Modified in preprocessDay hook when `weekNum >= 10 && weekNum <= 12 && day.dayOfWeek === 3`
+    *   **Trigger Detection (Future Dynamic System):**
+        *   Forced deload: Tracked in `WorkoutView.tsx` on Week 8 Saturday completion
+        *   Reactive: 2 consecutive AMRAPs ≤7 reps detection (weeks 5-8)
+        *   Big drop: >15% e1RM drop at Week 5 recalculation
+        *   All triggers save to `user.benchDominationStatus.addedDeloadWeeks[]`
+        *   UI insertion not implemented (tracked for future enhancement)
 
 
 ### `src/data/peachy.ts` (Peachy Plan)
