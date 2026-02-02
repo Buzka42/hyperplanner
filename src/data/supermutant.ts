@@ -373,6 +373,17 @@ function getIntensificationTechnique(exerciseType: 'main' | 'preExhaust' | 'fini
     return "MYO-REPS: Activation set to failure, then 3–5 mini-sets of 3–5 reps with 3–5 breaths rest. Tip: 'Activation to failure, then mini-sets with short breaths – total exhaustion for growth.'";
 }
 
+// Get rep range based on current cycle
+function getRepRange(currentCycle: number, exerciseType: 'main' | 'isolation'): string {
+    // Cycles 1-2: 8-12 (main), 10-15 (isolation)
+    // Cycles 3-4: 10-15 (main), 15-20 (isolation)
+    if (currentCycle <= 2) {
+        return exerciseType === 'main' ? '8-12' : '10-15';
+    } else {
+        return exerciseType === 'main' ? '10-15' : '15-20';
+    }
+}
+
 
 
 // Check if a cluster is ready (all muscles in cluster off cooldown)
@@ -590,35 +601,102 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
                     ? `${rirMessage}\n\n${getIntensificationTechnique('finisher')}`
                     : rirMessage;
 
-                exercises.push({ ...chestEx.preExhaust, sets: calculateReactiveSetsForMuscle(muscleVolume, true, status), notes: preExNotes });
-                exercises.push({ ...chestEx.main, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status), notes: mainNotes });
-                exercises.push({ ...chestEx.finisher, sets: calculateReactiveSetsForMuscle(muscleVolume, true, status), notes: finishNotes });
+                // Get cycle-appropriate rep ranges
+                const mainReps = getRepRange(status.currentCycle, 'main');
+                const isolationReps = getRepRange(status.currentCycle, 'isolation');
+
+                exercises.push({
+                    ...chestEx.preExhaust,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, true, status),
+                    notes: preExNotes,
+                    target: { ...chestEx.preExhaust.target, reps: isolationReps }
+                });
+                exercises.push({
+                    ...chestEx.main,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, false, status),
+                    notes: mainNotes,
+                    target: { ...chestEx.main.target, reps: mainReps }
+                });
+                exercises.push({
+                    ...chestEx.finisher,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, true, status),
+                    notes: finishNotes
+                    // Finisher stays as failure, no rep range change
+                });
             } else if (muscle === 'back') {
                 const variant = status.backVariant;
                 const backEx = EXERCISES.back[variant];
                 const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...backEx.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status), notes })));
+                const mainReps = getRepRange(status.currentCycle, 'main');
+                exercises.push(...backEx.map(e => ({
+                    ...e,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, false, status),
+                    notes,
+                    target: { ...e.target, reps: mainReps }
+                })));
             } else if (muscle === 'shoulders') {
                 const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.shoulders.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status), notes })));
+                const isolationReps = getRepRange(status.currentCycle, 'isolation');
+                exercises.push(...EXERCISES.shoulders.map(e => ({
+                    ...e,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, false, status),
+                    notes,
+                    target: { ...e.target, reps: isolationReps }
+                })));
             } else if (muscle === 'triceps') {
                 const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.triceps.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status), notes })));
+                const mainReps = getRepRange(status.currentCycle, 'main');
+                exercises.push(...EXERCISES.triceps.map(e => ({
+                    ...e,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, false, status),
+                    notes,
+                    target: { ...e.target, reps: mainReps }
+                })));
             } else if (muscle === 'biceps') {
                 const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.biceps.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status), notes })));
+                const isolationReps = getRepRange(status.currentCycle, 'isolation');
+                exercises.push(...EXERCISES.biceps.map(e => ({
+                    ...e,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, false, status),
+                    notes,
+                    target: { ...e.target, reps: isolationReps }
+                })));
             } else if (muscle === 'calves') {
                 const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.calves.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'calves'), notes })));
+                const isolationReps = getRepRange(status.currentCycle, 'isolation');
+                exercises.push(...EXERCISES.calves.map(e => ({
+                    ...e,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'calves'),
+                    notes,
+                    target: { ...e.target, reps: isolationReps }
+                })));
             } else if (muscle === 'hamstrings') {
                 const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.hamstrings(status.hamstringExercise).map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'hamstrings'), notes })));
+                const mainReps = getRepRange(status.currentCycle, 'main');
+                exercises.push(...EXERCISES.hamstrings(status.hamstringExercise).map(e => ({
+                    ...e,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'hamstrings'),
+                    notes,
+                    target: { ...e.target, reps: mainReps }
+                })));
             } else if (muscle === 'quads') {
                 const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.quads(status.quadExercise).map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'quads'), notes })));
+                const mainReps = getRepRange(status.currentCycle, 'main');
+                exercises.push(...EXERCISES.quads(status.quadExercise).map(e => ({
+                    ...e,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'quads'),
+                    notes,
+                    target: { ...e.target, reps: mainReps }
+                })));
             } else if (muscle === 'abs') {
                 const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('finisher')}` : rirMessage;
-                exercises.push(...EXERCISES.abs.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'abs'), notes })));
+                const isolationReps = getRepRange(status.currentCycle, 'isolation');
+                exercises.push(...EXERCISES.abs.map(e => ({
+                    ...e,
+                    sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'abs'),
+                    notes,
+                    target: { ...e.target, reps: isolationReps }
+                })));
             }
             // Note: glutes, lowerBack, and abductors are included in their combined exercises
         }

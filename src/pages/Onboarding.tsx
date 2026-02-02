@@ -1180,12 +1180,13 @@ export const Onboarding: React.FC = () => {
 
                             const initialSuperMutantStatus = {
                                 completedWorkouts: 0,
+                                currentCycle: 1,
                                 muscleGroupTimestamps: {},
                                 rolling7DayVolume: {
                                     chest: 0,
                                     shoulders: 0,
                                     triceps: 0,
-                                    upperBack: 0,
+                                    back: 0,
                                     biceps: 0,
                                     calves: 0,
                                     hamstrings: 0,

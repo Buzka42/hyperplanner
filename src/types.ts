@@ -80,11 +80,12 @@ export type TrinaryStatus = {
 
 export type SuperMutantStatus = {
     completedWorkouts: number;
+    currentCycle: number; // 1-4 (tracks which 4-week cycle user is in)
     muscleGroupTimestamps: {
         chest?: number;
         shoulders?: number;
         triceps?: number;
-        upperBack?: number;
+        back?: number;
         biceps?: number;
         calves?: number;
         hamstrings?: number;
@@ -98,7 +99,7 @@ export type SuperMutantStatus = {
         chest: number;
         shoulders: number;
         triceps: number;
-        upperBack: number;
+        back: number;
         biceps: number;
         calves: number;
         hamstrings: number;
