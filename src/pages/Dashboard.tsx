@@ -1030,11 +1030,11 @@ export const Dashboard: React.FC = () => {
                                             if (!user.superMutantStatus) return;
                                             const userRef = doc(db, 'users', user.id);
                                             const updates: any = {};
-                                            const threeDaysAgo = Date.now() - (-24 * 60 * 60 * 1000);
+                                            const twentyFourHoursAgo = Date.now() - (24 * 60 * 60 * 1000);
 
                                             const muscles = ['chest', 'back', 'shoulders', 'triceps', 'biceps', 'calves', 'hamstrings', 'glutes', 'lowerBack', 'quads', 'abductors', 'abs'];
                                             muscles.forEach(muscle => {
-                                                updates[`superMutantStatus.muscleGroupTimestamps.${muscle}`] = threeDaysAgo;
+                                                updates[`superMutantStatus.muscleGroupTimestamps.${muscle}`] = twentyFourHoursAgo;
                                             });
 
                                             await updateDoc(userRef, updates);
