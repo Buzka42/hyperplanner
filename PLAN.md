@@ -1159,6 +1159,173 @@ Each workout saves to unique week/day:
 - Lower body starts higher due to limited exercises
 - Reps-based set counting ensures accurate tracking
 
+
 ---
 
-*Generated from source code – January 18, 2026*
+## Super Mutant (`super-mutant`)
+*Advanced 16-Week Fallout-Themed High-Frequency Hypertrophy Program*
+
+###Duration & Structure
+- **Total Duration:** 16 Weeks (Four 4-week cycles)
+- **Deload Schedule:** Mandatory deload at Week 9 (after 2 cycles)
+- **Frequency:** Dynamic 3-6 sessions/week based on recovery
+- **Session Limit:** Auto-capped at 6 sessions/7 days
+
+### RIR (Reps in Reserve) Progression
+Progressive fatigue management across each 4-week cycle:
+
+| Week in Cycle | RIR | Instruction |
+|---------------|-----|-------------|
+| Week 1 | 2 RIR | "Leave 2 reps in reserve" |
+| Week 2 | 1 RIR | "Leave 1 rep in reserve" |
+| Week 3 | 0 RIR | "Take to failure" |
+| Week 4 | Past Failure | "Past failure – use intensification technique" |
+
+**Note:** RIR instruction appears on EVERY exercise in workout view
+
+### Intensification Techniques (Week 4 Only)
+When RIR = -1 (past failure), exercises include technique-specific guides:
+
+**Main Exercises (Compounds):**
+```
+REST-PAUSE: Reach failure, rest 10–15 sec, squeeze 3–5 more reps, repeat 2–3 times.
+Tip: 'Failure, short breath rest, squeeze more reps – build the beast.'
+```
+
+**Pre-Exhaust Exercises (Isolation):**
+```
+DROPSET: Drop 20–30% weight 2–3 times till failure each drop.
+Tip: 'Drop weight immediately after failure, no rest, repeat 2–3 times – chase the burn.'
+```
+
+**Finisher Exercises:**
+```
+MYO-REPS: Activation set to failure, then 3–5 mini-sets of 3–5 reps with 3–5 breaths rest.
+Tip: 'Activation to failure, then mini-sets with short breaths – total exhaustion for growth.'
+```
+
+### Deload Week (Week 9)
+**Parameters:**
+- 50% sets (e.g., 4 sets → 2 sets)
+- RIR 2-3 (leave reps in reserve)
+- Single cluster selection
+- Message: "DELOAD WEEK: Leave 2-3 reps in reserve, focus on form and recovery"
+
+**Purpose:** Mandatory recovery after 8 intense weeks prevents burnout and optimizes long-term gains
+
+### Dynamic Queue System
+**Cooldown Periods:**
+- Upper body muscles (chest, back, shoulders, triceps, biceps, calves): **48 hours**
+- Lower body muscles (hamstrings, glutes, lowerBack, quads, abductors, abs): **72 hours**
+
+**Selection Priority:**
+1. **Volume-Based:** Prioritize muscle groups with lowest 7-day volume (<20 sets target)
+2. **Time-Based:** If volumes equal, select oldest trained clusters
+3. **Session Cap:** Max 90min per session (~2 clusters), auto-split if needed
+4. **Weekly Limit:** If 6+ sessions in 7 days, show "Rest recommended – the wasteland demands balance"
+
+**Cluster System:**
+- **Cluster 1:** Chest/Triceps/Biceps (35min, 48h cooldown)
+- **Cluster 2:** Back/Shoulders/Calves (45min, 48h cooldown)
+- **Cluster 3:** Hams/Glutes/LowerBack (45min, 72h cooldown)
+- **Cluster 4:** Quads/Abductors/Abs (40min, 72h cooldown)
+
+**Exclusivity Rules:**
+- Cluster 1 ⊗ Cluster 2 (upper body split)
+- Cluster 3 ⊗ Cluster 4 (lower body split)
+
+### Reactive Volume System
+**Target:** ~20 sets per muscle per week
+
+**Set Calculation:**
+- Estimates weekly training frequency
+- Distributes sets to reach 20-set target
+- Range: 2-4 sets per exercise
+- Lower body starts at 4 sets (limited exercise pool)
+
+**Example:**
+- Chest at 12 sets/7days, 3 workouts remaining → 3 sets per workout
+- Hamstrings at 4 sets/7days, 2 workouts remaining → 4 sets per workout
+
+### Exercise Pool
+**Chest (Alternating A/B):**
+- Variant A: Pec Deck → Incline DB Bench → Deficit Pushups
+- Variant B: Mid Cable Flyes → Hammer Chest Press → Deficit Pushups
+
+**Back (Alternating A/B):**
+- Variant A: Hammer Underhand Pulldown + Single Arm Cable Row + Lat Prayer
+- Variant B: Rope Cable Row + Lat Pulldown (Mid Grip) + Single Arm Hammer Row
+
+**Shoulders:** Lying Cable Lat Raises + Single Arm Reverse Pec Deck + Lateral Raises
+
+**Triceps:** Triangle Pushdown + EZ Skullcrushers + Single Arm Overhead Extension
+
+**Biceps:** Incline DB Curls + EZ Preacher Curl + Hammer Curls
+
+**Hamstrings (Choice):** Seated Ham Curl + [Good Mornings OR Deficit RDLs] + Single Leg Hip Thrust
+
+**Quads (Choice):** Leg Extensions + [Hack Squat OR Front Squat] + Hip Adduction
+
+**Remaining:** Standing Calf Raises, Cable Crunches
+
+### Rep Ranges by Cycle
+| Cycle | Weeks | Rep Ranges |
+|-------|-------|------------|
+| 1-2 | 1-8 | 8-12 (main), 10-15 (isolation) |
+| 3-4 | 9-16 | 10-15 (main), 15-20 (isolation) |
+
+### Program Completion & Re-Run
+**At 16 Week Completion (112 workouts):**
+```
+Modal: "The mutation is incomplete. Continue?"
+
+Option 1: "Yes – Begin Next Cycle"
+- Mandatory deload week
+- All weights migrate with +2.5-5kg increase
+- Message: "Weights increased by X kg. The mutation continues..."
+- currentCycle resets to 1
+
+Option 2: "No – Complete Program"
+- End program
+- Suggest next program options
+```
+
+### Progression Logic
+**Weight Increases:**
+- Cycle transitions (1→2, 3→4): +2.5-5kg on all exercises
+- Re-run: +2.5-5kg migration
+
+**Volume Tracking:**
+- 7-day rolling window
+- Resets on cycle transitions
+- Fractional counting for assisting muscles
+
+### Dashboard Widgets
+- **Mutagen Exposure:** Progress tracker (X/112 workouts)
+- **Recovery Gauge:** 12 muscle groups with cooldown timers + volume
+- **Mutant Mindset:** Rotating quotes
+- **Workout History:** Session log
+
+### ✅ Implementation Status (February 2026)
+**Fully Implemented:**
+- 16-week structure (4 cycles × 4 weeks)
+- RIR progression system (2→1→0→-1)
+- Intensification technique guides
+- Mandatory deload week 9
+- Volume-prioritized queue system
+- 48h/72h cooldown tracking
+- Reactive sets calculation
+- Re-run modal with weight migration
+- Exclusivity-based cluster selection
+- All 12 muscle groups tracked
+
+**Design Philosophy:**
+- Science-based RIR progression prevents burnout
+- Volume priority ensures balanced development
+- Intensification techniques maximize growth in week 4
+- Mandatory deload optimizes long-term adaptation
+- Dynamic frequency adapts to individual recovery
+
+---
+
+*Generated from source code – February 02, 2026*

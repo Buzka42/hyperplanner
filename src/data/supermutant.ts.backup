@@ -1,17 +1,16 @@
-// Super Mutant - Advanced 16 Week Fallout-Themed High-Frequency Bodybuilding Plan
-// RIR progression (2→1→0→past failure), mandatory deloads, dynamic volume-based queue
+// Super Mutant - Advanced 12+2 Week Fallout-Themed High-Frequency Bodybuilding Plan
+// A dynamic high-frequency program with adaptive muscle group cooldowns and reactive volume
 
 import type { Program, PlanConfig, WorkoutDay, UserProfile, Exercise } from '../types';
 
 // Super Mutant specific status tracking
 export type SuperMutantStatus = {
     completedWorkouts: number;
-    currentCycle: number; // 1-4 (tracks which 4-week cycle user is in)
     muscleGroupTimestamps: {
         chest?: number;
         shoulders?: number;
         triceps?: number;
-        back?: number;
+        upperBack?: number;
         biceps?: number;
         calves?: number;
         hamstrings?: number;
@@ -344,36 +343,6 @@ export function isMuscleGroupReady(lastTrainTime: number | undefined, muscleGrou
     return (Date.now() - lastTrainTime) >= cooldownMs;
 }
 
-// Calculate RIR (Reps in Reserve) based on week within current 4-week cycle
-function getRIRForWeek(completedWorkouts: number): number {
-    const weekInCycle = (completedWorkouts % 28) % 4; // 0-3 within each 4-week cycle
-    if (weekInCycle === 0) return 2; // Week 1: 2 RIR
-    if (weekInCycle === 1) return 1; // Week 2: 1 RIR
-    if (weekInCycle === 2) return 0; // Week 3: Failure
-    return -1; // Week 4: Past failure (intensification techniques)
-}
-
-// Get RIR message for display
-function getRIRMessage(rir: number): string {
-    if (rir === 2) return "Leave 2 reps in reserve";
-    if (rir === 1) return "Leave 1 rep in reserve";
-    if (rir === 0) return "Take to failure";
-    return "Past failure – use intensification technique";
-}
-
-// Get intensification technique guide based on exercise type
-function getIntensificationTechnique(exerciseType: 'main' | 'preExhaust' | 'finisher'): string {
-    if (exerciseType === 'main') {
-        return "REST-PAUSE: Reach failure, rest 10–15 sec, squeeze 3–5 more reps, repeat 2–3 times. Tip: 'Failure, short breath rest, squeeze more reps – build the beast.'";
-    }
-    if (exerciseType === 'preExhaust') {
-        return "DROPSET: Drop 20–30% weight 2–3 times till failure each drop. Tip: 'Drop weight immediately after failure, no rest, repeat 2–3 times – chase the burn.'";
-    }
-    // finisher
-    return "MYO-REPS: Activation set to failure, then 3–5 mini-sets of 3–5 reps with 3–5 breaths rest. Tip: 'Activation to failure, then mini-sets with short breaths – total exhaustion for growth.'";
-}
-
-
 
 // Check if a cluster is ready (all muscles in cluster off cooldown)
 function isClusterReady(status: any, clusterKey: string): boolean {
@@ -396,87 +365,6 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     const status = user.superMutantStatus;
     if (!status) return null;
 
-    // Check if current week is week 9 (deload week) - after 8 complete weeks (56 workouts)
-    const isDeloadWeek = status.completedWorkouts >= 56 && status.completedWorkouts < 63; // Week 9 = workouts 57-63
-
-    if (isDeloadWeek) {
-        // Generate deload workout: 50% sets, RIR 2-3
-        // Use same cluster selection logic but with reduced volume
-        const readyClusters: string[] = [];
-        const clusterKeys = Object.keys(TRAINING_CLUSTERS);
-
-        for (const clusterKey of clusterKeys) {
-            if (isClusterReady(status, clusterKey)) {
-                readyClusters.push(clusterKey);
-            }
-        }
-
-        if (readyClusters.length === 0) {
-            return {
-                dayName: 'Rest Day – Deload Week Recovery',
-                dayOfWeek: 0,
-                exercises: []
-            };
-        }
-
-        // Sort by volume priority (same as regular)
-        readyClusters.sort((a, b) => {
-            const clusterA = TRAINING_CLUSTERS[a as keyof typeof TRAINING_CLUSTERS];
-            const clusterB = TRAINING_CLUSTERS[b as keyof typeof TRAINING_CLUSTERS];
-            let volumeA = 0, volumeB = 0;
-            for (const muscle of clusterA.muscles) volumeA += (status.rolling7DayVolume as any)?.[muscle] || 0;
-            for (const muscle of clusterB.muscles) volumeB += (status.rolling7DayVolume as any)?.[muscle] || 0;
-            if (volumeA !== volumeB) return volumeA - volumeB;
-            let avgA = 0, avgB = 0;
-            for (const muscle of clusterA.muscles) avgA += (status.muscleGroupTimestamps as any)?.[muscle] || 0;
-            for (const muscle of clusterB.muscles) avgB += (status.muscleGroupTimestamps as any)?.[muscle] || 0;
-            return (avgA / clusterA.muscles.length) - (avgB / clusterB.muscles.length);
-        });
-
-        // Select first cluster (simplified for deload)
-        const selectedCluster = readyClusters[0];
-        const cluster = TRAINING_CLUSTERS[selectedCluster as keyof typeof TRAINING_CLUSTERS];
-        const exercises: Exercise[] = [];
-
-        for (const muscle of cluster.muscles) {
-            const deloadNotes = "DELOAD WEEK: Leave 2-3 reps in reserve, focus on form and recovery";
-
-            if (muscle === 'chest') {
-                const variant = status.chestVariant;
-                const chestEx = EXERCISES.chest[variant];
-                exercises.push({ ...chestEx.main, sets: 2, notes: deloadNotes }); // 50% of 4 = 2
-            } else if (muscle === 'back') {
-                const variant = status.backVariant;
-                const backEx = EXERCISES.back[variant];
-                // Take first exercise only, 2 sets
-                exercises.push({ ...backEx[0], sets: 2, notes: deloadNotes });
-            } else if (muscle === 'shoulders') {
-                exercises.push({ ...EXERCISES.shoulders[0], sets: 2, notes: deloadNotes });
-            } else if (muscle === 'triceps') {
-                exercises.push({ ...EXERCISES.triceps[0], sets: 2, notes: deloadNotes });
-            } else if (muscle === 'biceps') {
-                exercises.push({ ...EXERCISES.biceps[0], sets: 2, notes: deloadNotes });
-            } else if (muscle === 'calves') {
-                exercises.push({ ...EXERCISES.calves[0], sets: 2, notes: deloadNotes });
-            } else if (muscle === 'hamstrings') {
-                exercises.push({ ...EXERCISES.hamstrings(status.hamstringExercise)[0], sets: 2, notes: deloadNotes });
-            } else if (muscle === 'quads') {
-                exercises.push({ ...EXERCISES.quads(status.quadExercise)[0], sets: 2, notes: deloadNotes });
-            } else if (muscle === 'abs') {
-                exercises.push({ ...EXERCISES.abs[0], sets: 2, notes: deloadNotes });
-            }
-        }
-
-
-        const dayNum = (status.completedWorkouts % 7) + 1;
-
-        return {
-            dayName: `DELOAD Week 9 – ${cluster.name} (Light Recovery)`,
-            dayOfWeek: dayNum,
-            exercises
-        };
-    }
-
     // Check which clusters are ready
     const readyClusters: string[] = [];
     const clusterKeys = Object.keys(TRAINING_CLUSTERS);
@@ -496,26 +384,12 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
         };
     }
 
-    // Sort clusters by LOW volume count first (prioritize <20 sets/7days), then by oldest timestamp
+    // Sort clusters by oldest average timestamp (prioritize clusters trained longest ago)
     readyClusters.sort((a, b) => {
         const clusterA = TRAINING_CLUSTERS[a as keyof typeof TRAINING_CLUSTERS];
         const clusterB = TRAINING_CLUSTERS[b as keyof typeof TRAINING_CLUSTERS];
 
-        // Calculate total 7-day volume for each cluster
-        let volumeA = 0, volumeB = 0;
-        for (const muscle of clusterA.muscles) {
-            volumeA += (status.rolling7DayVolume as any)?.[muscle] || 0;
-        }
-        for (const muscle of clusterB.muscles) {
-            volumeB += (status.rolling7DayVolume as any)?.[muscle] || 0;
-        }
-
-        // Prioritize clusters with lower volume (need more work)
-        if (volumeA !== volumeB) {
-            return volumeA - volumeB; // Lower volume first
-        }
-
-        // If volumes equal, sort by oldest timestamp
+        // Get average timestamp for each cluster
         let avgA = 0, avgB = 0;
         for (const muscle of clusterA.muscles) {
             avgA += (status.muscleGroupTimestamps as any)?.[muscle] || 0;
@@ -563,11 +437,6 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     const exercises: Exercise[] = [];
     const clusterNames: string[] = [];
 
-    // Get RIR for current week
-    const currentRIR = getRIRForWeek(status.completedWorkouts);
-    const rirMessage = getRIRMessage(currentRIR);
-    const isPastFailureWeek = currentRIR === -1;
-
     selectedClusters.forEach(clusterKey => {
         const cluster = TRAINING_CLUSTERS[clusterKey as keyof typeof TRAINING_CLUSTERS];
         clusterNames.push(cluster.name);
@@ -579,46 +448,27 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
             if (muscle === 'chest') {
                 const variant = status.chestVariant;
                 const chestEx = EXERCISES.chest[variant];
-
-                const preExNotes = isPastFailureWeek
-                    ? `${rirMessage}\n\n${getIntensificationTechnique('preExhaust')}`
-                    : rirMessage;
-                const mainNotes = isPastFailureWeek
-                    ? `${rirMessage}\n\n${getIntensificationTechnique('main')}`
-                    : rirMessage;
-                const finishNotes = isPastFailureWeek
-                    ? `${rirMessage}\n\n${getIntensificationTechnique('finisher')}`
-                    : rirMessage;
-
-                exercises.push({ ...chestEx.preExhaust, sets: calculateReactiveSetsForMuscle(muscleVolume, true, status), notes: preExNotes });
-                exercises.push({ ...chestEx.main, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status), notes: mainNotes });
-                exercises.push({ ...chestEx.finisher, sets: calculateReactiveSetsForMuscle(muscleVolume, true, status), notes: finishNotes });
+                exercises.push({ ...chestEx.preExhaust, sets: calculateReactiveSetsForMuscle(muscleVolume, true, status) });
+                exercises.push({ ...chestEx.main, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status) });
+                exercises.push({ ...chestEx.finisher, sets: calculateReactiveSetsForMuscle(muscleVolume, true, status) });
             } else if (muscle === 'back') {
                 const variant = status.backVariant;
                 const backEx = EXERCISES.back[variant];
-                const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...backEx.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status), notes })));
+                exercises.push(...backEx.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status) })));
             } else if (muscle === 'shoulders') {
-                const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.shoulders.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status), notes })));
+                exercises.push(...EXERCISES.shoulders.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status) })));
             } else if (muscle === 'triceps') {
-                const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.triceps.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status), notes })));
+                exercises.push(...EXERCISES.triceps.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status) })));
             } else if (muscle === 'biceps') {
-                const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.biceps.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status), notes })));
+                exercises.push(...EXERCISES.biceps.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status) })));
             } else if (muscle === 'calves') {
-                const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.calves.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'calves'), notes })));
+                exercises.push(...EXERCISES.calves.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'calves') })));
             } else if (muscle === 'hamstrings') {
-                const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.hamstrings(status.hamstringExercise).map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'hamstrings'), notes })));
+                exercises.push(...EXERCISES.hamstrings(status.hamstringExercise).map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'hamstrings') })));
             } else if (muscle === 'quads') {
-                const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-                exercises.push(...EXERCISES.quads(status.quadExercise).map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'quads'), notes })));
+                exercises.push(...EXERCISES.quads(status.quadExercise).map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'quads') })));
             } else if (muscle === 'abs') {
-                const notes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('finisher')}` : rirMessage;
-                exercises.push(...EXERCISES.abs.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'abs'), notes })));
+                exercises.push(...EXERCISES.abs.map(e => ({ ...e, sets: calculateReactiveSetsForMuscle(muscleVolume, false, status, 'abs') })));
             }
             // Note: glutes, lowerBack, and abductors are included in their combined exercises
         }
@@ -645,12 +495,12 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     };
 }
 
-// Placeholder program structure (16 weeks: 4 complete 4-week cycles)
+// Placeholder program structure (14 weeks: 12 main + 2 peak)
 const createSuperMutantWeeks = () => {
     // Super Mutant is entirely dynamic based on queue system
     // We create a traditional week structure, but preprocessDay will override with dynamic workouts
     const weeks = [];
-    for (let i = 1; i <= 16; i++) {
+    for (let i = 1; i <= 14; i++) {
         const days = [];
         // Create 7 days per week (standard structure)
         for (let d = 1; d <= 7; d++) {
