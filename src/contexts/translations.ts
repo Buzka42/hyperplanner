@@ -157,7 +157,9 @@ export const translations = {
             disciple_of_pain: { description: 'Ramp in of the Ritual of Strength completed' },
             acolyte_of_strength: { description: 'First cycle of the Ritual of Strength completed' },
             high_priest_of_power: { description: 'Multiple cycles of the Ritual of Strength completed + PR' },
-            eternal_worshipper: { description: 'All-time PRs smashed during the Ritual of Strength' }
+            eternal_worshipper: { description: 'All-time PRs smashed during the Ritual of Strength' },
+            super_mutant_aspirant: { description: 'Complete Week 12 of Super Mutant' },
+            behemoth_of_wastes: { description: 'Complete all 14 weeks + new PR in any lift' }
         },
 
         // ========================================
@@ -253,6 +255,17 @@ export const translations = {
                         "3 Days / Week (Mon/Wed/Fri ideal)",
                         "16 Week Program (with optional 4-week ramp-in)",
                         "ME singles + RPE based progression"
+                    ]
+                },
+                superMutant: {
+                    name: "Super Mutant",
+                    description: "Advanced 12+2 week Fallout-themed high-frequency bodybuilding. Embrace the mutation through pain and iron.",
+                    features: [
+                        "Focus: All muscle groups",
+                        "Dynamic 4-6 sessions/week",
+                        "Auto-adaptive cooldown system (48h upper / 72h lower)",
+                        "Reactive volume targeting ~20 sets/muscle/week",
+                        "Progressive RPE ramp (8→9→9.5→10)"
                     ]
                 }
             },
@@ -436,9 +449,9 @@ export const translations = {
             welcomeBack: "Welcome back,",
 
             // Peachy headers
-            feelingFroggy: "Feeling Froggy",
+            feelingFroggy: "Feeling",
             froggyStatus: "Froggy",
-            feelingPeachy: "Feeling Peachy",
+            feelingPeachy: "Feeling",
             peachyStatus: "Peachy",
 
             // Cycle banner
@@ -762,7 +775,9 @@ export const translations = {
                 disciple_of_pain: "Four weeks of devotion. You've earned the right to suffer more.",
                 acolyte_of_strength: "Sixteen weeks of ritual. The path of ascension continues.",
                 high_priest_of_power: "Multiple cycles. Multiple PRs. You are one with the iron.",
-                eternal_worshipper: "Mortal limits shattered. You have become legend."
+                eternal_worshipper: "Mortal limits shattered. You have become legend.",
+                super_mutant_aspirant: "The radiation has changed you. Week 12 complete – you are no longer human.",
+                behemoth_of_wastes: "Unstoppable. Immortal. The wasteland bows before you. Behemoth status achieved."
             },
             pencilneckStatus: [
                 "Neck still looks like a coat hanger",
@@ -797,6 +812,21 @@ export const translations = {
                 "Congratulations. You are now the final boss of planet Earth."
             ]
         },
+
+        superMutantQuotes: [
+            "The radiation transforms weakness into power",
+            "Every rep brings you closer to mutation",
+            "Pain is the path to evolution",
+            "The wasteland demands strength",
+            "Embrace the burn - it's your DNA changing",
+            "Normal humans rest. Mutants adapt.",
+            "Your limits were human. You're becoming something more.",
+            "The FEV flows through iron and sweat",
+            "Evolution isn't comfortable. Keep pushing.",
+            "Super Mutants don't make excuses",
+            "The old you is dead. The new you is unstoppable.",
+            "Radiation sickness is just gains in disguise"
+        ],
 
         // ========================================
         // EXERCISE TIPS - CONSOLIDATED & REFINED
@@ -1143,7 +1173,9 @@ export const translations = {
             disciple_of_pain: { description: 'Ukończono Ramp-up Rytuału siły' },
             acolyte_of_strength: { description: 'Pierwszy cykl Rytuału siły ukończony' },
             high_priest_of_power: { description: 'Ukończono wiele cyklu Rytuału siły + Nowy PR' },
-            eternal_worshipper: { description: 'Wszystkie PR pobite podczas Rytuału siły' }
+            eternal_worshipper: { description: 'Wszystkie PR pobite podczas Rytuału siły' },
+            super_mutant_aspirant: { description: 'Ukończ tydzień 12 programu Super Mutant' },
+            behemoth_of_wastes: { description: 'Ukończ wszystkie 14 tygodni + nowy PR w dowolnym ruchu' }
         },
 
         entry: {
@@ -1233,6 +1265,17 @@ export const translations = {
                         "3 dni/tydzień (Pon/Śr/Pt idealnie)",
                         "16 tyg. (z opcjonalną 4-tyg. rozgrzewką)",
                         "ME single + progresja na podstawie oceny RPE"
+                    ]
+                },
+                superMutant: {
+                    name: "Super Mutant",
+                    description: "Zaawansowany 12+2 tyg. program kulturystyczny o wysokiej częstotliwości w stylu Fallout. Przyjmij mutację poprzez ból i żelazo.",
+                    features: [
+                        "Cel: Wszystkie grupy mięśniowe",
+                        "Dynamiczny 4-6 sesji/tydzień",
+                        "Auto-adaptacyjny system przerw (48h góra / 72h dół)",
+                        "Reaktywny cel objętości ~20 serii/mięsień/tydzień",
+                        "Progresywny wzrost RPE (8→9→9.5→10)"
                     ]
                 }
             },
@@ -1702,7 +1745,9 @@ export const translations = {
                 disciple_of_pain: "Cztery tygodnie oddania. Zasłużyłeś na prawo do dalszego cierpienia.",
                 acolyte_of_strength: "Szesnaście tygodni rytuału. Ścieżka ascenzji trwa.",
                 high_priest_of_power: "Wiele cykli. Wiele rekordów życiowych. Jesteś jednością z żelazem.",
-                eternal_worshipper: "Śmiertelne ograniczenia zniszczone. Stałeś się legendą."
+                eternal_worshipper: "Śmiertelne ograniczenia zniszczone. Stałeś się legendą.",
+                super_mutant_aspirant: "Promieniowanie cię zmieniło. Tydzień 12 ukończony – już nie jesteś człowiekiem.",
+                behemoth_of_wastes: "Nie do powstrzymania. Nieśmiertelny. Pustkowia kłaniają się przed tobą. Status Behemotha osiągnięty."
             },
             pencilneckStatus: [
                 "Szyja wciąż wygląda jak wieszak na ubrania",
@@ -1737,6 +1782,21 @@ export const translations = {
                 "Gratulacje. Jesteś teraz final bossem planety Ziemia."
             ]
         },
+
+        superMutantQuotes: [
+            "Promieniowanie przekształca słabość w siłę",
+            "Każde powtórzenie zbliża cię do mutacji",
+            "Ból to ścieżka do ewolucji",
+            "Pustkowia wymagają siły",
+            "Przyjmij spalanie - to twoje DNA się zmienia",
+            "Normalni ludzie odpoczywają. Mutanci adaptują się.",
+            "Twoje limity były ludzkie. Stajesz się czymś więcej.",
+            "FEV przepływa przez żelazo i pot",
+            "Ewolucja nie jest wygodna. Nie przestawaj.",
+            "Super Mutanci nie szukają wymówek",
+            "Stare ja umarło. Nowe ja jest nie do powstrzymania.",
+            "Choroba popromienna to tylko ukryte przyrosty"
+        ],
 
         tips: {
             pausedBench: "Rozgrzewka: szybka progresja ciężaru, mało powtórzeń, pauza w każdej serii. Oszczędzaj energię. Sztanga zatrzymuje się całkowicie na klatce, 0.5-1 sek pełnej pauzy. Rozgrzej obręcz barkową, lekko spompuj najszerszy grzbietu, wykonaj kilka dynamicznych ruchów a'la mostkowanie i glute bridge jednonóż z przytrzymaniem w spięciu zanim przejdziesz do rozgrzewki ze sztangą (lub pomiędzy seriami rozgrzewkowymi).",

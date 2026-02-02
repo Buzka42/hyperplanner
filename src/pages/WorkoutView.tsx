@@ -102,12 +102,35 @@ export const WorkoutView: React.FC = () => {
         return "0";
     };
 
+
     // 1. Fetch Existing Session & Previous Stats
     useEffect(() => {
         if (!user || !dayData) return;
 
         const initView = async () => {
             try {
+                console.log('[initView] CALLED - week:', weekNum, 'day:', dayNum, 'dayData exists:', !!dayData);
+
+                // SOFT SAVE: Try to load from localStorage first
+                const programId = activePlanConfig.program.id;
+                const softSaveKey = `workout_draft_${user.id}_${programId}_${weekNum}_${dayNum}`;
+                const savedDraft = localStorage.getItem(softSaveKey);
+
+                if (savedDraft) {
+                    try {
+                        const parsed = JSON.parse(savedDraft);
+                        console.log('[initView] Loaded soft-saved draft from localStorage');
+                        setExerciseData(parsed.exerciseData || {});
+                        setExerciseNotes(parsed.exerciseNotes || {});
+                        // Continue with loading history for previous stats, but don't overwrite the form
+                        setPreviousStats(await fetchPreviousStats());
+                        return; // Exit early - don't fetch/load completed session
+                    } catch (e) {
+                        console.error('[initView] Failed to parse draft', e);
+                        localStorage.removeItem(softSaveKey);
+                    }
+                }
+
                 // A. Check for existing log for THIS specific week/day
                 const workoutsRef = collection(db, 'users', user.id, 'workouts');
                 const todayQuery = query(
@@ -174,88 +197,95 @@ export const WorkoutView: React.FC = () => {
                         setExerciseNotes(loadedNotes);
                     }
                 }
-
+                console.log('[initView] loaded:', loaded, 'About to check if we should initialize');
                 if (!loaded) {
+                    console.log('[initView] No existing log, calling initializeEmptyState');
                     initializeEmptyState();
                 }
 
                 // C. Fetch History for previous stats
-                const allRecentQuery = query(workoutsRef);
-                const allSnapshot = await getDocs(allRecentQuery);
-                // Convert to simpler flattened structure for hooks if needed, or keeping generic
-                const allSessions = allSnapshot.docs
-                    .map(d => d.data())
-                    .filter((d: any) => d.programId === programData.id || (!d.programId && programData.id === 'bench-domination'))
-                    .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-                const stats: Record<string, { weight: string, reps: string, advice?: string }> = {};
-
-                if (dayData && dayData.exercises) {
-                    dayData.exercises.forEach(currentEx => {
-                        // Gather history for this specific exercise
-                        // We construct temporary "WorkoutLog" objects as defined in types.ts (exercise-specific)
-                        const exHistory: WorkoutLog[] = [];
-
-                        for (const session of allSessions as any[]) {
-                            // Filter out current session
-                            if (session.week === weekNum && session.day === dayNum) continue;
-
-                            let setsData = null;
-                            if (session.exercises) {
-                                const exLog = session.exercises.find((e: any) => e.name === currentEx.name);
-                                if (exLog) setsData = exLog.setsData;
-                            } else if (session.exerciseId === currentEx.id && session.setResults) {
-                                // Legacy support
-                                setsData = session.setResults;
-                            } else if (session.name === currentEx.name && session.setResults) {
-                                // Fallback legacy check
-                                setsData = session.setResults;
-                            }
-
-                            if (setsData && setsData.length > 0) {
-                                exHistory.push({
-                                    id: `${session.date}_${currentEx.id}`,
-                                    date: session.date,
-                                    exerciseId: currentEx.id,
-                                    setResults: setsData
-                                });
-                            }
-                        }
-
-                        // Last Set info for display
-                        let lastLabel = "";
-                        let lastReps = "";
-                        if (exHistory.length > 0) {
-                            const lastEntry = exHistory[0];
-                            const firstSet = lastEntry.setResults?.[0];
-                            if (firstSet) {
-                                lastLabel = firstSet.weight.toString();
-                                lastReps = firstSet.reps.toString();
-                            }
-                        }
-
-                        // Advice Hook
-                        let advice = "";
-                        if (activePlanConfig.hooks?.getExerciseAdvice) {
-                            const hookAdvice = activePlanConfig.hooks.getExerciseAdvice(currentEx, exHistory);
-                            if (hookAdvice) advice = hookAdvice;
-                        }
-
-                        if (lastLabel) {
-                            stats[currentEx.name] = { weight: lastLabel, reps: lastReps, advice };
-                        } else if (advice) {
-                            // Even if no specific weight history (e.g. giant set), we might have advice
-                            stats[currentEx.name] = { weight: "-", reps: "-", advice };
-                        }
-                    });
-                }
-                setPreviousStats(stats);
+                setPreviousStats(await fetchPreviousStats());
             } catch (err) {
                 console.error("Init Error", err);
             }
         };
 
+        const fetchPreviousStats = async (): Promise<Record<string, { weight: string, reps: string, advice?: string }>> => {
+            const workoutsRef = collection(db, 'users', user.id, 'workouts');
+            const allRecentQuery = query(workoutsRef);
+            const allSnapshot = await getDocs(allRecentQuery);
+            // Convert to simpler flattened structure for hooks if needed, or keeping generic
+            const allSessions = allSnapshot.docs
+                .map(d => d.data())
+                .filter((d: any) => d.programId === programData.id || (!d.programId && programData.id === 'bench-domination'))
+                .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+            const stats: Record<string, { weight: string, reps: string, advice?: string }> = {};
+
+            if (dayData && dayData.exercises) {
+                dayData.exercises.forEach(currentEx => {
+                    // Gather history for this specific exercise
+                    // We construct temporary "WorkoutLog" objects as defined in types.ts (exercise-specific)
+                    const exHistory: WorkoutLog[] = [];
+
+                    for (const session of allSessions as any[]) {
+                        // Filter out current session
+                        if (session.week === weekNum && session.day === dayNum) continue;
+
+                        let setsData = null;
+                        if (session.exercises) {
+                            const exLog = session.exercises.find((e: any) => e.name === currentEx.name);
+                            if (exLog) setsData = exLog.setsData;
+                        } else if (session.exerciseId === currentEx.id && session.setResults) {
+                            // Legacy support
+                            setsData = session.setResults;
+                        } else if (session.name === currentEx.name && session.setResults) {
+                            // Fallback legacy check
+                            setsData = session.setResults;
+                        }
+
+                        if (setsData && setsData.length > 0) {
+                            exHistory.push({
+                                id: `${session.date}_${currentEx.id}`,
+                                date: session.date,
+                                exerciseId: currentEx.id,
+                                setResults: setsData
+                            });
+                        }
+                    }
+
+                    // Last Set info for display
+                    let lastLabel = "";
+                    let lastReps = "";
+                    if (exHistory.length > 0) {
+                        const lastEntry = exHistory[0];
+                        const firstSet = lastEntry.setResults?.[0];
+                        if (firstSet) {
+                            lastLabel = firstSet.weight.toString();
+                            lastReps = firstSet.reps.toString();
+                        }
+                    }
+
+                    // Advice Hook
+                    let advice = "";
+                    if (activePlanConfig.hooks?.getExerciseAdvice) {
+                        const hookAdvice = activePlanConfig.hooks.getExerciseAdvice(currentEx, exHistory);
+                        if (hookAdvice) advice = hookAdvice;
+                    }
+
+                    if (lastLabel) {
+                        stats[currentEx.name] = { weight: lastLabel, reps: lastReps, advice };
+                    } else if (advice) {
+                        // Even if no specific weight history (e.g. giant set), we might have advice
+                        stats[currentEx.name] = { weight: "-", reps: "-", advice };
+                    }
+                });
+            }
+            return stats;
+        };
+
         const initializeEmptyState = () => {
+            console.log('[initializeEmptyState] dayData check:', !!dayData, dayData);
             if (!dayData) return;
             const initialData: Record<string, SetLog[]> = {};
             dayData.exercises.forEach(ex => {
@@ -281,6 +311,8 @@ export const WorkoutView: React.FC = () => {
                 const setsCount = isGiantSet
                     ? ex.sets * (ex.giantSetConfig?.steps.length || 1)
                     : (isPullup ? pullupSetCount : ex.sets);
+
+                console.log('[WorkoutView Init]', ex.name, 'ex.sets:', ex.sets, 'setsCount:', setsCount);
 
                 // Pullup special case fallback: logic moved to hook but UI needs default init?
                 // Hook 'calculateWeight' might handle the 'weight' field init.
@@ -313,6 +345,24 @@ export const WorkoutView: React.FC = () => {
         initView();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, weekNum, dayNum, activePlanConfig, dayData]);
+
+    // SOFT SAVE: Save to localStorage whenever exerciseData or exerciseNotes change
+    useEffect(() => {
+        if (!user || !dayData) return;
+        if (Object.keys(exerciseData).length === 0) return; // Don't save empty state
+
+        const programId = activePlanConfig.program.id;
+        const softSaveKey = `workout_draft_${user.id}_${programId}_${weekNum}_${dayNum}`;
+
+        const draftData = {
+            exerciseData,
+            exerciseNotes,
+            timestamp: new Date().toISOString()
+        };
+
+        localStorage.setItem(softSaveKey, JSON.stringify(draftData));
+        console.log('[SOFT SAVE] Saved draft to localStorage');
+    }, [exerciseData, exerciseNotes, user, dayData, weekNum, dayNum, activePlanConfig.program.id]);
 
     const handleSetChange = (exId: string, setIndex: number, field: 'reps' | 'weight', value: string, isPullup: boolean = false, suggestedReps: string = "0") => {
         setExerciseData(prev => {
@@ -1023,6 +1073,183 @@ export const WorkoutView: React.FC = () => {
             }
             // ========== END TRINARY LOGIC ==========
 
+            // ========== SUPER MUTANT LOGIC ==========
+            if (programData.id === 'super-mutant' && !isExistingLog) {
+                const superMutantStatus = user.superMutantStatus;
+                if (superMutantStatus) {
+                    const userRef = doc(db, 'users', user.id);
+                    const updates: any = {};
+                    const now = Date.now();
+
+                    // Increment workout counter
+                    updates['superMutantStatus.completedWorkouts'] = (superMutantStatus.completedWorkouts || 0) + 1;
+
+                    // Update timestamps for trained muscle groups
+                    const trainedGroups: string[] = [];
+                    for (const ex of dayData?.exercises || []) {
+                        // Determine which muscle groups were trained based on exercise
+                        const name = ex.name.toLowerCase();
+                        if (name.includes('chest') || name.includes('pec') || (name.includes('press') && name.includes('bench')) || name.includes('pushup')) {
+                            trainedGroups.push('chest');
+                        }
+                        if (name.includes('back') || name.includes('row') || name.includes('pulldown') || name.includes('pull')) {
+                            trainedGroups.push('back');
+                        }
+                        if (name.includes('shoulder') || name.includes('raise') || name.includes('delt')) {
+                            trainedGroups.push('shoulders');
+                        }
+                        if (name.includes('tricep') || name.includes('pushdown') || name.includes('extension') || name.includes('skullcrusher')) {
+                            trainedGroups.push('triceps');
+                        }
+                        if (name.includes('bicep') || name.includes('curl')) {
+                            trainedGroups.push('biceps');
+                        }
+                        if (name.includes('calf')) {
+                            trainedGroups.push('calves');
+                        }
+                        if (name.includes('hamstring') || name.includes('rdl') || name.includes('ham curl')) {
+                            trainedGroups.push('hamstrings');
+                        }
+                        if (name.includes('glute') || name.includes('hip thrust')) {
+                            trainedGroups.push('glutes');
+                        }
+                        if (name.includes('lower back') || name.includes('good morning')) {
+                            trainedGroups.push('lowerBack');
+                        }
+                        if (name.includes('quad') || name.includes('squat') || name.includes('leg extension')) {
+                            trainedGroups.push('quads');
+                        }
+                        if (name.includes('abduct') || name.includes('adduct')) {
+                            trainedGroups.push('abductors');
+                        }
+                        if (name.includes('abs') || name.includes('crunch') || name.includes('plank') || ex.name === 'Cable Crunches') {
+                            trainedGroups.push('abs');
+                        }
+                    }
+
+                    // Remove duplicates and update timestamps
+                    const uniqueGroups = [...new Set(trainedGroups)];
+                    uniqueGroups.forEach(group => {
+                        updates[`superMutantStatus.muscleGroupTimestamps.${group}`] = now;
+                    });
+
+                    // Update rolling 7-day volume with fractional counting for assisting muscles
+                    const volumeUpdates: Record<string, number> = {};
+
+                    for (const ex of dayData?.exercises || []) {
+                        const name = ex.name.toLowerCase();
+                        const sets = exerciseData[ex.id] || [];
+                        const completedSets = sets.filter(s => s.reps && s.reps.trim() !== '').length;
+
+                        if (completedSets === 0) continue;
+
+                        // Chest presses: 1.0 chest, 0.5 triceps, 0.5 shoulders
+                        if (name.includes('press') && (name.includes('chest') || name.includes('bench'))) {
+                            volumeUpdates.chest = (volumeUpdates.chest || 0) + completedSets;
+                            volumeUpdates.triceps = (volumeUpdates.triceps || 0) + (completedSets * 0.5);
+                            volumeUpdates.shoulders = (volumeUpdates.shoulders || 0) + (completedSets * 0.5);
+                        }
+                        // Chest flyes/pec deck: 1.0 chest, 0.5 shoulders
+                        else if ((name.includes('fly') || name.includes('flye') || name.includes('pec deck')) && name.includes('chest')) {
+                            volumeUpdates.chest = (volumeUpdates.chest || 0) + completedSets;
+                            volumeUpdates.shoulders = (volumeUpdates.shoulders || 0) + (completedSets * 0.5);
+                        }
+                        // Back rows: 1.0 back, 0.5 biceps, 0.5 shoulders
+                        else if (name.includes('row')) {
+                            volumeUpdates.back = (volumeUpdates.back || 0) + completedSets;
+                            volumeUpdates.biceps = (volumeUpdates.biceps || 0) + (completedSets * 0.5);
+                            volumeUpdates.shoulders = (volumeUpdates.shoulders || 0) + (completedSets * 0.5);
+                        }
+                        // Back pulldowns/pulls: 1.0 back, 0.5 biceps
+                        else if (name.includes('pulldown') || name.includes('pull') || name.includes('lat')) {
+                            volumeUpdates.back = (volumeUpdates.back || 0) + completedSets;
+                            volumeUpdates.biceps = (volumeUpdates.biceps || 0) + (completedSets * 0.5);
+                        }
+                        // Shoulder isolation: 1.0 shoulders only
+                        else if (name.includes('raise') || name.includes('delt')) {
+                            volumeUpdates.shoulders = (volumeUpdates.shoulders || 0) + completedSets;
+                        }
+                        // Triceps isolation: 1.0 triceps only
+                        else if (name.includes('tricep') || name.includes('pushdown') || name.includes('extension')) {
+                            volumeUpdates.triceps = (volumeUpdates.triceps || 0) + completedSets;
+                        }
+                        // Biceps isolation: 1.0 biceps only
+                        else if (name.includes('bicep') || name.includes('curl')) {
+                            volumeUpdates.biceps = (volumeUpdates.biceps || 0) + completedSets;
+                        }
+                        // Lower body with fractional counting for compounds
+                        else if (name.includes('calf')) {
+                            volumeUpdates.calves = (volumeUpdates.calves || 0) + completedSets;
+                        }
+                        // RDLs/Good Mornings: 1.0 hamstrings, 0.5 glutes
+                        else if (name.includes('rdl') || name.includes('good morning')) {
+                            volumeUpdates.hamstrings = (volumeUpdates.hamstrings || 0) + completedSets;
+                            volumeUpdates.glutes = (volumeUpdates.glutes || 0) + (completedSets * 0.5);
+                        }
+                        // Hamstring isolation: 1.0 hamstrings only
+                        else if (name.includes('hamstring') || name.includes('ham curl')) {
+                            volumeUpdates.hamstrings = (volumeUpdates.hamstrings || 0) + completedSets;
+                        }
+                        // Glute isolation: 1.0 glutes only
+                        else if (name.includes('glute') || name.includes('hip thrust')) {
+                            volumeUpdates.glutes = (volumeUpdates.glutes || 0) + completedSets;
+                        }
+                        // Lower back isolation: 1.0 lowerBack only
+                        else if (name.includes('lower back')) {
+                            volumeUpdates.lowerBack = (volumeUpdates.lowerBack || 0) + completedSets;
+                        }
+                        // Squats: 1.0 quads, 0.5 hams, 0.5 glutes, 0.5 abductors
+                        else if (name.includes('squat') || name.includes('hack')) {
+                            volumeUpdates.quads = (volumeUpdates.quads || 0) + completedSets;
+                            volumeUpdates.hamstrings = (volumeUpdates.hamstrings || 0) + (completedSets * 0.5);
+                            volumeUpdates.glutes = (volumeUpdates.glutes || 0) + (completedSets * 0.5);
+                            volumeUpdates.abductors = (volumeUpdates.abductors || 0) + (completedSets * 0.5);
+                        }
+                        // Leg extensions: 1.0 quads only
+                        else if (name.includes('leg extension')) {
+                            volumeUpdates.quads = (volumeUpdates.quads || 0) + completedSets;
+                        }
+                        // Abductor/Adductor isolation: 1.0 abductors only
+                        else if (name.includes('abduct') || name.includes('adduct')) {
+                            volumeUpdates.abductors = (volumeUpdates.abductors || 0) + completedSets;
+                        }
+                        // Abs/Core: 1.0 abs only
+                        else if (name.includes('abs') || name.includes('crunch') || name.includes('plank')) {
+                            volumeUpdates.abs = (volumeUpdates.abs || 0) + completedSets;
+                        }
+                    }
+
+                    // Apply volume updates
+                    Object.keys(volumeUpdates).forEach(muscle => {
+                        const currentVol = (superMutantStatus.rolling7DayVolume as any)?.[muscle] || 0;
+                        updates[`superMutantStatus.rolling7DayVolume.${muscle}`] = currentVol + volumeUpdates[muscle];
+                    });
+
+                    // Alternate A/B variants
+                    if (uniqueGroups.includes('chest')) {
+                        updates['superMutantStatus.chestVariant'] = superMutantStatus.chestVariant === 'A' ? 'B' : 'A';
+                    }
+                    if (uniqueGroups.includes('back')) {
+                        updates['superMutantStatus.backVariant'] = superMutantStatus.backVariant === 'A' ? 'B' : 'A';
+                    }
+
+                    // Update weekly session dates for cap tracking
+                    const todayStr = new Date().toISOString().split('T')[0];
+                    const currentDates = superMutantStatus.weeklySessionDates || [];
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+
+                    // Filter to last 7 days and add today
+                    const recentDates = currentDates
+                        .filter((d: string) => new Date(d) >= weekAgo)
+                        .concat(todayStr);
+                    updates['superMutantStatus.weeklySessionDates'] = recentDates;
+
+                    await updateDoc(userRef, updates);
+                }
+            }
+            // ========== END SUPER MUTANT LOGIC ==========
+
             // ========== RITUAL OF STRENGTH LOGIC ==========
             if (programData.id === 'ritual-of-strength') {
                 const ritualStatus = (user as any).ritualStatus;
@@ -1110,9 +1337,21 @@ export const WorkoutView: React.FC = () => {
             // ========== END RITUAL LOGIC ==========
 
             if (navigateToDashboard) {
+                // Clear soft-save draft after successful completion
+                const programId = activePlanConfig.program.id;
+                const softSaveKey = `workout_draft_${user.id}_${programId}_${weekNum}_${dayNum}`;
+                localStorage.removeItem(softSaveKey);
+                console.log('[SOFT SAVE] Cleared draft after completion');
+
                 navigate('/app/dashboard', { state: navigateToDashboard });
                 return;
             }
+
+            // Clear soft-save draft after successful completion
+            const programId = activePlanConfig.program.id;
+            const softSaveKey = `workout_draft_${user.id}_${programId}_${weekNum}_${dayNum}`;
+            localStorage.removeItem(softSaveKey);
+            console.log('[SOFT SAVE] Cleared draft after completion');
 
             navigate('/app/dashboard');
         } catch (e) {
@@ -1146,16 +1385,22 @@ export const WorkoutView: React.FC = () => {
         return name;
     };
 
+    // Detect Super Mutant for theme
+    const isSuperMutant = programData.id === 'super-mutant';
+
     return (
-        <div className="space-y-6 pb-20">
+        <div className={cn(
+            "space-y-6 pb-20",
+            isSuperMutant && "super-mutant-theme bg-background min-h-screen"
+        )}>
             {/* Pain & Glory: Deficit Snatch Grip RPE Modal */}
             {showDeficitModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 animate-in fade-in duration-300">
-                    <div className="bg-gradient-to-br from-red-950/95 to-black border-2 border-red-900/70 p-8 rounded-xl max-w-md w-full shadow-2xl">
-                        <h2 className="text-2xl font-black text-amber-100 text-center mb-2">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-in fade-in duration-300">
+                    <div className="bg-gradient-to-br from-amber-50 to-amber-100 border-4 border-red-700 p-8 rounded-xl max-w-md w-full shadow-2xl">
+                        <h2 className="text-2xl font-black text-red-800 text-center mb-2">
                             ⚔️ How Did That Feel? ⚔️
                         </h2>
-                        <p className="text-amber-200/70 text-center text-sm mb-6">
+                        <p className="text-amber-900 text-center text-sm mb-6">
                             Based on your RPE, we'll adjust next session's weight
                         </p>
 
@@ -1175,7 +1420,7 @@ export const WorkoutView: React.FC = () => {
                                     setShowDeficitModal(false);
                                     navigate('/app/dashboard');
                                 }}
-                                className="w-full h-14 text-lg font-bold bg-red-900/80 hover:bg-red-800 border-2 border-red-700 text-amber-100"
+                                className="w-full h-14 text-lg font-bold bg-red-700 hover:bg-red-800 border-2 border-red-900 text-white shadow-md"
                             >
                                 ⚔️ Ready For More (+5 kg)
                             </Button>
@@ -1195,7 +1440,7 @@ export const WorkoutView: React.FC = () => {
                                     setShowDeficitModal(false);
                                     navigate('/app/dashboard');
                                 }}
-                                className="w-full h-14 text-lg font-bold bg-amber-900/80 hover:bg-amber-800 border-2 border-amber-700 text-amber-100"
+                                className="w-full h-14 text-lg font-bold bg-amber-700 hover:bg-amber-800 border-2 border-amber-900 text-white shadow-md"
                             >
                                 🩸 Good, Maintain
                             </Button>
@@ -1215,13 +1460,13 @@ export const WorkoutView: React.FC = () => {
                                     setShowDeficitModal(false);
                                     navigate('/app/dashboard');
                                 }}
-                                className="w-full h-14 text-lg font-bold bg-black/80 hover:bg-black border-2 border-red-950 text-red-400"
+                                className="w-full h-14 text-lg font-bold bg-stone-700 hover:bg-stone-800 border-2 border-stone-900 text-red-300 shadow-md"
                             >
                                 💀 Wrecked (-5 kg)
                             </Button>
                         </div>
 
-                        <p className="text-xs text-center text-amber-200/50 mt-4">
+                        <p className="text-xs text-center text-amber-800/70 mt-4">
                             Current weight: {user?.painGloryStatus?.deficitSnatchGripWeight || '?'} kg
                         </p>
                     </div>
@@ -1542,13 +1787,13 @@ export const WorkoutView: React.FC = () => {
                     let advice = prevStat?.advice || "";
 
                     return (
-                        <Card key={ex.id} className="overflow-hidden">
-                            <CardHeader className="bg-secondary/10 pb-3">
+                        <Card key={ex.id} className={`overflow-hidden ${isSuperMutant ? 'border-green-800/30 bg-gradient-to-br from-green-950/20 to-black' : ''}`}>
+                            <CardHeader className={`pb-3 ${isSuperMutant ? 'bg-green-950/10' : 'bg-secondary/10'}`}>
                                 <div className="flex justify-between items-start">
                                     <div className="w-full">
                                         <div className="flex justify-between w-full items-start gap-2">
                                             <div className="flex flex-col gap-1">
-                                                <CardTitle className="text-lg leading-tight">{ex.name}</CardTitle>
+                                                <CardTitle className={`text-lg leading-tight ${isSuperMutant ? 'mutant-text' : ''}`}>{ex.name}</CardTitle>
                                                 {prevStat && prevStat.weight !== "-" && (
                                                     <div className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded w-fit">
                                                         {t('workout.last')}: {prevStat.weight}{t('common.kg')} x {prevStat.reps}

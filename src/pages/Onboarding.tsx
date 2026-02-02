@@ -16,12 +16,13 @@ import { PEACHY_CONFIG } from '../data/peachy';
 import { PAIN_GLORY_CONFIG } from '../data/painglory';
 import { TRINARY_CONFIG } from '../data/trinary';
 import { RITUAL_CONFIG } from '../data/ritual';
+import { SUPER_MUTANT_PROGRAM } from '../data/supermutant';
 import { Checkbox } from '../components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
-type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules';
+type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules' | 'super-mutant-stats';
 
 export const Onboarding: React.FC = () => {
     const { state } = useLocation();
@@ -62,6 +63,13 @@ export const Onboarding: React.FC = () => {
     });
 
     const [ritualIsFirstProgram, setRitualIsFirstProgram] = useState<boolean | null>(null);
+    const [superMutantPrefs, setSuperMutantPrefs] = useState<{
+        quadExercise: 'Hack Squat' | 'Front Squat';
+        hamstringExercise: 'Good Mornings' | 'Deficit RDLs';
+    }>({
+        quadExercise: 'Hack Squat',
+        hamstringExercise: 'Good Mornings'
+    });
 
     // ... (rest of code)
 
@@ -86,6 +94,9 @@ export const Onboarding: React.FC = () => {
         } else if (pid === TRINARY_CONFIG.id || pid === RITUAL_CONFIG.id) {
             // Trinary and Ritual go directly to stats - no schedule selection
             setStep('stats');
+        } else if (pid === SUPER_MUTANT_PROGRAM.id) {
+            // Super Mutant goes to its own stats step
+            setStep('super-mutant-stats');
         } else {
             setStep('stats');
         }
@@ -480,6 +491,29 @@ export const Onboarding: React.FC = () => {
                                 </p>
                                 <ul className="space-y-1 text-xs">
                                     {tArray('onboarding.programs.ritualOfStrength.features').map((feature, i) => (
+                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
+                                    ))}
+                                </ul>
+                            </CardContent>
+                        </Card>
+
+                        {/* Super Mutant Card */}
+                        <Card
+                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
+                            onClick={() => handleProgramSelect(SUPER_MUTANT_PROGRAM.id)}
+                        >
+                            <div className="h-72 bg-black relative flex items-center justify-center">
+                                <img src="/supermutant.png" alt="Super Mutant" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
+                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.superMutant').name}</h3>
+                                </div>
+                            </div>
+                            <CardContent className="pt-4 p-4">
+                                <p className="text-muted-foreground text-xs mb-3">
+                                    {tObject('onboarding.programs.superMutant').description}
+                                </p>
+                                <ul className="space-y-1 text-xs">
+                                    {tArray('onboarding.programs.superMutant.features').map((feature, i) => (
                                         <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
                                     ))}
                                 </ul>
@@ -1115,6 +1149,136 @@ export const Onboarding: React.FC = () => {
                             <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-red-50" size="lg">
                                 <CheckCircle2 className="mr-2 h-5 w-5" />
                                 {t('onboarding.ritualOfStrength.buildButton')}
+                            </Button>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    // Super Mutant stats form - Fallout wasteland theme
+    if (step === 'super-mutant-stats') {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-black via-green-950/10 to-orange-950/10 flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-green-800/40 shadow-2xl bg-gradient-to-b from-zinc-950 to-green-950/10">
+                    <CardHeader>
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2 text-green-200 hover:text-green-100">
+                                <ArrowLeft className="h-5 w-5" />
+                            </Button>
+                            <CardTitle className="text-2xl bg-gradient-to-r from-green-400 via-orange-400 to-green-400 bg-clip-text text-transparent">Super Mutant Configuration</CardTitle>
+                        </div>
+                        <CardDescription className="text-green-200/70">
+                            Select your exercise preferences. The program adapts to your recovery with dynamic scheduling.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+
+                        <form onSubmit={async (e: React.FormEvent) => {
+                            e.preventDefault();
+
+                            const initialSuperMutantStatus = {
+                                completedWorkouts: 0,
+                                muscleGroupTimestamps: {},
+                                rolling7DayVolume: {
+                                    chest: 0,
+                                    shoulders: 0,
+                                    triceps: 0,
+                                    upperBack: 0,
+                                    biceps: 0,
+                                    calves: 0,
+                                    hamstrings: 0,
+                                    glutes: 0,
+                                    lowerBack: 0,
+                                    quads: 0,
+                                    abductors: 0,
+                                    abs: 0
+                                },
+                                chestVariant: 'A' as const,
+                                backVariant: 'A' as const,
+                                bench1RM: 0,
+                                deadlift1RM: 0,
+                                squat1RM: 0,
+                                quadExercise: superMutantPrefs.quadExercise,
+                                hamstringExercise: superMutantPrefs.hamstringExercise,
+                                weeklySessionDates: []
+                            };
+
+                            try {
+                                if (user) {
+                                    await updateUserProfile({
+                                        superMutantStatus: initialSuperMutantStatus
+                                    });
+                                    await switchProgram(SUPER_MUTANT_PROGRAM.id);
+                                } else {
+                                    if (!codeword) throw new Error("No codeword found. Please restart.");
+                                    const zeroStats = { pausedBench: 0, wideGripBench: 0, spotoPress: 0, lowPinPress: 0 };
+                                    await registerUser(codeword, zeroStats, SUPER_MUTANT_PROGRAM.id, [], {});
+                                    const userRef = doc(db, 'users', codeword.toLowerCase());
+                                    await updateDoc(userRef, {
+                                        superMutantStatus: initialSuperMutantStatus
+                                    });
+                                }
+                                navigate('/app/dashboard');
+                            } catch (err: any) {
+                                console.error("Registration failed:", err);
+                                alert("Failed to build program: " + (err.message || "Unknown error"));
+                            }
+                        }} className="space-y-6">
+                            <div className="space-y-4 border-b border-green-900/30 pb-4">
+                                <h3 className="text-lg font-semibold text-green-200">Exercise Preferences</h3>
+                                <p className="text-sm text-green-300/70">Choose your preferred exercises for quads and hamstrings. All other exercises are fixed for optimal muscle development.</p>
+
+                                <div className="space-y-2">
+                                    <Label className="text-base text-green-100">Quad Exercise</Label>
+                                    <RadioGroup value={superMutantPrefs.quadExercise} onValueChange={(v) => setSuperMutantPrefs(p => ({ ...p, quadExercise: v as 'Hack Squat' | 'Front Squat' }))}>
+                                        <div className="flex items-center space-x-2 p-3 border border-green-900/30 rounded hover:bg-green-950/20 cursor-pointer">
+                                            <RadioGroupItem value="Hack Squat" id="hack-squat" />
+                                            <Label htmlFor="hack-squat" className="text-green-200 cursor-pointer flex-1">Hack Squat</Label>
+                                        </div>
+                                        <div className="flex items-center space-x-2 p-3 border border-green-900/30 rounded hover:bg-green-950/20 cursor-pointer">
+                                            <RadioGroupItem value="Front Squat" id="front-squat" />
+                                            <Label htmlFor="front-squat" className="text-green-200 cursor-pointer flex-1">Front Squat</Label>
+                                        </div>
+                                    </RadioGroup>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label className="text-base text-green-100">Hamstring Exercise</Label>
+                                    <RadioGroup value={superMutantPrefs.hamstringExercise} onValueChange={(v) => setSuperMutantPrefs(p => ({ ...p, hamstringExercise: v as 'Good Mornings' | 'Deficit RDLs' }))}>
+                                        <div className="flex items-center space-x-2 p-3 border border-green-900/30 rounded hover:bg-green-950/20 cursor-pointer">
+                                            <RadioGroupItem value="Good Mornings" id="good-mornings" />
+                                            <Label htmlFor="good-mornings" className="text-green-200 cursor-pointer flex-1">Good Mornings</Label>
+                                        </div>
+                                        <div className="flex items-center space-x-2 p-3 border border-green-900/30 rounded hover:bg-green-950/20 cursor-pointer">
+                                            <RadioGroupItem value="Deficit RDLs" id="deficit-rdls" />
+                                            <Label htmlFor="deficit-rdls" className="text-green-200 cursor-pointer flex-1">Deficit RDLs</Label>
+                                        </div>
+                                    </RadioGroup>
+                                </div>
+                            </div>
+
+                            <div className="bg-orange-950/30 border border-orange-900/30 rounded p-4 space-y-2">
+                                <div className="flex items-start gap-2">
+                                    <AlertCircle className="w-5 h-5 text-orange-400 mt-0.5 flex-shrink-0" />
+                                    <div className="space-y-1">
+                                        <p className="text-sm font-semibold text-orange-100">Dynamic Auto-Scheduling</p>
+                                        <ul className="text-xs text-orange-200/80 space-y-1">
+                                            <li>• No fixed weekly schedule - train when ready</li>
+                                            <li>• Upper body: 48-hour cooldown between sessions</li>
+                                            <li>• Lower body: 72-hour cooldown between sessions</li>
+                                            <li>• App builds sessions automatically targeting ~90 min</li>
+                                            <li>• Weekly cap: Maximum 6 sessions per week</li>
+                                            <li>• Use "Next Workout" button on dashboard when ready</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-green-900 to-orange-800 hover:from-green-800 hover:to-orange-700 text-green-50" size="lg">
+                                <CheckCircle2 className="mr-2 h-5 w-5" />
+                                BEGIN MUTATION
                             </Button>
                         </form>
                     </CardContent>

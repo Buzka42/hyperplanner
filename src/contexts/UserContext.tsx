@@ -28,7 +28,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);
-    const [listeningId, setListeningId] = useState<string | null>(() => localStorage.getItem('bench-domination-id'));
+    const [listeningId, setListeningId] = useState<string | null>(null); // Removed localStorage persistence
     const [authReady, setAuthReady] = useState(false);
     const [notification, setNotification] = useState<{ type: 'badge'; badgeId: BadgeId } | null>(null);
 
@@ -129,7 +129,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (sanitized === 'judziek') {
             setIsAdmin(true);
             setListeningId('judziek');
-            localStorage.setItem('bench-domination-id', 'judziek');
+            // No localStorage persistence
             return 'admin';
         }
 
@@ -140,7 +140,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         if (snap.exists()) {
             setListeningId(sanitized);
-            localStorage.setItem('bench-domination-id', sanitized);
+            // No localStorage persistence
             return 'exists';
         }
 
@@ -150,12 +150,32 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
             if (legacySnap.exists()) {
                 setListeningId(trimmed);
-                localStorage.setItem('bench-domination-id', trimmed);
+                // No localStorage persistence
                 return 'exists';
             }
         }
 
         return 'not-found';
+    };
+
+    // Helper: Clear all workout drafts from localStorage (cleanup on new user registration)
+    const clearAllWorkoutDrafts = () => {
+        const keysToRemove: string[] = [];
+
+        // Scan localStorage for all workout_draft_* keys
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('workout_draft_')) {
+                keysToRemove.push(key);
+            }
+        }
+
+        // Remove all found draft keys
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+
+        if (keysToRemove.length > 0) {
+            console.log(`[CLEANUP] Removed ${keysToRemove.length} stale workout drafts from localStorage`);
+        }
     };
 
     const registerUser = async (
@@ -234,9 +254,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
             console.log('[REGISTER] ✓ Verification successful. User created in Firestore.');
 
+            // Clear all stale workout drafts from localStorage on new registration
+            clearAllWorkoutDrafts();
+
             // Only set local state after server confirmation
             setListeningId(sanitized);
-            localStorage.setItem('bench-domination-id', sanitized);
+            // No localStorage persistence
 
             console.log('[REGISTER] ✓ Registration complete');
         } catch (error: any) {
@@ -244,7 +267,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
             // Clear any partial state
             setListeningId(null);
-            localStorage.removeItem('bench-domination-id');
+            // No localStorage persistence
 
             // Re-throw with user-friendly message
             if (error.code === 'unavailable' || error.message?.includes('network')) {
@@ -305,7 +328,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(null);
         setIsAdmin(false);
         setListeningId(null);
-        localStorage.removeItem('bench-domination-id');
+        // No localStorage persistence
     };
 
     const checkBadges = async () => {
@@ -639,6 +662,28 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
                     if (hasAllTimeBench && hasAllTimeSquat && hasAllTimeDeadlift) {
                         newBadges.push('eternal_worshipper');
+                    }
+                }
+            }
+
+            // ==========================================
+            // SUPER MUTANT BADGES
+            // ==========================================
+            const superMutantStatus = (user as any).superMutantStatus;
+            if (superMutantStatus) {
+                // 1. Super Mutant Aspirant: Complete 72 workouts (12 weeks @ 6 sessions/week)
+                if (!currentBadges.has('super_mutant_aspirant')) {
+                    const completedWorkouts = superMutantStatus.completedWorkouts || 0;
+                    if (completedWorkouts >= 72) {
+                        newBadges.push('super_mutant_aspirant');
+                    }
+                }
+
+                // 2. Behemoth of the Wastes: Complete all 84 workouts (14 weeks)
+                if (!currentBadges.has('behemoth_of_wastes')) {
+                    const completedWorkouts = superMutantStatus.completedWorkouts || 0;
+                    if (completedWorkouts >= 84) {
+                        newBadges.push('behemoth_of_wastes');
                     }
                 }
             }

@@ -74,20 +74,137 @@
   }
 
   .theme-skeleton {
-      /* Toxic Green/Red Theme */
-      --primary: 110 90% 45%; /* Toxic Green */
-      --primary-foreground: 0 0% 0%; /* Black text on green */
-      
-      --secondary: 0 60% 15%; /* Dark Red bg */
-      --secondary-foreground: 0 0% 98%;
+    /* Toxic Green/Red Theme */
+    --primary: 110 90% 45%;
+    /* Toxic Green */
+    --primary-foreground: 0 0% 0%;
+    /* Black text on green */
 
-      --accent: 0 70% 40%; /* Red accents */
-      --accent-foreground: 0 0% 98%;
+    --secondary: 0 60% 15%;
+    /* Dark Red bg */
+    --secondary-foreground: 0 0% 98%;
 
-      --ring: 110 90% 45%;
-      
-      /* Optional: Make card backgrounds slightly tinted? */
-      /* --card: 110 30% 5%; */
+    --accent: 0 70% 40%;
+    /* Red accents */
+    --accent-foreground: 0 0% 98%;
+
+    --ring: 110 90% 45%;
+
+    /* Optional: Make card backgrounds slightly tinted? */
+    /* --card: 110 30% 5%; */
+  }
+
+  .super-mutant-theme {
+    /* Fallout Wasteland Theme - Toxic Green + Radiation Orange */
+    --primary: 120 100% 35%;
+    /* Toxic Green #00FF41 */
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 30 100% 50%;
+    /* Radiation Orange #FF6600 */
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 30 100% 50%;
+    /* Orange accents */
+    --accent-foreground: 0 0% 100%;
+
+    --background: 120 20% 8%;
+    /* Dark wasteland */
+    --foreground: 120 100% 80%;
+    /* Light green text */
+
+    --card: 120 20% 10%;
+    /* Slightly lighter than bg */
+    --card-foreground: 120 100% 80%;
+
+    --border: 120 100% 20%;
+    /* Dark green borders */
+    --ring: 120 100% 35%;
+  }
+
+  .theme-pain-glory {
+    /* Sandy Arena with Blood Accents Theme */
+    --primary: 0 75% 45%;
+    /* Blood Red */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 35 40% 80%;
+    /* Light sand */
+    --secondary-foreground: 0 0% 15%;
+
+    --accent: 0 70% 50%;
+    /* Bright blood red accent */
+    --accent-foreground: 0 0% 100%;
+
+    --background: 40 35% 88%;
+    /* Sandy beige background */
+    --foreground: 0 0% 10%;
+    /* Very dark text */
+
+    --card: 40 30% 92%;
+    /* Lighter sand for cards */
+    --card-foreground: 0 0% 10%;
+
+    --muted: 35 25% 75%;
+    /* Muted sand */
+    --muted-foreground: 0 0% 30%;
+    /* Dark gray text */
+
+    --border: 35 30% 65%;
+    /* Sandy border */
+    --input: 40 25% 95%;
+    /* Very light sand for inputs */
+    --ring: 0 75% 45%;
+  }
+
+  .theme-trinary {
+    /* Green/Purple Conjugate Theme */
+    --primary: 150 70% 45%;
+    /* Teal/Green */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 280 60% 25%;
+    /* Dark Purple */
+    --secondary-foreground: 0 0% 98%;
+
+    --accent: 150 70% 40%;
+    /* Green accents */
+    --accent-foreground: 0 0% 100%;
+
+    --background: 220 20% 8%;
+    /* Dark slate bg */
+    --foreground: 0 0% 95%;
+    /* Light text */
+
+    --card: 220 20% 10%;
+    /* Slightly lighter than bg */
+    --card-foreground: 0 0% 95%;
+
+    --muted: 220 15% 20%;
+    /* Dark gray muted */
+    --muted-foreground: 0 0% 65%;
+    /* Medium gray text */
+
+    --border: 220 20% 18%;
+    /* Dark borders */
+    --input: 220 15% 20%;
+    /* Dark input bg */
+    --ring: 150 70% 45%;
+  }
+
+  /* Super Mutant special effects */
+  .mutant-glow {
+    box-shadow: 0 0 10px hsl(120 100% 35% / 0.3);
+  }
+
+  .mutant-text {
+    color: hsl(120 100% 35%);
+    text-shadow: 0 0 8px hsl(120 100% 35% / 0.5);
+  }
+
+  .radiation-text {
+    color: hsl(30 100% 50%);
+    text-shadow: 0 0 8px hsl(30 100% 50% / 0.4);
   }
 }
 
@@ -121,12 +238,14 @@
 .shimmer-text {
   animation: shimmer 3s infinite;
 }
+
 /* Hide number input arrows */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 input[type=number] {
   -moz-appearance: textfield;
 }

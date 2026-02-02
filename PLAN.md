@@ -854,6 +854,311 @@ All badges auto-unlock, retroactive, with confetti + savage quote (English + Pol
 - Week insertion logic for reactive deloads
 - Purge week workout generation
 
+
 ---
 
-*Generated from source code – January 16, 2026*
+## 9. Super Mutant - Wasteland Adaptive Hypertrophy (`super-mutant`)
+*Fallout-themed reactive training system - Your body adapts, the workout mutates.*
+
+### Plan Configuration
+*   **Duration:** 84 Workouts (~14 weeks at 6x/week)
+*   **Frequency:** Fully Adaptive (2-7x/week based on recovery)
+*   **Widgets:** `recovery_gauge` (muscle cooldowns + 7-day volume), `mutagen_exposure` (progress tracker)
+*   **Theme:** Toxic green + radiation orange, Fallout wasteland aesthetic
+
+### Core Philosophy
+**Auto-Regulation Through Biological Feedback:**
+- Muscles trained → 48h cooldown (upper) or 72h cooldown (lower)
+- Volume tracked per muscle → Reactive set calculation
+- Cluster-based training → Prevents overtraining
+- Fractional set counting → Accurate volume tracking
+
+### Onboarding
+#### Exercise Variants Selection
+User selects preferred variants:
+*   **Chest:** Barbell Press / Dumbbell Press / Machine Press
+*   **Back:** Wide Pulldowns / Neutral Pulldowns / Underhand Pulldowns  
+*   **Hamstrings:** RDLs / Good Mornings / Lying Leg Curl
+*   **Quads:** Hack Squat / Front Squat / Leg Press
+
+### Training Clusters System
+
+#### Fixed Muscle Group Clusters
+**Cluster 1 (Chest/Triceps/Biceps):**
+- 3 exercises: Pre-exhaust, Main, Finisher
+- Estimated time: ~30 min
+- Upper body push/pull
+
+**Cluster 2 (Back/Shoulders/Calves):**
+- 3 exercises for back + shoulders, calves
+- Estimated time: ~30 min
+- Upper body pull/accessory
+
+**Cluster 3 (Hamstrings/Glutes/Lower Back):**
+- 2-3 exercises for posterior chain
+- Estimated time: ~20 min
+- Lower body posterior
+
+**Cluster 4 (Quads/Abductors/Abs):**
+- 2-3 exercises for anterior chain + core
+- Estimated time: ~20 min
+- Lower body anterior
+
+#### Cluster Exclusivity Rules
+- **Cluster 1 cannot train with Cluster 2** (prevents over-training upper push + pull same day)
+- **Cluster 3 cannot train with Cluster 4** (prevents over-training lower posterior + anterior same day)
+- Valid combinations: Cluster 1 + Cluster 3/4, Cluster 2 + Cluster 3/4
+
+### Workout Generation Logic
+
+#### Cluster Selection Priority
+1. **Check Readiness:** Only consider clusters where ALL muscles passed cooldown
+2. **Sort by Oldest:** Prioritize clusters trained longest ago (maintains rotation order)
+3. **Apply Exclusivity:** Skip incompatible clusters
+4. **Select 2 Clusters:** Fit within 90-minute target session
+
+#### Target Session Duration
+- Default: 90 minutes
+- Cluster 1/2: ~30 min each
+- Cluster 3/4: ~20 min each
+- Typical session: 2 clusters = 50-60 min actual work
+
+### Reactive Sets Calculation
+
+#### Volume-Based Adaptation
+**Target:** ~20 sets per muscle per week
+
+**Formula:**
+```
+Estimated Weekly Workouts = Recent Activity (2-6 workouts/week)
+Estimated Muscle Workouts = Weekly Workouts / 2
+Remaining Sets = 20 - Current 7-Day Volume
+Sets Per Workout = Remaining Sets / Estimated Workouts
+→ Constrained to 2-4 sets range
+```
+
+**Special Rules:**
+- **Upper Body Muscles (Chest/Back/Shoulders/Triceps/Biceps):**
+  - No volume → Start at 2sets
+  - Volume-based adaptation
+  
+- **Lower Body Muscles (Hamstrings/Glutes/Lower Back/Abs/Abductors):**
+  - No volume → Start at **4 sets** (limited exercises, unlikely to hit 20/week)
+  - Still adapts based on volume
+
+- **Pre-Exhaust/Finishers:** Always 2 sets (fixed)
+
+### Fractional Set Counting
+
+#### Upper Body Compounds
+**Chest Presses (Bench, DB Press, Machine):**
+- 1.0 → Chest (primary)
+- 0.5 → Triceps
+- 0.5 → Shoulders
+
+**Chest Flyes/Pec Deck:**
+- 1.0 → Chest
+- 0.5 → Shoulders
+
+**Back Rows:**
+- 1.0 → Back (primary)
+- 0.5 → Biceps
+- 0.5 → Shoulders
+
+**Back Pulldowns/Pulls:**
+- 1.0 → Back
+- 0.5 → Biceps
+
+#### Upper Body Isolation
+- **Shoulder/Triceps/Biceps isolation:** 1.0 to target only
+
+#### Lower Body Compounds
+**Squats (Hack/Front):**
+- 1.0 → Quads (primary)
+- 0.5 → Hamstrings
+- 0.5 → Glutes
+- 0.5 → Abductors
+
+**RDLs/Good Mornings:**
+- 1.0 → Hamstrings (primary)
+- 0.5 → Glutes
+
+#### Lower Body Isolation
+- **All lower body isolation:** 1.0 to primary muscle only
+- **Calves/Abs:** 1.0 only (no fractional)
+
+### Exercise Library
+
+#### Chest (Cluster 1)
+**Barbell Variant:**
+- Pre-Exhaust: Pec Deck
+- Main: Barbell Bench Press
+- Finisher: Cable Flyes
+
+**Dumbbell Variant:**
+- Pre-Exhaust: Incline DB Flyes
+- Main: DB Bench Press
+- Finisher: Cable Crossovers
+
+**Machine Variant:**
+- Pre-Exhaust: Machine Flyes
+- Main: Chest Press Machine
+- Finisher: Cable Flyes
+
+#### Back (Cluster 2)
+**Wide Pulldown:** Wide Pulldowns, Cable Rows, Lat Prayer
+**Neutral Pulldown:** Neutral Pulldowns, Seated Rows, Single-Arm Rows
+**Underhand Pulldown:** Underhand Pulldowns, BB Rows, DB Rows
+
+#### Shoulders (Cluster 2)
+- DB Lateral Raises
+- Cable Rear Delt Flyes
+- Face Pulls
+
+#### Triceps (Cluster 1)
+- Overhead Extensions
+- Tricep Pushdowns
+- Close-Grip Press
+
+#### Biceps (Cluster 1)
+- EZ-Bar Curls
+- Hammer Curls
+- Cable Curls
+
+#### Calves (Cluster 2)
+- Standing Calf Raises
+- Seated Calf Raises
+- Leg Press Calf Raises
+
+#### Hamstrings (Cluster 3)
+**RDL:** Romanian Deadlifts
+**Good Morning:** Good Mornings
+**Curl:** Lying Leg Curls
+
+#### Glutes (Cluster 3)
+- Hip Thrusts
+- Glute Bridges
+- Cable Pull-Throughs
+
+#### Lower Back (Cluster 3)
+- Hyperextensions
+- Back Extensions
+
+#### Quads (Cluster 4)
+**Hack Squat:** Hack Squats
+**Front Squat:** Front Squats
+**Leg Press:** Leg Press
+
+#### Abductors (Cluster 4)
+- Hip Abduction Machine
+- Cable Abductions
+
+#### Abs (Cluster 4)
+- Cable Crunches
+- Hanging Leg Raises
+- Planks
+
+### Cooldown System
+
+#### Muscle-Specific Cooldowns
+**Upper Body:** 48 hours
+- Chest, Back, Shoulders, Triceps, Biceps, Calves
+
+**Lower Body:** 72 hours
+- Hamstrings, Glutes, Lower Back, Quads, Abductors, Abs
+
+#### Recovery Gauge Widget
+Displays for each muscle:
+- Muscle name
+- Cooldown status (✓ READY / X hours remaining)
+- 7-day volume (e.g., "12 sets/7d")
+- Color coding: Green (ready), Orange (near ready), Red (on cooldown)
+
+### Volume Tracking
+
+#### 7-Day Rolling Window
+- Tracks sets per muscle over last 7 days
+- Includes fractional sets from compounds
+- Auto-decrements old workouts after 7 days
+- Displayed in Recovery Gauge
+
+#### Set Counting Rules
+- Only counts sets where user **entered reps** (not just checked "completed")
+- Fractional sets calculated automatically
+- Example: 3 sets bench press = 3.0 chest + 1.5 triceps + 1.5 shoulders
+
+### Workout Completion
+
+#### Session Updates
+1. **Update Timestamps:** All trained muscles → current timestamp
+2. **Update Volume:** Add completed sets (including fractional) to rolling 7-day volume
+3. **Alternate Variants:** Cycle A/B variants for chest/back
+4. **Increment Counter:** `completedWorkouts` +1
+5. **Weekly Session Dates:** Track for frequency estimation
+
+#### Unique Save Slots
+Each workout saves to unique week/day:
+- Workout 1 → Week 1, Day 1
+- Workout 2 → Week 1, Day 2
+- Workout 8 → Week 2, Day 1
+- Formula: `week = floor(count / 7) + 1`, `day = (count % 7) + 1`
+
+### Dashboard Features
+
+#### Mutagen Exposure Widget
+- Total workouts completed / 84
+- Progress bar (toxic green → radiation orange gradient)
+- Week calculation: `floor((completedWorkouts / 6) + 1)` / 14
+
+#### Recovery Gauge Widget
+- Grid of all 12 muscle groups
+- Shows cooldown time remaining OR "✓ READY"
+- Shows 7-day volume per muscle
+- Color-coded by readiness
+
+#### Next Mutation Session Card
+- Dynamic workout name (e.g., "Workout 5 – Chest/Triceps/Biceps + Hamstrings/Glutes/LowerBack")
+- INITIATE button (navigates to correct week/day)
+- Time skip button (+24h for testing)
+
+### Theme & Aesthetics
+
+#### Fallout Wasteland Design
+**Colors:**
+- Background: Dark wasteland (`hsl(120 20% 8%)`)
+- Primary: Toxic Green (`hsl(120 100% 35%)`)
+- Secondary: Radiation Orange (`hsl(30 100% 50%)`)
+- Text: Light green (`hsl(120 100% 80%)`)
+
+**Special Effects:**
+- `.mutant-glow`: Green box shadow
+- `.mutant-text`: Green text with glow
+- `.radiation-text`: Orange text with glow
+- Dark gradient cards with green borders
+
+### Implementation Status
+
+**✅ Fully Implemented:**
+- Cluster-based training system
+- 48h/72h cooldown tracking
+- Reactive sets calculation with frequency estimation
+- Fractional set counting (upper + lower)
+- Lower body muscles start at 4 sets
+- 7-day rolling volume tracking
+- Recovery Gauge widget with volume display
+- Unique save slots per workout
+- Fallout theme (Dashboard + WorkoutView)
+- Cluster selection by oldest timestamp
+- Exercise variant rotation
+- All 12 muscle groups tracked
+
+**🎯 Design Decisions:**
+- Cluster exclusivity prevents over-training
+- Oldest-timestamp sorting maintains training order
+- Fractional counting provides accurate volume
+- Lower body starts higher due to limited exercises
+- Reps-based set counting ensures accurate tracking
+
+---
+
+*Generated from source code – January 18, 2026*

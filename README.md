@@ -111,6 +111,83 @@ To maintain and expand the app, it is crucial to understand what is generic and 
     *   Add badge definition in `src/data/badges.ts`.
     *   Add logic check in `src/contexts/UserContext.tsx` within `checkForBadges`.
 
+---
+
+## 🔐 Data Persistence & User Session Management (February 2026)
+
+### Codeword Isolation Fix
+
+**Problem:** The app was storing codewords in `localStorage`, causing workout plans to accidentally overwrite each other when multiple users tested different plans on the same device.
+
+**Solution:**
+*   **Removed all `localStorage` persistence for codewords** in `UserContext.tsx`
+*   Modified functions:
+    *   `checkCodeword()`: Removed `localStorage.setItem('bench-domination-id')` calls
+    *   `registerUser()`: Removed localStorage operations after successful registration
+    *   `logout()`: Removed `localStorage.removeItem()` cleanup
+*   **Effect:** Users must enter their codeword fresh every session, preventing data contamination between different workout plans/users
+
+**Implementation Details:**
+```typescript
+// Before (line 31):
+const [listeningId, setListeningId] = useState<string | null>(() => localStorage.getItem('bench-domination-id'));
+
+// After:
+const [listeningId, setListeningId] = useState<string | null>(null);
+
+// All localStorage.setItem/removeItem calls for 'bench-domination-id' removed throughout the file
+```
+
+**Rationale:** This prevents the scenario where testing a new plan with codeword "test123" would overwrite stats for the primary user's plan with codeword "mezo1" on the same browser.
+
+---
+
+### Soft-Save Feature for Workout Data
+
+**Problem:** Rep and weight entries in workout fields were only saved when clicking "Complete Workout". If the browser closed unexpectedly, all entered data was lost.
+
+**Solution:** Implemented a dual-save system in `WorkoutView.tsx`:
+
+#### **Soft Save (Automatic, Immediate)**
+*   **Trigger:** Fires automatically whenever `exerciseData` or `exerciseNotes` state changes
+*   **Storage:** Saves to `localStorage` with unique key: `workout_draft_{userId}_{programId}_{week}_{day}`
+*   **Data Saved:**
+    ```typescript
+    {
+        exerciseData: Record<string, SetLog[]>,
+        exerciseNotes: Record<string, string>,
+        timestamp: string
+    }
+    ```
+*   **Implementation:** React `useEffect` hook at line 317-333
+
+#### **Hard Save (Manual, Final)**
+*   **Trigger:** User clicks "Complete Workout" button
+*   **Action:** Saves workout session to Firestore with stat updates and progression logic
+*   **Cleanup:** Clears corresponding localStorage draft after successful save (lines 1340-1357)
+
+#### **Load Priority on Mount**
+1.  **Check for soft-save draft** in localStorage (lines 113-123)
+2.  If draft exists: Load it and skip fetching completed session from Firestore
+3.  If no draft: Check Firestore for existing completed log
+4.  If no completed log: Initialize empty state from program config
+
+**Key Benefits:**
+*   ✅ Data survives browser crashes/accidental closes
+*   ✅ No risk of accidentally overwriting completed sessions (drafts are separate)
+*   ✅ Automatic cleanup prevents stale data accumulation
+*   ✅ Per-user, per-program, per-workout isolation
+*   ✅ **All drafts cleared on new user registration** (prevents cross-contamination)
+
+**Technical Notes:**
+*   Soft-saves are program-specific: switching programs won't show drafts from different programs
+*   Draft persists until workout completion or manual browser storage clear
+*   No network calls during soft-save (instant, local-only operation)
+*   **Cleanup on registration:** `clearAllWorkoutDrafts()` removes all `workout_draft_*` keys from localStorage when a new user registers (line 258 in `UserContext.tsx`)
+*   Ensures fresh slate when testing new plans or switching between user accounts
+
+---
+
 ## 📂 Implementation Details by File
 
 ### `src/data/program.ts` (Bench Domination)

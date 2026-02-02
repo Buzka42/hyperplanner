@@ -28,6 +28,7 @@ export const Dashboard: React.FC = () => {
     const isPeachy = activePlanConfig.id === 'peachy-glute-plan';
     const isPainGlory = activePlanConfig.id === 'pain-and-glory';
     const isTrinary = activePlanConfig.id === 'trinary';
+    const isSuperMutant = activePlanConfig.id === 'super-mutant';
     const [gloryCounter, setGloryCounter] = useState<number>(0);
     const [showAccessoryModal, setShowAccessoryModal] = useState(false);
 
@@ -302,6 +303,44 @@ export const Dashboard: React.FC = () => {
                 `}</style>
             )}
 
+            {isSuperMutant && (
+                <style>{`
+                    :root {
+                        --background: 120 20% 8%;
+                        --foreground: 120 20% 90%;
+                        --card: 120 15% 12%;
+                        --card-foreground: 120 20% 90%;
+                        --popover: 120 15% 12%;
+                        --popover-foreground: 120 20% 90%;
+                        --primary: 120 100% 35%;
+                        --primary-foreground: 120 20% 95%;
+                        --secondary: 30 100% 50%;
+                        --secondary-foreground: 30 20% 95%;
+                        --muted: 120 15% 15%;
+                        --muted-foreground: 120 10% 55%;
+                        --accent: 120 100% 35%;
+                        --accent-foreground: 120 20% 95%;
+                        --destructive: 30 100% 50%;
+                        --destructive-foreground: 120 15% 98%;
+                        --border: 120 15% 20%;
+                        --input: 120 15% 20%;
+                        --ring: 120 100% 35%;
+                    }
+                    /* Toxic green glow effects */
+                    .mutant-glow {
+                        box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+                    }
+                    .mutant-text {
+                        color: #00FF41;
+                        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+                    }
+                    .radiation-text {
+                        color: #FF6600;
+                        text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+                    }
+                `}</style>
+            )}
+
             {completionType && (() => {
                 const badgeId = completionType === 'skeleton' ? 'certified_threat' : 'certified_boulder';
                 const badge = BADGES.find(b => b.id === badgeId);
@@ -471,6 +510,23 @@ export const Dashboard: React.FC = () => {
                         </div>
                         <Link to="/app/history">
                             <Button variant="outline" className="border-red-900/50 bg-red-950/20 text-red-400 hover:bg-red-900/40 hover:text-red-300 gap-2">
+                                <History className="h-4 w-4" />
+                                <span className="hidden sm:inline">{t('sidebar.history')}</span>
+                            </Button>
+                        </Link>
+                    </div>
+                ) : isSuperMutant ? (
+                    <div className="flex items-center justify-between w-full">
+                        <div className="text-left">
+                            <h2 className="text-4xl font-black tracking-tight bg-gradient-to-r from-green-500 via-orange-500 to-green-500 bg-clip-text text-transparent animate-pulse">
+                                SUPER MUTANT
+                            </h2>
+                            <p className="mutant-text mt-1 text-sm italic font-mono">
+                                The wasteland awaits – evolve through iron and radiation
+                            </p>
+                        </div>
+                        <Link to="/app/history">
+                            <Button variant="outline" className="border-green-800/50 bg-green-950/20 text-green-400 hover:bg-green-900/40 hover:text-green-300 gap-2 mutant-glow">
                                 <History className="h-4 w-4" />
                                 <span className="hidden sm:inline">{t('sidebar.history')}</span>
                             </Button>
@@ -815,6 +871,196 @@ export const Dashboard: React.FC = () => {
                                             {t('dashboard.trinary.startWorkout')}
                                         </Button>
                                     </Link>
+                                </CardContent>
+                            </Card>
+                        </>
+                    )}
+
+                    {/* Super Mutant Widgets */}
+                    {isSuperMutant && (
+                        <>
+                            {/* Mutagen Exposure - Progress Tracker */}
+                            <Card className="col-span-full md:col-span-3 border-green-800/30 bg-gradient-to-br from-green-950/20 to-black">
+                                <CardHeader className="pb-2">
+                                    <CardTitle className="mutant-text text-lg font-black flex items-center gap-2">
+                                        ☢️ MUTAGEN EXPOSURE
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-3xl font-black text-green-300">
+                                        {(user.superMutantStatus?.completedWorkouts || 0)} <span className="text-lg font-normal text-muted-foreground">/ 84</span>
+                                    </div>
+                                    <div className="mt-4 h-3 bg-green-950/50 rounded-full overflow-hidden border border-green-800/30">
+                                        <div
+                                            className="h-full bg-gradient-to-r from-green-600 to-orange-500 transition-all duration-1000"
+                                            style={{ width: `${Math.min(100, ((user.superMutantStatus?.completedWorkouts || 0) / 84) * 100)}%` }}
+                                        />
+                                    </div>
+                                    <p className="text-xs text-right text-green-500/70 mt-1">
+                                        Week {Math.min(14, Math.floor(((user.superMutantStatus?.completedWorkouts || 0) / 6) + 1))} / 14
+                                    </p>
+                                    <p className="text-xs text-green-400/60 mt-2 italic font-mono">
+                                        {(user.superMutantStatus?.completedWorkouts || 0) < 72
+                                            ? "Adaptation Phase - Your body is changing..."
+                                            : "Peak Mutation - Beyond human limits"}
+                                    </p>
+                                </CardContent>
+                            </Card>
+
+                            {/* Recovery Gauge - Cooldown Status */}
+                            <Card className="col-span-full md:col-span-4 border-green-800/30 bg-gradient-to-br from-black to-green-950/20">
+                                <CardHeader className="pb-2">
+                                    <CardTitle className="mutant-text text-lg font-black flex items-center gap-2">
+                                        🧬 RECOVERY GAUGE
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                                        {(() => {
+                                            const muscleGroups = ['chest', 'back', 'shoulders', 'triceps', 'biceps', 'calves', 'hamstrings', 'glutes', 'lowerBack', 'quads', 'abductors', 'abs'];
+                                            const groupLabels: Record<string, string> = {
+                                                chest: 'Chest',
+                                                back: 'Back',
+                                                shoulders: 'Delts',
+                                                triceps: 'Triceps',
+                                                biceps: 'Biceps',
+                                                calves: 'Calves',
+                                                hamstrings: 'Hams',
+                                                glutes: 'Glutes',
+                                                lowerBack: 'L.Back',
+                                                quads: 'Quads',
+                                                abductors: 'Abd',
+                                                abs: 'Abs'
+                                            };
+                                            const lowerBodyGroups = ['hamstrings', 'glutes', 'lowerBack', 'quads', 'abductors'];
+                                            const now = Date.now();
+
+                                            return muscleGroups.map(group => {
+                                                const lastTrained = (user.superMutantStatus?.muscleGroupTimestamps as any)?.[group];
+                                                const cooldownHours = lowerBodyGroups.includes(group) ? 72 : 48;
+                                                const cooldownMs = cooldownHours * 60 * 60 * 1000;
+
+                                                let status = 'ready';
+                                                let timeRemaining = '';
+                                                let bgColor = 'bg-green-900/40 border-green-600/50';
+                                                let textColor = 'text-green-300';
+
+                                                if (lastTrained) {
+                                                    const elapsed = now - lastTrained;
+                                                    const remaining = cooldownMs - elapsed;
+
+                                                    if (remaining > 0) {
+                                                        status = 'cooldown';
+                                                        const hoursLeft = Math.ceil(remaining / (60 * 60 * 1000));
+                                                        timeRemaining = `${hoursLeft}h`;
+
+                                                        if (hoursLeft > cooldownHours / 2) {
+                                                            bgColor = 'bg-red-900/40 border-red-600/50';
+                                                            textColor = 'text-red-300';
+                                                        } else {
+                                                            bgColor = 'bg-orange-900/40 border-orange-600/50';
+                                                            textColor = 'text-orange-300';
+                                                        }
+                                                    }
+                                                }
+
+                                                const volume = (user.superMutantStatus?.rolling7DayVolume as any)?.[group] || 0;
+
+                                                return (
+                                                    <div
+                                                        key={group}
+                                                        className={`${bgColor} border rounded px-2 py-1.5 text-center transition-all`}
+                                                    >
+                                                        <div className={`text-xs font-bold ${textColor}`}>
+                                                            {groupLabels[group]}
+                                                        </div>
+                                                        <div className="text-[10px] text-green-400/60">
+                                                            {status === 'ready' ? '✓ READY' : timeRemaining}
+                                                        </div>
+                                                        <div className="text-[9px] text-green-300/40 mt-0.5">
+                                                            {volume} sets/7d
+                                                        </div>
+                                                    </div>
+                                                );
+                                            });
+                                        })()}
+                                    </div>
+                                    <p className="text-xs text-green-400/50 mt-3 italic text-center">
+                                        Upper body: 48h cooldown • Lower body: 72h cooldown
+                                    </p>
+                                </CardContent>
+                            </Card>
+
+                            {/* Mutant Mindset - Motivational Quote */}
+                            <Card className="col-span-full border-orange-800/30 bg-gradient-to-r from-orange-950/20 to-green-950/20">
+                                <CardContent className="p-6 text-center">
+                                    <div className="text-orange-500 text-4xl mb-2">☢️</div>
+                                    <p className="text-lg font-black italic radiation-text">
+                                        "{(() => {
+                                            const quotes = tArray('superMutantQuotes');
+                                            const workoutCount = user.superMutantStatus?.completedWorkouts || 0;
+                                            // Rotate quote based on workout count
+                                            const index = workoutCount % quotes.length;
+                                            return quotes[index] || quotes[0];
+                                        })()}"
+                                    </p>
+                                    <div className="text-xs text-green-400/60 mt-3 font-mono">
+                                        — MUTANT MINDSET —
+                                    </div>
+                                </CardContent>
+                            </Card>
+
+                            {/* Next Workout Button */}
+                            <Card className="col-span-full border-green-700/50 bg-gradient-to-r from-green-900/30 to-orange-900/30 mutant-glow">
+                                <CardContent className="p-6 flex items-center justify-between">
+                                    <div>
+                                        <h3 className="text-xl font-bold mutant-text">
+                                            Next Mutation Session
+                                        </h3>
+                                        <p className="text-sm radiation-text">
+                                            Dynamic workout based on your recovery
+                                        </p>
+                                    </div>
+                                    {(() => {
+                                        const workoutNum = user.superMutantStatus?.completedWorkouts || 0;
+                                        const weekNum = Math.floor(workoutNum / 7) + 1;
+                                        const dayNum = (workoutNum % 7) + 1;
+
+                                        const handleTimeSkip = async () => {
+                                            if (!user.superMutantStatus) return;
+                                            const userRef = doc(db, 'users', user.id);
+                                            const updates: any = {};
+                                            const threeDaysAgo = Date.now() - (-24 * 60 * 60 * 1000);
+
+                                            const muscles = ['chest', 'back', 'shoulders', 'triceps', 'biceps', 'calves', 'hamstrings', 'glutes', 'lowerBack', 'quads', 'abductors', 'abs'];
+                                            muscles.forEach(muscle => {
+                                                updates[`superMutantStatus.muscleGroupTimestamps.${muscle}`] = threeDaysAgo;
+                                            });
+
+                                            await updateDoc(userRef, updates);
+                                            window.location.reload();
+                                        };
+
+                                        return (
+                                            <div className="flex gap-2">
+                                                <Link to={`/app/workout/${weekNum}/${dayNum}`}>
+                                                    <Button size="lg" className="bg-green-700 hover:bg-green-600 text-green-50 font-black">
+                                                        <Dumbbell className="mr-2 h-5 w-5" />
+                                                        INITIATE
+                                                    </Button>
+                                                </Link>
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
+                                                    onClick={handleTimeSkip}
+                                                    className="border-orange-700 text-orange-400 hover:bg-orange-900/20"
+                                                    title="Skip 24 hours for testing"
+                                                >
+                                                    ⏭️ +24h
+                                                </Button>
+                                            </div>
+                                        );
+                                    })()}
                                 </CardContent>
                             </Card>
                         </>
@@ -1179,8 +1425,8 @@ export const Dashboard: React.FC = () => {
                 );
             })()}
 
-            {/* Standard Week View (hide for Trinary) */}
-            {!isTrinary && (
+            {/* Standard Week View (hide for Trinary and Super Mutant - they use dynamic systems) */}
+            {!isTrinary && !isSuperMutant && (
                 <div className="space-y-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">

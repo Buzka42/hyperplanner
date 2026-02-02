@@ -36,6 +36,7 @@ export const ProtectedLayout: React.FC = () => {
     const isPainGlory = user?.programId === 'pain-and-glory';
     const isTrinary = user?.programId === 'trinary';
     const isRitual = user?.programId === 'ritual-of-strength';
+    const isSuperMutant = user?.programId === 'super-mutant';
 
     let themeClass = "theme-bench-domination";
     if (isPencilneck) themeClass = "theme-pencilneck";
@@ -44,6 +45,7 @@ export const ProtectedLayout: React.FC = () => {
     if (isPainGlory) themeClass = "theme-pain-glory";
     if (isTrinary) themeClass = "theme-trinary";
     if (isRitual) themeClass = "theme-ritual";
+    if (isSuperMutant) themeClass = "theme-super-mutant";
 
     let logoSrc = "/benchdomination.png";
     if (isPencilneck) logoSrc = "/pencilneck.png";
@@ -52,6 +54,7 @@ export const ProtectedLayout: React.FC = () => {
     if (isPainGlory) logoSrc = "/painglory.png";
     if (isTrinary) logoSrc = "/trinary.png";
     if (isRitual) logoSrc = "/ritual.png";
+    if (isSuperMutant) logoSrc = "/supermutant.png";
 
     return (
         <div className={cn("min-h-screen bg-background flex flex-col md:flex-row", themeClass)}>
@@ -130,6 +133,26 @@ export const ProtectedLayout: React.FC = () => {
                     .theme-ritual .text-primary { color: hsl(0, 85%, 45%) !important; }
                     .theme-ritual .bg-primary { background-color: hsl(0, 85%, 35%) !important; }
                     
+                    /* Pain & Glory - Force dark text on sandy arena theme */
+                    .theme-pain-glory button { color: hsl(0, 0%, 10%) !important; }
+                    .theme-pain-glory a { color: hsl(0, 0%, 10%) !important; }
+                    .theme-pain-glory svg { color: hsl(0, 0%, 10%) !important; }
+                    .theme-pain-glory h1, .theme-pain-glory h2, .theme-pain-glory h3, .theme-pain-glory h4, .theme-pain-glory h5, .theme-pain-glory h6 { 
+                        color: hsl(0, 0%, 10%) !important; 
+                    }
+                    .theme-pain-glory .text-primary { color: hsl(0, 75%, 45%) !important; }
+                    .theme-pain-glory .bg-primary { background-color: hsl(0, 75%, 45%) !important; }
+                    
+                    /* Trinary - Force light text on dark slate theme */
+                    .theme-trinary button { color: hsl(0, 0%, 95%) !important; }
+                    .theme-trinary a { color: hsl(0, 0%, 95%) !important; }
+                    .theme-trinary svg { color: hsl(0, 0%, 95%) !important; }
+                    .theme-trinary h1, .theme-trinary h2, .theme-trinary h3, .theme-trinary h4, .theme-trinary h5, .theme-trinary h6 { 
+                        color: hsl(0, 0%, 95%) !important; 
+                    }
+                    .theme-trinary .text-primary { color: hsl(150, 70%, 55%) !important; }
+                    .theme-trinary .bg-primary { background-color: hsl(150, 70%, 45%) !important; }
+                    
                     /* Shimmer Effect for Text/Images */
                     .shimmer-active-froggy {
                         animation: shimmer-froggy 2.5s infinite linear;
@@ -160,6 +183,29 @@ export const ProtectedLayout: React.FC = () => {
                     @keyframes pulse-glow {
                         0%, 100% { filter: drop-shadow(0 0 10px rgba(132, 204, 22, 0.5)); transform: scale(1); }
                         50% { filter: drop-shadow(0 0 20px rgba(250, 204, 21, 0.8)); transform: scale(1.05); }
+                    }
+
+                    /* Super Mutant - Fallout Wasteland Theme */
+                    .theme-super-mutant {
+                        --background: 120 20% 8%; /* Dark wasteland */
+                        --foreground: 120 100% 80%; /* Light green text */
+                        --card: 120 20% 10%; /* Slightly lighter than bg */
+                        --card-foreground: 120 100% 80%;
+                        --popover: 120 20% 10%;
+                        --popover-foreground: 120 100% 80%;
+                        --primary: 120 100% 35%; /* Toxic Green */
+                        --primary-foreground: 0 0% 0%;
+                        --secondary: 30 100% 50%; /* Radiation Orange */
+                        --secondary-foreground: 0 0% 100%;
+                        --muted: 120 20% 15%;
+                        --muted-foreground: 120 40% 60%;
+                        --accent: 30 100% 50%; /* Orange accents */
+                        --accent-foreground: 0 0% 100%;
+                        --destructive: 0 84% 60%;
+                        --destructive-foreground: 0 0% 100%;
+                        --border: 120 100% 20%; /* Dark green borders */
+                        --input: 120 20% 15%;
+                        --ring: 120 100% 35%;
                     }
                  `}</style>
 

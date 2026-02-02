@@ -78,6 +78,55 @@ export type TrinaryStatus = {
     skipNextAccessory?: boolean;
 };
 
+export type SuperMutantStatus = {
+    completedWorkouts: number;
+    muscleGroupTimestamps: {
+        chest?: number;
+        shoulders?: number;
+        triceps?: number;
+        upperBack?: number;
+        biceps?: number;
+        calves?: number;
+        hamstrings?: number;
+        glutes?: number;
+        lowerBack?: number;
+        quads?: number;
+        abductors?: number;
+        abs?: number;
+    };
+    rolling7DayVolume: {
+        chest: number;
+        shoulders: number;
+        triceps: number;
+        upperBack: number;
+        biceps: number;
+        calves: number;
+        hamstrings: number;
+        glutes: number;
+        lowerBack: number;
+        quads: number;
+        abductors: number;
+        abs: number;
+    };
+    // Alternation tracking
+    chestVariant: 'A' | 'B';
+    backVariant: 'A' | 'B';
+    // Weak point tracking
+    lastWeakPointCheck?: number; // workout number
+    weakPointMuscle?: string;
+    // Mutation reminders
+    lastMutationReminder?: number; // workout number
+    // Initial 1RMs
+    bench1RM: number;
+    deadlift1RM: number;
+    squat1RM: number;
+    // Exercise preferences
+    quadExercise: 'Hack Squat' | 'Front Squat';
+    hamstringExercise: 'Good Mornings' | 'Deficit RDLs';
+    // Weekly session tracking for cap
+    weeklySessionDates?: string[]; // Last 7 days of session dates
+};
+
 export type BadgeId =
     | 'certified_threat'
     | 'certified_boulder'
@@ -107,7 +156,9 @@ export type BadgeId =
     | 'disciple_of_pain'
     | 'acolyte_of_strength'
     | 'high_priest_of_power'
-    | 'eternal_worshipper';
+    | 'eternal_worshipper'
+    | 'super_mutant_aspirant'
+    | 'behemoth_of_wastes';
 
 export type Badge = {
     id: BadgeId;
@@ -146,6 +197,7 @@ export type UserProfile = {
     painGloryStatus?: PainGloryStatus; // Pain & Glory program status
     trinaryStatus?: TrinaryStatus; // Trinary conjugate periodization status
     ritualStatus?: any; // Ritual of Strength status (imported from ritual.ts to avoid circular dependency)
+    superMutantStatus?: SuperMutantStatus; // Super Mutant status
     programProgress?: Record<string, { completedSessions: number; startDate: string; }>;
 
     // New Fields
@@ -202,7 +254,7 @@ export interface PlanConfig {
     id: string;
     program: Program;
     ui?: {
-        dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'deficit_snatch_tracker' | 'strength_altar' | 'workout_history')[];
+        dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'deficit_snatch_tracker' | 'strength_altar' | 'workout_history' | 'mutagen_exposure' | 'recovery_gauge' | 'mutant_mindset')[];
     };
     hooks?: {
         preprocessDay?: (day: WorkoutDay, user: UserProfile) => WorkoutDay;
