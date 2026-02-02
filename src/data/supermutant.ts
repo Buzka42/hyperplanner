@@ -335,13 +335,15 @@ function calculateReactiveSetsForMuscle(current7DayVolume: number, isPreExhaustO
 }
 
 // Check if muscle group is ready (cooldown period passed)
-function isMuscleGroupReady(lastTrainTime: number | undefined, muscleGroup: string): boolean {
+// NOTE: Currently unused but kept for potential future direct muscle-level checks
+/* function _isMuscleGroupReady(lastTrainTime: number | undefined, muscleGroup: string): boolean {
     if (!lastTrainTime) return true;
     const cooldownMs = (muscleGroup === 'abs' || muscleGroup === 'hamstrings' || muscleGroup === 'glutes' ||
         muscleGroup === 'lowerBack' || muscleGroup === 'quads' || muscleGroup === 'abductors'
         ? COOLDOWN_PERIODS.lower : COOLDOWN_PERIODS.upper) * 60 * 60 * 1000;
     return (Date.now() - lastTrainTime) >= cooldownMs;
-}
+} */
+
 
 // Check if a cluster is ready (all muscles in cluster off cooldown)
 function isClusterReady(status: any, clusterKey: string): boolean {
