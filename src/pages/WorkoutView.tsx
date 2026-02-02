@@ -1181,10 +1181,11 @@ export const WorkoutView: React.FC = () => {
                         else if (name.includes('calf')) {
                             volumeUpdates.calves = (volumeUpdates.calves || 0) + completedSets;
                         }
-                        // RDLs/Good Mornings: 1.0 hamstrings, 0.5 glutes
-                        else if (name.includes('rdl') || name.includes('good morning')) {
+                        // RDLs/Good Mornings: 1.0 hamstrings, 0.5 glutes, 1.0 lowerBack
+                        else if (name.toLowerCase().includes('rdl') || name.toLowerCase().includes('good morning')) {
                             volumeUpdates.hamstrings = (volumeUpdates.hamstrings || 0) + completedSets;
                             volumeUpdates.glutes = (volumeUpdates.glutes || 0) + (completedSets * 0.5);
+                            volumeUpdates.lowerBack = (volumeUpdates.lowerBack || 0) + completedSets;
                         }
                         // Hamstring isolation: 1.0 hamstrings only
                         else if (name.includes('hamstring') || name.includes('ham curl')) {
