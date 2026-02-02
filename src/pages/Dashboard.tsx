@@ -1030,15 +1030,17 @@ export const Dashboard: React.FC = () => {
                                             if (!user.superMutantStatus) return;
                                             const userRef = doc(db, 'users', user.id);
                                             const updates: any = {};
-                                            const twentyFourHoursAgo = Date.now() - (24 * 60 * 60 * 1000);
+                                            // Set to 72 hours ago to clear all cooldowns (lower body requires 72h)
+                                            const seventyTwoHoursAgo = Date.now() - (72 * 60 * 60 * 1000);
 
                                             const muscles = ['chest', 'back', 'shoulders', 'triceps', 'biceps', 'calves', 'hamstrings', 'glutes', 'lowerBack', 'quads', 'abductors', 'abs'];
                                             muscles.forEach(muscle => {
-                                                updates[`superMutantStatus.muscleGroupTimestamps.${muscle}`] = twentyFourHoursAgo;
+                                                updates[`superMutantStatus.muscleGroupTimestamps.${muscle}`] = seventyTwoHoursAgo;
                                             });
 
                                             await updateDoc(userRef, updates);
-                                            window.location.reload();
+                                            // Navigate to dashboard to refresh (reload would log out due to no localStorage persistence)
+                                            window.location.href = '/app/dashboard';
                                         };
 
                                         return (
