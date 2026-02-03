@@ -487,7 +487,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
         return {
             dayName: `DELOAD Week 9 – ${cluster.name} (Light Recovery)`,
             dayOfWeek: dayNum,
-            exercises
+            exercises: []
         };
     }
 
@@ -496,6 +496,38 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     // Initialize block alternation if not set
     const nextUpper = status.nextUpperBlock || 'A';
     const nextLower = status.nextLowerBlock || 'C';
+
+    // Check upper blocks cooldown
+    const upperBlockAReady = ['chest', 'triceps', 'biceps'].every(m =>
+        isMuscleGroupReady((status.muscleGroupTimestamps as any)?.[m], m)
+    );
+    const upperBlockBReady = ['back', 'shoulders', 'calves'].every(m =>
+        isMuscleGroupReady((status.muscleGroupTimestamps as any)?.[m], m)
+    );
+
+    // Determine which upper block to use
+    let selectedUpperBlock: 'A' | 'B' | null = null;
+
+    if (nextUpper === 'A' && upperBlockAReady) {
+        selectedUpperBlock = 'A';
+    } else if (nextUpper === 'A' && upperBlockBReady) {
+        // A not ready, try B as fallback
+        selectedUpperBlock = 'B';
+    } else if (nextUpper === 'B' && upperBlockBReady) {
+        selectedUpperBlock = 'B';
+    } else if (nextUpper === 'B' && upperBlockAReady) {
+        // B not ready, try A as fallback
+        selectedUpperBlock = 'A';
+    }
+
+    // If neither upper block is ready, return rest day
+    if (!selectedUpperBlock) {
+        return {
+            dayName: 'Rest Day – Upper Body Recovery',
+            dayOfWeek: (status.completedWorkouts % 7) + 1,
+            exercises: []
+        };
+    }
 
     // Check lower blocks cooldown (72h for all lower body)
     const lowerBlockCReady = ['hamstrings', 'glutes', 'lowerBack'].every(m =>
@@ -532,8 +564,8 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     const rirMessage = getRIRMessage(currentRIR);
     const isPastFailureWeek = currentRIR === -1;
 
-    // UPPER BLOCK (ALWAYS INCLUDED)
-    if (nextUpper === 'A') {
+    // UPPER BLOCK (ALWAYS INCLUDED - based on which is ready)
+    if (selectedUpperBlock === 'A') {
         // Block A: Chest / Triceps / Biceps
         clusterNames.push('Chest/Triceps/Biceps');
 
