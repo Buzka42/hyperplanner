@@ -1521,6 +1521,15 @@ export const translations = {
                 startAccessory: "ROZPOCZNIJ AKCESORIA",
                 skipAccessory: "POMIŃ AKCESORIA",
                 accessoryRecommendation: "⚠️ Pomijanie niezalecane – akcesoria celują w słabe punkty"
+            },
+
+            // Super Mutant Dashboard
+            superMutant: {
+                tagline: "Ewoluuj przez żelazo i promieniowanie",
+                recoveryInfo: "Górne: 48h (38h+ trenowalne) • Dolne: 72h (62h+ trenowalne)",
+                mindsetTitle: "— UMYSŁ MUTANTA —",
+                nextSession: "Następna Sesja Mutacji",
+                dynamicWorkout: "Dynamiczny trening oparty na Twojej regeneracji"
             }
         },
 
