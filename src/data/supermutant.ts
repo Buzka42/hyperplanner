@@ -338,13 +338,18 @@ function calculateReactiveSetsForMuscle(current7DayVolume: number, isPreExhaustO
     return sets;
 }
 
-// Check if muscle group is ready (cooldown period passed)
+// Check if muscle group is ready (cooldown period passed with 10h grace period)
 export function isMuscleGroupReady(lastTrainTime: number | undefined, muscleGroup: string): boolean {
     if (!lastTrainTime) return true;
-    const cooldownMs = (muscleGroup === 'abs' || muscleGroup === 'hamstrings' || muscleGroup === 'glutes' ||
-        muscleGroup === 'lowerBack' || muscleGroup === 'quads' || muscleGroup === 'abductors'
-        ? COOLDOWN_PERIODS.lower : COOLDOWN_PERIODS.upper) * 60 * 60 * 1000;
-    return (Date.now() - lastTrainTime) >= cooldownMs;
+
+    const isLowerBody = muscleGroup === 'abs' || muscleGroup === 'hamstrings' || muscleGroup === 'glutes' ||
+        muscleGroup === 'lowerBack' || muscleGroup === 'quads' || muscleGroup === 'abductors';
+
+    const baseCooldownHours = isLowerBody ? COOLDOWN_PERIODS.lower : COOLDOWN_PERIODS.upper;
+    const graceHours = 10; // Allow training up to 10 hours early
+    const effectiveCooldownMs = (baseCooldownHours - graceHours) * 60 * 60 * 1000;
+
+    return (Date.now() - lastTrainTime) >= effectiveCooldownMs;
 }
 
 // Calculate RIR (Reps in Reserve) based on week within current 4-week cycle
@@ -386,7 +391,6 @@ function getRepRange(currentCycle: number, exerciseType: 'main' | 'isolation'): 
         return exerciseType === 'main' ? '10-15' : '15-20';
     }
 }
-
 
 
 // Check if a cluster is ready (all muscles in cluster off cooldown)

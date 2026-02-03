@@ -939,6 +939,8 @@ export const Dashboard: React.FC = () => {
                                                 const lastTrained = (user.superMutantStatus?.muscleGroupTimestamps as any)?.[group];
                                                 const cooldownHours = lowerBodyGroups.includes(group) ? 72 : 48;
                                                 const cooldownMs = cooldownHours * 60 * 60 * 1000;
+                                                const graceHours = 10;
+                                                const graceMs = graceHours * 60 * 60 * 1000;
 
                                                 let status = 'ready';
                                                 let timeRemaining = '';
@@ -949,7 +951,8 @@ export const Dashboard: React.FC = () => {
                                                     const elapsed = now - lastTrained;
                                                     const remaining = cooldownMs - elapsed;
 
-                                                    if (remaining > 0) {
+                                                    if (remaining > graceMs) {
+                                                        // Still in cooldown, more than 10h left
                                                         status = 'cooldown';
                                                         const hoursLeft = Math.ceil(remaining / (60 * 60 * 1000));
                                                         timeRemaining = `${hoursLeft}h`;
@@ -961,6 +964,13 @@ export const Dashboard: React.FC = () => {
                                                             bgColor = 'bg-orange-900/40 border-orange-600/50';
                                                             textColor = 'text-orange-300';
                                                         }
+                                                    } else if (remaining > 0) {
+                                                        // Nearly ready (within 10h grace period)
+                                                        status = 'nearly-ready';
+                                                        const hoursLeft = Math.ceil(remaining / (60 * 60 * 1000));
+                                                        timeRemaining = `~${hoursLeft}h`;
+                                                        bgColor = 'bg-gradient-to-br from-orange-900/30 to-green-900/30 border-yellow-600/50';
+                                                        textColor = 'text-yellow-300';
                                                     }
                                                 }
 
@@ -975,7 +985,7 @@ export const Dashboard: React.FC = () => {
                                                             {groupLabels[group]}
                                                         </div>
                                                         <div className="text-[10px] text-green-400/60">
-                                                            {status === 'ready' ? '✓ READY' : timeRemaining}
+                                                            {status === 'ready' ? '✓ READY' : status === 'nearly-ready' ? '⚡ SOON' : timeRemaining}
                                                         </div>
                                                         <div className="text-[9px] text-green-300/40 mt-0.5">
                                                             {volume} sets/7d
@@ -986,7 +996,7 @@ export const Dashboard: React.FC = () => {
                                         })()}
                                     </div>
                                     <p className="text-xs text-green-400/50 mt-3 italic text-center">
-                                        Upper body: 48h cooldown • Lower body: 72h cooldown
+                                        Upper: 48h (38h+ trainable) • Lower: 72h (62h+ trainable)
                                     </p>
                                 </CardContent>
                             </Card>
