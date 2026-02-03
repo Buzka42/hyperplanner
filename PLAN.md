@@ -1236,9 +1236,14 @@ The program uses strict alternation between upper and lower training blocks:
 4. **Crank Logic:** If session <45min after base, increase primary exercise to 4 sets
 5. **Short Session Warning:** If session <30min without lower, show "Short Mutation – Rest or Perish"
 
+
 **Cooldown Periods:**
 - Lower body muscles: **72 hours** (hamstrings, glutes, lowerBack, quads, abductors, abs)
-- Upper body trains every workout via alternation (no cooldown check needed)
+- Upper body muscles: **48 hours** (chest, back, shoulders, triceps, biceps, calves)
+- **Grace Period:** 10 hours early training allowed
+  - Upper body: trainable after 38 hours (instead of 48h)
+  - Lower body: trainable after 62 hours (instead of 72h)
+  - Recovery Gauge shows **yellow "⚡ SOON"** state during grace period
 
 **Session Caps:**
 - **Time:** Max 90 minutes per session
@@ -1331,7 +1336,9 @@ Option 2: "No – Complete Program"
 - **NEW: Alternating block queue system (A↔B upper, C↔D lower)**
 - **NEW: Over-volume exclusion (>20 sets → exclude assisting muscles)**
 - **NEW: Crank logic (short sessions → 4 sets primary)**
-- 72h lower body cooldown tracking
+- **NEW: 10-hour grace period (38h upper, 62h lower trainable)**
+- **NEW: Recovery Gauge nearly-ready state (yellow ⚡ SOON)**
+- 72h/48h cooldown tracking with grace period
 - Reactive sets calculation
 - Cycle-based rep ranges
 - All 12 muscle groups tracked
