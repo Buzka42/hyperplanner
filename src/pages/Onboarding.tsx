@@ -1198,6 +1198,8 @@ export const Onboarding: React.FC = () => {
                                 },
                                 chestVariant: 'A' as const,
                                 backVariant: 'A' as const,
+                                nextUpperBlock: 'A' as const,
+                                nextLowerBlock: 'C' as const,
                                 bench1RM: 0,
                                 deadlift1RM: 0,
                                 squat1RM: 0,

@@ -1213,26 +1213,42 @@ Tip: 'Activation to failure, then mini-sets with short breaths – total exhaust
 
 **Purpose:** Mandatory recovery after 8 intense weeks prevents burnout and optimizes long-term gains
 
-### Dynamic Queue System
+### Alternating Block Queue System
+**Structure:**
+The program uses strict alternation between upper and lower training blocks:
+
+**Upper Blocks (ALWAYS included, alternates every workout):**
+- **Block A:** Chest / Triceps / Biceps (~30 min)
+- **Block B:** Back / Shoulders / Calves (~30 min)
+
+**Lower Blocks (added when ready, 72h cooldown):**
+- **Block C:** Hamstrings / Glutes / Lower Back (~20 min)
+- **Block D:** Quads / Abductors / Abs (~20 min)
+
+**Selection Logic:**
+1. **Upper:** ALWAYS include next upper block (A or B, alternates each workout)
+2. **Lower:** Add next lower block (C or D, alternates) IF:
+   - All muscles in block off 72h cooldown
+   - Session time + 20min ≤ 90min cap
+3. **Over-Volume Exclusion:** If assisting muscles >20 sets/7days:
+   - **Block A:** Exclude Triceps and/or Biceps if over volume (keep Chest)
+   - **Block B:** Exclude Shoulders if over volume (keep Back + Calves)
+4. **Crank Logic:** If session <45min after base, increase primary exercise to 4 sets
+5. **Short Session Warning:** If session <30min without lower, show "Short Mutation – Rest or Perish"
+
 **Cooldown Periods:**
-- Upper body muscles (chest, back, shoulders, triceps, biceps, calves): **48 hours**
-- Lower body muscles (hamstrings, glutes, lowerBack, quads, abductors, abs): **72 hours**
+- Lower body muscles: **72 hours** (hamstrings, glutes, lowerBack, quads, abductors, abs)
+- Upper body trains every workout via alternation (no cooldown check needed)
 
-**Selection Priority:**
-1. **Volume-Based:** Prioritize muscle groups with lowest 7-day volume (<20 sets target)
-2. **Time-Based:** If volumes equal, select oldest trained clusters
-3. **Session Cap:** Max 90min per session (~2 clusters), auto-split if needed
-4. **Weekly Limit:** If 6+ sessions in 7 days, show "Rest recommended – the wasteland demands balance"
+**Session Caps:**
+- **Time:** Max 90 minutes per session
+- **Weekly:** If >6 sessions in 7 days: "Over-mutation risk – rest or perish? Yes/No"
 
-**Cluster System:**
-- **Cluster 1:** Chest/Triceps/Biceps (35min, 48h cooldown)
-- **Cluster 2:** Back/Shoulders/Calves (45min, 48h cooldown)
-- **Cluster 3:** Hams/Glutes/LowerBack (45min, 72h cooldown)
-- **Cluster 4:** Quads/Abductors/Abs (40min, 72h cooldown)
-
-**Exclusivity Rules:**
-- Cluster 1 ⊗ Cluster 2 (upper body split)
-- Cluster 3 ⊗ Cluster 4 (lower body split)
+**Examples:**
+- **Workout 1:** Block A (Chest/Tri/Bi) + Block C (Hams/Glutes/LBack) if ready → 50min
+- **Workout 2:** Block B (Back/Shoulders/Calves) + Block D (Quads/Abs) if ready → 50min
+- **Workout 3:** Block A (Chest/Tri/Bi), no lower ready → 30min
+- **Over-volume:** Block A with Triceps excluded (>20 sets), Chest cranked to 4 sets → 45min
 
 ### Reactive Volume System
 **Target:** ~20 sets per muscle per week
@@ -1312,20 +1328,23 @@ Option 2: "No – Complete Program"
 - RIR progression system (2→1→0→-1)
 - Intensification technique guides
 - Mandatory deload week 9
-- Volume-prioritized queue system
-- 48h/72h cooldown tracking
+- **NEW: Alternating block queue system (A↔B upper, C↔D lower)**
+- **NEW: Over-volume exclusion (>20 sets → exclude assisting muscles)**
+- **NEW: Crank logic (short sessions → 4 sets primary)**
+- 72h lower body cooldown tracking
 - Reactive sets calculation
-- Re-run modal with weight migration
-- Exclusivity-based cluster selection
+- Cycle-based rep ranges
 - All 12 muscle groups tracked
 
 **Design Philosophy:**
 - Science-based RIR progression prevents burnout
-- Volume priority ensures balanced development
+- Alternating blocks ensure upper/lower balance
+- Over-volume protection prevents overtraining
+- Crank logic maintains minimum effective volume
 - Intensification techniques maximize growth in week 4
 - Mandatory deload optimizes long-term adaptation
 - Dynamic frequency adapts to individual recovery
 
 ---
 
-*Generated from source code – February 02, 2026*
+*Generated from source code – February 03, 2026*

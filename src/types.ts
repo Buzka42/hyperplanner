@@ -112,6 +112,9 @@ export type SuperMutantStatus = {
     // Alternation tracking
     chestVariant: 'A' | 'B';
     backVariant: 'A' | 'B';
+    // Block alternation for new queue system
+    nextUpperBlock?: 'A' | 'B'; // Chest/Tri/Bi (A) or Back/Shoulders/Calves (B)
+    nextLowerBlock?: 'C' | 'D'; // Hams/Glutes/LBack (C) or Quads/Abd/Abs (D)
     // Weak point tracking
     lastWeakPointCheck?: number; // workout number
     weakPointMuscle?: string;
