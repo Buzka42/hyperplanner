@@ -801,7 +801,7 @@ export const SUPER_MUTANT_CONFIG: PlanConfig = {
     id: SUPER_MUTANT_PROGRAM.id,
     program: SUPER_MUTANT_PROGRAM,
     ui: {
-        dashboardWidgets: ['mutagen_exposure', 'recovery_gauge', 'mutant_mindset', 'workout_history']
+        dashboardWidgets: ['recovery_gauge', 'mutant_mindset', 'workout_history']
     },
     hooks: {
         preprocessDay: (day, user) => {
