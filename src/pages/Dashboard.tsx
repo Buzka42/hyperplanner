@@ -522,7 +522,7 @@ export const Dashboard: React.FC = () => {
                                 SUPER MUTANT
                             </h2>
                             <p className="mutant-text mt-1 text-sm italic font-mono">
-                                The wasteland awaits – evolve through iron and radiation
+                                {t('dashboard.superMutant.tagline')}
                             </p>
                         </div>
                         <Link to="/app/history">
@@ -879,34 +879,6 @@ export const Dashboard: React.FC = () => {
                     {/* Super Mutant Widgets */}
                     {isSuperMutant && (
                         <>
-                            {/* Mutagen Exposure - Progress Tracker */}
-                            <Card className="col-span-full md:col-span-3 border-green-800/30 bg-gradient-to-br from-green-950/20 to-black">
-                                <CardHeader className="pb-2">
-                                    <CardTitle className="mutant-text text-lg font-black flex items-center gap-2">
-                                        ☢️ MUTAGEN EXPOSURE
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-3xl font-black text-green-300">
-                                        {(user.superMutantStatus?.completedWorkouts || 0)} <span className="text-lg font-normal text-muted-foreground">/ 84</span>
-                                    </div>
-                                    <div className="mt-4 h-3 bg-green-950/50 rounded-full overflow-hidden border border-green-800/30">
-                                        <div
-                                            className="h-full bg-gradient-to-r from-green-600 to-orange-500 transition-all duration-1000"
-                                            style={{ width: `${Math.min(100, ((user.superMutantStatus?.completedWorkouts || 0) / 84) * 100)}%` }}
-                                        />
-                                    </div>
-                                    <p className="text-xs text-right text-green-500/70 mt-1">
-                                        Week {Math.min(14, Math.floor(((user.superMutantStatus?.completedWorkouts || 0) / 6) + 1))} / 14
-                                    </p>
-                                    <p className="text-xs text-green-400/60 mt-2 italic font-mono">
-                                        {(user.superMutantStatus?.completedWorkouts || 0) < 72
-                                            ? "Adaptation Phase - Your body is changing..."
-                                            : "Peak Mutation - Beyond human limits"}
-                                    </p>
-                                </CardContent>
-                            </Card>
-
                             {/* Recovery Gauge - Cooldown Status */}
                             <Card className="col-span-full md:col-span-4 border-green-800/30 bg-gradient-to-br from-black to-green-950/20">
                                 <CardHeader className="pb-2">
@@ -996,7 +968,7 @@ export const Dashboard: React.FC = () => {
                                         })()}
                                     </div>
                                     <p className="text-xs text-green-400/50 mt-3 italic text-center">
-                                        Upper: 48h (38h+ trainable) • Lower: 72h (62h+ trainable)
+                                        {t('dashboard.superMutant.recoveryInfo')}
                                     </p>
                                 </CardContent>
                             </Card>
@@ -1015,7 +987,7 @@ export const Dashboard: React.FC = () => {
                                         })()}"
                                     </p>
                                     <div className="text-xs text-green-400/60 mt-3 font-mono">
-                                        — MUTANT MINDSET —
+                                        {t('dashboard.superMutant.mindsetTitle')}
                                     </div>
                                 </CardContent>
                             </Card>
@@ -1025,10 +997,10 @@ export const Dashboard: React.FC = () => {
                                 <CardContent className="p-6 flex items-center justify-between">
                                     <div>
                                         <h3 className="text-xl font-bold mutant-text">
-                                            Next Mutation Session
+                                            {t('dashboard.superMutant.nextSession')}
                                         </h3>
                                         <p className="text-sm radiation-text">
-                                            Dynamic workout based on your recovery
+                                            {t('dashboard.superMutant.dynamicWorkout')}
                                         </p>
                                     </div>
                                     {(() => {

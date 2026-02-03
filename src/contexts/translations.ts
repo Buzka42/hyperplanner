@@ -514,6 +514,15 @@ export const translations = {
                 startAccessory: "START ACCESSORY DAY",
                 skipAccessory: "SKIP ACCESSORY",
                 accessoryRecommendation: "⚠️ Skipping not recommended – accessories target weak points"
+            },
+
+            // Super Mutant Dashboard
+            superMutant: {
+                tagline: "Evolve through iron and radiation",
+                recoveryInfo: "Upper: 48h (38h+ trainable) • Lower: 72h (62h+ trainable)",
+                mindsetTitle: "— MUTANT MINDSET —",
+                nextSession: "Next Mutation Session",
+                dynamicWorkout: "Dynamic workout based on your recovery"
             }
         },
 
