@@ -2,7 +2,7 @@
 
 This document serves as the single source of truth for all workout programs, progression logic, and exercise specifications available in the application. It consolidates previous documentation and includes the latest updates.
 
-**Last Updated:** January 17, 2026 - Final Deload System Implementation  
+**Last Updated:** February 3, 2026 - Weighted Pull-ups Week 13 extension, UI overhaul, Polish translations  
 **Note:** For technical implementation details, see `README.md`.
 
 ---
@@ -175,13 +175,17 @@ The program includes two mandatory deload weeks at critical points to optimize r
 *   Weeks 14-16: Peaking/Testing (if user chose Option A)
 *   **Total Duration:** 16 weeks (with both deloads)
 
-**Weighted Pull-ups Progression (Weeks 10-12):**
+**Weighted Pull-ups Progression (Weeks 10-13):**
 *   **Week 10 Wednesday:**
     *   Set 1: 1RM max effort test (record weight!)
     *   Sets 2-4: 2-3 reps @ 92.5% of new 1RM
     *   Rep display: "1, 2-3, 2-3, 2-3"
-*   **Week 11-12 Wednesday:**
+    *   **On save:** Stores first set weight as `pullup1RM` on user document for auto-calculation
+*   **Week 11-13 Wednesday:**
     *   All 4 sets: 2+ reps @ 92.5% of Week 10 max
+    *   **Auto-calculated weight:** `pullup1RM × 0.925` rounded UP to nearest 2.5 kg
+    *   Weight is auto-filled if Week 10 was completed (via `calculatedWeight` property)
+    *   Notes use translatable key `t:tips.pullupWeeks11to13Note`
     *   Focus on quality reps, beat Week 10 volume
 
 ### Bench Press Variations (Independent Progression)
@@ -207,7 +211,7 @@ The program includes two mandatory deload weeks at critical points to optimize r
 *   **Weeks 1-3:** Max reps EMOM until form breaks (add 2.5 kg plate)
 *   **Weeks 4-6:** Fixed-weight EMOM (15-set cap, live total rep counter)
 *   **Weeks 7-9:** Daily max triple + 6 back-offs @ 87.5% (7 sets total)
-*   **Weeks 10-12:** Max single (Wed W10) → 5 sets @ 92.5% (W11-12)
+*   **Weeks 10-13:** Max single (Wed W10) → 5 sets @ 92.5% (W11-13, auto-weight from stored 1RM)
 
 ### Elite Warm-up Protocol
 Paused every rep:

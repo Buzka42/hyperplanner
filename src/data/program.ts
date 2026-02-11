@@ -758,8 +758,8 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 });
             }
 
-            // === WEIGHTED PULL-UPS PROGRESSION (Weeks 10-12) ===
-            if (weekNum >= 10 && weekNum <= 12 && day.dayOfWeek === 3) {
+            // === WEIGHTED PULL-UPS PROGRESSION (Weeks 10-13) ===
+            if (weekNum >= 10 && weekNum <= 13 && day.dayOfWeek === 3) {
                 processedDay.exercises = processedDay.exercises.map(ex => {
                     if (ex.name === "Weighted Pull-ups") {
                         if (weekNum === 10) {
@@ -770,11 +770,19 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                                 notes: "Set 1: MAX EFFORT 1RM (record this weight!). Sets 2-4: Use 92.5% of your 1RM for 2-3 reps."
                             };
                         } else {
+                            // Weeks 11-13: auto-calculate weight from stored Week 10 1RM
+                            let autoWeight: number | null = null;
+                            const pullup1RM = (user as any).pullup1RM;
+                            if (pullup1RM && pullup1RM > 0) {
+                                // 92.5% rounded UP to nearest 2.5 kg
+                                autoWeight = Math.ceil((pullup1RM * 0.925) / 2.5) * 2.5;
+                            }
                             return {
                                 ...ex,
                                 sets: 4,
                                 target: { ...ex.target, reps: "2+" },
-                                notes: `All sets @ 92.5% of your Week 10 max. Aim for quality reps, beat Week 10's back-off volume.`
+                                notes: `t:tips.pullupWeeks11to13Note`,
+                                ...(autoWeight ? { calculatedWeight: autoWeight } : {})
                             };
                         }
                     }

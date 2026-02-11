@@ -91,6 +91,9 @@ export const WorkoutView: React.FC = () => {
             if (hookResult !== undefined) return hookResult;
         }
 
+        // Check for auto-calculated weight from preprocessDay (e.g., weighted pull-ups weeks 11-13)
+        if (ex.calculatedWeight) return ex.calculatedWeight.toString();
+
         // Default Logic fallback
         const { percentage, percentageRef, weightAbsolute } = ex.target;
         if (weightAbsolute) return weightAbsolute.toString();
@@ -641,6 +644,21 @@ export const WorkoutView: React.FC = () => {
             if (updated) updatePayload.stats = newStats;
             if (historyEntry) updatePayload.benchHistory = arrayUnion(historyEntry);
 
+            // Store Weighted Pull-up 1RM from Week 10 Day 3 for auto-calculation in Weeks 11-13
+            if (programData.id === 'bench-domination' && weekNum === 10 && dayNum === 3 && !isExistingLog) {
+                dayData?.exercises.forEach(ex => {
+                    if (ex.name === "Weighted Pull-ups") {
+                        const sets = exerciseData[ex.id];
+                        if (sets && sets.length > 0) {
+                            const firstSetWeight = parseFloat(sets[0].weight || "0");
+                            if (firstSetWeight > 0) {
+                                updatePayload.pullup1RM = firstSetWeight;
+                                console.log(`[PULLUP 1RM] Saved Week 10 1RM: ${firstSetWeight} kg`);
+                            }
+                        }
+                    }
+                });
+            }
 
             if (Object.keys(updatePayload).length > 0) {
                 await updateDoc(userRef, updatePayload);
@@ -1718,11 +1736,13 @@ export const WorkoutView: React.FC = () => {
                     };
 
                     // Add general warm-up tip FIRST for bench/squat/deadlift exercises
+                    // Skip for base "Paused Bench Press" in Bench Domination (its specific tip already includes warmup)
                     const isBenchVariation = ex.name.toLowerCase().includes('bench');
                     const isSquatVariation = ex.name.toLowerCase().includes('squat') && ex.name !== 'Hack Squat Calf Raises';
                     const isDeadliftVariation = ex.name.toLowerCase().includes('deadlift');
+                    const skipGeneralWarmup = ex.name === "Paused Bench Press" && programData.id === 'bench-domination';
 
-                    if (isBenchVariation) {
+                    if (isBenchVariation && !skipGeneralWarmup) {
                         const warmupBenchTip = t('tips.warmupBench');
                         if (warmupBenchTip && warmupBenchTip !== 'tips.warmupBench') {
                             displayTips.push(warmupBenchTip);
@@ -1796,8 +1816,25 @@ export const WorkoutView: React.FC = () => {
                                             <div className="flex flex-col gap-1">
                                                 <CardTitle className={`text-lg leading-tight ${isSuperMutant ? 'mutant-text' : ''}`}>{ex.name}</CardTitle>
                                                 {prevStat && prevStat.weight !== "-" && (
-                                                    <div className="text-xs text-muted-foreground bg-background/50 px-2 py-1 rounded w-fit">
-                                                        {t('workout.last')}: {prevStat.weight}{t('common.kg')} x {prevStat.reps}
+                                                    <div className="flex items-center gap-2 mt-1">
+                                                        <div className="inline-flex items-center gap-1.5 text-xs font-medium bg-gradient-to-r from-blue-500/15 to-indigo-500/10 border border-blue-500/20 text-blue-300 px-2.5 py-1 rounded-full">
+                                                            <span className="text-[10px] uppercase tracking-wider text-blue-400/70">{t('workout.last')}</span>
+                                                            <span className="font-mono font-bold">{prevStat.weight}{t('common.kg')}</span>
+                                                            <span className="text-blue-400/50">×</span>
+                                                            <span className="font-mono font-bold">{prevStat.reps}</span>
+                                                        </div>
+                                                        {advice && (
+                                                            <div className="inline-flex items-center gap-1 text-[11px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-1 rounded-full animate-pulse">
+                                                                <AlertCircle className="h-3 w-3" />
+                                                                <span>{advice}</span>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                                {!prevStat && advice && (
+                                                    <div className="inline-flex items-center gap-1 text-[11px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-1 rounded-full animate-pulse mt-1">
+                                                        <AlertCircle className="h-3 w-3" />
+                                                        <span>{advice}</span>
                                                     </div>
                                                 )}
                                             </div>
@@ -1839,13 +1876,6 @@ export const WorkoutView: React.FC = () => {
                                                 {targetWeight && targetWeight !== "0" && !isGiantSet ? (
                                                     <span className="text-sm font-mono text-primary font-bold">{t('workout.target')} {targetWeight}{t('common.kg')}</span>
                                                 ) : <span></span>}
-
-                                                {advice && (
-                                                    <div className="flex items-center text-xs font-bold text-red-500 animate-pulse">
-                                                        <AlertCircle className="mr-1 h-3 w-3" />
-                                                        {advice}
-                                                    </div>
-                                                )}
                                             </div>
                                         </div>
                                     </div>

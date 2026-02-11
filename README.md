@@ -236,10 +236,13 @@ const [listeningId, setListeningId] = useState<string | null>(null);
         *   Detection: `ex.name.includes('1RM TEST')`
         *   Modified percentages: 80% double (was 85%), 90% single (was 95%)
         *   Applied in warmup generation logic to reduce fatigue before max attempt
-    *   **Weighted Pull-ups Progression (W10-12):**
+    *   **Weighted Pull-ups Progression (W10-13):**
         *   Week 10: Set 1 = "1" reps (1RM test), Sets 2-4 = "2-3" reps @ 92.5%
-        *   Week 11-12: All sets = "2+" reps @ 92.5% of Week 10 max
-        *   Modified in preprocessDay hook when `weekNum >= 10 && weekNum <= 12 && day.dayOfWeek === 3`
+        *   On save: First set weight stored as `pullup1RM` on user document
+        *   Week 11-13: All sets = "2+" reps, auto-calculated weight = `pullup1RM × 0.925` rounded UP to nearest 2.5 kg
+        *   Weight attached as `calculatedWeight` property, picked up by `WorkoutView.tsx` calculateWeight wrapper
+        *   Modified in preprocessDay hook when `weekNum >= 10 && weekNum <= 13 && day.dayOfWeek === 3`
+        *   Notes use translatable key `t:tips.pullupWeeks11to13Note`
     *   **Trigger Detection (Future Dynamic System):**
         *   Forced deload: Tracked in `WorkoutView.tsx` on Week 8 Saturday completion
         *   Reactive: 2 consecutive AMRAPs ≤7 reps detection (weeks 5-8)

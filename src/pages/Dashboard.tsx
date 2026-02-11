@@ -1370,13 +1370,13 @@ export const Dashboard: React.FC = () => {
                                                 {t('dashboard.trinary.startWorkout')}
                                             </Button>
                                             <div className="mt-4 pt-4 border-t border-zinc-700">
-                                                <p className="text-xs text-zinc-500 text-center mb-3">Need extra recovery or volume? Trigger an accessory day manually.</p>
+                                                <p className="text-xs text-zinc-500 text-center mb-3">{t('dashboard.trinary.manualAccessoryHint')}</p>
                                                 <Button
                                                     variant="outline"
                                                     className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700"
                                                     onClick={() => setShowAccessoryModal(true)}
                                                 >
-                                                    Start Manual Accessory Day
+                                                    {t('dashboard.trinary.startManualAccessory')}
                                                 </Button>
                                             </div>
                                         </>

@@ -513,7 +513,9 @@ export const translations = {
                 accessoryTriggered: "Excess workouts this week – accessory day triggered to hit weak points",
                 startAccessory: "START ACCESSORY DAY",
                 skipAccessory: "SKIP ACCESSORY",
-                accessoryRecommendation: "⚠️ Skipping not recommended – accessories target weak points"
+                accessoryRecommendation: "⚠️ Skipping not recommended – accessories target weak points",
+                manualAccessoryHint: "Need extra recovery or volume? Trigger an accessory day manually.",
+                startManualAccessory: "Start Manual Accessory Day"
             },
 
             // Super Mutant Dashboard
@@ -877,6 +879,7 @@ export const translations = {
             pullupWeeks7to9: "Daily max triple + 4-6 back-off triples @ 85-90%.",
             pullupWeek10: "Test your max weighted single rep.",
             pullupWeeks11to12: "3-5 sets of 2-3 reps @ 90-95%.",
+            pullupWeeks11to13Note: "All sets @ 92.5% of your Week 10 max. Aim for quality reps, beat Week 10's back-off volume.",
 
             // --- PEACHY PROGRAM TIPS ---
             sumoDeadlift: "Go brutally heavy. Use straps. 1-2 sec squeeze at top - crack a walnut with your glutes.",
@@ -1520,14 +1523,16 @@ export const translations = {
                 accessoryTriggered: "Nadmiar treningów w tym tygodniu – dni akcesoryjne wyzwolone",
                 startAccessory: "ROZPOCZNIJ AKCESORIA",
                 skipAccessory: "POMIŃ AKCESORIA",
-                accessoryRecommendation: "⚠️ Pomijanie niezalecane – akcesoria celują w słabe punkty"
+                accessoryRecommendation: "⚠️ Pomijanie niezalecane – akcesoria celują w słabe punkty",
+                manualAccessoryHint: "Potrzebujesz dodatkowej regeneracji lub objętości? Ręcznie uruchom dzień akcesoryjny.",
+                startManualAccessory: "Rozpocznij ręczny dzień akcesoryjny"
             },
 
             // Super Mutant Dashboard
             superMutant: {
-                tagline: "Ewoluuj przez żelazo i promieniowanie",
+                tagline: "Czas rozpocząć mutację",
                 recoveryInfo: "Górne: 48h (38h+ trenowalne) • Dolne: 72h (62h+ trenowalne)",
-                mindsetTitle: "— UMYSŁ MUTANTA —",
+                mindsetTitle: "— MUTANT MINDSET —",
                 nextSession: "Następna Sesja Mutacji",
                 dynamicWorkout: "Dynamiczny trening oparty na Twojej regeneracji"
             }
@@ -1569,7 +1574,7 @@ export const translations = {
                 optionBButton: "BEZ DELOADU, KONTYNUUJ",
                 optionCTitle: "4-5 dni odpoczynku",
                 optionCDesc: "Weź kompletny odpoczynek lub zrób lekką pracę akcesoryjną na RPE 7-8. Potem zacznij z nowymi wariantami.",
-                optionCButton: "WEZMĘ ODPOCZYNEK"
+                optionCButton: "ODPOCZYNEK"
             },
             rpeSelector: {
                 title: "Jak czułeś się w ostatniej serii? (RPE na ostatnim secie)",
@@ -1844,8 +1849,9 @@ export const translations = {
             pullupWeeks1to3: "Dodaj najmniejszy krążek. Maks. czystych powtórzeń EMOM, aż technika się załamie. (EMOM: start co minutę, reszta to odpoczynek)",
             pullupWeeks4to6: "Dodaj 10-15 kg. 3-5 powt. EMOM przez 12-15 minut.",
             pullupWeeks7to9: "Dzienny maks. na 3 powt. + 4-6 lżejszych serii po 3 @ 85-90%.",
-            pullupWeek10: "Znajdź swój maksymalny cięzar na pojedyńcze powtózenie.",
+            pullupWeek10: "Znajdź swój maksymalny ciężar na pojedyńcze powtórzenie.",
             pullupWeeks11to12: "3-5 serii po 2-3 powt. @ 90-95%.",
+            pullupWeeks11to13Note: "Wszystkie serie @ 92.5% twojego maks. z Tyg. 10. Celuj w czyste powtórzenia, pobij objętość z serii oddechowych z Tyg. 10.",
 
             sumoDeadlift: "Ciężkie powtórzenia! Używaj pasków. 1-2 sek ścisk na górze – myśl 'zgniatanie orzechów' pośladkami.",
             bulgarianSplitSquat: "Trzymaj stojak jedną ręką, hantlę w drugiej. Tylna stopa sznurówkami na ławce (palce W DÓŁ). Siadaj do tyłu - ogranicz ruch kolana do przodu, trzymaj tors prosto.",
