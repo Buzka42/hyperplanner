@@ -1191,22 +1191,27 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 ];
 
                 if (legExercises.includes(exerciseName)) {
-                    // Find the last weight used for this exercise in Week 8
+                    // Find the last completed leg day (any week before Week 9)
                     const sessions = (user as any).sessions || [];
-                    const week8Sessions = sessions.filter((s: any) =>
+                    const legDaySessions = sessions.filter((s: any) =>
                         s.programId === 'bench-domination' &&
-                        s.week === 8 &&
+                        s.week < 9 &&
                         (s.day === 2 || s.day === 5)
-                    );
+                    ).sort((a: any, b: any) => {
+                        // Sort by week descending, then by day descending
+                        if (b.week !== a.week) return b.week - a.week;
+                        return b.day - a.day;
+                    });
 
-                    for (const session of week8Sessions.reverse()) {
+                    // Search through sessions from most recent to oldest
+                    for (const session of legDaySessions) {
                         if (session.exercises && session.exercises[exerciseName]) {
                             const sets = session.exercises[exerciseName];
                             if (sets && sets.length > 0) {
                                 const lastWeight = parseFloat(sets[0].weight || "0");
                                 if (lastWeight > 0) {
                                     const deloadWeight = Math.floor((lastWeight * 0.85) / 2.5) * 2.5;
-                                    console.log(`[WEEK 9 DELOAD] ${exerciseName}: Week 8 weight ${lastWeight} kg × 0.85 = ${deloadWeight} kg`);
+                                    console.log(`[WEEK 9 DELOAD] ${exerciseName}: Last completed (Week ${session.week}, Day ${session.day}) weight ${lastWeight} kg × 0.85 = ${deloadWeight} kg`);
                                     return deloadWeight.toString();
                                 }
                             }
