@@ -388,7 +388,15 @@ const createWeeks = (): ProgramWeek[] => {
         // === INSERT WEEK 9 DELOAD (after completing week 8) ===
         if (w === 8) {
             const week8 = weeks[weeks.length - 1];
-            const deloadDayNames = ["Monday Recovery", "Tuesday Light Legs", "Wednesday Light", "Thursday Light Power", "Friday Light Legs", "Saturday Technique"];
+            const deloadDayNames = [
+                "t:dayNames.mondayRecovery",
+                "t:dayNames.tuesdayLightLegs",
+                "t:dayNames.wednesdayLight",
+                "t:dayNames.thursdayLightPower",
+                "t:dayNames.fridayLightLegs",
+                "t:dayNames.saturdayTechnique",
+                "t:dayNames.sundayRest"
+            ];
 
             const deloadDays: WorkoutDay[] = week8.days.map((day, index) => ({
                 ...day,
@@ -398,6 +406,13 @@ const createWeeks = (): ProgramWeek[] => {
                     id: ex.id.replace('w8', 'w9deload')
                 }))
             }));
+
+            // Add Sunday rest day (Week 8 only has 6 days)
+            deloadDays.push({
+                dayName: deloadDayNames[6] + " DELOAD",
+                dayOfWeek: 0,
+                exercises: []
+            });
 
             weeks.push({ weekNumber: 9, days: deloadDays });
         }

@@ -210,10 +210,6 @@ export const Dashboard: React.FC = () => {
             // Week 9: Mandatory Deload
             weekTitleColor = "text-blue-500";
             weekBadge = <div className="flex items-center text-blue-500 text-sm font-bold ml-2"><ShieldCheck className="w-4 h-4 mr-1" /> {t('dashboard.mandatoryDeload')}</div>;
-        } else if (viewWeek === 13) {
-            // Week 13: Second mandatory deload (peaking prep)
-            weekTitleColor = "text-blue-500";
-            weekBadge = <div className="flex items-center text-blue-500 text-sm font-bold ml-2"><ShieldCheck className="w-4 h-4 mr-1" /> {t('dashboard.mandatoryDeload')}</div>;
         } else if (viewWeek >= 14) {
             // Weeks 14-16: Peaking/Testing
             weekTitleColor = "text-red-600";
