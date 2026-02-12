@@ -271,7 +271,9 @@ export const WorkoutView: React.FC = () => {
 
                     // Advice Hook
                     let advice = "";
-                    if (activePlanConfig.hooks?.getExerciseAdvice) {
+                    // Suppress advice during deload weeks (Week 9 and 13 for Bench Domination)
+                    const isDeloadWeek = programData.id === 'bench-domination' && (weekNum === 9 || weekNum === 13);
+                    if (activePlanConfig.hooks?.getExerciseAdvice && !isDeloadWeek) {
                         const hookAdvice = activePlanConfig.hooks.getExerciseAdvice(currentEx, exHistory);
                         if (hookAdvice) advice = hookAdvice;
                     }

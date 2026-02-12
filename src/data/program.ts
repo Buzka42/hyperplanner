@@ -1177,6 +1177,44 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
          * OLD SYSTEM REMOVED: No direct jumps from onboarding, no old rounding rules.
          */
         calculateWeight: (target: SetTarget, user: UserProfile, exerciseName?: string, context?: { week: number; day: number }) => {
+            // Week 9 Deload: Auto-calculate leg exercise weights (-15% from Week 8)
+            if (context && context.week === 9 && exerciseName && context.day && (context.day === 2 || context.day === 5)) {
+                const legExercises = [
+                    "Walking Lunges",
+                    "Heels-Off Narrow Leg Press",
+                    "Reverse Nordic Curls",
+                    "Single-Leg Machine Hip Thrust",
+                    "Nordic Curls",
+                    "Glute-Ham Raise",
+                    "Hack Squat Calf Raises",
+                    "Hip Adduction"
+                ];
+
+                if (legExercises.includes(exerciseName)) {
+                    // Find the last weight used for this exercise in Week 8
+                    const sessions = (user as any).sessions || [];
+                    const week8Sessions = sessions.filter((s: any) =>
+                        s.programId === 'bench-domination' &&
+                        s.week === 8 &&
+                        (s.day === 2 || s.day === 5)
+                    );
+
+                    for (const session of week8Sessions.reverse()) {
+                        if (session.exercises && session.exercises[exerciseName]) {
+                            const sets = session.exercises[exerciseName];
+                            if (sets && sets.length > 0) {
+                                const lastWeight = parseFloat(sets[0].weight || "0");
+                                if (lastWeight > 0) {
+                                    const deloadWeight = Math.floor((lastWeight * 0.85) / 2.5) * 2.5;
+                                    console.log(`[WEEK 9 DELOAD] ${exerciseName}: Week 8 weight ${lastWeight} kg × 0.85 = ${deloadWeight} kg`);
+                                    return deloadWeight.toString();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // 0. Absolute Weight
             if (target.weightAbsolute) return target.weightAbsolute.toString();
 

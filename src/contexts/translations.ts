@@ -92,6 +92,14 @@ export const translations = {
             saturdayJudgmentDay: "Saturday - JUDGMENT DAY",
             sundayRest: "Sunday - Rest",
 
+            // Week 9 Deload
+            mondayRecovery: "Monday - Recovery",
+            tuesdayLightLegs: "Tuesday - Light Legs",
+            wednesdayLight: "Wednesday - Light",
+            thursdayLightPower: "Thursday - Light Power",
+            fridayLightLegs: "Friday - Light Legs",
+            saturdayTechnique: "Saturday - Technique",
+
             // Pencilneck
             pushAChestDeltsTri: "Push A (Chest/Delts/Tri/Quads)",
             pullABackDeltBi: "Pull A (Back/Rear Delt/Bi/Hams)",
@@ -1117,6 +1125,14 @@ export const translations = {
             saturdayPeakingAMRAP: "Sobota – Peaking AMRAP",
             saturdayJudgmentDay: "Sobota – DZIEŃ SĄDU OSTATECZNEGO",
             sundayRest: "Niedziela - Odpoczynek",
+
+            // Tydzień 9 Deload
+            mondayRecovery: "Poniedziałek - Regeneracja",
+            tuesdayLightLegs: "Wtorek - Lekkie Nogi",
+            wednesdayLight: "Środa - Lekki",
+            thursdayLightPower: "Czwartek - Lekka Moc",
+            fridayLightLegs: "Piątek - Lekkie Nogi",
+            saturdayTechnique: "Sobota - Technika",
 
             // Pencilneck
             pushAChestDeltsTri: "Push A",
