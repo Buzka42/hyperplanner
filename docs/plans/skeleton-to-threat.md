@@ -30,7 +30,7 @@ On save, if **all sets** hit the current target time, `plankTargetSeconds` is in
 No calculated weights — everything is beat-your-log:
 
 - **Deficit Push-ups:** always shows "Try to beat: {last max reps}".
-- **Leg Extensions:** all sets ≥20 → "+5 kg".
+- **Leg Extensions:** all sets ≥20 → "+7 kg".
 - **Supported SLDL:** all sets ≥15 → "+2.5 kg" if already ≥10 kg per hand, otherwise "+1 kg each dumbbell".
 - **Standing Calf Raises:** all sets ≥20 → "switch to single-leg"; **Single Leg Calf Raises** at 20s → "+5 kg dumbbell".
 - **Inverted Rows:** all sets ≥15 → "go deeper — decrease body angle".

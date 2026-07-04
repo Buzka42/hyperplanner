@@ -396,8 +396,10 @@ export const RITUAL_CONFIG: PlanConfig = {
                 };
             }
 
-            // Add user-selected accessories dynamically
-            let processedDay = { ...day };
+            // Add user-selected accessories dynamically.
+            // NOTE: exercises must be cloned — pushing into a shallow copy would
+            // mutate the shared static program array and stack duplicates on every render.
+            const processedDay = { ...day, exercises: [...day.exercises] };
 
             if (status.ritualAccessories) {
                 const dayType = day.dayName.includes('Bench') ? 'bench' :
@@ -442,6 +444,13 @@ export const RITUAL_CONFIG: PlanConfig = {
             // Calculate weight based on exercise type
             let percentage = 1.0;
 
+            // Ascension back-down (any week, incl. week 4 ramp-in):
+            // 3x5 @ 80% of the AMRAP WEIGHT. AMRAP weight = 85% of 1RM,
+            // so back-down = 0.85 * 0.80 = 68% of 1RM.
+            if (exerciseName.includes('(Back-down)')) {
+                return roundDownTo2_5(base1RM * 0.85 * 0.80).toString();
+            }
+
             // Ramp-in percentages
             if (week <= 4) {
                 if (week === 1) percentage = 0.70;
@@ -470,8 +479,6 @@ export const RITUAL_CONFIG: PlanConfig = {
                     percentage = 0.70;
                 } else if (exerciseName.includes('(Ascension Test)')) {
                     percentage = 0.85;
-                } else if (exerciseName.includes('(Back-down)')) {
-                    percentage = 0.80; // 80% of AMRAP weight
                 }
             }
             // Purge week

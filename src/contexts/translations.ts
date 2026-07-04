@@ -537,7 +537,13 @@ export const translations = {
                 recoveryInfo: "Upper: 48h (38h+ trainable) • Lower: 72h (62h+ trainable)",
                 mindsetTitle: "— MUTANT MINDSET —",
                 nextSession: "Next Mutation Session",
-                dynamicWorkout: "Dynamic workout based on your recovery"
+                dynamicWorkout: "Dynamic workout based on your recovery",
+                workouts: "workouts",
+                completeTitle: "The mutation is incomplete. Continue?",
+                completeDesc: "84 workouts survived. Begin the next cycle — add +2.5-5 kg to your working weights.",
+                rerunConfirm: "Begin a new 84-workout cycle? Progress counters reset (workout history is kept). Add +2.5-5 kg to your working weights.",
+                rerunButton: "Begin Next Cycle",
+                overMutationWarning: "Over-mutation risk – {count} sessions in the last 7 days. Rest or perish."
             }
         },
 
@@ -997,7 +1003,7 @@ export const translations = {
             pencilneckCycleReload: "Cycle {cycle} Reload: Suggested weight ~{suggested}kg (Based on previous max & original start +10%). Round down.",
             peachySquatsIncrease: "You hit 3x10 last week! +2.5kg now.",
             skeletonBeatLastWeek: "Try to beat: {maxReps} reps this week",
-            skeletonLegExtensionsIncrease: "Target reps hit across all sets last week! Add +5 kg",
+            skeletonLegExtensionsIncrease: "Target reps hit across all sets last week! Add +7 kg",
             skeletonSLDLIncreaseKg: "Target reps hit across all sets last week! Add +2.5 kg",
             skeletonSLDLIncreaseDB: "Target reps hit across all sets last week! Add +1 kg each dumbbell",
             skeletonCalvesSwitchSingleLeg: "Target reps hit across all sets last week! Now switch to single-leg",
@@ -1576,7 +1582,13 @@ export const translations = {
                 recoveryInfo: "Górne: 48h (38h+ trenowalne) • Dolne: 72h (62h+ trenowalne)",
                 mindsetTitle: "— MUTANT MINDSET —",
                 nextSession: "Następna Sesja Mutacji",
-                dynamicWorkout: "Dynamiczny trening oparty na Twojej regeneracji"
+                dynamicWorkout: "Dynamiczny trening oparty na Twojej regeneracji",
+                workouts: "treningów",
+                completeTitle: "Mutacja jest niekompletna. Kontynuować?",
+                completeDesc: "84 treningi za Tobą. Rozpocznij kolejny cykl — dodaj +2.5-5 kg do ciężarów roboczych.",
+                rerunConfirm: "Rozpocząć nowy cykl 84 treningów? Liczniki postępu zostaną wyzerowane (historia treningów zostaje). Dodaj +2.5-5 kg do ciężarów roboczych.",
+                rerunButton: "Rozpocznij Kolejny Cykl",
+                overMutationWarning: "Ryzyko nadmiernej mutacji – {count} sesji w ostatnich 7 dniach. Odpocznij albo zgiń."
             }
         },
 
@@ -1995,7 +2007,7 @@ export const translations = {
             pencilneckCycleReload: "Restart cyklu {cycle}: Sugerowany ciężar ~{suggested}kg (na podstawie poprzedniego maksimum i pierwotnego startu +10%). Zaokrąglij w dół.",
             peachySquatsIncrease: "Zrobiłeś 3x10 w zeszłym tygodniu! +2.5kg teraz.",
             skeletonBeatLastWeek: "Spróbuj pobić: {maxReps} powt. w tym tygodniu",
-            skeletonLegExtensionsIncrease: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Dodaj +5 kg",
+            skeletonLegExtensionsIncrease: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Dodaj +7 kg",
             skeletonSLDLIncreaseKg: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Dodaj +2.5 kg",
             skeletonSLDLIncreaseDB: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Dodaj +1 kg na hantlę",
             skeletonCalvesSwitchSingleLeg: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Przejdź teraz na jedną nogę",

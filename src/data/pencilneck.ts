@@ -54,7 +54,7 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                         { id: `pn-w${w}-d2-e1`, name: "Hammer Pulldown (Underhand)", sets: 3, target: { type: "range", reps: "8-12" } },
                         { id: `pn-w${w}-d2-e2`, name: "Seated Cable Row", sets: 3, target: { type: "range", reps: "10-14" } },
                         { id: `pn-w${w}-d2-e3`, name: "Lat Prayer", sets: 3, target: { type: "range", reps: "12-15" } },
-                        { id: `pn-w${w}-d2-e4`, name: "Wide Grip BB Row", sets: 3, target: { type: "range", reps: "15-25" } },
+                        { id: `pn-w${w}-d2-e4`, name: "Wide Grip BB Row", sets: 3, target: { type: "range", reps: "10-15" } },
                         { id: `pn-w${w}-d2-e5`, name: "Side-Lying Rear Delt Flyes", sets: 3, target: { type: "range", reps: "15-20" } },
                         { id: `pn-w${w}-d2-e6`, name: "Preacher EZ-Bar Curls", sets: 3, target: { type: "range", reps: "10-15" } },
                         { id: `pn-w${w}-d2-e7`, name: "Romanian Deadlift", sets: 3, target: { type: "range", reps: "8-12" } },

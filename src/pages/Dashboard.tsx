@@ -778,7 +778,7 @@ export const Dashboard: React.FC = () => {
                                                 abductors: 'Abd',
                                                 abs: 'Abs'
                                             };
-                                            const lowerBodyGroups = ['hamstrings', 'glutes', 'lowerBack', 'quads', 'abductors'];
+                                            const lowerBodyGroups = ['hamstrings', 'glutes', 'lowerBack', 'quads', 'abductors', 'abs'];
                                             const now = Date.now();
 
                                             return muscleGroups.map(group => {
@@ -866,29 +866,95 @@ export const Dashboard: React.FC = () => {
                                 </CardContent>
                             </Card>
 
-                            {/* Next Workout Button */}
+                            {/* Mutagen Exposure - program progress */}
+                            {(() => {
+                                const done = user.superMutantStatus?.completedWorkouts || 0;
+                                const total = 84;
+                                const pct = Math.min(100, (done / total) * 100);
+                                return (
+                                    <Card className="col-span-full md:col-span-3 border-green-800/30 bg-gradient-to-br from-black to-green-950/20">
+                                        <CardHeader className="pb-2">
+                                            <CardTitle className="mutant-text text-lg font-black">☢️ MUTAGEN EXPOSURE</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="text-3xl font-black text-green-300">
+                                                {done} <span className="text-lg font-normal text-muted-foreground">/ {total} {t('dashboard.superMutant.workouts')}</span>
+                                            </div>
+                                            <div className="mt-4 h-2 bg-green-950/60 rounded-full overflow-hidden">
+                                                <div className="h-full bg-gradient-to-r from-green-500 to-orange-500 transition-all duration-1000" style={{ width: `${pct}%` }} />
+                                            </div>
+                                            <p className="text-xs text-right text-green-400/60 mt-1">{Math.round(pct)}%</p>
+                                        </CardContent>
+                                    </Card>
+                                );
+                            })()}
+
+                            {/* Next Workout Button / Completion / Over-mutation warning */}
                             <Card className="col-span-full border-green-700/50 bg-gradient-to-r from-green-900/30 to-orange-900/30 mutant-glow">
-                                <CardContent className="p-6 flex items-center justify-between">
-                                    <div>
-                                        <h3 className="text-xl font-bold mutant-text">
-                                            {t('dashboard.superMutant.nextSession')}
-                                        </h3>
-                                        <p className="text-sm radiation-text">
-                                            {t('dashboard.superMutant.dynamicWorkout')}
-                                        </p>
-                                    </div>
+                                <CardContent className="p-6">
                                     {(() => {
                                         const workoutNum = user.superMutantStatus?.completedWorkouts || 0;
                                         const weekNum = Math.floor(workoutNum / 7) + 1;
                                         const dayNum = (workoutNum % 7) + 1;
 
+                                        // Weekly session cap: >=6 sessions in the rolling 7 days
+                                        const weekAgo = new Date();
+                                        weekAgo.setDate(weekAgo.getDate() - 7);
+                                        const recentSessions = (user.superMutantStatus?.weeklySessionDates || []).filter((d: string) => new Date(d) >= weekAgo).length;
+                                        const overMutation = recentSessions >= 6;
+
+                                        // Program complete: re-run offer
+                                        if (workoutNum >= 84) {
+                                            return (
+                                                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                                                    <div>
+                                                        <h3 className="text-xl font-bold mutant-text">{t('dashboard.superMutant.completeTitle')}</h3>
+                                                        <p className="text-sm radiation-text">{t('dashboard.superMutant.completeDesc')}</p>
+                                                    </div>
+                                                    <Button
+                                                        size="lg"
+                                                        className="bg-orange-700 hover:bg-orange-600 text-orange-50 font-black"
+                                                        onClick={async () => {
+                                                            if (!confirm(t('dashboard.superMutant.rerunConfirm'))) return;
+                                                            await updateDoc(doc(db, 'users', user.id), {
+                                                                'superMutantStatus.completedWorkouts': 0,
+                                                                'superMutantStatus.currentCycle': 1,
+                                                                'superMutantStatus.muscleGroupTimestamps': {},
+                                                                'superMutantStatus.rolling7DayVolume': Object.fromEntries(['chest', 'back', 'shoulders', 'triceps', 'biceps', 'calves', 'hamstrings', 'glutes', 'lowerBack', 'quads', 'abductors', 'abs'].map(m => [m, 0])),
+                                                                'superMutantStatus.weeklySessionDates': []
+                                                            });
+                                                        }}
+                                                    >
+                                                        ☣️ {t('dashboard.superMutant.rerunButton')}
+                                                    </Button>
+                                                </div>
+                                            );
+                                        }
+
                                         return (
-                                            <Link to={`/app/workout/${weekNum}/${dayNum}`}>
-                                                <Button size="lg" className="bg-green-700 hover:bg-green-600 text-green-50 font-black">
-                                                    <Dumbbell className="mr-2 h-5 w-5" />
-                                                    INITIATE
-                                                </Button>
-                                            </Link>
+                                            <>
+                                                {overMutation && (
+                                                    <div className="mb-4 p-3 rounded border border-orange-600/60 bg-orange-950/40 text-orange-300 text-sm font-bold">
+                                                        ☢️ {t('dashboard.superMutant.overMutationWarning', { count: recentSessions })}
+                                                    </div>
+                                                )}
+                                                <div className="flex items-center justify-between">
+                                                    <div>
+                                                        <h3 className="text-xl font-bold mutant-text">
+                                                            {t('dashboard.superMutant.nextSession')}
+                                                        </h3>
+                                                        <p className="text-sm radiation-text">
+                                                            {t('dashboard.superMutant.dynamicWorkout')}
+                                                        </p>
+                                                    </div>
+                                                    <Link to={`/app/workout/${weekNum}/${dayNum}`}>
+                                                        <Button size="lg" className="bg-green-700 hover:bg-green-600 text-green-50 font-black">
+                                                            <Dumbbell className="mr-2 h-5 w-5" />
+                                                            INITIATE
+                                                        </Button>
+                                                    </Link>
+                                                </div>
+                                            </>
                                         );
                                     })()}
                                 </CardContent>

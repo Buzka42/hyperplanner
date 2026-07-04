@@ -12,7 +12,7 @@ Each week: Day 1 bench focus, Day 2 squat focus, Day 3 deadlift focus, each with
 - Week 1: 3×9 @ **70%** of 1RM
 - Week 2: 3×6 @ **80%**
 - Week 3: 3×3 @ **90%**
-- Week 4: **Ascension Test** — 1 AMRAP @ **85%** + 3×5 back-down @ 80%. The AMRAP is run through Epley (`weight × (1 + reps/30)`, floored to 2.5 kg) and **replaces the stored 1RM** for that lift.
+- Week 4: **Ascension Test** — 1 AMRAP @ **85%** + 3×5 back-down @ 80% of the AMRAP weight (= 68% of 1RM; applies to back-downs on every ascension week). The AMRAP is run through Epley (`weight × (1 + reps/30)`, floored to 2.5 kg) and **replaces the stored 1RM** for that lift.
 
 Users marked `isFirstProgram: false` skip straight to week 5 (`preprocessDay` swaps in week-5 content).
 
@@ -23,7 +23,7 @@ Every session (rotating which lift is ME):
 - **ME lift:** 1 heavy single @ ~**95%** of current 1RM (+ accumulated ME progression)
 - **Other two lifts (Light):** 3×5 @ **70%** — velocity work
 - Day 3 adds Farmer Holds 3×20-30 s
-- Up to 3 **user-selected accessories** per day type (bench: rows/rear delts/tricep ext/face pulls; squat: ham curls/leg ext/hip thrusts/calves; deadlift: shrugs/pull-aparts/ab wheel/planks) at 3×10-12, injected from `ritualStatus.ritualAccessories`.
+- Up to 3 **user-selected accessories** per day type (bench: rows/rear delts/tricep ext/face pulls; squat: ham curls/leg ext/hip thrusts/calves; deadlift: shrugs/pull-aparts/ab wheel/planks) at 3×10-12, injected from `ritualStatus.ritualAccessories` — selectable in **Settings → Ritual Accessories** (the injection clones the day's exercise array; a shallow copy used to stack duplicates into the static program).
 - Day names for weeks 8 and 16 used to incorrectly read "Purge Day" (they're Ascension Test weeks, not deload weeks) — fixed to always use the normal Bench/Squat/Deadlift day names.
 
 **Ascension Tests** recur every 4 weeks (weeks 8, 12, 16): AMRAP @ 85% + back-downs, updating 1RMs via Epley. This update now correctly fires on **every** ascension week (see bugfix note below) — not just week 4.

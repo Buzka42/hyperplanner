@@ -43,6 +43,8 @@ export const Settings: React.FC = () => {
     });
     const [excludedVariations, setExcludedVariations] = useState<string[]>([]);
     const [reDeadliftVariant, setReDeadliftVariant] = useState<'Romanian Deadlift' | 'Reverse Hyperextensions' | 'Good Mornings'>('Romanian Deadlift');
+    const [ritualAccessories, setRitualAccessories] = useState<{ bench: string[]; squat: string[]; deadlift: string[] }>({ bench: [], squat: [], deadlift: [] });
+    const [timeSkipping, setTimeSkipping] = useState(false);
     const [loading, setLoading] = useState(false);
     const [saved, setSaved] = useState(false);
 
@@ -76,6 +78,15 @@ export const Settings: React.FC = () => {
             });
             setExcludedVariations(user.trinaryStatus.excludedVariations || []);
             setReDeadliftVariant(user.trinaryStatus.reDeadliftVariant || 'Romanian Deadlift');
+        }
+
+        const rs = (user as any).ritualStatus;
+        if (rs) {
+            setRitualAccessories({
+                bench: rs.ritualAccessories?.bench || [],
+                squat: rs.ritualAccessories?.squat || [],
+                deadlift: rs.ritualAccessories?.deadlift || []
+            });
         }
     }, [user]);
 
@@ -118,6 +129,10 @@ export const Settings: React.FC = () => {
                         reDeadliftVariant: reDeadliftVariant
                     };
                 }
+            } else if (user.programId === 'ritual-of-strength') {
+                if ((user as any).ritualStatus) {
+                    updates['ritualStatus.ritualAccessories'] = ritualAccessories;
+                }
             }
 
             if (Object.keys(updates).length > 0) {
@@ -136,6 +151,8 @@ export const Settings: React.FC = () => {
     const isPencilneck = user?.programId === PENCILNECK_PROGRAM.id;
     const isBenchDomination = user?.programId === BENCH_DOMINATION_PROGRAM.id;
     const isTrinary = user?.programId === 'trinary';
+    const isRitual = user?.programId === 'ritual-of-strength';
+    const isSuperMutant = user?.programId === 'super-mutant';
 
     const ModuleToggle = ({
         title,
@@ -539,7 +556,95 @@ export const Settings: React.FC = () => {
                 </Card>
             )}
 
-            {!isPencilneck && !isBenchDomination && !isTrinary && (
+            {isRitual && (
+                <Card className="max-w-2xl border-red-500/20">
+                    <CardHeader>
+                        <CardTitle className="text-red-500">Ritual Accessories</CardTitle>
+                        <CardDescription>
+                            Pick up to 3 accessories per training day. They are added after the main ritual work (3×10-12, double progression).
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        {([
+                            { key: 'bench' as const, label: 'Bench Day', options: ['Rows', 'Rear Delt Flyes', 'Tricep Extensions', 'Face Pulls'] },
+                            { key: 'squat' as const, label: 'Squat Day', options: ['Ham Curls', 'Leg Extensions', 'Hip Thrusts', 'Calves'] },
+                            { key: 'deadlift' as const, label: 'Deadlift Day', options: ['Shrugs', 'Band Pull-Aparts', 'Ab Wheel', 'Planks'] },
+                        ]).map(group => (
+                            <div key={group.key}>
+                                <h4 className="font-medium mb-2 text-primary">{group.label} <span className="text-xs text-muted-foreground font-normal">({ritualAccessories[group.key].length}/3 selected)</span></h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                    {group.options.map(opt => {
+                                        const selected = ritualAccessories[group.key].includes(opt);
+                                        const full = ritualAccessories[group.key].length >= 3 && !selected;
+                                        return (
+                                            <div key={opt} className="flex items-center space-x-2">
+                                                <Checkbox
+                                                    id={`ritual-acc-${group.key}-${opt}`}
+                                                    checked={selected}
+                                                    disabled={full}
+                                                    onCheckedChange={(checked) => {
+                                                        setRitualAccessories(prev => ({
+                                                            ...prev,
+                                                            [group.key]: checked
+                                                                ? [...prev[group.key], opt]
+                                                                : prev[group.key].filter(o => o !== opt)
+                                                        }));
+                                                        setSaved(false);
+                                                    }}
+                                                />
+                                                <Label htmlFor={`ritual-acc-${group.key}-${opt}`} className={`text-sm cursor-pointer font-normal ${full ? 'opacity-50' : ''}`}>
+                                                    {opt}
+                                                </Label>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        ))}
+                    </CardContent>
+                </Card>
+            )}
+
+            {isSuperMutant && (
+                <Card className="max-w-2xl border-orange-500/30">
+                    <CardHeader>
+                        <CardTitle className="text-orange-500 flex items-center gap-2">
+                            ⚠️ Developer Tools
+                        </CardTitle>
+                        <CardDescription>
+                            Testing feature — not part of the program. Shifts every muscle-group cooldown timestamp back 24 hours so the next workout unlocks early. Your volume history is untouched.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Button
+                            variant="outline"
+                            disabled={timeSkipping}
+                            className="border-orange-700 text-orange-400 hover:bg-orange-900/20"
+                            onClick={async () => {
+                                if (!user?.superMutantStatus) return;
+                                setTimeSkipping(true);
+                                try {
+                                    const userRef = doc(db, 'users', user.id);
+                                    const updates: Record<string, number> = {};
+                                    const dayMs = 24 * 60 * 60 * 1000;
+                                    const muscles = ['chest', 'back', 'shoulders', 'triceps', 'biceps', 'calves', 'hamstrings', 'glutes', 'lowerBack', 'quads', 'abductors', 'abs'];
+                                    muscles.forEach(m => {
+                                        const cur = (user.superMutantStatus?.muscleGroupTimestamps as any)?.[m];
+                                        if (cur) updates[`superMutantStatus.muscleGroupTimestamps.${m}`] = cur - dayMs;
+                                    });
+                                    if (Object.keys(updates).length > 0) await updateDoc(userRef, updates);
+                                } finally {
+                                    setTimeSkipping(false);
+                                }
+                            }}
+                        >
+                            ⏭️ {timeSkipping ? 'Skipping...' : 'Skip 24 hours'}
+                        </Button>
+                    </CardContent>
+                </Card>
+            )}
+
+            {!isPencilneck && !isBenchDomination && !isTrinary && !isRitual && !isSuperMutant && (
                 <Card>
                     <CardHeader>
                         <CardTitle>{t('settings.programSettings')}</CardTitle>

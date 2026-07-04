@@ -390,9 +390,11 @@ export const PAIN_GLORY_CONFIG: PlanConfig = {
                     const progressedWeight = baseWeight + squatProgress;
                     return (Math.floor(progressedWeight / 2.5) * 2.5).toString();
                 } else {
-                    // Weeks 9-16: Fixed weight (maintenance)
-                    const week8Weight = (user as any).painGloryStatus?.week8SquatWeight || (squat1RM * 0.85);
-                    return (Math.floor(week8Weight / 2.5) * 2.5).toString();
+                    // Weeks 9-16: Fixed maintenance at 85% of the week-8 final weight
+                    // (deadlift peaking takes priority; squat drops to submaximal volume).
+                    // Fallback estimates week-8 weight as the week-5+ base (1RM x 1.075 x 0.7).
+                    const week8Weight = (user as any).painGloryStatus?.week8SquatWeight || (squat1RM * 1.075 * 0.7);
+                    return (Math.floor((week8Weight * 0.85) / 2.5) * 2.5).toString();
                 }
             }
 

@@ -8,7 +8,7 @@ A classic hypertrophy push/pull split with legs folded into each day. All loadin
 ## Weekly Structure (identical every week)
 
 - **Day 1 – Push A:** Flat BB Bench 3×8-12, Incline DB Press 3×10-14, Cable Flyes 3×12-15, Seated DB Shoulder Press 3×8-12, Leaning Lateral Raises 3×15-20, Overhead Tricep Ext 3×12-15, Hack Squat 3×10-15, Leg Extensions 3×15-20, Leg Press Calves 3×12-18
-- **Day 2 – Pull A:** Hammer Pulldown 3×8-12, Seated Cable Row 3×10-14, Lat Prayer 3×12-15, Wide Grip BB Row 3×15-25, Side-Lying Rear Delt Flyes 3×15-20, Preacher Curls 3×10-15, RDL 3×8-12, Lying Leg Curls 3×12-16, Hanging Leg Raises 3×12-20
+- **Day 2 – Pull A:** Hammer Pulldown 3×8-12, Seated Cable Row 3×10-14, Lat Prayer 3×12-15, Wide Grip BB Row 3×10-15, Side-Lying Rear Delt Flyes 3×15-20, Preacher Curls 3×10-15, RDL 3×8-12, Lying Leg Curls 3×12-16, Hanging Leg Raises 3×12-20
 - **Day 4 – Push B:** Incline BB Bench 3×8-12, Flat DB Press 3×10-14, Pec Deck 3×12-15, Standing Military Press 3×8-12, Laterals 3×15-20, Close-Grip Bench 3×10-14, Front Squats 3×10-15, Walking Lunges 3×12-16, Hack Calf Raises 3×15-20
 - **Day 5 – Pull B:** Lat Pulldown (neutral) 3×10-14, SA Hammer Row 3×10-14, SA DB Row 3×12-15, Rear-Delt Rope Pulls 3×20-30, Machine Rear Delt Fly 3×15-20, Incline DB Curls 3×12-15, Stiff-Legged DL 3×10-14, Seated Leg Curls 3×12-16, Ab Wheel 3×failure
 

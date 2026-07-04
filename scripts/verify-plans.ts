@@ -240,8 +240,6 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
     check(adv('Overhand Mid-Grip Pulldown', 15) === 't:tips.skeletonPulldownIncrease', `${P} pulldown advice wrong`);
     check(String(adv('Deficit Push-ups', 12)).startsWith('t:tips.skeletonBeatLastWeek'), `${P} pushup advice wrong`);
     check(adv('Planks', 30) === 't:tips.increaseTime', `${P} planks advice wrong: ${adv('Planks', 30)}`);
-    note(`SK: PLAN says Leg Extensions progression is "+7 kg"; code/translations say "+5 kg" (t:tips.skeletonLegExtensionsIncrease). Which is intended?`);
-    note(`SK: PLAN says SLDL progression is flat "+1 kg each DB"; code adds "+2.5 kg" once DBs reach >=10 kg (richer rule). Confirm intended.`);
 }
 
 // ============================================================
@@ -303,8 +301,7 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
     check(cwn('Deficit Snatch Grip Deadlift', 3, 1, mkU({ deficitSnatchGripWeight: 80 })) === '80', `${P} deficit should use stored running weight`);
     check(cwn('Paused Low Bar Squat', 1, 2, mkU()) === floorD(130 * 0.7).toString(), `${P} squat W1 = 70% -> ${floorD(91)}, got ${cwn('Paused Low Bar Squat', 1, 2, mkU())}`);
     check(cwn('Paused Low Bar Squat', 5, 2, mkU({ squatProgress: 10 })) === floorD(130 * 1.075 * 0.7 + 10).toString(), `${P} squat W5 reset+progress, got ${cwn('Paused Low Bar Squat', 5, 2, mkU({ squatProgress: 10 }))}`);
-    check(cwn('Paused Low Bar Squat', 10, 2, mkU({ week8SquatWeight: 105 })) === '105', `${P} squat W10 maintenance = week8 weight`);
-    note(`PG: PLAN says weeks 9-16 squat is "FIXED at ~85-90% of Week 8 final weight"; code holds 100% of the week-8 weight (week8SquatWeight, fallback 85% of 1RM only when missing). Confirm intended.`);
+    check(cwn('Paused Low Bar Squat', 10, 2, mkU({ week8SquatWeight: 105 })) === floorD(105 * 0.85).toString(), `${P} squat W10 maintenance = 85% of week8 weight (${floorD(105 * 0.85)}), got ${cwn('Paused Low Bar Squat', 10, 2, mkU({ week8SquatWeight: 105 }))}`);
     check(cwn('Conventional Deadlift (E2MOM)', 9, 5, mkU({ deficitSnatchGripWeight: 100, e2momWeightAdjustment: 5 })) === (floorD(135) + 5).toString(), `${P} E2MOM = floor(100*1.35)+5`);
     const st = { deficitSnatchGripWeight: 100, amrapWeight: 187.5, amrapReps: 8, estimatedE1RM: 235 };
     const wAbs = (w: number, d_: number, frag: string) => {
@@ -370,7 +367,6 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
     const acc = cfg.hooks.preprocessDay(day(TRINARY_PROGRAM, 2, 2), mkU({ completedWorkouts: 4, workoutLog: recent }));
     check(String(acc.dayName).includes('trinaryAccessory'), `${P} accessory day should trigger at 4 workouts/7d`);
     check(acc.exercises.length === 4 && acc.exercises.every((e: any) => e.sets === 4 && e.target.reps === '8-12'), `${P} accessory day should be 4 exercises of 4x8-12`);
-    note(`TR: PLAN says the weak-point modal triggers after EVERY 3rd workout (3,6,9,...); code triggers only after workouts 9 and 18 (every 9th, i.e. variations change once per 3 blocks). Which is intended?`);
     note(`TR: PLAN's DE progression says "+2.5 kg OR add bands/chains"; code has no DE progression (pure block %). Confirm intended.`);
 }
 
@@ -414,9 +410,7 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
         .map((dd: any) => cfg.hooks.preprocessDay(dd, mkU({ currentWeek: 6, isFirstProgram: false, rampInComplete: true })))
         .find((d: any) => d.exercises.some((e: any) => e.name.includes('Deadlift') && e.name.includes('(ME)')));
     check(!!dDay?.exercises.find((e: any) => /farmer|grip/i.test(e.name)), `${P} deadlift ME day should include Farmer Holds/grip work`);
-    note(`RT: PLAN says Ascension back-down = 3x5 @ 80% of the AMRAP WEIGHT (~68% of 1RM); code computes 80% of the 1RM. Also W4 ramp-in back-down currently gets the flat W4 85%. Confirm intended.`);
     note(`RT: PLAN's Purge/deload weeks (post-8/12/16 recovery-check insertion) and the Light-work velocity -5% persistence are still pending implementation (unreachable/UI-only). Already flagged previously.`);
-    note(`RT: PLAN says accessories are "up to 3 per day" with an in-workout "Add Ritual Accessory" button + custom entry; verify that button exists in WorkoutView (not found in code greps).`);
 }
 
 // ============================================================
@@ -473,8 +467,6 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
     const dl = gen(mkU({ completedWorkouts: 57 }));
     check(String(dl.dayName).toLowerCase().includes('deload'), `${P} workout 57 should be DELOAD, got ${dl.dayName}`);
     check(dl.exercises.length > 0 && dl.exercises.every((e: any) => e.sets <= 2), `${P} deload sets should be <=2, got ${dl.exercises.map((e: any) => e.sets).join(',')}`);
-    note(`SM: PLAN documents a "+24h time-skip button (for testing)" on the dashboard — I removed it earlier as a dev artifact. Restore it, keep it removed, or gate it behind admin?`);
-    note(`SM: PLAN describes a "Mutagen Exposure" progress widget (X/84 or X/112 workouts), a 16-week completion re-run modal ("The mutation is incomplete. Continue?") with +2.5-5 kg weight migration, and a >6 sessions/7d "Over-mutation risk" prompt. None of these exist in the code. PLAN also self-contradicts on program length (84 vs 112 workouts). Pending features or drop from PLAN?`);
 }
 
 // ============================================================

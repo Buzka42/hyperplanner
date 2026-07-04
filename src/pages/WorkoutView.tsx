@@ -15,6 +15,7 @@ import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
 import { selectVariation, getBlockFromWorkout } from '../data/trinary';
+import { getMuscleContributions } from '../data/supermutant';
 
 interface SetLog {
     reps: string;
@@ -144,7 +145,26 @@ export const WorkoutView: React.FC = () => {
                 if (savedDraft) {
                     try {
                         const parsed = JSON.parse(savedDraft);
-                        setExerciseData(parsed.exerciseData || {});
+                        const draftData: Record<string, SetLog[]> = parsed.exerciseData || {};
+
+                        // Reconcile the draft against the CURRENT day. Dynamic programs
+                        // (Super Mutant) can regenerate a different workout for the same
+                        // week/day slot, so seed exercises missing from the draft and drop
+                        // entries whose exercises are no longer in the day — otherwise
+                        // regenerated exercises render with zero set rows and save no volume.
+                        const merged: Record<string, SetLog[]> = {};
+                        dayData.exercises.forEach(ex => {
+                            if (draftData[ex.id] && draftData[ex.id].length > 0) {
+                                merged[ex.id] = draftData[ex.id];
+                            } else {
+                                const setsCount = getBaseSetsCount(ex, weekNum, programData.id);
+                                const targetWeight = calculateWeight(ex);
+                                const defaultWeight = (targetWeight && !ex.giantSetConfig && targetWeight !== "0") ? targetWeight : "";
+                                merged[ex.id] = Array.from({ length: setsCount }, () => ({ reps: '', weight: defaultWeight, completed: null }));
+                            }
+                        });
+
+                        setExerciseData(merged);
                         setExerciseNotes(parsed.exerciseNotes || {});
                         // Continue with loading history for previous stats, but don't overwrite the form
                         setPreviousStats(await fetchPreviousStats());
@@ -1130,46 +1150,15 @@ export const WorkoutView: React.FC = () => {
                     // Increment workout counter
                     updates['superMutantStatus.completedWorkouts'] = (superMutantStatus.completedWorkouts || 0) + 1;
 
-                    // Update timestamps for trained muscle groups
+                    // Update timestamps for trained muscle groups.
+                    // Muscle attribution comes from getMuscleContributions (stable
+                    // exercise-id mapping) — name keywords misfired constantly
+                    // ("Seated Ham Curl" -> biceps, "Standing Calf Raises" -> shoulders).
                     const trainedGroups: string[] = [];
                     for (const ex of dayData?.exercises || []) {
-                        // Determine which muscle groups were trained based on exercise
-                        const name = ex.name.toLowerCase();
-                        if (name.includes('chest') || name.includes('pec') || (name.includes('press') && name.includes('bench')) || name.includes('pushup')) {
-                            trainedGroups.push('chest');
-                        }
-                        if (name.includes('back') || name.includes('row') || name.includes('pulldown') || name.includes('pull')) {
-                            trainedGroups.push('back');
-                        }
-                        if (name.includes('shoulder') || name.includes('raise') || name.includes('delt')) {
-                            trainedGroups.push('shoulders');
-                        }
-                        if (name.includes('tricep') || name.includes('pushdown') || name.includes('extension') || name.includes('skullcrusher')) {
-                            trainedGroups.push('triceps');
-                        }
-                        if (name.includes('bicep') || name.includes('curl')) {
-                            trainedGroups.push('biceps');
-                        }
-                        if (name.includes('calf')) {
-                            trainedGroups.push('calves');
-                        }
-                        if (name.includes('hamstring') || name.includes('rdl') || name.includes('ham curl')) {
-                            trainedGroups.push('hamstrings');
-                        }
-                        if (name.includes('glute') || name.includes('hip thrust')) {
-                            trainedGroups.push('glutes');
-                        }
-                        if (name.includes('lower back') || name.includes('good morning')) {
-                            trainedGroups.push('lowerBack');
-                        }
-                        if (name.includes('quad') || name.includes('squat') || name.includes('leg extension')) {
-                            trainedGroups.push('quads');
-                        }
-                        if (name.includes('abduct') || name.includes('adduct')) {
-                            trainedGroups.push('abductors');
-                        }
-                        if (name.includes('abs') || name.includes('crunch') || name.includes('plank') || ex.name === 'Cable Crunches') {
-                            trainedGroups.push('abs');
+                        const contrib = getMuscleContributions(ex.id);
+                        for (const [muscle, share] of Object.entries(contrib)) {
+                            if (share >= 1) trainedGroups.push(muscle);
                         }
                     }
 
@@ -1179,90 +1168,18 @@ export const WorkoutView: React.FC = () => {
                         updates[`superMutantStatus.muscleGroupTimestamps.${group}`] = now;
                     });
 
-                    // Update rolling 7-day volume with fractional counting for assisting muscles
+                    // Update rolling 7-day volume with fractional counting for
+                    // assisting muscles (same id-based mapping as timestamps).
                     const volumeUpdates: Record<string, number> = {};
 
                     for (const ex of dayData?.exercises || []) {
-                        const name = ex.name.toLowerCase();
                         const sets = exerciseData[ex.id] || [];
                         const completedSets = sets.filter(s => s.reps && s.reps.trim() !== '').length;
-
                         if (completedSets === 0) continue;
 
-                        // Chest presses: 1.0 chest, 0.5 triceps, 0.5 shoulders
-                        if (name.includes('press') && (name.includes('chest') || name.includes('bench'))) {
-                            volumeUpdates.chest = (volumeUpdates.chest || 0) + completedSets;
-                            volumeUpdates.triceps = (volumeUpdates.triceps || 0) + (completedSets * 0.5);
-                            volumeUpdates.shoulders = (volumeUpdates.shoulders || 0) + (completedSets * 0.5);
-                        }
-                        // Chest flyes/pec deck: 1.0 chest, 0.5 shoulders
-                        else if ((name.includes('fly') || name.includes('flye') || name.includes('pec deck')) && name.includes('chest')) {
-                            volumeUpdates.chest = (volumeUpdates.chest || 0) + completedSets;
-                            volumeUpdates.shoulders = (volumeUpdates.shoulders || 0) + (completedSets * 0.5);
-                        }
-                        // Back rows: 1.0 back, 0.5 biceps, 0.5 shoulders
-                        else if (name.includes('row')) {
-                            volumeUpdates.back = (volumeUpdates.back || 0) + completedSets;
-                            volumeUpdates.biceps = (volumeUpdates.biceps || 0) + (completedSets * 0.5);
-                            volumeUpdates.shoulders = (volumeUpdates.shoulders || 0) + (completedSets * 0.5);
-                        }
-                        // Back pulldowns/pulls: 1.0 back, 0.5 biceps
-                        else if (name.includes('pulldown') || name.includes('pull') || name.includes('lat')) {
-                            volumeUpdates.back = (volumeUpdates.back || 0) + completedSets;
-                            volumeUpdates.biceps = (volumeUpdates.biceps || 0) + (completedSets * 0.5);
-                        }
-                        // Shoulder isolation: 1.0 shoulders only
-                        else if (name.includes('raise') || name.includes('delt')) {
-                            volumeUpdates.shoulders = (volumeUpdates.shoulders || 0) + completedSets;
-                        }
-                        // Triceps isolation: 1.0 triceps only
-                        else if (name.includes('tricep') || name.includes('pushdown') || name.includes('extension')) {
-                            volumeUpdates.triceps = (volumeUpdates.triceps || 0) + completedSets;
-                        }
-                        // Biceps isolation: 1.0 biceps only
-                        else if (name.includes('bicep') || name.includes('curl')) {
-                            volumeUpdates.biceps = (volumeUpdates.biceps || 0) + completedSets;
-                        }
-                        // Lower body with fractional counting for compounds
-                        else if (name.includes('calf')) {
-                            volumeUpdates.calves = (volumeUpdates.calves || 0) + completedSets;
-                        }
-                        // RDLs/Good Mornings: 1.0 hamstrings, 0.5 glutes, 1.0 lowerBack
-                        else if (name.toLowerCase().includes('rdl') || name.toLowerCase().includes('good morning')) {
-                            volumeUpdates.hamstrings = (volumeUpdates.hamstrings || 0) + completedSets;
-                            volumeUpdates.glutes = (volumeUpdates.glutes || 0) + (completedSets * 0.5);
-                            volumeUpdates.lowerBack = (volumeUpdates.lowerBack || 0) + completedSets;
-                        }
-                        // Hamstring isolation: 1.0 hamstrings only
-                        else if (name.includes('hamstring') || name.includes('ham curl')) {
-                            volumeUpdates.hamstrings = (volumeUpdates.hamstrings || 0) + completedSets;
-                        }
-                        // Glute isolation: 1.0 glutes only
-                        else if (name.includes('glute') || name.includes('hip thrust')) {
-                            volumeUpdates.glutes = (volumeUpdates.glutes || 0) + completedSets;
-                        }
-                        // Lower back isolation: 1.0 lowerBack only
-                        else if (name.includes('lower back')) {
-                            volumeUpdates.lowerBack = (volumeUpdates.lowerBack || 0) + completedSets;
-                        }
-                        // Squats: 1.0 quads, 0.5 hams, 0.5 glutes, 0.5 abductors
-                        else if (name.includes('squat') || name.includes('hack')) {
-                            volumeUpdates.quads = (volumeUpdates.quads || 0) + completedSets;
-                            volumeUpdates.hamstrings = (volumeUpdates.hamstrings || 0) + (completedSets * 0.5);
-                            volumeUpdates.glutes = (volumeUpdates.glutes || 0) + (completedSets * 0.5);
-                            volumeUpdates.abductors = (volumeUpdates.abductors || 0) + (completedSets * 0.5);
-                        }
-                        // Leg extensions: 1.0 quads only
-                        else if (name.includes('leg extension')) {
-                            volumeUpdates.quads = (volumeUpdates.quads || 0) + completedSets;
-                        }
-                        // Abductor/Adductor isolation: 1.0 abductors only
-                        else if (name.includes('abduct') || name.includes('adduct')) {
-                            volumeUpdates.abductors = (volumeUpdates.abductors || 0) + completedSets;
-                        }
-                        // Abs/Core: 1.0 abs only
-                        else if (name.includes('abs') || name.includes('crunch') || name.includes('plank')) {
-                            volumeUpdates.abs = (volumeUpdates.abs || 0) + completedSets;
+                        const contrib = getMuscleContributions(ex.id);
+                        for (const [muscle, share] of Object.entries(contrib)) {
+                            volumeUpdates[muscle] = (volumeUpdates[muscle] || 0) + completedSets * share;
                         }
                     }
 

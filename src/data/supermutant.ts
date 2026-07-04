@@ -252,9 +252,9 @@ function calculateReactiveSetsForMuscle(current7DayVolume: number, isPreExhaustO
     // Pre-exhaust and finishers are always 2 sets
     if (isPreExhaustOrFinisher) return 2;
 
-    // Lower body muscles (hams, glutes, lowerBack, abs, abductors) start at max (4 sets)
-    // They have limited exercises and unlikely to hit 20 sets/week
-    const lowerBodyMuscles = ['hamstrings', 'glutes', 'lowerBack', 'abs', 'abductors'];
+    // Lower body muscles start at max (4 sets) — limited exercise pool,
+    // unlikely to hit 20 sets/week
+    const lowerBodyMuscles = ['hamstrings', 'glutes', 'lowerBack', 'abs', 'abductors', 'quads'];
     if ((!current7DayVolume || current7DayVolume === 0 || isNaN(current7DayVolume))) {
         if (muscleGroup && lowerBodyMuscles.includes(muscleGroup)) {
             return 4;
@@ -312,6 +312,38 @@ function getRIRForWeek(completedWorkouts: number): number {
 // the reliable source (28 workouts = one cycle).
 function getCurrentCycle(completedWorkouts: number): number {
     return Math.floor(completedWorkouts / 28) + 1;
+}
+
+/**
+ * Muscle contributions per exercise, keyed by the stable exercise-id prefixes
+ * generated in this file (deload days reuse the same pool objects/ids).
+ * 1.0 = primary mover (drives cooldown timestamps), 0.5 = assisting muscle
+ * (fractional volume credit only). Used by WorkoutView's save logic — do NOT
+ * match on exercise names; they are unreliable ("Seated Ham Curl" vs "curl",
+ * "Standing Calf Raises" vs "raise", etc.).
+ */
+export function getMuscleContributions(exerciseId: string): Record<string, number> {
+    const id = exerciseId || '';
+    if (id.startsWith('chest-')) {
+        if (id.endsWith('-pre')) return { chest: 1, shoulders: 0.5 };               // flyes / pec deck
+        return { chest: 1, triceps: 0.5, shoulders: 0.5 };                          // presses + pushup finisher
+    }
+    if (id.startsWith('back-')) {
+        const isRow = id === 'back-a-2' || id === 'back-b-1' || id === 'back-b-3';  // rows also hit rear delts
+        return isRow ? { back: 1, biceps: 0.5, shoulders: 0.5 } : { back: 1, biceps: 0.5 };
+    }
+    if (id.startsWith('shoulders-')) return { shoulders: 1 };
+    if (id.startsWith('triceps-')) return { triceps: 1 };
+    if (id.startsWith('biceps-')) return { biceps: 1 };
+    if (id.startsWith('calves-')) return { calves: 1 };
+    if (id === 'hamstrings-1') return { hamstrings: 1 };                            // seated ham curl
+    if (id === 'hamstrings-2') return { hamstrings: 1, glutes: 0.5, lowerBack: 1 }; // good mornings / deficit RDLs
+    if (id === 'hamstrings-3') return { glutes: 1, hamstrings: 0.5 };               // SL machine hip thrust
+    if (id === 'quads-1') return { quads: 1 };                                      // leg extensions
+    if (id === 'quads-2') return { quads: 1, hamstrings: 0.5, glutes: 0.5, abductors: 0.5 }; // hack/front squat
+    if (id === 'quads-3') return { abductors: 1 };                                  // hip adduction
+    if (id.startsWith('abs-')) return { abs: 1 };
+    return {};
 }
 
 // Get RIR message for display
@@ -450,9 +482,13 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
 
     // NEW QUEUE SYSTEM: Strict Upper Block Alternation + Lower When Ready
 
-    // Initialize block alternation if not set
-    const nextUpper = status.nextUpperBlock || 'A';
-    const nextLower = status.nextLowerBlock || 'C';
+    // Block selection is STATELESS: among ready blocks, pick the one whose
+    // muscles were trained longest ago ("sort by oldest"). This alternates
+    // A<->B and C<->D naturally and falls back to the other block when the
+    // scheduled one is still cooling down. (status.nextUpperBlock /
+    // nextLowerBlock are legacy fields nothing ever wrote — do not use them.)
+    const lastTrained = (muscles: string[]) =>
+        Math.max(...muscles.map(m => (status.muscleGroupTimestamps as any)?.[m] || 0));
 
     // Check upper blocks cooldown
     const upperBlockAReady = ['chest', 'triceps', 'biceps'].every(m =>
@@ -462,20 +498,12 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
         isMuscleGroupReady((status.muscleGroupTimestamps as any)?.[m], m)
     );
 
-    // Determine which upper block to use
-    let selectedUpperBlock: 'A' | 'B' | null = null;
-
-    if (nextUpper === 'A' && upperBlockAReady) {
-        selectedUpperBlock = 'A';
-    } else if (nextUpper === 'A' && upperBlockBReady) {
-        // A not ready, try B as fallback
-        selectedUpperBlock = 'B';
-    } else if (nextUpper === 'B' && upperBlockBReady) {
-        selectedUpperBlock = 'B';
-    } else if (nextUpper === 'B' && upperBlockAReady) {
-        // B not ready, try A as fallback
-        selectedUpperBlock = 'A';
-    }
+    // Determine which upper block to use: oldest-trained ready block wins
+    const upperCandidates: { block: 'A' | 'B'; score: number }[] = [];
+    if (upperBlockAReady) upperCandidates.push({ block: 'A', score: lastTrained(['chest', 'triceps', 'biceps']) });
+    if (upperBlockBReady) upperCandidates.push({ block: 'B', score: lastTrained(['back', 'shoulders', 'calves']) });
+    upperCandidates.sort((a, b) => a.score - b.score);
+    const selectedUpperBlock: 'A' | 'B' | null = upperCandidates[0]?.block ?? null;
 
     // If neither upper block is ready, return rest day
     if (!selectedUpperBlock) {
@@ -494,17 +522,13 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
         isMuscleGroupReady((status.muscleGroupTimestamps as any)?.[m], m)
     );
 
-    // Determine which lower block to use (if any ready)
-    let includeLower = false;
-    let lowerBlock: 'C' | 'D' | null = null;
-
-    if (nextLower === 'C' && lowerBlockCReady) {
-        includeLower = true;
-        lowerBlock = 'C';
-    } else if (nextLower === 'D' && lowerBlockDReady) {
-        includeLower = true;
-        lowerBlock = 'D';
-    }
+    // Determine which lower block to use: oldest-trained ready block wins
+    const lowerCandidates: { block: 'C' | 'D'; score: number }[] = [];
+    if (lowerBlockCReady) lowerCandidates.push({ block: 'C', score: lastTrained(['hamstrings', 'glutes', 'lowerBack']) });
+    if (lowerBlockDReady) lowerCandidates.push({ block: 'D', score: lastTrained(['quads', 'abductors', 'abs']) });
+    lowerCandidates.sort((a, b) => a.score - b.score);
+    const lowerBlock: 'C' | 'D' | null = lowerCandidates[0]?.block ?? null;
+    const includeLower = lowerBlock !== null;
 
     // Check for over-volume muscles (>20 sets in 7 days)
     const tricepsOverVolume = (status.rolling7DayVolume.triceps || 0) > 20;

@@ -1,16 +1,16 @@
 # Graph Report - workout planner  (2026-07-04)
 
 ## Corpus Check
-- 45 files · ~2,577,450 words
+- 45 files · ~2,578,204 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 293 nodes · 276 edges · 57 communities detected
-- Extraction: 89% EXTRACTED · 11% INFERRED · 0% AMBIGUOUS · INFERRED: 29 edges (avg confidence: 0.91)
+- 295 nodes · 280 edges · 56 communities detected
+- Extraction: 89% EXTRACTED · 11% INFERRED · 0% AMBIGUOUS · INFERRED: 30 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5c073ddb`
+- Built from commit: `6dfbbe80`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -21,7 +21,6 @@
 - [[_COMMUNITY_Community 3|Community 3]]
 - [[_COMMUNITY_Community 4|Community 4]]
 - [[_COMMUNITY_Community 5|Community 5]]
-- [[_COMMUNITY_Community 6|Community 6]]
 - [[_COMMUNITY_Community 7|Community 7]]
 - [[_COMMUNITY_Community 8|Community 8]]
 - [[_COMMUNITY_Community 9|Community 9]]
@@ -105,11 +104,11 @@
 - **Workout Programs** — readme_v15_finaltrinaryfixes_bench_domination, readme_v15_finaltrinaryfixes_painglory, readme_v15_finaltrinaryfixes_peachy, readme_v15_finaltrinaryfixes_pencilneck, readme_v15_finaltrinaryfixes_skeleton, readme_v15_finaltrinaryfixes_trinary [EXTRACTED 1.00]
 - **Workout Achievement System** — emom_executioner_badge, final_boss_badge, first_blood_badge, glory_achieved_badge, glute_queen_badge, highpriest_badge, immortal_badge, initiate_badge, kas_glute_bridge_100_badge, mutant_badge [INFERRED 0.95]
 
-## Communities (75 total, 46 thin omitted)
+## Communities (75 total, 45 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.06
-Nodes (3): useUser(), useLanguage(), cn()
+Cohesion: 0.05
+Nodes (5): UserProvider(), useUser(), useLanguage(), getPlan(), cn()
 
 ### Community 1 - "Community 1"
 Cohesion: 0.07
@@ -121,13 +120,13 @@ Nodes (14): adv(), day(), exByName(), gen(), hist(), it(), mkU(), mkUser() (+6 m
 
 ### Community 3 - "Community 3"
 Cohesion: 0.13
-Nodes (8): resolveTemplate(), getBlockFromWorkout(), selectVariation(), async(), fetchPreviousStats(), handleSaveSession(), initializeEmptyState(), initView()
+Nodes (9): resolveTemplate(), getMuscleContributions(), getBlockFromWorkout(), selectVariation(), async(), fetchPreviousStats(), handleSaveSession(), initializeEmptyState() (+1 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.11
 Nodes (19): Acolyte of Strength Badge Image, Behemoth of the Wastes Badge Image, 20kg Bench Jump Badge Image, 30kg Bench Jump Badge Image, Bench Psychopath Badge Image, Certified Shoulder Boulder Badge Image, Cannonball Delts Badge Image, Deficit Demon Badge Image (+11 more)
 
-### Community 6 - "Community 6"
+### Community 5 - "Community 5"
 Cohesion: 0.15
 Nodes (13): AdminPanel, Authentication Gate, Dashboard, Entry Page, History Page, Onboarding Flow, Bench Domination Configuration, Bench Domination Program (+5 more)
 
@@ -154,21 +153,21 @@ Nodes (3): calculateE1RM(), roundDownTo2_5(), updateRitual1RMsFromAscensionTest(
 ## Knowledge Gaps
 - **98 isolated node(s):** `Firebase Firestore & Auth Configuration`, `Super Mutant Hypertrophy Program`, `Pain & Glory Program`, `Multilingual Translation System`, `Weak Point Selection Modal` (+93 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **46 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **45 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `getBlockFromWorkout()` connect `Community 3` to `Community 9`, `Community 2`?**
-  _High betweenness centrality (0.064) - this node is a cross-community bridge._
-- **Why does `useUser()` connect `Community 0` to `Community 10`, `Community 3`, `Community 5`?**
-  _High betweenness centrality (0.063) - this node is a cross-community bridge._
-- **Why does `useLanguage()` connect `Community 0` to `Community 3`, `Community 5`?**
-  _High betweenness centrality (0.053) - this node is a cross-community bridge._
+  _High betweenness centrality (0.073) - this node is a cross-community bridge._
+- **Why does `useUser()` connect `Community 0` to `Community 10`, `Community 3`, `Community 6`?**
+  _High betweenness centrality (0.072) - this node is a cross-community bridge._
+- **Why does `useLanguage()` connect `Community 0` to `Community 3`, `Community 6`?**
+  _High betweenness centrality (0.061) - this node is a cross-community bridge._
 - **What connects `Firebase Firestore & Auth Configuration`, `Super Mutant Hypertrophy Program`, `Pain & Glory Program` to the rest of the system?**
   _98 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.06 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.07 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**

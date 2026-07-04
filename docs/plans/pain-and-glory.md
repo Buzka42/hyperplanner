@@ -29,7 +29,7 @@ Intermediate **deadlift specialization** built on brutal submaximal volume: 8 we
 - **Paused Low Bar Squat:**
   - Weeks 1–4: base = `lowBarSquat 1RM × 0.70`; all sets completed at 4–6 reps → `squatProgress` +2.5 kg for next session.
   - Week 5 reset: base = `(1RM × 1.075) × 0.70` + accumulated progress.
-  - Week 8's weight is saved as `week8SquatWeight`; weeks 9–16 hold it as maintenance.
+  - Week 8's weight is saved as `week8SquatWeight`; weeks 9–16 hold **85% of it** as maintenance (deadlift peaking takes priority).
 - **Conventional E2MOM (weeks 9–12):** start weight = **highest deficit weight × 1.35** (floored). All 6 sets at ≥5 reps → `e2momWeightAdjustment` +2.5 kg.
 - **Week 13 AMRAP:** target weight = **deficit weight × 2.22 × 0.85** (floored). The result is stored (`amrapWeight`, `amrapReps`) and Epley e1RM (`estimatedE1RM`, floored to 2.5) drives the peak:
   - Week 13 back-down: 85% of AMRAP weight
