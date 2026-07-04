@@ -174,7 +174,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         keysToRemove.forEach(key => localStorage.removeItem(key));
 
         if (keysToRemove.length > 0) {
-            console.log(`[CLEANUP] Removed ${keysToRemove.length} stale workout drafts from localStorage`);
         }
     };
 
@@ -186,16 +185,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         exercisePreferences?: Record<string, string>,
         benchDominationModules?: any
     ) => {
-        console.log('[REGISTER] Starting registration for:', codeword, 'program:', programId);
 
         const sanitized = codeword.trim().toLowerCase();
         const userRef = doc(db, 'users', sanitized);
 
         try {
-            console.log('[REGISTER] Fetching existing user data...');
             const snap = await getDoc(userRef);
             const existingData = snap.exists() ? snap.data() as UserProfile : null;
-            console.log('[REGISTER] Existing data:', existingData ? 'Found' : 'New user');
 
             const now = new Date().toISOString();
             const startDate = existingData?.startDate || now;
@@ -227,12 +223,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 startDate: now
             };
 
-            console.log('[REGISTER] Writing to Firestore...', { id: sanitized, programId });
 
             // Write to Firestore
             await setDoc(userRef, newUser, { merge: true });
 
-            console.log('[REGISTER] Write complete. Verifying server-side...');
 
             // CRITICAL: Force a server read to verify the write succeeded
             // This prevents Opera GX from running in offline mode
@@ -252,7 +246,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 throw new Error('Database verification failed. Please try again.');
             }
 
-            console.log('[REGISTER] ✓ Verification successful. User created in Firestore.');
 
             // Clear all stale workout drafts from localStorage on new registration
             clearAllWorkoutDrafts();
@@ -261,7 +254,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setListeningId(sanitized);
             // No localStorage persistence
 
-            console.log('[REGISTER] ✓ Registration complete');
         } catch (error: any) {
             console.error('[REGISTER] ERROR:', error);
 

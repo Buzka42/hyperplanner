@@ -278,7 +278,7 @@ export const PENCILNECK_CONFIG: PlanConfig = {
 
                     if (maxWeight > 0) {
                         const suggested = Math.floor((maxWeight * 1.15) / 2.5) * 2.5;
-                        return `Week 5 Heavy Phase: Suggested weight calculated from recent performance (${maxWeight}kg). Aim for ~${suggested}kg. Round down to nearest available plate.`;
+                        return `t:tips.pencilneckWeek5HeavyPhase|{"maxWeight":${maxWeight},"suggested":${suggested}}`;
                     }
                 }
             }
@@ -334,7 +334,7 @@ export const PENCILNECK_CONFIG: PlanConfig = {
                         }
 
                         suggested = Math.floor(suggested / 2.5) * 2.5;
-                        return `Cycle ${cycle} Reload: Suggested weight ~${suggested}kg (Based on previous max & original start +10%). Round down.`;
+                        return `t:tips.pencilneckCycleReload|{"cycle":${cycle},"suggested":${suggested}}`;
                     }
                 }
             }
@@ -354,7 +354,7 @@ export const PENCILNECK_CONFIG: PlanConfig = {
                                 const upper = parseInt(rangeMatch[2]);
                                 const allHit = completedSets.every((s: any) => parseInt(s.reps || "0") >= upper);
                                 if (allHit) {
-                                    return "Upper rep range hit! Increase weight!";
+                                    return "t:tips.increaseWeight";
                                 }
                             }
                         }

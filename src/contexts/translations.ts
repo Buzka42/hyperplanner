@@ -9,6 +9,7 @@ export const translations = {
             save: "Save",
             cancel: "Cancel",
             close: "Close",
+            error: "Error",
             loading: "Loading...",
             saving: "SAVING...",
             saved: "Saved",
@@ -155,7 +156,7 @@ export const translations = {
             squat_30kg: { description: '+30 kg on Squat' },
             glute_gainz_queen: { description: '≥3 cm glute growth' },
             kas_glute_bridge_100: { description: '100 kg+ for reps' },
-            pain_embracer: { description: 'Complete Weeks 1-8 of Pain & Glory' },
+            void_gazer: { description: 'Complete Weeks 1-8 of Pain & Glory' },
             emom_executioner: { description: 'Complete 6x5 E2MOM (Weeks 9-12)' },
             glory_achieved: { description: 'Complete Pain & Glory + New PR' },
             deficit_demon: { description: '+30 kg on Deficit Snatch Grip (Weeks 1-8)' },
@@ -303,7 +304,11 @@ export const translations = {
                 squatHint: "Competition depth, full ROM.",
                 scheduleTitle: "Suggested Schedule:",
                 scheduleDesc: "Train 3-4 days per week (e.g., Mon/Wed/Fri/Sat). The app tracks weekly workouts – after 4 workouts/week, accessory days auto-trigger.",
-                buildButton: "BUILD MY PROGRAM"
+                buildButton: "BUILD MY PROGRAM",
+                meStyleTitle: "Max Effort Style",
+                meStyleDesc: "How do you want to work up on Max Effort days?",
+                meStyle3rm: "Work up to a 3-rep max",
+                meStyle1rm: "Work up to a 1-rep max"
             },
 
             // Ritual of Strength Calibration
@@ -454,7 +459,7 @@ export const translations = {
             dominate: "Dominate",
             weakness: "Weakness",
             threat: "Threat",
-            welcomeBack: "Welcome back,",
+            welcomeBack: "Welcome back",
 
             // Peachy headers
             feelingFroggy: "Feeling",
@@ -986,6 +991,20 @@ export const translations = {
             conventionalDeadliftBackdown: "Back-down work. Focus on speed and form.",
             conventionalCAT: "Compensatory Acceleration Training – explode as fast as possible every rep.",
             increaseWeight: "Increase Weight!",
+            increaseTime: "Add 10 seconds from last session!",
+            heavyTricepExtensionsIncrease: "All sets at 6 reps – +2.5 kg next Thursday!",
+            pencilneckWeek5HeavyPhase: "Week 5 Heavy Phase: Suggested weight calculated from recent performance ({maxWeight}kg). Aim for ~{suggested}kg. Round down to nearest available plate.",
+            pencilneckCycleReload: "Cycle {cycle} Reload: Suggested weight ~{suggested}kg (Based on previous max & original start +10%). Round down.",
+            peachySquatsIncrease: "You hit 3x10 last week! +2.5kg now.",
+            skeletonBeatLastWeek: "Try to beat: {maxReps} reps this week",
+            skeletonLegExtensionsIncrease: "Target reps hit across all sets last week! Add +5 kg",
+            skeletonSLDLIncreaseKg: "Target reps hit across all sets last week! Add +2.5 kg",
+            skeletonSLDLIncreaseDB: "Target reps hit across all sets last week! Add +1 kg each dumbbell",
+            skeletonCalvesSwitchSingleLeg: "Target reps hit across all sets last week! Now switch to single-leg",
+            skeletonSingleLegCalvesIncrease: "Target reps hit across all sets last week! Add +5 kg dumbbell",
+            skeletonInvertedRowsDeeper: "Target reps hit across all sets last week! Go deeper – decrease angle between legs and floor",
+            skeletonPulldownIncrease: "Target reps hit across all sets last week! Add +7 kg",
+            planksProgression: "Hold each plank for the target time. Hit the target on ALL sets → +10 seconds next session.",
 
             // Pain & Glory Dashboard
             painGloryDashboardTagline: "Intermediate heavy deadlifting – pain today, glory tomorrow",
@@ -1052,6 +1071,7 @@ export const translations = {
             save: "Zapisz",
             cancel: "Anuluj",
             close: "Zamknij",
+            error: "Błąd",
             loading: "Ładowanie...",
             saving: "ZAPISYWANIE...",
             saved: "Zapisano",
@@ -1124,6 +1144,7 @@ export const translations = {
             saturdayAMRAPTest: "Sobota - Test AMRAP",
             saturdayPeakingAMRAP: "Sobota – Peaking AMRAP",
             saturdayJudgmentDay: "Sobota – DZIEŃ SĄDU OSTATECZNEGO",
+            saturdayLightTechnique: "Sobota – Lekka technika",
             sundayRest: "Niedziela - Odpoczynek",
 
             // Tydzień 9 Deload
@@ -1151,6 +1172,7 @@ export const translations = {
             fullBodyA: "Full Body A",
             fullBodyB: "Full Body B",
             fullBodyC: "Full Body C",
+            fullBodyWeek: "Całe ciało – Tydzień {week}",
 
             // Pain & Glory
             pullDay: "Dzień Pull",
@@ -1333,7 +1355,11 @@ export const translations = {
                 squatHint: "Głębokość poniżej kąta 90 stopni w kolanie.",
                 scheduleTitle: "Sugerowany grafik:",
                 scheduleDesc: "Trenuj 3-4 dni w tygodniu (np. Pon/Śr/Pt/Sob). Aplikacja śledzi treningi – po 4 treningach/tydzień, dni akcesoryjne aktywują się automatycznie.",
-                buildButton: "ZACZYNAMY!"
+                buildButton: "ZACZYNAMY!",
+                meStyleTitle: "Styl Maksymalnego Wysiłku",
+                meStyleDesc: "Jak chcesz pracować w dni Maksymalnego Wysiłku?",
+                meStyle3rm: "Pracuj do maksimum na 3 powtórzenia",
+                meStyle1rm: "Pracuj do maksimum na 1 powtórzenie"
             },
 
             // Ritual of Strength Calibration
@@ -1963,6 +1989,20 @@ export const translations = {
             conventionalDeadliftBackdown: "Back down work. Skup się na prędkości i formie.",
             conventionalCAT: "Compensatory Acceleration Training – eksploduj jak najszybciej w każdym powt.",
             increaseWeight: "Zwiększ ciężar!",
+            increaseTime: "Dodaj 10 sekund względem ostatniej sesji!",
+            heavyTricepExtensionsIncrease: "Wszystkie serie po 6 powt. – +2.5 kg w następny czwartek!",
+            pencilneckWeek5HeavyPhase: "Faza ciężka tygodnia 5: Sugerowany ciężar na podstawie ostatnich wyników ({maxWeight}kg). Celuj w ~{suggested}kg. Zaokrąglij w dół do najbliższego dostępnego obciążenia.",
+            pencilneckCycleReload: "Restart cyklu {cycle}: Sugerowany ciężar ~{suggested}kg (na podstawie poprzedniego maksimum i pierwotnego startu +10%). Zaokrąglij w dół.",
+            peachySquatsIncrease: "Zrobiłeś 3x10 w zeszłym tygodniu! +2.5kg teraz.",
+            skeletonBeatLastWeek: "Spróbuj pobić: {maxReps} powt. w tym tygodniu",
+            skeletonLegExtensionsIncrease: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Dodaj +5 kg",
+            skeletonSLDLIncreaseKg: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Dodaj +2.5 kg",
+            skeletonSLDLIncreaseDB: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Dodaj +1 kg na hantlę",
+            skeletonCalvesSwitchSingleLeg: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Przejdź teraz na jedną nogę",
+            skeletonSingleLegCalvesIncrease: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Dodaj +5 kg na hantlę",
+            skeletonInvertedRowsDeeper: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Zejdź głębiej – zmniejsz kąt między nogami a podłogą",
+            skeletonPulldownIncrease: "Trafiłeś docelowe powtórzenia we wszystkich seriach w zeszłym tygodniu! Dodaj +7 kg",
+            planksProgression: "Trzymaj deskę przez docelowy czas. Trafienie celu we WSZYSTKICH seriach → +10 sekund w następnej sesji.",
 
             // Pain & Glory Dashboard
             painGloryDashboardTagline: "Dziś ból, jutro chwała",

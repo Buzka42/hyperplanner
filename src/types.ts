@@ -76,6 +76,10 @@ export type TrinaryStatus = {
     preferredAccessoryType?: 'upper' | 'lower' | null;
     accessoryDaysCompleted?: number;
     skipNextAccessory?: boolean;
+    // Onboarding choice: work up to a 1-rep max (singles) or 3-rep max (ladder) on ME days
+    meRepMaxStyle?: '1rm' | '3rm';
+    // Settings choice: substitute movement for the Repeated Effort deadlift slot
+    reDeadliftVariant?: 'Romanian Deadlift' | 'Reverse Hyperextensions' | 'Good Mornings';
 };
 
 export type SuperMutantStatus = {
@@ -187,17 +191,9 @@ export type UserProfile = {
     exercisePreferences?: Record<string, string>; // "legPrimary": "Hack Squat"
     benchDominationModules?: BenchDominationModules;
     // Status tracking for complex programs
-    benchDominationStatus?: {
-        post12WeekChoice?: 'peak' | 'test';
-        completedWeeks?: number;
-    };
-    pencilneckStatus?: {
-        cycle: number;
-        startDate: string;
-        completed?: boolean;
-        completionDate?: string;
-    };
-    skeletonStatus?: { completed: boolean; completionDate?: string };
+    benchDominationStatus?: Partial<BenchDominationStatus>;
+    pencilneckStatus?: PencilneckStatus;
+    skeletonStatus?: { completed: boolean; completionDate?: string; plankTargetSeconds?: number };
     painGloryStatus?: PainGloryStatus; // Pain & Glory program status
     trinaryStatus?: TrinaryStatus; // Trinary conjugate periodization status
     ritualStatus?: any; // Ritual of Strength status (imported from ritual.ts to avoid circular dependency)

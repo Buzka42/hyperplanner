@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "verify:plans": "npx --yes tsx scripts/verify-plans.ts",
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",

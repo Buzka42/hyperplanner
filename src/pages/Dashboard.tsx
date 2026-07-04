@@ -219,124 +219,6 @@ export const Dashboard: React.FC = () => {
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500 relative">
-            {isPeachy && (
-                <style>{`
-                    .peachy-theme {
-                        --background: 200 60% 94%; 
-                        --foreground: 215 25% 27%;
-                        --card: 330 60% 95%; 
-                        --card-foreground: 215 25% 27%;
-                        --popover: 330 60% 95%;
-                        --popover-foreground: 215 25% 27%;
-                        --primary: 15 100% 74%; 
-                        --primary-foreground: 0 0% 100%;
-                        --secondary: 15 100% 68%; 
-                        --secondary-foreground: 0 0% 100%;
-                        --muted: 210 40% 90%;
-                        --muted-foreground: 215 16% 47%;
-                        --accent: 15 100% 74%;
-                        --accent-foreground: 0 0% 100%;
-                        --destructive: 0 84.2% 60.2%;
-                        --destructive-foreground: 210 40% 98%;
-                        --border: 15 100% 74%;
-                        --input: 15 100% 74%;
-                        --ring: 15 100% 74%;
-                    }
-                    .peachy-theme .text-primary { color: #FF7A5C !important; }
-                    .peachy-theme .bg-primary { background-color: #FF9F7A !important; }
-                 `}</style>
-            )}
-
-            {isPainGlory && (
-                <style>{`
-                    :root {
-                        --background: 35 30% 12%;
-                        --foreground: 35 20% 90%;
-                        --card: 35 25% 15%;
-                        --card-foreground: 35 20% 90%;
-                        --popover: 35 25% 15%;
-                        --popover-foreground: 35 20% 90%;
-                        --primary: 0 65% 45%;
-                        --primary-foreground: 35 20% 95%;
-                        --secondary: 35 40% 25%;
-                        --secondary-foreground: 35 20% 90%;
-                        --muted: 35 20% 20%;
-                        --muted-foreground: 35 15% 60%;
-                        --accent: 0 65% 45%;
-                        --accent-foreground: 35 20% 95%;
-                        --destructive: 0 84.2% 60.2%;
-                        --destructive-foreground: 210 40% 98%;
-                        --border: 35 30% 25%;
-                        --input: 35 30% 25%;
-                        --ring: 0 65% 45%;
-                    }
-                `}</style>
-            )}
-
-            {isTrinary && (
-                <style>{`
-                    :root {
-                        --background: 220 10% 8%;
-                        --foreground: 220 10% 90%;
-                        --card: 220 10% 12%;
-                        --card-foreground: 220 10% 90%;
-                        --popover: 220 10% 12%;
-                        --popover-foreground: 220 10% 90%;
-                        --primary: 220 10% 50%;
-                        --primary-foreground: 220 10% 95%;
-                        --secondary: 220 10% 20%;
-                        --secondary-foreground: 220 10% 90%;
-                        --muted: 220 10% 15%;
-                        --muted-foreground: 220 10% 55%;
-                        --accent: 220 10% 50%;
-                        --accent-foreground: 220 10% 95%;
-                        --destructive: 0 70% 50%;
-                        --destructive-foreground: 220 10% 98%;
-                        --border: 220 10% 20%;
-                        --input: 220 10% 20%;
-                        --ring: 220 10% 50%;
-                    }
-                `}</style>
-            )}
-
-            {isSuperMutant && (
-                <style>{`
-                    :root {
-                        --background: 120 20% 8%;
-                        --foreground: 120 20% 90%;
-                        --card: 120 15% 12%;
-                        --card-foreground: 120 20% 90%;
-                        --popover: 120 15% 12%;
-                        --popover-foreground: 120 20% 90%;
-                        --primary: 120 100% 35%;
-                        --primary-foreground: 120 20% 95%;
-                        --secondary: 30 100% 50%;
-                        --secondary-foreground: 30 20% 95%;
-                        --muted: 120 15% 15%;
-                        --muted-foreground: 120 10% 55%;
-                        --accent: 120 100% 35%;
-                        --accent-foreground: 120 20% 95%;
-                        --destructive: 30 100% 50%;
-                        --destructive-foreground: 120 15% 98%;
-                        --border: 120 15% 20%;
-                        --input: 120 15% 20%;
-                        --ring: 120 100% 35%;
-                    }
-                    /* Toxic green glow effects */
-                    .mutant-glow {
-                        box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
-                    }
-                    .mutant-text {
-                        color: #00FF41;
-                        text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
-                    }
-                    .radiation-text {
-                        color: #FF6600;
-                        text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
-                    }
-                `}</style>
-            )}
-
             {completionType && (() => {
                 const badgeId = completionType === 'skeleton' ? 'certified_threat' : 'certified_boulder';
                 const badge = BADGES.find(b => b.id === badgeId);
@@ -471,7 +353,7 @@ export const Dashboard: React.FC = () => {
                 ) : isPainGlory ? (
                     <div className="flex items-center justify-between w-full">
                         <div className="text-left">
-                            <h2 className="text-4xl font-black tracking-tight bg-gradient-to-r from-red-900 via-red-600 to-red-900 bg-clip-text text-transparent animate-pulse">
+                            <h2 className="text-4xl font-black tracking-tight text-primary">
                                 Pain today, glory tomorrow
                             </h2>
                         </div>
@@ -485,7 +367,7 @@ export const Dashboard: React.FC = () => {
                 ) : isTrinary ? (
                     <div className="flex items-center justify-between w-full">
                         <div className="text-left">
-                            <h2 className="text-4xl font-black tracking-tight bg-gradient-to-r from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
+                            <h2 className="text-4xl font-black tracking-tight text-foreground">
                                 {t('dashboard.trinary.title')}
                             </h2>
                             <p className="text-zinc-400 mt-1 text-sm italic">{t('dashboard.trinary.tagline')}</p>
@@ -500,7 +382,7 @@ export const Dashboard: React.FC = () => {
                 ) : activePlanConfig.id === 'ritual-of-strength' ? (
                     <div className="flex items-center justify-between w-full">
                         <div className="text-left">
-                            <h2 className="text-4xl font-black tracking-tight bg-gradient-to-r from-red-900 via-red-600 to-red-900 bg-clip-text text-transparent animate-pulse">
+                            <h2 className="text-4xl font-black tracking-tight text-primary">
                                 {t('tips.ritualDashboardTagline')}
                             </h2>
                         </div>
@@ -514,7 +396,7 @@ export const Dashboard: React.FC = () => {
                 ) : isSuperMutant ? (
                     <div className="flex items-center justify-between w-full">
                         <div className="text-left">
-                            <h2 className="text-4xl font-black tracking-tight bg-gradient-to-r from-green-500 via-orange-500 to-green-500 bg-clip-text text-transparent animate-pulse">
+                            <h2 className="text-4xl font-black tracking-tight mutant-text">
                                 SUPER MUTANT
                             </h2>
                             <p className="mutant-text mt-1 text-sm italic font-mono">
@@ -728,24 +610,20 @@ export const Dashboard: React.FC = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-transparent via-red-900/10 to-transparent animate-pulse pointer-events-none" />
 
                             <CardHeader className="pb-2 relative z-10">
-                                <CardTitle className="text-xl text-red-500 font-black flex items-center justify-center gap-2">
-                                    <span className="text-red-600">⛧</span>
-                                    <span className="bg-gradient-to-r from-red-600 via-orange-500 to-red-600 bg-clip-text text-transparent animate-pulse">
-                                        STRENGTH ALTAR
-                                    </span>
-                                    <span className="text-red-600">⛧</span>
+                                <CardTitle className="text-xl font-black flex items-center justify-center gap-3 text-red-500 uppercase tracking-widest">
+                                    STRENGTH ALTAR
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="relative z-10">
                                 <div className="grid grid-cols-3 gap-6 px-4">
                                     {/* Bench Press Candle */}
                                     <div className="flex flex-col items-center">
-                                        <div className="text-sm text-red-400 mb-6 font-black uppercase tracking-widest bg-gradient-to-r from-orange-600 via-red-500 to-orange-600 bg-clip-text text-transparent animate-pulse">
+                                        <div className="text-sm text-orange-400 mb-6 font-black uppercase tracking-widest">
                                             BENCH
                                         </div>
                                         <div className="relative w-16">
                                             {/* Flame effect on top */}
-                                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl animate-pulse">
+                                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl">
                                                 🔥
                                             </div>
                                             {/* Candle body */}
@@ -761,12 +639,12 @@ export const Dashboard: React.FC = () => {
 
                                     {/* Squat Candle */}
                                     <div className="flex flex-col items-center">
-                                        <div className="text-sm text-red-400 mb-6 font-black uppercase tracking-widest bg-gradient-to-r from-orange-600 via-red-500 to-orange-600 bg-clip-text text-transparent animate-pulse">
+                                        <div className="text-sm text-orange-400 mb-6 font-black uppercase tracking-widest">
                                             SQUAT
                                         </div>
                                         <div className="relative w-16">
                                             {/* Flame effect on top */}
-                                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl animate-pulse">
+                                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl">
                                                 🔥
                                             </div>
                                             {/* Candle body */}
@@ -782,12 +660,12 @@ export const Dashboard: React.FC = () => {
 
                                     {/* Deadlift Candle */}
                                     <div className="flex flex-col items-center">
-                                        <div className="text-sm text-red-400 mb-6 font-black uppercase tracking-widest bg-gradient-to-r from-orange-600 via-red-500 to-orange-600 bg-clip-text text-transparent animate-pulse">
+                                        <div className="text-sm text-orange-400 mb-6 font-black uppercase tracking-widest">
                                             DEAD
                                         </div>
                                         <div className="relative w-16">
                                             {/* Flame effect on top */}
-                                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl animate-pulse">
+                                            <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl">
                                                 🔥
                                             </div>
                                             {/* Candle body */}
@@ -1004,42 +882,13 @@ export const Dashboard: React.FC = () => {
                                         const weekNum = Math.floor(workoutNum / 7) + 1;
                                         const dayNum = (workoutNum % 7) + 1;
 
-                                        const handleTimeSkip = async () => {
-                                            if (!user.superMutantStatus) return;
-                                            const userRef = doc(db, 'users', user.id);
-                                            const updates: any = {};
-                                            // Advance existing timestamps by 24 hours (for testing cooldown periods)
-                                            const twentyFourHours = 24 * 60 * 60 * 1000;
-
-                                            const muscles = ['chest', 'back', 'shoulders', 'triceps', 'biceps', 'calves', 'hamstrings', 'glutes', 'lowerBack', 'quads', 'abductors', 'abs'];
-                                            muscles.forEach(muscle => {
-                                                const currentTimestamp = (user.superMutantStatus?.muscleGroupTimestamps as any)?.[muscle] || Date.now();
-                                                updates[`superMutantStatus.muscleGroupTimestamps.${muscle}`] = currentTimestamp - twentyFourHours;
-                                            });
-
-                                            await updateDoc(userRef, updates);
-                                            // Navigate to dashboard to refresh (reload would log out due to no localStorage persistence)
-                                            window.location.href = '/app/dashboard';
-                                        };
-
                                         return (
-                                            <div className="flex gap-2">
-                                                <Link to={`/app/workout/${weekNum}/${dayNum}`}>
-                                                    <Button size="lg" className="bg-green-700 hover:bg-green-600 text-green-50 font-black">
-                                                        <Dumbbell className="mr-2 h-5 w-5" />
-                                                        INITIATE
-                                                    </Button>
-                                                </Link>
-                                                <Button
-                                                    size="sm"
-                                                    variant="outline"
-                                                    onClick={handleTimeSkip}
-                                                    className="border-orange-700 text-orange-400 hover:bg-orange-900/20"
-                                                    title="Skip 24 hours for testing"
-                                                >
-                                                    ⏭️ +24h
+                                            <Link to={`/app/workout/${weekNum}/${dayNum}`}>
+                                                <Button size="lg" className="bg-green-700 hover:bg-green-600 text-green-50 font-black">
+                                                    <Dumbbell className="mr-2 h-5 w-5" />
+                                                    INITIATE
                                                 </Button>
-                                            </div>
+                                            </Link>
                                         );
                                     })()}
                                 </CardContent>

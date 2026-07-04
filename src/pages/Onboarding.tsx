@@ -54,6 +54,8 @@ export const Onboarding: React.FC = () => {
         legDays: true
     });
 
+    const [trinaryMeRepMaxStyle, setTrinaryMeRepMaxStyle] = useState<'1rm' | '3rm'>('3rm');
+
     const [stats, setStats] = useState<LiftingStats>({
         pausedBench: 0,
         wideGripBench: 0,
@@ -262,7 +264,8 @@ export const Onboarding: React.FC = () => {
             squat1RM: squat1RM,
             workoutLog: [],
             cycleNumber: 1,
-            isDeload: false
+            isDeload: false,
+            meRepMaxStyle: trinaryMeRepMaxStyle
         };
 
         try {
@@ -706,7 +709,6 @@ export const Onboarding: React.FC = () => {
                                     <Checkbox
                                         id={day}
                                         checked={selectedDays.includes(index + 1)}
-                                        onCheckedChange={() => handleDayToggle(index + 1)}
                                     />
                                     <label htmlFor={day} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer">
                                         {day}
@@ -958,6 +960,21 @@ export const Onboarding: React.FC = () => {
                                     />
                                     <p className="text-xs text-zinc-500">{t('onboarding.trinary.squatHint')}</p>
                                 </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label className="text-base text-zinc-200">{t('onboarding.trinary.meStyleTitle')}</Label>
+                                <p className="text-xs text-zinc-500">{t('onboarding.trinary.meStyleDesc')}</p>
+                                <RadioGroup value={trinaryMeRepMaxStyle} onValueChange={(v) => setTrinaryMeRepMaxStyle(v as '1rm' | '3rm')} className="grid grid-cols-2 gap-2">
+                                    <div className={`flex items-center space-x-2 p-3 rounded border ${trinaryMeRepMaxStyle === '3rm' ? 'border-zinc-500 bg-zinc-800' : 'border-zinc-700/50'}`}>
+                                        <RadioGroupItem value="3rm" id="me-3rm" />
+                                        <Label htmlFor="me-3rm" className="text-zinc-200 cursor-pointer">{t('onboarding.trinary.meStyle3rm')}</Label>
+                                    </div>
+                                    <div className={`flex items-center space-x-2 p-3 rounded border ${trinaryMeRepMaxStyle === '1rm' ? 'border-zinc-500 bg-zinc-800' : 'border-zinc-700/50'}`}>
+                                        <RadioGroupItem value="1rm" id="me-1rm" />
+                                        <Label htmlFor="me-1rm" className="text-zinc-200 cursor-pointer">{t('onboarding.trinary.meStyle1rm')}</Label>
+                                    </div>
+                                </RadioGroup>
                             </div>
 
                             <div className="bg-zinc-800/50 border border-zinc-700/30 rounded p-3 text-sm text-zinc-300">

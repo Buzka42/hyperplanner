@@ -188,8 +188,14 @@ const getLiftName = (
     block: number
 ): string => {
     const suffix = effortType === 'me' ? ' (ME)' : effortType === 'de' ? ' (DE)' : ' (RE)';
+    const status = (user as any)?.trinaryStatus;
 
-    // DE and RE always use standard lifts
+    // RE Deadlift: user-selectable substitute movement (chosen in Settings)
+    if (effortType === 're' && liftType === 'deadlift' && status?.reDeadliftVariant) {
+        return status.reDeadliftVariant + suffix;
+    }
+
+    // DE and RE (bench/squat) always use standard lifts
     if (effortType !== 'me') {
         return STANDARD_LIFTS[liftType] + suffix;
     }
@@ -200,7 +206,6 @@ const getLiftName = (
     }
 
     // Block 2+: ME uses variations from weak point selection
-    const status = (user as any)?.trinaryStatus;
     if (!status) {
         return STANDARD_LIFTS[liftType] + suffix;
     }
@@ -221,14 +226,16 @@ const getLiftName = (
     return variationName + suffix;
 };
 
-// Get sets/reps for effort type
-const getSetTarget = (effortType: 'me' | 'de' | 're'): { sets: number; target: SetTarget } => {
+// Get sets/reps for effort type.
+// meRepMaxStyle is the user's onboarding choice: work up to a 1-rep max (single
+// top-set attempts, like Ritual's ME day) or a 3-rep max (a short ladder of
+// attempts, the original/default Trinary style). Only affects the ME slot.
+const getSetTarget = (effortType: 'me' | 'de' | 're', meRepMaxStyle: '1rm' | '3rm' = '3rm'): { sets: number; target: SetTarget } => {
     switch (effortType) {
         case 'me':
-            return {
-                sets: 3,
-                target: { type: 'range', reps: '1-3', rpe: 9 }
-            };
+            return meRepMaxStyle === '1rm'
+                ? { sets: 1, target: { type: 'straight', reps: '1', rpe: 9 } }
+                : { sets: 3, target: { type: 'range', reps: '1-3', rpe: 9 } };
         case 'de':
             return {
                 sets: 8,
@@ -423,6 +430,9 @@ export const TRINARY_CONFIG: PlanConfig = {
                 }
             }
 
+            const meRepMaxStyle: '1rm' | '3rm' = status.meRepMaxStyle === '1rm' ? '1rm' : '3rm';
+            const meSetup = getSetTarget('me', meRepMaxStyle);
+
             // Replace exercise names with correct variations based on block
             const processedExercises = day.exercises.map(ex => {
                 if (ex.id.includes('-me')) {
@@ -430,6 +440,8 @@ export const TRINARY_CONFIG: PlanConfig = {
                     return {
                         ...ex,
                         name: liftName,
+                        sets: meSetup.sets,
+                        target: meSetup.target,
                         notes: block <= 3 ? 't:tips.trinaryMEStandard' : 't:tips.trinaryMEVariation'
                     };
                 } else if (ex.id.includes('-de')) {
@@ -473,7 +485,8 @@ export const TRINARY_CONFIG: PlanConfig = {
                 current1RM = status.bench1RM || 0;
             } else if (baseName.toLowerCase().includes('deadlift') || baseName.toLowerCase().includes('rdl') ||
                 baseName.toLowerCase().includes('deficit') || baseName.toLowerCase().includes('rack pull') ||
-                baseName.toLowerCase().includes('block pull')) {
+                baseName.toLowerCase().includes('block pull') || baseName.toLowerCase().includes('hyperextension') ||
+                baseName.toLowerCase().includes('good morning')) {
                 current1RM = status.deadlift1RM || 0;
             } else if (baseName.toLowerCase().includes('squat') || baseName.toLowerCase().includes('box') ||
                 baseName.toLowerCase().includes('stiletto') || baseName.toLowerCase().includes('safety bar') ||
@@ -491,7 +504,10 @@ export const TRINARY_CONFIG: PlanConfig = {
             } else if (isDE) {
                 blockPct = blockPercentages.de;
             } else if (isRE) {
-                blockPct = blockPercentages.re;
+                // Romanian Deadlift (RE deadlift substitute) uses a fixed 55% of 1RM,
+                // not the block-scaled RE percentage — RDLs for 8-12 reps at 70-80%
+                // of a conventional deadlift 1RM would be far too heavy.
+                blockPct = baseName.toLowerCase() === 'romanian deadlift' ? 0.55 : blockPercentages.re;
             }
 
             // Weight = 1RM × block % (rounded down to 2.5 kg)

@@ -1,0 +1,5881 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "program_identity_system",
+        "label": "Program Identity & Theming Framework",
+        "nodes": [
+          "comp_protectedlayout",
+          "prog_trinary",
+          "prog_supermutant",
+          "prog_painglory",
+          "types_userprofile"
+        ],
+        "relation": "implement",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "src/components/ProtectedLayout.tsx"
+      },
+      {
+        "id": "program_configurations",
+        "label": "Program Configurations",
+        "nodes": [
+          "program_bench_domination_config",
+          "pencilneck_pencilneck_config",
+          "skeleton_skeleton_config",
+          "peachy_peachy_config",
+          "painglory_pain_glory_config",
+          "trinary_trinary_config",
+          "ritual_ritual_config",
+          "supermutant_super_mutant_config"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "src/data/plans.ts"
+      },
+      {
+        "id": "program_definitions",
+        "label": "Program Definitions",
+        "nodes": [
+          "painglory_pain_glory_program",
+          "peachy_peachy_program"
+        ],
+        "relation": "implement",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "src/data/painglory.ts"
+      },
+      {
+        "id": "workout_flow",
+        "label": "Workout Logging Flow",
+        "nodes": [
+          "dashboard_dashboard",
+          "workoutview_workoutview",
+          "workouthistory_workouthistory"
+        ],
+        "relation": "participate_in",
+        "confidence": "INFERRED",
+        "confidence_score": 0.95,
+        "source_file": "src/pages/Dashboard.tsx"
+      },
+      {
+        "id": "workout_programs",
+        "label": "Workout Programs",
+        "nodes": [
+          "readme_v15_finaltrinaryfixes_bench_domination",
+          "readme_v15_finaltrinaryfixes_painglory",
+          "readme_v15_finaltrinaryfixes_peachy",
+          "readme_v15_finaltrinaryfixes_pencilneck",
+          "readme_v15_finaltrinaryfixes_skeleton",
+          "readme_v15_finaltrinaryfixes_trinary"
+        ],
+        "relation": "implement",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "backups/README_v15_FinalTrinaryFixes.md"
+      },
+      {
+        "id": "achievement_badges",
+        "label": "Workout Achievement System",
+        "nodes": [
+          "emom_executioner_badge",
+          "final_boss_badge",
+          "first_blood_badge",
+          "glory_achieved_badge",
+          "glute_queen_badge",
+          "highpriest_badge",
+          "immortal_badge",
+          "initiate_badge",
+          "kas_glute_bridge_100_badge",
+          "mutant_badge"
+        ],
+        "relation": "participate_in",
+        "confidence": "INFERRED",
+        "confidence_score": 0.95,
+        "source_file": "public/badges/glory_achieved.png"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "eslint.config.js",
+      "file_type": "code",
+      "source_file": "eslint.config.js",
+      "source_location": "L1",
+      "id": "eslint_config_js",
+      "community": 31,
+      "norm_label": "eslint.config.js"
+    },
+    {
+      "label": "postcss.config.js",
+      "file_type": "code",
+      "source_file": "postcss.config.js",
+      "source_location": "L1",
+      "id": "postcss_config_js",
+      "community": 32,
+      "norm_label": "postcss.config.js"
+    },
+    {
+      "label": "tailwind.config.js",
+      "file_type": "code",
+      "source_file": "tailwind.config.js",
+      "source_location": "L1",
+      "id": "tailwind_config_js",
+      "community": 33,
+      "norm_label": "tailwind.config.js"
+    },
+    {
+      "label": "vite.config.ts",
+      "file_type": "code",
+      "source_file": "vite.config.ts",
+      "source_location": "L1",
+      "id": "vite_config_ts",
+      "community": 34,
+      "norm_label": "vite.config.ts"
+    },
+    {
+      "label": "Dashboard - Copy.tsx",
+      "file_type": "code",
+      "source_file": "backups/Dashboard - Copy.tsx",
+      "source_location": "L1",
+      "id": "backups_dashboard_copy_tsx",
+      "community": 0,
+      "norm_label": "dashboard - copy.tsx"
+    },
+    {
+      "label": "fetchStatus()",
+      "file_type": "code",
+      "source_file": "backups/Dashboard - Copy.tsx",
+      "source_location": "L58",
+      "id": "backups_dashboard_copy_fetchstatus",
+      "community": 0,
+      "norm_label": "fetchstatus()"
+    },
+    {
+      "label": "nextWeek()",
+      "file_type": "code",
+      "source_file": "backups/Dashboard - Copy.tsx",
+      "source_location": "L197",
+      "id": "backups_dashboard_copy_nextweek",
+      "community": 0,
+      "norm_label": "nextweek()"
+    },
+    {
+      "label": "prevWeek()",
+      "file_type": "code",
+      "source_file": "backups/Dashboard - Copy.tsx",
+      "source_location": "L201",
+      "id": "backups_dashboard_copy_prevweek",
+      "community": 0,
+      "norm_label": "prevweek()"
+    },
+    {
+      "label": "verify-plans.ts",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L1",
+      "id": "scripts_verify_plans_ts",
+      "community": 2,
+      "norm_label": "verify-plans.ts"
+    },
+    {
+      "label": "check()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L22",
+      "id": "scripts_verify_plans_check",
+      "community": 2,
+      "norm_label": "check()"
+    },
+    {
+      "label": "note()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L23",
+      "id": "scripts_verify_plans_note",
+      "community": 2,
+      "norm_label": "note()"
+    },
+    {
+      "label": "floorD()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L25",
+      "id": "scripts_verify_plans_floord",
+      "community": 2,
+      "norm_label": "floord()"
+    },
+    {
+      "label": "ceilD()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L26",
+      "id": "scripts_verify_plans_ceild",
+      "community": 2,
+      "norm_label": "ceild()"
+    },
+    {
+      "label": "nearCap()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L27",
+      "id": "scripts_verify_plans_nearcap",
+      "community": 2,
+      "norm_label": "nearcap()"
+    },
+    {
+      "label": "day()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L29",
+      "id": "scripts_verify_plans_day",
+      "community": 2,
+      "norm_label": "day()"
+    },
+    {
+      "label": "exByName()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L30",
+      "id": "scripts_verify_plans_exbyname",
+      "community": 2,
+      "norm_label": "exbyname()"
+    },
+    {
+      "label": "pp()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L44",
+      "id": "scripts_verify_plans_pp",
+      "community": 2,
+      "norm_label": "pp()"
+    },
+    {
+      "label": "cw()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L45",
+      "id": "scripts_verify_plans_cw",
+      "community": 2,
+      "norm_label": "cw()"
+    },
+    {
+      "label": "mkU()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L105",
+      "id": "scripts_verify_plans_mku",
+      "community": 2,
+      "norm_label": "mku()"
+    },
+    {
+      "label": "wBase()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L106",
+      "id": "scripts_verify_plans_wbase",
+      "community": 2,
+      "norm_label": "wbase()"
+    },
+    {
+      "label": "mkUser()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L169",
+      "id": "scripts_verify_plans_mkuser",
+      "community": 2,
+      "norm_label": "mkuser()"
+    },
+    {
+      "label": "it()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L197",
+      "id": "scripts_verify_plans_it",
+      "community": 2,
+      "norm_label": "it()"
+    },
+    {
+      "label": "hist()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L232",
+      "id": "scripts_verify_plans_hist",
+      "community": 2,
+      "norm_label": "hist()"
+    },
+    {
+      "label": "adv()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L233",
+      "id": "scripts_verify_plans_adv",
+      "community": 2,
+      "norm_label": "adv()"
+    },
+    {
+      "label": "cwn()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L286",
+      "id": "scripts_verify_plans_cwn",
+      "community": 2,
+      "norm_label": "cwn()"
+    },
+    {
+      "label": "wAbs()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L310",
+      "id": "scripts_verify_plans_wabs",
+      "community": 2,
+      "norm_label": "wabs()"
+    },
+    {
+      "label": "pat()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L355",
+      "id": "scripts_verify_plans_pat",
+      "community": 2,
+      "norm_label": "pat()"
+    },
+    {
+      "label": "reps()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L394",
+      "id": "scripts_verify_plans_reps",
+      "community": 2,
+      "norm_label": "reps()"
+    },
+    {
+      "label": "gen()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L436",
+      "id": "scripts_verify_plans_gen",
+      "community": 2,
+      "norm_label": "gen()"
+    },
+    {
+      "label": "rir()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L443",
+      "id": "scripts_verify_plans_rir",
+      "community": 2,
+      "norm_label": "rir()"
+    },
+    {
+      "label": "noteHas()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L444",
+      "id": "scripts_verify_plans_notehas",
+      "community": 2,
+      "norm_label": "notehas()"
+    },
+    {
+      "label": "lookup()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L497",
+      "id": "scripts_verify_plans_lookup",
+      "community": 2,
+      "norm_label": "lookup()"
+    },
+    {
+      "label": "walk()",
+      "file_type": "code",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L499",
+      "id": "scripts_verify_plans_walk",
+      "community": 2,
+      "norm_label": "walk()"
+    },
+    {
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L1",
+      "id": "src_app_tsx",
+      "community": 5,
+      "norm_label": "app.tsx"
+    },
+    {
+      "label": "firebase.ts",
+      "file_type": "code",
+      "source_file": "src/firebase.ts",
+      "source_location": "L1",
+      "id": "src_firebase_ts",
+      "community": 35,
+      "norm_label": "firebase.ts"
+    },
+    {
+      "label": "main.tsx",
+      "file_type": "code",
+      "source_file": "src/main.tsx",
+      "source_location": "L1",
+      "id": "src_main_tsx",
+      "community": 5,
+      "norm_label": "main.tsx"
+    },
+    {
+      "label": "types.ts",
+      "file_type": "code",
+      "source_file": "src/types.ts",
+      "source_location": "L1",
+      "id": "src_types_ts",
+      "community": 36,
+      "norm_label": "types.ts"
+    },
+    {
+      "label": "AccessoryChoiceModal.tsx",
+      "file_type": "code",
+      "source_file": "src/components/AccessoryChoiceModal.tsx",
+      "source_location": "L1",
+      "id": "src_components_accessorychoicemodal_tsx",
+      "community": 0,
+      "norm_label": "accessorychoicemodal.tsx"
+    },
+    {
+      "label": "LanguageSwitcher.tsx",
+      "file_type": "code",
+      "source_file": "src/components/LanguageSwitcher.tsx",
+      "source_location": "L1",
+      "id": "src_components_languageswitcher_tsx",
+      "community": 0,
+      "norm_label": "languageswitcher.tsx"
+    },
+    {
+      "label": "ProtectedLayout.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ProtectedLayout.tsx",
+      "source_location": "L1",
+      "id": "src_components_protectedlayout_tsx",
+      "community": 0,
+      "norm_label": "protectedlayout.tsx"
+    },
+    {
+      "label": "TrinaryRerunModal.tsx",
+      "file_type": "code",
+      "source_file": "src/components/TrinaryRerunModal.tsx",
+      "source_location": "L1",
+      "id": "src_components_trinaryrerunmodal_tsx",
+      "community": 0,
+      "norm_label": "trinaryrerunmodal.tsx"
+    },
+    {
+      "label": "VariationSwapModal.tsx",
+      "file_type": "code",
+      "source_file": "src/components/VariationSwapModal.tsx",
+      "source_location": "L1",
+      "id": "src_components_variationswapmodal_tsx",
+      "community": 13,
+      "norm_label": "variationswapmodal.tsx"
+    },
+    {
+      "label": "getAvailableVariations()",
+      "file_type": "code",
+      "source_file": "src/components/VariationSwapModal.tsx",
+      "source_location": "L31",
+      "id": "components_variationswapmodal_getavailablevariations",
+      "community": 13,
+      "norm_label": "getavailablevariations()"
+    },
+    {
+      "label": "WeakPointModal.tsx",
+      "file_type": "code",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source_location": "L1",
+      "id": "src_components_weakpointmodal_tsx",
+      "community": 0,
+      "norm_label": "weakpointmodal.tsx"
+    },
+    {
+      "label": "handleSubmit()",
+      "file_type": "code",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source_location": "L42",
+      "id": "components_weakpointmodal_handlesubmit",
+      "community": 0,
+      "norm_label": "handlesubmit()"
+    },
+    {
+      "label": "getBenchVariations()",
+      "file_type": "code",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source_location": "L52",
+      "id": "components_weakpointmodal_getbenchvariations",
+      "community": 0,
+      "norm_label": "getbenchvariations()"
+    },
+    {
+      "label": "getDeadliftVariations()",
+      "file_type": "code",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source_location": "L53",
+      "id": "components_weakpointmodal_getdeadliftvariations",
+      "community": 0,
+      "norm_label": "getdeadliftvariations()"
+    },
+    {
+      "label": "getSquatVariations()",
+      "file_type": "code",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source_location": "L54",
+      "id": "components_weakpointmodal_getsquatvariations",
+      "community": 0,
+      "norm_label": "getsquatvariations()"
+    },
+    {
+      "label": "button.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ui/button.tsx",
+      "source_location": "L1",
+      "id": "src_components_ui_button_tsx",
+      "community": 0,
+      "norm_label": "button.tsx"
+    },
+    {
+      "label": "card.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ui/card.tsx",
+      "source_location": "L1",
+      "id": "src_components_ui_card_tsx",
+      "community": 0,
+      "norm_label": "card.tsx"
+    },
+    {
+      "label": "checkbox.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ui/checkbox.tsx",
+      "source_location": "L1",
+      "id": "src_components_ui_checkbox_tsx",
+      "community": 0,
+      "norm_label": "checkbox.tsx"
+    },
+    {
+      "label": "dialog.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ui/dialog.tsx",
+      "source_location": "L1",
+      "id": "src_components_ui_dialog_tsx",
+      "community": 0,
+      "norm_label": "dialog.tsx"
+    },
+    {
+      "label": "input.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ui/input.tsx",
+      "source_location": "L1",
+      "id": "src_components_ui_input_tsx",
+      "community": 0,
+      "norm_label": "input.tsx"
+    },
+    {
+      "label": "label.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ui/label.tsx",
+      "source_location": "L1",
+      "id": "src_components_ui_label_tsx",
+      "community": 0,
+      "norm_label": "label.tsx"
+    },
+    {
+      "label": "radio-group.tsx",
+      "file_type": "code",
+      "source_file": "src/components/ui/radio-group.tsx",
+      "source_location": "L1",
+      "id": "src_components_ui_radio_group_tsx",
+      "community": 0,
+      "norm_label": "radio-group.tsx"
+    },
+    {
+      "label": "translations.ts",
+      "file_type": "code",
+      "source_file": "src/contexts/translations.ts",
+      "source_location": "L1",
+      "id": "src_contexts_translations_ts",
+      "community": 37,
+      "norm_label": "translations.ts"
+    },
+    {
+      "label": "UserContext.tsx",
+      "file_type": "code",
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": "L1",
+      "id": "src_contexts_usercontext_tsx",
+      "community": 5,
+      "norm_label": "usercontext.tsx"
+    },
+    {
+      "label": "UserProvider()",
+      "file_type": "code",
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": "L27",
+      "id": "contexts_usercontext_userprovider",
+      "community": 5,
+      "norm_label": "userprovider()"
+    },
+    {
+      "label": "useUser()",
+      "file_type": "code",
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": "L728",
+      "id": "contexts_usercontext_useuser",
+      "community": 0,
+      "norm_label": "useuser()"
+    },
+    {
+      "label": "useTranslation.tsx",
+      "file_type": "code",
+      "source_file": "src/contexts/useTranslation.tsx",
+      "source_location": "L1",
+      "id": "src_contexts_usetranslation_tsx",
+      "community": 3,
+      "norm_label": "usetranslation.tsx"
+    },
+    {
+      "label": "useLanguage()",
+      "file_type": "code",
+      "source_file": "src/contexts/useTranslation.tsx",
+      "source_location": "L127",
+      "id": "contexts_usetranslation_uselanguage",
+      "community": 0,
+      "norm_label": "uselanguage()"
+    },
+    {
+      "label": "resolveTemplate()",
+      "file_type": "code",
+      "source_file": "src/contexts/useTranslation.tsx",
+      "source_location": "L141",
+      "id": "contexts_usetranslation_resolvetemplate",
+      "community": 3,
+      "norm_label": "resolvetemplate()"
+    },
+    {
+      "label": "badges.ts",
+      "file_type": "code",
+      "source_file": "src/data/badges.ts",
+      "source_location": "L1",
+      "id": "src_data_badges_ts",
+      "community": 38,
+      "norm_label": "badges.ts"
+    },
+    {
+      "label": "painglory.ts",
+      "file_type": "code",
+      "source_file": "src/data/painglory.ts",
+      "source_location": "L1",
+      "id": "src_data_painglory_ts",
+      "community": 14,
+      "norm_label": "painglory.ts"
+    },
+    {
+      "label": "createPainGloryWeeks()",
+      "file_type": "code",
+      "source_file": "src/data/painglory.ts",
+      "source_location": "L5",
+      "id": "data_painglory_createpaingloryweeks",
+      "community": 14,
+      "norm_label": "createpaingloryweeks()"
+    },
+    {
+      "label": "peachy.ts",
+      "file_type": "code",
+      "source_file": "src/data/peachy.ts",
+      "source_location": "L1",
+      "id": "src_data_peachy_ts",
+      "community": 15,
+      "norm_label": "peachy.ts"
+    },
+    {
+      "label": "createPeachyWeeks()",
+      "file_type": "code",
+      "source_file": "src/data/peachy.ts",
+      "source_location": "L4",
+      "id": "data_peachy_createpeachyweeks",
+      "community": 15,
+      "norm_label": "createpeachyweeks()"
+    },
+    {
+      "label": "pencilneck.ts",
+      "file_type": "code",
+      "source_file": "src/data/pencilneck.ts",
+      "source_location": "L1",
+      "id": "src_data_pencilneck_ts",
+      "community": 16,
+      "norm_label": "pencilneck.ts"
+    },
+    {
+      "label": "generatePencilneckWeeks()",
+      "file_type": "code",
+      "source_file": "src/data/pencilneck.ts",
+      "source_location": "L28",
+      "id": "data_pencilneck_generatepencilneckweeks",
+      "community": 16,
+      "norm_label": "generatepencilneckweeks()"
+    },
+    {
+      "label": "plans.ts",
+      "file_type": "code",
+      "source_file": "src/data/plans.ts",
+      "source_location": "L1",
+      "id": "src_data_plans_ts",
+      "community": 5,
+      "norm_label": "plans.ts"
+    },
+    {
+      "label": "getPlan()",
+      "file_type": "code",
+      "source_file": "src/data/plans.ts",
+      "source_location": "L23",
+      "id": "data_plans_getplan",
+      "community": 5,
+      "norm_label": "getplan()"
+    },
+    {
+      "label": "program.ts",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": "L1",
+      "id": "src_data_program_ts",
+      "community": 8,
+      "norm_label": "program.ts"
+    },
+    {
+      "label": "createWeeks()",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": "L3",
+      "id": "data_program_createweeks",
+      "community": 8,
+      "norm_label": "createweeks()"
+    },
+    {
+      "label": "getRepThresholdForWeek()",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": "L455",
+      "id": "data_program_getrepthresholdforweek",
+      "community": 8,
+      "norm_label": "getrepthresholdforweek()"
+    },
+    {
+      "label": "roundToNearest2_5WithCap()",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": "L469",
+      "id": "data_program_roundtonearest2_5withcap",
+      "community": 8,
+      "norm_label": "roundtonearest2_5withcap()"
+    },
+    {
+      "label": "roundDownToNearest2_5()",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": "L489",
+      "id": "data_program_rounddowntonearest2_5",
+      "community": 8,
+      "norm_label": "rounddowntonearest2_5()"
+    },
+    {
+      "label": "roundUpToNearest2_5()",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": "L497",
+      "id": "data_program_rounduptonearest2_5",
+      "community": 8,
+      "norm_label": "rounduptonearest2_5()"
+    },
+    {
+      "label": "calculateE1RM()",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": "L504",
+      "id": "data_program_calculatee1rm",
+      "community": 8,
+      "norm_label": "calculatee1rm()"
+    },
+    {
+      "label": "getPausedBenchBase()",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": "L524",
+      "id": "data_program_getpausedbenchbase",
+      "community": 8,
+      "norm_label": "getpausedbenchbase()"
+    },
+    {
+      "label": "getPowerDayBenchBase()",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": "L614",
+      "id": "data_program_getpowerdaybenchbase",
+      "community": 8,
+      "norm_label": "getpowerdaybenchbase()"
+    },
+    {
+      "label": "ritual.ts",
+      "file_type": "code",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L1",
+      "id": "src_data_ritual_ts",
+      "community": 12,
+      "norm_label": "ritual.ts"
+    },
+    {
+      "label": "roundDownTo2_5()",
+      "file_type": "code",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L10",
+      "id": "data_ritual_rounddownto2_5",
+      "community": 12,
+      "norm_label": "rounddownto2_5()"
+    },
+    {
+      "label": "calculateE1RM()",
+      "file_type": "code",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L15",
+      "id": "data_ritual_calculatee1rm",
+      "community": 12,
+      "norm_label": "calculatee1rm()"
+    },
+    {
+      "label": "updateRitual1RMsFromAscensionTest()",
+      "file_type": "code",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L27",
+      "id": "data_ritual_updateritual1rmsfromascensiontest",
+      "community": 12,
+      "norm_label": "updateritual1rmsfromascensiontest()"
+    },
+    {
+      "label": "createRitualWeeks()",
+      "file_type": "code",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L74",
+      "id": "data_ritual_createritualweeks",
+      "community": 12,
+      "norm_label": "createritualweeks()"
+    },
+    {
+      "label": "skeleton.ts",
+      "file_type": "code",
+      "source_file": "src/data/skeleton.ts",
+      "source_location": "L1",
+      "id": "src_data_skeleton_ts",
+      "community": 17,
+      "norm_label": "skeleton.ts"
+    },
+    {
+      "label": "createSkeletonWeeks()",
+      "file_type": "code",
+      "source_file": "src/data/skeleton.ts",
+      "source_location": "L11",
+      "id": "data_skeleton_createskeletonweeks",
+      "community": 17,
+      "norm_label": "createskeletonweeks()"
+    },
+    {
+      "label": "supermutant.ts",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L1",
+      "id": "src_data_supermutant_ts",
+      "community": 7,
+      "norm_label": "supermutant.ts"
+    },
+    {
+      "label": "calculateReactiveSetsForMuscle()",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L251",
+      "id": "data_supermutant_calculatereactivesetsformuscle",
+      "community": 7,
+      "norm_label": "calculatereactivesetsformuscle()"
+    },
+    {
+      "label": "isMuscleGroupReady()",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L287",
+      "id": "data_supermutant_ismusclegroupready",
+      "community": 7,
+      "norm_label": "ismusclegroupready()"
+    },
+    {
+      "label": "getRIRForWeek()",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L302",
+      "id": "data_supermutant_getrirforweek",
+      "community": 7,
+      "norm_label": "getrirforweek()"
+    },
+    {
+      "label": "getCurrentCycle()",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L313",
+      "id": "data_supermutant_getcurrentcycle",
+      "community": 7,
+      "norm_label": "getcurrentcycle()"
+    },
+    {
+      "label": "getRIRMessage()",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L318",
+      "id": "data_supermutant_getrirmessage",
+      "community": 7,
+      "norm_label": "getrirmessage()"
+    },
+    {
+      "label": "getIntensificationTechnique()",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L326",
+      "id": "data_supermutant_getintensificationtechnique",
+      "community": 7,
+      "norm_label": "getintensificationtechnique()"
+    },
+    {
+      "label": "getRepRange()",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L338",
+      "id": "data_supermutant_getreprange",
+      "community": 7,
+      "norm_label": "getreprange()"
+    },
+    {
+      "label": "isClusterReady()",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L350",
+      "id": "data_supermutant_isclusterready",
+      "community": 7,
+      "norm_label": "isclusterready()"
+    },
+    {
+      "label": "generateNextWorkout()",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L366",
+      "id": "data_supermutant_generatenextworkout",
+      "community": 7,
+      "norm_label": "generatenextworkout()"
+    },
+    {
+      "label": "createSuperMutantWeeks()",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L716",
+      "id": "data_supermutant_createsupermutantweeks",
+      "community": 7,
+      "norm_label": "createsupermutantweeks()"
+    },
+    {
+      "label": "trinary.ts",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L1",
+      "id": "src_data_trinary_ts",
+      "community": 9,
+      "norm_label": "trinary.ts"
+    },
+    {
+      "label": "selectVariation()",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L35",
+      "id": "data_trinary_selectvariation",
+      "community": 3,
+      "norm_label": "selectvariation()"
+    },
+    {
+      "label": "getBlockFromWorkout()",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L144",
+      "id": "data_trinary_getblockfromworkout",
+      "community": 3,
+      "norm_label": "getblockfromworkout()"
+    },
+    {
+      "label": "getWorkoutPositionInBlock()",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L149",
+      "id": "data_trinary_getworkoutpositioninblock",
+      "community": 9,
+      "norm_label": "getworkoutpositioninblock()"
+    },
+    {
+      "label": "getWorkoutPattern()",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L158",
+      "id": "data_trinary_getworkoutpattern",
+      "community": 9,
+      "norm_label": "getworkoutpattern()"
+    },
+    {
+      "label": "roundDownTo2_5()",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L172",
+      "id": "data_trinary_rounddownto2_5",
+      "community": 9,
+      "norm_label": "rounddownto2_5()"
+    },
+    {
+      "label": "calculateE1RM()",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L177",
+      "id": "data_trinary_calculatee1rm",
+      "community": 9,
+      "norm_label": "calculatee1rm()"
+    },
+    {
+      "label": "getLiftName()",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L184",
+      "id": "data_trinary_getliftname",
+      "community": 9,
+      "norm_label": "getliftname()"
+    },
+    {
+      "label": "getSetTarget()",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L233",
+      "id": "data_trinary_getsettarget",
+      "community": 9,
+      "norm_label": "getsettarget()"
+    },
+    {
+      "label": "createAccessoryDay()",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L253",
+      "id": "data_trinary_createaccessoryday",
+      "community": 9,
+      "norm_label": "createaccessoryday()"
+    },
+    {
+      "label": "createTrinaryWeeks()",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L320",
+      "id": "data_trinary_createtrinaryweeks",
+      "community": 9,
+      "norm_label": "createtrinaryweeks()"
+    },
+    {
+      "label": "utils.ts",
+      "file_type": "code",
+      "source_file": "src/lib/utils.ts",
+      "source_location": "L1",
+      "id": "src_lib_utils_ts",
+      "community": 0,
+      "norm_label": "utils.ts"
+    },
+    {
+      "label": "cn()",
+      "file_type": "code",
+      "source_file": "src/lib/utils.ts",
+      "source_location": "L5",
+      "id": "lib_utils_cn",
+      "community": 0,
+      "norm_label": "cn()"
+    },
+    {
+      "label": "AdminPanel.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L1",
+      "id": "src_pages_adminpanel_tsx",
+      "community": 10,
+      "norm_label": "adminpanel.tsx"
+    },
+    {
+      "label": "handleLogin()",
+      "file_type": "code",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L30",
+      "id": "pages_adminpanel_handlelogin",
+      "community": 10,
+      "norm_label": "handlelogin()"
+    },
+    {
+      "label": "fetchUsers()",
+      "file_type": "code",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L38",
+      "id": "pages_adminpanel_fetchusers",
+      "community": 10,
+      "norm_label": "fetchusers()"
+    },
+    {
+      "label": "handleDeleteUser()",
+      "file_type": "code",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L57",
+      "id": "pages_adminpanel_handledeleteuser",
+      "community": 10,
+      "norm_label": "handledeleteuser()"
+    },
+    {
+      "label": "handleSaveUser()",
+      "file_type": "code",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L72",
+      "id": "pages_adminpanel_handlesaveuser",
+      "community": 10,
+      "norm_label": "handlesaveuser()"
+    },
+    {
+      "label": "handleStatChange()",
+      "file_type": "code",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L180",
+      "id": "pages_adminpanel_handlestatchange",
+      "community": 10,
+      "norm_label": "handlestatchange()"
+    },
+    {
+      "label": "toggleBadge()",
+      "file_type": "code",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L187",
+      "id": "pages_adminpanel_togglebadge",
+      "community": 10,
+      "norm_label": "togglebadge()"
+    },
+    {
+      "label": "Dashboard.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L1",
+      "id": "src_pages_dashboard_tsx",
+      "community": 0,
+      "norm_label": "dashboard.tsx"
+    },
+    {
+      "label": "fetchStatus()",
+      "file_type": "code",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L59",
+      "id": "pages_dashboard_fetchstatus",
+      "community": 0,
+      "norm_label": "fetchstatus()"
+    },
+    {
+      "label": "nextWeek()",
+      "file_type": "code",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L198",
+      "id": "pages_dashboard_nextweek",
+      "community": 0,
+      "norm_label": "nextweek()"
+    },
+    {
+      "label": "prevWeek()",
+      "file_type": "code",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L202",
+      "id": "pages_dashboard_prevweek",
+      "community": 0,
+      "norm_label": "prevweek()"
+    },
+    {
+      "label": "Entry.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/Entry.tsx",
+      "source_location": "L1",
+      "id": "src_pages_entry_tsx",
+      "community": 0,
+      "norm_label": "entry.tsx"
+    },
+    {
+      "label": "handleSubmit()",
+      "file_type": "code",
+      "source_file": "src/pages/Entry.tsx",
+      "source_location": "L20",
+      "id": "pages_entry_handlesubmit",
+      "community": 0,
+      "norm_label": "handlesubmit()"
+    },
+    {
+      "label": "History.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/History.tsx",
+      "source_location": "L1",
+      "id": "src_pages_history_tsx",
+      "community": 0,
+      "norm_label": "history.tsx"
+    },
+    {
+      "label": "fetchHistory()",
+      "file_type": "code",
+      "source_file": "src/pages/History.tsx",
+      "source_location": "L20",
+      "id": "pages_history_fetchhistory",
+      "community": 0,
+      "norm_label": "fetchhistory()"
+    },
+    {
+      "label": "Onboarding.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L1",
+      "id": "src_pages_onboarding_tsx",
+      "community": 5,
+      "norm_label": "onboarding.tsx"
+    },
+    {
+      "label": "handleProgramSelect()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L86",
+      "id": "pages_onboarding_handleprogramselect",
+      "community": 5,
+      "norm_label": "handleprogramselect()"
+    },
+    {
+      "label": "handleDayToggle()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L107",
+      "id": "pages_onboarding_handledaytoggle",
+      "community": 5,
+      "norm_label": "handledaytoggle()"
+    },
+    {
+      "label": "handlePrefChange()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L121",
+      "id": "pages_onboarding_handleprefchange",
+      "community": 5,
+      "norm_label": "handleprefchange()"
+    },
+    {
+      "label": "handleStatsChange()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L125",
+      "id": "pages_onboarding_handlestatschange",
+      "community": 5,
+      "norm_label": "handlestatschange()"
+    },
+    {
+      "label": "handlePencilneckSubmit()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L137",
+      "id": "pages_onboarding_handlepencilnecksubmit",
+      "community": 5,
+      "norm_label": "handlepencilnecksubmit()"
+    },
+    {
+      "label": "handleSkeletonSubmit()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L158",
+      "id": "pages_onboarding_handleskeletonsubmit",
+      "community": 5,
+      "norm_label": "handleskeletonsubmit()"
+    },
+    {
+      "label": "handlePeachySubmit()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L184",
+      "id": "pages_onboarding_handlepeachysubmit",
+      "community": 5,
+      "norm_label": "handlepeachysubmit()"
+    },
+    {
+      "label": "handlePainGlorySubmit()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L200",
+      "id": "pages_onboarding_handlepainglorysubmit",
+      "community": 5,
+      "norm_label": "handlepainglorysubmit()"
+    },
+    {
+      "label": "handleTrinarySubmit()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L241",
+      "id": "pages_onboarding_handletrinarysubmit",
+      "community": 5,
+      "norm_label": "handletrinarysubmit()"
+    },
+    {
+      "label": "handleBenchDominationSubmit()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L295",
+      "id": "pages_onboarding_handlebenchdominationsubmit",
+      "community": 5,
+      "norm_label": "handlebenchdominationsubmit()"
+    },
+    {
+      "label": "async()",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L1195",
+      "id": "pages_onboarding_async",
+      "community": 5,
+      "norm_label": "async()"
+    },
+    {
+      "label": "Settings.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/Settings.tsx",
+      "source_location": "L1",
+      "id": "src_pages_settings_tsx",
+      "community": 0,
+      "norm_label": "settings.tsx"
+    },
+    {
+      "label": "handlePrefChange()",
+      "file_type": "code",
+      "source_file": "src/pages/Settings.tsx",
+      "source_location": "L82",
+      "id": "pages_settings_handleprefchange",
+      "community": 0,
+      "norm_label": "handleprefchange()"
+    },
+    {
+      "label": "handleModuleToggle()",
+      "file_type": "code",
+      "source_file": "src/pages/Settings.tsx",
+      "source_location": "L87",
+      "id": "pages_settings_handlemoduletoggle",
+      "community": 0,
+      "norm_label": "handlemoduletoggle()"
+    },
+    {
+      "label": "handleSave()",
+      "file_type": "code",
+      "source_file": "src/pages/Settings.tsx",
+      "source_location": "L95",
+      "id": "pages_settings_handlesave",
+      "community": 0,
+      "norm_label": "handlesave()"
+    },
+    {
+      "label": "WorkoutHistory.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L1",
+      "id": "src_pages_workouthistory_tsx",
+      "community": 0,
+      "norm_label": "workouthistory.tsx"
+    },
+    {
+      "label": "toggleExpand()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L34",
+      "id": "pages_workouthistory_toggleexpand",
+      "community": 0,
+      "norm_label": "toggleexpand()"
+    },
+    {
+      "label": "renderWorkoutName()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L41",
+      "id": "pages_workouthistory_renderworkoutname",
+      "community": 0,
+      "norm_label": "renderworkoutname()"
+    },
+    {
+      "label": "handleEdit()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L69",
+      "id": "pages_workouthistory_handleedit",
+      "community": 0,
+      "norm_label": "handleedit()"
+    },
+    {
+      "label": "fetchWorkouts()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L85",
+      "id": "pages_workouthistory_fetchworkouts",
+      "community": 0,
+      "norm_label": "fetchworkouts()"
+    },
+    {
+      "label": "WorkoutView.tsx",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L1",
+      "id": "src_pages_workoutview_tsx",
+      "community": 3,
+      "norm_label": "workoutview.tsx"
+    },
+    {
+      "label": "getBaseSetsCount()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L28",
+      "id": "pages_workoutview_getbasesetscount",
+      "community": 3,
+      "norm_label": "getbasesetscount()"
+    },
+    {
+      "label": "calculateWeight()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L106",
+      "id": "pages_workoutview_calculateweight",
+      "community": 3,
+      "norm_label": "calculateweight()"
+    },
+    {
+      "label": "initView()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L136",
+      "id": "pages_workoutview_initview",
+      "community": 3,
+      "norm_label": "initview()"
+    },
+    {
+      "label": "fetchPreviousStats()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L235",
+      "id": "pages_workoutview_fetchpreviousstats",
+      "community": 3,
+      "norm_label": "fetchpreviousstats()"
+    },
+    {
+      "label": "initializeEmptyState()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L311",
+      "id": "pages_workoutview_initializeemptystate",
+      "community": 3,
+      "norm_label": "initializeemptystate()"
+    },
+    {
+      "label": "handleSetChange()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L369",
+      "id": "pages_workoutview_handlesetchange",
+      "community": 3,
+      "norm_label": "handlesetchange()"
+    },
+    {
+      "label": "handleNotesChange()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L447",
+      "id": "pages_workoutview_handlenoteschange",
+      "community": 3,
+      "norm_label": "handlenoteschange()"
+    },
+    {
+      "label": "handleMarkAll()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L451",
+      "id": "pages_workoutview_handlemarkall",
+      "community": 3,
+      "norm_label": "handlemarkall()"
+    },
+    {
+      "label": "handleSwap()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L470",
+      "id": "pages_workoutview_handleswap",
+      "community": 3,
+      "norm_label": "handleswap()"
+    },
+    {
+      "label": "handleAddExtraSet()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L486",
+      "id": "pages_workoutview_handleaddextraset",
+      "community": 3,
+      "norm_label": "handleaddextraset()"
+    },
+    {
+      "label": "handleRemoveExtraSet()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L517",
+      "id": "pages_workoutview_handleremoveextraset",
+      "community": 3,
+      "norm_label": "handleremoveextraset()"
+    },
+    {
+      "label": "handleSaveSession()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L531",
+      "id": "pages_workoutview_handlesavesession",
+      "community": 3,
+      "norm_label": "handlesavesession()"
+    },
+    {
+      "label": "async()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L1468",
+      "id": "pages_workoutview_async",
+      "community": 3,
+      "norm_label": "async()"
+    },
+    {
+      "label": "roundTo2_5()",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L1547",
+      "id": "pages_workoutview_roundto2_5",
+      "community": 3,
+      "norm_label": "roundto2_5()"
+    },
+    {
+      "label": "handleTimeSkip()",
+      "file_type": "code",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L1007",
+      "community": 0,
+      "norm_label": "handletimeskip()",
+      "id": "pages_dashboard_handletimeskip"
+    },
+    {
+      "label": "Firebase Firestore & Auth Configuration",
+      "file_type": "code",
+      "source_file": "src/firebase.ts",
+      "rationale": "Offline persistence is explicitly disabled and long polling is forced to maintain server-side authority and prevent issues with specific browsers like Opera GX that may mismanage local storage/offline states.",
+      "community": 4,
+      "norm_label": "firebase firestore & auth configuration",
+      "id": "src_firebase"
+    },
+    {
+      "label": "User Profile Model",
+      "file_type": "code",
+      "source_file": "src/types.ts",
+      "rationale": "Acts as the central aggregate root for all user data, including lifting statistics, program-specific state (Pencilneck, Super Mutant, etc.), and earned badges.",
+      "community": 4,
+      "norm_label": "user profile model",
+      "id": "types_userprofile"
+    },
+    {
+      "label": "Protected Layout Component",
+      "file_type": "code",
+      "source_file": "src/components/ProtectedLayout.tsx",
+      "rationale": "Implements a dynamic theming engine that switches the entire application's visual context (colors, logos, shimmer effects) based on the user's active workout program ID.",
+      "community": 4,
+      "norm_label": "protected layout component",
+      "id": "comp_protectedlayout"
+    },
+    {
+      "label": "Trinary Conjugate Program",
+      "file_type": "rationale",
+      "source_file": "src/types.ts",
+      "rationale": "A conjugate periodization program focusing on rotating variations based on identified weak points (off-chest, mid-range, lockout) for primary compound lifts.",
+      "community": 4,
+      "norm_label": "trinary conjugate program",
+      "id": "prog_trinary"
+    },
+    {
+      "label": "Super Mutant Hypertrophy Program",
+      "file_type": "rationale",
+      "source_file": "src/types.ts",
+      "rationale": "Features a complex rolling 7-day volume tracking system and muscle group alternation blocks (A/B/C/D) to manage fatigue and stimulus across 12 muscle groups.",
+      "community": 4,
+      "norm_label": "super mutant hypertrophy program",
+      "id": "prog_supermutant"
+    },
+    {
+      "label": "Pain & Glory Program",
+      "file_type": "rationale",
+      "source_file": "src/types.ts",
+      "rationale": "Integrates E2MOM (Every 2 Minutes on the Minute) adjustments and deficit snatch grip deadlift variations for high-intensity strength training.",
+      "community": 39,
+      "norm_label": "pain & glory program",
+      "id": "prog_painglory"
+    },
+    {
+      "label": "Badge & Achievement System",
+      "file_type": "code",
+      "source_file": "src/types.ts",
+      "rationale": "Provides a gamified progression layer where lifting milestones (e.g., '50 Tonne Club') and attendance streaks unlock visual rewards and special quotes.",
+      "community": 4,
+      "norm_label": "badge & achievement system",
+      "id": "sys_badges"
+    },
+    {
+      "label": "Multilingual Translation System",
+      "file_type": "code",
+      "source_file": "src/components/LanguageSwitcher.tsx",
+      "rationale": "Supports English and Polish localization across the entire application using a context-based provider and i18n hook.",
+      "community": 4,
+      "norm_label": "multilingual translation system",
+      "id": "sys_translation"
+    },
+    {
+      "label": "Weak Point Selection Modal",
+      "file_type": "code",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "rationale": "Diagnostic tool within the Trinary program that allows users to identify their biomechanical sticking points to automatically drive exercise variation selection.",
+      "community": 4,
+      "norm_label": "weak point selection modal",
+      "id": "comp_weakpointmodal"
+    },
+    {
+      "label": "Core Button UI Component",
+      "file_type": "code",
+      "source_file": "src/components/ui/button.tsx",
+      "rationale": "Standardized button component utilizing Class Variance Authority (CVA) for theme-consistent variants (destructive, outline, etc.).",
+      "community": 4,
+      "norm_label": "core button ui component",
+      "id": "ui_button"
+    },
+    {
+      "label": "Translations Dictionary",
+      "file_type": "code",
+      "source_file": "src/contexts/translations.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "translations dictionary",
+      "id": "translations_translations"
+    },
+    {
+      "label": "UserProvider",
+      "file_type": "code",
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "userprovider",
+      "id": "usercontext_userprovider"
+    },
+    {
+      "label": "useUser Hook",
+      "file_type": "code",
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "useuser hook",
+      "id": "usercontext_useuser"
+    },
+    {
+      "label": "LanguageProvider",
+      "file_type": "code",
+      "source_file": "src/contexts/useTranslation.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "languageprovider",
+      "id": "usetranslation_languageprovider"
+    },
+    {
+      "label": "useLanguage Hook",
+      "file_type": "code",
+      "source_file": "src/contexts/useTranslation.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 40,
+      "norm_label": "uselanguage hook",
+      "id": "usetranslation_uselanguage"
+    },
+    {
+      "label": "Badges Registry",
+      "file_type": "code",
+      "source_file": "src/data/badges.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "badges registry",
+      "id": "badges_badges"
+    },
+    {
+      "label": "Pain & Glory Program",
+      "file_type": "code",
+      "source_file": "src/data/painglory.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "pain & glory program",
+      "id": "painglory_pain_glory_program"
+    },
+    {
+      "label": "Pain & Glory Configuration",
+      "file_type": "code",
+      "source_file": "src/data/painglory.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "pain & glory configuration",
+      "id": "painglory_pain_glory_config"
+    },
+    {
+      "label": "Peachy Program",
+      "file_type": "code",
+      "source_file": "src/data/peachy.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "peachy program",
+      "id": "peachy_peachy_program"
+    },
+    {
+      "label": "Peachy Configuration",
+      "file_type": "code",
+      "source_file": "src/data/peachy.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "peachy configuration",
+      "id": "peachy_peachy_config"
+    },
+    {
+      "label": "Pencilneck Program",
+      "file_type": "code",
+      "source_file": "src/data/pencilneck.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "pencilneck program",
+      "id": "pencilneck_pencilneck_program"
+    },
+    {
+      "label": "Pencilneck Configuration",
+      "file_type": "code",
+      "source_file": "src/data/pencilneck.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "pencilneck configuration",
+      "id": "pencilneck_pencilneck_config"
+    },
+    {
+      "label": "Plan Registry",
+      "file_type": "code",
+      "source_file": "src/data/plans.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "plan registry",
+      "id": "plans_plan_registry"
+    },
+    {
+      "label": "Bench Domination Program",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "bench domination program",
+      "id": "program_bench_domination_program"
+    },
+    {
+      "label": "Bench Domination Configuration",
+      "file_type": "code",
+      "source_file": "src/data/program.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "bench domination configuration",
+      "id": "program_bench_domination_config"
+    },
+    {
+      "label": "Ritual of Strength Program",
+      "file_type": "code",
+      "source_file": "src/data/ritual.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "ritual of strength program",
+      "id": "ritual_ritual_program"
+    },
+    {
+      "label": "Ritual of Strength Configuration",
+      "file_type": "code",
+      "source_file": "src/data/ritual.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "ritual of strength configuration",
+      "id": "ritual_ritual_config"
+    },
+    {
+      "label": "Skeleton to Threat Program",
+      "file_type": "code",
+      "source_file": "src/data/skeleton.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "skeleton to threat program",
+      "id": "skeleton_skeleton_program"
+    },
+    {
+      "label": "Skeleton to Threat Configuration",
+      "file_type": "code",
+      "source_file": "src/data/skeleton.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "skeleton to threat configuration",
+      "id": "skeleton_skeleton_config"
+    },
+    {
+      "label": "Super Mutant Program",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "super mutant program",
+      "id": "supermutant_super_mutant_program"
+    },
+    {
+      "label": "Super Mutant Configuration",
+      "file_type": "code",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "super mutant configuration",
+      "id": "supermutant_super_mutant_config"
+    },
+    {
+      "label": "Trinary Program",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "trinary program",
+      "id": "trinary_trinary_program"
+    },
+    {
+      "label": "Trinary Configuration",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "trinary configuration",
+      "id": "trinary_trinary_config"
+    },
+    {
+      "label": "Reactive Deload Mechanism",
+      "file_type": "rationale",
+      "source_file": "src/data/program.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "reactive deload mechanism",
+      "id": "rationale_reactive_deload"
+    },
+    {
+      "label": "Epley e1RM Formula",
+      "file_type": "rationale",
+      "source_file": "src/data/program.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "epley e1rm formula",
+      "id": "rationale_epley_formula"
+    },
+    {
+      "label": "Conjugate Periodization",
+      "file_type": "rationale",
+      "source_file": "src/data/trinary.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "conjugate periodization",
+      "id": "rationale_conjugate_periodization"
+    },
+    {
+      "label": "UserContext",
+      "file_type": "code",
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": {
+        "start_line": 1,
+        "end_line": 25
+      },
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 41,
+      "norm_label": "usercontext",
+      "id": "usercontext_usercontext"
+    },
+    {
+      "label": "LanguageContext",
+      "file_type": "code",
+      "source_file": "src/contexts/useTranslation.tsx",
+      "source_location": {
+        "start_line": 15,
+        "end_line": 15
+      },
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 42,
+      "norm_label": "languagecontext",
+      "id": "usetranslation_languagecontext"
+    },
+    {
+      "label": "checkBadges Logic",
+      "file_type": "rationale",
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": {
+        "start_line": 252,
+        "end_line": 546
+      },
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "checkbadges logic",
+      "id": "usercontext_checkbadges"
+    },
+    {
+      "label": "Compound Exercises Set",
+      "file_type": "code",
+      "source_file": "src/data/pencilneck.ts",
+      "community": 1,
+      "norm_label": "compound exercises set",
+      "id": "pencilneck_compound_exercises"
+    },
+    {
+      "label": "Heavy Phase Logic",
+      "file_type": "rationale",
+      "source_file": "src/data/pencilneck.ts",
+      "community": 1,
+      "norm_label": "heavy phase logic",
+      "id": "pencilneck_heavy_phase"
+    },
+    {
+      "label": "Epley Formula",
+      "file_type": "rationale",
+      "source_file": "src/data/program.ts",
+      "community": 6,
+      "norm_label": "epley formula",
+      "id": "program_epley_formula"
+    },
+    {
+      "label": "Peaking Block (Weeks 13-15)",
+      "file_type": "rationale",
+      "source_file": "src/data/program.ts",
+      "community": 6,
+      "norm_label": "peaking block (weeks 13-15)",
+      "id": "program_peaking_block"
+    },
+    {
+      "label": "Ascension Test",
+      "file_type": "rationale",
+      "source_file": "src/data/ritual.ts",
+      "community": 1,
+      "norm_label": "ascension test",
+      "id": "ritual_ascension_test"
+    },
+    {
+      "label": "Purge Week (Deload)",
+      "file_type": "rationale",
+      "source_file": "src/data/ritual.ts",
+      "community": 1,
+      "norm_label": "purge week (deload)",
+      "id": "ritual_purge_week"
+    },
+    {
+      "label": "Training Clusters",
+      "file_type": "rationale",
+      "source_file": "src/data/supermutant.ts",
+      "community": 1,
+      "norm_label": "training clusters",
+      "id": "supermutant_training_clusters"
+    },
+    {
+      "label": "Dynamic Queue System",
+      "file_type": "rationale",
+      "source_file": "src/data/supermutant.ts",
+      "community": 1,
+      "norm_label": "dynamic queue system",
+      "id": "supermutant_queue_system"
+    },
+    {
+      "label": "Conjugate Periodization",
+      "file_type": "rationale",
+      "source_file": "src/data/trinary.ts",
+      "community": 1,
+      "norm_label": "conjugate periodization",
+      "id": "trinary_conjugate_periodization"
+    },
+    {
+      "label": "Bench Variations Mapping",
+      "file_type": "code",
+      "source_file": "src/data/trinary.ts",
+      "community": 1,
+      "norm_label": "bench variations mapping",
+      "id": "trinary_bench_variations"
+    },
+    {
+      "label": "cn (Class Merger)",
+      "file_type": "code",
+      "source_file": "src/lib/utils.ts",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 43,
+      "norm_label": "cn (class merger)",
+      "id": "utils_cn"
+    },
+    {
+      "label": "AdminPanel",
+      "file_type": "code",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "adminpanel",
+      "id": "adminpanel_adminpanel"
+    },
+    {
+      "label": "UserEditor",
+      "file_type": "code",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 44,
+      "norm_label": "usereditor",
+      "id": "adminpanel_usereditor"
+    },
+    {
+      "label": "Dashboard",
+      "file_type": "code",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "dashboard",
+      "id": "dashboard_dashboard"
+    },
+    {
+      "label": "Entry Page",
+      "file_type": "code",
+      "source_file": "src/pages/Entry.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "entry page",
+      "id": "entry_entry"
+    },
+    {
+      "label": "History Page",
+      "file_type": "code",
+      "source_file": "src/pages/History.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "history page",
+      "id": "history_history"
+    },
+    {
+      "label": "Onboarding Flow",
+      "file_type": "code",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "onboarding flow",
+      "id": "onboarding_onboarding"
+    },
+    {
+      "label": "Settings Page",
+      "file_type": "code",
+      "source_file": "src/pages/Settings.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 45,
+      "norm_label": "settings page",
+      "id": "settings_settings"
+    },
+    {
+      "label": "WorkoutHistory (Archive)",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 46,
+      "norm_label": "workouthistory (archive)",
+      "id": "workouthistory_workouthistory"
+    },
+    {
+      "label": "WorkoutView",
+      "file_type": "code",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 47,
+      "norm_label": "workoutview",
+      "id": "workoutview_workoutview"
+    },
+    {
+      "label": "Authentication Gate",
+      "file_type": "rationale",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "authentication gate",
+      "id": "auth_gate"
+    },
+    {
+      "label": "index.html",
+      "file_type": "document",
+      "source_file": "index.html",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 48,
+      "norm_label": "index.html",
+      "id": "index_html"
+    },
+    {
+      "label": "PLAN.md",
+      "file_type": "document",
+      "source_file": "PLAN.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 18,
+      "norm_label": "plan.md",
+      "id": "plan_md"
+    },
+    {
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 49,
+      "norm_label": "readme.md",
+      "id": "readme_md"
+    },
+    {
+      "label": "supermutant.md",
+      "file_type": "document",
+      "source_file": "supermutant.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 18,
+      "norm_label": "supermutant.md",
+      "id": "supermutant_md"
+    },
+    {
+      "label": "TRANSLATIONS.md",
+      "file_type": "document",
+      "source_file": "TRANSLATIONS.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 50,
+      "norm_label": "translations.md",
+      "id": "translations_md"
+    },
+    {
+      "label": "Bench Domination Program",
+      "file_type": "rationale",
+      "source_file": "backups/PLAN_2026-01-11_weight-calculation-fix.md",
+      "source_location": null,
+      "community": 19,
+      "norm_label": "bench domination program",
+      "id": "plan_2026_01_11_weight_calculation_fix_bench_domination"
+    },
+    {
+      "label": "Pencilneck Eradication Protocol",
+      "file_type": "rationale",
+      "source_file": "backups/PLAN_2026-01-11_weight-calculation-fix.md",
+      "source_location": null,
+      "community": 51,
+      "norm_label": "pencilneck eradication protocol",
+      "id": "plan_2026_01_11_weight_calculation_fix_pencilneck_eradication"
+    },
+    {
+      "label": "Peachy Glute Plan",
+      "file_type": "rationale",
+      "source_file": "backups/PLAN_2026-01-11_weight-calculation-fix.md",
+      "source_location": null,
+      "community": 52,
+      "norm_label": "peachy glute plan",
+      "id": "plan_2026_01_11_weight_calculation_fix_peachy_glute_plan"
+    },
+    {
+      "label": "From Skeleton to Threat",
+      "file_type": "rationale",
+      "source_file": "backups/PLAN_2026-01-11_weight-calculation-fix.md",
+      "source_location": null,
+      "community": 53,
+      "norm_label": "from skeleton to threat",
+      "id": "plan_2026_01_11_weight_calculation_fix_skeleton_to_threat"
+    },
+    {
+      "label": "Paused Bench Press",
+      "file_type": "rationale",
+      "source_file": "backups/PLAN_2026-01-11_weight-calculation-fix.md",
+      "source_location": null,
+      "community": 19,
+      "norm_label": "paused bench press",
+      "id": "plan_2026_01_11_weight_calculation_fix_paused_bench_press"
+    },
+    {
+      "label": "Trinary (Conjugate Periodization)",
+      "file_type": "document",
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "rationale": "Powerlifting program using conjugate periodization with ME/DE/RE rotation and weak-point based exercise selection.",
+      "community": 21,
+      "norm_label": "trinary (conjugate periodization)",
+      "id": "readme_v15_finaltrinaryfixes_trinary"
+    },
+    {
+      "label": "Bench Domination",
+      "file_type": "document",
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "rationale": "Modular bench press program with complex 1RM calculations, reactive deloads, and sustainable progression.",
+      "community": 11,
+      "norm_label": "bench domination",
+      "id": "readme_v15_finaltrinaryfixes_bench_domination"
+    },
+    {
+      "label": "Pain & Glory",
+      "file_type": "document",
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "rationale": "16-week intermediate deadlift specialization program with EMOM phases and peaking logic.",
+      "community": 11,
+      "norm_label": "pain & glory",
+      "id": "readme_v15_finaltrinaryfixes_painglory"
+    },
+    {
+      "label": "Peachy Glute Plan",
+      "file_type": "document",
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "rationale": "Specialized glute development program with theme triggers and finisher injection logic.",
+      "community": 20,
+      "norm_label": "peachy glute plan",
+      "id": "readme_v15_finaltrinaryfixes_peachy"
+    },
+    {
+      "label": "Pencilneck Eradication",
+      "file_type": "document",
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "rationale": "Hypertrophy-focused program with heavy phase logic and intensity techniques.",
+      "community": 54,
+      "norm_label": "pencilneck eradication",
+      "id": "readme_v15_finaltrinaryfixes_pencilneck"
+    },
+    {
+      "label": "Skeleton to Threat",
+      "file_type": "document",
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "rationale": "12-week structure focused on forced progression and muscle gain.",
+      "community": 55,
+      "norm_label": "skeleton to threat",
+      "id": "readme_v15_finaltrinaryfixes_skeleton"
+    },
+    {
+      "label": "Epley Formula",
+      "file_type": "rationale",
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "rationale": "Used to calculate estimated 1RM (e1RM) from AMRAP sets to drive weight progression: weight * (1 + reps/30).",
+      "community": 11,
+      "norm_label": "epley formula",
+      "id": "readme_v15_finaltrinaryfixes_epley_formula"
+    },
+    {
+      "label": "Reactive Deload",
+      "file_type": "rationale",
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "rationale": "Automatic adjustment mechanism that triggers a -15% weight reduction and volume cut if performance drops (e.g., 2 consecutive AMRAPs <= 7 reps).",
+      "community": 11,
+      "norm_label": "reactive deload",
+      "id": "readme_v15_finaltrinaryfixes_reactive_deload"
+    },
+    {
+      "label": "Weak Point System",
+      "file_type": "rationale",
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "rationale": "Dynamic exercise variation selection based on user-identified weak points in main lifts (e.g., off-chest vs lockout).",
+      "community": 21,
+      "norm_label": "weak point system",
+      "id": "readme_v15_finaltrinaryfixes_weak_point_system"
+    },
+    {
+      "label": "AMRAP (As Many Reps As Possible)",
+      "file_type": "rationale",
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "rationale": "Performance monitoring sets used to trigger weight increases and e1RM recalculations.",
+      "community": 11,
+      "norm_label": "amrap (as many reps as possible)",
+      "id": "readme_v15_finaltrinaryfixes_amrap"
+    },
+    {
+      "label": "Bench Domination Badge",
+      "file_type": "image",
+      "source_file": "public/benchdomination.png",
+      "community": 11,
+      "norm_label": "bench domination badge",
+      "id": "benchdomination_image"
+    },
+    {
+      "label": "Pain & Glory Badge",
+      "file_type": "image",
+      "source_file": "public/painglory.png",
+      "community": 11,
+      "norm_label": "pain & glory badge",
+      "id": "painglory_image"
+    },
+    {
+      "label": "Peachy Badge",
+      "file_type": "image",
+      "source_file": "public/peachy.png",
+      "community": 20,
+      "norm_label": "peachy badge",
+      "id": "peachy_image"
+    },
+    {
+      "label": "App Logo",
+      "file_type": "image",
+      "source_file": "public/logo.png",
+      "community": 22,
+      "norm_label": "app logo",
+      "id": "logo_image"
+    },
+    {
+      "label": "English Flag",
+      "file_type": "image",
+      "source_file": "public/eng.png",
+      "community": 22,
+      "norm_label": "english flag",
+      "id": "eng_image"
+    },
+    {
+      "label": "Budgett's Frog Asset",
+      "file_type": "image",
+      "source_file": "public/frog.png",
+      "community": 56,
+      "norm_label": "budgett's frog asset",
+      "id": "frog_image"
+    },
+    {
+      "label": "Pullup W13 UI Polish",
+      "file_type": "document",
+      "source_file": "backups/README_2026-02-03_pullup-w13-ui-polish.md",
+      "rationale": "Documentation for UI refinements and logic updates for weighted pullups in week 13.",
+      "community": 57,
+      "norm_label": "pullup w13 ui polish",
+      "id": "readme_2026_02_03_pullup_w13_ui_polish"
+    },
+    {
+      "label": "Pencilneck Program Icon",
+      "file_type": "image",
+      "source_file": "public/pencilneck.png",
+      "community": 58,
+      "norm_label": "pencilneck program icon",
+      "id": "pencilneck_image"
+    },
+    {
+      "label": "Powerlifting Program Icon",
+      "file_type": "image",
+      "source_file": "public/pl.png",
+      "community": 59,
+      "norm_label": "powerlifting program icon",
+      "id": "pl_image"
+    },
+    {
+      "label": "Ritual Program Icon",
+      "file_type": "image",
+      "source_file": "public/ritual.png",
+      "community": 60,
+      "norm_label": "ritual program icon",
+      "id": "ritual_image"
+    },
+    {
+      "label": "Skeleton Program Icon",
+      "file_type": "image",
+      "source_file": "public/SKELETON.png",
+      "community": 61,
+      "norm_label": "skeleton program icon",
+      "id": "skeleton_image"
+    },
+    {
+      "label": "Supermutant Program Icon",
+      "file_type": "image",
+      "source_file": "public/supermutant.png",
+      "community": 62,
+      "norm_label": "supermutant program icon",
+      "id": "supermutant_image"
+    },
+    {
+      "label": "Trinary Program Icon",
+      "file_type": "image",
+      "source_file": "public/trinary.png",
+      "community": 63,
+      "norm_label": "trinary program icon",
+      "id": "trinary_image"
+    },
+    {
+      "label": "Vite Logo",
+      "file_type": "image",
+      "source_file": "public/vite.svg",
+      "community": 64,
+      "norm_label": "vite logo",
+      "id": "vite_logo"
+    },
+    {
+      "label": "100 Sessions Achievement Badge",
+      "file_type": "image",
+      "source_file": "public/badges/100_sessions.png",
+      "community": 65,
+      "norm_label": "100 sessions achievement badge",
+      "id": "100_sessions_badge"
+    },
+    {
+      "label": "3D Delts Achievement Badge",
+      "file_type": "image",
+      "source_file": "public/badges/3d_delts.png",
+      "community": 66,
+      "norm_label": "3d delts achievement badge",
+      "id": "3d_delts_badge"
+    },
+    {
+      "label": "50 Tonne Club Achievement Badge",
+      "file_type": "image",
+      "source_file": "public/badges/50_tonne_club.png",
+      "community": 67,
+      "norm_label": "50 tonne club achievement badge",
+      "id": "50_tonne_club_badge"
+    },
+    {
+      "label": "Acolyte of Strength Badge Image",
+      "file_type": "document",
+      "source_file": "public/badges/acolyte.png",
+      "rationale": "Visual representation for the 'Acolyte of Strength' achievement, awarded for completing the first 16-week cycle of the Trinary program.",
+      "community": 4,
+      "norm_label": "acolyte of strength badge image",
+      "id": "asset_badge_acolyte"
+    },
+    {
+      "label": "Behemoth of the Wastes Badge Image",
+      "file_type": "document",
+      "source_file": "public/badges/behemoth.png",
+      "rationale": "Visual reward for the 'Behemoth of the Wastes' achievement, requiring completion of all 84 workouts (14 weeks) in the Super Mutant program plus a new PR.",
+      "community": 4,
+      "norm_label": "behemoth of the wastes badge image",
+      "id": "asset_badge_behemoth"
+    },
+    {
+      "label": "20kg Bench Jump Badge Image",
+      "file_type": "document",
+      "source_file": "public/badges/bench_jump_20kg.png",
+      "rationale": "Visual representation for gaining 20kg or more on the bench press within a single program run.",
+      "community": 4,
+      "norm_label": "20kg bench jump badge image",
+      "id": "asset_badge_bench_jump_20kg"
+    },
+    {
+      "label": "30kg Bench Jump Badge Image",
+      "file_type": "document",
+      "source_file": "public/badges/bench_jump_30kg.png",
+      "rationale": "Visual representation for gaining 30kg or more on the bench press within a single program run.",
+      "community": 4,
+      "norm_label": "30kg bench jump badge image",
+      "id": "asset_badge_bench_jump_30kg"
+    },
+    {
+      "label": "Bench Psychopath Badge Image",
+      "file_type": "document",
+      "source_file": "public/badges/bench_psychopath.png",
+      "rationale": "Achievement icon for completing Bench Domination, peaking, and setting a new PR.",
+      "community": 4,
+      "norm_label": "bench psychopath badge image",
+      "id": "asset_badge_bench_psychopath"
+    },
+    {
+      "label": "Certified Shoulder Boulder Badge Image",
+      "file_type": "document",
+      "source_file": "public/badges/boulder.png",
+      "rationale": "Visual reward for completing the 'Pencilneck Eradication Protocol' program.",
+      "community": 4,
+      "norm_label": "certified shoulder boulder badge image",
+      "id": "asset_badge_boulder"
+    },
+    {
+      "label": "Cannonball Delts Badge Image",
+      "file_type": "document",
+      "source_file": "public/badges/cannonball_delts.png",
+      "rationale": "Meta-badge awarded for earning both the 'Rear-Delt Reaper' and '3D Delts' achievements.",
+      "community": 4,
+      "norm_label": "cannonball delts badge image",
+      "id": "asset_badge_cannonball_delts"
+    },
+    {
+      "label": "Deficit Demon Badge Image",
+      "file_type": "document",
+      "source_file": "public/badges/deficit_demon.png",
+      "rationale": "Visual reward for increasing the Deficit Snatch Grip Deadlift by 30kg or more during the first 8 weeks of Pain & Glory.",
+      "community": 4,
+      "norm_label": "deficit demon badge image",
+      "id": "asset_badge_deficit_demon"
+    },
+    {
+      "label": "Deload Denier Badge Image",
+      "file_type": "document",
+      "source_file": "public/badges/deload_denier.png",
+      "rationale": "Visual representation of the achievement for never triggering a reactive deload during a program.",
+      "community": 4,
+      "norm_label": "deload denier badge image",
+      "id": "asset_badge_deload_denier"
+    },
+    {
+      "label": "Disciple of Pain Badge Image",
+      "file_type": "document",
+      "source_file": "public/badges/disciple.png",
+      "rationale": "Visual reward for completing the 'ramp-in' phase (Weeks 1-4) of the Trinary program.",
+      "community": 4,
+      "norm_label": "disciple of pain badge image",
+      "id": "asset_badge_disciple"
+    },
+    {
+      "label": "EMOM Executioner Badge",
+      "file_type": "image",
+      "source_file": "public/badges/emom_executioner.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 68,
+      "norm_label": "emom executioner badge",
+      "id": "emom_executioner_badge"
+    },
+    {
+      "label": "Final Boss Badge",
+      "file_type": "image",
+      "source_file": "public/badges/final_boss.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 26,
+      "norm_label": "final boss badge",
+      "id": "final_boss_badge"
+    },
+    {
+      "label": "First Blood Badge",
+      "file_type": "image",
+      "source_file": "public/badges/first_blood.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 23,
+      "norm_label": "first blood badge",
+      "id": "first_blood_badge"
+    },
+    {
+      "label": "Glory Achieved Badge",
+      "file_type": "image",
+      "source_file": "public/badges/glory_achieved.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 69,
+      "norm_label": "glory achieved badge",
+      "id": "glory_achieved_badge"
+    },
+    {
+      "label": "Glute Queen Badge",
+      "file_type": "image",
+      "source_file": "public/badges/glute_queen.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 24,
+      "norm_label": "glute queen badge",
+      "id": "glute_queen_badge"
+    },
+    {
+      "label": "High Priest Badge",
+      "file_type": "image",
+      "source_file": "public/badges/highpriest.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 25,
+      "norm_label": "high priest badge",
+      "id": "highpriest_badge"
+    },
+    {
+      "label": "Immortal Badge",
+      "file_type": "image",
+      "source_file": "public/badges/immortal.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 26,
+      "norm_label": "immortal badge",
+      "id": "immortal_badge"
+    },
+    {
+      "label": "Initiate Badge",
+      "file_type": "image",
+      "source_file": "public/badges/initiate.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 23,
+      "norm_label": "initiate badge",
+      "id": "initiate_badge"
+    },
+    {
+      "label": "Kas Glute Bridge 100 Badge",
+      "file_type": "image",
+      "source_file": "public/badges/kas_glute_bridge_100.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 24,
+      "norm_label": "kas glute bridge 100 badge",
+      "id": "kas_glute_bridge_100_badge"
+    },
+    {
+      "label": "Mutant Badge",
+      "file_type": "image",
+      "source_file": "public/badges/mutant.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 25,
+      "norm_label": "mutant badge",
+      "id": "mutant_badge"
+    },
+    {
+      "label": "Peachy Perfection Badge",
+      "file_type": "image",
+      "source_file": "public/badges/peachy.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 28,
+      "norm_label": "peachy perfection badge",
+      "id": "peachy_badge"
+    },
+    {
+      "label": "Rear Delt Reaper Badge",
+      "file_type": "image",
+      "source_file": "public/badges/rear_delt_reaper.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 70,
+      "norm_label": "rear delt reaper badge",
+      "id": "rear_delt_reaper_badge"
+    },
+    {
+      "label": "Single Supreme Badge",
+      "file_type": "image",
+      "source_file": "public/badges/single_supreme.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 71,
+      "norm_label": "single supreme badge",
+      "id": "single_supreme_badge"
+    },
+    {
+      "label": "Squat 30kg Badge",
+      "file_type": "image",
+      "source_file": "public/badges/squat_30kg.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 72,
+      "norm_label": "squat 30kg badge",
+      "id": "squat_30kg_badge"
+    },
+    {
+      "label": "Certified Threat Badge",
+      "file_type": "image",
+      "source_file": "public/badges/threat.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 73,
+      "norm_label": "certified threat badge",
+      "id": "threat_badge"
+    },
+    {
+      "label": "Void Gazer Badge",
+      "file_type": "image",
+      "source_file": "public/badges/void_gazer.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 30,
+      "norm_label": "void gazer badge",
+      "id": "void_gazer_badge"
+    },
+    {
+      "label": "War Criminal Badge",
+      "file_type": "image",
+      "source_file": "public/badges/war_criminal.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 27,
+      "norm_label": "war criminal badge",
+      "id": "war_criminal_badge"
+    },
+    {
+      "label": "Eternal Worshipper Badge",
+      "file_type": "image",
+      "source_file": "public/badges/worshipper.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 29,
+      "norm_label": "eternal worshipper badge",
+      "id": "worshipper_badge"
+    },
+    {
+      "label": "React Logo",
+      "file_type": "image",
+      "source_file": "src/assets/react.svg",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 74,
+      "norm_label": "react logo",
+      "id": "react_svg_logo"
+    },
+    {
+      "label": "Peachy Program",
+      "file_type": "rationale",
+      "source_file": "public/badges/peachy.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 28,
+      "norm_label": "peachy program",
+      "id": "peachy_program"
+    },
+    {
+      "label": "Ritual Program",
+      "file_type": "rationale",
+      "source_file": "public/badges/worshipper.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 29,
+      "norm_label": "ritual program",
+      "id": "ritual_program"
+    },
+    {
+      "label": "Trinary Program",
+      "file_type": "rationale",
+      "source_file": "public/badges/void_gazer.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 30,
+      "norm_label": "trinary program",
+      "id": "trinary_program"
+    },
+    {
+      "label": "Consistency Achievement",
+      "file_type": "rationale",
+      "source_file": "public/badges/war_criminal.png",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 27,
+      "norm_label": "consistency achievement",
+      "id": "consistency_achievement"
+    }
+  ],
+  "links": [
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backups/Dashboard - Copy.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "backups_dashboard_copy_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backups/Dashboard - Copy.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "backups_dashboard_copy_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backups/Dashboard - Copy.tsx",
+      "source_location": "L58",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "backups_dashboard_copy_tsx",
+      "target": "backups_dashboard_copy_fetchstatus"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backups/Dashboard - Copy.tsx",
+      "source_location": "L197",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "backups_dashboard_copy_tsx",
+      "target": "backups_dashboard_copy_nextweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backups/Dashboard - Copy.tsx",
+      "source_location": "L201",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "backups_dashboard_copy_tsx",
+      "target": "backups_dashboard_copy_prevweek"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "data_trinary_getblockfromworkout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_check",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_note",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_floord",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_ceild",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_nearcap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_day",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_exbyname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L285",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_pp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_cw",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L428",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_mku",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L106",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_wbase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L169",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_mkuser",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L197",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_it",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L232",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_hist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L233",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_adv",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L387",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_cwn",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L310",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_wabs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L355",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_pat",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L394",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_reps",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L436",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_gen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L443",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_rir",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L444",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_notehas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L497",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_lookup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L499",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_ts",
+      "target": "scripts_verify_plans_walk",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_pp",
+      "target": "scripts_verify_plans_day",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L198",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_it",
+      "target": "scripts_verify_plans_day",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L356",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_pat",
+      "target": "scripts_verify_plans_day",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L394",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_reps",
+      "target": "scripts_verify_plans_day",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L233",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_adv",
+      "target": "scripts_verify_plans_exbyname",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L311",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_wabs",
+      "target": "scripts_verify_plans_pp",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L311",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_wabs",
+      "target": "scripts_verify_plans_mku",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L356",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_pat",
+      "target": "scripts_verify_plans_mku",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L394",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_reps",
+      "target": "scripts_verify_plans_mku",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L443",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_rir",
+      "target": "scripts_verify_plans_mku",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L444",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_notehas",
+      "target": "scripts_verify_plans_mku",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L198",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_it",
+      "target": "scripts_verify_plans_mkuser",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L233",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_adv",
+      "target": "scripts_verify_plans_hist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L443",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_rir",
+      "target": "scripts_verify_plans_gen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/verify-plans.ts",
+      "source_location": "L444",
+      "weight": 1.0,
+      "source": "scripts_verify_plans_notehas",
+      "target": "scripts_verify_plans_gen",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_tsx",
+      "target": "contexts_usercontext_userprovider"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_main_tsx",
+      "target": "src_app_tsx"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AccessoryChoiceModal.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_accessorychoicemodal_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AccessoryChoiceModal.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_accessorychoicemodal_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LanguageSwitcher.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_languageswitcher_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LanguageSwitcher.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_languageswitcher_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProtectedLayout.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_protectedlayout_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProtectedLayout.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_protectedlayout_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProtectedLayout.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_protectedlayout_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/TrinaryRerunModal.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_trinaryrerunmodal_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/VariationSwapModal.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_variationswapmodal_tsx",
+      "target": "components_variationswapmodal_getavailablevariations"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_weakpointmodal_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_weakpointmodal_tsx",
+      "target": "components_weakpointmodal_handlesubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_weakpointmodal_tsx",
+      "target": "components_weakpointmodal_getbenchvariations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source_location": "L53",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_weakpointmodal_tsx",
+      "target": "components_weakpointmodal_getdeadliftvariations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source_location": "L54",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_weakpointmodal_tsx",
+      "target": "components_weakpointmodal_getsquatvariations"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/button.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_ui_button_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/card.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_ui_card_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/checkbox.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_ui_checkbox_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/dialog.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_ui_dialog_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/input.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_ui_input_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/label.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_ui_label_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ui/radio-group.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_components_ui_radio_group_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_contexts_usercontext_tsx",
+      "target": "data_plans_getplan"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_contexts_usercontext_tsx",
+      "target": "contexts_usercontext_userprovider"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": "L736",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_contexts_usercontext_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminpanel_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_dashboard_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Entry.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_entry_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/History.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_history_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Settings.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_settings_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workouthistory_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "contexts_usercontext_useuser"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/contexts/useTranslation.tsx",
+      "source_location": "L127",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_contexts_usetranslation_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/contexts/useTranslation.tsx",
+      "source_location": "L141",
+      "weight": 1.0,
+      "source": "src_contexts_usetranslation_tsx",
+      "target": "contexts_usetranslation_resolvetemplate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_dashboard_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Entry.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_entry_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/History.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_history_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Settings.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_settings_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workouthistory_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "contexts_usetranslation_uselanguage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "contexts_usetranslation_resolvetemplate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/painglory.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_painglory_ts",
+      "target": "data_painglory_createpaingloryweeks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/peachy.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_peachy_ts",
+      "target": "data_peachy_createpeachyweeks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/pencilneck.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_pencilneck_ts",
+      "target": "data_pencilneck_generatepencilneckweeks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/plans.ts",
+      "source_location": "L23",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_plans_ts",
+      "target": "data_plans_getplan"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_program_ts",
+      "target": "data_program_createweeks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L448",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_program_ts",
+      "target": "data_program_getrepthresholdforweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L462",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_program_ts",
+      "target": "data_program_roundtonearest2_5withcap"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L482",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_program_ts",
+      "target": "data_program_rounddowntonearest2_5"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L490",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_program_ts",
+      "target": "data_program_rounduptonearest2_5"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L497",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_program_ts",
+      "target": "data_program_calculatee1rm"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L517",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_program_ts",
+      "target": "data_program_getpausedbenchbase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L614",
+      "weight": 1.0,
+      "source": "src_data_program_ts",
+      "target": "data_program_getpowerdaybenchbase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L592",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_program_getpausedbenchbase",
+      "target": "data_program_getrepthresholdforweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L558",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_program_getpausedbenchbase",
+      "target": "data_program_rounddowntonearest2_5"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/program.ts",
+      "source_location": "L556",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_program_getpausedbenchbase",
+      "target": "data_program_calculatee1rm"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_ritual_ts",
+      "target": "data_ritual_rounddownto2_5"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_ritual_ts",
+      "target": "data_ritual_calculatee1rm"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_ritual_ts",
+      "target": "data_ritual_updateritual1rmsfromascensiontest"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L74",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_ritual_ts",
+      "target": "data_ritual_createritualweeks"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_ritual_calculatee1rm",
+      "target": "data_ritual_rounddownto2_5"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_ritual_updateritual1rmsfromascensiontest",
+      "target": "data_ritual_rounddownto2_5"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/ritual.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_ritual_updateritual1rmsfromascensiontest",
+      "target": "data_ritual_calculatee1rm"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/skeleton.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_skeleton_ts",
+      "target": "data_skeleton_createskeletonweeks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L303",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_supermutant_ts",
+      "target": "data_supermutant_calculatereactivesetsformuscle"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L342",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_supermutant_ts",
+      "target": "data_supermutant_ismusclegroupready"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L356",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_supermutant_ts",
+      "target": "data_supermutant_getrirforweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L313",
+      "weight": 1.0,
+      "source": "src_data_supermutant_ts",
+      "target": "data_supermutant_getcurrentcycle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L365",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_supermutant_ts",
+      "target": "data_supermutant_getrirmessage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L373",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_supermutant_ts",
+      "target": "data_supermutant_getintensificationtechnique"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L385",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_supermutant_ts",
+      "target": "data_supermutant_getreprange"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L397",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_supermutant_ts",
+      "target": "data_supermutant_isclusterready"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L413",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_supermutant_ts",
+      "target": "data_supermutant_generatenextworkout"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L772",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_supermutant_ts",
+      "target": "data_supermutant_createsupermutantweeks"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L588",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_supermutant_generatenextworkout",
+      "target": "data_supermutant_calculatereactivesetsformuscle"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L567",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_supermutant_generatenextworkout",
+      "target": "data_supermutant_getrirforweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L538",
+      "weight": 1.0,
+      "source": "data_supermutant_generatenextworkout",
+      "target": "data_supermutant_getcurrentcycle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L568",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_supermutant_generatenextworkout",
+      "target": "data_supermutant_getrirmessage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L581",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_supermutant_generatenextworkout",
+      "target": "data_supermutant_getintensificationtechnique"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L585",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_supermutant_generatenextworkout",
+      "target": "data_supermutant_getreprange"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/supermutant.ts",
+      "source_location": "L427",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_supermutant_generatenextworkout",
+      "target": "data_supermutant_isclusterready"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_trinary_ts",
+      "target": "data_trinary_selectvariation"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L144",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_trinary_ts",
+      "target": "data_trinary_getblockfromworkout"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L149",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_trinary_ts",
+      "target": "data_trinary_getworkoutpositioninblock"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L158",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_trinary_ts",
+      "target": "data_trinary_getworkoutpattern"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L172",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_trinary_ts",
+      "target": "data_trinary_rounddownto2_5"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L177",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_trinary_ts",
+      "target": "data_trinary_calculatee1rm"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L184",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_trinary_ts",
+      "target": "data_trinary_getliftname"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L225",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_trinary_ts",
+      "target": "data_trinary_getsettarget"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L246",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_trinary_ts",
+      "target": "data_trinary_createaccessoryday"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L313",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_data_trinary_ts",
+      "target": "data_trinary_createtrinaryweeks"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "data_trinary_selectvariation"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L2266",
+      "weight": 1.0,
+      "source": "pages_workoutview_async",
+      "target": "data_trinary_selectvariation"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "data_trinary_getblockfromworkout"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L980",
+      "weight": 1.0,
+      "source": "pages_workoutview_handlesavesession",
+      "target": "data_trinary_getblockfromworkout"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L159",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_trinary_getworkoutpattern",
+      "target": "data_trinary_getworkoutpositioninblock"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L323",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_trinary_createtrinaryweeks",
+      "target": "data_trinary_getworkoutpattern"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L178",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_trinary_calculatee1rm",
+      "target": "data_trinary_rounddownto2_5"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/trinary.ts",
+      "source_location": "L328",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "data_trinary_createtrinaryweeks",
+      "target": "data_trinary_getsettarget"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/utils.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib_utils_ts",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminpanel_tsx",
+      "target": "pages_adminpanel_handlelogin"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminpanel_tsx",
+      "target": "pages_adminpanel_fetchusers"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L57",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminpanel_tsx",
+      "target": "pages_adminpanel_handledeleteuser"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L72",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminpanel_tsx",
+      "target": "pages_adminpanel_handlesaveuser"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L180",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminpanel_tsx",
+      "target": "pages_adminpanel_handlestatchange"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": "L187",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_adminpanel_tsx",
+      "target": "pages_adminpanel_togglebadge"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L59",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_dashboard_tsx",
+      "target": "pages_dashboard_fetchstatus"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L198",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_dashboard_tsx",
+      "target": "pages_dashboard_nextweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L202",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_dashboard_tsx",
+      "target": "pages_dashboard_prevweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": "L1007",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_dashboard_tsx",
+      "target": "pages_dashboard_handletimeskip"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Entry.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_entry_tsx",
+      "target": "pages_entry_handlesubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/History.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_history_tsx",
+      "target": "pages_history_fetchhistory"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L84",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_handleprogramselect"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L105",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_handledaytoggle"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L119",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_handleprefchange"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L123",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_handlestatschange"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L135",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_handlepencilnecksubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L156",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_handleskeletonsubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L725",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_handlepeachysubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L198",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_handlepainglorysubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L239",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_handletrinarysubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_handlebenchdominationsubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": "L1178",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_onboarding_tsx",
+      "target": "pages_onboarding_async"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Settings.tsx",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_settings_tsx",
+      "target": "pages_settings_handleprefchange"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Settings.tsx",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_settings_tsx",
+      "target": "pages_settings_handlemoduletoggle"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/Settings.tsx",
+      "source_location": "L93",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_settings_tsx",
+      "target": "pages_settings_handlesave"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L34",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workouthistory_tsx",
+      "target": "pages_workouthistory_toggleexpand"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L41",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workouthistory_tsx",
+      "target": "pages_workouthistory_renderworkoutname"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L69",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workouthistory_tsx",
+      "target": "pages_workouthistory_handleedit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutHistory.tsx",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workouthistory_tsx",
+      "target": "pages_workouthistory_fetchworkouts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_getbasesetscount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L83",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_calculateweight"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_initview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L216",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_fetchpreviousstats"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_initializeemptystate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L372",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_handlesetchange"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L450",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_handlenoteschange"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L454",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_handlemarkall"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L473",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_handleswap"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L489",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_handleaddextraset"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L517",
+      "weight": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_handleremoveextraset",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L519",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_handlesavesession"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L2351",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_async"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L1583",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_pages_workoutview_tsx",
+      "target": "pages_workoutview_roundto2_5"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L129",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_workoutview_initview",
+      "target": "pages_workoutview_fetchpreviousstats"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/pages/WorkoutView.tsx",
+      "source_location": "L206",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "pages_workoutview_initview",
+      "target": "pages_workoutview_initializeemptystate"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/firebase.ts",
+      "source": "src_firebase",
+      "target": "types_userprofile"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ProtectedLayout.tsx",
+      "source": "comp_protectedlayout",
+      "target": "types_userprofile"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types.ts",
+      "source": "prog_trinary",
+      "target": "types_userprofile"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/types.ts",
+      "source": "prog_supermutant",
+      "target": "types_userprofile"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ProtectedLayout.tsx",
+      "source": "comp_protectedlayout",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ProtectedLayout.tsx",
+      "source": "comp_protectedlayout",
+      "target": "sys_translation"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ProtectedLayout.tsx",
+      "source": "comp_protectedlayout",
+      "target": "ui_button"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/WeakPointModal.tsx",
+      "source": "comp_weakpointmodal",
+      "target": "prog_trinary"
+    },
+    {
+      "relation": "asset_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/badges.ts",
+      "source": "asset_badge_acolyte",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "asset_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/contexts/UserContext.tsx",
+      "source": "asset_badge_behemoth",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "asset_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/badges.ts",
+      "source": "asset_badge_bench_jump_20kg",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "asset_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/badges.ts",
+      "source": "asset_badge_bench_jump_30kg",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "asset_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/badges.ts",
+      "source": "asset_badge_bench_psychopath",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "asset_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/badges.ts",
+      "source": "asset_badge_boulder",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "asset_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/badges.ts",
+      "source": "asset_badge_cannonball_delts",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "asset_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/badges.ts",
+      "source": "asset_badge_deficit_demon",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "asset_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/badges.ts",
+      "source": "asset_badge_deload_denier",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "asset_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/badges.ts",
+      "source": "asset_badge_disciple",
+      "target": "sys_badges"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/contexts/useTranslation.tsx",
+      "source_location": {
+        "start_line": 4,
+        "end_line": 4
+      },
+      "weight": 1.0,
+      "source": "usetranslation_languageprovider",
+      "target": "translations_translations"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/painglory.ts",
+      "source_location": {
+        "start_line": 28,
+        "end_line": 200
+      },
+      "weight": 1.0,
+      "source": "painglory_pain_glory_config",
+      "target": "translations_translations"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/peachy.ts",
+      "source_location": {
+        "start_line": 59,
+        "end_line": 62
+      },
+      "weight": 1.0,
+      "source": "peachy_peachy_config",
+      "target": "translations_translations"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "usercontext_userprovider",
+      "target": "plans_plan_registry"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": {
+        "start_line": 252,
+        "end_line": 546
+      },
+      "weight": 1.0,
+      "source": "usercontext_userprovider",
+      "target": "badges_badges"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": {
+        "start_line": 551,
+        "end_line": 551
+      },
+      "weight": 1.0,
+      "source": "usercontext_userprovider",
+      "target": "usercontext_checkbadges"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "adminpanel_adminpanel",
+      "target": "usercontext_useuser"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dashboard_dashboard",
+      "target": "usercontext_useuser"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Entry.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "entry_entry",
+      "target": "usercontext_useuser"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "onboarding_onboarding",
+      "target": "usercontext_useuser"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/contexts/UserContext.tsx",
+      "source_location": {
+        "start_line": 252,
+        "end_line": 546
+      },
+      "weight": 1.0,
+      "source": "usercontext_checkbadges",
+      "target": "badges_badges"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/painglory.ts",
+      "source_location": {
+        "start_line": 218,
+        "end_line": 224
+      },
+      "weight": 1.0,
+      "source": "painglory_pain_glory_program",
+      "target": "painglory_pain_glory_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/plans.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plans_plan_registry",
+      "target": "painglory_pain_glory_config"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/peachy.ts",
+      "source_location": {
+        "start_line": 64,
+        "end_line": 70
+      },
+      "weight": 1.0,
+      "source": "peachy_peachy_program",
+      "target": "peachy_peachy_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/plans.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plans_plan_registry",
+      "target": "peachy_peachy_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/pencilneck.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "pencilneck_pencilneck_config",
+      "target": "pencilneck_pencilneck_program"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/pencilneck.ts",
+      "source": "pencilneck_pencilneck_program",
+      "target": "pencilneck_compound_exercises"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/plans.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plans_plan_registry",
+      "target": "pencilneck_pencilneck_config"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/data/pencilneck.ts",
+      "source": "pencilneck_pencilneck_config",
+      "target": "pencilneck_heavy_phase"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/plans.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plans_plan_registry",
+      "target": "program_bench_domination_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/plans.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plans_plan_registry",
+      "target": "skeleton_skeleton_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/plans.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plans_plan_registry",
+      "target": "trinary_trinary_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/plans.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plans_plan_registry",
+      "target": "ritual_ritual_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/plans.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plans_plan_registry",
+      "target": "supermutant_super_mutant_config"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/program.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "program_bench_domination_config",
+      "target": "program_bench_domination_program"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/data/program.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "program_bench_domination_program",
+      "target": "rationale_epley_formula"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/Onboarding.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "onboarding_onboarding",
+      "target": "program_bench_domination_program"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/data/program.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "program_bench_domination_config",
+      "target": "rationale_reactive_deload"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/data/program.ts",
+      "source": "program_bench_domination_config",
+      "target": "program_peaking_block"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/program.ts",
+      "source": "program_bench_domination_config",
+      "target": "program_epley_formula"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/ritual.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "ritual_ritual_config",
+      "target": "ritual_ritual_program"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/data/ritual.ts",
+      "source": "ritual_ritual_config",
+      "target": "ritual_ascension_test"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/data/ritual.ts",
+      "source": "ritual_ritual_config",
+      "target": "ritual_purge_week"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/skeleton.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "skeleton_skeleton_config",
+      "target": "skeleton_skeleton_program"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/supermutant.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "supermutant_super_mutant_config",
+      "target": "supermutant_super_mutant_program"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/supermutant.ts",
+      "source": "supermutant_super_mutant_config",
+      "target": "supermutant_training_clusters"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/data/supermutant.ts",
+      "source": "supermutant_super_mutant_config",
+      "target": "supermutant_queue_system"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/trinary.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "trinary_trinary_config",
+      "target": "trinary_trinary_program"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/data/trinary.ts",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "trinary_trinary_program",
+      "target": "rationale_conjugate_periodization"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/data/trinary.ts",
+      "source": "trinary_trinary_config",
+      "target": "trinary_conjugate_periodization"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/trinary.ts",
+      "source": "trinary_trinary_config",
+      "target": "trinary_bench_variations"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "src/pages/AdminPanel.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "adminpanel_adminpanel",
+      "target": "auth_gate"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/pages/Dashboard.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "dashboard_dashboard",
+      "target": "history_history"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "PLAN.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "plan_md",
+      "target": "supermutant_md"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backups/PLAN_2026-01-11_weight-calculation-fix.md",
+      "source": "plan_2026_01_11_weight_calculation_fix_bench_domination",
+      "target": "plan_2026_01_11_weight_calculation_fix_paused_bench_press"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "source": "readme_v15_finaltrinaryfixes_trinary",
+      "target": "readme_v15_finaltrinaryfixes_weak_point_system"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "source": "readme_v15_finaltrinaryfixes_bench_domination",
+      "target": "readme_v15_finaltrinaryfixes_epley_formula"
+    },
+    {
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "source": "readme_v15_finaltrinaryfixes_bench_domination",
+      "target": "readme_v15_finaltrinaryfixes_reactive_deload"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "source": "readme_v15_finaltrinaryfixes_bench_domination",
+      "target": "benchdomination_image"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "source": "readme_v15_finaltrinaryfixes_bench_domination",
+      "target": "readme_v15_finaltrinaryfixes_amrap"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "source": "readme_v15_finaltrinaryfixes_painglory",
+      "target": "painglory_image"
+    },
+    {
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "source": "readme_v15_finaltrinaryfixes_painglory",
+      "target": "readme_v15_finaltrinaryfixes_amrap"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md",
+      "source": "readme_v15_finaltrinaryfixes_peachy",
+      "target": "peachy_image"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "public/eng.png",
+      "source": "eng_image",
+      "target": "logo_image"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "public/badges/final_boss.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "final_boss_badge",
+      "target": "immortal_badge"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "public/badges/initiate.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "initiate_badge",
+      "target": "first_blood_badge"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "public/badges/glute_queen.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "glute_queen_badge",
+      "target": "kas_glute_bridge_100_badge"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "public/badges/mutant.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "mutant_badge",
+      "target": "highpriest_badge"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "public/badges/peachy.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "peachy_badge",
+      "target": "peachy_program"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "public/badges/void_gazer.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "void_gazer_badge",
+      "target": "trinary_program"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "public/badges/war_criminal.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "war_criminal_badge",
+      "target": "consistency_achievement"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "public/badges/worshipper.png",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "worshipper_badge",
+      "target": "ritual_program"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "program_identity_system",
+      "label": "Program Identity & Theming Framework",
+      "nodes": [
+        "comp_protectedlayout",
+        "prog_trinary",
+        "prog_supermutant",
+        "prog_painglory",
+        "types_userprofile"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ProtectedLayout.tsx"
+    },
+    {
+      "id": "program_configurations",
+      "label": "Program Configurations",
+      "nodes": [
+        "program_bench_domination_config",
+        "pencilneck_pencilneck_config",
+        "skeleton_skeleton_config",
+        "peachy_peachy_config",
+        "painglory_pain_glory_config",
+        "trinary_trinary_config",
+        "ritual_ritual_config",
+        "supermutant_super_mutant_config"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/plans.ts"
+    },
+    {
+      "id": "program_definitions",
+      "label": "Program Definitions",
+      "nodes": [
+        "painglory_pain_glory_program",
+        "peachy_peachy_program"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/data/painglory.ts"
+    },
+    {
+      "id": "workout_flow",
+      "label": "Workout Logging Flow",
+      "nodes": [
+        "dashboard_dashboard",
+        "workoutview_workoutview",
+        "workouthistory_workouthistory"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "src/pages/Dashboard.tsx"
+    },
+    {
+      "id": "workout_programs",
+      "label": "Workout Programs",
+      "nodes": [
+        "readme_v15_finaltrinaryfixes_bench_domination",
+        "readme_v15_finaltrinaryfixes_painglory",
+        "readme_v15_finaltrinaryfixes_peachy",
+        "readme_v15_finaltrinaryfixes_pencilneck",
+        "readme_v15_finaltrinaryfixes_skeleton",
+        "readme_v15_finaltrinaryfixes_trinary"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backups/README_v15_FinalTrinaryFixes.md"
+    },
+    {
+      "id": "achievement_badges",
+      "label": "Workout Achievement System",
+      "nodes": [
+        "emom_executioner_badge",
+        "final_boss_badge",
+        "first_blood_badge",
+        "glory_achieved_badge",
+        "glute_queen_badge",
+        "highpriest_badge",
+        "immortal_badge",
+        "initiate_badge",
+        "kas_glute_bridge_100_badge",
+        "mutant_badge"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "public/badges/glory_achieved.png"
+    }
+  ],
+  "built_at_commit": "5c073ddbacff5c0fc6eb1d56be2d4a86fd882e3a"
+}

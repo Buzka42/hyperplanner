@@ -220,11 +220,13 @@ const createRitualWeeks = (): ProgramWeek[] => {
             });
         } else if (isMainPhase) {
             const isAscensionWeek = (w - 4) % 4 === 0 && w <= 16; // Weeks 8, 12, 16
-            const isPurgeWeekMain = w === 8 || w === 16; // Auto-deload after week 8 and 16
+            // NOTE: Weeks 8/12/16 are Ascension Test weeks, not deload weeks — the actual
+            // purge/deload system runs on dynamically-inserted weeks (see isPurgeWeek in
+            // preprocessDay below), so day names here always use the normal labels.
 
             // Day 1: Bench ME + Squat/Deadlift light
             days.push({
-                dayName: isPurgeWeekMain ? `t:dayNames.ritualPurgeDay1` : `t:dayNames.ritualDay1Bench`,
+                dayName: `t:dayNames.ritualDay1Bench`,
                 dayOfWeek: 1,
                 exercises: [
                     {
@@ -263,7 +265,7 @@ const createRitualWeeks = (): ProgramWeek[] => {
 
             // Day 2: Squat ME + Bench/Deadlift light
             days.push({
-                dayName: isPurgeWeekMain ? `t:dayNames.ritualPurgeDay2` : `t:dayNames.ritualDay2Squat`,
+                dayName: `t:dayNames.ritualDay2Squat`,
                 dayOfWeek: 3,
                 exercises: [
                     {
@@ -302,7 +304,7 @@ const createRitualWeeks = (): ProgramWeek[] => {
 
             // Day 3: Deadlift ME + Bench/Squat light + grip work
             days.push({
-                dayName: isPurgeWeekMain ? `t:dayNames.ritualPurgeDay3` : `t:dayNames.ritualDay3Deadlift`,
+                dayName: `t:dayNames.ritualDay3Deadlift`,
                 dayOfWeek: 5,
                 exercises: [
                     {

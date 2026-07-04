@@ -162,12 +162,17 @@ const createWeeks = (): ProgramWeek[] => {
         const giantSets = w >= 9 ? 3 : 2;
 
         // Pullups logic
+        // Bucket thresholds are keyed to the FINAL displayed week number, not the raw
+        // generation-loop `w`. The Week 9 mandatory deload shifts every week from w>=9
+        // forward by +1 (see RENUMBER WEEKS below), so we must apply the same shift here
+        // to keep the displayed week's rep target in sync with what preprocessDay expects.
+        const displayWeek = w >= 9 ? w + 1 : w;
         let pullupReps = "Max";
-        if (w >= 4 && w <= 6) {
+        if (displayWeek >= 4 && displayWeek <= 6) {
             pullupReps = "3-5";
-        } else if (w >= 7 && w <= 9) {
+        } else if (displayWeek >= 7 && displayWeek <= 9) {
             pullupReps = "3";
-        } else if (w >= 10 && w <= 12) {
+        } else if (displayWeek >= 10 && displayWeek <= 13) {
             pullupReps = "2-3";
         }
 
@@ -244,7 +249,7 @@ const createWeeks = (): ProgramWeek[] => {
                     id: `w${w}-d3-e1`,
                     name: "Paused Bench Press",
                     sets: 4,
-                    target: { type: "range", reps: "8-10", percentage: wedBenchPerc, percentageRef: "pausedBench" },
+                    target: { type: "range", reps: "5-10", percentage: wedBenchPerc, percentageRef: "pausedBench" },
                     notes: "t:tips.pausedBenchWednesday"
                 },
                 {
@@ -287,7 +292,9 @@ const createWeeks = (): ProgramWeek[] => {
                     id: `w${w}-d4-e1`,
                     name: "Paused Bench Press",
                     sets: 5,
-                    target: { type: "range", reps: "3-5", percentage: 0.775, percentageRef: "pausedBench" },
+                    // Weight is NOT driven by this percentage — see getPowerDayBenchBase.
+                    // Kept for display/documentation purposes only.
+                    target: { type: "range", reps: "3-5", percentage: 0.65, percentageRef: "pausedBench" },
                     notes: "t:tips.explosiveThursday"
                 },
                 {
@@ -521,10 +528,8 @@ const getPausedBenchBase = (user: UserProfile, context?: { week: number }): numb
     let currentBase = user.stats.pausedBench;
     const currentWeek = context?.week || 1;
 
-    console.log(`[BASE CALC] Starting calculation for week ${currentWeek}, initial base: ${currentBase} kg`);
 
     if (!user.benchHistory || user.benchHistory.length === 0) {
-        console.log(`[BASE CALC] No benchHistory, returning initial base: ${currentBase} kg`);
         return currentBase;
     }
 
@@ -533,7 +538,6 @@ const getPausedBenchBase = (user: UserProfile, context?: { week: number }): numb
         .filter(entry => entry.week !== undefined && entry.week !== null && entry.week < currentWeek)
         .sort((a, b) => (a.week || 0) - (b.week || 0));
 
-    console.log(`[BASE CALC] Found ${sortedAMRAPs.length} AMRAP entries before week ${currentWeek}`);
 
     // Track which weeks we've processed to avoid duplicates
     const processedWeeks = new Set<number>();
@@ -557,9 +561,6 @@ const getPausedBenchBase = (user: UserProfile, context?: { week: number }): numb
                 // New base = e1RM rounded DOWN to nearest 2.5 kg
                 const newBase = roundDownToNearest2_5(e1RM);
 
-                console.log(`[e1RM RESET] Week ${checkpoint.afterWeek} checkpoint for week ${currentWeek}:`);
-                console.log(`[e1RM RESET] AMRAP: ${checkpointEntry.actualWeight}kg × ${checkpointEntry.actualReps} reps`);
-                console.log(`[e1RM RESET] e1RM = ${e1RM.toFixed(2)} kg → New base = ${newBase} kg`);
 
                 // Reset base to e1RM
                 currentBase = newBase;
@@ -592,14 +593,39 @@ const getPausedBenchBase = (user: UserProfile, context?: { week: number }): numb
         const threshold = getRepThresholdForWeek(entryWeek);
         if (reps >= threshold) {
             currentBase += 2.5;
-            console.log(`[AMRAP PROGRESS] Week ${entryWeek}: ${reps} reps >= ${threshold} threshold → +2.5 kg, base now ${currentBase} kg`);
         } else {
-            console.log(`[AMRAP STALL] Week ${entryWeek}: ${reps} reps < ${threshold} threshold → no increase, base stays ${currentBase} kg`);
         }
     }
 
-    console.log(`[BASE CALC] Final base for week ${currentWeek}: ${currentBase} kg`);
     return currentBase;
+};
+
+/**
+ * Get the Thursday "Power/Speed" Paused Bench weight source.
+ *
+ * Unlike getPausedBenchBase (a cumulative base that compounds weekly AMRAP
+ * progressions between e1RM checkpoints), Thursday's weight is simply
+ * 65% of the MOST RECENT Saturday AMRAP e1RM — recalculated fresh every
+ * single week, with no compounding. It never increases on its own; it only
+ * moves when last week's AMRAP e1RM changes.
+ *
+ * Falls back to the onboarding 1RM if no AMRAP has been logged yet (week 1).
+ */
+const getPowerDayBenchBase = (user: UserProfile, currentWeek: number): number => {
+    if (!user.benchHistory || user.benchHistory.length === 0) {
+        return user.stats.pausedBench || 0;
+    }
+
+    const priorAMRAPs = user.benchHistory
+        .filter(entry => entry.week !== undefined && entry.week !== null && entry.week < currentWeek)
+        .sort((a, b) => (b.week || 0) - (a.week || 0));
+
+    if (priorAMRAPs.length === 0) {
+        return user.stats.pausedBench || 0;
+    }
+
+    // entry.weight already holds the Epley e1RM calculated at save-time
+    return priorAMRAPs[0].weight;
 };
 
 export const BENCH_DOMINATION_PROGRAM: Program = {
@@ -934,7 +960,11 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 // A. Elite Warm-up Sets for Paused Bench Press
                 if (ex.name.includes("Paused") || (ex.name.includes("Bench") && ex.target.percentageRef === 'pausedBench')) {
                     let targetLoad = 0;
-                    if (ex.target.percentageRef === 'pausedBench') {
+                    if (day.dayOfWeek === 4 && ex.name === "Paused Bench Press") {
+                        // Power/Speed day: 65% of last week's AMRAP e1RM, recalculated weekly
+                        const powerBase = getPowerDayBenchBase(user, weekNum);
+                        targetLoad = powerBase * 0.65;
+                    } else if (ex.target.percentageRef === 'pausedBench') {
                         const currentBase = getPausedBenchBase(user, { week: weekNum });
                         const perc = ex.target.percentage || 1;
                         targetLoad = currentBase * perc;
@@ -956,9 +986,8 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
 
                         // For 1RM tests: 80% double, 90% single (more conservative)
                         // For normal heavy days: 85% double, 95% single
-                        // DEBUG: Using 75%/88% to verify is1RMTest is true
-                        const doublePercent = is1RMTest ? 0.75 : 0.85;
-                        const singlePercent = is1RMTest ? 0.88 : 0.95;
+                        const doublePercent = is1RMTest ? 0.80 : 0.85;
+                        const singlePercent = is1RMTest ? 0.90 : 0.95;
 
                         const wDouble = round(targetLoad * doublePercent);
                         warmupSets.push({ reps: "2", weight: wDouble.toString(), completed: false });
@@ -1226,7 +1255,6 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                                 const lastWeight = parseFloat(sets[0].weight || "0");
                                 if (lastWeight > 0) {
                                     const deloadWeight = Math.floor((lastWeight * 0.85) / 2.5) * 2.5;
-                                    console.log(`[WEEK 9 DELOAD] ${exerciseName}: Last completed (Week ${session.week}, Day ${session.day}) weight ${lastWeight} kg × 0.85 = ${deloadWeight} kg`);
                                     return deloadWeight.toString();
                                 }
                             }
@@ -1237,6 +1265,15 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
 
             // 0. Absolute Weight
             if (target.weightAbsolute) return target.weightAbsolute.toString();
+
+            // 0.5 Thursday Power/Speed Paused Bench - 65% of last week's AMRAP e1RM,
+            // recalculated fresh every week (no compounding with the cumulative base).
+            if (exerciseName === "Paused Bench Press" && context && context.day === 4) {
+                const powerBase = getPowerDayBenchBase(user, context.week);
+                const rawWeight = powerBase * 0.65;
+                const finalWeight = roundToNearest2_5WithCap(rawWeight);
+                return finalWeight.toString();
+            }
 
             // 1. Paused Bench Press - Complete Overhaul
             if (target.percentageRef === 'pausedBench' && user.stats.pausedBench && context) {
@@ -1258,11 +1295,9 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 if (day === 3 || day === 6) {
                     // Volume (Wed) and AMRAP (Sat): round UP to show clear progression
                     finalWeight = roundUpToNearest2_5(rawWeight);
-                    console.log(`[WEIGHT CALC] Paused Bench (${day === 3 ? 'Volume' : 'AMRAP'}): base ${currentBase} kg × ${(perc * 100).toFixed(1)}% = raw ${rawWeight.toFixed(2)} kg → CEIL ${finalWeight} kg`);
                 } else {
                     // Heavy (Mon) and Power (Thu): round to nearest with safety cap
                     finalWeight = roundToNearest2_5WithCap(rawWeight);
-                    console.log(`[WEIGHT CALC] Paused Bench (${day === 1 ? 'Heavy' : 'Power'}): base ${currentBase} kg × ${(perc * 100).toFixed(1)}% = raw ${rawWeight.toFixed(2)} kg → NEAREST ${finalWeight} kg`);
                 }
 
                 return finalWeight.toString();
@@ -1305,41 +1340,32 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
             if (exerciseName === "Behind-the-Neck Press" && context) {
                 let baseWeight = 0;
 
-                console.log(`[BTN CALC] Week ${context.week}, Day ${context.day}`);
-                console.log(`[BTN CALC] user.stats.btnPress:`, user.stats.btnPress);
-                console.log(`[BTN CALC] user.stats.pausedBench:`, user.stats.pausedBench);
 
                 // Week 1: Seed from pausedBench if btnPress not set
                 if (context.week === 1) {
                     if (user.stats.btnPress) {
                         baseWeight = user.stats.btnPress;
-                        console.log(`[BTN CALC] Week 1 using saved btnPress: ${baseWeight}`);
                     } else if (user.stats.pausedBench) {
                         // Initial seed: 40% of Bench, rounded down
                         baseWeight = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
-                        console.log(`[BTN CALC] Week 1 seeding from pausedBench: ${baseWeight}`);
                     }
                 } else {
                     // Week 2+: Use stored value (includes progression)
                     if (user.stats.btnPress) {
                         baseWeight = user.stats.btnPress;
-                        console.log(`[BTN CALC] Week 2+ using saved btnPress: ${baseWeight}`);
                     } else if (user.stats.pausedBench) {
                         // Fallback if somehow not saved
                         baseWeight = Math.floor((user.stats.pausedBench * 0.40) / 2.5) * 2.5;
-                        console.log(`[BTN CALC] Week 2+ fallback seed: ${baseWeight}`);
                     }
                 }
 
                 // Monday returns base weight
                 if (context.day === 1) {
-                    console.log(`[BTN CALC] Monday returning: ${baseWeight}`);
                     return baseWeight.toString();
                 }
 
                 // Thursday returns 85% of Monday's weight
                 const thursdayWeight = Math.floor((baseWeight * 0.85) / 2.5) * 2.5;
-                console.log(`[BTN CALC] Thursday returning: ${thursdayWeight}`);
                 return thursdayWeight.toString();
             }
 
@@ -1361,7 +1387,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                         const sets = lastLog.setResults;
                         for (let i = sets.length - 1; i >= 0; i--) {
                             if ((i % 3) === 2) {
-                                if (sets[i].reps >= 25) return "Increase Weight!";
+                                if (sets[i].reps >= 25) return "t:tips.increaseWeight";
                                 break;
                             }
                         }
@@ -1383,7 +1409,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                     if (lastLog.setResults && lastLog.setResults.length >= exercise.sets) {
                         const relevantSets = lastLog.setResults.slice(0, exercise.sets);
                         const allHit = relevantSets.every((s: any) => s.reps >= maxRep);
-                        if (allHit) return "Increase Weight!";
+                        if (allHit) return "t:tips.increaseWeight";
                     }
                 }
             }
@@ -1394,7 +1420,7 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 if (lastLog.setResults && lastLog.setResults.length >= 4) {
                     // Check if all 4 sets hit 6 reps
                     const allSetsAt6 = lastLog.setResults.slice(0, 4).every((s: any) => s.reps >= 6);
-                    if (allSetsAt6) return "All sets at 6 reps – +2.5 kg next Thursday!";
+                    if (allSetsAt6) return "t:tips.heavyTricepExtensionsIncrease";
                 }
             }
 

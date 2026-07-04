@@ -1,212 +1,224 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @import "tailwindcss";
 @config "../tailwind.config.js";
 @plugin "tailwindcss-animate";
 
+/* ============================================================
+   THEME TOKENS
+   One complete token set per program. Themes are applied as a
+   class on the app shell (ProtectedLayout); pages must never
+   redefine tokens inline.
+   ============================================================ */
+
 @layer base {
   :root {
-    /* DARK MODE DEFAULT */
-    --background: 222.2 84% 4.9%;
+    /* Base: dark steel (default / entry / onboarding) */
+    --background: 222 47% 6%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 222 44% 8%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 222 44% 8%;
     --popover-foreground: 210 40% 98%;
 
-    /* Primary: Electric Blue/Indigo */
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 8%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 217 33% 17%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 72% 45%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 217 91% 60%;
 
     --radius: 0.5rem;
   }
 
+  /* --- Bench Domination: iron purple + ember orange --- */
   .theme-bench-domination {
-    /* Purple/Orange Theme */
-    --primary: 262 83% 58%;
-    /* Purple */
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 262 50% 15%;
-    /* Dark Purple */
-    --secondary-foreground: 210 40% 98%;
-
+    --background: 250 25% 7%;
+    --foreground: 250 20% 96%;
+    --card: 250 22% 10%;
+    --card-foreground: 250 20% 96%;
+    --popover: 250 22% 10%;
+    --popover-foreground: 250 20% 96%;
+    --primary: 262 83% 62%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 260 40% 16%;
+    --secondary-foreground: 250 20% 96%;
+    --muted: 255 20% 16%;
+    --muted-foreground: 252 12% 70%;
     --accent: 25 95% 53%;
-    /* Orange */
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --ring: 262 83% 58%;
+    --accent-foreground: 20 60% 8%;
+    --border: 256 24% 18%;
+    --input: 256 24% 18%;
+    --ring: 262 83% 62%;
   }
 
+  /* --- Pencilneck Eradication: blood red on black --- */
   .theme-pencilneck {
-    /* Red/Black Theme */
+    --background: 0 15% 6%;
+    --foreground: 0 10% 96%;
+    --card: 0 14% 9%;
+    --card-foreground: 0 10% 96%;
+    --popover: 0 14% 9%;
+    --popover-foreground: 0 10% 96%;
     --primary: 0 72% 51%;
-    /* Red */
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 0 50% 10%;
-    /* Dark Red */
-    --secondary-foreground: 0 0% 98%;
-
-    --accent: 0 0% 90%;
-    /* Silver */
-    --accent-foreground: 0 0% 0%;
-
+    --secondary: 0 45% 13%;
+    --secondary-foreground: 0 10% 96%;
+    --muted: 0 12% 15%;
+    --muted-foreground: 0 8% 68%;
+    --accent: 0 0% 88%;
+    --accent-foreground: 0 0% 8%;
+    --border: 0 25% 17%;
+    --input: 0 25% 17%;
     --ring: 0 72% 51%;
   }
 
+  /* --- Skeleton → Threat: toxic green over dark rot --- */
   .theme-skeleton {
-    /* Toxic Green/Red Theme */
+    --background: 120 12% 6%;
+    --foreground: 110 15% 94%;
+    --card: 120 12% 9%;
+    --card-foreground: 110 15% 94%;
+    --popover: 120 12% 9%;
+    --popover-foreground: 110 15% 94%;
     --primary: 110 90% 45%;
-    /* Toxic Green */
-    --primary-foreground: 0 0% 0%;
-    /* Black text on green */
-
-    --secondary: 0 60% 15%;
-    /* Dark Red bg */
-    --secondary-foreground: 0 0% 98%;
-
-    --accent: 0 70% 40%;
-    /* Red accents */
+    --primary-foreground: 110 100% 6%;
+    --secondary: 0 55% 14%;
+    --secondary-foreground: 0 10% 96%;
+    --muted: 110 10% 15%;
+    --muted-foreground: 110 10% 68%;
+    --accent: 0 70% 42%;
     --accent-foreground: 0 0% 98%;
-
+    --border: 115 18% 16%;
+    --input: 115 18% 16%;
     --ring: 110 90% 45%;
-
-    /* Optional: Make card backgrounds slightly tinted? */
-    /* --card: 110 30% 5%; */
   }
 
-  .super-mutant-theme {
-    /* Fallout Wasteland Theme - Toxic Green + Radiation Orange */
-    --primary: 120 100% 35%;
-    /* Toxic Green #00FF41 */
-    --primary-foreground: 0 0% 0%;
-
-    --secondary: 30 100% 50%;
-    /* Radiation Orange #FF6600 */
-    --secondary-foreground: 0 0% 100%;
-
-    --accent: 30 100% 50%;
-    /* Orange accents */
-    --accent-foreground: 0 0% 100%;
-
-    --background: 120 20% 8%;
-    /* Dark wasteland */
-    --foreground: 120 100% 80%;
-    /* Light green text */
-
-    --card: 120 20% 10%;
-    /* Slightly lighter than bg */
-    --card-foreground: 120 100% 80%;
-
-    --border: 120 100% 20%;
-    /* Dark green borders */
-    --ring: 120 100% 35%;
+  /* --- Peachy: the one light theme. Rose, soft, high contrast text --- */
+  .theme-peachy {
+    --background: 340 60% 97%;
+    --foreground: 340 60% 16%;
+    --card: 340 70% 99%;
+    --card-foreground: 340 60% 16%;
+    --popover: 340 70% 99%;
+    --popover-foreground: 340 60% 16%;
+    --primary: 340 80% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 340 55% 92%;
+    --secondary-foreground: 340 70% 22%;
+    --muted: 340 30% 92%;
+    --muted-foreground: 340 30% 36%;
+    --accent: 340 55% 92%;
+    --accent-foreground: 340 70% 22%;
+    --destructive: 0 84% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 340 40% 86%;
+    --input: 340 40% 86%;
+    --ring: 340 80% 52%;
   }
 
+  /* --- Pain & Glory: dark arena, torch-lit sand + blood --- */
   .theme-pain-glory {
-    /* Sandy Arena with Blood Accents Theme */
-    --primary: 0 75% 45%;
-    /* Blood Red */
+    --background: 35 30% 10%;
+    --foreground: 35 25% 92%;
+    --card: 35 26% 13%;
+    --card-foreground: 35 25% 92%;
+    --popover: 35 26% 13%;
+    --popover-foreground: 35 25% 92%;
+    --primary: 0 68% 48%;
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 35 40% 80%;
-    /* Light sand */
-    --secondary-foreground: 0 0% 15%;
-
-    --accent: 0 70% 50%;
-    /* Bright blood red accent */
-    --accent-foreground: 0 0% 100%;
-
-    --background: 40 35% 88%;
-    /* Sandy beige background */
-    --foreground: 0 0% 10%;
-    /* Very dark text */
-
-    --card: 40 30% 92%;
-    /* Lighter sand for cards */
-    --card-foreground: 0 0% 10%;
-
-    --muted: 35 25% 75%;
-    /* Muted sand */
-    --muted-foreground: 0 0% 30%;
-    /* Dark gray text */
-
-    --border: 35 30% 65%;
-    /* Sandy border */
-    --input: 40 25% 95%;
-    /* Very light sand for inputs */
-    --ring: 0 75% 45%;
+    --secondary: 35 40% 22%;
+    --secondary-foreground: 35 25% 92%;
+    --muted: 35 20% 18%;
+    --muted-foreground: 35 18% 68%;
+    --accent: 40 65% 55%;
+    --accent-foreground: 35 60% 10%;
+    --border: 35 28% 22%;
+    --input: 35 28% 22%;
+    --ring: 0 68% 48%;
   }
 
+  /* --- Trinary: cold machined steel with a jade edge --- */
   .theme-trinary {
-    /* Green/Purple Conjugate Theme */
-    --primary: 150 70% 45%;
-    /* Teal/Green */
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 280 60% 25%;
-    /* Dark Purple */
-    --secondary-foreground: 0 0% 98%;
-
-    --accent: 150 70% 40%;
-    /* Green accents */
+    --background: 220 15% 8%;
+    --foreground: 220 10% 93%;
+    --card: 220 14% 11%;
+    --card-foreground: 220 10% 93%;
+    --popover: 220 14% 11%;
+    --popover-foreground: 220 10% 93%;
+    --primary: 150 60% 45%;
+    --primary-foreground: 150 80% 6%;
+    --secondary: 220 12% 18%;
+    --secondary-foreground: 220 10% 93%;
+    --muted: 220 12% 16%;
+    --muted-foreground: 220 8% 68%;
+    --accent: 280 45% 40%;
     --accent-foreground: 0 0% 100%;
-
-    --background: 220 20% 8%;
-    /* Dark slate bg */
-    --foreground: 0 0% 95%;
-    /* Light text */
-
-    --card: 220 20% 10%;
-    /* Slightly lighter than bg */
-    --card-foreground: 0 0% 95%;
-
-    --muted: 220 15% 20%;
-    /* Dark gray muted */
-    --muted-foreground: 0 0% 65%;
-    /* Medium gray text */
-
-    --border: 220 20% 18%;
-    /* Dark borders */
-    --input: 220 15% 20%;
-    /* Dark input bg */
-    --ring: 150 70% 45%;
+    --border: 220 13% 19%;
+    --input: 220 13% 19%;
+    --ring: 150 60% 45%;
   }
 
-  /* Super Mutant special effects */
-  .mutant-glow {
-    box-shadow: 0 0 10px hsl(120 100% 35% / 0.3);
+  /* --- Ritual of Strength: candlelit black, deep red --- */
+  .theme-ritual {
+    --background: 0 0% 4%;
+    --foreground: 0 15% 94%;
+    --card: 0 8% 8%;
+    --card-foreground: 0 15% 94%;
+    --popover: 0 8% 8%;
+    --popover-foreground: 0 15% 94%;
+    --primary: 0 80% 42%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 12% 14%;
+    --secondary-foreground: 0 15% 94%;
+    --muted: 0 6% 16%;
+    --muted-foreground: 0 10% 66%;
+    --accent: 20 70% 45%;
+    --accent-foreground: 0 0% 100%;
+    --border: 0 25% 15%;
+    --input: 0 25% 15%;
+    --ring: 0 80% 42%;
   }
 
-  .mutant-text {
-    color: hsl(120 100% 35%);
-    text-shadow: 0 0 8px hsl(120 100% 35% / 0.5);
-  }
-
-  .radiation-text {
-    color: hsl(30 100% 50%);
-    text-shadow: 0 0 8px hsl(30 100% 50% / 0.4);
+  /* --- Super Mutant: irradiated wasteland --- */
+  .theme-super-mutant {
+    --background: 120 20% 7%;
+    --foreground: 120 45% 86%;
+    --card: 120 18% 10%;
+    --card-foreground: 120 45% 86%;
+    --popover: 120 18% 10%;
+    --popover-foreground: 120 45% 86%;
+    --primary: 120 100% 38%;
+    --primary-foreground: 120 100% 5%;
+    --secondary: 30 90% 45%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 120 16% 15%;
+    --muted-foreground: 120 22% 65%;
+    --accent: 30 100% 50%;
+    --accent-foreground: 30 100% 8%;
+    --border: 120 40% 17%;
+    --input: 120 16% 15%;
+    --ring: 120 100% 38%;
   }
 }
+
+/* ============================================================
+   BASE
+   ============================================================ */
 
 @layer base {
   * {
@@ -216,28 +228,72 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  /* Weights and reps are the content: keep digits aligned everywhere */
+  input, .font-mono, table {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ============================================================
+   THEME EFFECTS (opt-in utilities, motion-safe)
+   ============================================================ */
+
+.mutant-glow {
+  box-shadow: 0 0 14px hsl(120 100% 38% / 0.25);
+}
+
+.mutant-text {
+  color: hsl(120 100% 42%);
+  text-shadow: 0 0 8px hsl(120 100% 38% / 0.45);
+}
+
+.radiation-text {
+  color: hsl(30 100% 55%);
+  text-shadow: 0 0 8px hsl(30 100% 50% / 0.35);
 }
 
 @keyframes shimmer {
-  0% {
+  0%, 100% {
     color: hsl(var(--primary));
     text-shadow: 0 0 5px hsl(var(--primary) / 0.5);
   }
-
   50% {
     color: hsl(var(--accent));
     text-shadow: 0 0 15px hsl(var(--accent) / 0.8);
-  }
-
-  100% {
-    color: hsl(var(--primary));
-    text-shadow: 0 0 5px hsl(var(--primary) / 0.5);
   }
 }
 
 .shimmer-text {
   animation: shimmer 3s infinite;
 }
+
+.shimmer-img {
+  filter: drop-shadow(0 0 10px hsl(var(--primary) / 0.5));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-text {
+    animation: none;
+    color: hsl(var(--primary));
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   FORM QUIRKS
+   ============================================================ */
 
 /* Hide number input arrows */
 input[type=number]::-webkit-inner-spin-button,

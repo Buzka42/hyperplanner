@@ -20,13 +20,11 @@ export const Entry: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
-        console.log("Submitting codeword:", codeword);
         if (!codeword.trim()) return;
 
         setLoading(true);
         try {
             const result = await checkCodeword(codeword);
-            console.log("Check result:", result);
             if (result === 'exists') {
                 navigate('/app/dashboard');
             } else if (result === 'admin') {
@@ -60,7 +58,7 @@ export const Entry: React.FC = () => {
                     <img src="/logo.png" alt="Hyper Planner Logo" className="w-24 h-24 object-contain mb-4 opacity-90 grayscale contrast-125" />
                     <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
                         {t('entry.title')}
-                        <span className="text-zinc-800 block text-6xl mt-1 tracking-tighter">{t('entry.subtitle')}</span>
+                        <span className="text-zinc-400 block text-6xl mt-1 tracking-tighter">{t('entry.subtitle')}</span>
                     </h1>
                     <p className="text-muted-foreground mt-4 text-lg">
                         {t('entry.description')}

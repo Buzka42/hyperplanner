@@ -3,59 +3,7 @@
 
 import type { Program, PlanConfig, WorkoutDay, UserProfile, Exercise } from '../types';
 
-// Super Mutant specific status tracking
-export type SuperMutantStatus = {
-    completedWorkouts: number;
-    currentCycle: number; // 1-4 (tracks which 4-week cycle user is in)
-    muscleGroupTimestamps: {
-        chest?: number;
-        shoulders?: number;
-        triceps?: number;
-        back?: number;
-        biceps?: number;
-        calves?: number;
-        hamstrings?: number;
-        glutes?: number;
-        lowerBack?: number;
-        quads?: number;
-        abductors?: number;
-        abs?: number;
-    };
-    rolling7DayVolume: {
-        chest: number;
-        shoulders: number;
-        triceps: number;
-        back: number;
-        biceps: number;
-        calves: number;
-        hamstrings: number;
-        glutes: number;
-        lowerBack: number;
-        quads: number;
-        abductors: number;
-        abs: number;
-    };
-    // Alternation tracking
-    chestVariant: 'A' | 'B';
-    backVariant: 'A' | 'B';
-    // Block alternation for new queue system
-    nextUpperBlock?: 'A' | 'B'; // Chest/Tri/Bi (A) or Back/Shoulders/Calves (B)
-    nextLowerBlock?: 'C' | 'D'; // Hams/Glutes/LBack (C) or Quads/Abd/Abs (D)
-    // Weak point tracking
-    lastWeakPointCheck?: number; // workout number
-    weakPointMuscle?: string;
-    // Mutation reminders
-    lastMutationReminder?: number; // workout number
-    // Initial 1RMs
-    bench1RM: number;
-    deadlift1RM: number;
-    squat1RM: number;
-    // Exercise preferences
-    quadExercise: 'Hack Squat' | 'Front Squat';
-    hamstringExercise: 'Good Mornings' | 'Deficit RDLs';
-    // Weekly session tracking for cap
-    weeklySessionDates?: string[]; // Last 7 days of session dates
-};
+export type { SuperMutantStatus } from '../types';
 
 // Cooldown periods in hours
 const COOLDOWN_PERIODS = {
@@ -309,10 +257,8 @@ function calculateReactiveSetsForMuscle(current7DayVolume: number, isPreExhaustO
     const lowerBodyMuscles = ['hamstrings', 'glutes', 'lowerBack', 'abs', 'abductors'];
     if ((!current7DayVolume || current7DayVolume === 0 || isNaN(current7DayVolume))) {
         if (muscleGroup && lowerBodyMuscles.includes(muscleGroup)) {
-            console.log(`[Super Mutant] ${muscleGroup}: No volume, starting at MAX 4 sets (lower body)`);
             return 4;
         }
-        console.log('[Super Mutant] No volume history, starting with 2 sets');
         return 2;
     }
 
@@ -333,7 +279,6 @@ function calculateReactiveSetsForMuscle(current7DayVolume: number, isPreExhaustO
     // Constrain to 2-4 sets range
     let sets = Math.max(2, Math.min(4, setsPerWorkout));
 
-    console.log(`[Super Mutant] Volume: ${current7DayVolume}, Estimated workouts left: ${estimatedMuscleWorkouts}, Sets: ${sets}`);
 
     return sets;
 }
@@ -352,13 +297,21 @@ export function isMuscleGroupReady(lastTrainTime: number | undefined, muscleGrou
     return (Date.now() - lastTrainTime) >= effectiveCooldownMs;
 }
 
-// Calculate RIR (Reps in Reserve) based on week within current 4-week cycle
+// Calculate RIR (Reps in Reserve) based on week within current 4-week cycle.
+// A cycle is 28 workouts (4 weeks at ~7/week); each 7-workout block is one week.
 function getRIRForWeek(completedWorkouts: number): number {
-    const weekInCycle = (completedWorkouts % 28) % 4; // 0-3 within each 4-week cycle
+    const weekInCycle = Math.floor((completedWorkouts % 28) / 7); // 0-3 within each 4-week cycle
     if (weekInCycle === 0) return 2; // Week 1: 2 RIR
     if (weekInCycle === 1) return 1; // Week 2: 1 RIR
     if (weekInCycle === 2) return 0; // Week 3: Failure
     return -1; // Week 4: Past failure (intensification techniques)
+}
+
+// Derive the current 4-week cycle (1-4) from workout count. The stored
+// status.currentCycle is never advanced by the app, so counting workouts is
+// the reliable source (28 workouts = one cycle).
+function getCurrentCycle(completedWorkouts: number): number {
+    return Math.floor(completedWorkouts / 28) + 1;
 }
 
 // Get RIR message for display
@@ -491,7 +444,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
         return {
             dayName: `DELOAD Week 9 – ${cluster.name} (Light Recovery)`,
             dayOfWeek: dayNum,
-            exercises: []
+            exercises
         };
     }
 
@@ -582,8 +535,8 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
         const mainNotes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
         const finishNotes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('finisher')}` : rirMessage;
 
-        const mainReps = getRepRange(status.currentCycle, 'main');
-        const isolationReps = getRepRange(status.currentCycle, 'isolation');
+        const mainReps = getRepRange(getCurrentCycle(status.completedWorkouts), 'main');
+        const isolationReps = getRepRange(getCurrentCycle(status.completedWorkouts), 'isolation');
 
         let chestSets = calculateReactiveSetsForMuscle(chestVolume, false, status);
 
@@ -640,7 +593,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
         const variant = status.backVariant;
         const backEx = EXERCISES.back[variant];
         const backNotes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-        const mainReps = getRepRange(status.currentCycle, 'main');
+        const mainReps = getRepRange(getCurrentCycle(status.completedWorkouts), 'main');
 
         exercises.push(...backEx.map(e => ({
             ...e,
@@ -653,7 +606,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
         if (!shouldersOverVolume) {
             const shouldersVolume = (status.rolling7DayVolume.shoulders || 0);
             const shouldersNotes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-            const isolationReps = getRepRange(status.currentCycle, 'isolation');
+            const isolationReps = getRepRange(getCurrentCycle(status.completedWorkouts), 'isolation');
             exercises.push(...EXERCISES.shoulders.map(e => ({
                 ...e,
                 sets: calculateReactiveSetsForMuscle(shouldersVolume, false, status),
@@ -665,7 +618,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
         // Calves (always included)
         const calvesVolume = (status.rolling7DayVolume.calves || 0);
         const calvesNotes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-        const isolationReps = getRepRange(status.currentCycle, 'isolation');
+        const isolationReps = getRepRange(getCurrentCycle(status.completedWorkouts), 'isolation');
         exercises.push(...EXERCISES.calves.map(e => ({
             ...e,
             sets: calculateReactiveSetsForMuscle(calvesVolume, false, status, 'calves'),
@@ -678,7 +631,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
 
     // LOWER BLOCK (if ready and time permits)
     if (includeLower && sessionTime + 20 <= 90) {
-        const mainReps = getRepRange(status.currentCycle, 'main');
+        const mainReps = getRepRange(getCurrentCycle(status.completedWorkouts), 'main');
 
         if (lowerBlock === 'C') {
             // Block C: Hamstrings / Glutes / Lower Back
@@ -701,7 +654,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
 
             const quadsVolume = (status.rolling7DayVolume.quads || 0);
             const quadsNotes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
-            const isolationReps = getRepRange(status.currentCycle, 'isolation');
+            const isolationReps = getRepRange(getCurrentCycle(status.completedWorkouts), 'isolation');
 
             exercises.push(...EXERCISES.quads(status.quadExercise).map(e => ({
                 ...e,
@@ -750,16 +703,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     const dayName = `Workout ${status.completedWorkouts + 1} – ${clusterNames.join(' + ')}`;
 
     // Use workout count as week so each workout has unique save slot
-    const weekNum = Math.floor(status.completedWorkouts / 7) + 1;
     const dayNum = (status.completedWorkouts % 7) + 1;
-
-    console.log('[Super Mutant] Generated workout:', {
-        clusters: clusterNames,
-        week: weekNum,
-        day: dayNum,
-        exerciseCount: exercises.length,
-        exercises: exercises.map(e => ({ name: e.name, sets: e.sets, id: e.id }))
-    });
 
     return {
         dayName,
@@ -807,7 +751,6 @@ export const SUPER_MUTANT_CONFIG: PlanConfig = {
         preprocessDay: (day, user) => {
             // Generate next workout dynamically
             const nextWorkout = generateNextWorkout(user);
-            console.log('[preprocessDay] OUTPUT:', nextWorkout);
             if (nextWorkout) {
                 return nextWorkout;
             }

@@ -132,5 +132,25 @@ export const useLanguage = (): LanguageContextType => {
     return context;
 };
 
+/**
+ * Resolves program-generated strings that carry a translation marker:
+ * "t:some.key" or "t:some.key|{"param":"value"}".
+ * Used for dayName and advice-pill strings returned by plan hooks, which
+ * run outside React and can't call t() directly.
+ */
+export const resolveTemplate = (value: string, t: LanguageContextType['t']): string => {
+    if (!value.startsWith('t:')) return value;
+    const raw = value.substring(2);
+    const sepIndex = raw.indexOf('|');
+    if (sepIndex === -1) return t(raw);
+    const key = raw.substring(0, sepIndex);
+    try {
+        const params = JSON.parse(raw.substring(sepIndex + 1));
+        return t(key, params);
+    } catch {
+        return t(key);
+    }
+};
+
 export { translations };
 

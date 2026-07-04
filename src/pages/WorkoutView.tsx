@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { useLanguage } from '../contexts/useTranslation';
+import { useLanguage, resolveTemplate } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
@@ -21,6 +21,29 @@ interface SetLog {
     weight: string;
     completed: boolean | null;
 }
+
+// The number of sets the PLAN itself prescribes for this exercise (before any
+// user-added extra sets). Shared between initial-state setup and the
+// remove-extra-set guard so they can never disagree.
+const getBaseSetsCount = (ex: { name: string; sets: number; giantSetConfig?: { steps: unknown[] } }, weekNum: number, programId: string): number => {
+    const isGiantSet = !!ex.giantSetConfig;
+    const isPullup = ex.name.includes("Pull-ups") && ex.sets === 0;
+
+    let pullupSetCount = 1;
+    if (isPullup && programId === 'bench-domination') {
+        if (weekNum >= 1 && weekNum <= 6) {
+            pullupSetCount = 1;
+        } else if (weekNum >= 7 && weekNum <= 9) {
+            pullupSetCount = 7;
+        } else if (weekNum >= 10 && weekNum <= 15) {
+            pullupSetCount = 5;
+        }
+    }
+
+    return isGiantSet
+        ? ex.sets * (ex.giantSetConfig?.steps.length || 1)
+        : (isPullup ? pullupSetCount : ex.sets);
+};
 
 export const WorkoutView: React.FC = () => {
     const { week, day } = useParams();
@@ -112,7 +135,6 @@ export const WorkoutView: React.FC = () => {
 
         const initView = async () => {
             try {
-                console.log('[initView] CALLED - week:', weekNum, 'day:', dayNum, 'dayData exists:', !!dayData);
 
                 // SOFT SAVE: Try to load from localStorage first
                 const programId = activePlanConfig.program.id;
@@ -122,7 +144,6 @@ export const WorkoutView: React.FC = () => {
                 if (savedDraft) {
                     try {
                         const parsed = JSON.parse(savedDraft);
-                        console.log('[initView] Loaded soft-saved draft from localStorage');
                         setExerciseData(parsed.exerciseData || {});
                         setExerciseNotes(parsed.exerciseNotes || {});
                         // Continue with loading history for previous stats, but don't overwrite the form
@@ -200,9 +221,7 @@ export const WorkoutView: React.FC = () => {
                         setExerciseNotes(loadedNotes);
                     }
                 }
-                console.log('[initView] loaded:', loaded, 'About to check if we should initialize');
                 if (!loaded) {
-                    console.log('[initView] No existing log, calling initializeEmptyState');
                     initializeEmptyState();
                 }
 
@@ -275,7 +294,7 @@ export const WorkoutView: React.FC = () => {
                     const isDeloadWeek = programData.id === 'bench-domination' && (weekNum === 9 || weekNum === 13);
                     if (activePlanConfig.hooks?.getExerciseAdvice && !isDeloadWeek) {
                         const hookAdvice = activePlanConfig.hooks.getExerciseAdvice(currentEx, exHistory);
-                        if (hookAdvice) advice = hookAdvice;
+                        if (hookAdvice) advice = resolveTemplate(hookAdvice, t);
                     }
 
                     if (lastLabel) {
@@ -290,34 +309,13 @@ export const WorkoutView: React.FC = () => {
         };
 
         const initializeEmptyState = () => {
-            console.log('[initializeEmptyState] dayData check:', !!dayData, dayData);
             if (!dayData) return;
             const initialData: Record<string, SetLog[]> = {};
             dayData.exercises.forEach(ex => {
                 const isGiantSet = !!ex.giantSetConfig;
-                const isPullup = ex.name.includes("Pull-ups") && ex.sets === 0;
 
-                // Pull-up week-specific set count for Bench Domination EMOM
-                let pullupSetCount = 1;
-                if (isPullup && programData.id === 'bench-domination') {
-                    if (weekNum >= 1 && weekNum <= 6) {
-                        // Weeks 1-6: Start with 1 set, grows dynamically via EMOM
-                        pullupSetCount = 1;
-                    } else if (weekNum >= 7 && weekNum <= 9) {
-                        // Weeks 7-9: 1 max triple + 6 back-off sets = 7 total
-                        pullupSetCount = 7;
-                    } else if (weekNum >= 10 && weekNum <= 15) {
-                        // Weeks 10-15 (including peaking): 5 sets
-                        pullupSetCount = 5;
-                    }
-                }
+                const setsCount = getBaseSetsCount(ex, weekNum, programData.id);
 
-                // If giant set, sets = defined sets * steps count
-                const setsCount = isGiantSet
-                    ? ex.sets * (ex.giantSetConfig?.steps.length || 1)
-                    : (isPullup ? pullupSetCount : ex.sets);
-
-                console.log('[WorkoutView Init]', ex.name, 'ex.sets:', ex.sets, 'setsCount:', setsCount);
 
                 // Pullup special case fallback: logic moved to hook but UI needs default init?
                 // Hook 'calculateWeight' might handle the 'weight' field init.
@@ -366,7 +364,6 @@ export const WorkoutView: React.FC = () => {
         };
 
         localStorage.setItem(softSaveKey, JSON.stringify(draftData));
-        console.log('[SOFT SAVE] Saved draft to localStorage');
     }, [exerciseData, exerciseNotes, user, dayData, weekNum, dayNum, activePlanConfig.program.id]);
 
     const handleSetChange = (exId: string, setIndex: number, field: 'reps' | 'weight', value: string, isPullup: boolean = false, suggestedReps: string = "0") => {
@@ -516,6 +513,21 @@ export const WorkoutView: React.FC = () => {
         });
     };
 
+    // Remove Extra Set Handler - only allows trimming sets added beyond the plan's base count
+    const handleRemoveExtraSet = (exId: string) => {
+        setExerciseData(prev => {
+            const currentSets = [...(prev[exId] || [])];
+            const ex = dayData?.exercises.find(e => e.id === exId);
+            if (!ex) return prev;
+
+            const baseCount = getBaseSetsCount(ex, weekNum, programData.id);
+            if (currentSets.length <= baseCount) return prev;
+
+            currentSets.pop();
+            return { ...prev, [exId]: currentSets };
+        });
+    };
+
     const handleSaveSession = async () => {
         if (!user) return;
         setSubmitting(true);
@@ -554,26 +566,21 @@ export const WorkoutView: React.FC = () => {
                         const topRep = targetRepsArr[1] || targetRepsArr[0];
                         const currentWeight = parseFloat(sets[0].weight || "0");
 
-                        console.log(`[BTN DEBUG] Current weight: ${currentWeight}, Top rep: ${topRep}`);
-                        console.log(`[BTN DEBUG] Sets:`, sets.map(s => ({ weight: s.weight, reps: s.reps })));
 
                         if (currentWeight > 0) {
                             // Check if all sets hit top of rep range
                             const allTop = sets.every(s => parseInt(s.reps) >= topRep);
-                            console.log(`[BTN DEBUG] All sets hit top? ${allTop}`);
 
                             if (allTop) {
                                 // Save progression for NEXT week
                                 newStats.btnPress = currentWeight + 2.5;
                                 newStats.btnPressWeek = weekNum; // Track which week this was earned in
                                 updated = true;
-                                console.log(`[BTN DEBUG] Saving new weight: ${newStats.btnPress} for week ${weekNum}`);
                             } else {
                                 // Keep current weight
                                 newStats.btnPress = currentWeight;
                                 newStats.btnPressWeek = weekNum;
                                 updated = true;
-                                console.log(`[BTN DEBUG] Keeping weight: ${newStats.btnPress}`);
                             }
                         }
                     }
@@ -655,7 +662,6 @@ export const WorkoutView: React.FC = () => {
                             const firstSetWeight = parseFloat(sets[0].weight || "0");
                             if (firstSetWeight > 0) {
                                 updatePayload.pullup1RM = firstSetWeight;
-                                console.log(`[PULLUP 1RM] Saved Week 10 1RM: ${firstSetWeight} kg`);
                             }
                         }
                     }
@@ -682,7 +688,6 @@ export const WorkoutView: React.FC = () => {
                         });
                         deloadUpdates['benchDominationStatus.forcedDeloadCompleted'] = true;
                         // Show message via toast or notification
-                        console.log('[DELOAD] Forced deload added after week 8');
                     }
                 }
 
@@ -708,7 +713,6 @@ export const WorkoutView: React.FC = () => {
                                     type: 'forced' // Reactive trigger adds forced early
                                 });
                                 deloadUpdates['benchDominationStatus.forcedDeloadCompleted'] = true;
-                                console.log(`[DELOAD] Reactive deload triggered early at week ${weekNum} - poor AMRAP performance`);
                             }
                         }
                     }
@@ -729,7 +733,6 @@ export const WorkoutView: React.FC = () => {
                             insertAfterWeek: 5,
                             type: 'drop-recalc'
                         });
-                        console.log(`[DELOAD] Big drop detected at week 5: ${dropPercentage.toFixed(1)}% - extra deload week added`);
                     }
                 }
 
@@ -829,6 +832,23 @@ export const WorkoutView: React.FC = () => {
                 });
             }
 
+            // Skeleton: Planks time progression (+10s if all sets hit the current target)
+            if (programData.id === 'skeleton-to-threat' && !isExistingLog) {
+                const planksExercise = dayData?.exercises.find(ex => ex.name === "Planks");
+                if (planksExercise) {
+                    const sets = exerciseData[planksExercise.id];
+                    const targetSeconds = parseInt(planksExercise.target.reps.replace(/[^0-9]/g, '')) || 30;
+                    if (sets && sets.length >= planksExercise.sets) {
+                        const allHitTarget = sets.every(s => s.completed && parseInt(s.reps || "0") >= targetSeconds);
+                        if (allHitTarget) {
+                            await updateDoc(userRef, {
+                                'skeletonStatus.plankTargetSeconds': targetSeconds + 10
+                            });
+                        }
+                    }
+                }
+            }
+
             // Completion Logic Check (Persist Status)
             let navigateToDashboard = null;
 
@@ -836,7 +856,10 @@ export const WorkoutView: React.FC = () => {
                 if (user.selectedDays && user.selectedDays.length > 0) {
                     const maxSelectedDay = Math.max(...user.selectedDays);
                     if (dayNum === maxSelectedDay) {
-                        await updateDoc(userRef, { skeletonStatus: { completed: true, completionDate: new Date().toISOString() } });
+                        await updateDoc(userRef, {
+                            'skeletonStatus.completed': true,
+                            'skeletonStatus.completionDate': new Date().toISOString()
+                        });
                         navigateToDashboard = { showSkeletonCompletion: true };
                     }
                 }
@@ -992,12 +1015,14 @@ export const WorkoutView: React.FC = () => {
                     await updateDoc(userRef, updates);
 
                     // ME Progression: Check for RPE selection and apply progression based on RPE
+                    // Required rep count depends on the user's onboarding choice (1RM singles vs 3RM ladder)
                     for (const ex of dayData?.exercises || []) {
                         if (ex.name.includes('(ME)') && meRpeSelected[ex.id]) {
                             const sets = exerciseData[ex.id];
-                            if (sets && sets.length >= 3) {
-                                // Check if all sets hit 3 reps
-                                const allHit3 = sets.every(s => parseInt(s.reps) >= 3);
+                            const requiredReps = ex.sets <= 1 ? 1 : 3;
+                            if (sets && sets.length >= ex.sets) {
+                                // Check if all sets hit the required top reps
+                                const allHit3 = sets.every(s => parseInt(s.reps) >= requiredReps);
                                 if (allHit3) {
                                     // Determine progression amount based on RPE
                                     let progressionAmount = 0;
@@ -1023,7 +1048,7 @@ export const WorkoutView: React.FC = () => {
                                         if (liftKey) {
                                             const current1RM = trinaryStatus[liftKey] || 0;
                                             await updateDoc(userRef, {
-                                                [`trinaryStatus.${liftKey} `]: current1RM + progressionAmount
+                                                [`trinaryStatus.${liftKey}`]: current1RM + progressionAmount
                                             });
                                         }
                                     }
@@ -1044,7 +1069,8 @@ export const WorkoutView: React.FC = () => {
                                     if (baseName.toLowerCase().includes('bench') || baseName.toLowerCase().includes('press')) {
                                         liftType = 'bench';
                                     } else if (baseName.toLowerCase().includes('deadlift') || baseName.toLowerCase().includes('rdl') ||
-                                        baseName.toLowerCase().includes('deficit')) {
+                                        baseName.toLowerCase().includes('deficit') || baseName.toLowerCase().includes('hyperextension') ||
+                                        baseName.toLowerCase().includes('good morning')) {
                                         liftType = 'deadlift';
                                     } else if (baseName.toLowerCase().includes('squat') || baseName.toLowerCase().includes('box')) {
                                         liftType = 'squat';
@@ -1278,8 +1304,11 @@ export const WorkoutView: React.FC = () => {
                     const userRef = doc(db, 'users', user.id);
                     const updates: any = {};
 
-                    // Week 4 Ascension Test: Update 1RMs based on AMRAP performance
-                    if (weekNum === 4 && !isExistingLog) {
+                    // Ascension Test: Update 1RMs based on AMRAP performance.
+                    // Fires on EVERY ascension week (4, 8, 12, 16), not just week 4 —
+                    // it's gated by the exercise name, which only carries "Ascension Test"
+                    // on those weeks anyway (see isAscensionWeek in createRitualWeeks).
+                    if (!isExistingLog) {
                         for (const ex of dayData?.exercises || []) {
                             const sets = exerciseData[ex.id];
                             if (ex.name.includes('Ascension Test') && sets && sets.length > 0) {
@@ -1294,12 +1323,18 @@ export const WorkoutView: React.FC = () => {
                                         const new1RM = weight * (1 + reps / 30);
                                         const rounded1RM = Math.floor(new1RM / 2.5) * 2.5;
 
+                                        // Reset the lift's accumulated ME checkbox bonus — it was
+                                        // calculated against the OLD 1RM and would otherwise stack
+                                        // on top of the freshly-recalculated one.
                                         if (ex.name.includes('Bench')) {
                                             updates['ritualStatus.benchPress1RM'] = rounded1RM;
+                                            updates['ritualStatus.benchMEProgression'] = 0;
                                         } else if (ex.name.includes('Squat')) {
                                             updates['ritualStatus.squat1RM'] = rounded1RM;
+                                            updates['ritualStatus.squatMEProgression'] = 0;
                                         } else if (ex.name.includes('Deadlift')) {
                                             updates['ritualStatus.deadlift1RM'] = rounded1RM;
+                                            updates['ritualStatus.deadliftMEProgression'] = 0;
                                         }
                                     }
                                 }
@@ -1341,7 +1376,7 @@ export const WorkoutView: React.FC = () => {
 
                                         if (progressionKey) {
                                             const currentProgression = (ritualStatus as any)[progressionKey] || 0;
-                                            updates[`ritualStatus.${progressionKey} `] = currentProgression + progressionAmount;
+                                            updates[`ritualStatus.${progressionKey}`] = currentProgression + progressionAmount;
                                         }
                                     }
                                 }
@@ -1362,7 +1397,6 @@ export const WorkoutView: React.FC = () => {
                 const programId = activePlanConfig.program.id;
                 const softSaveKey = `workout_draft_${user.id}_${programId}_${weekNum}_${dayNum}`;
                 localStorage.removeItem(softSaveKey);
-                console.log('[SOFT SAVE] Cleared draft after completion');
 
                 navigate('/app/dashboard', { state: navigateToDashboard });
                 return;
@@ -1372,7 +1406,6 @@ export const WorkoutView: React.FC = () => {
             const programId = activePlanConfig.program.id;
             const softSaveKey = `workout_draft_${user.id}_${programId}_${weekNum}_${dayNum}`;
             localStorage.removeItem(softSaveKey);
-            console.log('[SOFT SAVE] Cleared draft after completion');
 
             navigate('/app/dashboard');
         } catch (e) {
@@ -1389,19 +1422,7 @@ export const WorkoutView: React.FC = () => {
 
     const resolveDayName = (name: string) => {
         if (name.startsWith('t:')) {
-            const raw = name.substring(2);
-            const sepIndex = raw.indexOf('|');
-            if (sepIndex !== -1) {
-                const key = raw.substring(0, sepIndex);
-                try {
-                    const params = JSON.parse(raw.substring(sepIndex + 1));
-                    return t(key, params);
-                } catch (e) {
-                    return t(key);
-                }
-            } else {
-                return t(raw);
-            }
+            return resolveTemplate(name, t);
         }
         return name;
     };
@@ -1410,10 +1431,7 @@ export const WorkoutView: React.FC = () => {
     const isSuperMutant = programData.id === 'super-mutant';
 
     return (
-        <div className={cn(
-            "space-y-6 pb-20",
-            isSuperMutant && "super-mutant-theme bg-background min-h-screen"
-        )}>
+        <div className="space-y-6 pb-20">
             {/* Pain & Glory: Deficit Snatch Grip RPE Modal */}
             {showDeficitModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-in fade-in duration-300">
@@ -1494,60 +1512,6 @@ export const WorkoutView: React.FC = () => {
                 </div>
             )}
 
-            {/* Pain & Glory Theme for WorkoutView */}
-            {activePlanConfig.id === 'pain-and-glory' && (
-                <style>{`
-                    :root {
-    --background: 35 30 % 12 %;
-    --foreground: 35 20 % 90 %;
-    --card: 35 25 % 15 %;
-    --card - foreground: 35 20 % 90 %;
-    --popover: 35 25 % 15 %;
-    --popover - foreground: 35 20 % 90 %;
-    --primary: 0 65 % 45 %;
-    --primary - foreground: 35 20 % 95 %;
-    --secondary: 35 40 % 25 %;
-    --secondary - foreground: 35 20 % 90 %;
-    --muted: 35 20 % 20 %;
-    --muted - foreground: 35 15 % 60 %;
-    --accent: 0 65 % 45 %;
-    --accent - foreground: 35 20 % 95 %;
-    --destructive: 0 84.2 % 60.2 %;
-    --destructive - foreground: 210 40 % 98 %;
-    --border: 35 30 % 25 %;
-    --input: 35 30 % 25 %;
-    --ring: 0 65 % 45 %;
-}
-`}</style>
-            )}
-
-            {/* Trinary Theme for WorkoutView */}
-            {activePlanConfig.id === 'trinary' && (
-                <style>{`
-                    :root {
-    --background: 240 10 % 10 %;
-    --foreground: 240 5 % 90 %;
-    --card: 240 8 % 14 %;
-    --card - foreground: 240 5 % 90 %;
-    --popover: 240 8 % 14 %;
-    --popover - foreground: 240 5 % 90 %;
-    --primary: 240 5 % 65 %;
-    --primary - foreground: 240 10 % 10 %;
-    --secondary: 240 4 % 20 %;
-    --secondary - foreground: 240 5 % 90 %;
-    --muted: 240 4 % 20 %;
-    --muted - foreground: 240 5 % 60 %;
-    --accent: 240 4 % 20 %;
-    --accent - foreground: 240 5 % 90 %;
-    --destructive: 0 62 % 30 %;
-    --destructive - foreground: 0 0 % 98 %;
-    --border: 240 6 % 25 %;
-    --input: 240 6 % 25 %;
-    --ring: 240 5 % 65 %;
-}
-`}</style>
-            )}
-
             <div className="flex items-center gap-2 mb-6">
                 <Button variant="ghost" size="icon" onClick={() => navigate('/app/dashboard')} className="-ml-2">
                     <ArrowLeft className="h-5 w-5" />
@@ -1556,7 +1520,7 @@ export const WorkoutView: React.FC = () => {
                     <h2 className="text-2xl font-bold tracking-tight">
                         {resolveDayName(dayData.dayName)}
                     </h2>
-                    <p className="text-muted-foreground">{t('common.week')} {weekNum} {isExistingLog && <span className={`font - bold ml - 2 ${activePlanConfig.id === 'pain-and-glory' ? 'text-red-500' : 'text-green-500'} `}>({t('workout.completed')})</span>}</p>
+                    <p className="text-muted-foreground">{t('common.week')} {weekNum} {isExistingLog && <span className={`font-bold ml-2 ${activePlanConfig.id === 'pain-and-glory' ? 'text-red-500' : 'text-green-500'}`}>({t('workout.completed')})</span>}</p>
                 </div>
             </div>
 
@@ -1618,8 +1582,9 @@ export const WorkoutView: React.FC = () => {
                     const isDragonFlag = ex.name.includes("Dragon Flags");
                     const isNordic = ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise";
                     const isAroundWorlds = ex.name === "Around-the-Worlds" || ex.name === "Power Hanging Leg Raises";
+                    const isPlank = ex.name === "Planks";
 
-                    const weightDisabled = isDragonFlag || isNordic || isAroundWorlds;
+                    const weightDisabled = isDragonFlag || isNordic || isAroundWorlds || isPlank;
 
 
                     // Tip Logic
@@ -1810,23 +1775,23 @@ export const WorkoutView: React.FC = () => {
                     let advice = prevStat?.advice || "";
 
                     return (
-                        <Card key={ex.id} className={`overflow-hidden ${isSuperMutant ? 'border-green-800/30 bg-gradient-to-br from-green-950/20 to-black' : ''}`}>
-                            <CardHeader className={`pb-3 ${isSuperMutant ? 'bg-green-950/10' : 'bg-secondary/10'}`}>
+                        <Card key={ex.id} className="overflow-hidden">
+                            <CardHeader className="pb-3 bg-secondary/10">
                                 <div className="flex justify-between items-start">
                                     <div className="w-full">
                                         <div className="flex justify-between w-full items-start gap-2">
                                             <div className="flex flex-col gap-1">
                                                 <CardTitle className={`text-lg leading-tight ${isSuperMutant ? 'mutant-text' : ''}`}>{ex.name}</CardTitle>
                                                 {prevStat && prevStat.weight !== "-" && (
-                                                    <div className="flex items-center gap-2 mt-1">
-                                                        <div className="inline-flex items-center gap-1.5 text-xs font-medium bg-gradient-to-r from-blue-500/15 to-indigo-500/10 border border-blue-500/20 text-blue-300 px-2.5 py-1 rounded-full">
-                                                            <span className="text-[10px] uppercase tracking-wider text-blue-400/70">{t('workout.last')}</span>
+                                                    <div className="flex items-center flex-wrap gap-2 mt-1">
+                                                        <div className="inline-flex items-center gap-1.5 text-xs font-medium bg-muted/60 border border-border text-foreground/80 px-2.5 py-1 rounded-full">
+                                                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{t('workout.last')}</span>
                                                             <span className="font-mono font-bold">{prevStat.weight}{t('common.kg')}</span>
-                                                            <span className="text-blue-400/50">×</span>
+                                                            <span className="text-muted-foreground">×</span>
                                                             <span className="font-mono font-bold">{prevStat.reps}</span>
                                                         </div>
                                                         {advice && (
-                                                            <div className="inline-flex items-center gap-1 text-[11px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-1 rounded-full animate-pulse">
+                                                            <div className="inline-flex items-center gap-1 text-[11px] font-bold text-primary bg-primary/10 border border-primary/25 px-2 py-1 rounded-full">
                                                                 <AlertCircle className="h-3 w-3" />
                                                                 <span>{advice}</span>
                                                             </div>
@@ -1834,7 +1799,7 @@ export const WorkoutView: React.FC = () => {
                                                     </div>
                                                 )}
                                                 {!prevStat && advice && (
-                                                    <div className="inline-flex items-center gap-1 text-[11px] font-bold text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-1 rounded-full animate-pulse mt-1">
+                                                    <div className="inline-flex items-center gap-1 text-[11px] font-bold text-primary bg-primary/10 border border-primary/25 px-2 py-1 rounded-full mt-1">
                                                         <AlertCircle className="h-3 w-3" />
                                                         <span>{advice}</span>
                                                     </div>
@@ -1889,7 +1854,7 @@ export const WorkoutView: React.FC = () => {
                                     <div className="bg-muted/30 border-b border-border">
                                         <div className="p-1 text-[10px] font-bold text-muted-foreground uppercase tracking-wider text-center bg-muted/50">Warm Up (Not Logged)</div>
                                         {warmupSets.map((w, i) => (
-                                            <div key={`warmup - ${i} `} className="grid grid-cols-10 gap-2 p-1 px-2 items-center text-sm text-muted-foreground/60 select-none">
+                                            <div key={`warmup-${i}`} className="grid grid-cols-10 gap-2 p-1 px-2 items-center text-sm text-muted-foreground/60 select-none">
                                                 <div className="col-span-1 text-center text-[10px]">W{i + 1}</div>
                                                 <div className="col-span-4 text-center font-mono bg-muted/20 rounded mx-1">{w.weight} kg</div>
                                                 <div className="col-span-4 text-center font-mono bg-muted/20 rounded mx-1">{w.reps}</div>
@@ -1992,30 +1957,39 @@ export const WorkoutView: React.FC = () => {
                                     )}
                                 </div>
 
-                                {/* Add Extra Set Button */}
+                                {/* Add / Remove Extra Set Buttons */}
                                 <div className="mx-3 mt-2 pb-2 border-b border-border">
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="w-full text-xs text-muted-foreground hover:text-foreground"
-                                        onClick={() => handleAddExtraSet(ex.id)}
-                                    >
-                                        + Add Extra Set
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="flex-1 text-xs text-muted-foreground hover:text-foreground"
+                                            onClick={() => handleAddExtraSet(ex.id)}
+                                        >
+                                            + Add Extra Set
+                                        </Button>
+                                        {sets.length > getBaseSetsCount(ex, weekNum, programData.id) && (
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="flex-1 text-xs text-muted-foreground hover:text-foreground"
+                                                onClick={() => handleRemoveExtraSet(ex.id)}
+                                            >
+                                                − Remove Extra Set
+                                            </Button>
+                                        )}
+                                    </div>
                                     <p className="text-[10px] text-center text-orange-400/60 mt-1">⚠️ Not recommended - only if needed</p>
                                 </div>
 
-                                {/* Flashy Intensity Technique Message */}
+                                {/* Intensity Technique callout */}
                                 {ex.intensityTechnique && (
-                                    <div className="mx-3 mt-3 p-3 bg-gradient-to-r from-orange-500/20 to-red-500/20 border-2 border-orange-500 rounded-lg animate-pulse">
-                                        <div className="flex items-center gap-2 text-orange-500 font-bold text-sm">
-                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <div className="mx-3 mt-3 p-3 bg-accent/15 border border-accent rounded-lg">
+                                        <div className="flex items-center gap-2 font-bold text-sm text-foreground">
+                                            <svg className="w-4 h-4 shrink-0 text-accent" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                                                 <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
                                             </svg>
                                             <span className="uppercase tracking-wide">{ex.intensityTechnique}</span>
-                                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-                                            </svg>
                                         </div>
                                     </div>
                                 )}
@@ -2057,10 +2031,11 @@ export const WorkoutView: React.FC = () => {
                                     </div>
                                 )}
 
-                                {/* Trinary: RPE Selector for ME exercises (appears only if all sets hit 3 reps) */}
+                                {/* Trinary: RPE Selector for ME exercises (appears once all sets hit the required top reps) */}
                                 {programData.id === 'trinary' && ex.name.includes('(ME)') && (() => {
                                     const sets = exerciseData[ex.id] || [];
-                                    const allHit3 = sets.length >= 3 && sets.every(s => parseInt(s.reps) >= 3);
+                                    const requiredReps = ex.sets <= 1 ? 1 : 3;
+                                    const allHit3 = sets.length >= ex.sets && sets.every(s => parseInt(s.reps) >= requiredReps);
 
                                     if (!allHit3) return null;
 
@@ -2073,10 +2048,10 @@ export const WorkoutView: React.FC = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 7 }))}
-                                                    className={`p - 3 rounded border text - sm transition - all ${meRpeSelected[ex.id] === 7
+                                                    className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 7
                                                         ? 'bg-green-600 border-green-500 text-white'
                                                         : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
-                                                        } `}
+                                                        }`}
                                                 >
                                                     <div className="font-bold">RPE ≤7</div>
                                                     <div className="text-xs mt-1 opacity-80">+10kg</div>
@@ -2085,10 +2060,10 @@ export const WorkoutView: React.FC = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 7.5 }))}
-                                                    className={`p - 3 rounded border text - sm transition - all ${meRpeSelected[ex.id] === 7.5
+                                                    className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 7.5
                                                         ? 'bg-yellow-600 border-yellow-500 text-white'
                                                         : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
-                                                        } `}
+                                                        }`}
                                                 >
                                                     <div className="font-bold">RPE 7-8</div>
                                                     <div className="text-xs mt-1 opacity-80">+5kg</div>
@@ -2097,10 +2072,10 @@ export const WorkoutView: React.FC = () => {
                                                 <button
                                                     type="button"
                                                     onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 8.5 }))}
-                                                    className={`p - 3 rounded border text - sm transition - all ${meRpeSelected[ex.id] === 8.5
+                                                    className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 8.5
                                                         ? 'bg-red-600 border-red-500 text-white'
                                                         : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
-                                                        } `}
+                                                        }`}
                                                 >
                                                     <div className="font-bold">RPE 8-9</div>
                                                     <div className="text-xs mt-1 opacity-80">+2.5kg</div>

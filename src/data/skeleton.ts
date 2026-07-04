@@ -85,6 +85,13 @@ const SKELETON_CONFIG: PlanConfig = {
                     name: "Overhand Mid-Grip Pulldown",
                     sets: getSets(2),
                     target: { type: "range", reps: "10-15" }
+                },
+                {
+                    id: `sk-w${w}-d${day.dayOfWeek}-e7`,
+                    name: "Planks",
+                    sets: 3,
+                    target: { type: "straight", reps: `${user.skeletonStatus?.plankTargetSeconds || 30}sec` },
+                    notes: "t:tips.planksProgression"
                 }
             ];
 
@@ -129,13 +136,13 @@ const SKELETON_CONFIG: PlanConfig = {
             // 1. Deficit Push-ups
             if (exercise.name === "Deficit Push-ups") {
                 const maxReps = Math.max(...prevSets.map(s => parseInt(s.reps || "0")));
-                return `Try to beat: ${maxReps} reps this week`;
+                return `t:tips.skeletonBeatLastWeek|{"maxReps":${maxReps}}`;
             }
 
             // 2. Leg Extensions
             if (exercise.name === "Leg Extensions") {
                 // Top range 20
-                if (allHit(20)) return "Target reps hit across all sets last week! Add +5 kg";
+                if (allHit(20)) return "t:tips.skeletonLegExtensionsIncrease";
             }
 
             // 3. Supported Stiff Legged DB Deadlift
@@ -144,27 +151,33 @@ const SKELETON_CONFIG: PlanConfig = {
                 if (allHit(15)) {
                     // Check weight.
                     const maxWeight = Math.max(...prevSets.map(s => parseFloat(s.weight || "0")));
-                    if (maxWeight >= 10) return "Target reps hit across all sets last week! Add +2.5 kg";
-                    return "Target reps hit across all sets last week! Add +1 kg each dumbbell";
+                    if (maxWeight >= 10) return "t:tips.skeletonSLDLIncreaseKg";
+                    return "t:tips.skeletonSLDLIncreaseDB";
                 }
             }
 
             // 4. Standing Calf Raises / Single Leg
             if (exercise.name === "Standing Calf Raises") {
-                if (allHit(20)) return "Target reps hit across all sets last week! Now switch to single-leg";
+                if (allHit(20)) return "t:tips.skeletonCalvesSwitchSingleLeg";
             }
             if (exercise.name === "Single Leg Calf Raises") {
-                if (allHit(20)) return "Target reps hit across all sets last week! Add +5 kg dumbbell";
+                if (allHit(20)) return "t:tips.skeletonSingleLegCalvesIncrease";
             }
 
             // 5. Inverted Rows
             if (exercise.name === "Inverted Rows") {
-                if (allHit(15)) return "Target reps hit across all sets last week! Go deeper – decrease angle between legs and floor";
+                if (allHit(15)) return "t:tips.skeletonInvertedRowsDeeper";
             }
 
             // 6. Overhand Mid-Grip Pulldown
             if (exercise.name === "Overhand Mid-Grip Pulldown") {
-                if (allHit(15)) return "Target reps hit across all sets last week! Add +7 kg";
+                if (allHit(15)) return "t:tips.skeletonPulldownIncrease";
+            }
+
+            // 7. Planks — dynamic time target parsed from the current prescribed value
+            if (exercise.name === "Planks") {
+                const targetSeconds = parseInt(exercise.target.reps.replace(/[^0-9]/g, '')) || 30;
+                if (allHit(targetSeconds)) return "t:tips.increaseTime";
             }
 
             return null;

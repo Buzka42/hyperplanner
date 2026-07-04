@@ -42,6 +42,7 @@ export const Settings: React.FC = () => {
         deadlift: 0
     });
     const [excludedVariations, setExcludedVariations] = useState<string[]>([]);
+    const [reDeadliftVariant, setReDeadliftVariant] = useState<'Romanian Deadlift' | 'Reverse Hyperextensions' | 'Good Mornings'>('Romanian Deadlift');
     const [loading, setLoading] = useState(false);
     const [saved, setSaved] = useState(false);
 
@@ -74,6 +75,7 @@ export const Settings: React.FC = () => {
                 deadlift: user.trinaryStatus.deadlift1RM || 0
             });
             setExcludedVariations(user.trinaryStatus.excludedVariations || []);
+            setReDeadliftVariant(user.trinaryStatus.reDeadliftVariant || 'Romanian Deadlift');
         }
     }, [user]);
 
@@ -112,7 +114,8 @@ export const Settings: React.FC = () => {
                         bench1RM: trinaryStats.bench,
                         squat1RM: trinaryStats.squat,
                         deadlift1RM: trinaryStats.deadlift,
-                        excludedVariations: excludedVariations
+                        excludedVariations: excludedVariations,
+                        reDeadliftVariant: reDeadliftVariant
                     };
                 }
             }
@@ -422,6 +425,27 @@ export const Settings: React.FC = () => {
                                 />
                                 <span className="text-sm text-muted-foreground">kg</span>
                             </div>
+                        </div>
+
+                        <div className="border-t my-4 py-4">
+                            <h3 className="text-lg font-semibold mb-2">Repeated Effort Deadlift Movement</h3>
+                            <p className="text-sm text-muted-foreground mb-4">
+                                Choose the movement used for your Repeated Effort (RE) deadlift slot. Weight is still based on your Deadlift 1RM.
+                            </p>
+                            <RadioGroup value={reDeadliftVariant} onValueChange={(v) => { setReDeadliftVariant(v as typeof reDeadliftVariant); setSaved(false); }}>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="Romanian Deadlift" id="re-rdl" />
+                                    <Label htmlFor="re-rdl" className="font-normal cursor-pointer">Romanian Deadlift</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="Reverse Hyperextensions" id="re-rhe" />
+                                    <Label htmlFor="re-rhe" className="font-normal cursor-pointer">Reverse Hyperextensions</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="Good Mornings" id="re-gm" />
+                                    <Label htmlFor="re-gm" className="font-normal cursor-pointer">Good Mornings</Label>
+                                </div>
+                            </RadioGroup>
                         </div>
 
                         <div className="border-t my-4 py-4">

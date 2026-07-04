@@ -111,7 +111,7 @@ export const PEACHY_CONFIG: PlanConfig = {
             if (ex.name === "Squats" && history.length > 0) {
                 const last = history[0];
                 if (last.setResults && last.setResults.length >= 3 && last.setResults.slice(0, 3).every(s => s.reps >= 10)) {
-                    return "You hit 3x10 last week! +2.5kg now.";
+                    return "t:tips.peachySquatsIncrease";
                 }
             }
 
@@ -125,7 +125,7 @@ export const PEACHY_CONFIG: PlanConfig = {
                     if (last.setResults && last.setResults.length >= ex.sets) {
                         const relevant = last.setResults.slice(0, ex.sets);
                         const allHit = relevant.every((s: any) => s.reps >= topRange);
-                        if (allHit) return "Increase Weight!";
+                        if (allHit) return "t:tips.increaseWeight";
                     }
                 }
             }
