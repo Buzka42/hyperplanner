@@ -1411,6 +1411,8 @@ export const WorkoutView: React.FC = () => {
     const unresolvedSetIndex = activeSets.findIndex(set => !set.completed);
     const activeSetIndex = unresolvedSetIndex >= 0 ? unresolvedSetIndex : Math.max(0, activeSets.length - 1);
     const activeSet = activeSets[activeSetIndex];
+    const activePreviousStat = activeExercise ? previousStats[activeExercise.name] : undefined;
+    const activeAdvice = activePreviousStat?.advice || "";
     const sessionProgress = sessionSets.length > 0 ? Math.round((completedSessionSets / sessionSets.length) * 100) : 0;
 
     const logActiveSet = () => {
@@ -1522,6 +1524,24 @@ export const WorkoutView: React.FC = () => {
                         <div>
                             <p className="live-set-label">Live set · {completedSessionSets + 1}/{sessionSets.length}</p>
                             <h1>{activeExercise.name}</h1>
+                            {(activePreviousStat || activeAdvice) && (
+                                <div className="live-set-history" aria-label="Previous performance and progression advice">
+                                    {activePreviousStat && activePreviousStat.weight !== "-" && (
+                                        <div className="live-set-history-pill">
+                                            <span>{t('workout.last')}</span>
+                                            <strong>{activePreviousStat.weight}{t('common.kg')}</strong>
+                                            <i aria-hidden="true">×</i>
+                                            <strong>{activePreviousStat.reps}</strong>
+                                        </div>
+                                    )}
+                                    {activeAdvice && (
+                                        <div className="live-set-advice-pill">
+                                            <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                                            <span>{activeAdvice}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
                         <div className="session-meter" aria-label={`${sessionProgress}% complete`}>
                             <strong>{sessionProgress}%</strong>
