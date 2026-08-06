@@ -117,7 +117,7 @@ export const WorkoutHistory: React.FC = () => {
     }
 
     return (
-        <div className="p-4 max-w-4xl mx-auto space-y-6 pb-20">
+        <div className="instrument-page history-ledger p-4 max-w-5xl mx-auto space-y-6 pb-24">
             <div className="flex items-center gap-4 mb-2">
                 <Button variant="ghost" size="icon" onClick={() => navigate('/app/dashboard')} className="hover:bg-zinc-800">
                     <ArrowLeft className="h-5 w-5" />

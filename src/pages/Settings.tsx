@@ -57,7 +57,7 @@ export const Settings: React.FC = () => {
             // Default preferences
             setPreferences({
                 "push-a-leg-primary": "Hack Squat",
-                "push-b-fly": "Pec-Dec",
+                "push-b-fly": "Pec Deck",
                 "push-b-leg-secondary": "Front Squats"
             });
         }
@@ -178,7 +178,7 @@ export const Settings: React.FC = () => {
     if (!user) return null;
 
     return (
-        <div className="space-y-6 animate-in fade-in duration-500 pb-20">
+        <div className="instrument-page settings-console space-y-6 pb-24">
             <div>
                 <h2 className="text-3xl font-bold tracking-tight">{t('settings.title')}</h2>
                 <p className="text-muted-foreground">{t('settings.description')}</p>
@@ -215,8 +215,8 @@ export const Settings: React.FC = () => {
                             <Label className="text-base font-semibold">{t('settings.pushBChestIsolation')}</Label>
                             <RadioGroup value={preferences["push-b-fly"]} onValueChange={(v) => handlePrefChange("push-b-fly", v)}>
                                 <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="Pec-Dec" id="pecdec" />
-                                    <Label htmlFor="pecdec">Pec-Dec</Label>
+                                    <RadioGroupItem value="Pec Deck" id="pecdec" />
+                                    <Label htmlFor="pecdec">Pec Deck</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="Low-to-High Cable Flyes" id="lowhigh" />
@@ -384,7 +384,7 @@ export const Settings: React.FC = () => {
                         <CardDescription>
                             Manually update your contest maxes. These dictate all your percentage work.
                             <div className="mt-2 text-yellow-600 dark:text-yellow-500 font-semibold bg-yellow-500/10 p-2 rounded border border-yellow-500/20">
-                                ⚠️ Only update if you have tested a new true 1RM.
+                                Only update if you have tested a new true 1RM.
                             </div>
                         </CardDescription>
                     </CardHeader>
@@ -609,7 +609,7 @@ export const Settings: React.FC = () => {
                 <Card className="max-w-2xl border-orange-500/30">
                     <CardHeader>
                         <CardTitle className="text-orange-500 flex items-center gap-2">
-                            ⚠️ Developer Tools
+                            Developer Tools
                         </CardTitle>
                         <CardDescription>
                             Testing feature — not part of the program. Shifts every muscle-group cooldown timestamp back 24 hours so the next workout unlocks early. Your volume history is untouched.
@@ -638,7 +638,7 @@ export const Settings: React.FC = () => {
                                 }
                             }}
                         >
-                            ⏭️ {timeSkipping ? 'Skipping...' : 'Skip 24 hours'}
+                            {timeSkipping ? 'Skipping...' : 'Skip 24 hours'}
                         </Button>
                     </CardContent>
                 </Card>

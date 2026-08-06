@@ -67,7 +67,35 @@ export type RitualStatus = {
     benchMEProgression?: number;
     squatMEProgression?: number;
     deadliftMEProgression?: number;
+    lightWorkReductionPending?: Partial<Record<'bench' | 'squat' | 'deadlift', boolean>>;
 };
+
+export const RITUAL_PURGE_WEEKS = [9, 14, 19] as const;
+export const isRitualPurgeWeek = (scheduleWeek: number): boolean => RITUAL_PURGE_WEEKS.includes(scheduleWeek as 9 | 14 | 19);
+export const getRitualTrainingWeek = (scheduleWeek: number): number => {
+    if (scheduleWeek <= 8) return scheduleWeek;
+    if (scheduleWeek <= 13) return scheduleWeek - 1;
+    if (scheduleWeek <= 18) return scheduleWeek - 2;
+    return 16;
+};
+
+const createPurgeWeek = (weekNumber: number, source: ProgramWeek): ProgramWeek => ({
+    weekNumber,
+    days: source.days.map((day, index) => ({
+        ...day,
+        dayName: ['t:dayNames.ritualPurgeDay1', 't:dayNames.ritualPurgeDay2', 't:dayNames.ritualPurgeDay3'][index],
+        exercises: day.exercises
+            .filter(ex => ex.name.includes('Bench') || ex.name.includes('Squat') || ex.name.includes('Deadlift'))
+            .map(ex => ({
+                ...ex,
+                id: `${ex.id}-purge-${weekNumber}`,
+                name: ex.name.replace(' (Ascension Test)', '').replace(' (Back-down)', '').replace(' (ME)', '').replace(' (Light)', ''),
+                sets: Math.max(1, Math.ceil(ex.sets / 2)),
+                target: { ...ex.target, type: 'straight' as const, reps: '5', percentage: 0.70 },
+                notes: 't:tips.ritualPurgeWeek'
+            }))
+    }))
+});
 
 // Create weeks 1-16 (4 ramp-in + 12 main phase)
 // Deload/Purge weeks are triggered dynamically, not pre-allocated
@@ -352,7 +380,16 @@ const createRitualWeeks = (): ProgramWeek[] => {
         weeks.push({ weekNumber: w, days });
     }
 
-    return weeks;
+    const scheduled: ProgramWeek[] = [];
+    for (const trainingWeek of weeks) {
+        const scheduleWeek = trainingWeek.weekNumber <= 8 ? trainingWeek.weekNumber :
+            trainingWeek.weekNumber <= 12 ? trainingWeek.weekNumber + 1 : trainingWeek.weekNumber + 2;
+        scheduled.push({ ...trainingWeek, weekNumber: scheduleWeek });
+        if (trainingWeek.weekNumber === 8) scheduled.push(createPurgeWeek(9, trainingWeek));
+        if (trainingWeek.weekNumber === 12) scheduled.push(createPurgeWeek(14, trainingWeek));
+        if (trainingWeek.weekNumber === 16) scheduled.push(createPurgeWeek(19, trainingWeek));
+    }
+    return scheduled.sort((a, b) => a.weekNumber - b.weekNumber);
 };
 
 export const RITUAL_PROGRAM: Program = {
@@ -382,19 +419,7 @@ export const RITUAL_CONFIG: PlanConfig = {
             }
 
             // Apply deload modifications if in purge week
-            const isPurgeWeek = status.currentWeek === 9 || status.currentWeek === 17; // After week 8 and 16
-            if (isPurgeWeek) {
-                return {
-                    ...day,
-                    exercises: day.exercises.map(ex => ({
-                        ...ex,
-                        target: {
-                            ...ex.target,
-                            percentage: ex.target.percentage ? ex.target.percentage * 0.7 : undefined
-                        }
-                    }))
-                };
-            }
+            if (isRitualPurgeWeek(status.currentWeek)) return day;
 
             // Add user-selected accessories dynamically.
             // NOTE: exercises must be cloned — pushing into a shallow copy would
@@ -427,7 +452,8 @@ export const RITUAL_CONFIG: PlanConfig = {
             const status = (user as any)?.ritualStatus as RitualStatus | undefined;
             if (!status || !exerciseName) return undefined;
 
-            const week = context?.week || status.currentWeek;
+            const scheduleWeek = context?.week || status.currentWeek;
+            const week = getRitualTrainingWeek(scheduleWeek);
 
             // Determine base 1RM
             let base1RM = 0;
@@ -459,7 +485,7 @@ export const RITUAL_CONFIG: PlanConfig = {
                 else if (week === 4) percentage = 0.85; // Ascension test
             }
             // Main phase
-            else if (week >= 5 && week <= 16) {
+            else if (week >= 5 && week <= 16 && !isRitualPurgeWeek(scheduleWeek)) {
                 if (exerciseName.includes('(ME)')) {
                     percentage = 0.95; // ME singles work up to 90-100%
 
@@ -476,7 +502,8 @@ export const RITUAL_CONFIG: PlanConfig = {
                     const calculatedWeight = roundDownTo2_5(base1RM * percentage);
                     return (calculatedWeight + meProgression).toString();
                 } else if (exerciseName.includes('(Light)')) {
-                    percentage = 0.70;
+                    const lift = exerciseName.toLowerCase().includes('bench') ? 'bench' : exerciseName.toLowerCase().includes('squat') ? 'squat' : 'deadlift';
+                    percentage = status.lightWorkReductionPending?.[lift] ? 0.65 : 0.70;
                 } else if (exerciseName.includes('(Ascension Test)')) {
                     percentage = 0.85;
                 }

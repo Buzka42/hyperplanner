@@ -23,7 +23,7 @@ export const AccessoryChoiceModal: React.FC<AccessoryChoiceModalProps> = ({
             <DialogContent className="max-w-md bg-zinc-950 border-zinc-800 text-zinc-100 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
                 <DialogHeader className="space-y-4">
                     <div className="mx-auto w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mb-2 border border-red-500/20">
-                        <Skull className="h-8 w-8 text-red-500 animate-pulse" />
+                        <Skull className="h-8 w-8 text-red-500" />
                     </div>
                     <DialogTitle className="text-3xl font-black text-center text-zinc-100 tracking-tighter uppercase">
                         {t('trinary.accessoryModal.title')}

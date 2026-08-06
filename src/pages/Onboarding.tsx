@@ -30,13 +30,15 @@ export const Onboarding: React.FC = () => {
     const { t, tObject, tArray } = useLanguage();
     const navigate = useNavigate();
     const codeword = state?.codeword;
+    const allowedPlanIds: string[] | undefined = state?.allowedPlanIds || user?.allowedPlanIds;
+    const isPlanAllowed = (id: string) => !allowedPlanIds || allowedPlanIds.includes(id);
 
     const [step, setStep] = useState<Step>('program');
     const [selectedProgramId, setSelectedProgramId] = useState<string | null>(null);
     const [selectedDays, setSelectedDays] = useState<number[]>([]);
     const [preferences, setPreferences] = useState<Record<string, string>>({
         "push-a-leg-primary": "Hack Squat",
-        "push-b-fly": "Pec-Dec",
+        "push-b-fly": "Pec Deck",
         "push-b-leg-secondary": "Front Squats"
     });
 
@@ -84,6 +86,7 @@ export const Onboarding: React.FC = () => {
     }, [codeword, user, navigate]);
 
     const handleProgramSelect = (pid: string) => {
+        if (!isPlanAllowed(pid)) return;
         setSelectedProgramId(pid);
         if (pid === PENCILNECK_PROGRAM.id || pid === SKELETON_PROGRAM.id) {
             setStep('days');
@@ -340,7 +343,7 @@ export const Onboarding: React.FC = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {/* Bench Domination Card */}
-                        <Card
+                        {isPlanAllowed(BENCH_DOMINATION_PROGRAM.id) && <Card
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(BENCH_DOMINATION_PROGRAM.id)}
                         >
@@ -360,10 +363,10 @@ export const Onboarding: React.FC = () => {
                                     ))}
                                 </ul>
                             </CardContent>
-                        </Card>
+                        </Card>}
 
                         {/* Pencilneck Eradication Card */}
-                        <Card
+                        {isPlanAllowed(PENCILNECK_PROGRAM.id) && <Card
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(PENCILNECK_PROGRAM.id)}
                         >
@@ -383,10 +386,10 @@ export const Onboarding: React.FC = () => {
                                     ))}
                                 </ul>
                             </CardContent>
-                        </Card>
+                        </Card>}
 
                         {/* Skeleton to Threat Card */}
-                        <Card
+                        {isPlanAllowed(SKELETON_PROGRAM.id) && <Card
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(SKELETON_PROGRAM.id)}
                         >
@@ -406,10 +409,10 @@ export const Onboarding: React.FC = () => {
                                     ))}
                                 </ul>
                             </CardContent>
-                        </Card>
+                        </Card>}
 
                         {/* Peachy Card */}
-                        <Card
+                        {isPlanAllowed(PEACHY_CONFIG.id) && <Card
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(PEACHY_CONFIG.id)}
                         >
@@ -429,10 +432,10 @@ export const Onboarding: React.FC = () => {
                                     ))}
                                 </ul>
                             </CardContent>
-                        </Card>
+                        </Card>}
 
                         {/* Pain & Glory Card */}
-                        <Card
+                        {isPlanAllowed(PAIN_GLORY_CONFIG.id) && <Card
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(PAIN_GLORY_CONFIG.id)}
                         >
@@ -452,10 +455,10 @@ export const Onboarding: React.FC = () => {
                                     ))}
                                 </ul>
                             </CardContent>
-                        </Card>
+                        </Card>}
 
                         {/* Trinary Card */}
-                        <Card
+                        {isPlanAllowed(TRINARY_CONFIG.id) && <Card
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect('trinary')}
                         >
@@ -475,10 +478,10 @@ export const Onboarding: React.FC = () => {
                                     ))}
                                 </ul>
                             </CardContent>
-                        </Card>
+                        </Card>}
 
                         {/* Ritual of Strength Card */}
-                        <Card
+                        {isPlanAllowed(RITUAL_CONFIG.id) && <Card
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(RITUAL_CONFIG.id)}
                         >
@@ -498,10 +501,10 @@ export const Onboarding: React.FC = () => {
                                     ))}
                                 </ul>
                             </CardContent>
-                        </Card>
+                        </Card>}
 
                         {/* Super Mutant Card */}
-                        <Card
+                        {isPlanAllowed(SUPER_MUTANT_PROGRAM.id) && <Card
                             className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
                             onClick={() => handleProgramSelect(SUPER_MUTANT_PROGRAM.id)}
                         >
@@ -521,7 +524,7 @@ export const Onboarding: React.FC = () => {
                                     ))}
                                 </ul>
                             </CardContent>
-                        </Card>
+                        </Card>}
                     </div>
 
                     <Button variant="ghost" onClick={() => navigate('/')} className="mx-auto block">
@@ -777,8 +780,8 @@ export const Onboarding: React.FC = () => {
                             <Label className="text-base font-semibold">Push B: Chest Isolation</Label>
                             <RadioGroup value={preferences["push-b-fly"]} onValueChange={(v) => handlePrefChange("push-b-fly", v)}>
                                 <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="Pec-Dec" id="pecdec" />
-                                    <Label htmlFor="pecdec">Pec-Dec</Label>
+                                    <RadioGroupItem value="Pec Deck" id="pecdec" />
+                                    <Label htmlFor="pecdec">Pec Deck</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="Low-to-High Cable Flyes" id="lowhigh" />

@@ -11,7 +11,7 @@ import { Settings } from './pages/Settings';
 import { WorkoutHistory } from './pages/WorkoutHistory';
 
 const AppRoutes = () => {
-    const { loading } = useUser();
+    const { loading, isAdmin } = useUser();
     if (loading) return <div className="h-screen w-screen bg-background flex items-center justify-center text-foreground">Loading Protocol...</div>;
 
     return (
@@ -25,7 +25,7 @@ const AppRoutes = () => {
                 <Route path="history" element={<WorkoutHistory />} />
                 <Route index element={<Navigate to="dashboard" replace />} />
             </Route>
-            <Route path="/admin" element={<AdminPanel />} />
+            <Route path="/admin" element={isAdmin ? <AdminPanel /> : <Navigate to="/" replace />} />
         </Routes>
     );
 };

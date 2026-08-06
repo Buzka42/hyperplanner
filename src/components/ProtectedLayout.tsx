@@ -9,8 +9,17 @@ import { cn } from '../lib/utils';
 import { BADGES } from '../data/badges';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
+const BrandWordmark = ({ compact = false }: { compact?: boolean }) => (
+    <div className="brand-lockup flex items-center gap-2.5" aria-label="Hyperplanner">
+        <img src="/brand/hyperplanner-logo.png" alt="" className={compact ? "h-8 w-8 object-contain" : "h-10 w-10 object-contain"} />
+        <p className={cn("font-display uppercase tracking-[0.07em] leading-none", compact ? "text-lg font-semibold" : "text-2xl font-semibold")}>
+            <span className="text-foreground">Hyper</span><span className="text-zinc-400">Planner</span>
+        </p>
+    </div>
+);
+
 export const ProtectedLayout: React.FC = () => {
-    const { user, logout, notification, clearNotification } = useUser();
+    const { user, logout, notification, clearNotification, activePlanConfig } = useUser();
     const { t } = useLanguage();
     const location = useLocation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -46,23 +55,30 @@ export const ProtectedLayout: React.FC = () => {
     const isPeachy = user?.programId === 'peachy-glute-plan';
 
     return (
-        <div className={cn("min-h-screen bg-background flex flex-col md:flex-row", themeClass)}>
+        <div className={cn("instrument-shell min-h-screen bg-background flex flex-col md:flex-row", themeClass)}>
             {/* Mobile Header */}
-            <div className="md:hidden flex items-center justify-center px-4 py-2 border-b border-border bg-card relative">
-                <img src={logoSrc} alt="Logo" className="h-16 w-auto object-contain rounded-md" />
+            <header className="instrument-toprail md:hidden flex items-center px-4 h-16 border-b bg-card relative">
+                <div className="min-w-0 pr-16">
+                    <BrandWordmark compact />
+                    <p className="text-[10px] uppercase tracking-[0.14em] text-primary truncate">{activePlanConfig.program.name}</p>
+                </div>
                 <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="absolute right-4" aria-label="Toggle menu">
                     {mobileMenuOpen ? <X /> : <Menu />}
                 </Button>
-            </div>
+            </header>
 
             {/* Sidebar (Desktop) / Drawer (Mobile) */}
             <div className={cn(
-                "fixed inset-y-0 left-0 z-50 w-64 bg-card border-r border-border p-4 transform transition-transform duration-200 ease-in-out md:relative md:translate-x-0",
+                "instrument-sidebar fixed inset-y-0 left-0 z-50 w-72 bg-card border-r border-border p-4 transform transition-transform duration-200 ease-out md:sticky md:top-0 md:h-screen md:translate-x-0",
                 mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
             )}>
                 <div className="flex flex-col h-full">
-                    <div className="hidden md:flex flex-col items-center mb-6 text-center">
-                        <img src={logoSrc} alt="Plan Logo" className="w-[calc(100%+2rem)] -ml-4 -mr-4 -mt-4 mb-4 max-w-none h-auto object-cover rounded-lg" />
+                    <div className="hidden md:flex flex-col mb-8 pt-2">
+                        <BrandWordmark />
+                        <div className="mt-5 flex items-center gap-3 border-y border-border/70 py-3">
+                            <img src={logoSrc} alt="Plan Logo" className="h-12 w-16 object-contain" />
+                            <div className="min-w-0"><p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">Active protocol</p><p className="font-display text-sm font-bold uppercase text-primary truncate">{activePlanConfig.program.name}</p></div>
+                        </div>
                     </div>
 
                     <div className="space-y-2 flex-1">
@@ -80,7 +96,7 @@ export const ProtectedLayout: React.FC = () => {
                                 >
                                     <Button
                                         variant={isActive ? "secondary" : "ghost"}
-                                        className="w-full justify-start text-lg h-12"
+                                        className="nav-control w-full justify-start h-12"
                                     >
                                         <item.icon className="mr-3 h-5 w-5" />
                                         {item.label}
@@ -152,9 +168,16 @@ export const ProtectedLayout: React.FC = () => {
 
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-8 overflow-y-auto w-full max-w-7xl mx-auto">
+            <main className="instrument-main flex-1 p-4 md:p-8 lg:p-10 overflow-y-auto w-full max-w-[1500px] mx-auto pb-24 md:pb-10">
                 <Outlet />
             </main>
+
+            <nav className="mobile-command-dock md:hidden fixed bottom-0 inset-x-0 z-40 grid grid-cols-4 border-t bg-card/95" aria-label="Primary navigation">
+                {navItems.map((item) => {
+                    const isActive = item.path === lastOpened ? location.pathname.includes('/workout/') : location.pathname === item.path;
+                    return <Link key={item.path} to={item.path} className={cn("flex min-h-16 flex-col items-center justify-center gap-1 px-1 text-center text-[9px] font-bold uppercase tracking-[0.06em]", isActive ? "text-primary bg-primary/10" : "text-muted-foreground")}><item.icon className="h-5 w-5"/><span className="line-clamp-1">{item.label}</span></Link>;
+                })}
+            </nav>
 
             {/* Badge Unlock Notification Overlay */}
             {notification && notification.type === 'badge' && (
@@ -194,7 +217,7 @@ export const ProtectedLayout: React.FC = () => {
                             : "bg-gradient-to-br from-yellow-900/90 to-black border-yellow-500/50 shadow-[0_0_50px_rgba(234,179,8,0.3)]"
                     )}>
                         <button onClick={clearNotification} className={cn("absolute top-2 right-2", isPeachy ? "text-rose-300 hover:text-rose-500" : "text-yellow-500/50 hover:text-yellow-500")}><X /></button>
-                        <h2 className={cn("text-3xl font-black mb-2 tracking-widest uppercase animate-pulse", isPeachy ? "text-rose-500" : "text-yellow-500")}>Badge Unlocked!</h2>
+                        <h2 className={cn("text-3xl font-black mb-2 tracking-widest uppercase", isPeachy ? "text-rose-500" : "text-yellow-500")}>Badge Unlocked!</h2>
 
                         {(() => {
                             const b = BADGES.find(x => x.id === notification.badgeId);
@@ -207,7 +230,7 @@ export const ProtectedLayout: React.FC = () => {
 
                             return (
                                 <div className="space-y-6">
-                                    <div className={cn("text-8xl my-6 animate-bounce", isPeachy ? "filter drop-shadow-[0_0_15px_rgba(251,113,133,0.5)]" : "filter drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]")}>
+                                    <div className={cn("text-8xl my-6", isPeachy ? "filter drop-shadow-[0_0_15px_rgba(251,113,133,0.5)]" : "filter drop-shadow-[0_0_15px_rgba(234,179,8,0.8)]")}>
                                         {b.image ? <img src={b.image} alt={b.name} className="w-40 h-40 object-contain mx-auto" /> : b.icon}
                                     </div>
                                     <div>

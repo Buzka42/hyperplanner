@@ -401,6 +401,13 @@ export const TRINARY_CONFIG: PlanConfig = {
                 // Reset the flag and continue with normal workout
                 // Note: The flag will be reset when the workout is completed
                 // For now, just skip the accessory check
+            } else if (status.forceAccessoryDay) {
+                const focusType: 'upper' | 'lower' = status.preferredAccessoryType || ((status.accessoryDaysCompleted || 0) % 2 === 0 ? 'upper' : 'lower');
+                return {
+                    ...day,
+                    dayName: `t:dayNames.trinaryAccessory|{"type":"${focusType}"}`,
+                    exercises: createAccessoryDay(focusType)
+                };
             } else {
                 // Check if this is an accessory day (>4 workouts in last 7 days)
                 if (status.workoutLog) {
@@ -521,6 +528,13 @@ export const TRINARY_CONFIG: PlanConfig = {
                 if (bonus) {
                     calculatedWeight += bonus.amount;
                 }
+            }
+
+            if (isDE && status.deProgressionPending) {
+                const liftType = baseName.toLowerCase().includes('bench') || baseName.toLowerCase().includes('press') ? 'bench' :
+                    baseName.toLowerCase().includes('deadlift') || baseName.toLowerCase().includes('rdl') ? 'deadlift' : 'squat';
+                const bonus = status.deProgressionPending.find((p: any) => p.lift === liftType);
+                if (bonus) calculatedWeight += bonus.amount;
             }
 
             return calculatedWeight.toString();

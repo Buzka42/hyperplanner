@@ -1,0 +1,59 @@
+{
+  "title": "Choose Hyperplanner’s visual world",
+  "question": "Three systems, each built to carry all eight plan palettes. Choose one, steer the hand, or re-roll.",
+  "options": [
+    {
+      "id": "pitwall-instrument",
+      "label": "Pit-Wall Instrument",
+      "kicker": "ASSIGNED DIRECTION",
+      "lineage": "Formula One pit-wall timing screens and billet data loggers",
+      "thesis": "Every workout reads like a live performance run: the prescription is telemetry, and the next set is the only active command.",
+      "palette": ["#0A0C0F", "#E7EBEF", "#7657FF", "#FF6A24"],
+      "materials": ["machined graphite", "smoked polycarbonate", "calibrated hairlines"],
+      "viewport": "A portrait control deck with the target load dominating the upper third, a vertical set ledger below, and a thumb dock carrying the next action.",
+      "risk": "Can feel generically futuristic if the timing hierarchy and physical control details are not carried through every screen.",
+      "sketch": ".impeccable/sketches/pitwall-instrument.png"
+    },
+    {
+      "id": "crouwel-grid",
+      "label": "Constructed Power Grid",
+      "lineage": "Wim Crouwel gridded type specimens",
+      "thesis": "The training prescription is visibly constructed from one rigorous grid, with weights and states becoming the interface’s monumental letterforms.",
+      "case": "Wins audience identification through disciplined strength and keeps product clarity high when the grid remains subordinate to the numbers.",
+      "palette": ["#090A0C", "#F2F2EE", "#7657FF", "#FF6A24"],
+      "materials": ["visible construction grid", "matte technical paper", "cell-built display type"],
+      "viewport": "A portrait grid sheet where the current weight occupies a monumental cell field and workouts snap into numbered modules beneath it.",
+      "risk": "The visible grid can become visual noise in dense settings and history screens.",
+      "sketch": ".impeccable/sketches/crouwel-grid.png",
+      "hero": "https://impeccable.style/worlds/cards/crouwel-grid-specimen-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/crouwel-grid-specimen.webp"
+    },
+    {
+      "id": "industrial-label",
+      "label": "Industrial Training Issue",
+      "lineage": "industrial streetwear labels, stockroom tags, and hazard grammar",
+      "thesis": "The app behaves like issued training equipment: every zone is plainly labeled, every active command carries the plan’s colored tag, and completion removes it.",
+      "case": "Strongest cultural identification and excellent state clarity; it trades some luxury polish for physical toughness.",
+      "palette": ["#08090A", "#F1F0EB", "#7657FF", "#FF6A24"],
+      "materials": ["black nylon", "woven label plates", "removable safety tags"],
+      "viewport": "A portrait equipment panel with a huge literal workout label, stacked exercise manifests, and one colored tear-tag action in thumb reach.",
+      "risk": "Can read as fashion branding rather than a precision tool if labels outnumber useful training states.",
+      "sketch": ".impeccable/sketches/industrial-label.png",
+      "hero": "https://impeccable.style/worlds/cards/textiles-weave-drape-fashion-industrial-quote-grammar-hero.webp",
+      "board": "https://impeccable.style/worlds/cards/textiles-weave-drape-fashion-industrial-quote-grammar.webp"
+    }
+  ],
+  "reroll": true,
+  "canon": true,
+  "canonCard": {
+    "label": "The category standard",
+    "lineage": "premium dark fitness applications",
+    "thesis": "A familiar card-based workout dashboard, executed cleanly and adapted through plan accent tokens.",
+    "palette": ["#101217", "#F5F7FA", "#7657FF", "#FF6A24"],
+    "materials": ["soft dark cards", "subtle elevation", "rounded controls"],
+    "viewport": "A conventional workout summary, progress cards, and persistent mobile navigation.",
+    "risk": "Highly usable but least distinctive and easiest to confuse with another fitness product.",
+    "sketch": ".impeccable/sketches/category-standard.png"
+  },
+  "steer": true
+}

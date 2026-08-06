@@ -68,7 +68,7 @@ export const WeakPointModal: React.FC<WeakPointModalProps> = ({
                 <div className="space-y-6 py-4">
                     {/* Tip */}
                     <div className="bg-zinc-800/50 border border-zinc-700 rounded p-3 text-sm text-zinc-300">
-                        <strong className="text-zinc-200">💡 {t('trinary.weakPointModal.tipTitle')}</strong><br />
+                        <strong className="text-zinc-200">{t('trinary.weakPointModal.tipTitle')}</strong><br />
                         {t('trinary.weakPointModal.tipText')}
                     </div>
 

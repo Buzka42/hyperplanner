@@ -1,4 +1,4 @@
-// Super Mutant - Advanced 16 Week Fallout-Themed High-Frequency Bodybuilding Plan
+// Super Mutant - Advanced 12+2 Week Fallout-Themed High-Frequency Bodybuilding Plan
 // RIR progression (2→1→0→past failure), mandatory deloads, dynamic volume-based queue
 
 import type { Program, PlanConfig, WorkoutDay, UserProfile, Exercise } from '../types';
@@ -300,7 +300,7 @@ export function isMuscleGroupReady(lastTrainTime: number | undefined, muscleGrou
 // Calculate RIR (Reps in Reserve) based on week within current 4-week cycle.
 // A cycle is 28 workouts (4 weeks at ~7/week); each 7-workout block is one week.
 function getRIRForWeek(completedWorkouts: number): number {
-    const weekInCycle = Math.floor((completedWorkouts % 28) / 7); // 0-3 within each 4-week cycle
+    const weekInCycle = Math.floor((completedWorkouts % 24) / 6); // 0-3 at the six-session weekly cap
     if (weekInCycle === 0) return 2; // Week 1: 2 RIR
     if (weekInCycle === 1) return 1; // Week 2: 1 RIR
     if (weekInCycle === 2) return 0; // Week 3: Failure
@@ -311,7 +311,7 @@ function getRIRForWeek(completedWorkouts: number): number {
 // status.currentCycle is never advanced by the app, so counting workouts is
 // the reliable source (28 workouts = one cycle).
 function getCurrentCycle(completedWorkouts: number): number {
-    return Math.floor(completedWorkouts / 28) + 1;
+    return Math.min(4, Math.floor(completedWorkouts / 24) + 1);
 }
 
 /**
@@ -395,12 +395,19 @@ function isClusterReady(status: any, clusterKey: string): boolean {
 }
 
 // Generate next workout based on cluster system
-function generateNextWorkout(user: UserProfile): WorkoutDay | null {
+export function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     const status = user.superMutantStatus;
     if (!status) return null;
 
-    // Check if current week is week 9 (deload week) - after 8 complete weeks (56 workouts)
-    const isDeloadWeek = status.completedWorkouts >= 56 && status.completedWorkouts < 63; // Week 9 = workouts 57-63
+    const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const recentSessions = (status.weeklySessionDates || []).filter(date => new Date(date).getTime() > sevenDaysAgo);
+    if (recentSessions.length >= 6) {
+        return { dayName: 'Rest recommended – the wasteland demands balance', dayOfWeek: 0, exercises: [] };
+    }
+
+    // Two peak weeks close the 12-week build: volume stays reactive while
+    // the 4-week RIR wave supplies the prescribed high-intensity finish.
+    const isDeloadWeek = false;
 
     if (isDeloadWeek) {
         // Generate deload workout: 50% sets, RIR 2-3
@@ -509,7 +516,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     if (!selectedUpperBlock) {
         return {
             dayName: 'Rest Day – Upper Body Recovery',
-            dayOfWeek: (status.completedWorkouts % 7) + 1,
+                dayOfWeek: (status.completedWorkouts % 6) + 1,
             exercises: []
         };
     }
@@ -562,7 +569,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
         const mainReps = getRepRange(getCurrentCycle(status.completedWorkouts), 'main');
         const isolationReps = getRepRange(getCurrentCycle(status.completedWorkouts), 'isolation');
 
-        let chestSets = calculateReactiveSetsForMuscle(chestVolume, false, status);
+        let chestSets = calculateReactiveSetsForMuscle(chestVolume, false, status, 'chest');
 
         exercises.push({
             ...chestEx.preExhaust,
@@ -719,7 +726,7 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     if (sessionTime < 30 && !includeLower) {
         return {
             dayName: 'Short Mutation – Rest or Perish',
-            dayOfWeek: (status.completedWorkouts % 7) + 1,
+            dayOfWeek: (status.completedWorkouts % 6) + 1,
             exercises: []
         };
     }
@@ -727,7 +734,17 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     const dayName = `Workout ${status.completedWorkouts + 1} – ${clusterNames.join(' + ')}`;
 
     // Use workout count as week so each workout has unique save slot
-    const dayNum = (status.completedWorkouts % 7) + 1;
+    const dayNum = (status.completedWorkouts % 6) + 1;
+
+    const weakPoint = status.weakPointMuscle;
+    if (weakPoint) {
+        const boosted = exercises.find(ex => (getMuscleContributions(ex.id)[weakPoint] || 0) >= 1 && ex.sets < 5);
+        if (boosted) boosted.sets += 1;
+    }
+    for (const exercise of exercises) {
+        const savedLoad = status.exerciseLoads?.[exercise.id];
+        if (savedLoad) exercise.target = { ...exercise.target, weightAbsolute: savedLoad };
+    }
 
     return {
         dayName,
@@ -736,12 +753,12 @@ function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     };
 }
 
-// Placeholder program structure (16 weeks: 4 complete 4-week cycles)
+// Placeholder program structure (12 build weeks + 2 peak weeks)
 const createSuperMutantWeeks = () => {
     // Super Mutant is entirely dynamic based on queue system
     // We create a traditional week structure, but preprocessDay will override with dynamic workouts
     const weeks = [];
-    for (let i = 1; i <= 16; i++) {
+    for (let i = 1; i <= 14; i++) {
         const days = [];
         // Create 7 days per week (standard structure)
         for (let d = 1; d <= 7; d++) {

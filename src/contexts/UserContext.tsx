@@ -1,16 +1,17 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { doc, getDoc, setDoc, onSnapshot, updateDoc, collection, getDocs } from 'firebase/firestore';
-import { signInAnonymously } from 'firebase/auth';
+import { getIdTokenResult, signInAnonymously } from 'firebase/auth';
 import { db, auth } from '../firebase';
 import { getPlan } from '../data/plans';
+import { isAccessKeyUsable, normalizeKeyword, type AccessKey } from '../data/accessControl';
 import type { UserProfile, LiftingStats, PlanConfig, BadgeId, WorkoutLog } from '../types';
 
 interface UserContextType {
     user: UserProfile | null;
     activePlanConfig: PlanConfig;
     loading: boolean;
-    checkCodeword: (codeword: string) => Promise<'exists' | 'not-found' | 'admin'>;
+    checkCodeword: (codeword: string) => Promise<{ status: 'exists' | 'not-found' | 'admin' | 'onboarding'; allowedPlanIds?: string[] }>;
     registerUser: (codeword: string, stats: LiftingStats, programId?: string, selectedDays?: number[], exercisePreferences?: Record<string, string>, benchDominationModules?: any) => Promise<void>;
     logout: () => void;
     isAdmin: boolean;
@@ -96,13 +97,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             return;
         }
 
-        if (listeningId === 'judziek') {
-            setIsAdmin(true);
-            setUser(null);
-            setLoading(false);
-            return;
-        }
-
         setLoading(true);
         const docRef = doc(db, 'users', listeningId);
         const unsubscribe = onSnapshot(docRef, (snap) => {
@@ -122,26 +116,42 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return () => unsubscribe();
     }, [authReady, listeningId]);
 
-    const checkCodeword = async (codeword: string): Promise<'exists' | 'not-found' | 'admin'> => {
+    const checkCodeword = async (codeword: string): Promise<{ status: 'exists' | 'not-found' | 'admin' | 'onboarding'; allowedPlanIds?: string[] }> => {
         const trimmed = codeword.trim();
-        const sanitized = trimmed.toLowerCase();
-
-        if (sanitized === 'judziek') {
-            setIsAdmin(true);
-            setListeningId('judziek');
-            // No localStorage persistence
-            return 'admin';
-        }
+        const sanitized = normalizeKeyword(trimmed);
 
         if (!auth.currentUser) await signInAnonymously(auth);
 
-        const docRef = doc(db, 'users', sanitized);
-        const snap = await getDoc(docRef);
+        const token = await getIdTokenResult(auth.currentUser!, sanitized === 'judziek');
+        if (sanitized === 'judziek' && token.claims.admin === true) {
+            setIsAdmin(true);
+            return { status: 'admin' };
+        }
+        if (sanitized === 'judziek') {
+            return { status: 'not-found' };
+        }
 
-        if (snap.exists()) {
+        const docRef = doc(db, 'users', sanitized);
+        let snap;
+        try {
+            snap = await getDoc(docRef);
+        } catch (error: any) {
+            // Secured Firestore intentionally hides unowned/nonexistent user
+            // documents. Treat that as a new keyword, not a login failure.
+            if (error?.code !== 'permission-denied') throw error;
+        }
+
+        if (snap?.exists()) {
+            const profile = snap.data() as UserProfile;
+            if (!profile.ownerUid && auth.currentUser) {
+                await updateDoc(docRef, { ownerUid: auth.currentUser.uid });
+                profile.ownerUid = auth.currentUser.uid;
+            }
+            if (!profile.programId) profile.programId = 'bench-domination';
+            setUser(profile);
             setListeningId(sanitized);
             // No localStorage persistence
-            return 'exists';
+            return { status: 'exists' };
         }
 
         if (trimmed !== sanitized) {
@@ -149,13 +159,25 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const legacySnap = await getDoc(legacyRef);
 
             if (legacySnap.exists()) {
+                const profile = legacySnap.data() as UserProfile;
+                if (!profile.ownerUid && auth.currentUser) {
+                    await updateDoc(legacyRef, { ownerUid: auth.currentUser.uid });
+                    profile.ownerUid = auth.currentUser.uid;
+                }
+                if (!profile.programId) profile.programId = 'bench-domination';
+                setUser(profile);
                 setListeningId(trimmed);
                 // No localStorage persistence
-                return 'exists';
+                return { status: 'exists' };
             }
         }
 
-        return 'not-found';
+        const keySnap = await getDoc(doc(db, 'accessKeys', sanitized));
+        if (keySnap.exists()) {
+            const key = keySnap.data() as AccessKey;
+            if (isAccessKeyUsable(key)) return { status: 'onboarding', allowedPlanIds: key.allowedPlanIds };
+        }
+        return { status: 'not-found' };
     };
 
     // Helper: Clear all workout drafts from localStorage (cleanup on new user registration)
@@ -190,18 +212,30 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const userRef = doc(db, 'users', sanitized);
 
         try {
-            const snap = await getDoc(userRef);
-            const existingData = snap.exists() ? snap.data() as UserProfile : null;
+            let existingData: UserProfile | null = null;
+            try {
+                const snap = await getDoc(userRef);
+                existingData = snap.exists() ? snap.data() as UserProfile : null;
+            } catch (error: any) {
+                if (error?.code !== 'permission-denied') throw error;
+            }
 
             const now = new Date().toISOString();
+            const accessSnap = await getDoc(doc(db, 'accessKeys', sanitized));
+            const access = accessSnap.exists() ? accessSnap.data() as AccessKey : null;
+            if (!existingData && (!access || !isAccessKeyUsable(access) || !access.allowedPlanIds.includes(programId))) {
+                throw new Error('This keyword does not grant access to the selected plan.');
+            }
             const startDate = existingData?.startDate || now;
 
             const newUser: UserProfile = {
                 id: sanitized,
+                ownerUid: auth.currentUser?.uid,
                 codeword: sanitized,
                 stats,
                 startDate,
                 programId,
+                ...(access && { allowedPlanIds: access.allowedPlanIds, allowPlanSwitching: access.allowPlanSwitching !== false }),
                 ...(selectedDays && { selectedDays }),
                 ...(exercisePreferences && { exercisePreferences }),
                 ...(benchDominationModules && { benchDominationModules }),
@@ -251,6 +285,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             clearAllWorkoutDrafts();
 
             // Only set local state after server confirmation
+            setUser(verifiedData);
             setListeningId(sanitized);
             // No localStorage persistence
 
@@ -277,6 +312,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const switchProgram = async (newProgramId: string) => {
         if (!user) return;
+        if (user.allowPlanSwitching === false || (user.allowedPlanIds && !user.allowedPlanIds.includes(newProgramId))) {
+            throw new Error('This plan is not available for your keyword.');
+        }
         const currentId = user.programId;
         const updatedProgress = { ...(user.programProgress || {}) };
 
@@ -338,7 +376,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 user.skeletonStatus?.completed ||
                 (user.programProgress?.['peachy-glute-plan']?.completedSessions || 0) >= 48 ||
                 (user as any).trinaryStatus?.completedWorkouts >= 27 ||  // Trinary: 27 total workouts
-                (user as any).ritualStatus?.completedWorkouts >= 48 ||  // Ritual: 16 weeks * 3 days/week = 48 workouts
+                (user as any).ritualStatus?.completedWorkouts >= 57 ||  // Ritual: 16 training + 3 purge weeks
                 (user.programProgress?.['pain-and-glory']?.completedSessions || 0) >= 96; // Pain & Glory: 16 weeks * 6 days/week = 96 workouts
 
             if (pCompleted) newBadges.push('perfect_attendance');
@@ -349,6 +387,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (user.pencilneckStatus?.completed && !currentBadges.has('certified_boulder')) newBadges.push('certified_boulder');
         if (user.completedSessions > 0 && !currentBadges.has('first_blood')) newBadges.push('first_blood');
         if (user.completedSessions >= 100 && !currentBadges.has('100_sessions')) newBadges.push('100_sessions');
+
+        const benchRunComplete = (user.benchDominationStatus?.completedWeeks ?? 0) >= 12;
+        const benchWeights = (user.benchHistory || []).map(entry => entry.weight || 0).filter(Boolean);
+        const finishedBenchWithPr = benchRunComplete && benchWeights.length >= 2 && benchWeights[benchWeights.length - 1] > benchWeights[0];
+        if (finishedBenchWithPr && !currentBadges.has('bench_psychopath')) newBadges.push('bench_psychopath');
+
+        const reactiveDeloadTriggered = (user.benchDominationStatus?.addedDeloadWeeks || [])
+            .some(deload => deload.type === 'reactive' || deload.type === 'drop-recalc');
+        if (benchRunComplete && !reactiveDeloadTriggered && !currentBadges.has('deload_denier')) newBadges.push('deload_denier');
 
         // Check Bench Gains (Domination OR Pencilneck)
         const benchSamples: number[] = [];
@@ -605,10 +652,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     }
                 }
 
-                // 3. Acolyte of Strength: Complete first cycle (Week 16)
+                // 3. Acolyte of Strength: Complete final training week (schedule week 18)
                 if (!currentBadges.has('acolyte_of_strength')) {
-                    const week16Logs = ritualLogs.filter(l => (l.week || 0) === 16);
-                    if (week16Logs.length >= 1) {
+                    const finalTrainingLogs = ritualLogs.filter(l => (l.week || 0) === 18);
+                    if (finalTrainingLogs.length >= 1) {
                         newBadges.push('acolyte_of_strength');
                     }
                 }
@@ -682,6 +729,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         } catch (e) {
             console.error("Failed to check logs for badges", e);
+        }
+
+        const badgeCountAfterChecks = new Set([...(user.badges || []), ...newBadges]).size;
+        if (badgeCountAfterChecks >= 10 && !currentBadges.has('final_boss') && !newBadges.includes('final_boss')) {
+            newBadges.push('final_boss');
         }
 
         if (newBadges.length > 0) {

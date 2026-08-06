@@ -1,0 +1,41 @@
+{
+  "title": "Choose the Pit-Wall composition",
+  "question": "The visual world is locked. Choose the mobile hierarchy that should govern the production build.",
+  "options": [
+    {
+      "id": "load-first",
+      "label": "Load-First Ledger",
+      "lineage": "Pit-board prescription plus vertical set sheet",
+      "thesis": "The required load is unmistakable from a meter away, then the eye falls directly into the set sequence.",
+      "palette": ["#090B0D", "#F1F3F5", "#7657FF", "#FF6A24"],
+      "materials": ["machined graphite", "calibrated rules", "smoked control plates"],
+      "viewport": "A dominant load block, vertical set ledger, and fixed next-set command.",
+      "risk": "The prescription area consumes more space before the accessory work appears.",
+      "sketch": ".impeccable/mocks/pitwall-load-first.png"
+    },
+    {
+      "id": "ledger-first",
+      "label": "Live Set Ledger",
+      "lineage": "F1 sector timing board and driver control deck",
+      "thesis": "The active set expands inside the session ledger, keeping context and logging controls visible together.",
+      "palette": ["#090B0D", "#F1F3F5", "#7657FF", "#FF6A24"],
+      "materials": ["timing sectors", "billet controls", "status rail"],
+      "viewport": "An expanded current set inside a dense ledger with load, reps, RPE, and log controls below.",
+      "risk": "It is the densest option and requires disciplined responsive reduction.",
+      "sketch": ".impeccable/mocks/pitwall-ledger-first.png"
+    },
+    {
+      "id": "session-command",
+      "label": "Session Command",
+      "lineage": "Pre-race command panel and timing manifest",
+      "thesis": "The dashboard makes starting today’s workout the unmistakable event, with the full prescription visible beneath it.",
+      "palette": ["#090B0D", "#F1F3F5", "#7657FF", "#FF6A24"],
+      "materials": ["billet start plate", "week sectors", "timing manifest"],
+      "viewport": "An asymmetric start panel, week rail, session manifest, and recent result.",
+      "risk": "The large start control is excellent before training but less useful once a session is underway.",
+      "sketch": ".impeccable/mocks/pitwall-session-command.png"
+    }
+  ],
+  "reroll": false,
+  "steer": true
+}

@@ -74,12 +74,14 @@ export const WorkoutView: React.FC = () => {
 
     // Trinary: RPE selection state for ME exercises (exerciseId -> RPE value or null)
     const [meRpeSelected, setMeRpeSelected] = useState<Record<string, number | null>>({});
+    const [slowVelocitySelected, setSlowVelocitySelected] = useState<Record<string, boolean>>({});
     // Trinary: Modal states
     const [showWeakPointModal, setShowWeakPointModal] = useState(false);
     const [showVariationSwapModal, setShowVariationSwapModal] = useState(false);
     const [pendingWeakPoints, setPendingWeakPoints] = useState<{ bench: string, deadlift: string, squat: string } | null>(null);
     const [pendingVariations, setPendingVariations] = useState<{ bench: string, deadlift: string, squat: string } | null>(null);
     const [showTrinaryRerunModal, setShowTrinaryRerunModal] = useState(false);
+    const [expandedExerciseId, setExpandedExerciseId] = useState<string | null>(null);
 
     const programData = activePlanConfig.program;
     const weekData = programData.weeks.find(w => w.weekNumber === weekNum);
@@ -393,9 +395,7 @@ export const WorkoutView: React.FC = () => {
 
             currentSets[setIndex] = { ...currentSets[setIndex], [field]: value };
 
-            if (field === 'reps' && value !== '') {
-                currentSets[setIndex].completed = true;
-            } else if (field === 'reps' && value === '') {
+            if (field === 'reps' && value === '') {
                 currentSets[setIndex].completed = null;
             }
 
@@ -1027,6 +1027,7 @@ export const WorkoutView: React.FC = () => {
                     if (isAccessoryDay) {
                         updates['trinaryStatus.accessoryDaysCompleted'] = increment(1);
                         updates['trinaryStatus.preferredAccessoryType'] = null;
+                        updates['trinaryStatus.forceAccessoryDay'] = false;
                     }
 
                     // Always reset skip flag when completing a workout
@@ -1119,6 +1120,25 @@ export const WorkoutView: React.FC = () => {
                                 }
                             }
                         }
+
+                        // DE progression: completing all prescribed speed sets earns +2.5 kg
+                        // of bar weight for that lift's next DE exposure. Bands/chains remain
+                        // an optional coaching alternative, but never mutate workout history.
+                        if (ex.name.includes('(DE)')) {
+                            const sets = exerciseData[ex.id];
+                            if (sets && sets.length >= ex.sets && sets.every(s => s.completed && parseInt(s.reps) >= 2)) {
+                                const baseName = ex.name.replace(' (DE)', '').toLowerCase();
+                                const liftType: 'bench' | 'deadlift' | 'squat' =
+                                    baseName.includes('bench') || baseName.includes('press') ? 'bench' :
+                                        baseName.includes('deadlift') || baseName.includes('rdl') ? 'deadlift' : 'squat';
+                                const currentPending = trinaryStatus.deProgressionPending || [];
+                                const existing = currentPending.find((p: any) => p.lift === liftType);
+                                const newPending = existing
+                                    ? currentPending.map((p: any) => p.lift === liftType ? { ...p, amount: p.amount + 2.5 } : p)
+                                    : [...currentPending, { lift: liftType, amount: 2.5 }];
+                                await updateDoc(userRef, { 'trinaryStatus.deProgressionPending': newPending });
+                            }
+                        }
                     }
 
                     // Check if workout 27 (end of program) - show re-run modal
@@ -1174,7 +1194,7 @@ export const WorkoutView: React.FC = () => {
 
                     for (const ex of dayData?.exercises || []) {
                         const sets = exerciseData[ex.id] || [];
-                        const completedSets = sets.filter(s => s.reps && s.reps.trim() !== '').length;
+                        const completedSets = sets.filter(s => s.completed && s.reps && s.reps.trim() !== '').length;
                         if (completedSets === 0) continue;
 
                         const contrib = getMuscleContributions(ex.id);
@@ -1183,11 +1203,31 @@ export const WorkoutView: React.FC = () => {
                         }
                     }
 
-                    // Apply volume updates
-                    Object.keys(volumeUpdates).forEach(muscle => {
-                        const currentVol = (superMutantStatus.rolling7DayVolume as any)?.[muscle] || 0;
-                        updates[`superMutantStatus.rolling7DayVolume.${muscle}`] = currentVol + volumeUpdates[muscle];
-                    });
+                    // Rebuild the true rolling 7-day ledger so old sets expire.
+                    const cutoff = now - 7 * 24 * 60 * 60 * 1000;
+                    const volumeHistory = (superMutantStatus.volumeHistory || [])
+                        .filter(entry => new Date(entry.date).getTime() > cutoff)
+                        .concat({ date: new Date(now).toISOString(), contributions: volumeUpdates });
+                    const rollingVolume: Record<string, number> = {};
+                    for (const entry of volumeHistory) for (const [muscle, amount] of Object.entries(entry.contributions)) {
+                        rollingVolume[muscle] = (rollingVolume[muscle] || 0) + amount;
+                    }
+                    updates['superMutantStatus.volumeHistory'] = volumeHistory;
+                    updates['superMutantStatus.rolling7DayVolume'] = rollingVolume;
+
+                    // Double progression: all prescribed sets at the top of the
+                    // rep range advances the saved load for the next exposure.
+                    for (const ex of dayData?.exercises || []) {
+                        if (ex.target.type !== 'range') continue;
+                        const topReps = Number(String(ex.target.reps).split('-').pop());
+                        const sets = exerciseData[ex.id] || [];
+                        const hitTop = sets.length >= ex.sets && sets.slice(0, ex.sets).every(s => s.completed && Number(s.reps) >= topReps);
+                        if (!hitTop) continue;
+                        const heaviest = Math.max(...sets.map(s => Number(s.weight) || 0));
+                        if (heaviest <= 0) continue;
+                        const compound = /chest-[ab]-main|hamstrings-2|quads-2/.test(ex.id);
+                        updates[`superMutantStatus.exerciseLoads.${ex.id}`] = heaviest + (compound ? 5 : 2.5);
+                    }
 
                     // Alternate A/B variants
                     if (uniqueGroups.includes('chest')) {
@@ -1198,7 +1238,7 @@ export const WorkoutView: React.FC = () => {
                     }
 
                     // Update weekly session dates for cap tracking
-                    const todayStr = new Date().toISOString().split('T')[0];
+                    const todayStr = new Date().toISOString();
                     const currentDates = superMutantStatus.weeklySessionDates || [];
                     const weekAgo = new Date();
                     weekAgo.setDate(weekAgo.getDate() - 7);
@@ -1220,6 +1260,13 @@ export const WorkoutView: React.FC = () => {
                 if (ritualStatus) {
                     const userRef = doc(db, 'users', user.id);
                     const updates: any = {};
+
+                    if (!isExistingLog) {
+                        const completedWorkouts = (ritualStatus.completedWorkouts || 0) + 1;
+                        const startScheduleWeek = ritualStatus.isFirstProgram ? 1 : 5;
+                        updates['ritualStatus.completedWorkouts'] = completedWorkouts;
+                        updates['ritualStatus.currentWeek'] = Math.min(19, startScheduleWeek + Math.floor(completedWorkouts / 3));
+                    }
 
                     // Ascension Test: Update 1RMs based on AMRAP performance.
                     // Fires on EVERY ascension week (4, 8, 12, 16), not just week 4 —
@@ -1301,6 +1348,16 @@ export const WorkoutView: React.FC = () => {
                         }
                     }
 
+                    if (!isExistingLog) {
+                        const pending = { ...(ritualStatus.lightWorkReductionPending || {}) };
+                        for (const ex of dayData?.exercises || []) {
+                            if (!ex.name.includes('(Light)')) continue;
+                            const lift: 'bench' | 'squat' | 'deadlift' = ex.name.toLowerCase().includes('bench') ? 'bench' : ex.name.toLowerCase().includes('squat') ? 'squat' : 'deadlift';
+                            pending[lift] = Boolean(slowVelocitySelected[ex.id]);
+                        }
+                        updates['ritualStatus.lightWorkReductionPending'] = pending;
+                    }
+
                     // Apply updates if any
                     if (Object.keys(updates).length > 0) {
                         await updateDoc(userRef, updates);
@@ -1347,14 +1404,32 @@ export const WorkoutView: React.FC = () => {
     // Detect Super Mutant for theme
     const isSuperMutant = programData.id === 'super-mutant';
 
+    const sessionSets = dayData.exercises.flatMap(ex => exerciseData[ex.id] || []);
+    const completedSessionSets = sessionSets.filter(set => set.completed).length;
+    const activeExercise = dayData.exercises.find(ex => (exerciseData[ex.id] || []).some(set => !set.completed)) || dayData.exercises[0];
+    const activeSets = activeExercise ? (exerciseData[activeExercise.id] || []) : [];
+    const unresolvedSetIndex = activeSets.findIndex(set => !set.completed);
+    const activeSetIndex = unresolvedSetIndex >= 0 ? unresolvedSetIndex : Math.max(0, activeSets.length - 1);
+    const activeSet = activeSets[activeSetIndex];
+    const sessionProgress = sessionSets.length > 0 ? Math.round((completedSessionSets / sessionSets.length) * 100) : 0;
+
+    const logActiveSet = () => {
+        if (!activeExercise || !activeSet || !activeSet.reps) return;
+        setExerciseData(prev => ({
+            ...prev,
+            [activeExercise.id]: (prev[activeExercise.id] || []).map((set, index) => index === activeSetIndex ? { ...set, completed: true } : set)
+        }));
+        setExpandedExerciseId(null);
+    };
+
     return (
-        <div className="space-y-6 pb-20">
+        <div className="instrument-page workout-ledger space-y-6 pb-28">
             {/* Pain & Glory: Deficit Snatch Grip RPE Modal */}
             {showDeficitModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-in fade-in duration-300">
                     <div className="bg-gradient-to-br from-amber-50 to-amber-100 border-4 border-red-700 p-8 rounded-xl max-w-md w-full shadow-2xl">
                         <h2 className="text-2xl font-black text-red-800 text-center mb-2">
-                            ⚔️ How Did That Feel? ⚔️
+                            How Did That Feel?
                         </h2>
                         <p className="text-amber-900 text-center text-sm mb-6">
                             Based on your RPE, we'll adjust next session's weight
@@ -1378,7 +1453,7 @@ export const WorkoutView: React.FC = () => {
                                 }}
                                 className="w-full h-14 text-lg font-bold bg-red-700 hover:bg-red-800 border-2 border-red-900 text-white shadow-md"
                             >
-                                ⚔️ Ready For More (+5 kg)
+                                Ready For More (+5 kg)
                             </Button>
 
                             <Button
@@ -1398,7 +1473,7 @@ export const WorkoutView: React.FC = () => {
                                 }}
                                 className="w-full h-14 text-lg font-bold bg-amber-700 hover:bg-amber-800 border-2 border-amber-900 text-white shadow-md"
                             >
-                                🩸 Good, Maintain
+                                Good, Maintain
                             </Button>
 
                             <Button
@@ -1418,7 +1493,7 @@ export const WorkoutView: React.FC = () => {
                                 }}
                                 className="w-full h-14 text-lg font-bold bg-stone-700 hover:bg-stone-800 border-2 border-stone-900 text-red-300 shadow-md"
                             >
-                                💀 Wrecked (-5 kg)
+                                Wrecked (-5 kg)
                             </Button>
                         </div>
 
@@ -1441,7 +1516,35 @@ export const WorkoutView: React.FC = () => {
                 </div>
             </div>
 
-            <div className="space-y-4">
+            {activeExercise && activeSet && (
+                <section className="live-set-console" aria-label="Active set control deck">
+                    <div className="live-set-head">
+                        <div>
+                            <p className="live-set-label">Live set · {completedSessionSets + 1}/{sessionSets.length}</p>
+                            <h1>{activeExercise.name}</h1>
+                        </div>
+                        <div className="session-meter" aria-label={`${sessionProgress}% complete`}>
+                            <strong>{sessionProgress}%</strong>
+                            <span><i style={{ height: `${sessionProgress}%` }} /></span>
+                        </div>
+                    </div>
+                    <div className="live-set-measurements">
+                        <label><span>{t('common.weight')}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
+                        <label><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value)} aria-label={t('workout.reps')} /></label>
+                    </div>
+                    <div className="live-set-telemetry">
+                        {activeExercise.target.rpe !== undefined && <div><span>RPE</span><strong>{activeExercise.target.rpe}</strong></div>}
+                        {activeExercise.rest && <div><span>Rest</span><strong>{activeExercise.rest}</strong></div>}
+                        <div><span>Load mode</span><strong>{calculateWeight(activeExercise) !== '0' ? 'AUTO' : 'MANUAL'}</strong></div>
+                    </div>
+                    <div className="live-set-command">
+                        <div><span>{t('workout.sets')}</span><strong>{activeSetIndex + 1}/{activeSets.length}</strong></div>
+                        <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />Log set</Button>
+                    </div>
+                </section>
+            )}
+
+            <div className="workout-exercises space-y-3">
                 {dayData.exercises.map((ex) => {
                     const sets = exerciseData[ex.id] || [];
                     const prevStat = previousStats[ex.name];
@@ -1690,10 +1793,26 @@ export const WorkoutView: React.FC = () => {
                     }
 
                     let advice = prevStat?.advice || "";
+                    const isExpanded = expandedExerciseId === ex.id;
 
                     return (
-                        <Card key={ex.id} className="overflow-hidden">
-                            <CardHeader className="pb-3 bg-secondary/10">
+                        <Card key={ex.id} className="exercise-sector overflow-hidden">
+                            <CardHeader
+                                className="pb-3 bg-secondary/10 border-b border-border/70 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                                role="button"
+                                tabIndex={0}
+                                aria-expanded={isExpanded}
+                                onClick={(event) => {
+                                    if ((event.target as HTMLElement).closest('button,input,textarea,a')) return;
+                                    setExpandedExerciseId(isExpanded ? null : ex.id);
+                                }}
+                                onKeyDown={(event) => {
+                                    if (event.key === 'Enter' || event.key === ' ') {
+                                        event.preventDefault();
+                                        setExpandedExerciseId(isExpanded ? null : ex.id);
+                                    }
+                                }}
+                            >
                                 <div className="flex justify-between items-start">
                                     <div className="w-full">
                                         <div className="flex justify-between w-full items-start gap-2">
@@ -1738,7 +1857,7 @@ export const WorkoutView: React.FC = () => {
                                             <div className="mt-2 p-2 bg-yellow-500/10 border border-yellow-500/20 rounded text-xs text-yellow-600 dark:text-yellow-400 font-medium flex flex-col gap-1">
                                                 {displayTips.map((tip, i) => (
                                                     <div key={i} className="flex gap-2">
-                                                        <span className="font-bold shrink-0">💡</span>
+                                                        <AlertCircle className="h-4 w-4 shrink-0" />
                                                         <span>{tip}</span>
                                                     </div>
                                                 ))}
@@ -1761,11 +1880,24 @@ export const WorkoutView: React.FC = () => {
                                                     <span className="text-sm font-mono text-primary font-bold">{t('workout.target')} {targetWeight}{t('common.kg')}</span>
                                                 ) : <span></span>}
                                             </div>
+                                            {programData.id === 'ritual-of-strength' && ex.name.includes('(Light)') && (
+                                                <button
+                                                    type="button"
+                                                    aria-pressed={Boolean(slowVelocitySelected[ex.id])}
+                                                    onClick={(event) => {
+                                                        event.stopPropagation();
+                                                        setSlowVelocitySelected(current => ({ ...current, [ex.id]: !current[ex.id] }));
+                                                    }}
+                                                    className={`mt-2 min-h-11 w-full border px-3 py-2 text-left text-xs font-bold uppercase tracking-[0.08em] ${slowVelocitySelected[ex.id] ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
+                                                >
+                                                    {t('workout.velocitySlow')}
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                             </CardHeader>
-                            <CardContent className="p-0">
+                            {isExpanded && <CardContent className="p-0">
                                 {/* Warmups Section */}
                                 {warmupSets && warmupSets.length > 0 && (
                                     <div className="bg-muted/30 border-b border-border">
@@ -1813,7 +1945,7 @@ export const WorkoutView: React.FC = () => {
                                                             GIANT SET {giantSetIndex}
                                                         </div>
                                                     )}
-                                                    <div className={cn("grid grid-cols-10 gap-2 p-2 items-center border-b border-border/50 last:border-0", set.completed ? "bg-green-500/5" : "")}>
+                                                    <div className={cn("set-row grid grid-cols-10 gap-2 p-2 items-center border-b border-border/50 last:border-0", set.completed ? "is-complete" : "")}>
                                                         <div className="col-span-3 text-xs font-bold text-muted-foreground whitespace-normal leading-tight flex items-center h-full">
                                                             {step.name}
                                                         </div>
@@ -1845,7 +1977,7 @@ export const WorkoutView: React.FC = () => {
                                         })
                                     ) : (
                                         sets.map((set, idx) => (
-                                            <div key={idx} className={cn("grid grid-cols-10 gap-2 p-2 items-center", set.completed ? "bg-green-500/5" : "")}>
+                                            <div key={idx} className={cn("set-row grid grid-cols-10 gap-2 p-2 items-center", set.completed ? "is-complete" : "")}>
                                                 <div className="col-span-1 text-center font-bold text-muted-foreground">{idx + 1}</div>
                                                 <div className="col-span-4">
                                                     <Input
@@ -1896,7 +2028,7 @@ export const WorkoutView: React.FC = () => {
                                             </Button>
                                         )}
                                     </div>
-                                    <p className="text-[10px] text-center text-orange-400/60 mt-1">⚠️ Not recommended - only if needed</p>
+                                    <p className="text-[10px] text-center text-orange-400/60 mt-1">Not recommended — only if needed</p>
                                 </div>
 
                                 {/* Intensity Technique callout */}
@@ -2057,7 +2189,7 @@ export const WorkoutView: React.FC = () => {
                                                         <span className="text-green-400">Exceptionally easy? Add +5kg instead of +2.5kg</span>
                                                     </label>
                                                     <div className="text-xs text-red-300/60">
-                                                        💡 Next session: <span className="font-bold text-red-200">+{progressionAmount}kg</span>
+                                                        Next session: <span className="font-bold text-red-200">+{progressionAmount}kg</span>
                                                     </div>
                                                 </div>
                                             )}
@@ -2101,7 +2233,7 @@ export const WorkoutView: React.FC = () => {
                                                     </div>
                                                     {needsReduction && (
                                                         <div className="text-xs text-orange-400 mt-2 font-semibold">
-                                                            ⚠️ Next session: -5% weight (bar was slow)
+                                                            Next session: -5% weight (bar was slow)
                                                         </div>
                                                     )}
                                                 </div>
@@ -2128,7 +2260,7 @@ export const WorkoutView: React.FC = () => {
                                         <CheckCircle2 className="w-3 h-3 mr-2" /> {t('workout.completed')}
                                     </Button>
                                 </div>
-                            </CardContent>
+                            </CardContent>}
                         </Card>
                     );
                 })}

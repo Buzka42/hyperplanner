@@ -1,7 +1,7 @@
 # Super Mutant
 
 **Program ID:** `super-mutant` · **Source:** [src/data/supermutant.ts](../../src/data/supermutant.ts)
-**Duration:** 16 weeks (4 × 4-week cycles) · **Frequency:** dynamic — the app generates the next workout on demand
+**Duration:** 12 build weeks + 2 peak weeks (84 workouts) · **Frequency:** dynamic, capped at 6 sessions per rolling 7 days
 
 Fallout-themed high-frequency bodybuilding. There is no fixed calendar: `preprocessDay` calls `generateNextWorkout(user)` every time, building the session from muscle-group **cooldown timers** and a rolling **7-day set-volume** ledger.
 
@@ -40,16 +40,16 @@ Target ≈ **20 sets per muscle per week**. Per-exercise sets are computed as `c
 
 **Rep ranges shift by cycle** (`getRepRange`): cycles 1–2 → main 8-12 / isolation 10-15; cycles 3–4 → main 10-15 / isolation 15-20.
 
-## Deload (Week 9)
+## Final Peak
 
-Workouts 57–63 (after 8 full weeks at 7/week pace) generate deload sessions: one block, **one exercise per muscle at 2 sets**, RIR 2–3, form focus.
+Weeks 13–14 retain reactive volume while completing the repeating RIR wave. The rolling session cap and muscle cooldowns remain mandatory during the peak.
 
 ## State & Badges
 
-`superMutantStatus`: `completedWorkouts`, `currentCycle`, per-muscle timestamps and rolling volume, A/B variant flags, block alternation, exercise preferences, `weeklySessionDates` (7-day session cap tracking), initial 1RMs.
+`superMutantStatus`: `completedWorkouts`, `currentCycle`, per-muscle timestamps, expiring volume history and derived rolling volume, A/B variant flags, exercise preferences, saved double-progression loads, and `weeklySessionDates` (7-day session cap tracking).
 
 Badges: **Super Mutant Aspirant** (72 workouts) · **Behemoth of the Wastes** (84 workouts).
 
 **Dashboard/system extras:** Mutagen Exposure progress widget (X/84), an over-mutation warning when ≥6 sessions land in the rolling 7 days, and at 84 workouts the INITIATE card becomes a re-run offer (resets counters/volume/timestamps, keeps history; add +2.5-5 kg to working weights manually). Settings has a dev-labeled **Skip 24 hours** button that shifts all cooldown timestamps back a day. Workout drafts restored from localStorage are reconciled against the freshly generated day, since the same week/day slot can regenerate differently.
 
-Dashboard: **Recovery Gauge** (all 12 muscles with ready/soon/cooldown status + 7-day set counts), rotating Mutant Mindset quote (indexed by workout count), and the INITIATE button that routes to the next generated session (`week = floor(count/7)+1`, `day = count%7+1` — each workout gets a unique save slot).
+Dashboard: **Recovery Gauge** (all 12 muscles with ready/soon/cooldown status + 7-day set counts), rotating Mutant Mindset quote (indexed by workout count), and the INITIATE button that routes to the next generated session (`week = floor(count/6)+1`, `day = count%6+1` — each workout gets a unique save slot).

@@ -71,11 +71,13 @@ export type TrinaryStatus = {
     isDeload?: boolean;
     meProgressionPending?: { lift: 'bench' | 'deadlift' | 'squat'; amount: number }[]; // +5kg pending for next ME
     reProgressionPending?: { lift: 'bench' | 'deadlift' | 'squat'; amount: number }[]; // +2.5kg pending for next RE
+    deProgressionPending?: { lift: 'bench' | 'deadlift' | 'squat'; amount: number }[]; // +2.5kg bar-weight progression for successful DE work
     excludedVariations?: string[];
     // User preference for accessory days
     preferredAccessoryType?: 'upper' | 'lower' | null;
     accessoryDaysCompleted?: number;
     skipNextAccessory?: boolean;
+    forceAccessoryDay?: boolean;
     // Onboarding choice: work up to a 1-rep max (singles) or 3-rep max (ladder) on ME days
     meRepMaxStyle?: '1rm' | '3rm';
     // Settings choice: substitute movement for the Repeated Effort deadlift slot
@@ -133,6 +135,8 @@ export type SuperMutantStatus = {
     hamstringExercise: 'Good Mornings' | 'Deficit RDLs';
     // Weekly session tracking for cap
     weeklySessionDates?: string[]; // Last 7 days of session dates
+    volumeHistory?: { date: string; contributions: Record<string, number> }[];
+    exerciseLoads?: Record<string, number>;
 };
 
 export type BadgeId =
@@ -179,10 +183,13 @@ export type Badge = {
 
 export type UserProfile = {
     id: string; // Codeword or Auth UID
+    ownerUid?: string; // Firebase Auth owner; required by production Firestore rules
     codeword: string;
     stats: LiftingStats;
     startDate: string; // ISO date
     programId: string;
+    allowedPlanIds?: string[];
+    allowPlanSwitching?: boolean;
     completedSessions: number;
     lastAmrapDate?: string;
     benchHistory: { date: string; week?: number; weight: number; actualWeight?: number; actualReps?: number }[];

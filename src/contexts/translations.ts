@@ -19,6 +19,7 @@ export const translations = {
             edit: "Edit",
             log: "Log",
             kg: "kg",
+            weight: "Load",
             reps: "reps",
             sets: "sets",
             week: "Week",
@@ -51,6 +52,7 @@ export const translations = {
         // WORKOUT VIEW
         // ========================================
         workout: {
+            velocitySlow: "Bar speed was slow — reduce this lift by 5% next session",
             restDayOrInvalid: "Rest Day or Invalid Date",
             completed: "Completed",
             last: "last",
@@ -423,7 +425,7 @@ export const translations = {
             exerciseOptions: {
                 hackSquat: "Hack Squat",
                 highFootLegPress: "High-Foot Leg Press",
-                pecDec: "Pec-Dec",
+                pecDec: "Pec Deck",
                 lowToHighCableFlyes: "Low-to-High Cable Flyes",
                 frontSquats: "Front Squats",
                 narrowStanceLegPress: "Narrow-Stance Leg Press",
@@ -1087,6 +1089,7 @@ export const translations = {
             edit: "Edytuj",
             log: "Zapisz",
             kg: "kg",
+            weight: "Ciężar",
             reps: "powt.",
             sets: "serie",
             week: "Tydzień",
@@ -1114,6 +1117,7 @@ export const translations = {
         },
 
         workout: {
+            velocitySlow: "Sztanga poruszała się wolno — zmniejsz ten bój o 5% na następnej sesji",
             restDayOrInvalid: "Dzień wolny lub błędna data",
             completed: "Ukończono",
             last: "ost.",
@@ -1478,7 +1482,7 @@ export const translations = {
             exerciseOptions: {
                 hackSquat: "Hack Squat",
                 highFootLegPress: "Leg Press (stopy wysoko na platformie)",
-                pecDec: "Pec-Dec",
+                pecDec: "Pec Deck",
                 lowToHighCableFlyes: "Rozpiętki w górę (wyciąg)",
                 frontSquats: "Front Squat",
                 narrowStanceLegPress: "Leg Press (wąski rozstaw stóp)",

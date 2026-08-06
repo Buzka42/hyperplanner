@@ -1,8 +1,80 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn() && request.auth.token.admin == true;
+    }
+
+    function ownsUser(userId) {
+      return signedIn() &&
+        get(/databases/$(database)/documents/users/$(userId)).data.ownerUid == request.auth.uid;
+    }
+
+    function onboardingConfig() {
+      return get(/databases/$(database)/documents/appConfig/onboarding).data;
+    }
+
+    function publicCreationAllowed() {
+      return !exists(/databases/$(database)/documents/appConfig/onboarding) || onboardingConfig().allowPublicKeywordCreation == true;
+    }
+
+    function publicPlanIds() {
+      return exists(/databases/$(database)/documents/appConfig/onboarding)
+        ? onboardingConfig().generalPlanIds
+        : ['bench-domination', 'pencilneck-eradication', 'skeleton-to-threat', 'peachy-glute-plan', 'pain-and-glory', 'trinary', 'ritual-of-strength', 'super-mutant'];
+    }
+
+    function validSelectedProgram() {
+      return !('allowedPlanIds' in request.resource.data) ||
+        request.resource.data.programId in request.resource.data.allowedPlanIds;
+    }
+
+    function matchesIssuedAccess(userId) {
+      return exists(/databases/$(database)/documents/accessKeys/$(userId)) &&
+        get(/databases/$(database)/documents/accessKeys/$(userId)).data.active == true &&
+        request.resource.data.allowedPlanIds == get(/databases/$(database)/documents/accessKeys/$(userId)).data.allowedPlanIds;
+    }
+
+    match /appConfig/{configId} {
+      allow get: if signedIn();
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /accessKeys/{keyword} {
+      allow read: if signedIn();
+      allow create: if isAdmin() || (
+        signedIn() &&
+        publicCreationAllowed() &&
+        request.resource.data.keyword == keyword &&
+        keyword != 'judziek' &&
+        request.resource.data.source == 'public' &&
+        request.resource.data.active == true &&
+        request.resource.data.createdBy == request.auth.uid &&
+        request.resource.data.allowedPlanIds.size() > 0 &&
+        request.resource.data.allowedPlanIds.hasOnly(publicPlanIds())
+      );
+      allow update, delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid && validSelectedProgram() && matchesIssuedAccess(userId);
+      allow read: if isAdmin() ||
+        (signedIn() && resource.data.ownerUid == request.auth.uid) ||
+        (signedIn() && !('ownerUid' in resource.data));
+      allow update: if isAdmin() ||
+        (signedIn() && resource.data.ownerUid == request.auth.uid && request.resource.data.ownerUid == resource.data.ownerUid && validSelectedProgram() &&
+          (!('allowedPlanIds' in resource.data) || request.resource.data.allowedPlanIds == resource.data.allowedPlanIds)) ||
+        (signedIn() && !('ownerUid' in resource.data) && request.resource.data.ownerUid == request.auth.uid);
+      allow delete: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
+
+      match /workouts/{workoutId} {
+        allow read, create, update, delete: if isAdmin() || ownsUser(userId);
+      }
     }
   }
 }

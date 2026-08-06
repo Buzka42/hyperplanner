@@ -28,14 +28,14 @@ Every session (rotating which lift is ME):
 
 **Ascension Tests** recur every 4 weeks (weeks 8, 12, 16): AMRAP @ 85% + back-downs, updating 1RMs via Epley. This update now correctly fires on **every** ascension week (see bugfix note below) — not just week 4.
 
-> **Known gap (pre-existing, not yet built):** "Purge/deload weeks" after weeks 8/12/16 are referenced in `preprocessDay` (checking for dynamically-inserted weeks 9/17) but the program's static week array only contains weeks 1–16 and nothing ever inserts a week 9 or 17 — so this deload path is currently unreachable. Likewise, the Light-work velocity checkbox ("Good bar speed?") is rendered but its "-5% if slow" answer is not yet persisted anywhere, so it has no effect on next session's weight. Both are pending features, not something this pass touched.
+Purge/deload weeks are inserted as schedule weeks 9, 14, and 19, with the underlying training-week mapping preserved. The Light-work velocity answer persists a per-lift reduction and changes the next light prescription from 70% to 65% until a successful exposure clears it.
 
 ## Progression Mechanics (applied in `handleSaveSession`)
 
 - **Ascension Test 1RM update (fixed):** previously this only ran when `weekNum === 4`, so the recurring Ascension Tests at weeks 8/12/16 never actually updated the stored 1RM — the ME weight would silently stall since `calculateWeight` derives everything from that 1RM. It's now gated purely by the exercise name containing "Ascension Test" (which only appears on ascension weeks anyway), so all four tests (4, 8, 12, 16) update the 1RM via Epley. Each Ascension Test recalculation also **resets that lift's accumulated ME checkbox bonus to 0** — the bonus was computed against the old 1RM and would otherwise stack on top of the freshly-recalculated one.
 - **ME singles auto-PR:** any successful single heavier than the stored 1RM (floored to 2.5 kg) overwrites it.
 - **Checkbox progression:** after entering a single, a safety checkbox appears — "RPE ≤9 with perfect form?" → queues **+2.5 kg** for the next ME session; a second checkbox ("exceptionally easy") upgrades it to **+5 kg**. Stored per-lift in `benchMEProgression / squatMEProgression / deadliftMEProgression` and added on top of the 95% calculation.
-- **Velocity check on Light work:** UI-only today (see known gap above) — answering the bar-speed checkbox does not currently change next session's weight.
+- **Velocity check on Light work:** slow bar speed persists a per-lift reduction, changing the next light exposure from 70% to 65%; successful work clears the pending reduction.
 
 ## State & Badges
 

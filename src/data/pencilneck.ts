@@ -130,7 +130,6 @@ export const PENCILNECK_CONFIG: PlanConfig = {
                     "Hack Squat": "push-a-leg-primary",
                     "High-Foot Leg Press": "push-a-leg-primary",
                     "Pec Deck": "push-b-fly",
-                    "Pec-Dec": "push-b-fly",
                     "Low-to-High Cable Flyes": "push-b-fly",
                     "Front Squats": "push-b-leg-secondary",
                     "Narrow-Stance Leg Press": "push-b-leg-secondary",

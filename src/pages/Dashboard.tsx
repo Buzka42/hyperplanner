@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
-import { useLanguage } from '../contexts/useTranslation';
+import { useLanguage, resolveTemplate } from '../contexts/useTranslation';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -217,8 +217,17 @@ export const Dashboard: React.FC = () => {
         }
     }
 
+    const dashboardDays = weekData?.days.map(day => activePlanConfig.hooks?.preprocessDay ? activePlanConfig.hooks.preprocessDay(day, user) : day) || [];
+    const nextTrainingDay = dashboardDays
+        .filter(day => day.exercises.length > 0)
+        .sort((a, b) => a.dayOfWeek - b.dayOfWeek)
+        .find(day => !completedSet.has(`${viewWeek}-${day.dayOfWeek}`)) || dashboardDays.find(day => day.exercises.length > 0);
+    const nextDayName = nextTrainingDay?.dayName.startsWith('t:')
+        ? resolveTemplate(nextTrainingDay.dayName, t)
+        : nextTrainingDay?.dayName;
+
     return (
-        <div className="space-y-8 animate-in fade-in duration-500 relative">
+        <div className="instrument-page space-y-8 relative">
             {completionType && (() => {
                 const badgeId = completionType === 'skeleton' ? 'certified_threat' : 'certified_boulder';
                 const badge = BADGES.find(b => b.id === badgeId);
@@ -226,9 +235,7 @@ export const Dashboard: React.FC = () => {
 
                 return (
                     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/90 text-white p-4 animate-in fade-in duration-1000">
-                        <div className="text-6xl animate-bounce mb-8">
-                            {completionType === 'skeleton' ? "💀 🎉 💀" : "🎉 🗿 🎉"}
-                        </div>
+                        <Trophy className="h-20 w-20 mb-8 text-primary" />
                         <h1 className="text-4xl md:text-6xl font-black text-center mb-4 text-primary uppercase tracking-tighter">
                             {completionType === 'skeleton' ? t('dashboard.completion.skeletonTitle') : t('dashboard.completion.pencilneckTitle')}
                         </h1>
@@ -307,11 +314,9 @@ export const Dashboard: React.FC = () => {
                     <p className="text-xl text-center text-muted-foreground mb-8 max-w-lg">
                         {completionType === 'skeleton' ? t('dashboard.nextSteps.skeletonDescription') : t('dashboard.nextSteps.pencilneckDescription')}
                     </p>
-                    <a href="https://placeholder-contact.com" target="_blank" rel="noreferrer">
-                        <Button size="lg" className="font-bold text-xl px-12 py-8 bg-blue-600 hover:bg-blue-700 text-white">
-                            {t('dashboard.nextSteps.contactTrainer')}
-                        </Button>
-                    </a>
+                    <Button size="lg" className="font-bold text-xl px-12 py-8" onClick={() => { setShowNextSteps(false); setCompletionType(null); }}>
+                        {t('common.close')}
+                    </Button>
                     <button
                         onClick={() => {
                             setShowNextSteps(false);
@@ -322,6 +327,25 @@ export const Dashboard: React.FC = () => {
                         Close
                     </button>
                 </div>
+            )}
+
+            {!isTrinary && !isSuperMutant && nextTrainingDay && (
+                <section className="dashboard-command" aria-label="Next workout">
+                    <div className="dashboard-command-copy">
+                        <p>{t('common.week')} {viewWeek} · {nextTrainingDay.exercises.length} {t('common.exercises')}</p>
+                        <h1>{nextDayName}</h1>
+                        <div className="dashboard-manifest">
+                            {nextTrainingDay.exercises.slice(0, 4).map((exercise, index) => (
+                                <span key={exercise.id}><b>{String(index + 1).padStart(2, '0')}</b>{exercise.name}</span>
+                            ))}
+                        </div>
+                    </div>
+                    <Button size="lg" className="dashboard-start" onClick={() => navigate(`/app/workout/${viewWeek}/${nextTrainingDay.dayOfWeek}`)}>
+                        <Dumbbell className="h-6 w-6" />
+                        <span>{t('dashboard.trinary.startWorkout')}</span>
+                        <ChevronRight className="h-7 w-7" />
+                    </Button>
+                </section>
             )}
 
             <div>
@@ -338,7 +362,7 @@ export const Dashboard: React.FC = () => {
                             ) : (
                                 <div className="flex flex-col gap-2">
                                     <h2 className="text-4xl font-black tracking-tight">
-                                        {t('dashboard.feelingPeachy')} <span className="shimmer-text">{t('dashboard.peachyStatus')}</span> 🍑
+                                        {t('dashboard.feelingPeachy')} <span className="shimmer-text">{t('dashboard.peachyStatus')}</span>
                                     </h2>
                                 </div>
                             )}
@@ -451,7 +475,7 @@ export const Dashboard: React.FC = () => {
 
             {/* Dashboard Widgets (hide for Trinary) */}
             {!isTrinary && (
-                <div className={`grid gap-4 ${activeWidgets.includes('strength_chart') ? 'md:grid-cols-7' : 'grid-cols-1'}`}>
+                <div className={`dashboard-telemetry grid gap-3 ${activeWidgets.includes('strength_chart') ? 'md:grid-cols-7' : 'grid-cols-1'}`}>
                     {activeWidgets.includes('1rm') && (
                         <Card className="col-span-2 bg-primary/5 border-primary/20">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -607,7 +631,7 @@ export const Dashboard: React.FC = () => {
                     {activeWidgets.includes('strength_altar') && activePlanConfig.id === 'ritual-of-strength' && (
                         <Card className="col-span-full md:col-span-4 border-red-900/30 bg-gradient-to-br from-black via-red-950/20 to-black relative overflow-hidden">
                             {/* Flame shimmer background effect */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-red-900/10 to-transparent animate-pulse pointer-events-none" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-red-900/10 to-transparent pointer-events-none" />
 
                             <CardHeader className="pb-2 relative z-10">
                                 <CardTitle className="text-xl font-black flex items-center justify-center gap-3 text-red-500 uppercase tracking-widest">
@@ -624,7 +648,7 @@ export const Dashboard: React.FC = () => {
                                         <div className="relative w-16">
                                             {/* Flame effect on top */}
                                             <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl">
-                                                🔥
+                                                <Activity className="h-5 w-5" />
                                             </div>
                                             {/* Candle body */}
                                             <div className="bg-gradient-to-t from-red-950 via-red-800 to-red-600 h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
@@ -645,7 +669,7 @@ export const Dashboard: React.FC = () => {
                                         <div className="relative w-16">
                                             {/* Flame effect on top */}
                                             <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl">
-                                                🔥
+                                                <Activity className="h-5 w-5" />
                                             </div>
                                             {/* Candle body */}
                                             <div className="bg-gradient-to-t from-red-950 via-red-800 to-red-600 h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
@@ -666,7 +690,7 @@ export const Dashboard: React.FC = () => {
                                         <div className="relative w-16">
                                             {/* Flame effect on top */}
                                             <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-2xl">
-                                                🔥
+                                                <Activity className="h-5 w-5" />
                                             </div>
                                             {/* Candle body */}
                                             <div className="bg-gradient-to-t from-red-950 via-red-800 to-red-600 h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
@@ -757,7 +781,7 @@ export const Dashboard: React.FC = () => {
                             <Card className="col-span-full md:col-span-4 border-green-800/30 bg-gradient-to-br from-black to-green-950/20">
                                 <CardHeader className="pb-2">
                                     <CardTitle className="mutant-text text-lg font-black flex items-center gap-2">
-                                        🧬 RECOVERY GAUGE
+                                        RECOVERY GAUGE
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
@@ -831,7 +855,7 @@ export const Dashboard: React.FC = () => {
                                                             {groupLabels[group]}
                                                         </div>
                                                         <div className="text-[10px] text-green-400/60">
-                                                            {status === 'ready' ? '✓ READY' : status === 'nearly-ready' ? '⚡ SOON' : timeRemaining}
+                                                            {status === 'ready' ? 'READY' : status === 'nearly-ready' ? 'SOON' : timeRemaining}
                                                         </div>
                                                         <div className="text-[9px] text-green-300/40 mt-0.5">
                                                             {volume} sets/7d
@@ -850,7 +874,7 @@ export const Dashboard: React.FC = () => {
                             {/* Mutant Mindset - Motivational Quote */}
                             <Card className="col-span-full border-orange-800/30 bg-gradient-to-r from-orange-950/20 to-green-950/20">
                                 <CardContent className="p-6 text-center">
-                                    <div className="text-orange-500 text-4xl mb-2">☢️</div>
+                                    <Activity className="h-10 w-10 text-orange-500 mb-2" />
                                     <p className="text-lg font-black italic radiation-text">
                                         "{(() => {
                                             const quotes = tArray('superMutantQuotes');
@@ -874,7 +898,7 @@ export const Dashboard: React.FC = () => {
                                 return (
                                     <Card className="col-span-full md:col-span-3 border-green-800/30 bg-gradient-to-br from-black to-green-950/20">
                                         <CardHeader className="pb-2">
-                                            <CardTitle className="mutant-text text-lg font-black">☢️ MUTAGEN EXPOSURE</CardTitle>
+                                            <CardTitle className="mutant-text text-lg font-black">MUTAGEN EXPOSURE</CardTitle>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="text-3xl font-black text-green-300">
@@ -894,8 +918,8 @@ export const Dashboard: React.FC = () => {
                                 <CardContent className="p-6">
                                     {(() => {
                                         const workoutNum = user.superMutantStatus?.completedWorkouts || 0;
-                                        const weekNum = Math.floor(workoutNum / 7) + 1;
-                                        const dayNum = (workoutNum % 7) + 1;
+                                        const weekNum = Math.floor(workoutNum / 6) + 1;
+                                        const dayNum = (workoutNum % 6) + 1;
 
                                         // Weekly session cap: >=6 sessions in the rolling 7 days
                                         const weekAgo = new Date();
@@ -925,7 +949,7 @@ export const Dashboard: React.FC = () => {
                                                             });
                                                         }}
                                                     >
-                                                        ☣️ {t('dashboard.superMutant.rerunButton')}
+                                                        {t('dashboard.superMutant.rerunButton')}
                                                     </Button>
                                                 </div>
                                             );
@@ -935,7 +959,7 @@ export const Dashboard: React.FC = () => {
                                             <>
                                                 {overMutation && (
                                                     <div className="mb-4 p-3 rounded border border-orange-600/60 bg-orange-950/40 text-orange-300 text-sm font-bold">
-                                                        ☢️ {t('dashboard.superMutant.overMutationWarning', { count: recentSessions })}
+                                                        {t('dashboard.superMutant.overMutationWarning', { count: recentSessions })}
                                                     </div>
                                                 )}
                                                 <div className="flex items-center justify-between">
@@ -947,8 +971,8 @@ export const Dashboard: React.FC = () => {
                                                             {t('dashboard.superMutant.dynamicWorkout')}
                                                         </p>
                                                     </div>
-                                                    <Link to={`/app/workout/${weekNum}/${dayNum}`}>
-                                                        <Button size="lg" className="bg-green-700 hover:bg-green-600 text-green-50 font-black">
+                                                    <Link to={overMutation ? '#' : `/app/workout/${weekNum}/${dayNum}`} aria-disabled={overMutation}>
+                                                        <Button disabled={overMutation} size="lg" className="bg-green-700 hover:bg-green-600 text-green-50 font-black">
                                                             <Dumbbell className="mr-2 h-5 w-5" />
                                                             INITIATE
                                                         </Button>
@@ -1078,7 +1102,7 @@ export const Dashboard: React.FC = () => {
                     )}
 
                     {activePlanConfig.id === 'bench-domination' && viewWeek === 13 && !user.benchDominationStatus && (
-                        <Card className="col-span-full border-yellow-500 bg-yellow-500/5 animate-pulse">
+                        <Card className="col-span-full border-yellow-500 bg-yellow-500/5">
                             <CardHeader>
                                 <CardTitle className="text-2xl text-yellow-500 flex items-center gap-2">
                                     <Activity className="w-6 h-6" /> {t('crossroads.title')}
@@ -1358,7 +1382,7 @@ export const Dashboard: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    <div className="week-sector-list grid gap-3 md:grid-cols-2">
                         {weekData?.days.sort((a, b) => a.dayOfWeek - b.dayOfWeek).map((rawDay) => {
                             let day = rawDay;
                             if (activePlanConfig.hooks?.preprocessDay) {
@@ -1416,30 +1440,17 @@ export const Dashboard: React.FC = () => {
                     onSelectType={async (type) => {
                         if (!user) return;
 
-                        const status = (user as any).trinaryStatus;
-                        const completed = status?.completedWorkouts || 0;
+                        const trinaryStatus = user.trinaryStatus;
+                        const completed = trinaryStatus?.completedWorkouts || 0;
                         const nextCtx = completed + 1;
                         const block = Math.ceil(nextCtx / 3);
                         const pos = ((nextCtx - 1) % 3) + 1;
 
                         const userRef = doc(db, 'users', user.id);
 
-                        // Force accessory day by setting preferred type and adding fake workout logs
-                        // to meet the 4+ workouts in 7 days condition
-                        const now = new Date();
-                        const fakeWorkoutLogs = [];
-                        for (let i = 0; i < 4; i++) {
-                            const date = new Date(now);
-                            date.setDate(date.getDate() - i);
-                            fakeWorkoutLogs.push({
-                                date: date.toISOString(),
-                                workoutNumber: completed - i
-                            });
-                        }
-
                         await updateDoc(userRef, {
                             'trinaryStatus.preferredAccessoryType': type,
-                            'trinaryStatus.workoutLog': fakeWorkoutLogs
+                            'trinaryStatus.forceAccessoryDay': true
                         });
 
                         setShowAccessoryModal(false);

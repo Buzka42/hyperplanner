@@ -172,7 +172,7 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
     const planTable: Record<number, [string, number, string][]> = {
         1: [["Flat Barbell Bench Press", 3, "8-12"], ["Incline DB Press", 3, "10-14"], ["Cable Flyes", 3, "12-15"], ["Seated DB Shoulder Press", 3, "8-12"], ["Leaning Single Arm DB Lateral Raises", 3, "15-20"], ["Overhead Tricep Extensions", 3, "12-15"], ["Hack Squat", 3, "10-15"], ["Leg Extensions", 3, "15-20"], ["Leg Press Calf Raises", 3, "12-18"]],
         2: [["Hammer Pulldown", 3, "8-12"], ["Seated Cable Row", 3, "10-14"], ["Lat Prayer", 3, "12-15"], ["Wide Grip BB Row", 3, "10-15"], ["Side-Lying Rear Delt Flyes", 3, "15-20"], ["Preacher EZ-Bar Curls", 3, "10-15"], ["Romanian Deadlift", 3, "8-12"], ["Lying Leg Curls", 3, "12-16"], ["Hanging Leg Raises", 3, "12-20"]],
-        4: [["Incline Barbell Bench Press", 3, "8-12"], ["Flat DB Press", 3, "10-14"], ["Pec-Dec", 3, "12-15"], ["Standing Barbell Military Press", 3, "8-12"], ["Leaning Single Arm DB Lateral Raises", 3, "15-20"], ["Close-Grip Bench Press", 3, "10-14"], ["Front Squats", 3, "10-15"], ["Walking Lunges", 3, "12-16"], ["Hack Calf Raises", 3, "15-20"]],
+        4: [["Incline Barbell Bench Press", 3, "8-12"], ["Flat DB Press", 3, "10-14"], ["Pec Deck", 3, "12-15"], ["Standing Barbell Military Press", 3, "8-12"], ["Leaning Single Arm DB Lateral Raises", 3, "15-20"], ["Close-Grip Bench Press", 3, "10-14"], ["Front Squats", 3, "10-15"], ["Walking Lunges", 3, "12-16"], ["Hack Calf Raises", 3, "15-20"]],
         5: [["Lat Pulldown", 3, "10-14"], ["Single-Arm Hammer Strength Row", 3, "10-14"], ["Single-Arm DB Row", 3, "12-15"], ["Rear-Delt Rope Pulls", 3, "20-30"], ["Machine Rear Delt Fly", 3, "15-20"], ["Incline DB Curls", 3, "12-15"], ["Stiff-Legged Deadlift", 3, "10-14"], ["Seated Leg Curls", 3, "12-16"], ["Ab Wheel", 3, "Failure"]],
     };
     for (const [dowStr, rows] of Object.entries(planTable)) {
@@ -367,7 +367,15 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
     const acc = cfg.hooks.preprocessDay(day(TRINARY_PROGRAM, 2, 2), mkU({ completedWorkouts: 4, workoutLog: recent }));
     check(String(acc.dayName).includes('trinaryAccessory'), `${P} accessory day should trigger at 4 workouts/7d`);
     check(acc.exercises.length === 4 && acc.exercises.every((e: any) => e.sets === 4 && e.target.reps === '8-12'), `${P} accessory day should be 4 exercises of 4x8-12`);
-    note(`TR: PLAN's DE progression says "+2.5 kg OR add bands/chains"; code has no DE progression (pure block %). Confirm intended.`);
+    const baseDeUser = mkU({ completedWorkouts: 3 });
+    const deProgressedUser = mkU({ completedWorkouts: 3, deProgressionPending: [{ lift: 'bench', amount: 2.5 }, { lift: 'deadlift', amount: 2.5 }, { lift: 'squat', amount: 2.5 }] });
+    const deProgressedDay = cfg.hooks.preprocessDay(day(TRINARY_PROGRAM, 2, 1), deProgressedUser);
+    const progressedDe = deProgressedDay.exercises.find((e: any) => e.name.includes('(DE)'));
+    const baseWeight = cfg.hooks.calculateWeight(progressedDe.target, baseDeUser, progressedDe.name, { week: 2, day: 1 });
+    const progressedWeight = cfg.hooks.calculateWeight(progressedDe.target, deProgressedUser, progressedDe.name, { week: 2, day: 1 });
+    check(parseFloat(progressedWeight) === parseFloat(baseWeight) + 2.5, `${P} DE progression should add 2.5 kg, base ${baseWeight}, got ${progressedWeight}`);
+    const forcedAccessory = cfg.hooks.preprocessDay(day(TRINARY_PROGRAM, 2, 2), mkU({ forceAccessoryDay: true, preferredAccessoryType: 'lower', workoutLog: [] }));
+    check(String(forcedAccessory.dayName).includes('trinaryAccessory'), `${P} explicit accessory choice should not require synthetic logs`);
 }
 
 // ============================================================
@@ -391,11 +399,12 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
     check(reps(1) === '3x9', `${P} W1 3x9, got ${reps(1)}`);
     check(reps(2) === '3x6', `${P} W2 3x6, got ${reps(2)}`);
     check(reps(3) === '3x3', `${P} W3 3x3, got ${reps(3)}`);
-    // Main phase: ME 95%+prog, light 70%, ascension weeks 8/12/16 present
+    check(RITUAL_PROGRAM.weeks.length === 19, `${P} expected 16 training + 3 purge weeks, got ${RITUAL_PROGRAM.weeks.length}`);
+    // Main phase: ME 95%+prog, light 70%, ascension schedule weeks 8/13/18 present
     check(cwn('Paused Bench Press (ME)', 6) === floorD(95).toString(), `${P} ME 95%`);
     check(cwn('Paused Bench Press (ME)', 6, mkU({ currentWeek: 6, benchMEProgression: 5 })) === (floorD(95) + 5).toString(), `${P} ME 95% + progression`);
     check(cwn('Low Bar Squat (Light)', 6) === floorD(120 * 0.70).toString(), `${P} light 70%`);
-    for (const w of [8, 12, 16]) {
+    for (const w of [8, 13, 18]) {
         const d = cfg.hooks.preprocessDay(day(RITUAL_PROGRAM, w, 1), mkU({ currentWeek: w, isFirstProgram: false, rampInComplete: true }));
         check(!!d.exercises.find((e: any) => e.name.includes('Ascension Test')), `${P} W${w} should be Ascension Test week`);
     }
@@ -410,7 +419,12 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
         .map((dd: any) => cfg.hooks.preprocessDay(dd, mkU({ currentWeek: 6, isFirstProgram: false, rampInComplete: true })))
         .find((d: any) => d.exercises.some((e: any) => e.name.includes('Deadlift') && e.name.includes('(ME)')));
     check(!!dDay?.exercises.find((e: any) => /farmer|grip/i.test(e.name)), `${P} deadlift ME day should include Farmer Holds/grip work`);
-    note(`RT: PLAN's Purge/deload weeks (post-8/12/16 recovery-check insertion) and the Light-work velocity -5% persistence are still pending implementation (unreachable/UI-only). Already flagged previously.`);
+    for (const w of [9, 14, 19]) {
+        const purge = cfg.hooks.preprocessDay(day(RITUAL_PROGRAM, w, 1), mkU({ currentWeek: w, isFirstProgram: false, rampInComplete: true }));
+        check(String(purge.dayName).includes('ritualPurge'), `${P} schedule week ${w} should be a Purge week`);
+        check(purge.exercises.every((e: any) => e.sets <= 2), `${P} purge week ${w} should halve volume`);
+    }
+    check(cwn('Low Bar Squat (Light)', 6, mkU({ currentWeek: 6, lightWorkReductionPending: { squat: true } })) === floorD(120 * 0.65).toString(), `${P} slow light work should persist a 5-point reduction`);
 }
 
 // ============================================================
@@ -437,9 +451,9 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
     const rir = (cw_: number) => { const d = gen(mkU({ completedWorkouts: cw_ })); return d.exercises[0]?.notes || d.exercises[0]?.rirNote || JSON.stringify(d.exercises[0]); };
     const noteHas = (cw_: number, frag: string) => { const d = gen(mkU({ completedWorkouts: cw_ })); return d.exercises.some((e: any) => String(e.notes || '').includes(frag)); };
     check(noteHas(0, 'Leave 2 reps'), `${P} week1 RIR2 note missing (workout 0): ${rir(0)}`);
-    check(noteHas(7, 'Leave 1 rep'), `${P} week2 RIR1 note missing`);
-    check(noteHas(14, 'failure'), `${P} week3 RIR0 note missing`);
-    const w4d = gen(mkU({ completedWorkouts: 21 }));
+    check(noteHas(6, 'Leave 1 rep'), `${P} week2 RIR1 note missing`);
+    check(noteHas(12, 'failure'), `${P} week3 RIR0 note missing`);
+    const w4d = gen(mkU({ completedWorkouts: 18 }));
     check(w4d.exercises.some((e: any) => /REST-PAUSE|DROPSET|MYO-REPS/.test(String(e.notes || ''))), `${P} week4 should carry intensification techniques`);
     // Cooldown: chest trained 24h ago -> no chest block; back block instead
     const now = Date.now();
@@ -463,10 +477,9 @@ const exByName = (d: any, name: string) => d?.exercises.find((e: any) => e.name 
     const mainLate = late.exercises.find((e: any) => /Bench|Chest Press/.test(e.name));
     if (mainLate) check(String(mainLate.target.reps) === '10-15', `${P} cycle3 main lift 10-15, got ${mainLate?.target.reps} (workout 60: ${late.dayName})`);
     else note(`${P}: workout 60 generated "${late.dayName}" (likely deload window) — cycle-3 rep-range check skipped`);
-    // Deload window (workouts 57-63): reduced sets
-    const dl = gen(mkU({ completedWorkouts: 57 }));
-    check(String(dl.dayName).toLowerCase().includes('deload'), `${P} workout 57 should be DELOAD, got ${dl.dayName}`);
-    check(dl.exercises.length > 0 && dl.exercises.every((e: any) => e.sets <= 2), `${P} deload sets should be <=2, got ${dl.exercises.map((e: any) => e.sets).join(',')}`);
+    check(SUPER_MUTANT_CONFIG.program.weeks.length === 14, `${P} should expose 12+2 weeks`);
+    const capped = gen(mkU({ weeklySessionDates: Array.from({ length: 6 }, (_, i) => new Date(Date.now() - i * 3600e3).toISOString()) }));
+    check(capped.exercises.length === 0 && /balance/.test(capped.dayName), `${P} six-session rolling cap should force recovery`);
 }
 
 // ============================================================
