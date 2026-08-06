@@ -357,13 +357,14 @@ export const Dashboard: React.FC = () => {
                                     <h2 className="text-4xl font-black tracking-tight">
                                         {t('dashboard.feelingFroggy')} <span className="shimmer-text">{t('dashboard.froggyStatus')}</span>
                                     </h2>
-                                    <img src="/frog.png" alt="Froggy" className="w-24 h-24 object-contain shimmer-img" />
+                                    <img src="/frog.png" alt="Froggy" className="peachy-status-icon w-24 h-24 object-contain" />
                                 </div>
                             ) : (
-                                <div className="flex flex-col gap-2">
+                                <div className="flex items-center gap-4">
                                     <h2 className="text-4xl font-black tracking-tight">
                                         {t('dashboard.feelingPeachy')} <span className="shimmer-text">{t('dashboard.peachyStatus')}</span>
                                     </h2>
+                                    <span className="peachy-status-icon peachy-status-fruit" role="img" aria-label="Peach">🍑</span>
                                 </div>
                             )}
                         </div>

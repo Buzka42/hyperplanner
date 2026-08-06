@@ -13,7 +13,7 @@ const BrandWordmark = ({ compact = false }: { compact?: boolean }) => (
     <div className="brand-lockup flex items-center gap-2.5" aria-label="Hyperplanner">
         <img src="/brand/hyperplanner-logo.png" alt="" className={compact ? "h-8 w-8 object-contain" : "h-10 w-10 object-contain"} />
         <p className={cn("font-display uppercase tracking-[0.07em] leading-none", compact ? "text-lg font-semibold" : "text-2xl font-semibold")}>
-            <span className="text-foreground">Hyper</span><span className="text-zinc-400">Planner</span>
+            <span className="text-foreground">Hyper</span><span className="text-muted-foreground">Planner</span>
         </p>
     </div>
 );
