@@ -27,3 +27,11 @@ dist-ssr
 README.md
 PLANS.md
 /backups
+
+# Generated print/marketing artifacts and scratch renders
+/output
+/tmp
+
+# Python
+__pycache__/
+*.py[cod]
