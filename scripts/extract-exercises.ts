@@ -52,7 +52,7 @@ const record = (rawName: string, occ: Occurrence) => {
 const NON_EXERCISE = /^(rest|rest \/ mobility|rest day|heavy strength|volume hypertrophy|power \/ speed|legs|upper|lower|amrap test|deload|bench domination|pencilneck eradication|pencilneck eradication protocol|from skeleton to threat|peachy|pain & glory|trinary|ritual of strength|super mutant|30 minute adventure|mobility)$/i;
 
 /** Super Mutant labels its muscle clusters with a `name:` field too. */
-const CLUSTER_LABEL = /^[a-z]+([\/][a-z]+)+$/i;
+const CLUSTER_LABEL = /^[a-z]+(\/[a-z]+)+$/i;
 
 const isProbablyExercise = (name: string) => {
     if (!name || name.length < 3 || name.length > 80) return false;
