@@ -9,6 +9,7 @@ import { cn } from '../lib/utils';
 import { BADGES } from '../data/badges';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ADVENTURE_PLAN_ID } from '../data/adventure';
+import { getPlanMeta } from '../data/planMeta';
 
 const BrandWordmark = ({ compact = false }: { compact?: boolean }) => (
     <div className="brand-lockup flex items-center gap-2.5" aria-label="Hyperplanner">
@@ -40,20 +41,9 @@ export const ProtectedLayout: React.FC = () => {
         { label: t('sidebar.settings'), path: '/app/settings', icon: Settings },
     ];
 
-    const PROGRAM_UI: Record<string, { theme: string; logo: string }> = {
-        'bench-domination': { theme: 'theme-bench-domination', logo: '/benchdomination.png' },
-        'pencilneck-eradication': { theme: 'theme-pencilneck', logo: '/pencilneck.png' },
-        'skeleton-to-threat': { theme: 'theme-skeleton', logo: '/SKELETON.png' },
-        'peachy-glute-plan': { theme: 'theme-peachy', logo: '/peachy.png' },
-        'pain-and-glory': { theme: 'theme-pain-glory', logo: '/painglory.png' },
-        'trinary': { theme: 'theme-trinary', logo: '/trinary.png' },
-        'ritual-of-strength': { theme: 'theme-ritual', logo: '/ritual.png' },
-        'super-mutant': { theme: 'theme-super-mutant', logo: '/supermutant.png' },
-        [ADVENTURE_PLAN_ID]: { theme: 'theme-adventure', logo: '/30min.png' }
-    };
-    const programUi = PROGRAM_UI[user?.programId || ''] || PROGRAM_UI['bench-domination'];
-    const themeClass = programUi.theme;
-    const logoSrc = programUi.logo;
+    const planMeta = getPlanMeta(user?.programId);
+    const themeClass = planMeta.themeClass;
+    const logoSrc = planMeta.logo;
     const isPeachy = user?.programId === 'peachy-glute-plan';
 
     return (

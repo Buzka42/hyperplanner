@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "verify:registry": "npx --yes tsx scripts/verify-registry.ts",
     "verify:plans": "npx --yes tsx scripts/verify-plans.ts",
     "verify:supermutant": "npx --yes tsx scripts/verify-supermutant.ts",
     "verify:adventure": "npx --yes tsx scripts/verify-adventure.ts",

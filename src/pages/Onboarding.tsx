@@ -17,7 +17,9 @@ import { PAIN_GLORY_CONFIG } from '../data/painglory';
 import { TRINARY_CONFIG } from '../data/trinary';
 import { RITUAL_CONFIG } from '../data/ritual';
 import { SUPER_MUTANT_PROGRAM } from '../data/supermutant';
-import { ADVENTURE_CONFIG, ADVENTURE_PLAN_ID } from '../data/adventure';
+import { ADVENTURE_PLAN_ID } from '../data/adventure';
+import { ORDERED_PLAN_META } from '../data/planMeta';
+import { cn } from '../lib/utils';
 import { Checkbox } from '../components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -357,209 +359,32 @@ export const Onboarding: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {/* Bench Domination Card */}
-                        {isPlanAllowed(BENCH_DOMINATION_PROGRAM.id) && <Card
-                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
-                            onClick={() => handleProgramSelect(BENCH_DOMINATION_PROGRAM.id)}
-                        >
-                            <div className="h-72 bg-black relative flex items-center justify-center">
-                                <img src="/benchdomination.png" alt="Bench Domination" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.benchDomination').name}</h3>
-                                </div>
-                            </div>
-                            <CardContent className="pt-4 p-4">
-                                <p className="text-muted-foreground text-xs mb-3">
-                                    {tObject('onboarding.programs.benchDomination').description}
-                                </p>
-                                <ul className="space-y-1 text-xs">
-                                    {tArray('onboarding.programs.benchDomination.features').map((feature, i) => (
-                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>}
-
-                        {/* Pencilneck Eradication Card */}
-                        {isPlanAllowed(PENCILNECK_PROGRAM.id) && <Card
-                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
-                            onClick={() => handleProgramSelect(PENCILNECK_PROGRAM.id)}
-                        >
-                            <div className="h-72 bg-black relative flex items-center justify-center">
-                                <img src="/pencilneck.png" alt="Pencilneck Eradication" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.pencilneck').name}</h3>
-                                </div>
-                            </div>
-                            <CardContent className="pt-4 p-4">
-                                <p className="text-muted-foreground text-xs mb-3">
-                                    {tObject('onboarding.programs.pencilneck').description}
-                                </p>
-                                <ul className="space-y-1 text-xs">
-                                    {tArray('onboarding.programs.pencilneck.features').map((feature, i) => (
-                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>}
-
-                        {/* Skeleton to Threat Card */}
-                        {isPlanAllowed(SKELETON_PROGRAM.id) && <Card
-                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
-                            onClick={() => handleProgramSelect(SKELETON_PROGRAM.id)}
-                        >
-                            <div className="h-72 bg-black relative flex items-center justify-center">
-                                <img src="/SKELETON.png" alt="Skeleton Transformation" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.skeleton').name}</h3>
-                                </div>
-                            </div>
-                            <CardContent className="pt-4 p-4">
-                                <p className="text-muted-foreground text-xs mb-3">
-                                    {tObject('onboarding.programs.skeleton').description}
-                                </p>
-                                <ul className="space-y-1 text-xs">
-                                    {tArray('onboarding.programs.skeleton.features').map((feature, i) => (
-                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>}
-
-                        {/* Peachy Card */}
-                        {isPlanAllowed(PEACHY_CONFIG.id) && <Card
-                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
-                            onClick={() => handleProgramSelect(PEACHY_CONFIG.id)}
-                        >
-                            <div className="h-72 bg-black relative flex items-center justify-center">
-                                <img src="/peachy.png" alt="Peachy Plan" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.peachy').name}</h3>
-                                </div>
-                            </div>
-                            <CardContent className="pt-4 p-4">
-                                <p className="text-muted-foreground text-xs mb-3">
-                                    {tObject('onboarding.programs.peachy').description}
-                                </p>
-                                <ul className="space-y-1 text-xs">
-                                    {tArray('onboarding.programs.peachy.features').map((feature, i) => (
-                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>}
-
-                        {/* Pain & Glory Card */}
-                        {isPlanAllowed(PAIN_GLORY_CONFIG.id) && <Card
-                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
-                            onClick={() => handleProgramSelect(PAIN_GLORY_CONFIG.id)}
-                        >
-                            <div className="h-72 bg-black relative flex items-center justify-center">
-                                <img src="/painglory.png" alt="Pain & Glory" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.painGlory').name}</h3>
-                                </div>
-                            </div>
-                            <CardContent className="pt-4 p-4">
-                                <p className="text-muted-foreground text-xs mb-3">
-                                    {tObject('onboarding.programs.painGlory').description}
-                                </p>
-                                <ul className="space-y-1 text-xs">
-                                    {tArray('onboarding.programs.painGlory.features').map((feature, i) => (
-                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>}
-
-                        {/* Trinary Card */}
-                        {isPlanAllowed(TRINARY_CONFIG.id) && <Card
-                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
-                            onClick={() => handleProgramSelect('trinary')}
-                        >
-                            <div className="h-72 bg-black relative flex items-center justify-center">
-                                <img src="/trinary.png" alt="Trinary" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.trinary').name}</h3>
-                                </div>
-                            </div>
-                            <CardContent className="pt-4 p-4">
-                                <p className="text-muted-foreground text-xs mb-3">
-                                    {tObject('onboarding.programs.trinary').description}
-                                </p>
-                                <ul className="space-y-1 text-xs">
-                                    {tArray('onboarding.programs.trinary.features').map((feature, i) => (
-                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>}
-
-                        {/* Ritual of Strength Card */}
-                        {isPlanAllowed(RITUAL_CONFIG.id) && <Card
-                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
-                            onClick={() => handleProgramSelect(RITUAL_CONFIG.id)}
-                        >
-                            <div className="h-72 bg-black relative flex items-center justify-center">
-                                <img src="/ritual.png" alt="Ritual of Strength" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.ritualOfStrength').name}</h3>
-                                </div>
-                            </div>
-                            <CardContent className="pt-4 p-4">
-                                <p className="text-muted-foreground text-xs mb-3">
-                                    {tObject('onboarding.programs.ritualOfStrength').description}
-                                </p>
-                                <ul className="space-y-1 text-xs">
-                                    {tArray('onboarding.programs.ritualOfStrength.features').map((feature, i) => (
-                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>}
-
-                        {/* Super Mutant Card */}
-                        {isPlanAllowed(SUPER_MUTANT_PROGRAM.id) && <Card
-                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-105 group"
-                            onClick={() => handleProgramSelect(SUPER_MUTANT_PROGRAM.id)}
-                        >
-                            <div className="h-72 bg-black relative flex items-center justify-center">
-                                <img src="/supermutant.png" alt="Super Mutant" className="w-full h-full object-contain opacity-80 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-bold text-white leading-tight">{tObject('onboarding.programs.superMutant').name}</h3>
-                                </div>
-                            </div>
-                            <CardContent className="pt-4 p-4">
-                                <p className="text-muted-foreground text-xs mb-3">
-                                    {tObject('onboarding.programs.superMutant').description}
-                                </p>
-                                <ul className="space-y-1 text-xs">
-                                    {tArray('onboarding.programs.superMutant.features').map((feature, i) => (
-                                        <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>}
-
-                        {/* 30 Minute Adventure Card */}
-                        {isPlanAllowed(ADVENTURE_CONFIG.id) && <Card
-                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-[1.02] group"
-                            onClick={() => handleProgramSelect(ADVENTURE_CONFIG.id)}
-                        >
-                            <div className="h-72 bg-[#080617] relative flex items-center justify-center">
-                                <img src="/30min.png" alt="30 Minute Adventure" className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#080617] via-transparent to-transparent flex items-end p-4">
-                                    <h3 className="text-xl font-semibold text-white leading-tight">{tObject('onboarding.programs.adventure').name}</h3>
-                                </div>
-                                <span className="absolute right-3 top-3 bg-[#b7ff35] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#0a1110]">{t('adventure.free')}</span>
-                            </div>
-                            <CardContent className="pt-4 p-4">
-                                <p className="text-muted-foreground text-xs mb-3">{tObject('onboarding.programs.adventure').description}</p>
-                                <ul className="space-y-1 text-xs">
-                                    {tArray('onboarding.programs.adventure.features').map((feature, i) => <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-primary" /> {feature}</li>)}
-                                </ul>
-                            </CardContent>
-                        </Card>}
+                        {ORDERED_PLAN_META.filter(meta => isPlanAllowed(meta.id)).map(meta => {
+                            const copy = tObject(`onboarding.programs.${meta.i18nKey}`);
+                            return (
+                                <Card
+                                    key={meta.id}
+                                    className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-[1.02] group"
+                                    onClick={() => handleProgramSelect(meta.id)}
+                                >
+                                    <div className={cn("h-72 relative flex items-center justify-center", meta.coverBg)}>
+                                        <img src={meta.logo} alt="" className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
+                                        <div className={cn("absolute inset-0 bg-gradient-to-t via-transparent to-transparent flex items-end p-4", meta.coverGradient)}>
+                                            <h3 className="text-xl font-semibold text-white leading-tight">{copy.name}</h3>
+                                        </div>
+                                        {meta.alwaysFree && <span className="absolute right-3 top-3 bg-[#b7ff35] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#0a1110]">{t('adventure.free')}</span>}
+                                    </div>
+                                    <CardContent className="pt-4 p-4">
+                                        <p className="text-muted-foreground text-xs mb-3">{copy.description}</p>
+                                        <ul className="space-y-1 text-xs">
+                                            {tArray(`onboarding.programs.${meta.i18nKey}.features`).map((feature, i) => (
+                                                <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-primary" /> {feature}</li>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                            );
+                        })}
                     </div>
 
                     <Button variant="ghost" onClick={() => navigate('/')} className="mx-auto block">

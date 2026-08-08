@@ -1,14 +1,16 @@
 import { PLAN_REGISTRY } from './plans';
+import { ORDERED_PLAN_META } from './planMeta';
 
 export const normalizeKeyword = (value: string) => value.trim().toLowerCase();
 
-export const PLAN_OPTIONS = Object.values(PLAN_REGISTRY).map(plan => ({
-    id: plan.id,
-    name: plan.program.name,
+/** Plan pickers everywhere; ordered by PLAN_META, named by the plan's own program. */
+export const PLAN_OPTIONS = ORDERED_PLAN_META.map(meta => ({
+    id: meta.id,
+    name: PLAN_REGISTRY[meta.id]?.program.name ?? meta.id,
 }));
 
-export const ALWAYS_FREE_PLAN_IDS = ['30-minute-adventure'] as const;
-export const isAlwaysFreePlan = (planId: string) => (ALWAYS_FREE_PLAN_IDS as readonly string[]).includes(planId);
+export const ALWAYS_FREE_PLAN_IDS = ORDERED_PLAN_META.filter(meta => meta.alwaysFree).map(meta => meta.id);
+export const isAlwaysFreePlan = (planId: string) => ALWAYS_FREE_PLAN_IDS.includes(planId);
 export const withAlwaysFreePlans = (planIds: string[]) => Array.from(new Set([...ALWAYS_FREE_PLAN_IDS, ...planIds]));
 
 export type AccessKey = {

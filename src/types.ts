@@ -1,3 +1,5 @@
+import type { ExerciseSwapMap, SetKind, TrainingPreferences } from './data/exercises/types';
+
 export type LiftingStats = {
     pausedBench: number;
     wideGripBench: number;
@@ -211,6 +213,14 @@ export type UserProfile = {
     badges?: BadgeId[];
     gluteMeasurements?: { date: string; sizeCm: number }[];
     pencilneckBenchHistory?: { date: string; week?: number; weight: number; actualWeight?: number; actualReps?: number }[]; // Separate tracking for Pencilneck
+
+    // Exercise system (see src/data/exercises/types.ts)
+    /** Plan-agnostic training preferences: extra sets, rest timer, tips, units. */
+    trainingPreferences?: TrainingPreferences;
+    /** planId -> exerciseId -> chosen replacement. Supersedes `exercisePreferences`. */
+    exerciseSwaps?: ExerciseSwapMap;
+    /** Granted via an access key flagged `testAccount`; unlocks Lab Mode. */
+    isTestAccount?: boolean;
 };
 
 export type SetTarget = {
@@ -317,9 +327,13 @@ export type WorkoutLog = {
         selectedPairIds: Record<string, string>;
         challengeAnswers: Record<string, string[]>;
     };
+    /** Session was logged by a test account; excluded from PRs, badges and analytics. */
+    isTest?: boolean;
     exercises?: {
         id: string;
         exerciseKey?: string;
+        /** Canonical library id. Written alongside `name` so history survives renames. */
+        exerciseId?: string;
         pairId?: string;
         portalId?: string;
         name: string;
@@ -327,6 +341,12 @@ export type WorkoutLog = {
             reps: string; // Note: Input stores strings, converted to number usually? UserContext used string.
             weight: string;
             completed: boolean;
+            /**
+             * Provenance of the set. Absent means 'work' (all pre-migration logs).
+             * Progression handlers count only 'work' sets, so user-added extras
+             * and technique sub-sets can't block a progression.
+             */
+            kind?: SetKind;
         }[];
         notes?: string;
     }[];
