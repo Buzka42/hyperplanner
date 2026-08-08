@@ -9,6 +9,7 @@ import { WorkoutView } from './pages/WorkoutView';
 import { AdminPanel } from './pages/AdminPanel';
 import { Settings } from './pages/Settings';
 import { WorkoutHistory } from './pages/WorkoutHistory';
+import { AdventureSession } from './pages/AdventureSession';
 
 const AppRoutes = () => {
     const { loading, isAdmin } = useUser();
@@ -21,6 +22,8 @@ const AppRoutes = () => {
             <Route path="/app" element={<ProtectedLayout />}>
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="workout/:week/:day" element={<WorkoutView />} />
+                <Route path="adventure" element={<AdventureSession />} />
+                <Route path="adventure/:logId" element={<AdventureSession />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="history" element={<WorkoutHistory />} />
                 <Route index element={<Navigate to="dashboard" replace />} />

@@ -16,6 +16,7 @@ interface WorkoutLog {
     weekNum?: number;
     dayNum?: number;
     dayName: string;
+    programId?: string;
     exercises: Array<{
         name: string;
         sets: number;
@@ -67,6 +68,10 @@ export const WorkoutHistory: React.FC = () => {
     };
 
     const handleEdit = (workout: WorkoutLog) => {
+        if (workout.programId === '30-minute-adventure') {
+            navigate(`/app/adventure/${workout.id}`);
+            return;
+        }
         // Fallback check for different naming conventions in database
         const w = workout.week !== undefined ? workout.week : workout.weekNum;
         const d = workout.day !== undefined ? workout.day : workout.dayNum;

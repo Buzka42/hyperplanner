@@ -7,6 +7,10 @@ export const PLAN_OPTIONS = Object.values(PLAN_REGISTRY).map(plan => ({
     name: plan.program.name,
 }));
 
+export const ALWAYS_FREE_PLAN_IDS = ['30-minute-adventure'] as const;
+export const isAlwaysFreePlan = (planId: string) => (ALWAYS_FREE_PLAN_IDS as readonly string[]).includes(planId);
+export const withAlwaysFreePlans = (planIds: string[]) => Array.from(new Set([...ALWAYS_FREE_PLAN_IDS, ...planIds]));
+
 export type AccessKey = {
     keyword: string;
     allowedPlanIds: string[];
@@ -28,7 +32,7 @@ export type OnboardingConfig = {
 };
 
 export const DEFAULT_ONBOARDING_CONFIG: OnboardingConfig = {
-    generalPlanIds: PLAN_OPTIONS.map(plan => plan.id),
+    generalPlanIds: withAlwaysFreePlans(PLAN_OPTIONS.map(plan => plan.id)),
     allowPublicKeywordCreation: true,
     keywordMinLength: 4,
     keywordMaxLength: 32,

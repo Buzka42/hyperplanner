@@ -12,6 +12,8 @@ import { BADGES } from '../data/badges';
 import { collection, query, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { AccessoryChoiceModal } from '../components/AccessoryChoiceModal';
+import { AdventureDashboard } from './AdventureDashboard';
+import { ADVENTURE_PLAN_ID } from '../data/adventure';
 
 export const Dashboard: React.FC = () => {
     const { user, activePlanConfig, updateUserProfile } = useUser();
@@ -29,6 +31,7 @@ export const Dashboard: React.FC = () => {
     const isPainGlory = activePlanConfig.id === 'pain-and-glory';
     const isTrinary = activePlanConfig.id === 'trinary';
     const isSuperMutant = activePlanConfig.id === 'super-mutant';
+    const isAdventure = activePlanConfig.id === ADVENTURE_PLAN_ID;
     const [gloryCounter, setGloryCounter] = useState<number>(0);
     const [showAccessoryModal, setShowAccessoryModal] = useState(false);
 
@@ -179,6 +182,7 @@ export const Dashboard: React.FC = () => {
     }, [user, activeWidgets]);
 
     if (!user) return null;
+    if (isAdventure) return <AdventureDashboard />;
 
     const weekData = currentProgram.weeks.find(w => w.weekNumber === viewWeek);
 

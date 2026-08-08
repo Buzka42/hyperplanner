@@ -260,8 +260,14 @@ export type WorkoutDay = {
 export interface PlanConfig {
     id: string;
     program: Program;
+    session?: {
+        kind: 'scheduled' | 'pair-select';
+    };
     ui?: {
         dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'deficit_snatch_tracker' | 'strength_altar' | 'workout_history' | 'mutagen_exposure' | 'recovery_gauge' | 'mutant_mindset')[];
+        themeClass?: string;
+        coverImage?: string;
+        navImage?: string;
     };
     hooks?: {
         preprocessDay?: (day: WorkoutDay, user: UserProfile) => WorkoutDay;
@@ -304,8 +310,18 @@ export type WorkoutLog = {
     day?: number;
     programId?: string;
     dayName?: string;
+    sessionKind?: 'scheduled' | 'pair-select';
+    elapsedSeconds?: number;
+    adventure?: {
+        sessionToken: string;
+        selectedPairIds: Record<string, string>;
+        challengeAnswers: Record<string, string[]>;
+    };
     exercises?: {
         id: string;
+        exerciseKey?: string;
+        pairId?: string;
+        portalId?: string;
         name: string;
         setsData: {
             reps: string; // Note: Input stores strings, converted to number usually? UserContext used string.

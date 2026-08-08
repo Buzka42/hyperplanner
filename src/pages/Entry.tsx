@@ -8,7 +8,7 @@ import { Input } from '../components/ui/input';
 import { ArrowRight, KeyRound, Loader2, X } from 'lucide-react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../firebase';
-import { DEFAULT_ONBOARDING_CONFIG, normalizeKeyword, PLAN_OPTIONS, type OnboardingConfig } from '../data/accessControl';
+import { DEFAULT_ONBOARDING_CONFIG, isAlwaysFreePlan, normalizeKeyword, PLAN_OPTIONS, withAlwaysFreePlans, type OnboardingConfig } from '../data/accessControl';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 
 export const Entry: React.FC = () => {
@@ -30,7 +30,7 @@ export const Entry: React.FC = () => {
         const expiresAt = config.defaultExpiryDays > 0
             ? new Date(Date.now() + config.defaultExpiryDays * 86400000).toISOString() : null;
         await setDoc(ref, {
-            keyword, allowedPlanIds, active: true, source: 'public',
+            keyword, allowedPlanIds: withAlwaysFreePlans(allowedPlanIds), active: true, source: 'public',
             allowPlanSwitching: true, expiresAt, createdAt: new Date().toISOString(), createdBy: auth.currentUser?.uid || ''
         });
     };
@@ -38,9 +38,10 @@ export const Entry: React.FC = () => {
     useEffect(() => {
         getDoc(doc(db, 'appConfig', 'onboarding')).then(snap => {
             const next = snap.exists() ? { ...DEFAULT_ONBOARDING_CONFIG, ...snap.data() } as OnboardingConfig : DEFAULT_ONBOARDING_CONFIG;
+            next.generalPlanIds = withAlwaysFreePlans(next.generalPlanIds);
             setConfig(next);
-            setSelectedPlans(next.generalPlanIds.slice(0, 1));
-        }).catch(() => setSelectedPlans(DEFAULT_ONBOARDING_CONFIG.generalPlanIds.slice(0, 1)));
+            setSelectedPlans(withAlwaysFreePlans([]));
+        }).catch(() => setSelectedPlans(withAlwaysFreePlans([])));
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -66,8 +67,9 @@ export const Entry: React.FC = () => {
                 } else if (keyword.length < config.keywordMinLength || keyword.length > config.keywordMaxLength) {
                     setError(`Use ${config.keywordMinLength}–${config.keywordMaxLength} characters.`);
                 } else {
-                    await createPublicKeyword(keyword, config.generalPlanIds);
-                    navigate('/onboarding', { state: { codeword: keyword, allowedPlanIds: config.generalPlanIds } });
+                    const allowedPlanIds = withAlwaysFreePlans(config.generalPlanIds);
+                    await createPublicKeyword(keyword, allowedPlanIds);
+                    navigate('/onboarding', { state: { codeword: keyword, allowedPlanIds } });
                 }
             }
         } catch (err: any) {
@@ -131,8 +133,8 @@ export const Entry: React.FC = () => {
                     {creating && <div className="space-y-2" aria-label="Available plans">
                         {PLAN_OPTIONS.filter(plan => config.generalPlanIds.includes(plan.id)).map(plan => (
                             <label key={plan.id} className="flex min-h-11 items-center gap-3 border border-border bg-card px-3 py-2 text-sm cursor-pointer">
-                                <input type="checkbox" checked={selectedPlans.includes(plan.id)} onChange={() => setSelectedPlans(value => value.includes(plan.id) ? value.filter(id => id !== plan.id) : [...value, plan.id])} />
-                                <span>{plan.name}</span>
+                                <input type="checkbox" disabled={isAlwaysFreePlan(plan.id)} checked={selectedPlans.includes(plan.id)} onChange={() => setSelectedPlans(value => value.includes(plan.id) ? value.filter(id => id !== plan.id) : [...value, plan.id])} />
+                                <span>{plan.name}{isAlwaysFreePlan(plan.id) ? ' · FREE' : ''}</span>
                             </label>
                         ))}
                     </div>}

@@ -6,6 +6,7 @@
   "scripts": {
     "verify:plans": "npx --yes tsx scripts/verify-plans.ts",
     "verify:supermutant": "npx --yes tsx scripts/verify-supermutant.ts",
+    "verify:adventure": "npx --yes tsx scripts/verify-adventure.ts",
     "verify:lifecycles": "npx --yes tsx scripts/verify-lifecycles.ts",
     "admin:device": "node scripts/set-admin-claim.mjs",
     "dev": "vite",

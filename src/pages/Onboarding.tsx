@@ -17,6 +17,7 @@ import { PAIN_GLORY_CONFIG } from '../data/painglory';
 import { TRINARY_CONFIG } from '../data/trinary';
 import { RITUAL_CONFIG } from '../data/ritual';
 import { SUPER_MUTANT_PROGRAM } from '../data/supermutant';
+import { ADVENTURE_CONFIG, ADVENTURE_PLAN_ID } from '../data/adventure';
 import { Checkbox } from '../components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { doc, updateDoc } from 'firebase/firestore';
@@ -85,10 +86,24 @@ export const Onboarding: React.FC = () => {
         }
     }, [codeword, user, navigate]);
 
+    const handleAdventureSubmit = async () => {
+        const zeroStats: LiftingStats = { pausedBench: 0, wideGripBench: 0, spotoPress: 0, lowPinPress: 0 };
+        try {
+            if (user) await switchProgram(ADVENTURE_PLAN_ID);
+            else await registerUser(codeword, zeroStats, ADVENTURE_PLAN_ID, [], {});
+            navigate('/app/dashboard');
+        } catch (err: unknown) {
+            console.error('Adventure registration failed', err);
+            alert(t('adventure.errors.registration'));
+        }
+    };
+
     const handleProgramSelect = (pid: string) => {
         if (!isPlanAllowed(pid)) return;
         setSelectedProgramId(pid);
-        if (pid === PENCILNECK_PROGRAM.id || pid === SKELETON_PROGRAM.id) {
+        if (pid === ADVENTURE_PLAN_ID) {
+            void handleAdventureSubmit();
+        } else if (pid === PENCILNECK_PROGRAM.id || pid === SKELETON_PROGRAM.id) {
             setStep('days');
         } else if (pid === BENCH_DOMINATION_PROGRAM.id) {
             setStep('bench-modules');
@@ -522,6 +537,26 @@ export const Onboarding: React.FC = () => {
                                     {tArray('onboarding.programs.superMutant.features').map((feature, i) => (
                                         <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-green-500" /> {feature}</li>
                                     ))}
+                                </ul>
+                            </CardContent>
+                        </Card>}
+
+                        {/* 30 Minute Adventure Card */}
+                        {isPlanAllowed(ADVENTURE_CONFIG.id) && <Card
+                            className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-[1.02] group"
+                            onClick={() => handleProgramSelect(ADVENTURE_CONFIG.id)}
+                        >
+                            <div className="h-72 bg-[#080617] relative flex items-center justify-center">
+                                <img src="/30min.png" alt="30 Minute Adventure" className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#080617] via-transparent to-transparent flex items-end p-4">
+                                    <h3 className="text-xl font-semibold text-white leading-tight">{tObject('onboarding.programs.adventure').name}</h3>
+                                </div>
+                                <span className="absolute right-3 top-3 bg-[#b7ff35] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#0a1110]">{t('adventure.free')}</span>
+                            </div>
+                            <CardContent className="pt-4 p-4">
+                                <p className="text-muted-foreground text-xs mb-3">{tObject('onboarding.programs.adventure').description}</p>
+                                <ul className="space-y-1 text-xs">
+                                    {tArray('onboarding.programs.adventure.features').map((feature, i) => <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-primary" /> {feature}</li>)}
                                 </ul>
                             </CardContent>
                         </Card>}

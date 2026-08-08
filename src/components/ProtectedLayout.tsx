@@ -8,6 +8,7 @@ import { LayoutDashboard, Dumbbell, LogOut, Menu, X, Settings, History } from 'l
 import { cn } from '../lib/utils';
 import { BADGES } from '../data/badges';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { ADVENTURE_PLAN_ID } from '../data/adventure';
 
 const BrandWordmark = ({ compact = false }: { compact?: boolean }) => (
     <div className="brand-lockup flex items-center gap-2.5" aria-label="Hyperplanner">
@@ -30,7 +31,7 @@ export const ProtectedLayout: React.FC = () => {
     }
 
     // Determine "Current Workout" link - default to persisted or 1/1
-    const lastOpened = localStorage.getItem("lastOpenedPath") || "/app/workout/1/1";
+    const lastOpened = user.programId === ADVENTURE_PLAN_ID ? '/app/adventure' : localStorage.getItem("lastOpenedPath") || "/app/workout/1/1";
 
     const navItems = [
         { label: t('sidebar.dashboard'), path: '/app/dashboard', icon: LayoutDashboard },
@@ -47,7 +48,8 @@ export const ProtectedLayout: React.FC = () => {
         'pain-and-glory': { theme: 'theme-pain-glory', logo: '/painglory.png' },
         'trinary': { theme: 'theme-trinary', logo: '/trinary.png' },
         'ritual-of-strength': { theme: 'theme-ritual', logo: '/ritual.png' },
-        'super-mutant': { theme: 'theme-super-mutant', logo: '/supermutant.png' }
+        'super-mutant': { theme: 'theme-super-mutant', logo: '/supermutant.png' },
+        [ADVENTURE_PLAN_ID]: { theme: 'theme-adventure', logo: '/30min.png' }
     };
     const programUi = PROGRAM_UI[user?.programId || ''] || PROGRAM_UI['bench-domination'];
     const themeClass = programUi.theme;
@@ -84,8 +86,8 @@ export const ProtectedLayout: React.FC = () => {
                     <div className="space-y-2 flex-1">
                         {navItems.map((item) => {
                             // Simple active check: strictly matches start or special case for workout
-                            const isActive = item.label === 'Current Workout'
-                                ? location.pathname.includes('/workout/')
+                            const isActive = item.label === t('sidebar.currentWorkout')
+                                ? location.pathname.includes('/workout/') || location.pathname.includes('/adventure')
                                 : location.pathname === item.path;
 
                             return (

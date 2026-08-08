@@ -5,13 +5,13 @@ import { db, auth } from '../firebase';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
-import { DEFAULT_ONBOARDING_CONFIG, normalizeKeyword, PLAN_OPTIONS, type AccessKey, type OnboardingConfig } from '../data/accessControl';
+import { DEFAULT_ONBOARDING_CONFIG, isAlwaysFreePlan, normalizeKeyword, PLAN_OPTIONS, withAlwaysFreePlans, type AccessKey, type OnboardingConfig } from '../data/accessControl';
 
-const PlanChecklist = ({ value, available, onChange }: { value: string[]; available?: string[]; onChange: (v: string[]) => void }) => (
+const PlanChecklist = ({ value, available, onChange, lockFree = false }: { value: string[]; available?: string[]; onChange: (v: string[]) => void; lockFree?: boolean }) => (
     <div className="admin-plan-grid">
         {PLAN_OPTIONS.filter(p => !available || available.includes(p.id)).map(plan => <label className="admin-plan-option" key={plan.id}>
-            <input type="checkbox" checked={value.includes(plan.id)} onChange={() => onChange(value.includes(plan.id) ? value.filter(id => id !== plan.id) : [...value, plan.id])} />
-            <span>{plan.name}</span>
+            <input type="checkbox" disabled={lockFree && isAlwaysFreePlan(plan.id)} checked={value.includes(plan.id)} onChange={() => onChange(value.includes(plan.id) ? value.filter(id => id !== plan.id) : [...value, plan.id])} />
+            <span>{plan.name}{lockFree && isAlwaysFreePlan(plan.id) ? ' · always free' : ''}</span>
         </label>)}
     </div>
 );
@@ -30,7 +30,11 @@ export const AdminPanel: React.FC = () => {
 
     useEffect(() => {
         const stopConfig = onSnapshot(doc(db, 'appConfig', 'onboarding'), snap => {
-            if (snap.exists()) setConfig({ ...DEFAULT_ONBOARDING_CONFIG, ...snap.data() } as OnboardingConfig);
+            if (snap.exists()) {
+                const next = { ...DEFAULT_ONBOARDING_CONFIG, ...snap.data() } as OnboardingConfig;
+                next.generalPlanIds = withAlwaysFreePlans(next.generalPlanIds);
+                setConfig(next);
+            }
         });
         const stopKeys = onSnapshot(collection(db, 'accessKeys'), snap => setKeys(snap.docs.map(item => item.data() as AccessKey)));
         getDocs(collection(db, 'users')).then(s => setUsers(s.docs.map(d => d.data())));
@@ -39,7 +43,7 @@ export const AdminPanel: React.FC = () => {
 
     const visibleKeys = useMemo(() => keys.filter(key => `${key.keyword} ${key.label || ''}`.toLowerCase().includes(query.toLowerCase())), [keys, query]);
     const saveConfig = async () => {
-        await setDoc(doc(db, 'appConfig', 'onboarding'), { ...config, updatedAt: new Date().toISOString() }, { merge: true });
+        await setDoc(doc(db, 'appConfig', 'onboarding'), { ...config, generalPlanIds: withAlwaysFreePlans(config.generalPlanIds), updatedAt: new Date().toISOString() }, { merge: true });
         setMessage('Onboarding policy saved.');
     };
     const createKey = async (e: React.FormEvent) => {
@@ -49,7 +53,7 @@ export const AdminPanel: React.FC = () => {
             setMessage('Enter a valid keyword and select at least one plan.'); return;
         }
         await setDoc(doc(db, 'accessKeys', id), {
-            keyword: id, label: label.trim(), allowedPlanIds: plans, active: true, source: 'admin', allowPlanSwitching: allowSwitching,
+            keyword: id, label: label.trim(), allowedPlanIds: withAlwaysFreePlans(plans), active: true, source: 'admin', allowPlanSwitching: allowSwitching,
             expiresAt: expiresAt ? new Date(`${expiresAt}T23:59:59`).toISOString() : null,
             createdAt: new Date().toISOString(), createdBy: auth.currentUser?.uid || ''
         } satisfies AccessKey);
@@ -69,7 +73,7 @@ export const AdminPanel: React.FC = () => {
                 <form onSubmit={createKey} className="admin-form">
                     <Label htmlFor="new-keyword">Keyword</Label><Input id="new-keyword" value={keyword} onChange={e => setKeyword(e.target.value)} placeholder="athlete-keyword" />
                     <Label htmlFor="key-label">Admin label</Label><Input id="key-label" value={label} onChange={e => setLabel(e.target.value)} placeholder="Optional: athlete or campaign" />
-                    <Label>Available plans</Label><PlanChecklist value={plans} onChange={setPlans} />
+                    <Label>Available plans</Label><PlanChecklist value={withAlwaysFreePlans(plans)} onChange={setPlans} lockFree />
                     <div className="admin-inline"><label><input type="checkbox" checked={allowSwitching} onChange={e => setAllowSwitching(e.target.checked)} /> Allow plan switching</label><div><Label htmlFor="expiry">Expires</Label><Input id="expiry" type="date" value={expiresAt} onChange={e => setExpiresAt(e.target.value)} /></div></div>
                     <Button type="submit"><KeyRound className="mr-2 h-4 w-4" />Create keyword</Button>
                 </form>
@@ -79,7 +83,7 @@ export const AdminPanel: React.FC = () => {
                 <div className="admin-sector-heading"><div><h2>Public keyword policy</h2><p>Controls what anyone can create from the login screen.</p></div><Save /></div>
                 <div className="admin-form">
                     <label className="admin-toggle"><input type="checkbox" checked={config.allowPublicKeywordCreation} onChange={e => setConfig({ ...config, allowPublicKeywordCreation: e.target.checked })} /><span><strong>Public creation</strong><small>Show “Create a new keyword” on login.</small></span></label>
-                    <Label>Generally available plans</Label><PlanChecklist value={config.generalPlanIds} onChange={generalPlanIds => setConfig({ ...config, generalPlanIds })} />
+                    <Label>Generally available plans</Label><PlanChecklist value={config.generalPlanIds} onChange={generalPlanIds => setConfig({ ...config, generalPlanIds: withAlwaysFreePlans(generalPlanIds) })} lockFree />
                     <div className="admin-numbers"><div><Label>Minimum length</Label><Input type="number" min={3} max={32} value={config.keywordMinLength} onChange={e => setConfig({ ...config, keywordMinLength: +e.target.value })} /></div><div><Label>Maximum length</Label><Input type="number" min={4} max={64} value={config.keywordMaxLength} onChange={e => setConfig({ ...config, keywordMaxLength: +e.target.value })} /></div><div><Label>Default expiry (days)</Label><Input type="number" min={0} value={config.defaultExpiryDays} onChange={e => setConfig({ ...config, defaultExpiryDays: +e.target.value })} /></div></div>
                     <Button onClick={saveConfig}><Save className="mr-2 h-4 w-4" />Save policy</Button>
                 </div>

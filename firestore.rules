@@ -1,4 +1,17 @@
 rules_version = '2';
+
+// ===============================================================
+// Assumed data model
+// ===============================================================
+// appConfig/onboarding: public keyword policy; admin writes, signed-in clients get.
+// accessKeys/{keyword}: issued keyword and plan inventory; admin lists/manages,
+//   signed-in clients may get one exact keyword, public clients may create only
+//   a self-authored public key within the configured plan inventory.
+// users/{keyword}: private training profile owned by ownerUid; admins may support it.
+// users/{keyword}/workouts/{workoutId}: private scheduled or pair-select session log.
+// Dates are legacy ISO strings throughout the app and are length-bounded here.
+// ===============================================================
+
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() {
@@ -9,8 +22,13 @@ service cloud.firestore {
       return signedIn() && request.auth.token.admin == true;
     }
 
+    function validPlanIds() {
+      return ['bench-domination', 'pencilneck-eradication', 'skeleton-to-threat', 'peachy-glute-plan', 'pain-and-glory', 'trinary', 'ritual-of-strength', 'super-mutant', '30-minute-adventure'];
+    }
+
     function ownsUser(userId) {
       return signedIn() &&
+        exists(/databases/$(database)/documents/users/$(userId)) &&
         get(/databases/$(database)/documents/users/$(userId)).data.ownerUid == request.auth.uid;
     }
 
@@ -24,13 +42,70 @@ service cloud.firestore {
 
     function publicPlanIds() {
       return exists(/databases/$(database)/documents/appConfig/onboarding)
-        ? onboardingConfig().generalPlanIds
-        : ['bench-domination', 'pencilneck-eradication', 'skeleton-to-threat', 'peachy-glute-plan', 'pain-and-glory', 'trinary', 'ritual-of-strength', 'super-mutant'];
+        ? onboardingConfig().generalPlanIds.concat(['30-minute-adventure'])
+        : validPlanIds();
     }
 
-    function validSelectedProgram() {
-      return !('allowedPlanIds' in request.resource.data) ||
-        request.resource.data.programId in request.resource.data.allowedPlanIds;
+    function validAccessKey(data, keyword) {
+      return data.keys().hasAll(['keyword', 'allowedPlanIds', 'active', 'source', 'allowPlanSwitching', 'expiresAt', 'createdAt', 'createdBy']) &&
+        data.keys().hasOnly(['keyword', 'allowedPlanIds', 'active', 'source', 'label', 'allowPlanSwitching', 'expiresAt', 'createdAt', 'createdBy']) &&
+        data.keyword is string && data.keyword == keyword && data.keyword.size() >= 3 && data.keyword.size() <= 64 &&
+        data.allowedPlanIds is list && data.allowedPlanIds.size() > 0 && data.allowedPlanIds.size() <= validPlanIds().size() && data.allowedPlanIds.hasOnly(validPlanIds()) &&
+        data.active is bool && data.source in ['admin', 'public'] && data.allowPlanSwitching is bool &&
+        data.createdAt is string && data.createdAt.size() > 0 && data.createdAt.size() <= 64 &&
+        data.createdBy is string && data.createdBy.size() <= 128 &&
+        (data.expiresAt == null || (data.expiresAt is string && data.expiresAt.size() <= 64)) &&
+        (!('label' in data) || (data.label is string && data.label.size() <= 120));
+    }
+
+    function validOnboardingConfig(data) {
+      return data.keys().hasAll(['generalPlanIds', 'allowPublicKeywordCreation', 'keywordMinLength', 'keywordMaxLength', 'defaultExpiryDays']) &&
+        data.keys().hasOnly(['generalPlanIds', 'allowPublicKeywordCreation', 'keywordMinLength', 'keywordMaxLength', 'defaultExpiryDays', 'updatedAt']) &&
+        data.generalPlanIds is list && data.generalPlanIds.size() > 0 && data.generalPlanIds.size() <= validPlanIds().size() &&
+        data.generalPlanIds.hasOnly(validPlanIds()) && data.generalPlanIds.hasAll(['30-minute-adventure']) &&
+        data.allowPublicKeywordCreation is bool && data.keywordMinLength is int && data.keywordMinLength >= 3 && data.keywordMinLength <= 32 &&
+        data.keywordMaxLength is int && data.keywordMaxLength >= data.keywordMinLength && data.keywordMaxLength <= 64 &&
+        data.defaultExpiryDays is int && data.defaultExpiryDays >= 0 && data.defaultExpiryDays <= 3650 &&
+        (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 64));
+    }
+
+    function validUserProfile(data, userId) {
+      return data.keys().hasAll(['id', 'ownerUid', 'codeword', 'stats', 'startDate', 'programId', 'completedSessions', 'benchHistory', 'programProgress', 'badges']) &&
+        data.keys().hasOnly([
+          'id', 'ownerUid', 'codeword', 'stats', 'startDate', 'programId', 'allowedPlanIds', 'allowPlanSwitching',
+          'completedSessions', 'lastAmrapDate', 'benchHistory', 'squatHistory', 'selectedDays', 'exercisePreferences',
+          'benchDominationModules', 'benchDominationStatus', 'pencilneckStatus', 'skeletonStatus', 'painGloryStatus',
+          'trinaryStatus', 'ritualStatus', 'superMutantStatus', 'programProgress', 'badges', 'gluteMeasurements',
+          'pencilneckBenchHistory'
+        ]) &&
+        data.id is string && data.id == userId && data.id.size() >= 3 && data.id.size() <= 64 &&
+        data.codeword is string && data.codeword == userId &&
+        data.ownerUid is string && data.ownerUid.size() > 0 && data.ownerUid.size() <= 128 &&
+        data.stats is map && data.stats.size() <= 32 &&
+        data.startDate is string && data.startDate.size() > 0 && data.startDate.size() <= 64 &&
+        data.programId is string && data.programId in validPlanIds() &&
+        data.completedSessions is int && data.completedSessions >= 0 && data.completedSessions <= 100000 &&
+        data.benchHistory is list && data.benchHistory.size() <= 2000 &&
+        data.programProgress is map && data.programProgress.size() <= validPlanIds().size() &&
+        data.badges is list && data.badges.size() <= 100 &&
+        (!('allowedPlanIds' in data) || (data.allowedPlanIds is list && data.allowedPlanIds.size() <= validPlanIds().size() && data.allowedPlanIds.hasOnly(validPlanIds()))) &&
+        (!('allowPlanSwitching' in data) || data.allowPlanSwitching is bool) &&
+        (!('selectedDays' in data) || (data.selectedDays is list && data.selectedDays.size() <= 7)) &&
+        (!('benchHistory' in data) || (data.benchHistory is list && data.benchHistory.size() <= 2000)) &&
+        (!('squatHistory' in data) || (data.squatHistory is list && data.squatHistory.size() <= 2000)) &&
+        (!('pencilneckBenchHistory' in data) || (data.pencilneckBenchHistory is list && data.pencilneckBenchHistory.size() <= 2000)) &&
+        (!('gluteMeasurements' in data) || (data.gluteMeasurements is list && data.gluteMeasurements.size() <= 1000));
+    }
+
+    function userAuthorityUnchanged() {
+      return request.resource.data.ownerUid == resource.data.ownerUid &&
+        request.resource.data.id == resource.data.id &&
+        request.resource.data.codeword == resource.data.codeword &&
+        (!('allowedPlanIds' in resource.data) || request.resource.data.allowedPlanIds == resource.data.allowedPlanIds);
+    }
+
+    function validSelectedProgram(data) {
+      return !('allowedPlanIds' in data) || data.programId in data.allowedPlanIds;
     }
 
     function matchesIssuedAccess(userId) {
@@ -39,41 +114,73 @@ service cloud.firestore {
         request.resource.data.allowedPlanIds == get(/databases/$(database)/documents/accessKeys/$(userId)).data.allowedPlanIds;
     }
 
+    function validWorkout(data) {
+      return data.keys().hasAll(['date', 'dayName', 'exercises', 'programId']) &&
+        data.keys().hasOnly(['date', 'week', 'day', 'weekNum', 'dayNum', 'dayName', 'exercises', 'programId', 'sessionKind', 'elapsedSeconds', 'adventure', 'notes']) &&
+        data.date is string && data.date.size() > 0 && data.date.size() <= 64 &&
+        data.dayName is string && data.dayName.size() <= 256 &&
+        data.programId is string && data.programId in validPlanIds() &&
+        data.exercises is list && data.exercises.size() <= 100 &&
+        (!('week' in data) || (data.week is int && data.week >= 0 && data.week <= 1000)) &&
+        (!('day' in data) || (data.day is int && data.day >= 0 && data.day <= 7)) &&
+        (!('weekNum' in data) || (data.weekNum is int && data.weekNum >= 0 && data.weekNum <= 1000)) &&
+        (!('dayNum' in data) || (data.dayNum is int && data.dayNum >= 0 && data.dayNum <= 7)) &&
+        (!('sessionKind' in data) || data.sessionKind in ['scheduled', 'pair-select']) &&
+        (!('elapsedSeconds' in data) || (data.elapsedSeconds is int && data.elapsedSeconds >= 0 && data.elapsedSeconds <= 86400)) &&
+        (!('notes' in data) || data.notes == null || (data.notes is string && data.notes.size() <= 5000)) &&
+        (!('adventure' in data) || (
+          data.adventure is map &&
+          data.adventure.keys().hasAll(['sessionToken', 'selectedPairIds', 'challengeAnswers']) &&
+          data.adventure.keys().hasOnly(['sessionToken', 'selectedPairIds', 'challengeAnswers']) &&
+          data.adventure.sessionToken is string && data.adventure.sessionToken.size() <= 128 &&
+          data.adventure.selectedPairIds is map && data.adventure.selectedPairIds.size() == 5 &&
+          data.adventure.challengeAnswers is map && data.adventure.challengeAnswers.size() <= 5
+        ));
+    }
+
     match /appConfig/{configId} {
       allow get: if signedIn();
       allow list: if isAdmin();
-      allow create, update, delete: if isAdmin();
+      allow create, update: if isAdmin() && configId == 'onboarding' && validOnboardingConfig(request.resource.data);
+      allow delete: if isAdmin();
     }
 
     match /accessKeys/{keyword} {
-      allow read: if signedIn();
-      allow create: if isAdmin() || (
-        signedIn() &&
-        publicCreationAllowed() &&
-        request.resource.data.keyword == keyword &&
-        keyword != 'judziek' &&
-        request.resource.data.source == 'public' &&
-        request.resource.data.active == true &&
-        request.resource.data.createdBy == request.auth.uid &&
-        request.resource.data.allowedPlanIds.size() > 0 &&
-        request.resource.data.allowedPlanIds.hasOnly(publicPlanIds())
+      allow get: if signedIn();
+      allow list: if isAdmin();
+      allow create: if validAccessKey(request.resource.data, keyword) && (
+        isAdmin() || (
+          signedIn() &&
+          publicCreationAllowed() &&
+          request.resource.data.source == 'public' &&
+          request.resource.data.active == true &&
+          request.resource.data.createdBy == request.auth.uid &&
+          keyword != 'judziek' &&
+          request.resource.data.allowedPlanIds.hasAll(['30-minute-adventure']) &&
+          request.resource.data.allowedPlanIds.hasOnly(publicPlanIds())
+        )
       );
-      allow update, delete: if isAdmin();
+      allow update: if isAdmin() && validAccessKey(request.resource.data, keyword) && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAdmin();
     }
 
     match /users/{userId} {
-      allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid && validSelectedProgram() && matchesIssuedAccess(userId);
-      allow read: if isAdmin() ||
+      allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid && validUserProfile(request.resource.data, userId) && validSelectedProgram(request.resource.data) && matchesIssuedAccess(userId);
+      allow get: if isAdmin() ||
         (signedIn() && resource.data.ownerUid == request.auth.uid) ||
         (signedIn() && !('ownerUid' in resource.data));
-      allow update: if isAdmin() ||
-        (signedIn() && resource.data.ownerUid == request.auth.uid && request.resource.data.ownerUid == resource.data.ownerUid && validSelectedProgram() &&
-          (!('allowedPlanIds' in resource.data) || request.resource.data.allowedPlanIds == resource.data.allowedPlanIds)) ||
-        (signedIn() && !('ownerUid' in resource.data) && request.resource.data.ownerUid == request.auth.uid);
+      allow list: if isAdmin();
+      allow update: if validUserProfile(request.resource.data, userId) && (
+        isAdmin() ||
+        (signedIn() && resource.data.ownerUid == request.auth.uid && userAuthorityUnchanged() && validSelectedProgram(request.resource.data)) ||
+        (signedIn() && !('ownerUid' in resource.data) && request.resource.data.ownerUid == request.auth.uid)
+      );
       allow delete: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
 
       match /workouts/{workoutId} {
-        allow read, create, update, delete: if isAdmin() || ownsUser(userId);
+        allow read: if isAdmin() || ownsUser(userId);
+        allow create, update: if (isAdmin() || ownsUser(userId)) && validWorkout(request.resource.data);
+        allow delete: if isAdmin() || ownsUser(userId);
       }
     }
   }

@@ -190,6 +190,91 @@ export const translations = {
             programDescription: "Specialization program to explode your bench press.",
         },
 
+        adventure: {
+            title: "30 Minute Adventure",
+            free: "Free plan",
+            seconds: "seconds",
+            heroPick: "Action Hero's Pick",
+            lastCleanRep: "Last clean rep",
+            confirmReset: "Clear this route and its current workout draft?",
+            equipment: {
+                bodyweight: "Bodyweight",
+                dumbbells: "Dumbbells",
+                barbell: "Barbell / rack",
+                cable: "Cable",
+                machines: "Machines"
+            },
+            setup: { fast: "Fast setup", moderate: "Moderate setup", slow: "Longer setup" },
+            dashboard: {
+                commandLabel: "Adventure session command",
+                description: "Build one full-body route through five training portals. Two rounds per pair, twenty working sets, no RPE math.",
+                sessions: "sessions",
+                lastTime: "last time",
+                portals: "portals",
+                resume: "Resume route",
+                planRoute: "Plan today's route",
+                ruleTitle: "One choice per portal",
+                ruleBody: "Choose five complementary pairs. Heavy movements always lead their round.",
+                timeTitle: "Thirty-minute target",
+                timeBody: "Fast routes land near thirty minutes. Longer setups are labelled before you commit.",
+                historyTitle: "Progress by movement",
+                historyBody: "Last load, repetitions and increase advice follow the exercise across every pairing.",
+                lastRoute: "Last completed route",
+                noSessions: "No completed routes yet. Your first portal is ready."
+            },
+            selector: {
+                title: "Chart your route",
+                description: "Choose one pair in every portal, or let the route generator do it for you.",
+                routeStatus: "portals locked",
+                equipment: "Available equipment",
+                random: "Random Adventure",
+                choosePair: "Choose a pairing",
+                missingEquipment: "Unavailable with the current equipment filters.",
+                reroll: "Reroll this portal",
+                clear: "Clear route",
+                enter: "Enter the portal"
+            },
+            workout: {
+                live: "Live route",
+                rest: "Rest after B",
+                skip: "Skip",
+                round: "Round",
+                last: "Last used",
+                firstExposure: "No previous exposure logged",
+                increase: "Increase load",
+                variant: "Movement variant",
+                assistance: "Assistance / added load",
+                technicalSafety: "Stop at the last repetition that preserves position and control.",
+                failureSafety: "Continue only while the full range of motion remains controlled.",
+                logSet: "Log set",
+                challengeQueued: "Challenge queued for round two",
+                standardTarget: "Standard target"
+            },
+            challenge: {
+                title: "Did either movement feel easy?",
+                description: "Choose the movement that had clearly more available. Round two will adapt separately for A and B.",
+                both: "Both felt easy",
+                neither: "Neither — keep targets",
+                safety: "Compounds change to a last-clean-rep set, never uncontrolled failure."
+            },
+            summary: {
+                title: "Route complete",
+                description: "Review finished. Commit the session to exercise history and progression.",
+                time: "elapsed",
+                sets: "sets logged",
+                portals: "portals cleared",
+                commit: "Commit session"
+            },
+            errors: {
+                sessionNotFound: "That Adventure session could not be found.",
+                sessionLoad: "The session could not be loaded. Return to the dashboard and try again.",
+                repsRequired: "Enter completed repetitions or seconds before logging the set.",
+                weightRequired: "Enter the working load before logging the set.",
+                save: "The session could not be saved. Your local draft is still intact.",
+                registration: "Could not activate 30 Minute Adventure. Please try again."
+            }
+        },
+
         // ========================================
         // ONBOARDING
         // ========================================
@@ -277,6 +362,16 @@ export const translations = {
                         "Auto-adaptive cooldown system (48h upper / 72h lower)",
                         "Reactive volume targeting ~20 sets/muscle/week",
                         "Progressive RPE ramp (8→9→9.5→10)"
+                    ]
+                },
+                adventure: {
+                    name: "30 Minute Adventure",
+                    description: "A flexible full-body session generator built for fast, equipment-aware training.",
+                    features: [
+                        "Free for every new keyword",
+                        "5 portals · 10 exercises · 20 working sets",
+                        "No 1RM or RPE calibration",
+                        "Exercise history and load recommendations"
                     ]
                 }
             },
@@ -1253,6 +1348,91 @@ export const translations = {
             programDescription: "Program specjalizacyjny na eksplozyjny wzrost wyciskania.",
         },
 
+        adventure: {
+            title: "30 Minute Adventure",
+            free: "Plan darmowy",
+            seconds: "sekundy",
+            heroPick: "Wybór Bohatera Akcji",
+            lastCleanRep: "Ostatnie czyste powtórzenie",
+            confirmReset: "Wyczyścić tę trasę i aktualny szkic treningu?",
+            equipment: {
+                bodyweight: "Masa ciała",
+                dumbbells: "Hantle",
+                barbell: "Sztanga / rack",
+                cable: "Wyciąg",
+                machines: "Maszyny"
+            },
+            setup: { fast: "Szybkie ustawienie", moderate: "Średnie ustawienie", slow: "Dłuższe ustawienie" },
+            dashboard: {
+                commandLabel: "Panel sesji Adventure",
+                description: "Zbuduj trasę full body przez pięć portali. Dwie rundy na parę, dwadzieścia serii roboczych, bez liczenia RPE.",
+                sessions: "sesji",
+                lastTime: "ostatni czas",
+                portals: "portali",
+                resume: "Wznów trasę",
+                planRoute: "Zaplanuj dzisiejszą trasę",
+                ruleTitle: "Jeden wybór na portal",
+                ruleBody: "Wybierz pięć uzupełniających się par. Ciężkie ruchy zawsze rozpoczynają rundę.",
+                timeTitle: "Cel: trzydzieści minut",
+                timeBody: "Szybkie trasy mieszczą się blisko 30 minut. Dłuższe ustawienia są oznaczone przed startem.",
+                historyTitle: "Progres według ćwiczenia",
+                historyBody: "Ostatni ciężar, powtórzenia i sugestia progresji podążają za ćwiczeniem między parami.",
+                lastRoute: "Ostatnia ukończona trasa",
+                noSessions: "Brak ukończonych tras. Pierwszy portal czeka."
+            },
+            selector: {
+                title: "Wytycz trasę",
+                description: "Wybierz jedną parę w każdym portalu albo użyj generatora trasy.",
+                routeStatus: "wybranych portali",
+                equipment: "Dostępny sprzęt",
+                random: "Losowa przygoda",
+                choosePair: "Wybierz parę",
+                missingEquipment: "Niedostępne przy aktualnym filtrze sprzętu.",
+                reroll: "Losuj ponownie ten portal",
+                clear: "Wyczyść trasę",
+                enter: "Wejdź do portalu"
+            },
+            workout: {
+                live: "Trasa na żywo",
+                rest: "Przerwa po B",
+                skip: "Pomiń",
+                round: "Runda",
+                last: "Ostatnio",
+                firstExposure: "Brak poprzedniego wyniku",
+                increase: "Zwiększ ciężar",
+                variant: "Wariant ruchu",
+                assistance: "Asysta / dodatkowy ciężar",
+                technicalSafety: "Zakończ na ostatnim powtórzeniu z zachowaną pozycją i kontrolą.",
+                failureSafety: "Kontynuuj tylko przy pełnym, kontrolowanym zakresie ruchu.",
+                logSet: "Zapisz serię",
+                challengeQueued: "Wyzwanie ustawione na drugą rundę",
+                standardTarget: "Standardowy cel"
+            },
+            challenge: {
+                title: "Czy któryś ruch był łatwy?",
+                description: "Wybierz ruch z wyraźnym zapasem. Druga runda dopasuje osobno ćwiczenie A i B.",
+                both: "Oba były łatwe",
+                neither: "Żaden — zachowaj cele",
+                safety: "Ćwiczenia złożone zmieniają się na ostatnie czyste powtórzenie, nigdy na niekontrolowany upadek."
+            },
+            summary: {
+                title: "Trasa ukończona",
+                description: "Przegląd zakończony. Zapisz sesję do historii i systemu progresji.",
+                time: "czas",
+                sets: "zapisanych serii",
+                portals: "ukończonych portali",
+                commit: "Zapisz sesję"
+            },
+            errors: {
+                sessionNotFound: "Nie znaleziono tej sesji Adventure.",
+                sessionLoad: "Nie udało się wczytać sesji. Wróć do panelu i spróbuj ponownie.",
+                repsRequired: "Podaj wykonane powtórzenia lub sekundy przed zapisem serii.",
+                weightRequired: "Podaj ciężar roboczy przed zapisem serii.",
+                save: "Nie udało się zapisać sesji. Lokalny szkic nadal jest bezpieczny.",
+                registration: "Nie udało się aktywować 30 Minute Adventure. Spróbuj ponownie."
+            }
+        },
+
         onboarding: {
             selectProtocol: "Wybierz swój protokół",
             choosePath: "Krok 2: Wybierz program transformacji.",
@@ -1336,6 +1516,16 @@ export const translations = {
                         "Auto-adaptacyjny system przerw (48h góra / 72h dół)",
                         "Reaktywny cel objętości ~20 serii/mięsień/tydzień",
                         "Progresywny wzrost RPE (8→9→9.5→10)"
+                    ]
+                },
+                adventure: {
+                    name: "30 Minute Adventure",
+                    description: "Elastyczny generator treningu całego ciała, zoptymalizowany pod czas i dostępny sprzęt.",
+                    features: [
+                        "Darmowy dla każdego nowego słowa kluczowego",
+                        "5 portali · 10 ćwiczeń · 20 serii roboczych",
+                        "Bez kalibracji 1RM i RPE",
+                        "Historia ćwiczeń i sugestie ciężaru"
                     ]
                 }
             },
