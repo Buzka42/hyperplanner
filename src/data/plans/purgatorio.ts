@@ -89,8 +89,8 @@ const LOWER_B: DaySpec = {
     ],
 };
 
-export const ACCUMULATE_INTENSIFY_CONFIG = definePlan({
-    id: 'accumulate-intensify',
+export const PURGATORIO_CONFIG = definePlan({
+    id: 'purgatorio',
     name: 'Purgatorio',
     weeks: 12,
     days: [UPPER_A, LOWER_A, UPPER_B, LOWER_B],
@@ -101,7 +101,7 @@ export const ACCUMULATE_INTENSIFY_CONFIG = definePlan({
         { name: 'Intensification II', weeks: [10, 11, 12], transform: intensify },
     ],
     ui: {
-        themeClass: 'theme-accumulate-intensify',
+        themeClass: 'theme-purgatorio',
         coverImage: '/workhorse.png',
         navImage: '/workhorse.png',
         dashboardWidgets: ['program_status', 'strength_chart', 'workout_history'],

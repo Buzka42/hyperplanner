@@ -4,6 +4,7 @@ import { doc, getDoc, setDoc, onSnapshot, updateDoc, collection, getDocs } from 
 import { getIdTokenResult, signInAnonymously } from 'firebase/auth';
 import { db, auth } from '../firebase';
 import { getPlan } from '../data/plans';
+import { canonicalPlanId, normalizeLegacyPlanIds } from '../data/planIds';
 import { isAccessKeyUsable, normalizeKeyword, type AccessKey } from '../data/accessControl';
 import { SEED_RESOLVER, type ExerciseResolver } from '../data/exercises';
 import { loadLibrary } from '../data/exercises/remote';
@@ -136,7 +137,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             if (snap.exists()) {
                 const data = snap.data() as UserProfile;
                 if (!data.programId) data.programId = 'bench-domination';
-                setUser(data);
+                // Pre-rename ids are normalised on read, so an athlete whose
+                // document has not been migrated yet still resolves to a real
+                // plan rather than falling back to Bench Domination.
+                setUser(normalizeLegacyPlanIds(data));
             } else {
                 console.warn("User document not found for ID:", listeningId);
             }
@@ -258,7 +262,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const now = new Date().toISOString();
             const accessSnap = await getDoc(doc(db, 'accessKeys', sanitized));
             const access = accessSnap.exists() ? accessSnap.data() as AccessKey : null;
-            if (!existingData && (!access || !isAccessKeyUsable(access) || !access.allowedPlanIds.includes(programId))) {
+            if (!existingData && (!access || !isAccessKeyUsable(access) || !access.allowedPlanIds.map(id => canonicalPlanId(id)).includes(canonicalPlanId(programId)))) {
                 throw new Error('This keyword does not grant access to the selected plan.');
             }
             const startDate = existingData?.startDate || now;
@@ -353,7 +357,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const switchProgram = async (newProgramId: string) => {
         if (!user) return;
-        if (user.allowPlanSwitching === false || (user.allowedPlanIds && !user.allowedPlanIds.includes(newProgramId))) {
+        const targetId = canonicalPlanId(newProgramId)!;
+        if (user.allowPlanSwitching === false
+            || (user.allowedPlanIds && !user.allowedPlanIds.map(id => canonicalPlanId(id)).includes(targetId))) {
             throw new Error('This plan is not available for your keyword.');
         }
         const currentId = user.programId;

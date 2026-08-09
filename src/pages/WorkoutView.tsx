@@ -159,6 +159,22 @@ export const WorkoutView: React.FC = () => {
         return user?.pendingCalibration?.includes(stat) ? stat : null;
     };
 
+    /**
+     * Bucket for the live figure's type size.
+     *
+     * The console's figures are the largest type in the app, which means a
+     * three-digit load plus a decimal ("142.5") outgrows the column and the
+     * input clips it — the athlete types 333 and sees 33, which reads as lost
+     * data. Stepping the size down by length keeps the whole number visible;
+     * it stays the biggest thing on screen at every length.
+     */
+    const figureLength = (value: string): 'short' | 'medium' | 'long' => {
+        const digits = (value ?? '').replace(/[^0-9]/g, '').length;
+        if (digits <= 2) return 'short';
+        if (digits === 3) return 'medium';
+        return 'long';
+    };
+
     // Helper: Calculate Weight Wrapper
     const calculateWeight = (ex: any) => {
         if (activePlanConfig.hooks?.calculateWeight && user) {
@@ -1063,8 +1079,8 @@ export const WorkoutView: React.FC = () => {
                         </div>
                     )}
                     <div className="live-set-measurements">
-                        <label><span>{t('common.weight')}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
-                        <label><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value)} aria-label={t('workout.reps')} /></label>
+                        <label data-len={figureLength(activeSet.weight)}><span>{t('common.weight')}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
+                        <label data-len={figureLength(activeSet.reps)}><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value)} aria-label={t('workout.reps')} /></label>
                     </div>
                     <div className="live-set-telemetry">
                         {activeExercise.target.rpe !== undefined && <div><span>RPE</span><strong>{activeExercise.target.rpe}</strong></div>}

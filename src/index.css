@@ -353,8 +353,8 @@
   }
 }
 
-  /* accumulate-intensify - derived from cover artwork */
-  .theme-accumulate-intensify {
+  /* purgatorio - derived from cover artwork */
+  .theme-purgatorio {
       --background: 210 8% 4%;
       --foreground: 240 18% 97%;
       --card: 0 0% 8%;
@@ -390,8 +390,8 @@
       --chart-5: 201 53% 58%;
   }
 
-  /* the-weakest-link - derived from cover artwork */
-  .theme-the-weakest-link {
+  /* immaculate-restructure - derived from cover artwork */
+  .theme-immaculate-restructure {
       --background: 210 8% 4%;
       --foreground: 240 18% 97%;
       --card: 0 0% 8%;
@@ -578,8 +578,8 @@
       --chart-5: 198 47% 58%;
   }
 
-  /* upper-body-squat - derived from cover artwork */
-  .theme-upper-body-squat {
+  /* workhorse - derived from cover artwork */
+  .theme-workhorse {
       --background: 210 8% 4%;
       --foreground: 240 18% 97%;
       --card: 120 37% 8%;
@@ -865,10 +865,17 @@ b { font-weight: 600; }
 .session-meter span { position: relative; display: block; width: 8px; height: 66px; overflow: hidden; border: 1px solid var(--instrument-rule); background: hsl(var(--muted)); }
 .session-meter i { position: absolute; inset-inline: 0; bottom: 0; background: hsl(var(--primary)); transition: height 360ms cubic-bezier(.16,1,.3,1); }
 .live-set-measurements { display: grid; grid-template-columns: 1fr 1fr; }
-.live-set-measurements label { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: .25rem .5rem; padding: 1rem 1.25rem; border-right: 1px solid var(--instrument-rule); }
+.live-set-measurements label { container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: .25rem .5rem; padding: 1rem 1.25rem; border-right: 1px solid var(--instrument-rule); }
 .live-set-measurements label:last-child { border-right: 0; }
 .live-set-measurements label > span { grid-column: 1/-1; color: hsl(var(--muted-foreground)); font-size: .65rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; }
-.live-set-measurements .instrument-input { height: 82px; padding: 0; border: 0; background: transparent; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; font-size: clamp(2.5rem, 10vw, 4.5rem); font-weight: 500; line-height: 1; color: hsl(var(--foreground)); box-shadow: none; }
+.live-set-measurements .instrument-input { width: 100%; min-width: 0; height: 82px; padding: 0; border: 0; background: transparent; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; font-size: var(--figure-size, clamp(2.5rem, 10vw, 4.5rem)); font-weight: 500; line-height: 1; color: hsl(var(--foreground)); box-shadow: none; }
+/* The figure is sized from its own column, not the viewport: on desktop the
+   console splits in two and this column is a fraction of the screen, so a vw
+   figure overflows and the input clips the number the athlete just typed.
+   It steps down again by digit count, and stays the largest type on screen. */
+.live-set-measurements label[data-len='short']  { --figure-size: min(4.5rem, calc(50cqi - 16px)); }
+.live-set-measurements label[data-len='medium'] { --figure-size: min(3.6rem, calc(33cqi - 11px)); }
+.live-set-measurements label[data-len='long']   { --figure-size: min(2.8rem, calc(20cqi - 7px)); }
 .live-set-measurements b { padding-bottom: .75rem; color: hsl(var(--primary)); font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 1.25rem; }
 .live-set-telemetry { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); border-top: 1px solid var(--instrument-rule); }
 .live-set-telemetry > div { display: flex; min-height: 54px; align-items: center; justify-content: space-between; gap: .5rem; padding: .7rem 1rem; border-right: 1px solid var(--instrument-rule); }

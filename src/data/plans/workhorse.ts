@@ -77,8 +77,8 @@ const LEGS_AND_CHEST: DaySpec = {
     ],
 };
 
-export const UPPER_BODY_SQUAT_CONFIG = definePlan({
-    id: 'upper-body-squat',
+export const WORKHORSE_CONFIG = definePlan({
+    id: 'workhorse',
     name: 'Workhorse',
     weeks: 10,
     days: [WEIGHTED_CHIN_STRENGTH, LEGS_AND_PULL_VOLUME, HORIZONTAL_BACK, LEGS_AND_CHEST],
@@ -104,7 +104,7 @@ export const UPPER_BODY_SQUAT_CONFIG = definePlan({
         },
     ],
     ui: {
-        themeClass: 'theme-upper-body-squat',
+        themeClass: 'theme-workhorse',
         coverImage: '/purgatorio.png',
         navImage: '/purgatorio.png',
         dashboardWidgets: ['1rm', 'program_status', 'strength_chart', 'workout_history'],

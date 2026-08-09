@@ -82,8 +82,8 @@ const LOWER_B: DaySpec = {
     ],
 };
 
-export const THE_WEAKEST_LINK_CONFIG = definePlan({
-    id: 'the-weakest-link',
+export const IMMACULATE_RESTRUCTURE_CONFIG = definePlan({
+    id: 'immaculate-restructure',
     name: 'Immaculate (Re)Structure',
     weeks: 10,
     days: [UPPER_A, LOWER_A, UPPER_B, LOWER_B],
@@ -98,7 +98,7 @@ export const THE_WEAKEST_LINK_CONFIG = definePlan({
         },
     ],
     ui: {
-        themeClass: 'theme-the-weakest-link',
+        themeClass: 'theme-immaculate-restructure',
         coverImage: '/imamculate.png',
         navImage: '/imamculate.png',
         dashboardWidgets: ['1rm', 'program_status', 'strength_chart', 'workout_history'],

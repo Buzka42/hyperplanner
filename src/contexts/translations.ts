@@ -407,7 +407,7 @@ export const translations = {
                         "Total-rep targets - beat your set count, not your reps"
                     ]
                 },
-                accumulateIntensify: {
+                purgatorio: {
                     name: "Purgatorio",
                     description: "Repeating 6-week blocks: three weeks of volume, three weeks of load. Every muscle twice a week in both.",
                     features: [
@@ -418,7 +418,7 @@ export const translations = {
                         "Exercise variations rotate between blocks"
                     ]
                 },
-                theWeakestLink: {
+                immaculateRestructure: {
                     name: "Immaculate (Re)Structure",
                     description: "10 weeks built on Poliquin structural-balance relationships. Find the lagging structure and feed it.",
                     features: [
@@ -462,7 +462,7 @@ export const translations = {
                         "Everything else held at twice weekly"
                     ]
                 },
-                upperBodySquat: {
+                workhorse: {
                     name: "Workhorse",
                     description: "10 weeks treating the weighted chin-up as a main lift, not an accessory. Ends in the Chin-Up Trial.",
                     features: [
@@ -1727,7 +1727,7 @@ export const translations = {
                         "Cele na łączne powtórzenia - bij liczbę serii, nie powtórzeń"
                     ]
                 },
-                accumulateIntensify: {
+                purgatorio: {
                     name: "Purgatorio",
                     description: "Powtarzalne 6-tygodniowe bloki: trzy tygodnie objętości, trzy tygodnie ciężaru. Każda partia 2x w tygodniu w obu.",
                     features: [
@@ -1738,7 +1738,7 @@ export const translations = {
                         "Warianty ćwiczeń rotują między blokami"
                     ]
                 },
-                theWeakestLink: {
+                immaculateRestructure: {
                     name: "Immaculate (Re)Structure",
                     description: "10 tygodni opartych na relacjach siłowych Poliquina. Znajdź zapóźnioną strukturę i nadrób ją.",
                     features: [
@@ -1782,7 +1782,7 @@ export const translations = {
                         "Reszta partii utrzymana na 2x w tygodniu"
                     ]
                 },
-                upperBodySquat: {
+                workhorse: {
                     name: "Workhorse",
                     description: "10 tygodni, w których podciąganie z obciążeniem jest bojem głównym, nie dodatkiem. Kończy się Próbą Podciągania.",
                     features: [

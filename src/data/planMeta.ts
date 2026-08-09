@@ -1,3 +1,5 @@
+import { canonicalPlanId } from './planIds';
+
 /**
  * Plan presentation metadata — the single source of truth for everything about
  * a plan that isn't its training content.
@@ -134,19 +136,19 @@ export const PLAN_META: Record<string, PlanMeta> = {
         coverGradient: 'from-[#0a0a0a]',
         order: 11
     },
-    'accumulate-intensify': {
-        id: 'accumulate-intensify',
-        i18nKey: 'accumulateIntensify',
-        themeClass: 'theme-accumulate-intensify',
+    'purgatorio': {
+        id: 'purgatorio',
+        i18nKey: 'purgatorio',
+        themeClass: 'theme-purgatorio',
         logo: '/purgatorio.png',
         coverBg: 'bg-[#0a0806]',
         coverGradient: 'from-[#0a0806]',
         order: 12
     },
-    'the-weakest-link': {
-        id: 'the-weakest-link',
-        i18nKey: 'theWeakestLink',
-        themeClass: 'theme-the-weakest-link',
+    'immaculate-restructure': {
+        id: 'immaculate-restructure',
+        i18nKey: 'immaculateRestructure',
+        themeClass: 'theme-immaculate-restructure',
         logo: '/imamculate.png',
         coverBg: 'bg-[#0a0906]',
         coverGradient: 'from-[#0a0906]',
@@ -179,10 +181,10 @@ export const PLAN_META: Record<string, PlanMeta> = {
         coverGradient: 'from-[#0a0705]',
         order: 16
     },
-    'upper-body-squat': {
-        id: 'upper-body-squat',
-        i18nKey: 'upperBodySquat',
-        themeClass: 'theme-upper-body-squat',
+    'workhorse': {
+        id: 'workhorse',
+        i18nKey: 'workhorse',
+        themeClass: 'theme-workhorse',
         logo: '/workhorse.png',
         coverBg: 'bg-[#080604]',
         coverGradient: 'from-[#080604]',
@@ -216,6 +218,10 @@ export const PLAN_IDS = Object.values(PLAN_META)
 /** Plans in display order. */
 export const ORDERED_PLAN_META = Object.values(PLAN_META).sort((a, b) => a.order - b.order);
 
-/** Falls back to Bench Domination so a stale/unknown programId can't blank the shell. */
+/**
+ * Falls back to Bench Domination so a stale/unknown programId can't blank the
+ * shell. Pre-rename ids resolve through `canonicalPlanId`, so an athlete whose
+ * document still says `the-weakest-link` keeps their artwork and theme.
+ */
 export const getPlanMeta = (planId?: string): PlanMeta =>
-    (planId && PLAN_META[planId]) || PLAN_META['bench-domination'];
+    (planId && PLAN_META[canonicalPlanId(planId)!]) || PLAN_META['bench-domination'];

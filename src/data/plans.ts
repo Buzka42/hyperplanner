@@ -1,5 +1,6 @@
 
 import type { PlanConfig } from '../types';
+import { canonicalPlanId } from './planIds';
 import { BENCH_DOMINATION_CONFIG } from './program';
 import { PENCILNECK_CONFIG } from './pencilneck';
 import { SKELETON_CONFIG } from './skeleton';
@@ -11,12 +12,12 @@ import { SUPER_MUTANT_CONFIG } from './supermutant';
 import { ADVENTURE_CONFIG } from './adventure';
 import { KING_OF_THE_SQUAT_CONFIG } from './plans/kingOfTheSquat';
 import { GRAVITY_IS_OPTIONAL_CONFIG } from './plans/gravityIsOptional';
-import { ACCUMULATE_INTENSIFY_CONFIG } from './plans/accumulateIntensify';
-import { THE_WEAKEST_LINK_CONFIG } from './plans/theWeakestLink';
+import { PURGATORIO_CONFIG } from './plans/purgatorio';
+import { IMMACULATE_RESTRUCTURE_CONFIG } from './plans/immaculateRestructure';
 import { OVERHEAD_DOMINION_CONFIG } from './plans/overheadDominion';
 import { HAMSTRING_FOUNDRY_CONFIG } from './plans/hamstringFoundry';
 import { ARMS_RACE_CONFIG } from './plans/armsRace';
-import { UPPER_BODY_SQUAT_CONFIG } from './plans/upperBodySquat';
+import { WORKHORSE_CONFIG } from './plans/workhorse';
 import { NEURAL_OVERLOAD_CONFIG } from './plans/neuralOverload';
 import { TENFOLD_CONFIG } from './plans/tenfold';
 
@@ -32,17 +33,19 @@ export const PLAN_REGISTRY: Record<string, PlanConfig> = {
     [ADVENTURE_CONFIG.id]: ADVENTURE_CONFIG,
     [KING_OF_THE_SQUAT_CONFIG.id]: KING_OF_THE_SQUAT_CONFIG,
     [GRAVITY_IS_OPTIONAL_CONFIG.id]: GRAVITY_IS_OPTIONAL_CONFIG,
-    [ACCUMULATE_INTENSIFY_CONFIG.id]: ACCUMULATE_INTENSIFY_CONFIG,
-    [THE_WEAKEST_LINK_CONFIG.id]: THE_WEAKEST_LINK_CONFIG,
+    [PURGATORIO_CONFIG.id]: PURGATORIO_CONFIG,
+    [IMMACULATE_RESTRUCTURE_CONFIG.id]: IMMACULATE_RESTRUCTURE_CONFIG,
     [OVERHEAD_DOMINION_CONFIG.id]: OVERHEAD_DOMINION_CONFIG,
     [HAMSTRING_FOUNDRY_CONFIG.id]: HAMSTRING_FOUNDRY_CONFIG,
     [ARMS_RACE_CONFIG.id]: ARMS_RACE_CONFIG,
-    [UPPER_BODY_SQUAT_CONFIG.id]: UPPER_BODY_SQUAT_CONFIG,
+    [WORKHORSE_CONFIG.id]: WORKHORSE_CONFIG,
     [NEURAL_OVERLOAD_CONFIG.id]: NEURAL_OVERLOAD_CONFIG,
     [TENFOLD_CONFIG.id]: TENFOLD_CONFIG
 };
 
 export const getPlan = (id?: string) => {
     if (!id) return BENCH_DOMINATION_CONFIG; // Default fallback
-    return PLAN_REGISTRY[id] || BENCH_DOMINATION_CONFIG;
+    return PLAN_REGISTRY[canonicalPlanId(id)!] || BENCH_DOMINATION_CONFIG;
 };
+
+export { LEGACY_PLAN_IDS, canonicalPlanId } from './planIds';

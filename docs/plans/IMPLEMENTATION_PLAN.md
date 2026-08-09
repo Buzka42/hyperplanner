@@ -6,6 +6,47 @@ Sequence: **A. Onboarding bug → B. UI overhaul (phases 1–7) → C. Plan test
 
 ---
 
+## Status
+
+| Item | State |
+|---|---|
+| A. Onboarding bug (benchmark step + calibration) | **Done** |
+| Plan renames (names, artwork, ids) | **Done** — migration pending, see below |
+| B1. Tokens & fonts | **Done** (fonts self-hosted) |
+| B2. Shell | Next |
+| B3–B8 | Not started |
+| C. Plan testing | Not started |
+
+### Action required from the owner
+
+`npm run migrate:plan-ids` — rewrites the renamed plan ids in Firestore. Needs
+`GOOGLE_APPLICATION_CREDENTIALS` pointing at a service account, and
+`npm i -D firebase-admin`. Dry runs by default; `-- --apply` writes.
+
+Nothing is broken while this is pending: the app reads through
+`canonicalPlanId`, and `firestore.rules` still accepts the old ids. After it has
+run everywhere, the three legacy entries can come out of `validPlanIds()` — but
+**`LEGACY_PLAN_IDS` in `src/data/planIds.ts` stays**, because historical workout
+logs keep the id they were written with and are deliberately not rewritten.
+
+---
+
+## Plan renames
+
+| Old name | New name | Old id | New id |
+|---|---|---|---|
+| Accumulate / Intensify | Purgatorio | `accumulate-intensify` | `purgatorio` |
+| The Weakest Link | Immaculate (Re)Structure | `the-weakest-link` | `immaculate-restructure` |
+| The Upper-Body Squat | Workhorse | `upper-body-squat` | `workhorse` |
+
+Two cover images were also crossed (`accumulate-intensify` held `workhorse.png`
+and vice versa), verified against the wordmarks in the artwork and swapped.
+
+The three names stay in English in the Polish locale, unlike the descriptive
+plan names around them, because they are brand names set into the cover art.
+
+---
+
 ## Decisions locked in this session
 
 ### Onboarding
@@ -95,19 +136,29 @@ manually walk onboarding for King of the Squat, Neural Overload and Tenfold in t
 Rules throughout: no logic/Firestore changes, i18n keys unchanged (add only if a label
 genuinely doesn't exist), each phase leaves the app shippable.
 
-### B1. Tokens & fonts ⇧ PUSH
+### B1. Tokens & fonts ⇧ PUSH — done
 Self-host Hanken Grotesk + JetBrains Mono (gym Wi-Fi). Rewrite `index.css` `@layer base`
 and the `tailwind.config.js` mapping. Retire Saira, `machined-graphite.png`,
 `brushed-billet.png`, chamfer clip-paths, command-depth shadows. Neutral chassis
 `#0a0b0c` for every theme; per-program tint moves to panel surfaces only. App will look
 "wrong but working" — that proves the token swap end to end.
 
-### B2. Shell ⇧ PUSH
+### B2. Shell ⇧ PUSH — next
 Labeled sidebar re-skinned flat. 5-item mobile dock, drawer deleted. Brand lockup in
 Hanken. Trophy case extracted to a new `/app/profile` route. Program artwork slot,
 grayscale-first.
 
 ### B3. Live-set console — the proof surface ⇧ PUSH
+
+Carries two defects found during B1 review, already fixed but worth keeping
+visible because the rebuild must not reintroduce them:
+- the live figure was sized from `vw`, so on desktop (where the console splits
+  into two columns) a 3-digit load overflowed and the input clipped it — the
+  athlete typed 333 and saw 33. Now sized from its own container via `cqi`,
+  stepping down by digit count. Verified: 0 clipped across 48 width/value
+  combinations from 620px down to 150px.
+- `transition: height` / `transition: width` on the progress meters (detector
+  findings) should become transform-based here.
 Hairline-divided bands, no panel box. Load figure `clamp(2.5rem, 10vw, 4.5rem)` in mono —
 the largest type in the app. History/advice pills → one spec row. Telemetry strip as
 hairline cells. LOG SET as a full-width signal block, min-height 56–64px.

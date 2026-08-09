@@ -212,12 +212,12 @@ export const PLAN_RULES: Record<string, VolumeRules> = {
     // New plans are held to the concept doc's rules under --strict.
     'king-of-the-squat': { kind: 'powerlifting', specialisation: ['quads'], specialisationExposures: 3 },
     'gravity-is-optional': { kind: 'hypertrophy', specialisation: ['back'], specialisationExposures: 3 },
-    'accumulate-intensify': { kind: 'hypertrophy' },
-    'the-weakest-link': { kind: 'hypertrophy' },
+    'purgatorio': { kind: 'hypertrophy' },
+    'immaculate-restructure': { kind: 'hypertrophy' },
     'overhead-dominion': { kind: 'specialisation', specialisation: ['shoulders'], specialisationExposures: 4 },
     'hamstring-foundry': { kind: 'specialisation', specialisation: ['hamstrings'], specialisationExposures: 3 },
     'arms-race': { kind: 'specialisation', specialisation: ['biceps', 'triceps'], specialisationExposures: 4 },
-    'upper-body-squat': { kind: 'specialisation', specialisation: ['back'], specialisationExposures: 3 },
+    'workhorse': { kind: 'specialisation', specialisation: ['back'], specialisationExposures: 3 },
     'neural-overload': { kind: 'powerbuilding' },
     'tenfold': { kind: 'hypertrophy' },
 };

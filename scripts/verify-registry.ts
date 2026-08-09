@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url';
 
 import { PLAN_META, PLAN_IDS, ORDERED_PLAN_META } from '../src/data/planMeta';
 import { PLAN_REGISTRY } from '../src/data/plans';
+import { LEGACY_PLAN_IDS } from '../src/data/planIds';
 import { translations } from '../src/contexts/translations';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -56,8 +57,21 @@ if (!rulesMatch) {
     for (const id of diff(PLAN_IDS, ruleIds)) {
         fail(`Plan "${id}" is missing from validPlanIds() in firestore.rules. Users on it cannot write their profile or workouts.`);
     }
-    for (const id of diff(ruleIds, PLAN_IDS)) {
-        fail(`firestore.rules validPlanIds() allows "${id}", which is not a known plan.`);
+    // Pre-rename ids stay valid until every stored document has been migrated,
+    // otherwise an athlete mid-program is locked out of writing their own log.
+    // They must be declared in LEGACY_PLAN_IDS, so an id cannot linger here by
+    // accident, and each must point at a plan that actually exists.
+    const legacyIds = Object.keys(LEGACY_PLAN_IDS);
+    for (const id of diff(ruleIds, [...PLAN_IDS, ...legacyIds])) {
+        fail(`firestore.rules validPlanIds() allows "${id}", which is neither a known plan nor a declared legacy id in src/data/planIds.ts.`);
+    }
+    for (const [legacy, current] of Object.entries(LEGACY_PLAN_IDS)) {
+        if (!PLAN_IDS.includes(current)) {
+            fail(`LEGACY_PLAN_IDS maps "${legacy}" to "${current}", which is not a known plan.`);
+        }
+        if (!ruleIds.includes(legacy)) {
+            fail(`Legacy plan id "${legacy}" is missing from validPlanIds(). Athletes whose documents predate the rename cannot write.`);
+        }
     }
 }
 
