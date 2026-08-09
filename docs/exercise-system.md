@@ -35,6 +35,22 @@ degrades to the last shipped config, never a blank workout.
 
 ---
 
+## Naming
+
+Polish names follow the convention the original entries set, which is a
+deliberate mix rather than a blanket translation. Movements with an established
+Polish name get it — "Wyciskanie sztangi leżąc", "Martwy ciąg klasyczny",
+"Wspięcia na palce stojąc". Terms Polish lifters actually say in English are
+left alone: Spoto Press, Nordic curls, Y-Raises, hack squat, Dragon Flags,
+Larsen Press, Kas glute bridge.
+
+Translating that second group would read as stilted to the people using the
+app, which is why `verify:registry` also rejects Polish diacritics appearing in
+English copy — the two languages were once swapped wholesale across eight plans
+and every other check passed.
+
+---
+
 ## Identity and aliases
 
 Every movement has a stable kebab-case id (`paused-bench-press`). Display names
