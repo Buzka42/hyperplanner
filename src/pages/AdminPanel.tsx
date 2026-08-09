@@ -25,6 +25,7 @@ export const AdminPanel: React.FC = () => {
     const [plans, setPlans] = useState<string[]>([]);
     const [expiresAt, setExpiresAt] = useState('');
     const [allowSwitching, setAllowSwitching] = useState(true);
+    const [testAccount, setTestAccount] = useState(false);
     const [query, setQuery] = useState('');
     const [message, setMessage] = useState('');
 
@@ -53,11 +54,11 @@ export const AdminPanel: React.FC = () => {
             setMessage('Enter a valid keyword and select at least one plan.'); return;
         }
         await setDoc(doc(db, 'accessKeys', id), {
-            keyword: id, label: label.trim(), allowedPlanIds: withAlwaysFreePlans(plans), active: true, source: 'admin', allowPlanSwitching: allowSwitching,
+            keyword: id, label: label.trim(), allowedPlanIds: withAlwaysFreePlans(plans), active: true, source: 'admin', allowPlanSwitching: allowSwitching, testAccount,
             expiresAt: expiresAt ? new Date(`${expiresAt}T23:59:59`).toISOString() : null,
             createdAt: new Date().toISOString(), createdBy: auth.currentUser?.uid || ''
         } satisfies AccessKey);
-        setKeyword(''); setLabel(''); setPlans([]); setExpiresAt(''); setMessage(`Keyword “${id}” created.`);
+        setKeyword(''); setLabel(''); setPlans([]); setExpiresAt(''); setTestAccount(false); setMessage(`Keyword “${id}” created.`);
     };
     const updateKey = (key: AccessKey, updates: Partial<AccessKey>) => setDoc(doc(db, 'accessKeys', key.keyword), { ...key, ...updates }, { merge: true });
 
@@ -75,6 +76,7 @@ export const AdminPanel: React.FC = () => {
                     <Label htmlFor="key-label">Admin label</Label><Input id="key-label" value={label} onChange={e => setLabel(e.target.value)} placeholder="Optional: athlete or campaign" />
                     <Label>Available plans</Label><PlanChecklist value={withAlwaysFreePlans(plans)} onChange={setPlans} lockFree />
                     <div className="admin-inline"><label><input type="checkbox" checked={allowSwitching} onChange={e => setAllowSwitching(e.target.checked)} /> Allow plan switching</label><div><Label htmlFor="expiry">Expires</Label><Input id="expiry" type="date" value={expiresAt} onChange={e => setExpiresAt(e.target.value)} /></div></div>
+                    <label className="admin-toggle"><input type="checkbox" checked={testAccount} onChange={e => setTestAccount(e.target.checked)} /><span><strong>Test account</strong><small>Lab Mode: swap any exercise, jump to any week, and log sessions as test data excluded from PRs and badges.</small></span></label>
                     <Button type="submit"><KeyRound className="mr-2 h-4 w-4" />Create keyword</Button>
                 </form>
             </section>
@@ -96,6 +98,7 @@ export const AdminPanel: React.FC = () => {
                 <div className="admin-key-identity"><strong>{key.keyword}</strong><span>{key.label || key.source} · {key.expiresAt ? `expires ${new Date(key.expiresAt).toLocaleDateString()}` : 'no expiry'}</span></div>
                 <PlanChecklist value={key.allowedPlanIds} onChange={allowedPlanIds => updateKey(key, { allowedPlanIds })} />
                 <label className="admin-status"><input type="checkbox" checked={key.active} onChange={e => updateKey(key, { active: e.target.checked })} /> {key.active ? 'Active' : 'Disabled'}</label>
+                <label className="admin-status" title="Lab Mode: swap any exercise, jump to any week, sessions logged as test data"><input type="checkbox" checked={key.testAccount === true} onChange={e => updateKey(key, { testAccount: e.target.checked })} /> Test</label>
                 <div className="admin-row-actions"><Button variant="ghost" size="icon" aria-label={`Copy ${key.keyword}`} onClick={() => navigator.clipboard.writeText(key.keyword)}><Copy /></Button><Button variant="destructive" size="icon" aria-label={`Delete ${key.keyword}`} onClick={() => window.confirm(`Delete “${key.keyword}”?`) && deleteDoc(doc(db, 'accessKeys', key.keyword))}><Trash2 /></Button></div>
             </article>)}
         </section>

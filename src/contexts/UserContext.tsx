@@ -268,7 +268,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 stats,
                 startDate,
                 programId,
-                ...(access && { allowedPlanIds: access.allowedPlanIds, allowPlanSwitching: access.allowPlanSwitching !== false }),
+                ...(access && {
+                    allowedPlanIds: access.allowedPlanIds,
+                    allowPlanSwitching: access.allowPlanSwitching !== false,
+                    // Lab Mode comes from the keyword the admin issued.
+                    ...(access.testAccount === true && { isTestAccount: true }),
+                }),
                 ...(selectedDays && { selectedDays }),
                 ...(exercisePreferences && { exercisePreferences }),
                 ...(benchDominationModules && { benchDominationModules }),

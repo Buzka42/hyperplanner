@@ -48,7 +48,8 @@ service cloud.firestore {
 
     function validAccessKey(data, keyword) {
       return data.keys().hasAll(['keyword', 'allowedPlanIds', 'active', 'source', 'allowPlanSwitching', 'expiresAt', 'createdAt', 'createdBy']) &&
-        data.keys().hasOnly(['keyword', 'allowedPlanIds', 'active', 'source', 'label', 'allowPlanSwitching', 'expiresAt', 'createdAt', 'createdBy']) &&
+        data.keys().hasOnly(['keyword', 'allowedPlanIds', 'active', 'source', 'label', 'allowPlanSwitching', 'expiresAt', 'createdAt', 'createdBy', 'testAccount']) &&
+        (!('testAccount' in data) || data.testAccount is bool) &&
         data.keyword is string && data.keyword == keyword && data.keyword.size() >= 3 && data.keyword.size() <= 64 &&
         data.allowedPlanIds is list && data.allowedPlanIds.size() > 0 && data.allowedPlanIds.size() <= validPlanIds().size() && data.allowedPlanIds.hasOnly(validPlanIds()) &&
         data.active is bool && data.source in ['admin', 'public'] && data.allowPlanSwitching is bool &&
@@ -242,6 +243,8 @@ service cloud.firestore {
           request.resource.data.active == true &&
           request.resource.data.createdBy == request.auth.uid &&
           keyword != 'judziek' &&
+          // Lab Mode is admin-granted only; a self-serve key must never claim it.
+          (!('testAccount' in request.resource.data) || request.resource.data.testAccount == false) &&
           request.resource.data.allowedPlanIds.hasAll(['30-minute-adventure']) &&
           request.resource.data.allowedPlanIds.hasOnly(publicPlanIds())
         )

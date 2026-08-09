@@ -6,7 +6,7 @@ import { useLanguage, resolveTemplate } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
-import { CheckCircle2, ArrowLeft, Save, AlertCircle } from 'lucide-react';
+import { CheckCircle2, ArrowLeft, Save, AlertCircle, FlaskConical } from 'lucide-react';
 import { doc, updateDoc, arrayUnion, increment, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { cn } from '../lib/utils';
@@ -921,13 +921,24 @@ export const WorkoutView: React.FC = () => {
                 week: weekNum,
                 day: dayNum,
                 dayName: dayData?.dayName,
-                exercises: Object.entries(exerciseData).map(([id, sets]) => ({
-                    id,
-                    name: dayData?.exercises.find(e => e.id === id)?.name || "Unknown",
-                    setsData: sets,
-                    notes: exerciseNotes[id] || null
-                })),
-                programId: programData.id
+                exercises: Object.entries(exerciseData).map(([id, sets]) => {
+                    const source = dayData?.exercises.find(e => e.id === id);
+                    return {
+                        id,
+                        name: source?.name || "Unknown",
+                        // Canonical library id alongside the display name, so
+                        // history survives a rename; older logs keep resolving
+                        // by name through the alias table.
+                        ...((source as { exerciseId?: string })?.exerciseId
+                            ? { exerciseId: (source as { exerciseId?: string }).exerciseId }
+                            : {}),
+                        setsData: sets,
+                        notes: exerciseNotes[id] || null
+                    };
+                }),
+                programId: programData.id,
+                // Test sessions stay out of PRs, badges and analytics.
+                ...(user.isTestAccount === true && { isTest: true })
             };
 
             const workoutsRef = collection(db, 'users', user.id, 'workouts');
@@ -1527,6 +1538,15 @@ export const WorkoutView: React.FC = () => {
                             Current weight: {user?.painGloryStatus?.deficitSnatchGripWeight || '?'} kg
                         </p>
                     </div>
+                </div>
+            )}
+
+            {user?.isTestAccount && (
+                <div className="lab-mode-banner" role="status">
+                    <FlaskConical className="h-4 w-4 shrink-0" />
+                    <span>
+                        <strong>{t('labMode.title')}</strong> {t('labMode.description')}
+                    </span>
                 </div>
             )}
 

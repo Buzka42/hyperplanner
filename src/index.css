@@ -937,3 +937,7 @@ input[type=number] {
   .adventure-summary-readout span { padding-inline: 4px; }
   .adventure-summary-readout b { font-size: 1.35rem; }
 }
+
+/* Lab mode: test sessions must never be mistaken for real training data. */
+.lab-mode-banner { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding:10px 14px; border:1px dashed hsl(45 90% 55%/.6); background:hsl(45 90% 55%/.1); color:hsl(45 90% 62%); font-size:.8rem; }
+.lab-mode-banner strong { text-transform:uppercase; letter-spacing:.06em; }

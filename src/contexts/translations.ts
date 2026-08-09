@@ -772,6 +772,10 @@ export const translations = {
         // ========================================
         // SETTINGS
         // ========================================
+        labMode: {
+            title: "Lab mode.",
+            description: "This is a test account - sessions are saved as test data and stay out of your records, badges and charts."
+        },
         settings: {
             training: {
                 title: "Training preferences",
@@ -1926,6 +1930,10 @@ export const translations = {
             }
         },
 
+        labMode: {
+            title: "Tryb testowy.",
+            description: "To konto testowe - sesje zapisują się jako dane testowe i nie trafiają do rekordów, odznak ani wykresów."
+        },
         settings: {
             training: {
                 title: "Ustawienia treningu",

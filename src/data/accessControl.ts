@@ -23,6 +23,13 @@ export type AccessKey = {
     expiresAt?: string | null;
     createdAt: string;
     createdBy?: string;
+    /**
+     * Grants Lab Mode to accounts created from this keyword: swap any exercise
+     * in the library regardless of plan policy, jump to any week or day, and
+     * log sessions tagged as test data so they stay out of PRs and badges.
+     * Admin-only — the public keyword path can never set it.
+     */
+    testAccount?: boolean;
 };
 
 export type OnboardingConfig = {
