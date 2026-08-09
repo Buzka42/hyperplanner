@@ -214,4 +214,6 @@ export const PLAN_RULES: Record<string, VolumeRules> = {
     'gravity-is-optional': { kind: 'hypertrophy', specialisation: ['back'], specialisationExposures: 3 },
     'accumulate-intensify': { kind: 'hypertrophy' },
     'the-weakest-link': { kind: 'hypertrophy' },
+    'overhead-dominion': { kind: 'specialisation', specialisation: ['shoulders'], specialisationExposures: 4 },
+    'hamstring-foundry': { kind: 'specialisation', specialisation: ['hamstrings'], specialisationExposures: 3 },
 };

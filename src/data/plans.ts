@@ -13,6 +13,8 @@ import { KING_OF_THE_SQUAT_CONFIG } from './plans/kingOfTheSquat';
 import { GRAVITY_IS_OPTIONAL_CONFIG } from './plans/gravityIsOptional';
 import { ACCUMULATE_INTENSIFY_CONFIG } from './plans/accumulateIntensify';
 import { THE_WEAKEST_LINK_CONFIG } from './plans/theWeakestLink';
+import { OVERHEAD_DOMINION_CONFIG } from './plans/overheadDominion';
+import { HAMSTRING_FOUNDRY_CONFIG } from './plans/hamstringFoundry';
 
 export const PLAN_REGISTRY: Record<string, PlanConfig> = {
     [BENCH_DOMINATION_CONFIG.id]: BENCH_DOMINATION_CONFIG,
@@ -27,7 +29,9 @@ export const PLAN_REGISTRY: Record<string, PlanConfig> = {
     [KING_OF_THE_SQUAT_CONFIG.id]: KING_OF_THE_SQUAT_CONFIG,
     [GRAVITY_IS_OPTIONAL_CONFIG.id]: GRAVITY_IS_OPTIONAL_CONFIG,
     [ACCUMULATE_INTENSIFY_CONFIG.id]: ACCUMULATE_INTENSIFY_CONFIG,
-    [THE_WEAKEST_LINK_CONFIG.id]: THE_WEAKEST_LINK_CONFIG
+    [THE_WEAKEST_LINK_CONFIG.id]: THE_WEAKEST_LINK_CONFIG,
+    [OVERHEAD_DOMINION_CONFIG.id]: OVERHEAD_DOMINION_CONFIG,
+    [HAMSTRING_FOUNDRY_CONFIG.id]: HAMSTRING_FOUNDRY_CONFIG
 };
 
 export const getPlan = (id?: string) => {

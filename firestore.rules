@@ -23,7 +23,7 @@ service cloud.firestore {
     }
 
     function validPlanIds() {
-      return ['bench-domination', 'pencilneck-eradication', 'skeleton-to-threat', 'peachy-glute-plan', 'pain-and-glory', 'trinary', 'ritual-of-strength', 'super-mutant', '30-minute-adventure', 'king-of-the-squat', 'gravity-is-optional', 'accumulate-intensify', 'the-weakest-link'];
+      return ['bench-domination', 'pencilneck-eradication', 'skeleton-to-threat', 'peachy-glute-plan', 'pain-and-glory', 'trinary', 'ritual-of-strength', 'super-mutant', '30-minute-adventure', 'king-of-the-squat', 'gravity-is-optional', 'accumulate-intensify', 'the-weakest-link', 'overhead-dominion', 'hamstring-foundry'];
     }
 
     function ownsUser(userId) {

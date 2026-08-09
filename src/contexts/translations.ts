@@ -417,6 +417,28 @@ export const translations = {
                         "Wartości referencyjne Poliquina, nie normy medyczne",
                         "Praca nad słabym ogniwem jako trzecia mała ekspozycja"
                     ]
+                },
+                overheadDominion: {
+                    name: "Dominium Barków",
+                    description: "10 tygodni specjalizacji barkowej. Naramienne cztery razy w tygodniu i nigdy tak samo.",
+                    features: [
+                        "Cel: Barki",
+                        "4 dni / tydzień - naramienne 4x, górny grzbiet 3x",
+                        "Ciężkie wyciskanie, objętość na bokach, jednorącz z podparciem, praca strukturalna",
+                        "Objętość przedniego, bocznego i tylnego aktonu liczona osobno",
+                        "W drugim bloku wyciskanie przechodzi na fale 5/3/2"
+                    ]
+                },
+                hamstringFoundry: {
+                    name: "Kuźnia Dwugłowych",
+                    description: "10 tygodni specjalizacji na dwugłowe przez trzy różne funkcje, z których każda musi progresować.",
+                    features: [
+                        "Cel: Dwugłowe uda",
+                        "4 dni / tydzień - dwugłowe 3x",
+                        "Siła w zawiasie, zginanie kolana, kontrola w rozciągnięciu",
+                        "Czterosekundowe ekscentryki w bloku akumulacji",
+                        "Jeden dzień górny bez ciężkiej pracy na dwugłowe, dla regeneracji"
+                    ]
                 }
             },
 
@@ -1637,6 +1659,28 @@ export const translations = {
                         "Close-grip bench as the reference lift",
                         "Poliquin reference targets, not medical thresholds",
                         "Weak-link work added as a small third exposure"
+                    ]
+                },
+                overheadDominion: {
+                    name: "Overhead Dominion",
+                    description: "10 weeks of shoulder specialisation. Delts four times a week, and never the same way twice.",
+                    features: [
+                        "Focus: Shoulders",
+                        "4 Days / Week - delts 4x, upper back 3x",
+                        "Heavy press, volume laterals, braced unilateral, structural",
+                        "Front, side and rear delt volume tracked separately",
+                        "Later block moves the press onto 5/3/2 waves"
+                    ]
+                },
+                hamstringFoundry: {
+                    name: "Hamstring Foundry",
+                    description: "10 weeks of hamstring specialisation through three different functions, all of which must progress.",
+                    features: [
+                        "Focus: Hamstrings",
+                        "4 Days / Week - hamstrings 3x",
+                        "Hinge strength, knee flexion, lengthened control",
+                        "Four-second eccentrics during the accumulation block",
+                        "One upper day with no hard hamstring work, to recover"
                     ]
                 }
             },

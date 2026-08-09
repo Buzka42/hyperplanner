@@ -151,6 +151,24 @@ export const PLAN_META: Record<string, PlanMeta> = {
         coverBg: 'bg-[#0a0906]',
         coverGradient: 'from-[#0a0906]',
         order: 13
+    },
+    'overhead-dominion': {
+        id: 'overhead-dominion',
+        i18nKey: 'overheadDominion',
+        themeClass: 'theme-overhead-dominion',
+        logo: '/dominion.png',
+        coverBg: 'bg-[#070705]',
+        coverGradient: 'from-[#070705]',
+        order: 14
+    },
+    'hamstring-foundry': {
+        id: 'hamstring-foundry',
+        i18nKey: 'hamstringFoundry',
+        themeClass: 'theme-hamstring-foundry',
+        logo: '/hamstringfoundry.png',
+        coverBg: 'bg-[#0a0503]',
+        coverGradient: 'from-[#0a0503]',
+        order: 15
     }
 };
 
