@@ -1339,3 +1339,33 @@ input[type=number] {
 .rest-timer-actions button:hover { color:hsl(var(--foreground)); }
 
 @media(prefers-reduced-motion:reduce){ .rest-timer-bar { transition:none; } }
+
+/* ============================================================
+   EXERCISE BROWSER
+   ============================================================ */
+
+.exercise-browser-tools { display:grid; gap:12px; }
+.exercise-browser-filters { display:flex; flex-wrap:wrap; gap:6px; }
+.exercise-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; }
+.exercise-card { display:grid; gap:6px; padding:12px 14px; border:1px solid hsl(var(--border)); background:hsl(var(--card)); text-align:left; cursor:pointer; transition:border-color .15s,transform .15s; }
+.exercise-card:hover { border-color:hsl(var(--primary)); transform:translateY(-1px); }
+.exercise-card strong { font-size:.9rem; line-height:1.25; }
+.exercise-card-meta { display:flex; flex-wrap:wrap; gap:4px; }
+
+.exercise-sheet-backdrop { position:fixed; inset:0; z-index:60; display:flex; align-items:flex-end; justify-content:center; background:rgb(0 0 0/.65); backdrop-filter:blur(2px); }
+.exercise-sheet { width:100%; max-width:620px; max-height:88vh; display:flex; flex-direction:column; background:hsl(var(--card)); border:1px solid hsl(var(--border)); border-bottom:0; }
+.exercise-sheet-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:16px 18px; border-bottom:1px solid hsl(var(--border)); }
+.exercise-sheet-head h3 { margin:0; font-family:var(--font-display); font-size:1.15rem; }
+.exercise-sheet-alt { margin:2px 0 0; font-size:.78rem; color:hsl(var(--muted-foreground)); }
+.exercise-sheet-head button { border:0; background:none; color:hsl(var(--muted-foreground)); cursor:pointer; padding:4px; }
+.exercise-sheet-body { padding:16px 18px 24px; overflow-y:auto; display:grid; gap:14px; }
+.exercise-sheet-tip { margin:0; padding:10px 12px; border-left:2px solid hsl(45 90% 55%/.7); background:hsl(45 90% 55%/.08); font-size:.85rem; line-height:1.5; }
+.exercise-sheet-setup { margin:0; font-size:.82rem; color:hsl(var(--muted-foreground)); line-height:1.5; }
+.exercise-sheet-facts { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin:0; }
+.exercise-sheet-facts div { display:grid; gap:2px; }
+.exercise-sheet-facts dt { font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:hsl(var(--muted-foreground)); }
+.exercise-sheet-facts dd { margin:0; font-size:.85rem; }
+.exercise-sheet-facts dd small { display:block; margin-top:2px; font-size:.68rem; color:hsl(var(--muted-foreground)); }
+.exercise-sheet-aliases { margin:0; font-size:.7rem; color:hsl(var(--muted-foreground)); }
+
+@media(min-width:640px){ .exercise-sheet-backdrop { align-items:center; } .exercise-sheet { border-bottom:1px solid hsl(var(--border)); } }

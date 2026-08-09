@@ -4,7 +4,7 @@ import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { useLanguage } from '../contexts/useTranslation';
 import { Button } from './ui/button';
-import { LayoutDashboard, Dumbbell, LogOut, Menu, X, Settings, History } from 'lucide-react';
+import { LayoutDashboard, Dumbbell, LogOut, Menu, X, Settings, History, Library } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { BADGES } from '../data/badges';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -38,6 +38,7 @@ export const ProtectedLayout: React.FC = () => {
         { label: t('sidebar.dashboard'), path: '/app/dashboard', icon: LayoutDashboard },
         { label: t('sidebar.currentWorkout'), path: lastOpened, icon: Dumbbell },
         { label: t('sidebar.history'), path: '/app/history', icon: History },
+        { label: t('sidebar.exercises'), path: '/app/exercises', icon: Library },
         { label: t('sidebar.settings'), path: '/app/settings', icon: Settings },
     ];
 

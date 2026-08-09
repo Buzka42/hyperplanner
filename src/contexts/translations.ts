@@ -39,6 +39,7 @@ export const translations = {
         // SIDEBAR - Navigation
         // ========================================
         sidebar: {
+            exercises: "Exercises",
             dashboard: "Dashboard",
             currentWorkout: "Current Workout",
             settings: "Settings",
@@ -1334,6 +1335,7 @@ export const translations = {
         },
 
         sidebar: {
+            exercises: "Ćwiczenia",
             dashboard: "Pulpit",
             createAccount: "Utwórz konto",
             currentWorkout: "Aktualny trening",

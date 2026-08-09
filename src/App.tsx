@@ -7,6 +7,7 @@ import { ProtectedLayout } from './components/ProtectedLayout';
 import { Dashboard } from './pages/Dashboard';
 import { WorkoutView } from './pages/WorkoutView';
 import { AdminShell } from './pages/admin/AdminShell';
+import { ExerciseBrowser } from './pages/ExerciseBrowser';
 import { Settings } from './pages/Settings';
 import { WorkoutHistory } from './pages/WorkoutHistory';
 import { AdventureSession } from './pages/AdventureSession';
@@ -26,6 +27,7 @@ const AppRoutes = () => {
                 <Route path="adventure/:logId" element={<AdventureSession />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="history" element={<WorkoutHistory />} />
+                <Route path="exercises" element={<ExerciseBrowser />} />
                 <Route index element={<Navigate to="dashboard" replace />} />
             </Route>
             <Route path="/admin" element={isAdmin ? <AdminShell /> : <Navigate to="/" replace />} />
