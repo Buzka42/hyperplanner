@@ -12,7 +12,7 @@
  *     same weight, and heaviest-set alone would miss that entirely.
  */
 
-import { empty, epley, findExercise, validSets } from './types';
+import { empty, epley, findExercise, merge, validSets } from './types';
 import type { ProgressionContext, ProgressionResult } from './types';
 
 const PEACHY_TRACKED_LIFT = 'Squats';
@@ -33,6 +33,7 @@ export const peachyProgression = (ctx: ProgressionContext): ProgressionResult =>
 
     return {
         updates: {},
+        effects: [],
         appends: [{
             field: 'squatHistory',
             value: {
@@ -46,8 +47,30 @@ export const peachyProgression = (ctx: ProgressionContext): ProgressionResult =>
     };
 };
 
+/**
+ * Pencilneck completes on the Pull B session of week 8.
+ *
+ * The day is matched by name, with a fallback to day 5 for schedules where the
+ * name check fails — the original comment on this was explicit that the
+ * fallback exists because the name is not always reliable.
+ */
+const pencilneckCompletion = (ctx: ProgressionContext): ProgressionResult => {
+    if (ctx.week !== 8) return empty();
+
+    const isPullB = ctx.workout?.dayName.includes('Pull B') || ctx.day === 5;
+    if (!isPullB) return empty();
+
+    return {
+        updates: {
+            pencilneckStatus: { completed: true, completionDate: new Date().toISOString() },
+        },
+        appends: [],
+        effects: [{ type: 'openPencilneckCompletion' }],
+    };
+};
+
 /** Pencilneck: best estimated 1RM across completed bench sets. */
-export const pencilneckProgression = (ctx: ProgressionContext): ProgressionResult => {
+const pencilneckBenchHistory = (ctx: ProgressionContext): ProgressionResult => {
     if (ctx.isExistingLog) return empty();
 
     const exercise = findExercise(ctx.workout, PENCILNECK_TRACKED_LIFT);
@@ -65,6 +88,7 @@ export const pencilneckProgression = (ctx: ProgressionContext): ProgressionResul
 
     return {
         updates: {},
+        effects: [],
         appends: [{
             field: 'pencilneckBenchHistory',
             value: {
@@ -79,3 +103,7 @@ export const pencilneckProgression = (ctx: ProgressionContext): ProgressionResul
         }],
     };
 };
+
+/** Pencilneck: strength history plus programme completion. */
+export const pencilneckProgression = (ctx: ProgressionContext): ProgressionResult =>
+    merge(pencilneckBenchHistory(ctx), pencilneckCompletion(ctx));

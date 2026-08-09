@@ -36,16 +36,42 @@ export type ProgressionContext = {
 /** A value to append to an array field, applied with arrayUnion by the caller. */
 export type ProgressionAppend = { field: string; value: unknown };
 
+/**
+ * Something the UI must do that a pure function cannot: open a modal, navigate.
+ *
+ * Returning these rather than calling them keeps handlers testable, and makes
+ * the trigger conditions assertable — "when does the weak-point picker appear?"
+ * was previously only answerable by reading the save function.
+ */
+export type ProgressionEffect =
+    | { type: 'navigate'; to: string }
+    | { type: 'openSkeletonCompletion' }
+    | { type: 'openPencilneckCompletion' }
+    | { type: 'openDeficitFeedback' }
+    | { type: 'openWeakPointPicker' }
+    | { type: 'openTrinaryRerun' }
+    | { type: 'openMutationReminder' }
+    | { type: 'awardBadgeCheck' };
+
 export type ProgressionResult = {
     /** Dotted-path field updates to merge into the user document. */
     updates: Record<string, unknown>;
     /** Array appends, kept separate because they need arrayUnion(). */
     appends: ProgressionAppend[];
+    /** UI work for the caller to perform after the write succeeds. */
+    effects: ProgressionEffect[];
 };
 
 export type ProgressionHandler = (ctx: ProgressionContext) => ProgressionResult;
 
-export const empty = (): ProgressionResult => ({ updates: {}, appends: [] });
+export const empty = (): ProgressionResult => ({ updates: {}, appends: [], effects: [] });
+
+/** Merges several handlers' output, for plans whose logic splits naturally. */
+export const merge = (...results: ProgressionResult[]): ProgressionResult => ({
+    updates: Object.assign({}, ...results.map(r => r.updates)),
+    appends: results.flatMap(r => r.appends),
+    effects: results.flatMap(r => r.effects),
+});
 
 // ---------------------------------------------------------------------------
 // Shared helpers

@@ -14,6 +14,8 @@
  */
 
 import { peachyProgression, pencilneckProgression } from '../src/features/workout/progression/historyEntries';
+import { skeletonProgression } from '../src/features/workout/progression/skeleton';
+import { benchDominationProgression } from '../src/features/workout/progression/benchDomination';
 import type { LoggedSet, ProgressionContext } from '../src/features/workout/progression/types';
 import type { Exercise, UserProfile, WorkoutDay } from '../src/types';
 
@@ -145,6 +147,187 @@ const context = (over: Partial<ProgressionContext>): ProgressionContext => ({
 
         check(pencilneckProgression(context({ ...base, isExistingLog: true, sets: { bp: [set('80', '5')] } })).appends.length === 0,
             'Re-saving an existing log must record nothing.');
+    }
+}
+
+// ===========================================================================
+// Skeleton — plank time progression and week 12 completion
+// docs/plans/skeleton-to-threat.md: "if all sets hit the current target time,
+// plankTargetSeconds is incremented by +10 seconds"
+// ===========================================================================
+{
+    const planks: Exercise = { id: 'pl', name: 'Planks', sets: 3, target: { type: 'straight', reps: '30sec' } };
+    const base = { workout: day([planks]), user: {} as UserProfile };
+
+    // All three sets at 30s or better -> next target 40.
+    {
+        const r = skeletonProgression(context({ ...base, sets: { pl: [set('0', '30'), set('0', '35'), set('0', '30')] } }));
+        check(r.updates['skeletonStatus.plankTargetSeconds'] === 40,
+            `Hitting 30s on all sets should set the next target to 40, got ${r.updates['skeletonStatus.plankTargetSeconds']}.`);
+    }
+
+    // One short set means no increase.
+    {
+        const r = skeletonProgression(context({ ...base, sets: { pl: [set('0', '30'), set('0', '25'), set('0', '30')] } }));
+        check(r.updates['skeletonStatus.plankTargetSeconds'] === undefined,
+            'Missing the target on any set must not raise it.');
+    }
+
+    // Doing fewer sets than prescribed does not earn it, even if all were good.
+    {
+        const r = skeletonProgression(context({ ...base, sets: { pl: [set('0', '40'), set('0', '40')] } }));
+        check(r.updates['skeletonStatus.plankTargetSeconds'] === undefined,
+            'The rule is "all sets", not "all the sets you did".');
+    }
+
+    // The target is read from the prescription, so it compounds between sessions.
+    {
+        const at40: Exercise = { ...planks, target: { type: 'straight', reps: '40sec' } };
+        const r = skeletonProgression(context({
+            workout: day([at40]), user: {} as UserProfile,
+            sets: { pl: [set('0', '40'), set('0', '40'), set('0', '40')] },
+        }));
+        check(r.updates['skeletonStatus.plankTargetSeconds'] === 50,
+            `From a 40s target the next should be 50, got ${r.updates['skeletonStatus.plankTargetSeconds']}.`);
+    }
+
+    // Completion fires on the athlete's own last training day of week 12.
+    {
+        const user = { selectedDays: [1, 3, 5] } as UserProfile;
+        const onLast = skeletonProgression(context({ ...base, user, week: 12, day: 5, sets: {} }));
+        check(onLast.updates['skeletonStatus.completed'] === true, 'Week 12 last day should complete the programme.');
+        check(onLast.effects.some(e => e.type === 'openSkeletonCompletion'), 'Completion should raise its celebration effect.');
+
+        const midWeek = skeletonProgression(context({ ...base, user, week: 12, day: 3, sets: {} }));
+        check(midWeek.updates['skeletonStatus.completed'] === undefined,
+            'An earlier training day in week 12 must not complete the programme.');
+
+        const earlier = skeletonProgression(context({ ...base, user, week: 11, day: 5, sets: {} }));
+        check(earlier.updates['skeletonStatus.completed'] === undefined, 'Week 11 must not complete the programme.');
+    }
+}
+
+// ===========================================================================
+// Bench Domination — docs/plans/bench-domination.md, accessory progression
+// ===========================================================================
+{
+    const amrapEx: Exercise = {
+        id: 'amrap', name: 'Paused Bench Press (AMRAP)', sets: 1,
+        target: { type: 'amrap', reps: 'AMRAP', percentageRef: 'pausedBench' },
+    };
+    const btn: Exercise = { id: 'btn', name: 'Behind-the-Neck Press', sets: 4, target: { type: 'range', reps: '3-5' } };
+    const spoto: Exercise = { id: 'sp', name: 'Spoto Press', sets: 3, target: { type: 'straight', reps: '5' } };
+    const wide: Exercise = { id: 'wg', name: 'Wide-Grip Bench Press', sets: 3, target: { type: 'range', reps: '6-8' } };
+    const stats = (over: Record<string, number> = {}) => ({ stats: { pausedBench: 100, ...over } } as unknown as UserProfile);
+
+    // AMRAP: 100kg x 10 -> Epley 133.33 -> stored 133
+    {
+        const r = benchDominationProgression(context({
+            workout: day([amrapEx]), user: stats(), week: 6, day: 6,
+            sets: { amrap: [set('100', '10')] },
+        }));
+        const entry = r.appends.find(a => a.field === 'benchHistory')?.value as { weight: number; actualReps: number };
+        check(entry?.weight === 133, `100kg x10 should estimate 133, got ${entry?.weight}.`);
+        check(entry?.actualReps === 10, 'The actual reps should be recorded alongside the estimate.');
+    }
+
+    // BTN press: Monday drives it; all sets at the top of 3-5 earns +2.5
+    {
+        const hit = benchDominationProgression(context({
+            workout: day([btn]), user: stats(), week: 2, day: 1,
+            sets: { btn: [set('40', '5'), set('40', '5'), set('40', '5'), set('40', '5')] },
+        }));
+        check(hit.updates['stats.btnPress'] === 42.5, `All sets at 5 should earn 42.5, got ${hit.updates['stats.btnPress']}.`);
+        check(hit.updates['stats.btnPressWeek'] === 2, 'The earning week is recorded so it cannot apply twice.');
+
+        const miss = benchDominationProgression(context({
+            workout: day([btn]), user: stats(), week: 2, day: 1,
+            sets: { btn: [set('40', '5'), set('40', '4'), set('40', '5'), set('40', '5')] },
+        }));
+        check(miss.updates['stats.btnPress'] === 40, `A missed set holds the weight at 40, got ${miss.updates['stats.btnPress']}.`);
+
+        const thursday = benchDominationProgression(context({
+            workout: day([btn]), user: stats(), week: 2, day: 4,
+            sets: { btn: [set('40', '5'), set('40', '5'), set('40', '5'), set('40', '5')] },
+        }));
+        check(thursday.updates['stats.btnPress'] === undefined, 'Only Monday drives the BTN press progression.');
+    }
+
+    // Spoto: fixed target, immediate progression
+    {
+        const hit = benchDominationProgression(context({
+            workout: day([spoto]), user: stats(), week: 3, day: 3,
+            sets: { sp: [set('80', '5'), set('80', '5'), set('80', '5')] },
+        }));
+        check(hit.updates['stats.spotoPress'] === 82.5, `All sets at 5 should earn 82.5, got ${hit.updates['stats.spotoPress']}.`);
+    }
+
+    // Wide-Grip: two consecutive Mondays before the increase
+    {
+        const first = benchDominationProgression(context({
+            workout: day([wide]), user: stats({ wideGripConsecutive: 0 }), week: 2, day: 1,
+            sets: { wg: [set('70', '8'), set('70', '8'), set('70', '8')] },
+        }));
+        check(first.updates['stats.wideGripBench'] === 70, 'One good Monday holds the weight.');
+        check(first.updates['stats.wideGripConsecutive'] === 1, 'One good Monday advances the counter to 1.');
+
+        const second = benchDominationProgression(context({
+            workout: day([wide]), user: stats({ wideGripConsecutive: 1 }), week: 3, day: 1,
+            sets: { wg: [set('70', '8'), set('70', '8'), set('70', '8')] },
+        }));
+        check(second.updates['stats.wideGripBench'] === 72.5, `A second consecutive Monday earns 72.5, got ${second.updates['stats.wideGripBench']}.`);
+        check(second.updates['stats.wideGripConsecutive'] === 0, 'The counter resets after the increase.');
+
+        const missed = benchDominationProgression(context({
+            workout: day([wide]), user: stats({ wideGripConsecutive: 1 }), week: 3, day: 1,
+            sets: { wg: [set('70', '8'), set('70', '6'), set('70', '8')] },
+        }));
+        check(missed.updates['stats.wideGripConsecutive'] === 0, 'A miss resets the counter.');
+        check(missed.updates['stats.wideGripBench'] === 70, 'A miss holds the weight.');
+    }
+
+    // An extra set must not decide a progression either way.
+    {
+        const r = benchDominationProgression(context({
+            workout: day([spoto]), user: stats(), week: 3, day: 3,
+            sets: { sp: [set('80', '5'), set('80', '5'), set('80', '5'), set('80', '1', true, 'extra')] },
+        }));
+        check(r.updates['stats.spotoPress'] === 82.5,
+            `A trailing extra set must not block the increase, got ${r.updates['stats.spotoPress']}.`);
+    }
+
+    // Deloads
+    {
+        const week8 = benchDominationProgression(context({
+            workout: day([]), user: stats(), week: 8, day: 6, sets: {},
+        }));
+        check(week8.appends.some(a => a.field === 'benchDominationStatus.addedDeloadWeeks'),
+            'Completing week 8 Saturday should schedule the forced deload.');
+
+        const stalled = {
+            stats: { pausedBench: 100 },
+            benchHistory: [{ date: '', week: 5, weight: 120, actualWeight: 90, actualReps: 7 }],
+        } as unknown as UserProfile;
+
+        const reactive = benchDominationProgression(context({
+            workout: day([amrapEx]), user: stalled, week: 6, day: 6,
+            sets: { amrap: [set('90', '6')] },
+        }));
+        check(reactive.appends.some(a => a.field === 'benchDominationStatus.addedDeloadWeeks'),
+            'Two consecutive stalled AMRAPs should bring the deload forward.');
+
+        const strong = benchDominationProgression(context({
+            workout: day([amrapEx]), user: stalled, week: 6, day: 6,
+            sets: { amrap: [set('90', '12')] },
+        }));
+        check(!strong.appends.some(a => a.field === 'benchDominationStatus.addedDeloadWeeks'),
+            'A strong AMRAP must not trigger a deload.');
+
+        const week4 = benchDominationProgression(context({
+            workout: day([]), user: stats(), week: 4, day: 6, sets: {},
+        }));
+        check(week4.updates['benchDominationStatus.week5BaseBeforeRecalc'] === 100,
+            'Week 4 Saturday should record the current base for the week 5 comparison.');
     }
 }
 

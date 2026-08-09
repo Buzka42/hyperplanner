@@ -7,6 +7,8 @@
  */
 
 import { peachyProgression, pencilneckProgression } from './historyEntries';
+import { skeletonProgression } from './skeleton';
+import { benchDominationProgression } from './benchDomination';
 import type { ProgressionHandler } from './types';
 
 export * from './types';
@@ -14,4 +16,6 @@ export * from './types';
 export const PROGRESSION_HANDLERS: Record<string, ProgressionHandler> = {
     'peachy-glute-plan': peachyProgression,
     'pencilneck-eradication': pencilneckProgression,
+    'skeleton-to-threat': skeletonProgression,
+    'bench-domination': benchDominationProgression,
 };

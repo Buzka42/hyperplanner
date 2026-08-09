@@ -647,117 +647,6 @@ export const WorkoutView: React.FC = () => {
         if (!user) return;
         setSubmitting(true);
         try {
-            let newStats = { ...user.stats };
-            let updated = false;
-            let historyEntry = null;
-
-            if (!isExistingLog) {
-                dayData?.exercises.forEach(ex => {
-                    const sets = exerciseData[ex.id];
-                    if (!sets) return;
-
-                    // Bench AMRAP Record Logic
-                    if (ex.target.type === 'amrap' && ex.target.percentageRef === 'pausedBench') {
-                        const amrapSet = sets[0];
-                        if (amrapSet) {
-                            const reps = parseInt(amrapSet.reps);
-                            const weight = parseFloat(amrapSet.weight);
-                            if (!isNaN(reps) && !isNaN(weight)) {
-                                const est1RM = weight * (1 + reps / 30);
-                                historyEntry = {
-                                    date: new Date().toISOString(),
-                                    week: weekNum,
-                                    weight: Math.round(est1RM),
-                                    actualWeight: weight,
-                                    actualReps: reps
-                                };
-                            }
-                        }
-                    }
-
-                    // Behind-the-Neck Press Progression Logic (Monday Only)
-                    if (ex.name === "Behind-the-Neck Press" && sets.length > 0 && dayNum === 1) {
-                        const targetRepsArr = ex.target.reps.split('-').map(Number);
-                        const topRep = targetRepsArr[1] || targetRepsArr[0];
-                        const currentWeight = parseFloat(sets[0].weight || "0");
-
-
-                        if (currentWeight > 0) {
-                            // Check if all sets hit top of rep range
-                            const allTop = workSets(sets).every(s => parseInt(s.reps) >= topRep);
-
-                            if (allTop) {
-                                // Save progression for NEXT week
-                                newStats.btnPress = currentWeight + 2.5;
-                                newStats.btnPressWeek = weekNum; // Track which week this was earned in
-                                updated = true;
-                            } else {
-                                // Keep current weight
-                                newStats.btnPress = currentWeight;
-                                newStats.btnPressWeek = weekNum;
-                                updated = true;
-                            }
-                        }
-                    }
-
-                    // Bench Press Variations - Different progression rules
-                    if (ex.name === "Spoto Press" || ex.name === "Low Pin Press") {
-                        // FIXED TARGET: Immediate progression if all sets hit target
-                        const variationKey = ex.name === "Spoto Press" ? "spotoPress" : "lowPinPress";
-                        if (sets.length > 0) {
-                            const targetReps = parseInt(ex.target.reps);
-                            const currentWeight = parseFloat(sets[0].weight || "0");
-
-                            if (currentWeight > 0) {
-                                const allHitTarget = workSets(sets).every(s => parseInt(s.reps) >= targetReps);
-                                if (allHitTarget) {
-                                    newStats[variationKey] = currentWeight + 2.5;
-                                    updated = true;
-                                } else {
-                                    newStats[variationKey] = currentWeight;
-                                    updated = true;
-                                }
-                            }
-                        }
-                    }
-
-                    if (ex.name === "Wide-Grip Bench Press" && dayNum === 1) {
-                        // REP RANGE: Need 2 consecutive MONDAY weeks at top of range
-                        if (sets.length > 0) {
-                            const targetRepsArr = ex.target.reps.split('-').map(Number);
-                            const topRep = targetRepsArr[1] || targetRepsArr[0];
-                            const currentWeight = parseFloat(sets[0].weight || "0");
-                            const currentConsecutive = user.stats.wideGripConsecutive || 0;
-
-                            if (currentWeight > 0) {
-                                const allHitTop = workSets(sets).every(s => parseInt(s.reps) >= topRep);
-
-                                if (allHitTop) {
-                                    const newConsecutive = currentConsecutive + 1;
-                                    if (newConsecutive >= 2) {
-                                        // 2 consecutive weeks - progress!
-                                        newStats.wideGripBench = currentWeight + 2.5;
-                                        newStats.wideGripConsecutive = 0; // Reset counter
-                                        updated = true;
-                                    } else {
-                                        // 1 week done, keep same weight
-                                        newStats.wideGripBench = currentWeight;
-                                        newStats.wideGripConsecutive = newConsecutive;
-                                        updated = true;
-                                    }
-                                } else {
-                                    // Missed - reset counter and keep weight
-                                    newStats.wideGripBench = currentWeight;
-                                    newStats.wideGripConsecutive = 0;
-                                    updated = true;
-                                }
-                            }
-                        }
-                    }
-                });
-                // Variations update stats for next week's auto-progression
-            }
-
             const userRef = doc(db, 'users', user.id);
             const updatePayload: any = {};
             if (!isExistingLog) {
@@ -765,105 +654,18 @@ export const WorkoutView: React.FC = () => {
                 // Also update program specific progress
                 updatePayload[`programProgress.${programData.id}.completedSessions`] = increment(1);
             }
-            if (updated) updatePayload.stats = newStats;
-            if (historyEntry) updatePayload.benchHistory = arrayUnion(historyEntry);
-
-            // Store Weighted Pull-up 1RM from Week 10 Day 3 for auto-calculation in Weeks 11-13
-            if (programData.id === 'bench-domination' && weekNum === 10 && dayNum === 3 && !isExistingLog) {
-                dayData?.exercises.forEach(ex => {
-                    if (ex.name === "Weighted Pull-ups") {
-                        const sets = exerciseData[ex.id];
-                        if (sets && sets.length > 0) {
-                            const firstSetWeight = parseFloat(sets[0].weight || "0");
-                            if (firstSetWeight > 0) {
-                                updatePayload.pullup1RM = firstSetWeight;
-                            }
-                        }
-                    }
-                });
-            }
 
             if (Object.keys(updatePayload).length > 0) {
                 await updateDoc(userRef, updatePayload);
             }
 
             // ========== BENCH DOMINATION DELOAD TRIGGERS ==========
-            if (programData.id === 'bench-domination' && !isExistingLog) {
-                const bdStatus = (user.benchDominationStatus || { completedWeeks: 0 }) as any; // Use 'as any' to access new fields
-                const deloadUpdates: any = {};
-                const addedDeloads = bdStatus.addedDeloadWeeks || [];
-
-                // 1. FORCED DELOAD: After week 8 completion (Saturday)
-                if (weekNum === 8 && dayNum === 6 && !bdStatus.forcedDeloadCompleted) {
-                    const hasForcedDeload = addedDeloads.some((d: any) => d.insertAfterWeek === 8 && d.type === 'forced');
-                    if (!hasForcedDeload) {
-                        deloadUpdates['benchDominationStatus.addedDeloadWeeks'] = arrayUnion({
-                            insertAfterWeek: 8,
-                            type: 'forced'
-                        });
-                        deloadUpdates['benchDominationStatus.forcedDeloadCompleted'] = true;
-                        // Show message via toast or notification
-                    }
-                }
-
-                // 2. REACTIVE DELOAD: Check for 2 consecutive Saturday AMRAPs ≤7 reps (weeks 5-8 only)
-                if (weekNum >= 5 && weekNum <= 8 && dayNum === 6 && historyEntry) {
-                    // Get the last 2 AMRAP entries including the one we just logged
-                    const fullHistory = [...(user.benchHistory || []), historyEntry];
-                    const sortedHistory = fullHistory
-                        .filter(h => h.actualReps !== undefined && h.week !== undefined && h.week >= 5 && h.week <= 8)
-                        .sort((a, b) => (b.week || 0) - (a.week || 0));
-
-                    if (sortedHistory.length >= 2) {
-                        const [latest, previous] = sortedHistory;
-                        // Check if both are ≤7 reps and from consecutive weeks
-                        if (latest.actualReps! <= 7 && previous.actualReps! <= 7 &&
-                            Math.abs((latest.week || 0) - (previous.week || 0)) === 1) {
-                            // Reactive trigger in weeks 5-8: triggers forced deload quicker (no secondary deload)
-                            const hasForcedDeload = addedDeloads.some((d: any) => d.type === 'forced');
-                            if (!hasForcedDeload && !bdStatus.forcedDeloadCompleted) {
-                                // Add forced deload NOW instead of waiting until week 8
-                                deloadUpdates['benchDominationStatus.addedDeloadWeeks'] = arrayUnion({
-                                    insertAfterWeek: weekNum,
-                                    type: 'forced' // Reactive trigger adds forced early
-                                });
-                                deloadUpdates['benchDominationStatus.forcedDeloadCompleted'] = true;
-                            }
-                        }
-                    }
-                }
-
-                // 3. BIG DROP TRIGGER: Check on week 5 e1RM recalculation for >15% drop
-                if (weekNum === 5 && dayNum === 6 && historyEntry) {
-                    // Week 5 is a recalc week - check if e1RM dropped >15% from week 4's base
-                    const week5Base = user.stats.pausedBench || 0;
-                    const week4Base = bdStatus.week5BaseBeforeRecalc || week5Base;
-
-                    // Calculate drop percentage
-                    const dropPercentage = week4Base > 0 ? ((week4Base - week5Base) / week4Base) * 100 : 0;
-
-                    if (dropPercentage > 15) {
-                        // Add a second forced deload week for big drop
-                        deloadUpdates['benchDominationStatus.addedDeloadWeeks'] = arrayUnion({
-                            insertAfterWeek: 5,
-                            type: 'drop-recalc'
-                        });
-                    }
-                }
-
-                // Save week 4's base weight for the week 5 drop check
-                if (weekNum === 4 && dayNum === 6) {
-                    deloadUpdates['benchDominationStatus.week5BaseBeforeRecalc'] = user.stats.pausedBench || 0;
-                }
-
-                // Apply all deload updates if any
-                if (Object.keys(deloadUpdates).length > 0) {
-                    await updateDoc(userRef, deloadUpdates);
-                }
-            }
             // ========== END BENCH DOMINATION DELOAD TRIGGERS ==========
 
-            // Peachy + Pencilneck strength history — see
+            // Set by progression effects below; consumed after the save.
+            let navigateToDashboard: Record<string, boolean> | null = null;
+
+            // Per-plan save-time progression — see
             // src/features/workout/progression/, checked by verify:progression.
             {
                 const handler = PROGRESSION_HANDLERS[programData.id];
@@ -885,47 +687,17 @@ export const WorkoutView: React.FC = () => {
                     if (Object.keys(payload).length > 0) {
                         await updateDoc(userRef, payload);
                     }
-                }
-            }
 
-            // Skeleton: Planks time progression (+10s if all sets hit the current target)
-            if (programData.id === 'skeleton-to-threat' && !isExistingLog) {
-                const planksExercise = dayData?.exercises.find(ex => ex.name === "Planks");
-                if (planksExercise) {
-                    const sets = exerciseData[planksExercise.id];
-                    const targetSeconds = parseInt(planksExercise.target.reps.replace(/[^0-9]/g, '')) || 30;
-                    if (sets && sets.length >= planksExercise.sets) {
-                        const allHitTarget = workSets(sets).every(s => s.completed && parseInt(s.reps || "0") >= targetSeconds);
-                        if (allHitTarget) {
-                            await updateDoc(userRef, {
-                                'skeletonStatus.plankTargetSeconds': targetSeconds + 10
-                            });
+                    // Effects are performed after the write, so a failed save
+                    // never shows a completion screen for work that was not saved.
+                    for (const effect of result.effects) {
+                        if (effect.type === 'openSkeletonCompletion') {
+                            navigateToDashboard = { showSkeletonCompletion: true };
+                        } else if (effect.type === 'openPencilneckCompletion') {
+                            navigateToDashboard = { showPencilneckCompletion: true };
                         }
                     }
                 }
-            }
-
-            // Completion Logic Check (Persist Status)
-            let navigateToDashboard = null;
-
-            if (programData.id === 'skeleton-to-threat' && weekNum === 12) {
-                if (user.selectedDays && user.selectedDays.length > 0) {
-                    const maxSelectedDay = Math.max(...user.selectedDays);
-                    if (dayNum === maxSelectedDay) {
-                        await updateDoc(userRef, {
-                            'skeletonStatus.completed': true,
-                            'skeletonStatus.completionDate': new Date().toISOString()
-                        });
-                        navigateToDashboard = { showSkeletonCompletion: true };
-                    }
-                }
-            }
-
-            // Check for Pull B completion explicitly by name or day 5 fallback
-            const isPullB = dayData?.dayName.includes("Pull B") || (weekNum === 8 && dayNum === 5); // Fallback to day 5 if name check fails
-            if (programData.id === 'pencilneck-eradication' && weekNum === 8 && isPullB) {
-                await updateDoc(userRef, { pencilneckStatus: { completed: true, completionDate: new Date().toISOString() } });
-                navigateToDashboard = { showPencilneckCompletion: true };
             }
 
             const sessionLog = {
