@@ -15,8 +15,10 @@
  */
 
 import type { LibraryExercise } from './types';
+import { LIBRARY_ADDITIONS } from './libraryAdditions';
 
-export const EXERCISE_LIBRARY: LibraryExercise[] = [
+/** Movements harvested from the original nine plans. */
+const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: '30-incline-lying-dumbbell-curl',
         tip: { en: 'As low incline as possible without DBs hitting floor. Maximum stretch.', pl: 'Ławka nachylona jak najniżej możesz bez dotykania hantlami podłogi. Maksymalne rozciągnięcie.' },
@@ -2003,6 +2005,12 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
         status: 'active',
     },
 ];
+
+/**
+ * The full library: movements from the existing plans plus those authored for
+ * the Poliquin-inspired plans.
+ */
+export const EXERCISE_LIBRARY: LibraryExercise[] = [...CORE_LIBRARY, ...LIBRARY_ADDITIONS];
 
 /** Fast id lookup. */
 export const EXERCISE_BY_ID: Record<string, LibraryExercise> = Object.fromEntries(

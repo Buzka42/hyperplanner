@@ -373,6 +373,28 @@ export const translations = {
                         "No 1RM or RPE calibration",
                         "Exercise history and load recommendations"
                     ]
+                },
+                kingOfTheSquat: {
+                    name: "King of the Squat",
+                    description: "12-week squat specialisation. Squat three times a week and let everything else serve it.",
+                    features: [
+                        "Focus: Squat strength",
+                        "4 Days / Week - squat 3x, bench 2x, deadlift 1x",
+                        "Wave loading: 5/4/3 to 4/3/2 to 3/2/1",
+                        "Deadlift kept deliberately light to protect recovery",
+                        "Front squat and paused work for positional strength"
+                    ]
+                },
+                gravityIsOptional: {
+                    name: "Gravity Is Optional",
+                    description: "12-week weighted calisthenics. Pull-ups and dips as main lifts, tracked by total system weight.",
+                    features: [
+                        "Focus: Weighted pulling and dipping",
+                        "4 Days / Week",
+                        "Vertical pull and dip family 3x weekly",
+                        "Total system weight: bodyweight plus added load",
+                        "Total-rep targets - beat your set count, not your reps"
+                    ]
                 }
             },
 
@@ -1549,6 +1571,28 @@ export const translations = {
                         "5 portali · 10 ćwiczeń · 20 serii roboczych",
                         "Bez kalibracji 1RM i RPE",
                         "Historia ćwiczeń i sugestie ciężaru"
+                    ]
+                },
+                kingOfTheSquat: {
+                    name: "Król Przysiadu",
+                    description: "12-tygodniowa specjalizacja przysiadowa. Przysiad trzy razy w tygodniu, reszta mu służy.",
+                    features: [
+                        "Cel: Siła w przysiadzie",
+                        "4 dni / tydzień - przysiad 3x, wyciskanie 2x, martwy ciąg 1x",
+                        "Fale obciążeń: 5/4/3, potem 4/3/2, potem 3/2/1",
+                        "Martwy ciąg celowo lekki, by chronić regenerację",
+                        "Przysiad przedni i pauzy dla siły w pozycjach"
+                    ]
+                },
+                gravityIsOptional: {
+                    name: "Grawitacja Opcjonalna",
+                    description: "12 tygodni kalisteniki z obciążeniem. Podciąganie i dipy jako główne boje, liczone masą całkowitą.",
+                    features: [
+                        "Cel: Podciąganie i dipy z obciążeniem",
+                        "4 dni / tydzień",
+                        "Ciąg pionowy i dipy 3x w tygodniu",
+                        "Masa całkowita: masa ciała plus obciążenie",
+                        "Cele na łączne powtórzenia - bij liczbę serii, nie powtórzeń"
                     ]
                 }
             },

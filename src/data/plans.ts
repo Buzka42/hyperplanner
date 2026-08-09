@@ -9,6 +9,8 @@ import { TRINARY_CONFIG } from './trinary';
 import { RITUAL_CONFIG } from './ritual';
 import { SUPER_MUTANT_CONFIG } from './supermutant';
 import { ADVENTURE_CONFIG } from './adventure';
+import { KING_OF_THE_SQUAT_CONFIG } from './plans/kingOfTheSquat';
+import { GRAVITY_IS_OPTIONAL_CONFIG } from './plans/gravityIsOptional';
 
 export const PLAN_REGISTRY: Record<string, PlanConfig> = {
     [BENCH_DOMINATION_CONFIG.id]: BENCH_DOMINATION_CONFIG,
@@ -19,7 +21,9 @@ export const PLAN_REGISTRY: Record<string, PlanConfig> = {
     [TRINARY_CONFIG.id]: TRINARY_CONFIG,
     [RITUAL_CONFIG.id]: RITUAL_CONFIG,
     [SUPER_MUTANT_CONFIG.id]: SUPER_MUTANT_CONFIG,
-    [ADVENTURE_CONFIG.id]: ADVENTURE_CONFIG
+    [ADVENTURE_CONFIG.id]: ADVENTURE_CONFIG,
+    [KING_OF_THE_SQUAT_CONFIG.id]: KING_OF_THE_SQUAT_CONFIG,
+    [GRAVITY_IS_OPTIONAL_CONFIG.id]: GRAVITY_IS_OPTIONAL_CONFIG
 };
 
 export const getPlan = (id?: string) => {

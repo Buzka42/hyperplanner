@@ -115,6 +115,24 @@ export const PLAN_META: Record<string, PlanMeta> = {
         coverGradient: 'from-[#080617]',
         alwaysFree: true,
         order: 9
+    },
+    'king-of-the-squat': {
+        id: 'king-of-the-squat',
+        i18nKey: 'kingOfTheSquat',
+        themeClass: 'theme-king-of-the-squat',
+        logo: '/squatking.png',
+        coverBg: 'bg-[#0a0705]',
+        coverGradient: 'from-[#0a0705]',
+        order: 10
+    },
+    'gravity-is-optional': {
+        id: 'gravity-is-optional',
+        i18nKey: 'gravityIsOptional',
+        themeClass: 'theme-gravity-is-optional',
+        logo: '/gravityoptional.png',
+        coverBg: 'bg-[#0a0a0a]',
+        coverGradient: 'from-[#0a0a0a]',
+        order: 11
     }
 };
 
