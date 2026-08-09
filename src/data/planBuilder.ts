@@ -120,22 +120,6 @@ const targetFor = (slot: SlotSpec): SetTarget => {
     return target;
 };
 
-/**
- * Slots carry structured tempo/technique/pairing, but `Exercise` only has a
- * free-text `notes` field until the runtime consumes the resolved shape. The
- * prescription is written there so nothing is invisible to the athlete in the
- * meantime.
- */
-const describe = (slot: SlotSpec): string | undefined => {
-    const parts: string[] = [];
-    if (slot.pair) parts.push(slot.pair);
-    if (slot.tempo) parts.push(`Tempo ${slot.tempo}`);
-    if (slot.technique && slot.technique.kind !== 'none') parts.push(techniqueLabel(slot.technique));
-    if (slot.restSeconds) parts.push(`Rest ${slot.restSeconds}s`);
-    if (slot.notes) parts.push(slot.notes);
-    return parts.length ? parts.join(' · ') : undefined;
-};
-
 export const techniqueLabel = (technique: IntensityTechniqueSpec): string => {
     switch (technique.kind) {
         case 'drop-set': return `Drop set: ${technique.drops} drops of ${technique.dropPercent}%`;
@@ -187,8 +171,18 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
                         name: entry.name.en,
                         sets: slot.sets,
                         target: targetFor(slot),
-                        notes: describe(slot),
+                        notes: slot.notes,
                         rest: slot.restSeconds ? `${slot.restSeconds}s` : undefined,
+                        // Structured, so the rest timer and prescription badges
+                        // can read it. `notes` keeps only the author's prose —
+                        // flattening tempo and rest into that string left both
+                        // invisible to the runtime.
+                        prescription: {
+                            restSeconds: slot.restSeconds,
+                            tempo: slot.tempo,
+                            technique: slot.technique,
+                            pair: slot.pair,
+                        },
                     };
                 });
 

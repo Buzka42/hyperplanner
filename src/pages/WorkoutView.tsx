@@ -13,6 +13,8 @@ import { cn } from '../lib/utils';
 import type { LiftingStats, WorkoutLog } from '../types';
 import { getVariantTip } from '../data/exercises/variantTips';
 import { resolveDay } from '../lib/planResolution';
+import { PrescriptionBadges } from '../features/workout/PrescriptionBadges';
+import { RestTimer } from '../features/workout/RestTimer';
 import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
@@ -84,6 +86,8 @@ export const WorkoutView: React.FC = () => {
     const [pendingVariations, setPendingVariations] = useState<{ bench: string, deadlift: string, squat: string } | null>(null);
     const [showTrinaryRerunModal, setShowTrinaryRerunModal] = useState(false);
     const [expandedExerciseId, setExpandedExerciseId] = useState<string | null>(null);
+    // Rest countdown for the set just logged; null when idle.
+    const [restTimer, setRestTimer] = useState<{ seconds: number; label: string; key: number } | null>(null);
 
     const programData = activePlanConfig.program;
     const weekData = programData.weeks.find(w => w.weekNumber === weekNum);
@@ -1457,10 +1461,26 @@ export const WorkoutView: React.FC = () => {
             [activeExercise.id]: (prev[activeExercise.id] || []).map((set, index) => index === activeSetIndex ? { ...set, completed: true } : set)
         }));
         setExpandedExerciseId(null);
+
+        // Only where the plan actually prescribes a rest and the athlete
+        // opted in; an unrequested countdown is nagging, not help.
+        const rest = (activeExercise as { restSeconds?: number }).restSeconds ?? activeExercise.prescription?.restSeconds;
+        if (rest && user?.trainingPreferences?.restTimer?.enabled) {
+            setRestTimer({ seconds: rest, label: activeExercise.name, key: Date.now() });
+        }
     };
 
     return (
         <div className="instrument-page workout-ledger space-y-6 pb-28">
+            {restTimer && (
+                <RestTimer
+                    key={restTimer.key}
+                    seconds={restTimer.seconds}
+                    label={restTimer.label}
+                    autoStart={user?.trainingPreferences?.restTimer?.autoStart !== false}
+                    onDismiss={() => setRestTimer(null)}
+                />
+            )}
             {/* Pain & Glory: Deficit Snatch Grip RPE Modal */}
             {showDeficitModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-in fade-in duration-300">
@@ -1847,6 +1867,12 @@ export const WorkoutView: React.FC = () => {
                                                     {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? t('common.failure') : `${ex.target.reps} ${t('workout.reps')} `}
                                                 </p>
                                             ) : null}
+                                            <PrescriptionBadges
+                                                pairRole={(ex as { group?: { role?: string } }).group?.role ?? ex.prescription?.pair}
+                                                tempo={(ex as { tempo?: string }).tempo ?? ex.prescription?.tempo}
+                                                restSeconds={(ex as { restSeconds?: number }).restSeconds ?? ex.prescription?.restSeconds}
+                                                technique={(ex as { technique?: never }).technique ?? ex.prescription?.technique}
+                                            />
                                             <div className="flex justify-between items-center">
                                                 {targetWeight && targetWeight !== "0" && !isGiantSet ? (
                                                     <span className="text-sm font-mono text-primary font-bold">{t('workout.target')} {targetWeight}{t('common.kg')}</span>

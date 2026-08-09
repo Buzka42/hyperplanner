@@ -16,12 +16,15 @@
 import { definePlan } from '../planBuilder';
 import type { DaySpec, SlotSpec } from '../planBuilder';
 
+/** Rest reads as a gym instruction, so keep it on 15-second boundaries. */
+const roundRest = (seconds: number) => Math.max(45, Math.round(seconds / 15) * 15);
+
 /** Accumulation: more volume at moderate load, controlled eccentrics. */
 const accumulate = (slot: SlotSpec): SlotSpec => ({
     ...slot,
     sets: slot.sets + 1,
     reps: slot.reps === 'AMRAP' || slot.reps === 'Failure' ? slot.reps : '10-15',
-    restSeconds: Math.max(60, Math.round((slot.restSeconds ?? 90) * 0.75)),
+    restSeconds: roundRest((slot.restSeconds ?? 90) * 0.75),
     tempo: slot.tempo ?? '30X0',
 });
 
@@ -29,7 +32,7 @@ const accumulate = (slot: SlotSpec): SlotSpec => ({
 const intensify = (slot: SlotSpec): SlotSpec => ({
     ...slot,
     reps: slot.reps === 'AMRAP' || slot.reps === 'Failure' ? slot.reps : '5-8',
-    restSeconds: Math.round((slot.restSeconds ?? 90) * 1.4),
+    restSeconds: roundRest((slot.restSeconds ?? 90) * 1.4),
     tempo: undefined,
 });
 

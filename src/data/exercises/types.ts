@@ -452,6 +452,17 @@ export type ResolvedExercise = {
     warmups?: { sets: { reps: string; weight: string; completed?: boolean }[]; note?: string };
     alternates?: string[];
     intensityTechnique?: string;
+    /**
+     * The plan's own structured prescription, carried through unchanged.
+     * Resolution folds this into the fields below; it stays here so a
+     * consumer can still read the plan's intent after an admin override.
+     */
+    prescription?: {
+        restSeconds?: number;
+        tempo?: string;
+        technique?: IntensityTechniqueSpec;
+        pair?: string;
+    };
 
     // --- added by resolution ---
     exerciseId: ExerciseId;

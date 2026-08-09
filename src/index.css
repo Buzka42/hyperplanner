@@ -1315,3 +1315,27 @@ input[type=number] {
 /* Lab mode: test sessions must never be mistaken for real training data. */
 .lab-mode-banner { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding:10px 14px; border:1px dashed hsl(45 90% 55%/.6); background:hsl(45 90% 55%/.1); color:hsl(45 90% 62%); font-size:.8rem; }
 .lab-mode-banner strong { text-transform:uppercase; letter-spacing:.06em; }
+
+/* ============================================================
+   PRESCRIPTION BADGES + REST TIMER
+   The new plans set tempo, rest and pairing on every slot; as a
+   single grey notes sentence the eye slid straight past them.
+   ============================================================ */
+
+.prescription-badges { display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+.prescription-badge { display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border:1px solid hsl(var(--border)); background:hsl(var(--muted)/.4); color:hsl(var(--muted-foreground)); font-size:.66rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em; white-space:nowrap; }
+.prescription-badge.is-pair { border-color:hsl(var(--primary)/.5); background:hsl(var(--primary)/.12); color:hsl(var(--primary)); }
+.prescription-badge.is-technique { border-color:hsl(45 90% 55%/.45); background:hsl(45 90% 55%/.1); color:hsl(45 90% 62%); text-transform:none; letter-spacing:0; }
+
+.rest-timer { position:sticky; top:8px; z-index:30; overflow:hidden; border:1px solid hsl(var(--primary)/.5); background:hsl(var(--card)); box-shadow:0 10px 28px rgb(0 0 0/.3); }
+.rest-timer.is-done { border-color:hsl(140 60% 45%/.6); }
+.rest-timer-bar { position:absolute; inset:0; transform-origin:left; background:hsl(var(--primary)/.16); transition:transform .25s linear; pointer-events:none; }
+.rest-timer.is-done .rest-timer-bar { background:hsl(140 60% 45%/.16); }
+.rest-timer-body { position:relative; display:flex; align-items:center; gap:10px; padding:10px 14px; }
+.rest-timer-value { font-family:var(--font-display); font-size:1.15rem; font-weight:700; font-variant-numeric:tabular-nums; color:hsl(var(--foreground)); min-width:76px; }
+.rest-timer-label { flex:1; min-width:0; font-size:.75rem; color:hsl(var(--muted-foreground)); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rest-timer-actions { display:flex; gap:2px; }
+.rest-timer-actions button { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border:0; background:none; color:hsl(var(--muted-foreground)); cursor:pointer; }
+.rest-timer-actions button:hover { color:hsl(var(--foreground)); }
+
+@media(prefers-reduced-motion:reduce){ .rest-timer-bar { transition:none; } }

@@ -258,6 +258,20 @@ export type Exercise = {
     alternates?: string[];
     // New: Intensity Technique (for flashy display)
     intensityTechnique?: string;
+    /**
+     * Structured prescription authored by the plan (see definePlan).
+     *
+     * These used to be flattened into `notes` as "A1 · Tempo 40X0 · Rest 90s",
+     * which meant the rest timer had nothing to read and the UI could not tell
+     * a superset from a tempo. Admin overrides still win over anything here.
+     */
+    prescription?: {
+        restSeconds?: number;
+        tempo?: string;
+        technique?: import('./data/exercises/types').IntensityTechniqueSpec;
+        /** Superset role, e.g. 'A1'. Partners share the letter. */
+        pair?: string;
+    };
 };
 
 export type WorkoutDay = {

@@ -296,10 +296,21 @@ export const resolveDay = (
             extraSets,
             target: resolveTarget(exercise.target, config),
             tips: resolveTips(effective, config, lang, exercise.notes, translate),
-            technique: config.technique ?? undefined,
-            tempo: config.tempo,
-            restSeconds: config.restSeconds ?? effective?.defaultRestSeconds ?? defaults.restSeconds,
-            group: group ? { id: group.id, role: config.groupRole ?? '', kind: group.kind } : undefined,
+            // Admin override, then the plan's own prescription, then the
+            // library default. A plan that says "rest 210s" must reach the
+            // athlete even when nobody has customised the exercise.
+            technique: config.technique ?? exercise.prescription?.technique,
+            tempo: config.tempo ?? exercise.prescription?.tempo,
+            restSeconds:
+                config.restSeconds
+                ?? exercise.prescription?.restSeconds
+                ?? effective?.defaultRestSeconds
+                ?? defaults.restSeconds,
+            group: group
+                ? { id: group.id, role: config.groupRole ?? exercise.prescription?.pair ?? '', kind: group.kind }
+                : exercise.prescription?.pair
+                    ? { id: `pair-${exercise.prescription.pair[0]}`, role: exercise.prescription.pair, kind: 'superset' as const }
+                    : undefined,
             swap,
             slot: slotKey(week, day.dayOfWeek, index),
         });
