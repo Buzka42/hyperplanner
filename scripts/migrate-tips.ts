@@ -33,7 +33,6 @@ import { translations } from '../src/contexts/translations';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const resolver = createResolver(EXERCISE_LIBRARY);
 
-type Lang = 'en' | 'pl';
 type Candidate = {
     key: string;              // tips.* key, adventure key, or 'inline'
     source: string;           // where it came from, for the report
@@ -42,8 +41,9 @@ type Candidate = {
     plans: string[];
 };
 
-const tipsEn = ((translations as Record<string, any>).en?.tips ?? {}) as Record<string, string>;
-const tipsPl = ((translations as Record<string, any>).pl?.tips ?? {}) as Record<string, string>;
+type TranslationBundle = Record<string, { tips?: Record<string, string> }>;
+const tipsEn = (translations as unknown as TranslationBundle).en?.tips ?? {};
+const tipsPl = (translations as unknown as TranslationBundle).pl?.tips ?? {};
 
 const candidates = new Map<string, Candidate[]>();   // exerciseId -> candidates
 const usedKeys = new Set<string>();
