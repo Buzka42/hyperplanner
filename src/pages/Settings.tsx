@@ -11,6 +11,7 @@ import { Input } from '../components/ui/input';
 import { Checkbox } from '../components/ui/checkbox';
 import { Save, CheckCircle2 } from 'lucide-react';
 import { doc, updateDoc } from 'firebase/firestore';
+import type { TrainingPreferences } from '../data/exercises/types';
 import { db } from '../firebase';
 import { PENCILNECK_PROGRAM } from '../data/pencilneck';
 import { BENCH_DOMINATION_PROGRAM } from '../data/program';
@@ -103,6 +104,14 @@ export const Settings: React.FC = () => {
         setSaved(false);
     };
 
+    // Plan-agnostic training preferences (extra sets, rest timer, tips).
+    const [trainingPrefs, setTrainingPrefs] = useState<TrainingPreferences>(
+        () => user?.trainingPreferences ?? {}
+    );
+    useEffect(() => {
+        if (user?.trainingPreferences) setTrainingPrefs(user.trainingPreferences);
+    }, [user?.trainingPreferences]);
+
     const handleSave = async () => {
         if (!user) return;
         setLoading(true);
@@ -134,6 +143,8 @@ export const Settings: React.FC = () => {
                     updates['ritualStatus.ritualAccessories'] = ritualAccessories;
                 }
             }
+
+            updates.trainingPreferences = trainingPrefs;
 
             if (Object.keys(updates).length > 0) {
                 await updateDoc(userRef, updates);
@@ -183,6 +194,108 @@ export const Settings: React.FC = () => {
                 <h2 className="text-3xl font-bold tracking-tight">{t('settings.title')}</h2>
                 <p className="text-muted-foreground">{t('settings.description')}</p>
             </div>
+
+            {/* Plan-agnostic training preferences, above the plan-specific cards. */}
+            <Card className="max-w-2xl">
+                <CardHeader>
+                    <CardTitle>{t('settings.training.title')}</CardTitle>
+                    <CardDescription>{t('settings.training.description')}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="space-y-3">
+                        <Label className="text-base font-semibold">{t('settings.training.extraSets')}</Label>
+                        <p className="text-xs text-muted-foreground">{t('settings.training.extraSetsDesc')}</p>
+                        <RadioGroup
+                            value={trainingPrefs.extraSets?.mode ?? 'off'}
+                            onValueChange={(mode) => {
+                                setTrainingPrefs(prev => ({
+                                    ...prev,
+                                    extraSets: {
+                                        mode: mode as 'off' | 'accessories' | 'all',
+                                        count: prev.extraSets?.count ?? 1,
+                                    },
+                                }));
+                                setSaved(false);
+                            }}
+                        >
+                            {(['off', 'accessories', 'all'] as const).map(mode => (
+                                <div className="flex items-center space-x-2" key={mode}>
+                                    <RadioGroupItem value={mode} id={`extra-${mode}`} />
+                                    <Label htmlFor={`extra-${mode}`} className="font-normal">
+                                        {t(`settings.training.extraSetsMode.${mode}`)}
+                                    </Label>
+                                </div>
+                            ))}
+                        </RadioGroup>
+
+                        {trainingPrefs.extraSets?.mode && trainingPrefs.extraSets.mode !== 'off' && (
+                            <div className="flex items-center gap-3 pt-1">
+                                <Label htmlFor="extra-count" className="font-normal">{t('settings.training.extraSetsCount')}</Label>
+                                <Input
+                                    id="extra-count" type="number" min={1} max={2} className="w-20"
+                                    value={trainingPrefs.extraSets.count}
+                                    onChange={(e) => {
+                                        const count = Math.min(2, Math.max(1, Number(e.target.value) || 1)) as 1 | 2;
+                                        setTrainingPrefs(prev => ({
+                                            ...prev,
+                                            extraSets: { mode: prev.extraSets?.mode ?? 'all', count },
+                                        }));
+                                        setSaved(false);
+                                    }}
+                                />
+                            </div>
+                        )}
+                        <p className="text-xs text-muted-foreground">{t('settings.training.extraSetsNote')}</p>
+                    </div>
+
+                    <div className="space-y-3 border-t border-border pt-5">
+                        <label className="flex items-start gap-3 cursor-pointer">
+                            <Checkbox
+                                checked={trainingPrefs.restTimer?.enabled ?? false}
+                                onCheckedChange={(checked) => {
+                                    setTrainingPrefs(prev => ({
+                                        ...prev,
+                                        restTimer: { enabled: checked === true, autoStart: prev.restTimer?.autoStart ?? true },
+                                    }));
+                                    setSaved(false);
+                                }}
+                            />
+                            <span>
+                                <span className="block text-sm font-semibold">{t('settings.training.restTimer')}</span>
+                                <span className="block text-xs text-muted-foreground">{t('settings.training.restTimerDesc')}</span>
+                            </span>
+                        </label>
+
+                        <label className="flex items-start gap-3 cursor-pointer">
+                            <Checkbox
+                                checked={trainingPrefs.techniquesEnabled !== false}
+                                onCheckedChange={(checked) => {
+                                    setTrainingPrefs(prev => ({ ...prev, techniquesEnabled: checked === true }));
+                                    setSaved(false);
+                                }}
+                            />
+                            <span>
+                                <span className="block text-sm font-semibold">{t('settings.training.techniques')}</span>
+                                <span className="block text-xs text-muted-foreground">{t('settings.training.techniquesDesc')}</span>
+                            </span>
+                        </label>
+
+                        <label className="flex items-start gap-3 cursor-pointer">
+                            <Checkbox
+                                checked={trainingPrefs.showTips !== false}
+                                onCheckedChange={(checked) => {
+                                    setTrainingPrefs(prev => ({ ...prev, showTips: checked === true }));
+                                    setSaved(false);
+                                }}
+                            />
+                            <span>
+                                <span className="block text-sm font-semibold">{t('settings.training.showTips')}</span>
+                                <span className="block text-xs text-muted-foreground">{t('settings.training.showTipsDesc')}</span>
+                            </span>
+                        </label>
+                    </div>
+                </CardContent>
+            </Card>
 
             {isPencilneck && (
                 <Card className="max-w-2xl">

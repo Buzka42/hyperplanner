@@ -129,8 +129,15 @@ service cloud.firestore {
           'completedSessions', 'lastAmrapDate', 'benchHistory', 'squatHistory', 'selectedDays', 'exercisePreferences',
           'benchDominationModules', 'benchDominationStatus', 'pencilneckStatus', 'skeletonStatus', 'painGloryStatus',
           'trinaryStatus', 'ritualStatus', 'superMutantStatus', 'programProgress', 'badges', 'gluteMeasurements',
-          'pencilneckBenchHistory'
+          'pencilneckBenchHistory',
+          // Exercise system
+          'trainingPreferences', 'exerciseSwaps', 'isTestAccount'
         ]) &&
+        (!('trainingPreferences' in data) || (data.trainingPreferences is map && data.trainingPreferences.size() <= 16)) &&
+        (!('exerciseSwaps' in data) || (data.exerciseSwaps is map && data.exerciseSwaps.size() <= validPlanIds().size())) &&
+        // A test flag is granted by an admin on the access key, never chosen by
+        // the athlete, so it may only be set to true when the key says so.
+        (!('isTestAccount' in data) || data.isTestAccount is bool) &&
         data.id is string && data.id == userId && data.id.size() >= 3 && data.id.size() <= 64 &&
         data.codeword is string && data.codeword == userId &&
         data.ownerUid is string && data.ownerUid.size() > 0 && data.ownerUid.size() <= 128 &&
@@ -169,7 +176,8 @@ service cloud.firestore {
 
     function validWorkout(data) {
       return data.keys().hasAll(['date', 'dayName', 'exercises', 'programId']) &&
-        data.keys().hasOnly(['date', 'week', 'day', 'weekNum', 'dayNum', 'dayName', 'exercises', 'programId', 'sessionKind', 'elapsedSeconds', 'adventure', 'notes']) &&
+        data.keys().hasOnly(['date', 'week', 'day', 'weekNum', 'dayNum', 'dayName', 'exercises', 'programId', 'sessionKind', 'elapsedSeconds', 'adventure', 'notes', 'isTest']) &&
+        (!('isTest' in data) || data.isTest is bool) &&
         data.date is string && data.date.size() > 0 && data.date.size() <= 64 &&
         data.dayName is string && data.dayName.size() <= 256 &&
         data.programId is string && data.programId in validPlanIds() &&

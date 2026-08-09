@@ -12,6 +12,7 @@ import { db } from '../firebase';
 import { cn } from '../lib/utils';
 import type { LiftingStats, WorkoutLog } from '../types';
 import { getVariantTip } from '../data/exercises/variantTips';
+import { resolveDay } from '../lib/planResolution';
 import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
@@ -49,7 +50,7 @@ const getBaseSetsCount = (ex: { name: string; sets: number; giantSetConfig?: { s
 
 export const WorkoutView: React.FC = () => {
     const { week, day } = useParams();
-    const { user, activePlanConfig, exerciseResolver } = useUser();
+    const { user, activePlanConfig, exerciseResolver, planExerciseConfig } = useUser();
     const { t, language } = useLanguage();
     const navigate = useNavigate();
 
@@ -92,12 +93,34 @@ export const WorkoutView: React.FC = () => {
         if (!rawDayData || !user) return rawDayData;
 
         // Hooks: Preprocess Day
-        if (activePlanConfig.hooks?.preprocessDay) {
-            return activePlanConfig.hooks.preprocessDay(rawDayData, user);
-        }
+        const generated = activePlanConfig.hooks?.preprocessDay
+            ? activePlanConfig.hooks.preprocessDay(rawDayData, user)
+            : rawDayData;
 
-        return rawDayData;
-    }, [rawDayData, activePlanConfig, user]);
+        // Apply the exercise layer on top of whatever the plan generated:
+        // admin overrides, the athlete's swaps and extra sets, techniques and
+        // rest. Falls back to the generated day if anything goes wrong, so a
+        // bad override can never leave someone without a workout.
+        try {
+            const resolved = resolveDay(
+                generated,
+                {
+                    planId: activePlanConfig.id,
+                    user,
+                    resolver: exerciseResolver,
+                    planConfig: planExerciseConfig,
+                    lang: language as 'en' | 'pl',
+                    week: weekNum,
+                    testMode: user.isTestAccount === true,
+                },
+                t
+            );
+            return resolved ?? generated;
+        } catch (error) {
+            console.error('[workout] exercise resolution failed, using plan output', error);
+            return generated;
+        }
+    }, [rawDayData, activePlanConfig, user, exerciseResolver, planExerciseConfig, language, weekNum, t]);
 
     // Persist "Current Workout"
     useEffect(() => {
@@ -1638,6 +1661,8 @@ export const WorkoutView: React.FC = () => {
                     // on every render, for every exercise.
                     const libraryEntry = exerciseResolver.resolve(ex.name);
                     const variantTip = getVariantTip(ex.name, weekNum);
+                    // Populated by resolveDay: library cue + plan override + notes.
+                    const resolvedTips: string[] = (ex as { tips?: string[] }).tips ?? [];
 
                     // Add general warm-up tip FIRST for bench/squat/deadlift exercises
                     // Skip for base "Paused Bench Press" in Bench Domination (its specific tip already includes warmup)
@@ -1665,10 +1690,19 @@ export const WorkoutView: React.FC = () => {
 
                     // A variant tip describes how this particular set is run
                     // (ME, Light, Ascension Test, E2MOM) and wins over the
-                    // movement's general cue; otherwise use the library tip.
-                    const cue = variantTip ?? libraryEntry?.tip;
-                    const cueText = cue?.[language] || cue?.en;
-                    if (cueText) displayTips.push(cueText);
+                    // movement's general cue.
+                    if (variantTip) {
+                        const variantText = variantTip[language] || variantTip.en;
+                        if (variantText) displayTips.push(variantText);
+                    } else if (resolvedTips.length) {
+                        // Resolution already merged the library cue, any
+                        // plan-scoped override, and the plan's own notes.
+                        displayTips.push(...resolvedTips);
+                    } else {
+                        const fallback = libraryEntry?.tip;
+                        const fallbackText = fallback?.[language] || fallback?.en;
+                        if (fallbackText) displayTips.push(fallbackText);
+                    }
 
                     // Add Nordic/Glute-Ham swap tip for both original and alternative
                     if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {
@@ -1692,19 +1726,22 @@ export const WorkoutView: React.FC = () => {
                         }
                     }
 
-                    // Add dynamic notes from program (if not empty)
-                    if (ex.notes) {
-                        // Translate notes if they start with 't:'
+                    // Plan notes. resolveDay already folded these into
+                    // resolvedTips, so only add them on the paths that bypassed it.
+                    if (ex.notes && !resolvedTips.length) {
                         if (ex.notes.startsWith('t:')) {
                             const noteKey = ex.notes.substring(2);
                             const translatedNote = t(noteKey);
-                            // Only add if translation exists (not returning the key itself)
                             if (translatedNote && translatedNote !== noteKey) {
                                 displayTips.push(translatedNote);
                             }
                         } else {
                             displayTips.push(ex.notes);
                         }
+                    } else if (ex.notes && variantTip) {
+                        // Variant path skipped resolvedTips; keep the plan note.
+                        const noteText = ex.notes.startsWith('t:') ? t(ex.notes.substring(2)) : ex.notes;
+                        if (noteText && noteText !== ex.notes.substring(2)) displayTips.push(noteText);
                     }
 
                     let advice = prevStat?.advice || "";

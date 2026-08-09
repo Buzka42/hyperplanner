@@ -773,6 +773,25 @@ export const translations = {
         // SETTINGS
         // ========================================
         settings: {
+            training: {
+                title: "Training preferences",
+                description: "Applies to every plan you train.",
+                extraSets: "Extra sets",
+                extraSetsDesc: "Add sets beyond what your plan prescribes, where your coach allows it.",
+                extraSetsMode: {
+                    off: "Off - follow the plan exactly",
+                    accessories: "Accessories only",
+                    all: "Every exercise that allows it"
+                },
+                extraSetsCount: "Sets to add",
+                extraSetsNote: "Extra sets never count toward progression, so adding them cannot block a weight increase.",
+                restTimer: "Rest timer",
+                restTimerDesc: "Count down your rest between sets.",
+                techniques: "Finishing techniques",
+                techniquesDesc: "Show drop sets, rest-pause and similar when your plan prescribes them.",
+                showTips: "Exercise tips",
+                showTipsDesc: "Show the coaching cue under each exercise."
+            },
             title: "Settings",
             description: "Manage your program preferences.",
 
@@ -1908,6 +1927,25 @@ export const translations = {
         },
 
         settings: {
+            training: {
+                title: "Ustawienia treningu",
+                description: "Dotyczy każdego planu, który trenujesz.",
+                extraSets: "Dodatkowe serie",
+                extraSetsDesc: "Dodaj serie ponad to, co przewiduje plan, jeśli trener na to pozwala.",
+                extraSetsMode: {
+                    off: "Wyłączone - trzymaj się planu",
+                    accessories: "Tylko ćwiczenia dodatkowe",
+                    all: "Każde ćwiczenie, które na to pozwala"
+                },
+                extraSetsCount: "Ile serii dodać",
+                extraSetsNote: "Dodatkowe serie nie liczą się do progresji, więc nie zablokują zwiększenia ciężaru.",
+                restTimer: "Timer przerw",
+                restTimerDesc: "Odliczaj przerwy między seriami.",
+                techniques: "Techniki intensyfikacji",
+                techniquesDesc: "Pokazuj drop sety, rest-pause i podobne, gdy plan je przewiduje.",
+                showTips: "Wskazówki do ćwiczeń",
+                showTipsDesc: "Pokazuj wskazówkę techniczną pod każdym ćwiczeniem."
+            },
             title: "Ustawienia",
             description: "Zarządzaj preferencjami programu.",
 
