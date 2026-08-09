@@ -15,7 +15,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "extract:exercises": "npx --yes tsx scripts/extract-exercises.ts",
-    "scaffold:library": "npx --yes tsx scripts/scaffold-library.ts"
+    "scaffold:library": "npx --yes tsx scripts/scaffold-library.ts",
+    "build:library": "npx --yes tsx scripts/build-library.ts"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",

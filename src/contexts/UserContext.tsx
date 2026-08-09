@@ -79,6 +79,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             try {
                 await signInAnonymously(auth);
                 setAuthReady(true);
+
+                // The admin claim lives on the device's anonymous auth token, so
+                // it survives a reload — re-check it here rather than only on the
+                // 'judziek' login path. Without this, refreshing /admin bounced
+                // to the entry screen and any in-progress admin work was lost.
+                const token = await getIdTokenResult(auth.currentUser!);
+                if (token.claims.admin === true) setIsAdmin(true);
             } catch (error) {
                 console.error("Auth init failed", error);
                 setLoading(false);

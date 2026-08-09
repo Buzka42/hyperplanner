@@ -69,6 +69,42 @@ service cloud.firestore {
         (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 64));
     }
 
+    // Exercise library overlay. Entries are partial patches over the bundled
+    // seed, so only `id` is required; every other field is optional and only
+    // validated if present.
+    function validLibraryExercise(data, exerciseId) {
+      return data.keys().hasAll(['id']) &&
+        data.keys().hasOnly([
+          'id', 'name', 'aliases', 'pattern', 'primary', 'secondary', 'equipment',
+          'unilateral', 'weightMode', 'failureMode', 'tip', 'setupNotes', 'media',
+          'defaultTarget', 'defaultRestSeconds', 'variants', 'swapGroup', 'strengthRef',
+          'tags', 'status', 'deprecatedFor', 'updatedAt'
+        ]) &&
+        data.id is string && data.id == exerciseId && data.id.size() > 0 && data.id.size() <= 80 &&
+        (!('name' in data) || (data.name is map && data.name.keys().hasOnly(['en', 'pl']) &&
+          (!('en' in data.name) || (data.name.en is string && data.name.en.size() <= 120)) &&
+          (!('pl' in data.name) || (data.name.pl is string && data.name.pl.size() <= 120)))) &&
+        (!('aliases' in data) || (data.aliases is list && data.aliases.size() <= 40)) &&
+        (!('pattern' in data) || (data.pattern is string && data.pattern.size() <= 40)) &&
+        (!('primary' in data) || (data.primary is list && data.primary.size() <= 12)) &&
+        (!('secondary' in data) || (data.secondary is list && data.secondary.size() <= 12)) &&
+        (!('equipment' in data) || (data.equipment is list && data.equipment.size() <= 12)) &&
+        (!('unilateral' in data) || data.unilateral is bool) &&
+        (!('weightMode' in data) || data.weightMode in ['external', 'bodyweight', 'weighted-bodyweight', 'assisted', 'timed', 'optional']) &&
+        (!('status' in data) || data.status in ['active', 'deprecated']) &&
+        (!('tags' in data) || (data.tags is list && data.tags.size() <= 20)) &&
+        (!('swapGroup' in data) || (data.swapGroup is string && data.swapGroup.size() <= 60)) &&
+        (!('defaultRestSeconds' in data) || (data.defaultRestSeconds is int && data.defaultRestSeconds >= 0 && data.defaultRestSeconds <= 1800)) &&
+        (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 64));
+    }
+
+    function validLibraryMeta(data) {
+      return data.keys().hasOnly(['libraryVersion', 'planConfigVersions', 'updatedAt']) &&
+        data.libraryVersion is int && data.libraryVersion >= 0 &&
+        (!('planConfigVersions' in data) || data.planConfigVersions is map) &&
+        (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 64));
+    }
+
     function validUserProfile(data, userId) {
       return data.keys().hasAll(['id', 'ownerUid', 'codeword', 'stats', 'startDate', 'programId', 'completedSessions', 'benchHistory', 'programProgress', 'badges']) &&
         data.keys().hasOnly([
@@ -141,7 +177,18 @@ service cloud.firestore {
     match /appConfig/{configId} {
       allow get: if signedIn();
       allow list: if isAdmin();
-      allow create, update: if isAdmin() && configId == 'onboarding' && validOnboardingConfig(request.resource.data);
+      allow create, update: if isAdmin() && (
+        (configId == 'onboarding' && validOnboardingConfig(request.resource.data)) ||
+        (configId == 'libraryMeta' && validLibraryMeta(request.resource.data))
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Exercise library overlay: readable by every signed-in client (it is
+    // training content, not user data), writable only by admins.
+    match /exerciseLibrary/{exerciseId} {
+      allow get, list: if signedIn();
+      allow create, update: if isAdmin() && validLibraryExercise(request.resource.data, exerciseId);
       allow delete: if isAdmin();
     }
 

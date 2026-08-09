@@ -6,7 +6,7 @@ import { Onboarding } from './pages/Onboarding';
 import { ProtectedLayout } from './components/ProtectedLayout';
 import { Dashboard } from './pages/Dashboard';
 import { WorkoutView } from './pages/WorkoutView';
-import { AdminPanel } from './pages/AdminPanel';
+import { AdminShell } from './pages/admin/AdminShell';
 import { Settings } from './pages/Settings';
 import { WorkoutHistory } from './pages/WorkoutHistory';
 import { AdventureSession } from './pages/AdventureSession';
@@ -28,7 +28,7 @@ const AppRoutes = () => {
                 <Route path="history" element={<WorkoutHistory />} />
                 <Route index element={<Navigate to="dashboard" replace />} />
             </Route>
-            <Route path="/admin" element={isAdmin ? <AdminPanel /> : <Navigate to="/" replace />} />
+            <Route path="/admin" element={isAdmin ? <AdminShell /> : <Navigate to="/" replace />} />
         </Routes>
     );
 };
