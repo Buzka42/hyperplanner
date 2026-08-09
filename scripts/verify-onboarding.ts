@@ -17,6 +17,7 @@
 import { PLAN_REGISTRY } from '../src/data/plans';
 import { BENCHMARK_LIFTS, benchmarkLiftsFor } from '../src/data/benchmarkLifts';
 import { translations } from '../src/contexts/translations';
+import { calibrationOutcomes, calibrationProgression } from '../src/features/workout/progression/calibration';
 
 const failures: string[] = [];
 let checksRun = 0;
@@ -84,6 +85,13 @@ for (const lang of ['en', 'pl'] as const) {
             `${lang}: onboarding.benchmark.${key} is missing.`,
         );
     }
+    // The console band and the post-session result screen.
+    for (const key of ['label', 'instruction', 'resultLabel', 'resultTitle', 'resultCopy', 'resultNote', 'resultButton']) {
+        check(
+            typeof (translations[lang] as any)?.workout?.calibration?.[key] === 'string',
+            `${lang}: workout.calibration.${key} is missing.`,
+        );
+    }
 }
 
 // The step must actually resolve lifts for the plans that need them, not just
@@ -103,6 +111,70 @@ check(
     'tenfold has no percentage progressions and should ask for no maxes.',
 );
 
+// ---------------------------------------------------------------------------
+// Calibration: the half that consumes pendingCalibration.
+// ---------------------------------------------------------------------------
+
+// Every stat the benchmark step can defer must have an exercise that can
+// establish it, or "I don't know" strands the athlete on generic loads forever.
+for (const [id, plan] of Object.entries(PLAN_REGISTRY)) {
+    if (HAND_WRITTEN.has(id)) continue;
+    const map = plan.calibration?.exerciseNameToStat ?? {};
+    const calibratable = new Set(Object.values(map));
+    for (const stat of plan.onboarding?.requiredStats ?? []) {
+        check(
+            calibratable.has(stat),
+            `${id}: stats.${stat} can be deferred at onboarding but no exercise in the plan calibrates it.`,
+        );
+    }
+}
+
+{
+    // Epley on the best set, rounded to 2.5kg: 100x8 -> 126.67 -> 127.5.
+    const ctx: any = {
+        planId: 'king-of-the-squat', week: 1, day: 1, isExistingLog: false,
+        user: { pendingCalibration: ['squat'], stats: {} },
+        workout: { exercises: [{ id: 'e1', name: 'Low Bar Squat' }] },
+        sets: { e1: [{ weight: '100', reps: '8', completed: true }] },
+    };
+    const map = { 'Low Bar Squat': 'squat' } as const;
+
+    const outcomes = calibrationOutcomes(ctx, map as any);
+    check(outcomes.length === 1, `calibration should produce one outcome, got ${outcomes.length}.`);
+    check(outcomes[0]?.oneRepMax === 127.5, `100kg x8 should calibrate to 127.5kg, got ${outcomes[0]?.oneRepMax}.`);
+
+    const result = calibrationProgression(ctx, map as any);
+    check(result.updates['stats.squat'] === 127.5, 'calibration must write the derived max into stats.');
+    check(
+        Array.isArray(result.updates.pendingCalibration)
+        && (result.updates.pendingCalibration as unknown[]).length === 0,
+        'calibration must clear the stat it just established.',
+    );
+
+    // Re-saving a finished session must not re-establish a max the athlete has
+    // since trained past.
+    const resaved = calibrationProgression({ ...ctx, isExistingLog: true }, map as any);
+    check(
+        Object.keys(resaved.updates).length === 0,
+        're-saving an existing log must not recalibrate.',
+    );
+
+    // Uncompleted sets are not evidence of anything.
+    const skipped = calibrationProgression(
+        { ...ctx, sets: { e1: [{ weight: '100', reps: '8', completed: false }] } },
+        map as any,
+    );
+    check(Object.keys(skipped.updates).length === 0, 'uncompleted sets must not calibrate.');
+
+    // A stat that was entered at onboarding is not pending, so the lift is
+    // trained normally rather than silently overwriting a known max.
+    const notPending = calibrationProgression(
+        { ...ctx, user: { pendingCalibration: [], stats: { squat: 150 } } },
+        map as any,
+    );
+    check(Object.keys(notPending.updates).length === 0, 'a known max must never be overwritten by calibration.');
+}
+
 // The registry itself must be non-trivial, so a broken import can't turn this
 // script into a no-op that passes by checking nothing.
 check(Object.keys(PLAN_REGISTRY).length >= 15, 'PLAN_REGISTRY looks truncated — expected 15+ plans.');
@@ -115,4 +187,6 @@ if (failures.length) {
 }
 
 console.log(`\n  verify:onboarding OK — ${checksRun} assertions across ${Object.keys(PLAN_REGISTRY).length} plans`);
-console.log('   every progression base stat is collectable at onboarding or calibrated on first exposure\n');
+console.log('   every progression base stat is collectable at onboarding or calibrated on first exposure');
+console.log('   calibration: Epley on the best set, cleared once established, never on a re-save');
+console.log('   benchmark and calibration copy present in EN and PL\n');

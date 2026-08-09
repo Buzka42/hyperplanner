@@ -16,6 +16,7 @@ import { trinaryProgression } from './trinary';
 import type { ProgressionHandler } from './types';
 
 export * from './types';
+export { calibrationProgression, calibrationOutcomes, type CalibrationOutcome } from './calibration';
 
 export const PROGRESSION_HANDLERS: Record<string, ProgressionHandler> = {
     'peachy-glute-plan': peachyProgression,

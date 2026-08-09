@@ -53,6 +53,15 @@ export const translations = {
         // WORKOUT VIEW
         // ========================================
         workout: {
+            calibration: {
+                label: "Calibration set",
+                instruction: "You skipped this max at setup. Work up to a weight you can manage for 8-10 reps and stop about 2 reps short of failure — this session sets your working loads.",
+                resultLabel: "Calibrated",
+                resultTitle: "Your loads are set",
+                resultCopy: "Your best set established an estimated 1RM. Every prescribed load in this plan is calculated from it.",
+                resultNote: "Nothing is locked in. If the weights feel wrong next session, log what you actually lift and the plan follows.",
+                resultButton: "CONTINUE"
+            },
             swap: "Swap",
             velocitySlow: "Bar speed was slow — reduce this lift by 5% next session",
             restDayOrInvalid: "Rest Day or Invalid Date",
@@ -1370,6 +1379,15 @@ export const translations = {
         },
 
         workout: {
+            calibration: {
+                label: "Seria kalibracyjna",
+                instruction: "Pominąłeś ten wynik przy konfiguracji. Dojdź do ciężaru, który zrobisz na 8-10 powtórzeń i skończ jakieś 2 powtórzenia przed upadkiem — ta seria ustawi twoje ciężary robocze.",
+                resultLabel: "Skalibrowano",
+                resultTitle: "Twoje ciężary są ustawione",
+                resultCopy: "Twoja najlepsza seria wyznaczyła szacowany 1RM. Każdy ciężar w tym planie jest z niego wyliczany.",
+                resultNote: "Nic nie jest przesądzone. Jeśli następnym razem ciężary będą nietrafione, zapisz to, co faktycznie podnosisz, a plan się dostosuje.",
+                resultButton: "DALEJ"
+            },
             swap: "Zamień",
             velocitySlow: "Sztanga poruszała się wolno — zmniejsz ten bój o 5% na następnej sesji",
             restDayOrInvalid: "Dzień wolny lub błędna data",

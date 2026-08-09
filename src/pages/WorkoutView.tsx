@@ -17,7 +17,7 @@ import { PrescriptionBadges } from '../features/workout/PrescriptionBadges';
 import { RestTimer } from '../features/workout/RestTimer';
 import { SwapSheet } from '../features/workout/SwapSheet';
 import { techniqueAppliesTo, techniqueRows } from '../features/workout/techniqueSets';
-import { PROGRESSION_HANDLERS } from '../features/workout/progression';
+import { PROGRESSION_HANDLERS, calibrationOutcomes, calibrationProgression, type CalibrationOutcome } from '../features/workout/progression';
 import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
@@ -79,6 +79,8 @@ export const WorkoutView: React.FC = () => {
 
     // UI States
     const [submitting, setSubmitting] = useState(false);
+    /** Maxes established by this session's calibration sets, shown after saving. */
+    const [calibrationResults, setCalibrationResults] = useState<CalibrationOutcome[]>([]);
     const [isExistingLog, setIsExistingLog] = useState(false);
     const [logId, setLogId] = useState<string | null>(null);
 
@@ -144,6 +146,18 @@ export const WorkoutView: React.FC = () => {
             localStorage.setItem("lastOpenedPath", `/app/workout/${weekNum}/${dayNum}`);
         }
     }, [weekNum, dayNum]);
+
+    /**
+     * The max this exercise is about to establish, if any.
+     *
+     * Non-null only while the stat is still outstanding, so the band disappears
+     * once calibrated rather than reappearing every time the lift comes round.
+     */
+    const calibratingStat = (exerciseName: string): keyof LiftingStats | null => {
+        const stat = activePlanConfig.calibration?.exerciseNameToStat?.[exerciseName];
+        if (!stat) return null;
+        return user?.pendingCalibration?.includes(stat) ? stat : null;
+    };
 
     // Helper: Calculate Weight Wrapper
     const calculateWeight = (ex: any) => {
@@ -698,6 +712,28 @@ export const WorkoutView: React.FC = () => {
                 }
             }
 
+            // First-exposure calibration. Runs for every plan, not just those
+            // with a per-plan handler, because it keys off the athlete's
+            // pendingCalibration rather than the program's identity.
+            {
+                const ctx = {
+                    planId: programData.id,
+                    week: weekNum,
+                    day: dayNum,
+                    isExistingLog,
+                    user,
+                    workout: dayData,
+                    sets: exerciseData,
+                };
+                const map = activePlanConfig.calibration?.exerciseNameToStat;
+                const outcomes = calibrationOutcomes(ctx, map);
+                const result = calibrationProgression(ctx, map);
+                if (Object.keys(result.updates).length > 0) {
+                    await updateDoc(userRef, result.updates);
+                }
+                if (outcomes.length) setCalibrationResults(outcomes);
+            }
+
             const sessionLog = {
                 date: new Date().toISOString(),
                 week: weekNum,
@@ -776,6 +812,14 @@ export const WorkoutView: React.FC = () => {
             const softSaveKey = `workout_draft_${user.id}_${programId}_${weekNum}_${dayNum}`;
             localStorage.removeItem(softSaveKey);
 
+            // A calibration set established a max the rest of the plan is
+            // computed from. Show what it found and what it unlocked before
+            // leaving, rather than changing every future load silently.
+            if (calibrationResults.length) {
+                setSubmitting(false);
+                return;
+            }
+
             navigate('/app/dashboard');
         } catch (e) {
             console.error("Save Error:", e);
@@ -795,6 +839,40 @@ export const WorkoutView: React.FC = () => {
         }
         return name;
     };
+
+    // The session is already saved at this point. This screen exists so a
+    // number the whole plan is computed from is never established silently.
+    if (calibrationResults.length) {
+        return (
+            <div className="calibration-result" role="status" aria-live="polite">
+                <div className="calibration-result-inner">
+                    <p className="calibration-result-label">{t('workout.calibration.resultLabel')}</p>
+                    <h1>{t('workout.calibration.resultTitle')}</h1>
+                    <p className="calibration-result-copy">{t('workout.calibration.resultCopy')}</p>
+                    <ul className="calibration-result-list">
+                        {calibrationResults.map(outcome => (
+                            <li key={outcome.stat}>
+                                <span>{outcome.exerciseName}</span>
+                                <em>{outcome.weight}{t('common.kg')} × {outcome.reps}</em>
+                                <strong>{outcome.oneRepMax}{t('common.kg')}</strong>
+                            </li>
+                        ))}
+                    </ul>
+                    <p className="calibration-result-note">{t('workout.calibration.resultNote')}</p>
+                    <Button
+                        className="w-full h-12 text-lg font-bold"
+                        size="lg"
+                        onClick={() => {
+                            setCalibrationResults([]);
+                            navigate('/app/dashboard');
+                        }}
+                    >
+                        {t('workout.calibration.resultButton')}
+                    </Button>
+                </div>
+            </div>
+        );
+    }
 
     // Detect Super Mutant for theme
     const isSuperMutant = programData.id === 'super-mutant';
@@ -978,6 +1056,12 @@ export const WorkoutView: React.FC = () => {
                             <span><i style={{ height: `${sessionProgress}%` }} /></span>
                         </div>
                     </div>
+                    {calibratingStat(activeExercise.name) && (
+                        <div className="calibration-band" role="note">
+                            <p className="calibration-band-label">{t('workout.calibration.label')}</p>
+                            <p className="calibration-band-copy">{t('workout.calibration.instruction')}</p>
+                        </div>
+                    )}
                     <div className="live-set-measurements">
                         <label><span>{t('common.weight')}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
                         <label><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value)} aria-label={t('workout.reps')} /></label>

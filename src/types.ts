@@ -311,6 +311,14 @@ export interface PlanConfig {
          */
         requiredStats?: (keyof LiftingStats)[];
     };
+    calibration?: {
+        /**
+         * Exercise display name → the max it establishes. Derived by
+         * `definePlan` from the same progressions that consume the max, so the
+         * calibrating lift is always the one whose loads depend on it.
+         */
+        exerciseNameToStat?: Record<string, keyof LiftingStats>;
+    };
     hooks?: {
         preprocessDay?: (day: WorkoutDay, user: UserProfile) => WorkoutDay;
         getExerciseAdvice?: (exercise: Exercise, history: WorkoutLog[]) => string | null;

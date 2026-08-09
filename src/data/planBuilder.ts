@@ -163,6 +163,29 @@ export const requiredStatsFor = (spec: PlanSpec): (keyof LiftingStats)[] => {
     return [...keys];
 };
 
+/**
+ * Which exercise establishes which max, keyed by display name.
+ *
+ * Mirrors `buildWeightCalculator`'s name lookup: the exercise whose progression
+ * reads `stats.squat` is by definition the one that can calibrate it. Keyed by
+ * display name because that is what the logged session carries.
+ */
+export const calibrationExercisesFor = (spec: PlanSpec): Record<string, keyof LiftingStats> => {
+    const map: Record<string, keyof LiftingStats> = {};
+    for (const day of spec.days) {
+        for (const slot of day.slots) {
+            const progression = slot.progression;
+            if (!progression) continue;
+            if (progression.type !== 'percentage' && progression.type !== 'wave' && progression.type !== 'linear') continue;
+            const entry = EXERCISE_BY_ID[slot.ex];
+            // First exercise wins, matching buildWeightCalculator's byName map,
+            // so calibration and load resolution can never disagree.
+            if (entry && !map[entry.name.en]) map[entry.name.en] = progression.of;
+        }
+    }
+    return map;
+};
+
 const phaseFor = (spec: PlanSpec, week: number): PhaseSpec | undefined =>
     spec.phases?.find(p => p.weeks.includes(week));
 
@@ -240,6 +263,7 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
         ui: spec.ui,
         session: spec.session,
         onboarding: { requiredStats: requiredStatsFor(spec) },
+        calibration: { exerciseNameToStat: calibrationExercisesFor(spec) },
         hooks: {
             calculateWeight: buildWeightCalculator(spec),
             ...(spec.hooks ?? {}),
