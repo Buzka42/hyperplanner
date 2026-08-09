@@ -33,9 +33,13 @@ interface SetLog {
 // The number of sets the PLAN itself prescribes for this exercise (before any
 // user-added extra sets). Shared between initial-state setup and the
 // remove-extra-set guard so they can never disagree.
-const getBaseSetsCount = (ex: { name: string; sets: number; giantSetConfig?: { steps: unknown[] } }, weekNum: number, programId: string): number => {
+const getBaseSetsCount = (ex: { name: string; sets: number; baseSets?: number; giantSetConfig?: { steps: unknown[] } }, weekNum: number, programId: string): number => {
     const isGiantSet = !!ex.giantSetConfig;
     const isPullup = ex.name.includes("Pull-ups") && ex.sets === 0;
+    // A resolved exercise's `sets` already includes the athlete's configured
+    // extra sets, so it cannot be the baseline. `baseSets` is what the plan
+    // actually prescribed.
+    const prescribed = ex.baseSets ?? ex.sets;
 
     let pullupSetCount = 1;
     if (isPullup && programId === 'bench-domination') {
@@ -49,9 +53,21 @@ const getBaseSetsCount = (ex: { name: string; sets: number; giantSetConfig?: { s
     }
 
     return isGiantSet
-        ? ex.sets * (ex.giantSetConfig?.steps.length || 1)
-        : (isPullup ? pullupSetCount : ex.sets);
+        ? prescribed * (ex.giantSetConfig?.steps.length || 1)
+        : (isPullup ? pullupSetCount : prescribed);
 };
+
+/**
+ * Sets the plan prescribed, excluding anything the athlete added.
+ *
+ * Progression must be judged on prescribed work only: before this, adding a
+ * single extra set to an exercise could stop a `+2.5 kg` increase, because the
+ * "did every set hit the top of the range?" checks counted it.
+ *
+ * Untagged sets count as work, so every pre-existing log behaves as before.
+ */
+const workSets = <T extends { kind?: string }>(sets: T[] | undefined): T[] =>
+    (sets ?? []).filter(set => set.kind !== 'extra');
 
 export const WorkoutView: React.FC = () => {
     const { week, day } = useParams();
@@ -192,10 +208,18 @@ export const WorkoutView: React.FC = () => {
                             if (draftData[ex.id] && draftData[ex.id].length > 0) {
                                 merged[ex.id] = draftData[ex.id];
                             } else {
-                                const setsCount = getBaseSetsCount(ex, weekNum, programData.id);
+                                const baseCount = getBaseSetsCount(ex, weekNum, programData.id);
+                                // Configured extra sets are real rows, tagged so
+                                // progression ignores them.
+                                const extraCount = Math.max(0, (ex as { extraSets?: number }).extraSets ?? 0);
                                 const targetWeight = calculateWeight(ex);
                                 const defaultWeight = (targetWeight && !ex.giantSetConfig && targetWeight !== "0") ? targetWeight : "";
-                                merged[ex.id] = Array.from({ length: setsCount }, () => ({ reps: '', weight: defaultWeight, completed: null }));
+                                merged[ex.id] = Array.from({ length: baseCount + extraCount }, (_, i) => ({
+                                    reps: '',
+                                    weight: defaultWeight,
+                                    completed: null,
+                                    ...(i >= baseCount ? { kind: 'extra' as const } : {})
+                                }));
                             }
                         });
 
@@ -369,7 +393,9 @@ export const WorkoutView: React.FC = () => {
             dayData.exercises.forEach(ex => {
                 const isGiantSet = !!ex.giantSetConfig;
 
-                const setsCount = getBaseSetsCount(ex, weekNum, programData.id);
+                const baseCount = getBaseSetsCount(ex, weekNum, programData.id);
+                const extraCount = Math.max(0, (ex as { extraSets?: number }).extraSets ?? 0);
+                const setsCount = baseCount + extraCount;
 
 
                 // Pullup special case fallback: logic moved to hook but UI needs default init?
@@ -392,7 +418,8 @@ export const WorkoutView: React.FC = () => {
                     sets.push({
                         reps: '',
                         weight: defaultWeight,
-                        completed: null
+                        completed: null,
+                        ...(i >= baseCount ? { kind: 'extra' as const } : {})
                     });
                 }
                 initialData[ex.id] = sets;
@@ -632,7 +659,7 @@ export const WorkoutView: React.FC = () => {
 
                         if (currentWeight > 0) {
                             // Check if all sets hit top of rep range
-                            const allTop = sets.every(s => parseInt(s.reps) >= topRep);
+                            const allTop = workSets(sets).every(s => parseInt(s.reps) >= topRep);
 
                             if (allTop) {
                                 // Save progression for NEXT week
@@ -657,7 +684,7 @@ export const WorkoutView: React.FC = () => {
                             const currentWeight = parseFloat(sets[0].weight || "0");
 
                             if (currentWeight > 0) {
-                                const allHitTarget = sets.every(s => parseInt(s.reps) >= targetReps);
+                                const allHitTarget = workSets(sets).every(s => parseInt(s.reps) >= targetReps);
                                 if (allHitTarget) {
                                     newStats[variationKey] = currentWeight + 2.5;
                                     updated = true;
@@ -678,7 +705,7 @@ export const WorkoutView: React.FC = () => {
                             const currentConsecutive = user.stats.wideGripConsecutive || 0;
 
                             if (currentWeight > 0) {
-                                const allHitTop = sets.every(s => parseInt(s.reps) >= topRep);
+                                const allHitTop = workSets(sets).every(s => parseInt(s.reps) >= topRep);
 
                                 if (allHitTop) {
                                     const newConsecutive = currentConsecutive + 1;
@@ -902,7 +929,7 @@ export const WorkoutView: React.FC = () => {
                     const sets = exerciseData[planksExercise.id];
                     const targetSeconds = parseInt(planksExercise.target.reps.replace(/[^0-9]/g, '')) || 30;
                     if (sets && sets.length >= planksExercise.sets) {
-                        const allHitTarget = sets.every(s => s.completed && parseInt(s.reps || "0") >= targetSeconds);
+                        const allHitTarget = workSets(sets).every(s => s.completed && parseInt(s.reps || "0") >= targetSeconds);
                         if (allHitTarget) {
                             await updateDoc(userRef, {
                                 'skeletonStatus.plankTargetSeconds': targetSeconds + 10
@@ -1097,7 +1124,7 @@ export const WorkoutView: React.FC = () => {
                             const requiredReps = ex.sets <= 1 ? 1 : 3;
                             if (sets && sets.length >= ex.sets) {
                                 // Check if all sets hit the required top reps
-                                const allHit3 = sets.every(s => parseInt(s.reps) >= requiredReps);
+                                const allHit3 = workSets(sets).every(s => parseInt(s.reps) >= requiredReps);
                                 if (allHit3) {
                                     // Determine progression amount based on RPE
                                     let progressionAmount = 0;
@@ -1136,7 +1163,7 @@ export const WorkoutView: React.FC = () => {
                             const sets = exerciseData[ex.id];
                             if (sets && sets.length >= 4) {
                                 // Check if all sets hit 12 reps
-                                const allHit12 = sets.every(s => parseInt(s.reps) >= 12);
+                                const allHit12 = workSets(sets).every(s => parseInt(s.reps) >= 12);
                                 if (allHit12) {
                                     // Determine which lift
                                     const baseName = ex.name.replace(' (RE)', '');
@@ -1180,7 +1207,7 @@ export const WorkoutView: React.FC = () => {
                         // an optional coaching alternative, but never mutate workout history.
                         if (ex.name.includes('(DE)')) {
                             const sets = exerciseData[ex.id];
-                            if (sets && sets.length >= ex.sets && sets.every(s => s.completed && parseInt(s.reps) >= 2)) {
+                            if (sets && workSets(sets).length >= ((ex as { baseSets?: number }).baseSets ?? ex.sets) && workSets(sets).every(s => s.completed && parseInt(s.reps) >= 2)) {
                                 const baseName = ex.name.replace(' (DE)', '').toLowerCase();
                                 const liftType: 'bench' | 'deadlift' | 'squat' =
                                     baseName.includes('bench') || baseName.includes('press') ? 'bench' :
