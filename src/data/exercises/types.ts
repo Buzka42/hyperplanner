@@ -36,7 +36,7 @@ export type ExerciseId = string;
 
 /**
  * What the movement *does*, independent of equipment. Drives swap suggestions
- * and the structural-balance categories in The Weakest Link.
+ * and the structural-balance categories in Immaculate (Re)Structure.
  */
 export type MovementPattern =
     | 'horizontal-press'
@@ -185,7 +185,7 @@ export type Equipment =
 /**
  * How load is expressed for this movement. Drives the weight input and, for
  * `weighted-bodyweight`, the total-system-weight maths that Gravity Is
- * Optional and The Upper-Body Squat need.
+ * Optional and Workhorse need.
  */
 export type WeightMode =
     | 'external'            // straight external load

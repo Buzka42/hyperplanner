@@ -79,7 +79,7 @@ const LEGS_AND_CHEST: DaySpec = {
 
 export const UPPER_BODY_SQUAT_CONFIG = definePlan({
     id: 'upper-body-squat',
-    name: 'The Upper-Body Squat',
+    name: 'Workhorse',
     weeks: 10,
     days: [WEIGHTED_CHIN_STRENGTH, LEGS_AND_PULL_VOLUME, HORIZONTAL_BACK, LEGS_AND_CHEST],
     phases: [

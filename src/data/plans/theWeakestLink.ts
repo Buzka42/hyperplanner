@@ -84,7 +84,7 @@ const LOWER_B: DaySpec = {
 
 export const THE_WEAKEST_LINK_CONFIG = definePlan({
     id: 'the-weakest-link',
-    name: 'The Weakest Link',
+    name: 'Immaculate (Re)Structure',
     weeks: 10,
     days: [UPPER_A, LOWER_A, UPPER_B, LOWER_B],
     phases: [

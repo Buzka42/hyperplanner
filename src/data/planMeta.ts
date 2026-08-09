@@ -138,7 +138,7 @@ export const PLAN_META: Record<string, PlanMeta> = {
         id: 'accumulate-intensify',
         i18nKey: 'accumulateIntensify',
         themeClass: 'theme-accumulate-intensify',
-        logo: '/workhorse.png',
+        logo: '/purgatorio.png',
         coverBg: 'bg-[#0a0806]',
         coverGradient: 'from-[#0a0806]',
         order: 12
@@ -183,7 +183,7 @@ export const PLAN_META: Record<string, PlanMeta> = {
         id: 'upper-body-squat',
         i18nKey: 'upperBodySquat',
         themeClass: 'theme-upper-body-squat',
-        logo: '/purgatorio.png',
+        logo: '/workhorse.png',
         coverBg: 'bg-[#080604]',
         coverGradient: 'from-[#080604]',
         order: 17

@@ -91,7 +91,7 @@ const LOWER_B: DaySpec = {
 
 export const ACCUMULATE_INTENSIFY_CONFIG = definePlan({
     id: 'accumulate-intensify',
-    name: 'Accumulate / Intensify',
+    name: 'Purgatorio',
     weeks: 12,
     days: [UPPER_A, LOWER_A, UPPER_B, LOWER_B],
     phases: [
