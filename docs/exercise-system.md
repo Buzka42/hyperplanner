@@ -151,6 +151,11 @@ muscles, equipment and a tip. Run `verify:library`.
 `firestore.rules validPlanIds()`, onboarding copy in both languages, and a
 theme class. `verify:registry` fails the build if you miss any of them.
 
+**Checking a plan's balance** — the Volume analysis tab shows weekly sets and
+exposures per muscle group for any plan, flags breaches of the frequency rules,
+and refuses to analyse plans that generate one session per visit rather than
+reporting figures that are an artifact of the preview.
+
 **Adjusting an existing plan** — use the Plan Composer. It runs the plan's real
 generator (sampling multiple user states for plans that synthesise days at
 runtime) so you edit what an athlete actually sees, then publishes a versioned
