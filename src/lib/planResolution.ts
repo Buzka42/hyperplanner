@@ -16,6 +16,7 @@ import { GLOBAL_DEFAULTS } from '../data/exercises/planConfigs';
 import { slotKey } from '../data/exercises/types';
 import type {
     ExerciseGroup,
+    IntensityTechniqueSpec,
     ExerciseId,
     Lang,
     LibraryExercise,
@@ -164,6 +165,34 @@ const swapOptionsFor = (
 };
 
 // ---------------------------------------------------------------------------
+// Legacy technique banners
+// ---------------------------------------------------------------------------
+
+/**
+ * Some plans set `intensityTechnique` as free text inside their own
+ * `preprocessDay`, under conditions this layer cannot see — Peachy applies its
+ * drop set only from week 9, Pencilneck only to compounds in certain weeks.
+ *
+ * Rather than duplicating those conditions here, the banner itself is read: the
+ * plan has already decided *whether* it applies, and this decides what it
+ * means. That turns an instruction the athlete had nowhere to record into real
+ * logged rows.
+ *
+ * Only unambiguous banners are converted. "Drop Set or Rest-Pause" offers the
+ * athlete a choice, so it stays as text rather than having one picked for them.
+ */
+const techniqueFromBanner = (banner: string | undefined): IntensityTechniqueSpec | undefined => {
+    if (!banner) return undefined;
+    const text = banner.toLowerCase();
+
+    if (text.includes('drop') && text.includes('bodyweight')) {
+        // A single drop straight to bodyweight, i.e. all external load removed.
+        return { kind: 'drop-set', drops: 1, dropPercent: 100, applyTo: 'last', toFailure: true };
+    }
+    return undefined;
+};
+
+// ---------------------------------------------------------------------------
 // Target
 // ---------------------------------------------------------------------------
 
@@ -299,7 +328,9 @@ export const resolveDay = (
             // Admin override, then the plan's own prescription, then the
             // library default. A plan that says "rest 210s" must reach the
             // athlete even when nobody has customised the exercise.
-            technique: config.technique ?? exercise.prescription?.technique,
+            technique: config.technique
+                ?? exercise.prescription?.technique
+                ?? techniqueFromBanner(exercise.intensityTechnique),
             tempo: config.tempo ?? exercise.prescription?.tempo,
             restSeconds:
                 config.restSeconds

@@ -16,6 +16,7 @@ import { resolveDay } from '../lib/planResolution';
 import { PrescriptionBadges } from '../features/workout/PrescriptionBadges';
 import { RestTimer } from '../features/workout/RestTimer';
 import { SwapSheet } from '../features/workout/SwapSheet';
+import { techniqueAppliesTo, techniqueRows } from '../features/workout/techniqueSets';
 import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
@@ -28,6 +29,8 @@ interface SetLog {
     completed: boolean | null;
     /** Provenance. Absent means prescribed work; see SetKind. */
     kind?: import('../data/exercises/types').SetKind;
+    /** Shown instead of a set number on technique rows, e.g. "Drop 1". */
+    label?: string;
 }
 
 // The number of sets the PLAN itself prescribes for this exercise (before any
@@ -67,7 +70,10 @@ const getBaseSetsCount = (ex: { name: string; sets: number; baseSets?: number; g
  * Untagged sets count as work, so every pre-existing log behaves as before.
  */
 const workSets = <T extends { kind?: string }>(sets: T[] | undefined): T[] =>
-    (sets ?? []).filter(set => set.kind !== 'extra');
+    // An allowlist, not a blocklist: drop sets, rest-pause bursts, myo-reps and
+    // cluster rows are all real logged work but none of them are the
+    // prescription, and a blocklist would silently let each new kind back in.
+    (sets ?? []).filter(set => set.kind === undefined || set.kind === 'work');
 
 export const WorkoutView: React.FC = () => {
     const { week, day } = useParams();
@@ -401,6 +407,9 @@ export const WorkoutView: React.FC = () => {
                 // Pullup special case fallback: logic moved to hook but UI needs default init?
                 // Hook 'calculateWeight' might handle the 'weight' field init.
 
+                const technique = (ex as { technique?: import('../data/exercises/types').IntensityTechniqueSpec }).technique
+                    ?? ex.prescription?.technique;
+
                 const sets: SetLog[] = [];
                 for (let i = 0; i < setsCount; i++) {
                     const targetWeight = calculateWeight(ex);
@@ -421,6 +430,21 @@ export const WorkoutView: React.FC = () => {
                         completed: null,
                         ...(i >= baseCount ? { kind: 'extra' as const } : {})
                     });
+
+                    // A technique attached to this set gets its own rows, so the
+                    // work is recorded rather than only described.
+                    if (techniqueAppliesTo(technique, i, baseCount)) {
+                        const seedWeight = calculateWeight(ex) ?? '';
+                        for (const row of techniqueRows(technique, seedWeight)) {
+                            sets.push({
+                                reps: '',
+                                weight: row.weight ?? '',
+                                completed: null,
+                                kind: row.kind,
+                                label: row.label,
+                            });
+                        }
+                    }
                 }
                 initialData[ex.id] = sets;
             });
@@ -2031,9 +2055,22 @@ export const WorkoutView: React.FC = () => {
                                             );
                                         })
                                     ) : (
-                                        sets.map((set, idx) => (
-                                            <div key={idx} className={cn("set-row grid grid-cols-10 gap-2 p-2 items-center", set.completed ? "is-complete" : "")}>
-                                                <div className="col-span-1 text-center font-bold text-muted-foreground">{idx + 1}</div>
+                                        sets.map((set, idx) => {
+                                            // Technique rows carry their own label
+                                            // ("Drop 1") and must not be numbered
+                                            // alongside the prescribed sets.
+                                            const isTechniqueRow = Boolean(set.label);
+                                            const workNumber = sets
+                                                .slice(0, idx + 1)
+                                                .filter(s => !s.label && s.kind !== 'extra').length;
+                                            const extraNumber = sets
+                                                .slice(0, idx + 1)
+                                                .filter(s => s.kind === 'extra' && !s.label).length;
+                                            return (
+                                            <div key={idx} className={cn("set-row grid grid-cols-10 gap-2 p-2 items-center", set.completed ? "is-complete" : "", isTechniqueRow ? "is-technique-row" : "", set.kind === 'extra' ? "is-extra-row" : "")}>
+                                                <div className="col-span-1 text-center font-bold text-muted-foreground set-row-label">
+                                                    {isTechniqueRow ? set.label : set.kind === 'extra' ? `+${extraNumber}` : workNumber}
+                                                </div>
                                                 <div className="col-span-4">
                                                     <Input
                                                         disabled={weightDisabled}
@@ -2057,7 +2094,8 @@ export const WorkoutView: React.FC = () => {
                                                     {set.completed && <CheckCircle2 className="h-5 w-5 text-green-500" />}
                                                 </div>
                                             </div>
-                                        ))
+                                            );
+                                        })
                                     )}
                                 </div>
 

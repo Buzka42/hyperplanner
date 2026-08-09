@@ -1411,3 +1411,10 @@ input[type=number] {
 .admin-slot-name strong { display:flex; align-items:center; gap:8px; }
 
 @media(max-width:900px){ .version-change { grid-template-columns:1fr; gap:2px; } }
+
+/* Technique and extra set rows must not read as prescribed work. */
+.set-row-label { font-size:.72rem; line-height:1.15; word-break:break-word; }
+.set-row.is-technique-row { background:hsl(45 90% 55%/.07); box-shadow:inset 2px 0 0 hsl(45 90% 55%/.55); }
+.set-row.is-technique-row .set-row-label { color:hsl(45 90% 62%); text-transform:uppercase; letter-spacing:.03em; }
+.set-row.is-extra-row { box-shadow:inset 2px 0 0 hsl(var(--muted-foreground)/.4); }
+.set-row.is-extra-row .set-row-label { color:hsl(var(--muted-foreground)); }

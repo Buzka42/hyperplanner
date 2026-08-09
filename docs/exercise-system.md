@@ -90,6 +90,37 @@ nothing to read and the UI could not tell a superset from a tempo.
 
 ---
 
+## Finishing techniques
+
+A technique that adds work expands into real, logged rows rather than a badge
+telling the athlete to do something they cannot record:
+
+| Technique | Produces |
+|---|---|
+| `drop-set` | One row per drop, each compounding off the load actually used |
+| `rest-pause` | One row per burst, carrying its rest |
+| `myo-reps` | One row per mini-set |
+| `cluster` | One row per cluster |
+| `back-off` | One row per set at the given percentage |
+
+`tempo`, `one-and-half`, `total-reps`, `wave` and `amrap-finisher` change how
+the prescribed sets are *performed* and correctly add no rows; they appear as
+badges instead.
+
+Drop percentages come off the weight the athlete actually used, not the
+prescription — someone training lighter than planned gets lighter drops. With
+no working weight, no load is invented.
+
+Every generated row is tagged with its kind and excluded from progression.
+Guarded by `verify:techniques`.
+
+Plans that set the older free-text `intensityTechnique` banner inside their own
+`preprocessDay` (Peachy from week 9, Pencilneck for compounds in certain weeks)
+have it read and converted, so their week conditions are preserved rather than
+duplicated. Ambiguous banners offering the athlete a choice are left as text.
+
+---
+
 ## Sets
 
 `baseSets` is what the plan prescribed. `extraSets` is what the athlete added,
