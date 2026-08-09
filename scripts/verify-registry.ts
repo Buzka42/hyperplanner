@@ -91,6 +91,15 @@ for (const meta of ORDERED_PLAN_META) {
             if (!Array.isArray(copy.features) || !copy.features.length) {
                 fail(`Plan "${meta.id}" has no ${lang.toUpperCase()} feature list.`);
             }
+
+            // Presence alone is not enough: eight plans once shipped with their
+            // Polish copy sitting in the English block, which every other check
+            // passed happily. Polish-only diacritics in an EN string are a
+            // reliable tell that the two got swapped.
+            const text = `${copy.name ?? ''} ${copy.description ?? ''}`;
+            if (lang === 'en' && /[ąćęłńóśźż]/i.test(text)) {
+                fail(`Plan "${meta.id}" has Polish text in its EN copy: "${copy.name}". The languages look swapped.`);
+            }
         }
     }
 }
