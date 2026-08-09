@@ -5,11 +5,19 @@ import { getIdTokenResult, signInAnonymously } from 'firebase/auth';
 import { db, auth } from '../firebase';
 import { getPlan } from '../data/plans';
 import { isAccessKeyUsable, normalizeKeyword, type AccessKey } from '../data/accessControl';
+import { SEED_RESOLVER, type ExerciseResolver } from '../data/exercises';
+import { loadLibrary } from '../data/exercises/remote';
+import { getPlanExerciseConfig } from '../data/exercises/planConfigs';
+import type { PlanExerciseDoc } from '../data/exercises/types';
 import type { UserProfile, LiftingStats, PlanConfig, BadgeId, WorkoutLog } from '../types';
 
 interface UserContextType {
     user: UserProfile | null;
     activePlanConfig: PlanConfig;
+    /** Exercise library resolver (bundled seed, upgraded once the overlay loads). */
+    exerciseResolver: ExerciseResolver;
+    /** Admin exercise overrides for the user's active plan, if any. */
+    planExerciseConfig: PlanExerciseDoc | undefined;
     loading: boolean;
     checkCodeword: (codeword: string) => Promise<{ status: 'exists' | 'not-found' | 'admin' | 'onboarding'; allowedPlanIds?: string[] }>;
     registerUser: (codeword: string, stats: LiftingStats, programId?: string, selectedDays?: number[], exercisePreferences?: Record<string, string>, benchDominationModules?: any) => Promise<void>;
@@ -32,6 +40,24 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [listeningId, setListeningId] = useState<string | null>(null); // Removed localStorage persistence
     const [authReady, setAuthReady] = useState(false);
     const [notification, setNotification] = useState<{ type: 'badge'; badgeId: BadgeId } | null>(null);
+
+    // Starts as the bundled seed so the first render never waits on Firestore,
+    // then upgrades in place once the admin overlay arrives.
+    const [exerciseResolver, setExerciseResolver] = useState<ExerciseResolver>(SEED_RESOLVER);
+
+    useEffect(() => {
+        if (!authReady) return;
+        let cancelled = false;
+        loadLibrary()
+            .then(({ resolver }) => { if (!cancelled) setExerciseResolver(resolver); })
+            .catch(() => { /* loadLibrary already falls back to the seed */ });
+        return () => { cancelled = true; };
+    }, [authReady]);
+
+    const planExerciseConfig = React.useMemo(
+        () => getPlanExerciseConfig(user?.programId ?? ''),
+        [user?.programId]
+    );
 
     const activePlanConfig = React.useMemo(() => {
         const plan = getPlan(user?.programId);
@@ -767,6 +793,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         <UserContext.Provider value={{
             user,
             activePlanConfig,
+            exerciseResolver,
+            planExerciseConfig,
             loading,
             checkCodeword,
             registerUser,
