@@ -169,6 +169,42 @@ export const PLAN_META: Record<string, PlanMeta> = {
         coverBg: 'bg-[#0a0503]',
         coverGradient: 'from-[#0a0503]',
         order: 15
+    },
+    'arms-race': {
+        id: 'arms-race',
+        i18nKey: 'armsRace',
+        themeClass: 'theme-arms-race',
+        logo: '/armsrace.png',
+        coverBg: 'bg-[#0a0705]',
+        coverGradient: 'from-[#0a0705]',
+        order: 16
+    },
+    'upper-body-squat': {
+        id: 'upper-body-squat',
+        i18nKey: 'upperBodySquat',
+        themeClass: 'theme-upper-body-squat',
+        logo: '/purgatorio.png',
+        coverBg: 'bg-[#080604]',
+        coverGradient: 'from-[#080604]',
+        order: 17
+    },
+    'neural-overload': {
+        id: 'neural-overload',
+        i18nKey: 'neuralOverload',
+        themeClass: 'theme-neural-overload',
+        logo: '/neuraloverload.png',
+        coverBg: 'bg-[#0a0a05]',
+        coverGradient: 'from-[#0a0a05]',
+        order: 18
+    },
+    'tenfold': {
+        id: 'tenfold',
+        i18nKey: 'tenfold',
+        themeClass: 'theme-tenfold',
+        logo: '/tenfold.png',
+        coverBg: 'bg-[#0a0808]',
+        coverGradient: 'from-[#0a0808]',
+        order: 19
     }
 };
 

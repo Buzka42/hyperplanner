@@ -439,6 +439,50 @@ export const translations = {
                         "Czterosekundowe ekscentryki w bloku akumulacji",
                         "Jeden dzień górny bez ciężkiej pracy na dwugłowe, dla regeneracji"
                     ]
+                },
+                armsRace: {
+                    name: "Wyścig Zbrojeń",
+                    description: "8 tygodni specjalizacji na ramiona. Biceps i triceps cztery razy w tygodniu, za każdym razem inaczej.",
+                    features: [
+                        "Cel: Biceps i triceps",
+                        "4 dni / tydzień - ramiona 4x",
+                        "Ciężko, ramienny, w rozciągnięciu i dzień gęstości",
+                        "Superserie w dniu gęstości",
+                        "Reszta partii utrzymana na 2x w tygodniu"
+                    ]
+                },
+                upperBodySquat: {
+                    name: "Przysiad Górnej Części",
+                    description: "10 tygodni, w których podciąganie z obciążeniem jest bojem głównym, nie dodatkiem. Kończy się Próbą Podciągania.",
+                    features: [
+                        "Cel: Grzbiet i siła w podciąganiu",
+                        "4 dni / tydzień - grzbiet 3x, biceps 3x",
+                        "Progresja liczona masą całkowitą",
+                        "Podciąganie z obciążeniem, nachwytem i ciężkie wiosłowania",
+                        "Tydzień 10: Próba Podciągania"
+                    ]
+                },
+                neuralOverload: {
+                    name: "Przeciążenie Nerwowe",
+                    description: "9 tygodni metody 1-6. Ciężka pojedyncza, szóstka, cięższa pojedyncza, cięższa szóstka.",
+                    features: [
+                        "Cel: Siła i masa jednocześnie",
+                        "4 dni / tydzień",
+                        "Potencjacja: czy druga szóstka bije pierwszą?",
+                        "Pojedyncza nigdy nie jest cotygodniowym maksem",
+                        "Dzień 4 buduje bez dokładania obciążenia nerwowego"
+                    ]
+                },
+                tenfold: {
+                    name: "Dziesięciokrotność",
+                    description: "8 tygodni German Volume Training. Dziesięć serii po dziesięć na dokładnie jednym boju w sesji.",
+                    features: [
+                        "Cel: Hipertrofia przez objętość",
+                        "4 dni / tydzień",
+                        "Jeden bój na 10 serii w sesji, nigdy dwa",
+                        "Trzymaj ciężar, aż wszystkie dziesięć serii da dziesiątkę",
+                        "Druga połowa zamienia serię na ciężar"
+                    ]
                 }
             },
 
@@ -1681,6 +1725,50 @@ export const translations = {
                         "Hinge strength, knee flexion, lengthened control",
                         "Four-second eccentrics during the accumulation block",
                         "One upper day with no hard hamstring work, to recover"
+                    ]
+                },
+                armsRace: {
+                    name: "Arms Race",
+                    description: "8 weeks of arm specialisation. Biceps and triceps four times a week, never the same way twice.",
+                    features: [
+                        "Focus: Biceps and triceps",
+                        "4 Days / Week - arms 4x",
+                        "Heavy, brachialis, lengthened, and a density day",
+                        "Supersets on the density day",
+                        "Everything else held at twice weekly"
+                    ]
+                },
+                upperBodySquat: {
+                    name: "The Upper-Body Squat",
+                    description: "10 weeks treating the weighted chin-up as a main lift, not an accessory. Ends in the Chin-Up Trial.",
+                    features: [
+                        "Focus: Back and chin-up strength",
+                        "4 Days / Week - back 3x, biceps 3x",
+                        "Progressed on total system weight",
+                        "Weighted chins, pronated pull-ups, heavy rows",
+                        "Week 10: Chin-Up Trial"
+                    ]
+                },
+                neuralOverload: {
+                    name: "Neural Overload",
+                    description: "9 weeks of 1-6 loading. Heavy single, back-off six, heavier single, heavier six.",
+                    features: [
+                        "Focus: Strength and size together",
+                        "4 Days / Week",
+                        "Post-activation: does the second six beat the first?",
+                        "The single is never a weekly max attempt",
+                        "Day 4 builds without adding neural cost"
+                    ]
+                },
+                tenfold: {
+                    name: "Tenfold",
+                    description: "8 weeks of German Volume Training. Ten sets of ten on exactly one lift per session.",
+                    features: [
+                        "Focus: Hypertrophy through volume",
+                        "4 Days / Week",
+                        "One ten-set lift per session, never two",
+                        "Hold the load until all ten sets hit ten",
+                        "Back half trades a set for load"
                     ]
                 }
             },

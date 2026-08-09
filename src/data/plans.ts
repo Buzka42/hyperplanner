@@ -15,6 +15,10 @@ import { ACCUMULATE_INTENSIFY_CONFIG } from './plans/accumulateIntensify';
 import { THE_WEAKEST_LINK_CONFIG } from './plans/theWeakestLink';
 import { OVERHEAD_DOMINION_CONFIG } from './plans/overheadDominion';
 import { HAMSTRING_FOUNDRY_CONFIG } from './plans/hamstringFoundry';
+import { ARMS_RACE_CONFIG } from './plans/armsRace';
+import { UPPER_BODY_SQUAT_CONFIG } from './plans/upperBodySquat';
+import { NEURAL_OVERLOAD_CONFIG } from './plans/neuralOverload';
+import { TENFOLD_CONFIG } from './plans/tenfold';
 
 export const PLAN_REGISTRY: Record<string, PlanConfig> = {
     [BENCH_DOMINATION_CONFIG.id]: BENCH_DOMINATION_CONFIG,
@@ -31,7 +35,11 @@ export const PLAN_REGISTRY: Record<string, PlanConfig> = {
     [ACCUMULATE_INTENSIFY_CONFIG.id]: ACCUMULATE_INTENSIFY_CONFIG,
     [THE_WEAKEST_LINK_CONFIG.id]: THE_WEAKEST_LINK_CONFIG,
     [OVERHEAD_DOMINION_CONFIG.id]: OVERHEAD_DOMINION_CONFIG,
-    [HAMSTRING_FOUNDRY_CONFIG.id]: HAMSTRING_FOUNDRY_CONFIG
+    [HAMSTRING_FOUNDRY_CONFIG.id]: HAMSTRING_FOUNDRY_CONFIG,
+    [ARMS_RACE_CONFIG.id]: ARMS_RACE_CONFIG,
+    [UPPER_BODY_SQUAT_CONFIG.id]: UPPER_BODY_SQUAT_CONFIG,
+    [NEURAL_OVERLOAD_CONFIG.id]: NEURAL_OVERLOAD_CONFIG,
+    [TENFOLD_CONFIG.id]: TENFOLD_CONFIG
 };
 
 export const getPlan = (id?: string) => {
