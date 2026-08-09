@@ -161,6 +161,11 @@ generator (sampling multiple user states for plans that synthesise days at
 runtime) so you edit what an athlete actually sees, then publishes a versioned
 overlay with the previous version snapshotted for rollback.
 
+**Undoing a change** — the History tab lists every published version with a
+field-level diff of which movements changed and how. Restoring publishes the
+old configuration as a *new* version rather than rewinding the counter, so
+history stays append-only and a rollback is itself reversible.
+
 **Scripts** — `extract:exercises` and `scaffold:library` built the initial
 library from the plan corpus; `migrate:tips` and `apply:tips` built the tip
 tables. They are kept for provenance. `library.ts` is hand-maintained now, so

@@ -1400,3 +1400,14 @@ input[type=number] {
   .volume-row { grid-template-columns:110px 1fr 70px; }
   .volume-exposure { grid-column:2 / -1; text-align:left; }
 }
+
+/* ---- Change history ---- */
+.version-change { display:grid; grid-template-columns:180px 1fr; gap:12px; margin:0; padding:7px 10px; border-left:2px solid hsl(var(--border)); font-size:.8rem; }
+.version-change strong { font-weight:600; }
+.version-change span { color:hsl(var(--muted-foreground)); }
+.version-change.is-added { border-left-color:hsl(140 60% 45%); }
+.version-change.is-removed { border-left-color:hsl(var(--destructive)); }
+.version-change.is-changed { border-left-color:hsl(var(--primary)); }
+.admin-slot-name strong { display:flex; align-items:center; gap:8px; }
+
+@media(max-width:900px){ .version-change { grid-template-columns:1fr; gap:2px; } }

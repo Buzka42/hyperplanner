@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { Activity, KeyRound, Layers, Library, ShieldCheck } from 'lucide-react';
+import { Activity, History, KeyRound, Layers, Library, ShieldCheck } from 'lucide-react';
 
 import { AdminPanel } from '../AdminPanel';
 import { LibraryTab } from './LibraryTab';
 import { PlanComposerTab } from './PlanComposerTab';
 import { AnalysisTab } from './AnalysisTab';
+import { VersionsTab } from './VersionsTab';
 
-type TabId = 'access' | 'library' | 'composer' | 'analysis';
+type TabId = 'access' | 'library' | 'composer' | 'analysis' | 'versions';
 
 const TABS: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: 'access', label: 'Access control', icon: KeyRound },
     { id: 'library', label: 'Exercise library', icon: Library },
     { id: 'composer', label: 'Plan composer', icon: Layers },
     { id: 'analysis', label: 'Volume analysis', icon: Activity },
+    { id: 'versions', label: 'History', icon: History },
 ];
 
 /**
@@ -53,6 +55,7 @@ export const AdminShell: React.FC = () => {
             {tab === 'library' && <LibraryTab />}
             {tab === 'composer' && <PlanComposerTab />}
             {tab === 'analysis' && <AnalysisTab />}
+            {tab === 'versions' && <VersionsTab />}
         </div>
     );
 };
