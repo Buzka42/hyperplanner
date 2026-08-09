@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { KeyRound, Library, ShieldCheck } from 'lucide-react';
+import { KeyRound, Layers, Library, ShieldCheck } from 'lucide-react';
 
 import { AdminPanel } from '../AdminPanel';
 import { LibraryTab } from './LibraryTab';
+import { PlanComposerTab } from './PlanComposerTab';
 
-type TabId = 'access' | 'library';
+type TabId = 'access' | 'library' | 'composer';
 
 const TABS: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: 'access', label: 'Access control', icon: KeyRound },
     { id: 'library', label: 'Exercise library', icon: Library },
+    { id: 'composer', label: 'Plan composer', icon: Layers },
 ];
 
 /**
@@ -47,6 +49,7 @@ export const AdminShell: React.FC = () => {
 
             {tab === 'access' && <AdminPanel />}
             {tab === 'library' && <LibraryTab />}
+            {tab === 'composer' && <PlanComposerTab />}
         </div>
     );
 };

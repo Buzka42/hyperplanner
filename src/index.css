@@ -657,11 +657,35 @@ input[type=number] {
 .admin-savebar { position:fixed; left:0; right:0; bottom:0; z-index:40; display:flex; align-items:center; justify-content:space-between; gap:16px; max-width:1400px; margin:0 auto; padding:12px 24px; background:hsl(var(--card)); border-top:1px solid hsl(var(--primary)); box-shadow:0 -10px 30px rgb(0 0 0/.25); }
 .admin-savebar > div { display:flex; gap:8px; }
 
+/* ---- Plan composer ---- */
+.admin-warning { display:flex; align-items:center; gap:8px; margin-top:12px; padding:10px 12px; border:1px solid hsl(var(--primary)/.4); background:hsl(var(--primary)/.08); font-size:.8rem; }
+.admin-slot-row { border-bottom:1px solid hsl(var(--border)); }
+.admin-slot-row.is-customised { box-shadow:inset 3px 0 0 hsl(var(--primary)); }
+.admin-slot-head { display:flex; align-items:center; gap:10px; width:100%; min-height:52px; padding:10px 18px; border:0; background:none; color:inherit; cursor:pointer; text-align:left; }
+.admin-slot-head:hover { background:hsl(var(--muted)/.4); }
+.admin-slot-name { display:grid; gap:2px; flex:1; min-width:0; }
+.admin-slot-name strong { font-size:.95rem; }
+.admin-slot-name small { font-size:.7rem; color:hsl(var(--muted-foreground)); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.admin-slot-body { display:grid; gap:16px; padding:4px 18px 20px 42px; border-top:1px dashed hsl(var(--border)); }
+.admin-field-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
+.admin-field-grid > div { display:grid; gap:4px; align-content:start; }
+.admin-field-grid small { font-size:.68rem; color:hsl(var(--muted-foreground)); }
+.admin-select.is-wide { width:100%; min-height:44px; }
+.admin-range { display:flex; align-items:center; gap:6px; }
+.admin-range span { color:hsl(var(--muted-foreground)); }
+.admin-inline-check { display:flex; align-items:center; gap:8px; min-height:44px; font-size:.8rem; flex-wrap:wrap; }
+.admin-inline-check input[type=checkbox] { width:17px; height:17px; accent-color:hsl(var(--primary)); }
+.admin-mini-input { width:64px; }
+.admin-tip-edit { display:grid; gap:6px; }
+.admin-tip-default { margin:0; padding:8px 10px; border-left:2px solid hsl(var(--border)); background:hsl(var(--muted)/.35); font-size:.72rem; color:hsl(var(--muted-foreground)); }
+.admin-tag.is-warning { border-color:hsl(45 90% 50%/.5); background:hsl(45 90% 50%/.12); color:hsl(45 90% 62%); }
+
 @media(max-width:900px){
   .admin-name-head { display:none; }
   .admin-name-row { grid-template-columns:1fr; gap:10px; }
   .admin-name-meta { padding-top:0; }
   .admin-row-actions { justify-content:flex-end; }
+  .admin-slot-body { padding-left:18px; }
 }
 
 /* ============================================================

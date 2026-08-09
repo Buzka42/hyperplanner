@@ -98,6 +98,23 @@ service cloud.firestore {
         (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 64));
     }
 
+    // Per-plan exercise configuration written by the admin Plan Composer.
+    // Contents are validated for shape and bounded for size; the individual
+    // exercise ids inside are checked client-side by verify:library, since
+    // rules cannot cross-reference the bundled library.
+    function validPlanExerciseDoc(data, planId) {
+      return data.keys().hasAll(['planId', 'version', 'updatedAt', 'updatedBy', 'exercises']) &&
+        data.keys().hasOnly(['planId', 'version', 'updatedAt', 'updatedBy', 'exercises', 'slots', 'groups', 'defaults']) &&
+        data.planId is string && data.planId == planId && data.planId in validPlanIds() &&
+        data.version is int && data.version >= 0 && data.version <= 100000 &&
+        data.updatedAt is string && data.updatedAt.size() <= 64 &&
+        data.updatedBy is string && data.updatedBy.size() <= 128 &&
+        data.exercises is map && data.exercises.size() <= 400 &&
+        (!('slots' in data) || (data.slots is map && data.slots.size() <= 800)) &&
+        (!('groups' in data) || (data.groups is map && data.groups.size() <= 100)) &&
+        (!('defaults' in data) || data.defaults is map);
+    }
+
     function validLibraryMeta(data) {
       return data.keys().hasOnly(['libraryVersion', 'planConfigVersions', 'updatedAt']) &&
         data.libraryVersion is int && data.libraryVersion >= 0 &&
@@ -190,6 +207,20 @@ service cloud.firestore {
       allow get, list: if signedIn();
       allow create, update: if isAdmin() && validLibraryExercise(request.resource.data, exerciseId);
       allow delete: if isAdmin();
+    }
+
+    // Per-plan exercise overrides, plus an append-only version history the
+    // Plan Composer uses for diffing and rollback.
+    match /planConfigs/{planId} {
+      allow get, list: if signedIn();
+      allow create, update: if isAdmin() && validPlanExerciseDoc(request.resource.data, planId);
+      allow delete: if isAdmin();
+
+      match /versions/{versionId} {
+        allow get, list: if isAdmin();
+        allow create: if isAdmin();
+        allow update, delete: if false;   // history is immutable
+      }
     }
 
     match /accessKeys/{keyword} {
