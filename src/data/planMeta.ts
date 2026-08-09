@@ -133,6 +133,24 @@ export const PLAN_META: Record<string, PlanMeta> = {
         coverBg: 'bg-[#0a0a0a]',
         coverGradient: 'from-[#0a0a0a]',
         order: 11
+    },
+    'accumulate-intensify': {
+        id: 'accumulate-intensify',
+        i18nKey: 'accumulateIntensify',
+        themeClass: 'theme-accumulate-intensify',
+        logo: '/workhorse.png',
+        coverBg: 'bg-[#0a0806]',
+        coverGradient: 'from-[#0a0806]',
+        order: 12
+    },
+    'the-weakest-link': {
+        id: 'the-weakest-link',
+        i18nKey: 'theWeakestLink',
+        themeClass: 'theme-the-weakest-link',
+        logo: '/imamculate.png',
+        coverBg: 'bg-[#0a0906]',
+        coverGradient: 'from-[#0a0906]',
+        order: 13
     }
 };
 

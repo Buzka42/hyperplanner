@@ -395,6 +395,28 @@ export const translations = {
                         "Total system weight: bodyweight plus added load",
                         "Total-rep targets - beat your set count, not your reps"
                     ]
+                },
+                accumulateIntensify: {
+                    name: "Akumulacja / Intensyfikacja",
+                    description: "Powtarzalne 6-tygodniowe bloki: trzy tygodnie objętości, trzy tygodnie ciężaru. Każda partia 2x w tygodniu w obu.",
+                    features: [
+                        "Cel: Masa i siła jednocześnie",
+                        "4 dni / tydzień - pary antagonistyczne A1/A2",
+                        "Akumulacja: 10-15 powtórzeń, więcej serii, krótkie przerwy",
+                        "Intensyfikacja: 5-8 powtórzeń, ciężej, długie przerwy",
+                        "Warianty ćwiczeń rotują między blokami"
+                    ]
+                },
+                theWeakestLink: {
+                    name: "Najsłabsze Ogniwo",
+                    description: "10 tygodni opartych na relacjach siłowych Poliquina. Znajdź zapóźnioną strukturę i nadrób ją.",
+                    features: [
+                        "Cel: Równowaga strukturalna",
+                        "4 dni / tydzień - każda partia min. 2x",
+                        "Wyciskanie wąsko jako bój referencyjny",
+                        "Wartości referencyjne Poliquina, nie normy medyczne",
+                        "Praca nad słabym ogniwem jako trzecia mała ekspozycja"
+                    ]
                 }
             },
 
@@ -1593,6 +1615,28 @@ export const translations = {
                         "Ciąg pionowy i dipy 3x w tygodniu",
                         "Masa całkowita: masa ciała plus obciążenie",
                         "Cele na łączne powtórzenia - bij liczbę serii, nie powtórzeń"
+                    ]
+                },
+                accumulateIntensify: {
+                    name: "Accumulate / Intensify",
+                    description: "Repeating 6-week blocks: three weeks of volume, three weeks of load. Every muscle twice a week in both.",
+                    features: [
+                        "Focus: Size and strength together",
+                        "4 Days / Week - antagonist paired A1/A2",
+                        "Accumulation: 10-15 reps, more sets, short rest",
+                        "Intensification: 5-8 reps, heavier, long rest",
+                        "Exercise variations rotate between blocks"
+                    ]
+                },
+                theWeakestLink: {
+                    name: "The Weakest Link",
+                    description: "10 weeks built on Poliquin structural-balance relationships. Find the lagging structure and feed it.",
+                    features: [
+                        "Focus: Structural balance",
+                        "4 Days / Week - every group at least 2x",
+                        "Close-grip bench as the reference lift",
+                        "Poliquin reference targets, not medical thresholds",
+                        "Weak-link work added as a small third exposure"
                     ]
                 }
             },

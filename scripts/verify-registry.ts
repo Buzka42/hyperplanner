@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url';
 
 import { PLAN_META, PLAN_IDS, ORDERED_PLAN_META } from '../src/data/planMeta';
 import { PLAN_REGISTRY } from '../src/data/plans';
+import { translations } from '../src/contexts/translations';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const failures: string[] = [];
@@ -68,7 +69,43 @@ for (const meta of ORDERED_PLAN_META) {
     }
 }
 
-// --- 5: internal PLAN_META sanity -------------------------------------------
+// --- 5: onboarding copy exists in both languages ----------------------------
+// The onboarding grid looks these up as `onboarding.programs.${meta.i18nKey}`,
+// a template literal the i18n scanner cannot see. A missing block therefore
+// renders a blank plan card instead of failing anywhere.
+{
+    const bundle = translations as unknown as Record<string, {
+        onboarding?: { programs?: Record<string, { name?: string; description?: string; features?: unknown }> };
+    }>;
+
+    for (const lang of ['en', 'pl'] as const) {
+        const programs = bundle[lang]?.onboarding?.programs ?? {};
+        for (const meta of ORDERED_PLAN_META) {
+            const copy = programs[meta.i18nKey];
+            if (!copy) {
+                fail(`Plan "${meta.id}" has no ${lang.toUpperCase()} onboarding copy at onboarding.programs.${meta.i18nKey}.`);
+                continue;
+            }
+            if (!copy.name) fail(`Plan "${meta.id}" has no ${lang.toUpperCase()} name.`);
+            if (!copy.description) fail(`Plan "${meta.id}" has no ${lang.toUpperCase()} description.`);
+            if (!Array.isArray(copy.features) || !copy.features.length) {
+                fail(`Plan "${meta.id}" has no ${lang.toUpperCase()} feature list.`);
+            }
+        }
+    }
+}
+
+// --- 6: theme class is actually defined -------------------------------------
+{
+    const css = readFileSync(resolve(root, 'src', 'index.css'), 'utf8');
+    for (const meta of ORDERED_PLAN_META) {
+        if (!css.includes(`.${meta.themeClass}`)) {
+            fail(`Plan "${meta.id}" uses theme class "${meta.themeClass}", which is not defined in src/index.css.`);
+        }
+    }
+}
+
+// --- 7: internal PLAN_META sanity -------------------------------------------
 const orders = ORDERED_PLAN_META.map(m => m.order);
 if (new Set(orders).size !== orders.length) {
     fail(`PLAN_META has duplicate "order" values: [${orders.join(', ')}]`);
