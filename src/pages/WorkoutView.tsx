@@ -11,6 +11,7 @@ import { doc, updateDoc, arrayUnion, increment, collection, addDoc, query, where
 import { db } from '../firebase';
 import { cn } from '../lib/utils';
 import type { LiftingStats, WorkoutLog } from '../types';
+import { getVariantTip } from '../data/exercises/variantTips';
 import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
@@ -48,8 +49,8 @@ const getBaseSetsCount = (ex: { name: string; sets: number; giantSetConfig?: { s
 
 export const WorkoutView: React.FC = () => {
     const { week, day } = useParams();
-    const { user, activePlanConfig } = useUser();
-    const { t } = useLanguage();
+    const { user, activePlanConfig, exerciseResolver } = useUser();
+    const { t, language } = useLanguage();
     const navigate = useNavigate();
 
     // Parse params
@@ -1631,116 +1632,12 @@ export const WorkoutView: React.FC = () => {
                     // Tip Logic
                     const displayTips: string[] = [];
 
-                    const tipMap: Record<string, string | undefined> = {
-                        // --- BENCH DOMINATION ---
-                        "Paused Bench Press": "pausedBench",
-                        "Wide-Grip Bench Press": "wideGripBench",
-                        "Spoto Press": "spotoPress",
-                        "Low Pin Press": "lowPinPress",
-                        "Paused Bench Press (AMRAP)": "pausedBenchAMRAP",
-                        "Paused Bench Press (Back-off)": "pausedBenchBackoff",
-                        "Tricep Giant Set": "tricepGiantSet",
-                        "Dragon Flags": "dragonFlags",
-                        "Walking Lunges": (weekNum >= 11 && weekNum <= 12) ? "walkingLungesWeek11" : "walkingLunges",
-                        "Heels-Off Narrow Leg Press": (weekNum >= 11 && weekNum <= 12) ? "heelsOffLegPressWeek11" : "heelsOffLegPress",
-                        "Reverse Nordic Curls": "reverseNordic",
-                        "Single-Leg Machine Hip Thrust": (weekNum >= 11 && weekNum <= 12) ? "singleLegHipThrustWeek11" : "singleLegHipThrust",
-                        "Nordic Curls": "nordicCurls",
-                        "Glute-Ham Raise": "gluteHamRaise",
-                        "Hack Squat Calf Raises": programData.id === 'peachy-glute-plan' ? "legPressCalves" : "hackSquatCalves",
-                        "Around-the-Worlds": "aroundTheWorlds",
-                        "Power Hanging Leg Raises": "powerHangingLegRaises",
-                        "High-Elbow Facepulls": "highElbowFacepulls",
-                        "Y-Raises": programData.id === 'peachy-glute-plan' ? "yRaisesPeachy" : "yRaises",
-                        "Behind-the-Neck Press": "behindNeckPress",
-                        "Hip Adduction": "hipAdduction",
-
-                        // --- PEACHY PROGRAM ---
-                        "Sumo Deadlift": "sumoDeadlift",
-                        "Front-Foot Elevated Bulgarian Split Squat": "bulgarianSplitSquat",
-                        "Squats": "squats",
-                        "Seated Hamstring Curl": "seatedHamstringCurl",
-                        "Kas Glute Bridge": "kasGluteBridge",
-                        "45-Degree Hyperextension": "hyperextension45",
-                        "Standing Military Press": "militaryPress",
-                        "Incline DB Bench Press (45°)": "inclineDBBench",
-                        "Inverted Rows": programData.id === 'skeleton-to-threat' ? "invertedRowsSkeleton" : "invertedRows",
-                        "Side-Lying Rear Delt Fly": "sideLyingRearDeltFly",
-                        "DB Romanian Deadlift": "dbRDL",
-                        "Paused Squat": "pausedSquat",
-                        "Glute Ham Raise (eccentric only)": "ghr",
-                        "Leg Press Calf Raises": "legPressCalves",
-                        "Deficit Reverse Lunge": "deficitReverseLunge",
-                        "Single Leg Machine Hip Thrust": "singleLegHipThrust",
-                        "Deficit Push-ups": programData.id === 'skeleton-to-threat' ? "deficitPushupsSkeleton" : "deficitPushups",
-                        "Assisted Pull-ups": "assistedPullups",
-                        "Lying Cable Lat Raises": "lyingCableLatRaises",
-                        "Glute Pump Finisher": "glutePumpFinisher",
-
-                        // --- PENCILNECK PROGRAM ---
-                        "Flat Barbell Bench Press": "flatBarbellBenchPress",
-                        "Cable Flyes (mid height)": "cableFlyes",
-                        "Seated DB Shoulder Press": "seatedDBShoulderPress",
-                        "Overhead Tricep Extensions": "overheadTricepExtensions",
-                        "Hack Squat": "hackSquat",
-                        "Leg Extensions": programData.id === 'skeleton-to-threat' ? "legExtensionsSkeleton" : "legExtensions",
-                        "Hammer Pulldown (Underhand)": "hammerPulldown",
-                        "Preacher EZ-Bar Curls": "preacherEZBarCurls",
-                        "Hanging Leg Raises": "hangingLegRaises",
-                        "Lying Leg Curls": "lyingLegCurls",
-                        "Incline Barbell Bench Press (45°)": "inclineBarbellBenchPress",
-                        "Flat DB Press": "flatDBPress",
-                        "Close-Grip Bench Press": "closeGripBenchPress",
-                        "Lat Pulldown (Neutral)": "latPulldownNeutral",
-                        "Single-Arm Hammer Strength Row": "singleArmHammerStrengthRow",
-                        "Single-Arm DB Row": "singleArmDBRow",
-                        "Machine Rear Delt Fly": "machineRearDeltFly",
-                        "Incline DB Curls": "inclineDBCurls",
-                        "Stiff-Legged Deadlift": "stiffLeggedDeadlift",
-                        "Ab Wheel Rollouts": "abWheelRollouts",
-                        "Front Squats": "frontSquats",
-                        "Stiletto Squats": "stilettoSquats",
-                        "Incline DB Press (45°)": "inclineDBPress",
-                        "Seated Cable Row": "seatedCableRow",
-                        "Lat Prayer": "latPrayer",
-                        "Wide Grip BB Row": "wideGripBBRow",
-                        "Side-Lying Rear Delt Flyes": "sideLyingRearDeltFly",
-                        "Romanian Deadlift": "romanianDeadlift",
-                        "Standing Barbell Military Press": "standingMilitaryPress",
-                        "Leaning Single Arm DB Lateral Raises": "leaningLateralRaises",
-                        "Walking Lunges (DB)": "walkingLungesDB",
-                        "Hack Calf Raises": "hackCalfRaises",
-                        "Seated Leg Curls": "seatedLegCurls",
-                        "Pec Deck": "pecDeck",
-
-                        // --- SKELETON PROGRAM ---
-                        "Supported Stiff Legged DB Deadlift": "supportedSLDL",
-                        "Standing Calf Raises": "standingCalfRaises",
-                        "Overhand Mid-Grip Pulldown": "overhandPulldown",
-
-                        // --- MAIN LIFT VARIATIONS (Trinary, Pain & Glory, Ritual) ---
-                        "Paused Bench Press (ME)": "Paused Bench Press (ME)",
-                        "Paused Bench Press (Light)": "Paused Bench Press (Light)",
-                        "Paused Bench Press (Ascension Test)": "Paused Bench Press (Ascension Test)",
-                        "Low Bar Squat (ME)": "Low Bar Squat (ME)",
-                        "Low Bar Squat (Light)": "Low Bar Squat (Light)",
-                        "Low Bar Squat (Ascension Test)": "Low Bar Squat (Ascension Test)",
-                        "Conventional Deadlift (ME)": "Conventional Deadlift (ME)",
-                        "Conventional Deadlift (Light)": "Conventional Deadlift (Light)",
-                        "Conventional Deadlift (Ascension Test)": "Conventional Deadlift (Ascension Test)",
-                        "Conventional Deadlift": "Conventional Deadlift",
-                        "Low Bar Squat": "Low Bar Squat",
-                        "Paused Low Bar Squat": "Paused Low Bar Squat",
-                        "Deficit Snatch Grip Deadlift": "Deficit Snatch Grip Deadlift",
-
-                        // Pain & Glory specific variations
-                        "Conventional Deadlift E2MOM": "Conventional Deadlift E2MOM",
-                        "Conventional Deadlift (AMRAP Test)": "Conventional Deadlift (AMRAP Test)",
-                        "Conventional Deadlift (Heavy Triple)": "Conventional Deadlift (Heavy Triple)",
-                        "Conventional Deadlift (Heavy Double)": "Conventional Deadlift (Heavy Double)",
-                        "Conventional Deadlift (Max Single)": "Conventional Deadlift (Max Single)",
-                        "Conventional Deadlift (CAT)": "Conventional Deadlift (CAT)"
-                    };
+                    // Movement cue from the exercise library, plus any
+                    // prescription-specific variant tip for this exact name.
+                    // Replaces the 110-line tipMap that used to be rebuilt here
+                    // on every render, for every exercise.
+                    const libraryEntry = exerciseResolver.resolve(ex.name);
+                    const variantTip = getVariantTip(ex.name, weekNum);
 
                     // Add general warm-up tip FIRST for bench/squat/deadlift exercises
                     // Skip for base "Paused Bench Press" in Bench Domination (its specific tip already includes warmup)
@@ -1766,14 +1663,12 @@ export const WorkoutView: React.FC = () => {
                         }
                     }
 
-                    // Apply tipMap for all programs (specific variation tip)
-                    const tipKey = tipMap[ex.name];
-                    if (tipKey) {
-                        const tipText = t(`tips.${tipKey}`);
-                        if (tipText && tipText !== `tips.${tipKey}`) { // Check if translation exists
-                            displayTips.push(tipText);
-                        }
-                    }
+                    // A variant tip describes how this particular set is run
+                    // (ME, Light, Ascension Test, E2MOM) and wins over the
+                    // movement's general cue; otherwise use the library tip.
+                    const cue = variantTip ?? libraryEntry?.tip;
+                    const cueText = cue?.[language] || cue?.en;
+                    if (cueText) displayTips.push(cueText);
 
                     // Add Nordic/Glute-Ham swap tip for both original and alternative
                     if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {

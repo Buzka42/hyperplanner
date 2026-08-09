@@ -19,7 +19,9 @@
     "build:library": "npx --yes tsx scripts/build-library.ts",
     "verify:library": "npx --yes tsx scripts/verify-library.ts",
     "migrate:tips": "npx --yes tsx scripts/migrate-tips.ts",
-    "apply:tips": "npx --yes tsx scripts/apply-tips.ts"
+    "apply:tips": "npx --yes tsx scripts/apply-tips.ts",
+    "verify:tip-coverage": "npx --yes tsx scripts/verify-tip-coverage.ts",
+    "verify:tip-equivalence": "npx --yes tsx scripts/verify-tip-equivalence.ts"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",
