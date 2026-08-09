@@ -57,7 +57,11 @@ export default {
                 sm: "calc(var(--radius) - 4px)",
             },
             fontFamily: {
-                sans: ["Inter", ...defaultTheme.fontFamily.sans],
+                // Protocol Sheet: Hanken Grotesk carries UI and display alike;
+                // JetBrains Mono is reserved for measurement — micro-labels and
+                // the live-set figures — never as a "technical" costume.
+                sans: ["Hanken Grotesk", ...defaultTheme.fontFamily.sans],
+                mono: ["JetBrains Mono", ...defaultTheme.fontFamily.mono],
             },
             keyframes: {
                 "accordion-down": {
