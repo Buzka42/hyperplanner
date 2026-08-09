@@ -19,6 +19,7 @@ import type { LibraryExercise } from './types';
 export const EXERCISE_LIBRARY: LibraryExercise[] = [
     {
         id: '30-incline-lying-dumbbell-curl',
+        tip: { en: 'As low incline as possible without DBs hitting floor. Maximum stretch.', pl: 'Ławka nachylona jak najniżej możesz bez dotykania hantlami podłogi. Maksymalne rozciągnięcie.' },
         name: { en: '30° Incline-Lying Dumbbell Curl', pl: 'Uginanie hantli leżąc na skosie 30°' },
         aliases: ['Incline DB Curls'],
         pattern: 'elbow-flexion',
@@ -41,6 +42,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: '45-back-extension',
+        tip: { en: 'Round upper back slightly, toes flared 45°, press hips HARD into pad. Pure hip hinge.', pl: 'Lekko zaokrąglij górną część pleców, stopy rozstawione 45° do zewnątrz, wciśnij biodra MOCNO w podkladkę. Czysty hip hinge.' },
         name: { en: '45° Back Extension', pl: 'Wyprost grzbietu na ławce 45°' },
         aliases: ['45-Degree Hyperextension'],
         pattern: 'hip-extension',
@@ -64,6 +66,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'ab-wheel-rollout',
+        tip: { en: 'Start from knees, go as far as possible while hitting 5+ reps. Progress distance weekly.', pl: 'Start z kolan, wyjedź tak daleko jak możesz przy minimum 5 powt. Zwiększaj dystans co tydzień.' },
         name: { en: 'Ab Wheel Rollouts', pl: '' },
         aliases: [],
         pattern: 'core-antiextension',
@@ -97,6 +100,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'around-the-worlds',
+        tip: { en: 'If 16 reps is easy, slow down the eccentric (3-4 sec).', pl: 'Jeśli 16 powt. jest łatwe, zwolnij ekscentrykę (3-4 sek).' },
         name: { en: 'Around-the-Worlds', pl: '' },
         aliases: [],
         pattern: 'shoulder-horizontal-abduction',
@@ -108,6 +112,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'assisted-pull-up',
+        tip: { en: 'Limit assistance to minimum. Strict reps first, then push off box/bench.', pl: 'Jedna stopa na skrzynce/ławce przed sobą, aby pomóc sobie w górę. Ogranicz pomoc do minimum. Najpierw czyste powt., potem pomagaj sobie od skrzynki/ławki.' },
         name: { en: 'Assisted Pull-ups', pl: '' },
         aliases: [],
         pattern: 'vertical-pull',
@@ -185,6 +190,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'barbell-squat',
+        tip: { en: 'Every rep must break parallel. Add 2.5 kg when you hit 3×10.', pl: 'Na każdym powtórzeniu kąt w kolanie musi zejść poniżej 90°. Dodaj 2.5 kg, gdy zrobisz 3×10.' },
         name: { en: 'Barbell Squat', pl: 'Przysiad ze sztangą' },
         aliases: ['Squats'],
         pattern: 'squat',
@@ -196,6 +202,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'behind-the-neck-press',
+        tip: { en: 'Light and crisp. Strict form, no momentum.', pl: 'Czysto technicznie, bez rozpędu.' },
         name: { en: 'Behind-the-Neck Press', pl: 'Wyciskanie zza karku' },
         aliases: [],
         pattern: 'vertical-press',
@@ -319,6 +326,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'cable-fly',
+        tip: { en: 'Big stretch at the bottom. Push chest forward, feel the pec stretch.', pl: 'Duże rozciągnięcie na dole. Wypchnij klatkę do przodu, poczuj rozciągnięcie.' },
         name: { en: 'Cable Flyes (mid height)', pl: '' },
         aliases: [],
         pattern: 'horizontal-press',
@@ -372,6 +380,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'calf-raise',
+        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Calf Raises', pl: '' },
         aliases: [],
         pattern: 'calf',
@@ -383,6 +392,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'close-grip-bench-press',
+        tip: { en: 'Grip 1.5 hand-width closer than normal - around shoulder width.', pl: 'Chwyt o 1,5 szerokości dłoni węższy niż normalnie – około szerokości barków.' },
         name: { en: 'Close-Grip Bench Press', pl: '' },
         aliases: [],
         pattern: 'horizontal-press',
@@ -405,6 +415,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'close-neutral-grip-lat-pulldown',
+        tip: { en: 'Full stretch \'dead hang\' at top, split movement: pulldown + scap pull at bottom, squeeze scap pull.', pl: 'Pełne rozciągnięcie, \'martwy zwis\' na górze, rozbij ruch na 2 części: ściąganie łopatek + pulldown.' },
         name: { en: 'Close Neutral Grip Lat Pulldown', pl: '' },
         aliases: [],
         pattern: 'vertical-pull',
@@ -427,6 +438,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'dead-hang-plank',
+        tip: { en: 'Straight to planks after hangs, 2 min rest between supersets.', pl: 'Od razu do planków po zwisach, 2 min przerwy między superseriami.' },
         name: { en: 'Dead Hang + Planks', pl: '' },
         aliases: [],
         pattern: 'core-antiextension',
@@ -460,6 +472,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'deficit-reverse-lunge',
+        tip: { en: 'Front foot on plate. Back knee touches floor every rep.', pl: 'Przednia stopa na krążku. Tylne kolano dotyka podłogi za każdym powtórzeniem.' },
         name: { en: 'Deficit Reverse Lunge', pl: '' },
         aliases: [],
         pattern: 'lunge',
@@ -504,6 +517,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'dragon-flags',
+        tip: { en: 'Cheat the concentric if needed, control the eccentric (3-5 sec lowering).', pl: 'Oszukuj fazę koncentryczną jeśli trzeba, kontroluj ekscentrykę (3-5 sek opuszczania).' },
         name: { en: 'Dragon Flags', pl: '' },
         aliases: [],
         pattern: 'core-antiextension',
@@ -559,6 +573,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'dumbbell-romanian-deadlift',
+        tip: { en: 'Heavy. Straps OK. 1-2 sec glute squeeze at top.', pl: 'Ciężkie powtórzenia! Paski OK. 1-2 sek ścisk pośladków na górze.' },
         name: { en: 'DB Romanian Deadlift', pl: 'Martwy ciąg rumuński z hantlami' },
         aliases: ['Dumbbell Romanian Deadlift'],
         pattern: 'hinge',
@@ -592,6 +607,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'ezbar-preacher-curl',
+        tip: { en: 'Full ROM, slow down at the stretched position. Control the negative.', pl: 'Pełny zakres, zwolnij w rozciągnieciu. Kontroluj fazę negatywną.' },
         name: { en: 'EZ Preacher Curl', pl: '' },
         aliases: ['Preacher EZ-Bar Curls'],
         pattern: 'elbow-flexion',
@@ -624,6 +640,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'farmer-hold',
+        tip: { en: 'Mandatory grip work on deadlift days. Farmer Holds or Fat Grip Deadlift Holds 3×20-30 sec @ bodyweight or light. Progress time or weight when easy.', pl: 'Trening chwytu. Farmer Holds lub Fat Grip Deadlift Holds 3×20-30 sek @ waga ciała lub lżejsza. Progresja: +czas lub +ciężar jeśli zbyt łatwe.' },
         name: { en: 'Farmer Holds', pl: '' },
         aliases: [],
         pattern: 'carry',
@@ -635,6 +652,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'flat-barbell-bench-press',
+        tip: { en: 'Slow down before touching chest. No bouncing. Control the entire rep.', pl: 'Zwolnij przed dotknięciem klatki. Bez odbijania. Kontroluj całe powtórzenie.' },
         name: { en: 'Flat Barbell Bench Press', pl: '' },
         aliases: [],
         pattern: 'horizontal-press',
@@ -646,6 +664,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'flat-dumbbell-press',
+        tip: { en: 'Flare elbows, arch back, go for full stretch. Think \'reaching\' with your chest.', pl: 'Łokcie szeroko, łuk w plecach, pełne rozciągnięcie na dole (hantle dotykają bicepsów). Myśl „sięganie do przodu” klatką piersiową.' },
         name: { en: 'Flat DB Press', pl: 'Wyciskanie hantli na ławce płaskiej' },
         aliases: ['Flat Dumbbell Bench Press'],
         pattern: 'horizontal-press',
@@ -678,6 +697,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'front-foot-elevated-bulgarian-split-squat',
+        tip: { en: 'Hold rack with one hand, DB in other. Rear foot shoelaces on bench (toes DOWN). Sit back, limit front knee travel, stay upright.', pl: 'Trzymaj stojak jedną ręką, hantlę w drugiej. Tylna stopa sznurówkami na ławce (palce W DÓŁ). Siadaj do tyłu - ogranicz ruch kolana do przodu, trzymaj tors prosto.' },
         name: { en: 'Front-Foot Elevated Bulgarian Split Squat', pl: '' },
         aliases: [],
         pattern: 'lunge',
@@ -690,6 +710,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'front-squat',
+        tip: { en: 'Full ROM, slow eccentric. Stay upright, elbows high.', pl: 'Pełny ROM, wolna ekscentryka. Trzymaj się prosto, łokcie wysoko.' },
         name: { en: 'Front Squats', pl: '' },
         aliases: ['Front Squat'],
         pattern: 'squat',
@@ -701,6 +722,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'glute-ham-raise',
+        tip: { en: 'Control the eccentric, explode up. Use assistance if needed for full ROM.', pl: 'Kontroluj ekscentryk, wystrzel do góry. Użyj pomocy (odepchnij się od czegoś na dole) jeśli potrzebne żeby uzyskać pełny zakres powtórzenia.' },
         name: { en: 'Glute-Ham Raise', pl: '' },
         aliases: ['Glute Ham Raise (eccentric only)'],
         pattern: 'knee-flexion',
@@ -712,6 +734,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'glute-pump-finisher',
+        tip: { en: '100 reps banded thrust/abduction in under 5 minutes. Chase the pump.', pl: '100 powt. hip thrust/odwodzenie z gumą w poniżej 5 minut. Maksymalna pompa.' },
         name: { en: 'Glute Pump Finisher', pl: '' },
         aliases: [],
         pattern: 'hip-extension',
@@ -733,6 +756,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'hack-calf-raise',
+        tip: { en: '1 second pause at bottom, slow eccentric.', pl: '1 sek pauza na dole, wolna ekscentryka.' },
         name: { en: 'Hack Squat Calf Raises', pl: 'Łydki na Hack Squat' },
         aliases: ['Hack Calf Raises', 'Hack-Squat Calf Raise'],
         pattern: 'calf',
@@ -743,6 +767,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'hack-squat',
+        tip: { en: 'Feet narrow, full ROM - ass to grass. Try to touch calves with glutes.', pl: 'Stopy wąsko, pełny zakres – tyłek do ziemi. Spróbuj dotknąć łydek pośladkami.' },
         name: { en: 'Hack Squat', pl: '' },
         aliases: [],
         pattern: 'squat',
@@ -754,6 +779,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'ham-curl',
+        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Ham Curls', pl: '' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -788,6 +814,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'hammer-pulldown',
+        tip: { en: 'Go single-arm for max stretch. Add squeeze at bottom to increase difficulty.', pl: 'Jednorącz dla maks. rozciągnięcia. Dodaj ściśnięcie na dole, by zwiększyć trudność.' },
         name: { en: 'Hammer Pulldown (Underhand)', pl: '' },
         aliases: [],
         pattern: 'vertical-pull',
@@ -810,6 +837,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'hanging-leg-raise',
+        tip: { en: 'Straight legs if bent is too easy. No swinging.', pl: 'Proste nogi, jeśli zgięte są za łatwe. Bez kołysania.' },
         name: { en: 'Hanging Leg Raises', pl: 'Unoszenie nóg w zwisie' },
         aliases: ['Hanging Leg Raise', 'Power Hanging Leg Raises'],
         pattern: 'core-flexion',
@@ -821,6 +849,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'heavy-rolling-tricep-extension',
+        tip: { en: 'Heavy tricep option – focusing on lockout strength', pl: '' },
         name: { en: 'Heavy Rolling Tricep Extensions', pl: '' },
         aliases: [],
         pattern: 'elbow-extension',
@@ -842,6 +871,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'heels-off-narrow-leg-press',
+        tip: { en: 'Knees out, deep stretch at the bottom. Try to touch hamstrings with calves.', pl: 'Kolana na zewnątrz, głębokie rozciągnięcie na dole. Próbuj dotknąć dwugłowymi łydek.' },
         name: { en: 'Heels-Off Narrow Leg Press', pl: 'Leg Press (pięty w górze, wąsko)' },
         aliases: [],
         pattern: 'squat',
@@ -864,6 +894,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'high-elbow-facepulls',
+        tip: { en: 'Cable at forehead height, wide elbows, external rotation at top (thumbs back). Light weight, perfect form.', pl: 'Wyciąg na wysokości czoła, szerokie łokcie, rotacja zewnętrzna na górze (kciuki do tyłu). Lekki ciężar, idealna forma.' },
         name: { en: 'High-Elbow Facepulls', pl: '' },
         aliases: [],
         pattern: 'shoulder-horizontal-abduction',
@@ -886,6 +917,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'hip-adduction',
+        tip: { en: 'Stretch with warm-up, then max width. Use arms to help wedge into position if needed.', pl: 'Rozciągnij na rozgrzewce, potem max szerokość. Użyj rąk do wklinowania się w pozycję jeśli trzeba.' },
         name: { en: 'Hip Adduction', pl: 'Przywodzenie bioder' },
         aliases: [],
         pattern: 'hip-adduction',
@@ -896,6 +928,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'hip-thrust',
+        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Hip Thrusts', pl: 'Hip thrust na maszynie' },
         aliases: ['Machine Hip Thrust'],
         pattern: 'hip-extension',
@@ -908,6 +941,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'incline-barbell-bench-press',
+        tip: { en: 'Slow down before touching chest. No bouncing.', pl: 'Zwolnij przed dotknięciem klatki. Bez odbicia.' },
         name: { en: 'Incline Barbell Bench Press', pl: 'Wyciskanie sztangi na ławce skośnej' },
         aliases: ['Incline Barbell Bench Press (45°)', 'Incline Bench Press'],
         pattern: 'incline-press',
@@ -920,6 +954,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'incline-dumbbell-bench-press',
+        tip: { en: 'Flare elbows, arch back, go for full stretch. Think \'reaching\' with your chest.', pl: 'Łokcie szeroko, łuk w plecach, pełne rozciągnięcie na dole (hantle dotykają bicepsów). Myśl „sięganie do przodu” klatką piersiową.' },
         name: { en: 'Incline DB Bench Press', pl: '' },
         aliases: ['Incline DB Bench Press (45°)', 'Incline DB Press (45°)'],
         pattern: 'incline-press',
@@ -942,6 +977,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'kas-glute-bridge',
+        tip: { en: 'Upper back on bench. Lower only 5-10 cm, never touch floor. Constant tension.', pl: 'Górna część pleców na ławce. Opuszczaj tylko 5-10 cm – nigdy nie dotykaj podłogi. Ciągłe napięcie.' },
         name: { en: 'Kas Glute Bridge', pl: '' },
         aliases: [],
         pattern: 'hip-extension',
@@ -976,6 +1012,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'lat-prayer',
+        tip: { en: 'Internal rotation at stretched position for maximum lat stretch.', pl: 'Rotacja wewnętrzna w pozycji rozciągniętej dla max rozciągnięcia latów.' },
         name: { en: 'Lat Prayer', pl: '' },
         aliases: [],
         pattern: 'vertical-pull',
@@ -987,6 +1024,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'lat-pulldown',
+        tip: { en: '\'Dead hang\' at the top (head between shoulders). Slight lean back when pulling.', pl: '„Martwy zwis” na górze (głowa między barkami). Lekkie odchylenie do tyłu przy ciągnięciu.' },
         name: { en: 'Lat Pulldown (Neutral)', pl: '' },
         aliases: ['Lat Pulldown (Mid Grip)'],
         pattern: 'vertical-pull',
@@ -998,6 +1036,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'lateral-raise',
+        tip: { en: 'Cable or DB variation', pl: '' },
         name: { en: 'Lateral Raises', pl: '' },
         aliases: [],
         pattern: 'shoulder-abduction',
@@ -1019,6 +1058,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'leaning-single-arm-dumbbell-lateral-raise',
+        tip: { en: 'Lean against wall at 15-30°. Rep ends when DB points straight down.', pl: 'Oprzyj się o ścianę pod 15-30°. Powt. kończy się gdy hantel wskazuje prosto w dół.' },
         name: { en: 'Leaning Single Arm DB Lateral Raises', pl: '' },
         aliases: ['Leaning Single Arm DB Lateral Raises (FINAL EXAM)'],
         pattern: 'shoulder-abduction',
@@ -1052,6 +1092,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'leg-press-calf-raise',
+        tip: { en: 'Full stretch at bottom, explode up. Stop 0-1 rep shy of failure.', pl: 'Pełne rozciągnięcie na dole, eksplozywnie w górę. Zatrzymaj się 0-1 powt. przed upadkiem.' },
         name: { en: 'Leg Press Calf Raises', pl: '' },
         aliases: [],
         pattern: 'calf',
@@ -1128,6 +1169,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'lying-cable-lat-raise',
+        tip: { en: 'Pull \'away\' from body, not up. Focus on side delt stretch.', pl: 'Ciągnij „od” ciała, nie w górę. Skup się na rozciągnięciu bocznej części barku.' },
         name: { en: 'Lying Cable Lat Raises', pl: '' },
         aliases: [],
         pattern: 'shoulder-abduction',
@@ -1148,6 +1190,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'lying-leg-curl',
+        tip: { en: 'Full ROM, slow down at the stretched position.', pl: 'Pełny zakres, zwolnij w rozciągnieciu.' },
         name: { en: 'Lying Leg Curls', pl: '' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -1192,6 +1235,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'nordic-curl',
+        tip: { en: 'Cheat concentric if under 5 reps. Control eccentric (3-5 sec lowering).', pl: 'Oszukuj koncentrykę jeśli poniżej 5 powt. Kontroluj ekscentrykę (3-5 sek opuszczania).' },
         name: { en: 'Nordic Curls', pl: '' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -1213,6 +1257,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'overhand-mid-grip-pulldown',
+        tip: { en: 'Slight lean, pull to upper chest, squeeze blades together.', pl: 'Lekkie odchylenie do tyłu przy ściąganiu, ciągnij do górnej części klatki, ściśnij łopatki razem.' },
         name: { en: 'Overhand Mid-Grip Pulldown', pl: '' },
         aliases: [],
         pattern: 'vertical-pull',
@@ -1224,6 +1269,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'overhead-tricep-extension',
+        tip: { en: 'Use strap attachment, stand upright with cable at bottom. Full ROM - forearms touch biceps at bottom.', pl: 'Użyj nakładki z paskami, stój prosto z linką na dole. Pełny zakres – przedramiona dotykają bicepsów na dole.' },
         name: { en: 'Overhead Tricep Extensions', pl: '' },
         aliases: [],
         pattern: 'elbow-extension',
@@ -1234,6 +1280,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'paused-bench-press',
+        tip: { en: 'Warm-up: ramp fast, low reps, paused every set. Save energy for working sets. Bar comes to complete stop at chest, 0.5-1 second full pause. General warm-up (rotator cuff, dynamic arching, lat activation, glute bridges) → Barbell warm-up. All warm-up sets paused.', pl: 'Rozgrzewka: szybka progresja ciężaru, mało powtórzeń, pauza w każdej serii. Oszczędzaj energię. Sztanga zatrzymuje się całkowicie na klatce, 0.5-1 sek pełnej pauzy. Rozgrzej obręcz barkową, lekko spompuj najszerszy grzbietu, wykonaj kilka dynamicznych ruchów a\'la mostkowanie i glute bridge jednonóż z przytrzymaniem w spięciu zanim przejdziesz do rozgrzewki ze sztangą (lub pomiędzy seriami rozgrzewkowymi).' },
         name: { en: 'Paused Bench Press', pl: 'Wyciskanie pauzowane' },
         aliases: ['Paused Bench Press (1RM TEST)', 'Paused Bench Press (AMRAP)', 'Paused Bench Press (Ascension Test)', 'Paused Bench Press (Back-down)', 'Paused Bench Press (Back-off)', 'Paused Bench Press (DE)', 'Paused Bench Press (Light)', 'Paused Bench Press (ME)', 'Paused Bench Press (RE)'],
         pattern: 'horizontal-press',
@@ -1278,6 +1325,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'pec-deck',
+        tip: { en: 'Full stretch at the bottom. Squeeze at contraction.', pl: 'Pełne rozciągnięcie na dole. Ścisk w kontrakcji.' },
         name: { en: 'Pec Deck', pl: 'Rozpiętki na maszynie' },
         aliases: [],
         pattern: 'horizontal-press',
@@ -1323,6 +1371,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'rear-delt-burnout',
+        tip: { en: '100 reps total. Rest-pause if needed.', pl: '' },
         name: { en: 'Rear Delt Burnout', pl: '' },
         aliases: [],
         pattern: 'shoulder-horizontal-abduction',
@@ -1334,6 +1383,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'rear-delt-fly',
+        tip: { en: 'Do single arm sitting sideways for maximum stretch.', pl: 'Jednorącz siedząc bokiem dla maksymalnego rozciągnięcia.' },
         name: { en: 'Machine Rear Delt Fly', pl: '' },
         aliases: ['Rear Delt Flyes', 'Rear Delt Flys'],
         pattern: 'shoulder-horizontal-abduction',
@@ -1357,6 +1407,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'reverse-nordic-curl',
+        tip: { en: '1 weighted set, 1 weighted + drop set to bodyweight.', pl: '1 seria z obciążeniem, 1 z obciążeniem + drop do własnej masy.' },
         name: { en: 'Reverse Nordic Curls', pl: 'Odwrócone Nordic Curls' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -1389,6 +1440,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'romanian-deadlift',
+        tip: { en: 'Heavy. Straps OK. 1-2 sec glute squeeze at top.', pl: 'Ciężko. Paski OK. 1-2 sek ścisk pośladków na górze.' },
         name: { en: 'Romanian Deadlift', pl: '' },
         aliases: ['RDLs'],
         pattern: 'hinge',
@@ -1432,6 +1484,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'row',
+        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Rows', pl: '' },
         aliases: ['Rows (neutral grip)'],
         pattern: 'horizontal-pull',
@@ -1455,6 +1508,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'seated-cable-row',
+        tip: { en: 'Neutral or wide grip. Round shoulders forward for max stretch at bottom.', pl: 'Neutralny lub szeroki chwyt. Zaokrąglaj ramiona do przodu dla max stretcha na dole.' },
         name: { en: 'Seated Cable Row', pl: '' },
         aliases: [],
         pattern: 'horizontal-pull',
@@ -1486,6 +1540,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'seated-dumbbell-shoulder-press',
+        tip: { en: 'Full ROM - touch shoulders with DBs at the bottom.', pl: 'Pełny zakres – dotknij barków hantlami na dole.' },
         name: { en: 'Seated DB Shoulder Press', pl: 'Wyciskanie hantli nad głowę siedząc' },
         aliases: ['Seated Dumbbell Shoulder Press'],
         pattern: 'vertical-press',
@@ -1508,6 +1563,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'seated-hamstring-curl',
+        tip: { en: 'Lean torso forward for massive stretch. Control the eccentric.', pl: 'Pochyl tułów do przodu dla mega rozciągnięcia. Kontroluj opuszczanie.' },
         name: { en: 'Seated Hamstring Curl', pl: '' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -1519,6 +1575,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'seated-leg-curl',
+        tip: { en: 'Pochyl tułów do przodu. Control the eccentric.', pl: 'Pochyl tułów do przodu. Kontroluj ekscentrykę.' },
         name: { en: 'Seated Leg Curls', pl: '' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -1530,6 +1587,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'shoulder-press',
+        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Shoulder Press', pl: '' },
         aliases: [],
         pattern: 'vertical-press',
@@ -1552,6 +1610,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'side-lying-rear-delt-fly',
+        tip: { en: 'Pinky leads, think \'pouring water\' at top.', pl: 'Mały palec prowadzi, myśl „nalewanie wody” na górze.' },
         name: { en: 'Side-Lying Rear Delt Flyes', pl: '' },
         aliases: ['Side-Lying Rear Delt Fly'],
         pattern: 'shoulder-horizontal-abduction',
@@ -1575,6 +1634,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'single-arm-dumbbell-row',
+        tip: { en: 'Limit lower back movement. Focus on lat contraction.', pl: 'Ogranicz ruch dolnej części pleców. Skup się na spięciu najszerszych grzbietu.' },
         name: { en: 'Single-Arm DB Row', pl: '' },
         aliases: [],
         pattern: 'horizontal-pull',
@@ -1587,6 +1647,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'single-arm-hammer-row',
+        tip: { en: 'Round shoulders at stretched position. Add padding between chest and seat for extra stretch.', pl: 'Zaokrąglij barki do przodu w pozycji rozciągniętej. Dodaj bloczek między klatką a siedzeniem dla dodatkowego rozciągnięcia.' },
         name: { en: 'Single-Arm Hammer Strength Row', pl: '' },
         aliases: ['Single Arm Hammer Row'],
         pattern: 'horizontal-pull',
@@ -1645,6 +1706,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'single-leg-hip-thrust',
+        tip: { en: 'Drive through heel, full hip extension, brutal glute squeeze at top.', pl: 'Napędzaj piętą, pełne wyprostowanie bioder, brutalny ścisk pośladków na górze.' },
         name: { en: 'Single Leg Machine Hip Thrust', pl: 'Hip Thrust jednónoż (maszyna)' },
         aliases: ['Single-Leg Machine Hip Thrust'],
         pattern: 'hip-extension',
@@ -1657,6 +1719,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'slow-eccentric-cheat-nordic-curl',
+        tip: { en: 'Cheat up, lower as slowly as possible – aim to control more each week.', pl: 'Oszukuj fazę wstępującą, opadaj jak najwolniej – celuj w lepszą kontrolę każdego tygodnia.' },
         name: { en: 'Slow Eccentric Cheat Nordic Curls', pl: '' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -1711,6 +1774,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'standing-barbell-military-press',
+        tip: { en: 'Strict, no leg drive. Proud chest, squeeze delts at top.', pl: 'Czysto technicznie, bez pomocy nóg. Klatka do góry, ściśnij barki na górze.' },
         name: { en: 'Standing Military Press', pl: 'Wyciskanie żołnierskie stojąc' },
         aliases: ['Standing Barbell Military Press'],
         pattern: 'vertical-press',
@@ -1722,6 +1786,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'standing-calf-raise',
+        tip: { en: 'Full stretch at bottom, 2-sec pause at bottom. Step, hack machine, or leg-press.', pl: 'Pełne rozciągnięcie na dole, 2-sek pauza na dole. Step, maszyna hack lub leg-press.' },
         name: { en: 'Standing Calf Raises', pl: '' },
         aliases: [],
         pattern: 'calf',
@@ -1763,6 +1828,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'stiff-legged-deadlift',
+        tip: { en: 'Slow down and lightly touch the ground. Feel the hamstring stretch.', pl: 'Zwolnij i lekko dotknij ziemi. Poczuj rozciągnięcie mięśni dwugłowych.' },
         name: { en: 'Stiff-Legged Deadlift', pl: '' },
         aliases: [],
         pattern: 'hinge',
@@ -1774,6 +1840,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'stiletto-squat',
+        tip: { en: 'Ass to grass - touch calves with glutes. Elevated heels.', pl: 'Pupa do trawy - dotknij łydek pośladkami. Pięty podniesione.' },
         name: { en: 'Stiletto Squats', pl: '' },
         aliases: ['Stiletto Squat'],
         pattern: 'squat',
@@ -1796,6 +1863,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'sumo-deadlift',
+        tip: { en: 'Go brutally heavy. Use straps. 1-2 sec squeeze at top - crack a walnut with your glutes.', pl: 'Ciężkie powtórzenia! Używaj pasków. 1-2 sek ścisk na górze – myśl \'zgniatanie orzechów\' pośladkami.' },
         name: { en: 'Sumo Deadlift', pl: '' },
         aliases: [],
         pattern: 'hinge',
@@ -1807,6 +1875,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'supported-stiff-legged-dumbbell-deadlift',
+        tip: { en: 'Lean over smith machine or racked bar. Heels under or behind bar. 3-4 sec eccentric.', pl: 'Oprzyj się o maszynę Smitha lub sztangę na stojaku. Pięty pod lub przed sztangą. 3-4 sek opuszczanie.' },
         name: { en: 'Supported Stiff Legged DB Deadlift', pl: '' },
         aliases: [],
         pattern: 'hinge',
@@ -1839,6 +1908,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'tricep-extension',
+        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Tricep Extensions', pl: '' },
         aliases: [],
         pattern: 'elbow-extension',
@@ -1850,6 +1920,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'walking-lunge',
+        tip: { en: 'Long strides, do not push off back leg. Drive through front heel.', pl: 'Długie kroki, nie odpychaj się tylną nogą. Napędzaj przednią piętą.' },
         name: { en: 'Walking Lunges', pl: 'Wykroki w marszu' },
         aliases: ['Walking Lunges (DB)'],
         pattern: 'lunge',
@@ -1883,6 +1954,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'wide-grip-barbell-row',
+        tip: { en: 'Pinky fingers on the inner rings. Pull to lower chest.', pl: 'Małe palce na wewnętrznych pierścieniach. Ciągnij do dolnej klatki.' },
         name: { en: 'Wide Grip BB Row', pl: '' },
         aliases: [],
         pattern: 'horizontal-pull',
@@ -1894,6 +1966,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'wide-grip-bench-press',
+        tip: { en: 'Wide grip with elbows flared. Focus on deep stretch at the bottom. 📈 Hit top reps (8) on ALL sets for 2 straight weeks → +2.5 kg', pl: 'Szeroki chwyt z łokciami na zewnątrz. Skup się na głębokim rozciągnięciu na dole. 📈 Zrób max powt. (8) na WSZYSTKICH seriach przez 2 tygodnie z rzędu → +2.5 kg' },
         name: { en: 'Wide-Grip Bench Press', pl: 'Wyciskanie szerokim chwytem' },
         aliases: [],
         pattern: 'horizontal-press',
