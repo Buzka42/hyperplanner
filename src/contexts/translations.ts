@@ -53,6 +53,7 @@ export const translations = {
         // WORKOUT VIEW
         // ========================================
         workout: {
+            swap: "Swap",
             velocitySlow: "Bar speed was slow — reduce this lift by 5% next session",
             restDayOrInvalid: "Rest Day or Invalid Date",
             completed: "Completed",
@@ -1347,6 +1348,7 @@ export const translations = {
         },
 
         workout: {
+            swap: "Zamień",
             velocitySlow: "Sztanga poruszała się wolno — zmniejsz ten bój o 5% na następnej sesji",
             restDayOrInvalid: "Dzień wolny lub błędna data",
             completed: "Ukończono",

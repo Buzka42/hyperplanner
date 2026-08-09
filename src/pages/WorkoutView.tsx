@@ -7,7 +7,7 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
 import { CheckCircle2, ArrowLeft, Save, AlertCircle, FlaskConical } from 'lucide-react';
-import { doc, updateDoc, arrayUnion, increment, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion, increment, collection, addDoc, query, where, getDocs, deleteField } from 'firebase/firestore';
 import { db } from '../firebase';
 import { cn } from '../lib/utils';
 import type { LiftingStats, WorkoutLog } from '../types';
@@ -15,6 +15,7 @@ import { getVariantTip } from '../data/exercises/variantTips';
 import { resolveDay } from '../lib/planResolution';
 import { PrescriptionBadges } from '../features/workout/PrescriptionBadges';
 import { RestTimer } from '../features/workout/RestTimer';
+import { SwapSheet } from '../features/workout/SwapSheet';
 import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
@@ -25,6 +26,8 @@ interface SetLog {
     reps: string;
     weight: string;
     completed: boolean | null;
+    /** Provenance. Absent means prescribed work; see SetKind. */
+    kind?: import('../data/exercises/types').SetKind;
 }
 
 // The number of sets the PLAN itself prescribes for this exercise (before any
@@ -88,6 +91,8 @@ export const WorkoutView: React.FC = () => {
     const [expandedExerciseId, setExpandedExerciseId] = useState<string | null>(null);
     // Rest countdown for the set just logged; null when idle.
     const [restTimer, setRestTimer] = useState<{ seconds: number; label: string; key: number } | null>(null);
+    // Exercise the athlete is choosing a swap for.
+    const [swapTarget, setSwapTarget] = useState<{ name: string; swap: import('../data/exercises/types').ResolvedSwap } | null>(null);
 
     const programData = activePlanConfig.program;
     const weekData = programData.weeks.find(w => w.weekNumber === weekNum);
@@ -515,19 +520,26 @@ export const WorkoutView: React.FC = () => {
         });
     };
 
-    const handleSwap = async (exName: string, alternateName: string) => {
+    /**
+     * Persists the athlete's swap under the plan they are training.
+     *
+     * The previous implementation matched six hardcoded exercise names and did
+     * nothing for anything else, while still rendering a Swap button on every
+     * exercise that had alternates. Choices are now keyed by canonical exercise
+     * id, and resolveDay re-validates them against the current policy on every
+     * load, so narrowing a pool retires choices made under the old one.
+     */
+    const handleSwapChoice = async (originalId: string, replacementId: string | null) => {
         if (!user) return;
-        let prefKey = '';
-        if (exName === "Y-Raises" || exName === "High-Elbow Facepulls") prefKey = 'y-raise-variant';
-        if (exName === "Around-the-Worlds" || exName === "Power Hanging Leg Raises") prefKey = 'around-worlds-variant';
-        if (exName === "Nordic Curls" || exName === "Glute-Ham Raise") prefKey = 'nordic-variant';
-
-        if (prefKey) {
-            const userRef = doc(db, 'users', user.id);
-            await updateDoc(userRef, {
-                [`exercisePreferences.${prefKey}`]: alternateName
+        const path = `exerciseSwaps.${programData.id}.${originalId}`;
+        try {
+            await updateDoc(doc(db, 'users', user.id), {
+                [path]: replacementId ?? deleteField(),
             });
+        } catch (error) {
+            console.error('[workout] could not save swap', error);
         }
+        setSwapTarget(null);
     };
 
     // Add Extra Set Handler - allows adding one extra set to any exercise
@@ -550,11 +562,14 @@ export const WorkoutView: React.FC = () => {
                 lastCompletedWeight = currentSets[currentSets.length - 1].weight;
             }
 
-            // Add the new set with auto-filled weight
+            // Tagged so the saved log records that this set was added by the
+            // athlete rather than prescribed. Progression must count only
+            // prescribed work, or adding a junk set blocks a weight increase.
             currentSets.push({
                 reps: '',
                 weight: lastCompletedWeight,
-                completed: null
+                completed: null,
+                kind: 'extra'
             });
 
             return { ...prev, [exId]: currentSets };
@@ -1472,6 +1487,16 @@ export const WorkoutView: React.FC = () => {
 
     return (
         <div className="instrument-page workout-ledger space-y-6 pb-28">
+            {swapTarget && (
+                <SwapSheet
+                    exerciseName={swapTarget.name}
+                    swap={swapTarget.swap}
+                    lang={language as 'en' | 'pl'}
+                    onChoose={(id) => handleSwapChoice(swapTarget.swap.original, id)}
+                    onClose={() => setSwapTarget(null)}
+                />
+            )}
+
             {restTimer && (
                 <RestTimer
                     key={restTimer.key}
@@ -1833,15 +1858,20 @@ export const WorkoutView: React.FC = () => {
                                                     </div>
                                                 )}
                                             </div>
-                                            {/* Swap Button */}
-                                            {ex.alternates && ex.alternates.length > 0 && (
-                                                <div className="flex flex-col gap-1">
-                                                    {ex.alternates.map(alt => (
-                                                        <Button key={alt} variant="outline" size="sm" className="h-7 text-[10px] px-2" onClick={() => handleSwap(ex.name, alt)}>
-                                                            Swap
-                                                        </Button>
-                                                    ))}
-                                                </div>
+                                            {/* Swap: shown only where the plan's policy allows one */}
+                                            {(ex as { swap?: import('../data/exercises/types').ResolvedSwap }).swap && (
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className="h-8 text-[10px] px-2 shrink-0"
+                                                    onClick={(event) => {
+                                                        event.stopPropagation();
+                                                        const resolved = (ex as { swap?: import('../data/exercises/types').ResolvedSwap }).swap;
+                                                        if (resolved) setSwapTarget({ name: ex.name, swap: resolved });
+                                                    }}
+                                                >
+                                                    {t('workout.swap')}
+                                                </Button>
                                             )}
                                         </div>
 

@@ -1369,3 +1369,12 @@ input[type=number] {
 .exercise-sheet-aliases { margin:0; font-size:.7rem; color:hsl(var(--muted-foreground)); }
 
 @media(min-width:640px){ .exercise-sheet-backdrop { align-items:center; } .exercise-sheet { border-bottom:1px solid hsl(var(--border)); } }
+
+/* Swap picker options */
+.swap-options { display:grid; gap:6px; }
+.swap-option { display:flex; align-items:center; gap:10px; width:100%; padding:12px 14px; border:1px solid hsl(var(--border)); background:hsl(var(--background)); color:inherit; text-align:left; cursor:pointer; }
+.swap-option:hover { border-color:hsl(var(--primary)); }
+.swap-option.is-current { border-color:hsl(var(--primary)); background:hsl(var(--primary)/.1); }
+.swap-option.is-reset { color:hsl(var(--muted-foreground)); font-size:.82rem; }
+.swap-option-name { flex:1; min-width:0; font-size:.9rem; }
+.swap-option-meta { font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:hsl(var(--muted-foreground)); white-space:nowrap; }
