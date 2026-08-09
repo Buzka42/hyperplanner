@@ -20,7 +20,7 @@ interface UserContextType {
     planExerciseConfig: PlanExerciseDoc | undefined;
     loading: boolean;
     checkCodeword: (codeword: string) => Promise<{ status: 'exists' | 'not-found' | 'admin' | 'onboarding'; allowedPlanIds?: string[] }>;
-    registerUser: (codeword: string, stats: LiftingStats, programId?: string, selectedDays?: number[], exercisePreferences?: Record<string, string>, benchDominationModules?: any) => Promise<void>;
+    registerUser: (codeword: string, stats: LiftingStats, programId?: string, selectedDays?: number[], exercisePreferences?: Record<string, string>, benchDominationModules?: any, extra?: Partial<UserProfile>) => Promise<void>;
     logout: () => void;
     isAdmin: boolean;
     updateUserProfile: (updates: Partial<UserProfile>) => Promise<void>;
@@ -238,7 +238,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         programId: string = 'bench-domination',
         selectedDays?: number[],
         exercisePreferences?: Record<string, string>,
-        benchDominationModules?: any
+        benchDominationModules?: any,
+        /** Plan-specific profile fields set at registration, e.g. pendingCalibration. */
+        extra?: Partial<UserProfile>
     ) => {
 
         const sanitized = codeword.trim().toLowerCase();
@@ -285,7 +287,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 pencilneckBenchHistory: existingData?.pencilneckBenchHistory || [],
                 ...(existingData?.benchDominationStatus && { benchDominationStatus: existingData.benchDominationStatus }),
                 ...(existingData?.pencilneckStatus && { pencilneckStatus: existingData.pencilneckStatus }),
-                ...(existingData?.skeletonStatus && { skeletonStatus: existingData.skeletonStatus })
+                ...(existingData?.skeletonStatus && { skeletonStatus: existingData.skeletonStatus }),
+                ...(extra ?? {})
             };
 
             // FORCE RESET progress for the new program

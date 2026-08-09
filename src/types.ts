@@ -209,6 +209,13 @@ export type UserProfile = {
     superMutantStatus?: SuperMutantStatus; // Super Mutant status
     programProgress?: Record<string, { completedSessions: number; startDate: string; }>;
 
+    /**
+     * Maxes the athlete chose not to enter at onboarding. The first prescribed
+     * exposure of each lift runs as a calibration set, which writes the derived
+     * 1RM into `stats` and drops the key from this list.
+     */
+    pendingCalibration?: (keyof LiftingStats)[];
+
     // New Fields
     badges?: BadgeId[];
     gluteMeasurements?: { date: string; sizeCm: number }[];
@@ -292,6 +299,17 @@ export interface PlanConfig {
         themeClass?: string;
         coverImage?: string;
         navImage?: string;
+    };
+    onboarding?: {
+        /**
+         * Stat keys this plan's progressions actually read. `definePlan` derives
+         * these from the slot specs, so a plan cannot silently ship a
+         * percentage progression whose base is never collected.
+         *
+         * Plans with a bespoke onboarding step (Bench Domination, Trinary,
+         * Ritual, Pain & Glory) collect their own stats and leave this unset.
+         */
+        requiredStats?: (keyof LiftingStats)[];
     };
     hooks?: {
         preprocessDay?: (day: WorkoutDay, user: UserProfile) => WorkoutDay;

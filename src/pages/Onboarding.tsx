@@ -19,13 +19,15 @@ import { RITUAL_CONFIG } from '../data/ritual';
 import { SUPER_MUTANT_PROGRAM } from '../data/supermutant';
 import { ADVENTURE_PLAN_ID } from '../data/adventure';
 import { ORDERED_PLAN_META } from '../data/planMeta';
+import { getPlan } from '../data/plans';
+import { benchmarkLiftsFor } from '../data/benchmarkLifts';
 import { cn } from '../lib/utils';
 import { Checkbox } from '../components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
-type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules' | 'super-mutant-stats';
+type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules' | 'super-mutant-stats' | 'benchmark';
 
 export const Onboarding: React.FC = () => {
     const { state } = useLocation();
@@ -68,6 +70,9 @@ export const Onboarding: React.FC = () => {
         lowPinPress: 0,
         btnPress: 0
     });
+
+    /** Stats the athlete marked "I don't know" on the benchmark step. */
+    const [unknownStats, setUnknownStats] = useState<Set<keyof LiftingStats>>(new Set());
 
     const [ritualIsFirstProgram, setRitualIsFirstProgram] = useState<boolean | null>(null);
     const [superMutantPrefs, setSuperMutantPrefs] = useState<{
@@ -120,7 +125,13 @@ export const Onboarding: React.FC = () => {
             // Super Mutant goes to its own stats step
             setStep('super-mutant-stats');
         } else {
-            setStep('stats');
+            // Every remaining plan is declarative. It gets the generic benchmark
+            // step, which asks for exactly the maxes its progressions read —
+            // possibly none, in which case the step is a plain confirmation.
+            // Previously this fell through to the Bench Domination stats form,
+            // which enrolled the athlete in Bench Domination regardless of pick.
+            setUnknownStats(new Set());
+            setStep('benchmark');
         }
     };
 
@@ -339,6 +350,49 @@ export const Onboarding: React.FC = () => {
                 if (!codeword) throw new Error("No codeword found. Please restart.");
                 // @ts-ignore
                 await registerUser(codeword, finalStats, BENCH_DOMINATION_PROGRAM.id, [], {}, benchModules);
+            }
+            navigate('/app/dashboard');
+        } catch (err: any) {
+            console.error("Registration failed:", err);
+            alert("Failed to build program: " + (err.message || "Unknown error"));
+        }
+    };
+
+    /**
+     * Enrols in whichever plan the athlete actually picked.
+     *
+     * Stats left blank or explicitly marked unknown are recorded on
+     * `pendingCalibration` so the first prescribed exposure of that lift runs as
+     * a calibration set rather than resolving its percentage against nothing.
+     */
+    const handleBenchmarkSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!selectedProgramId) return;
+
+        const lifts = benchmarkLiftsFor(getPlan(selectedProgramId).onboarding?.requiredStats);
+
+        const entered: Partial<LiftingStats> = {};
+        const pendingCalibration: (keyof LiftingStats)[] = [];
+        for (const { stat } of lifts) {
+            const value = (stats as Record<string, number | undefined>)[stat] ?? 0;
+            if (unknownStats.has(stat) || !value || value <= 0) pendingCalibration.push(stat);
+            else entered[stat] = value;
+        }
+
+        // The bench-family keys are non-optional on LiftingStats; anything this
+        // plan doesn't use stays 0 and is simply never read.
+        const finalStats: LiftingStats = {
+            pausedBench: 0, wideGripBench: 0, spotoPress: 0, lowPinPress: 0,
+            ...entered,
+        };
+
+        try {
+            if (user) {
+                await updateUserProfile({ stats: finalStats, pendingCalibration });
+                await switchProgram(selectedProgramId);
+            } else {
+                if (!codeword) throw new Error("No codeword found. Please restart.");
+                await registerUser(codeword, finalStats, selectedProgramId, [], {}, undefined, { pendingCalibration });
             }
             navigate('/app/dashboard');
         } catch (err: any) {
@@ -1162,6 +1216,91 @@ export const Onboarding: React.FC = () => {
                             <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-green-900 to-orange-800 hover:from-green-800 hover:to-orange-700 text-green-50" size="lg">
                                 <CheckCircle2 className="mr-2 h-5 w-5" />
                                 BEGIN MUTATION
+                            </Button>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    // Generic benchmark step. Which lifts appear comes from the plan's own
+    // progressions, so this one form serves every declarative plan and asks for
+    // nothing a plan doesn't actually read.
+    if (step === 'benchmark') {
+        const lifts = benchmarkLiftsFor(getPlan(selectedProgramId ?? undefined).onboarding?.requiredStats);
+        const allUnknown = lifts.length > 0 && lifts.every(({ stat }) => unknownStats.has(stat));
+
+        return (
+            <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-primary/20 shadow-2xl">
+                    <CardHeader>
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2">
+                                <ArrowLeft className="h-5 w-5" />
+                            </Button>
+                            <CardTitle className="text-2xl">{t('onboarding.benchmark.title')}</CardTitle>
+                        </div>
+                        {lifts.length > 0 && (
+                            <CardDescription>{t('onboarding.benchmark.desc')}</CardDescription>
+                        )}
+                    </CardHeader>
+                    <CardContent>
+                        <form onSubmit={handleBenchmarkSubmit} className="space-y-6">
+                            {lifts.map(({ stat, lift }) => {
+                                const isUnknown = unknownStats.has(stat);
+                                return (
+                                    <div key={stat} className="space-y-2">
+                                        <Label htmlFor={stat} className="text-base">
+                                            {t(`onboarding.benchmark.lifts.${lift.key}.label`)}
+                                        </Label>
+                                        <Input
+                                            id={stat}
+                                            name={stat}
+                                            type="number"
+                                            min="0"
+                                            step="2.5"
+                                            inputMode="decimal"
+                                            disabled={isUnknown}
+                                            placeholder={`e.g. ${lift.placeholder}`}
+                                            className="text-lg"
+                                            onChange={handleStatsChange}
+                                        />
+                                        <p className="text-xs text-muted-foreground">
+                                            {t(`onboarding.benchmark.lifts.${lift.key}.hint`)}
+                                        </p>
+                                        <label className="flex items-center gap-2 pt-1 cursor-pointer">
+                                            <Checkbox
+                                                checked={isUnknown}
+                                                onCheckedChange={() => setUnknownStats(prev => {
+                                                    const next = new Set(prev);
+                                                    if (next.has(stat)) next.delete(stat); else next.add(stat);
+                                                    return next;
+                                                })}
+                                            />
+                                            <span className="text-sm text-muted-foreground">
+                                                {t('onboarding.benchmark.unknownToggle')}
+                                            </span>
+                                        </label>
+                                        {isUnknown && (
+                                            <div className="flex gap-2 rounded border border-primary/20 bg-primary/5 p-3 text-xs text-muted-foreground">
+                                                <AlertCircle className="h-4 w-4 shrink-0 text-primary" />
+                                                <span>{t('onboarding.benchmark.unknownNote')}</span>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+
+                            {allUnknown && (
+                                <p className="text-xs text-muted-foreground">
+                                    {t('onboarding.benchmark.allUnknownNote')}
+                                </p>
+                            )}
+
+                            <Button type="submit" className="w-full h-12 text-lg font-bold" size="lg">
+                                <CheckCircle2 className="mr-2 h-5 w-5" />
+                                {t('onboarding.benchmark.buildButton')}
                             </Button>
                         </form>
                     </CardContent>

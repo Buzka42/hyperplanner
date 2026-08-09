@@ -488,6 +488,28 @@ export const translations = {
                 }
             },
 
+            // Generic benchmark step — shown for plans whose progressions are
+            // percentage-based. Which lifts appear is derived from plan data.
+            benchmark: {
+                title: "Starting Numbers",
+                desc: "This plan prescribes loads as a percentage of your max. Enter what you know — anything you skip is calibrated in your first session.",
+                unknownToggle: "I don't know this one",
+                unknownNote: "Your first working set of this lift will be a calibration set: start with a weight you could manage for about 8-10 reps, stop 2 reps short of failure, and the app sets your working loads from the result.",
+                howToFind: "How to find this number",
+                buildButton: "BUILD MY PROGRAM",
+                allUnknownNote: "You're calibrating every lift. Your first session of each will find your loads — expect the first week to be exploratory.",
+                lifts: {
+                    pausedBench: { label: "Paused Bench Press 1RM (kg)", hint: "Pause on the chest, full ROM." },
+                    squat: { label: "Squat 1RM (kg)", hint: "Full depth, controlled." },
+                    lowBarSquat: { label: "Low Bar Squat 1RM (kg)", hint: "Competition depth, full ROM." },
+                    conventionalDeadlift: { label: "Conventional Deadlift 1RM (kg)", hint: "Your true max, not an estimate." },
+                    wideGripBench: { label: "Wide-Grip Bench 1RM (kg)", hint: "Wider than your competition grip." },
+                    spotoPress: { label: "Spoto Press 1RM (kg)", hint: "Paused just above the chest." },
+                    lowPinPress: { label: "Low Pin Press 1RM (kg)", hint: "Dead stop at chest height." },
+                    btnPress: { label: "Behind-the-Neck Press 1RM (kg)", hint: "Only if you own the shoulder mobility." }
+                }
+            },
+
             // Pain & Glory Calibration
             painGlory: {
                 calibrationTitle: "Calibration Phase",
@@ -1774,6 +1796,28 @@ export const translations = {
                         "Trzymaj ciężar, aż wszystkie dziesięć serii da dziesiątkę",
                         "Druga połowa zamienia serię na ciężar"
                     ]
+                }
+            },
+
+            // Generic benchmark step — shown for plans whose progressions are
+            // percentage-based. Which lifts appear is derived from plan data.
+            benchmark: {
+                title: "Liczby startowe",
+                desc: "Ten plan wylicza ciężary jako procent twojego maksimum. Podaj to, co wiesz — resztę skalibrujemy na pierwszym treningu.",
+                unknownToggle: "Nie znam tej wartości",
+                unknownNote: "Twoja pierwsza seria robocza w tym boju będzie serią kalibracyjną: zacznij od ciężaru na jakieś 8-10 powtórzeń, skończ 2 powtórzenia przed upadkiem, a aplikacja ustawi ciężary robocze na podstawie wyniku.",
+                howToFind: "Jak znaleźć tę liczbę",
+                buildButton: "ZBUDUJ MÓJ PROGRAM",
+                allUnknownNote: "Kalibrujesz każdy bój. Pierwszy trening każdego z nich wyznaczy ciężary — potraktuj pierwszy tydzień jako rozpoznanie.",
+                lifts: {
+                    pausedBench: { label: "Wyciskanie z pauzą 1RM (kg)", hint: "Pauza na klatce, pełny zakres ruchu." },
+                    squat: { label: "Przysiad 1RM (kg)", hint: "Pełna głębokość, pod kontrolą." },
+                    lowBarSquat: { label: "Przysiad low bar 1RM (kg)", hint: "Głębokość poniżej kąta 90 stopni w kolanie." },
+                    conventionalDeadlift: { label: "Klasyczny martwy ciąg 1RM (kg)", hint: "Prawdziwe maksimum, nie szacunek." },
+                    wideGripBench: { label: "Wyciskanie szerokim chwytem 1RM (kg)", hint: "Szerzej niż twój chwyt startowy." },
+                    spotoPress: { label: "Spoto Press 1RM (kg)", hint: "Pauza tuż nad klatką." },
+                    lowPinPress: { label: "Wyciskanie z niskich pinów 1RM (kg)", hint: "Martwy start na wysokości klatki." },
+                    btnPress: { label: "Wyciskanie zza karku 1RM (kg)", hint: "Tylko jeśli masz mobilność barków." }
                 }
             },
 

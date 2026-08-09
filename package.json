@@ -25,7 +25,8 @@
     "verify:volume": "npx --yes tsx scripts/verify-volume.ts",
     "verify:extra-sets": "npx --yes tsx scripts/verify-extra-sets.ts",
     "verify:techniques": "npx --yes tsx scripts/verify-techniques.ts",
-    "verify:progression": "npx --yes tsx scripts/verify-progression.ts"
+    "verify:progression": "npx --yes tsx scripts/verify-progression.ts",
+    "verify:onboarding": "npx --yes tsx scripts/verify-onboarding.ts"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",

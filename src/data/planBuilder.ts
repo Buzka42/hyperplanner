@@ -137,6 +137,32 @@ export const techniqueLabel = (technique: IntensityTechniqueSpec): string => {
     }
 };
 
+/**
+ * The stat keys a plan's progressions resolve against.
+ *
+ * Onboarding reads this to ask for exactly the maxes a plan uses — no more (a
+ * hypertrophy plan should never be asked for a deadlift 1RM it ignores) and no
+ * fewer (a percentage progression whose base was never collected silently falls
+ * back to WorkoutView's generic estimate, so the authored percentages never
+ * apply). Deriving it from the specs keeps new plans correct by default.
+ *
+ * Reads base slots only, matching `buildWeightCalculator` — neither applies
+ * phase transforms. If a transform ever rewrites `progression`, both must change.
+ */
+export const requiredStatsFor = (spec: PlanSpec): (keyof LiftingStats)[] => {
+    const keys = new Set<keyof LiftingStats>();
+    for (const day of spec.days) {
+        for (const slot of day.slots) {
+            const progression = slot.progression;
+            if (!progression) continue;
+            if (progression.type === 'percentage' || progression.type === 'wave' || progression.type === 'linear') {
+                keys.add(progression.of);
+            }
+        }
+    }
+    return [...keys];
+};
+
 const phaseFor = (spec: PlanSpec, week: number): PhaseSpec | undefined =>
     spec.phases?.find(p => p.weeks.includes(week));
 
@@ -213,6 +239,7 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
         program,
         ui: spec.ui,
         session: spec.session,
+        onboarding: { requiredStats: requiredStatsFor(spec) },
         hooks: {
             calculateWeight: buildWeightCalculator(spec),
             ...(spec.hooks ?? {}),
