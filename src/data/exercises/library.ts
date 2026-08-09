@@ -396,8 +396,12 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = [
         name: { en: 'Close-Grip Bench Press', pl: '' },
         aliases: [],
         pattern: 'horizontal-press',
-        primary: ['chest'],
-        secondary: ['triceps', 'frontDelt'],
+        // Triceps are a primary driver here, not incidental — this is Poliquin's
+        // own reference lift for upper-body structural balance. Counting it as
+        // chest-only made Pencilneck's "Chest/Delts/Tri" day register zero
+        // direct tricep work.
+        primary: ['chest', 'triceps'],
+        secondary: ['frontDelt'],
         equipment: ['barbell'],
         weightMode: 'external',
         status: 'active',
