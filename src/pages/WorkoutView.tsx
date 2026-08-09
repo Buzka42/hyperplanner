@@ -17,6 +17,7 @@ import { PrescriptionBadges } from '../features/workout/PrescriptionBadges';
 import { RestTimer } from '../features/workout/RestTimer';
 import { SwapSheet } from '../features/workout/SwapSheet';
 import { techniqueAppliesTo, techniqueRows } from '../features/workout/techniqueSets';
+import { PROGRESSION_HANDLERS } from '../features/workout/progression';
 import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
@@ -862,88 +863,29 @@ export const WorkoutView: React.FC = () => {
             }
             // ========== END BENCH DOMINATION DELOAD TRIGGERS ==========
 
-            // Squat History Logic (For Peachy Program)
-            let squatHistoryEntry = null;
-            if (programData.id === 'peachy-glute-plan' && !isExistingLog) {
-                dayData?.exercises.forEach(ex => {
-                    if (ex.name === "Squats") {
-                        const sets = exerciseData[ex.id];
-                        if (sets && sets.length > 0) {
-                            // Find max weight for valid set
-                            let maxWeight = 0;
-                            let maxReps = 0;
-                            sets.forEach(s => {
-                                const w = parseFloat(s.weight);
-                                const r = parseInt(s.reps);
-                                if (!isNaN(w) && !isNaN(r) && s.completed) {
-                                    if (w > maxWeight) {
-                                        maxWeight = w;
-                                        maxReps = r;
-                                    }
-                                }
-                            });
+            // Peachy + Pencilneck strength history — see
+            // src/features/workout/progression/, checked by verify:progression.
+            {
+                const handler = PROGRESSION_HANDLERS[programData.id];
+                if (handler) {
+                    const result = handler({
+                        planId: programData.id,
+                        week: weekNum,
+                        day: dayNum,
+                        isExistingLog,
+                        user,
+                        workout: dayData,
+                        sets: exerciseData,
+                    });
 
-                            if (maxWeight > 0) {
-                                squatHistoryEntry = {
-                                    date: new Date().toISOString(),
-                                    week: weekNum,
-                                    weight: maxWeight,
-                                    actualWeight: maxWeight,
-                                    actualReps: maxReps
-                                };
-                            }
-                        }
+                    const payload: Record<string, unknown> = { ...result.updates };
+                    for (const append of result.appends) {
+                        payload[append.field] = arrayUnion(append.value);
                     }
-                });
-            }
-
-            if (squatHistoryEntry) {
-                await updateDoc(userRef, {
-                    squatHistory: arrayUnion(squatHistoryEntry)
-                });
-            }
-
-            // Pencilneck Bench History Check
-            let pencilneckBenchEntry = null;
-            if (programData.id === 'pencilneck-eradication' && !isExistingLog) {
-                dayData?.exercises.forEach(ex => {
-                    if (ex.name === "Flat Barbell Bench Press") {
-                        const sets = exerciseData[ex.id];
-                        if (sets && sets.length > 0) {
-                            // Calculate Best Est 1RM
-                            let bestEst1RM = 0;
-                            let bestSet: { w: number, r: number } | null = null;
-
-                            for (const s of sets) {
-                                const w = parseFloat(s.weight);
-                                const r = parseInt(s.reps);
-                                if (!isNaN(w) && !isNaN(r) && s.completed) {
-                                    const est1RM = w * (1 + r / 30);
-                                    if (est1RM > bestEst1RM) {
-                                        bestEst1RM = est1RM;
-                                        bestSet = { w, r };
-                                    }
-                                }
-                            }
-
-                            if (bestEst1RM > 0 && bestSet) {
-                                pencilneckBenchEntry = {
-                                    date: new Date().toISOString(),
-                                    week: weekNum,
-                                    weight: Math.round(bestEst1RM), // Store Est 1RM as 'weight'
-                                    actualWeight: bestSet.w,
-                                    actualReps: bestSet.r
-                                };
-                            }
-                        }
+                    if (Object.keys(payload).length > 0) {
+                        await updateDoc(userRef, payload);
                     }
-                });
-            }
-
-            if (pencilneckBenchEntry) {
-                await updateDoc(userRef, {
-                    pencilneckBenchHistory: arrayUnion(pencilneckBenchEntry)
-                });
+                }
             }
 
             // Skeleton: Planks time progression (+10s if all sets hit the current target)

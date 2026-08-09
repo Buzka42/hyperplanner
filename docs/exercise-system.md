@@ -162,6 +162,8 @@ choices made under the old one rather than honouring them forever.
 | `verify:tip-equivalence` | Each exercise still resolves to the *same* tip as before |
 | `verify:volume` | Weekly muscle frequency against the concept doc's rules (`--strict` to fail) |
 | `verify:extra-sets` | Extras are separated from prescribed work and ignored by progression |
+| `verify:techniques` | Each technique expands into the right rows with sane loads |
+| `verify:progression` | Extracted progression handlers follow the rules in docs/plans/ |
 
 `verify:library` walks every week and day of every plan, running each
 generator against synthetic users — currently about 85,000 exercise references.
@@ -170,6 +172,32 @@ Two lessons are baked into these: a check that only confirms *presence* is not
 enough (the onboarding copy passed while eight plans had their languages
 swapped), and data can be complete while the lookup returns the wrong row
 (which is why tip coverage and tip equivalence are separate scripts).
+
+---
+
+## Save-time progression
+
+Per-plan progression — the rules that update a 1RM, record a strength history
+entry or advance a block when a session is saved — historically lived inline in
+`handleSaveSession`, an ~830-line function covering eight plans with no tests.
+
+It is being extracted a plan at a time into
+`src/features/workout/progression/`. Handlers are pure: they receive the
+session and return `{ updates, appends }`, and the caller writes to Firestore.
+That is what makes them testable at all.
+
+`verify:progression` checks them against the rules documented in docs/plans/
+rather than against a copy of the original code — a test that compares
+extracted code to the code it came from proves only that the copy succeeded,
+and would pass just as happily on a faithfully copied bug.
+
+Extracted so far: Peachy and Pencilneck strength history. Everything else still
+runs inline; `PROGRESSION_HANDLERS` is consulted first and anything absent
+falls through to the existing path, so extraction is incremental and reversible.
+
+Note that extraction is not always behaviour-preserving by design. The
+extracted handlers ignore extra and technique sets, which the inline code did
+not — previously an extra set could set a false strength record.
 
 ---
 

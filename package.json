@@ -24,7 +24,8 @@
     "verify:tip-equivalence": "npx --yes tsx scripts/verify-tip-equivalence.ts",
     "verify:volume": "npx --yes tsx scripts/verify-volume.ts",
     "verify:extra-sets": "npx --yes tsx scripts/verify-extra-sets.ts",
-    "verify:techniques": "npx --yes tsx scripts/verify-techniques.ts"
+    "verify:techniques": "npx --yes tsx scripts/verify-techniques.ts",
+    "verify:progression": "npx --yes tsx scripts/verify-progression.ts"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",
