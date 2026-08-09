@@ -21,8 +21,7 @@ import { PROGRESSION_HANDLERS } from '../features/workout/progression';
 import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
-import { selectVariation, getBlockFromWorkout } from '../data/trinary';
-import { getMuscleContributions } from '../data/supermutant';
+import { selectVariation } from '../data/trinary';
 
 interface SetLog {
     reps: string;
@@ -60,21 +59,6 @@ const getBaseSetsCount = (ex: { name: string; sets: number; baseSets?: number; g
         ? prescribed * (ex.giantSetConfig?.steps.length || 1)
         : (isPullup ? pullupSetCount : prescribed);
 };
-
-/**
- * Sets the plan prescribed, excluding anything the athlete added.
- *
- * Progression must be judged on prescribed work only: before this, adding a
- * single extra set to an exercise could stop a `+2.5 kg` increase, because the
- * "did every set hit the top of the range?" checks counted it.
- *
- * Untagged sets count as work, so every pre-existing log behaves as before.
- */
-const workSets = <T extends { kind?: string }>(sets: T[] | undefined): T[] =>
-    // An allowlist, not a blocklist: drop sets, rest-pause bursts, myo-reps and
-    // cluster rows are all real logged work but none of them are the
-    // prescription, and a blocklist would silently let each new kind back in.
-    (sets ?? []).filter(set => set.kind === undefined || set.kind === 'work');
 
 export const WorkoutView: React.FC = () => {
     const { week, day } = useParams();
@@ -664,6 +648,10 @@ export const WorkoutView: React.FC = () => {
 
             // Set by progression effects below; consumed after the save.
             let navigateToDashboard: Record<string, boolean> | null = null;
+            // A modal raised by progression. Opened after the session is saved,
+            // so a failed save never leaves the athlete answering a prompt about
+            // work that was not recorded.
+            let pendingModal: 'deficit' | 'trinary-rerun' | 'weak-point' | null = null;
 
             // Per-plan save-time progression — see
             // src/features/workout/progression/, checked by verify:progression.
@@ -678,11 +666,15 @@ export const WorkoutView: React.FC = () => {
                         user,
                         workout: dayData,
                         sets: exerciseData,
+                        selections: { meProgression: meRpeSelected, slowVelocity: slowVelocitySelected },
                     });
 
                     const payload: Record<string, unknown> = { ...result.updates };
                     for (const append of result.appends) {
                         payload[append.field] = arrayUnion(append.value);
+                    }
+                    for (const [field, by] of Object.entries(result.increments ?? {})) {
+                        payload[field] = increment(by);
                     }
                     if (Object.keys(payload).length > 0) {
                         await updateDoc(userRef, payload);
@@ -695,6 +687,12 @@ export const WorkoutView: React.FC = () => {
                             navigateToDashboard = { showSkeletonCompletion: true };
                         } else if (effect.type === 'openPencilneckCompletion') {
                             navigateToDashboard = { showPencilneckCompletion: true };
+                        } else if (effect.type === 'openDeficitFeedback') {
+                            pendingModal = 'deficit';
+                        } else if (effect.type === 'openTrinaryRerun') {
+                            pendingModal = 'trinary-rerun';
+                        } else if (effect.type === 'openWeakPointPicker') {
+                            pendingModal = 'weak-point';
                         }
                     }
                 }
@@ -733,85 +731,18 @@ export const WorkoutView: React.FC = () => {
                 await addDoc(workoutsRef, sessionLog);
             }
 
-            // Pain & Glory: Automatic progression logic
-            if (programData.id === 'pain-and-glory') {
-                const userRef = doc(db, 'users', user.id);
-
-                // Paused Low Bar Squat automatic progression (weeks 1-8 only)
-                const squatExercise = sessionLog.exercises.find((ex: any) => ex.name === 'Paused Low Bar Squat');
-                if (squatExercise && weekNum >= 1 && weekNum <= 8) {
-                    const squatSets = squatExercise.setsData;
-                    const targetMet = squatSets.every((set: any) => {
-                        const reps = parseInt(set.reps || '0');
-                        return reps >= 4 && reps <= 6 && set.completed;
-                    });
-
-                    if (targetMet) {
-                        // +2.5 kg for next session
-                        const currentProgress = user.painGloryStatus?.squatProgress || 0;
-                        await updateDoc(userRef, {
-                            'painGloryStatus.squatProgress': currentProgress + 2.5
-                        });
-                    }
-
-                    // Save week 8 weight for maintenance phase
-                    if (weekNum === 8) {
-                        const week8Weight = parseFloat(squatSets[0]?.weight || '0');
-                        await updateDoc(userRef, {
-                            'painGloryStatus.week8SquatWeight': week8Weight
-                        });
-                    }
-                }
-
-                // E2MOM automatic progression (weeks 9-12)
-                const e2momExercise = sessionLog.exercises.find((ex: any) => ex.name === 'Conventional Deadlift (E2MOM)');
-                if (e2momExercise && weekNum >= 9 && weekNum <= 12) {
-                    const e2momSets = e2momExercise.setsData;
-                    if (e2momSets.length >= 6) {
-                        const allHit5Reps = e2momSets.slice(0, 6).every((set: any) => {
-                            const reps = parseInt(set.reps || '0');
-                            return reps >= 5 && set.completed;
-                        });
-
-                        if (allHit5Reps) {
-                            // +2.5 kg for next session
-                            const currentAdjustment = user.painGloryStatus?.e2momWeightAdjustment || 0;
-                            await updateDoc(userRef, {
-                                'painGloryStatus.e2momWeightAdjustment': currentAdjustment + 2.5
-                            });
-                        }
-                    }
-                }
-
-                // Week 13 AMRAP: Calculate e1RM using Epley formula
-                const amrapExercise = sessionLog.exercises.find((ex: any) => ex.name === 'Conventional Deadlift (AMRAP)');
-                if (amrapExercise && weekNum === 13) {
-                    const amrapSet = amrapExercise.setsData[0];
-                    if (amrapSet && amrapSet.completed) {
-                        const weight = parseFloat(amrapSet.weight || '0');
-                        const reps = parseInt(amrapSet.reps || '0');
-
-                        if (weight > 0 && reps > 0) {
-                            // Epley formula: weight × (1 + reps/30)
-                            const e1rm = weight * (1 + reps / 30);
-                            const roundedE1RM = Math.floor(e1rm / 2.5) * 2.5;
-
-                            await updateDoc(userRef, {
-                                'painGloryStatus.amrapWeight': weight,
-                                'painGloryStatus.amrapReps': reps,
-                                'painGloryStatus.estimatedE1RM': roundedE1RM
-                            });
-                        }
-                    }
-                }
+            // Modals raised by progression, opened now that the session is saved.
+            if (pendingModal === 'trinary-rerun') {
+                setShowTrinaryRerunModal(true);
+                setSubmitting(false);
+                return;
             }
-
-            // Pain & Glory: Check for Deficit Snatch Grip exercise and show modal
-            const hasDeficitSnatchGrip = dayData?.exercises.some(ex =>
-                ex.name === "Deficit Snatch Grip Deadlift"
-            );
-
-            if (programData.id === 'pain-and-glory' && hasDeficitSnatchGrip && weekNum >= 1 && weekNum <= 11) {
+            if (pendingModal === 'weak-point') {
+                setShowWeakPointModal(true);
+                setSubmitting(false);
+                return;
+            }
+            if (pendingModal === 'deficit') {
                 setPendingSessionLog(sessionLog);
                 setShowDeficitModal(true);
                 setSubmitting(false);
@@ -819,370 +750,15 @@ export const WorkoutView: React.FC = () => {
             }
 
             // ========== TRINARY SPECIFIC LOGIC ==========
-            if (programData.id === 'trinary') {
-                const trinaryStatus = (user as any).trinaryStatus;
-                if (trinaryStatus) {
-                    const currentWorkout = trinaryStatus.completedWorkouts + 1;
-                    const userRef = doc(db, 'users', user.id);
 
-                    // Check if this is an accessory day (check if dayName contains 'AccessoryDay')
-                    const isAccessoryDay = dayData?.dayName?.includes('Accessory') || false;
-
-                    // Update completed workouts count
-                    const updates: any = {
-                        'trinaryStatus.workoutLog': arrayUnion({
-                            date: new Date().toISOString(),
-                            workoutNumber: currentWorkout
-                        })
-                    };
-
-                    // Only increment main program progress if NOT an accessory day
-                    if (!isAccessoryDay) {
-                        updates['trinaryStatus.completedWorkouts'] = currentWorkout;
-                        updates['trinaryStatus.currentBlock'] = getBlockFromWorkout(currentWorkout);
-                    }
-
-                    // If accessory day, increment the counter and reset preference
-                    if (isAccessoryDay) {
-                        updates['trinaryStatus.accessoryDaysCompleted'] = increment(1);
-                        updates['trinaryStatus.preferredAccessoryType'] = null;
-                        updates['trinaryStatus.forceAccessoryDay'] = false;
-                    }
-
-                    // Always reset skip flag when completing a workout
-                    updates['trinaryStatus.skipNextAccessory'] = false;
-
-                    await updateDoc(userRef, updates);
-
-                    // ME Progression: Check for RPE selection and apply progression based on RPE
-                    // Required rep count depends on the user's onboarding choice (1RM singles vs 3RM ladder)
-                    for (const ex of dayData?.exercises || []) {
-                        if (ex.name.includes('(ME)') && meRpeSelected[ex.id]) {
-                            const sets = exerciseData[ex.id];
-                            const requiredReps = ex.sets <= 1 ? 1 : 3;
-                            if (sets && sets.length >= ex.sets) {
-                                // Check if all sets hit the required top reps
-                                const allHit3 = workSets(sets).every(s => parseInt(s.reps) >= requiredReps);
-                                if (allHit3) {
-                                    // Determine progression amount based on RPE
-                                    let progressionAmount = 0;
-                                    const rpe = meRpeSelected[ex.id];
-                                    if (rpe === 7) progressionAmount = 10; // RPE ≤7
-                                    else if (rpe === 7.5) progressionAmount = 5; // RPE 7-8
-                                    else if (rpe === 8.5) progressionAmount = 2.5; // RPE 8-9
-
-                                    if (progressionAmount > 0) {
-                                        // Determine which lift to update
-                                        const baseName = ex.name.replace(' (ME)', '');
-                                        let liftKey = '';
-                                        if (baseName.toLowerCase().includes('bench') || baseName.toLowerCase().includes('press') ||
-                                            baseName.toLowerCase().includes('floor') || baseName.toLowerCase().includes('board')) {
-                                            liftKey = 'bench1RM';
-                                        } else if (baseName.toLowerCase().includes('deadlift') || baseName.toLowerCase().includes('rdl') ||
-                                            baseName.toLowerCase().includes('deficit') || baseName.toLowerCase().includes('rack')) {
-                                            liftKey = 'deadlift1RM';
-                                        } else if (baseName.toLowerCase().includes('squat') || baseName.toLowerCase().includes('box')) {
-                                            liftKey = 'squat1RM';
-                                        }
-
-                                        if (liftKey) {
-                                            const current1RM = trinaryStatus[liftKey] || 0;
-                                            await updateDoc(userRef, {
-                                                [`trinaryStatus.${liftKey}`]: current1RM + progressionAmount
-                                            });
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        // RE Progression: Double progression - hit 12 reps on all sets = +2.5kg
-                        if (ex.name.includes('(RE)')) {
-                            const sets = exerciseData[ex.id];
-                            if (sets && sets.length >= 4) {
-                                // Check if all sets hit 12 reps
-                                const allHit12 = workSets(sets).every(s => parseInt(s.reps) >= 12);
-                                if (allHit12) {
-                                    // Determine which lift
-                                    const baseName = ex.name.replace(' (RE)', '');
-                                    let liftType: 'bench' | 'deadlift' | 'squat' | null = null;
-                                    if (baseName.toLowerCase().includes('bench') || baseName.toLowerCase().includes('press')) {
-                                        liftType = 'bench';
-                                    } else if (baseName.toLowerCase().includes('deadlift') || baseName.toLowerCase().includes('rdl') ||
-                                        baseName.toLowerCase().includes('deficit') || baseName.toLowerCase().includes('hyperextension') ||
-                                        baseName.toLowerCase().includes('good morning')) {
-                                        liftType = 'deadlift';
-                                    } else if (baseName.toLowerCase().includes('squat') || baseName.toLowerCase().includes('box')) {
-                                        liftType = 'squat';
-                                    }
-
-                                    if (liftType) {
-                                        // Add to reProgressionPending array
-                                        const currentPending = trinaryStatus.reProgressionPending || [];
-                                        const existingIndex = currentPending.findIndex((p: any) => p.lift === liftType);
-
-                                        let newPending;
-                                        if (existingIndex >= 0) {
-                                            // Add to existing
-                                            newPending = currentPending.map((p: any, i: number) =>
-                                                i === existingIndex ? { ...p, amount: p.amount + 2.5 } : p
-                                            );
-                                        } else {
-                                            // Add new entry
-                                            newPending = [...currentPending, { lift: liftType, amount: 2.5 }];
-                                        }
-
-                                        await updateDoc(userRef, {
-                                            'trinaryStatus.reProgressionPending': newPending
-                                        });
-                                    }
-                                }
-                            }
-                        }
-
-                        // DE progression: completing all prescribed speed sets earns +2.5 kg
-                        // of bar weight for that lift's next DE exposure. Bands/chains remain
-                        // an optional coaching alternative, but never mutate workout history.
-                        if (ex.name.includes('(DE)')) {
-                            const sets = exerciseData[ex.id];
-                            if (sets && workSets(sets).length >= ((ex as { baseSets?: number }).baseSets ?? ex.sets) && workSets(sets).every(s => s.completed && parseInt(s.reps) >= 2)) {
-                                const baseName = ex.name.replace(' (DE)', '').toLowerCase();
-                                const liftType: 'bench' | 'deadlift' | 'squat' =
-                                    baseName.includes('bench') || baseName.includes('press') ? 'bench' :
-                                        baseName.includes('deadlift') || baseName.includes('rdl') ? 'deadlift' : 'squat';
-                                const currentPending = trinaryStatus.deProgressionPending || [];
-                                const existing = currentPending.find((p: any) => p.lift === liftType);
-                                const newPending = existing
-                                    ? currentPending.map((p: any) => p.lift === liftType ? { ...p, amount: p.amount + 2.5 } : p)
-                                    : [...currentPending, { lift: liftType, amount: 2.5 }];
-                                await updateDoc(userRef, { 'trinaryStatus.deProgressionPending': newPending });
-                            }
-                        }
-                    }
-
-                    // Check if workout 27 (end of program) - show re-run modal
-                    if (currentWorkout >= 27) {
-                        setShowTrinaryRerunModal(true);
-                        setSubmitting(false);
-                        return;
-                    }
-
-                    // Check if every 9th workout (9, 18) - show weak point modal for variation change
-                    // Program runs 3 blocks (9 workouts) on same variations, then asks for new weak points
-                    if (currentWorkout % 9 === 0 && currentWorkout < 27) {
-                        setShowWeakPointModal(true);
-                        setSubmitting(false);
-                        return;
-                    }
-                }
-            }
             // ========== END TRINARY LOGIC ==========
 
             // ========== SUPER MUTANT LOGIC ==========
-            if (programData.id === 'super-mutant' && !isExistingLog) {
-                const superMutantStatus = user.superMutantStatus;
-                if (superMutantStatus) {
-                    const userRef = doc(db, 'users', user.id);
-                    const updates: any = {};
-                    const now = Date.now();
 
-                    // Increment workout counter
-                    updates['superMutantStatus.completedWorkouts'] = (superMutantStatus.completedWorkouts || 0) + 1;
-
-                    // Update timestamps for trained muscle groups.
-                    // Muscle attribution comes from getMuscleContributions (stable
-                    // exercise-id mapping) — name keywords misfired constantly
-                    // ("Seated Ham Curl" -> biceps, "Standing Calf Raises" -> shoulders).
-                    const trainedGroups: string[] = [];
-                    for (const ex of dayData?.exercises || []) {
-                        const contrib = getMuscleContributions(ex.id);
-                        for (const [muscle, share] of Object.entries(contrib)) {
-                            if (share >= 1) trainedGroups.push(muscle);
-                        }
-                    }
-
-                    // Remove duplicates and update timestamps
-                    const uniqueGroups = [...new Set(trainedGroups)];
-                    uniqueGroups.forEach(group => {
-                        updates[`superMutantStatus.muscleGroupTimestamps.${group}`] = now;
-                    });
-
-                    // Update rolling 7-day volume with fractional counting for
-                    // assisting muscles (same id-based mapping as timestamps).
-                    const volumeUpdates: Record<string, number> = {};
-
-                    for (const ex of dayData?.exercises || []) {
-                        const sets = exerciseData[ex.id] || [];
-                        const completedSets = sets.filter(s => s.completed && s.reps && s.reps.trim() !== '').length;
-                        if (completedSets === 0) continue;
-
-                        const contrib = getMuscleContributions(ex.id);
-                        for (const [muscle, share] of Object.entries(contrib)) {
-                            volumeUpdates[muscle] = (volumeUpdates[muscle] || 0) + completedSets * share;
-                        }
-                    }
-
-                    // Rebuild the true rolling 7-day ledger so old sets expire.
-                    const cutoff = now - 7 * 24 * 60 * 60 * 1000;
-                    const volumeHistory = (superMutantStatus.volumeHistory || [])
-                        .filter(entry => new Date(entry.date).getTime() > cutoff)
-                        .concat({ date: new Date(now).toISOString(), contributions: volumeUpdates });
-                    const rollingVolume: Record<string, number> = {};
-                    for (const entry of volumeHistory) for (const [muscle, amount] of Object.entries(entry.contributions)) {
-                        rollingVolume[muscle] = (rollingVolume[muscle] || 0) + amount;
-                    }
-                    updates['superMutantStatus.volumeHistory'] = volumeHistory;
-                    updates['superMutantStatus.rolling7DayVolume'] = rollingVolume;
-
-                    // Double progression: all prescribed sets at the top of the
-                    // rep range advances the saved load for the next exposure.
-                    for (const ex of dayData?.exercises || []) {
-                        if (ex.target.type !== 'range') continue;
-                        const topReps = Number(String(ex.target.reps).split('-').pop());
-                        const sets = exerciseData[ex.id] || [];
-                        const hitTop = sets.length >= ex.sets && sets.slice(0, ex.sets).every(s => s.completed && Number(s.reps) >= topReps);
-                        if (!hitTop) continue;
-                        const heaviest = Math.max(...sets.map(s => Number(s.weight) || 0));
-                        if (heaviest <= 0) continue;
-                        const compound = /chest-[ab]-main|hamstrings-2|quads-2/.test(ex.id);
-                        updates[`superMutantStatus.exerciseLoads.${ex.id}`] = heaviest + (compound ? 5 : 2.5);
-                    }
-
-                    // Alternate A/B variants
-                    if (uniqueGroups.includes('chest')) {
-                        updates['superMutantStatus.chestVariant'] = superMutantStatus.chestVariant === 'A' ? 'B' : 'A';
-                    }
-                    if (uniqueGroups.includes('back')) {
-                        updates['superMutantStatus.backVariant'] = superMutantStatus.backVariant === 'A' ? 'B' : 'A';
-                    }
-
-                    // Update weekly session dates for cap tracking
-                    const todayStr = new Date().toISOString();
-                    const currentDates = superMutantStatus.weeklySessionDates || [];
-                    const weekAgo = new Date();
-                    weekAgo.setDate(weekAgo.getDate() - 7);
-
-                    // Filter to last 7 days and add today
-                    const recentDates = currentDates
-                        .filter((d: string) => new Date(d) >= weekAgo)
-                        .concat(todayStr);
-                    updates['superMutantStatus.weeklySessionDates'] = recentDates;
-
-                    await updateDoc(userRef, updates);
-                }
-            }
             // ========== END SUPER MUTANT LOGIC ==========
 
             // ========== RITUAL OF STRENGTH LOGIC ==========
-            if (programData.id === 'ritual-of-strength') {
-                const ritualStatus = (user as any).ritualStatus;
-                if (ritualStatus) {
-                    const userRef = doc(db, 'users', user.id);
-                    const updates: any = {};
 
-                    if (!isExistingLog) {
-                        const completedWorkouts = (ritualStatus.completedWorkouts || 0) + 1;
-                        const startScheduleWeek = ritualStatus.isFirstProgram ? 1 : 5;
-                        updates['ritualStatus.completedWorkouts'] = completedWorkouts;
-                        updates['ritualStatus.currentWeek'] = Math.min(19, startScheduleWeek + Math.floor(completedWorkouts / 3));
-                    }
-
-                    // Ascension Test: Update 1RMs based on AMRAP performance.
-                    // Fires on EVERY ascension week (4, 8, 12, 16), not just week 4 —
-                    // it's gated by the exercise name, which only carries "Ascension Test"
-                    // on those weeks anyway (see isAscensionWeek in createRitualWeeks).
-                    if (!isExistingLog) {
-                        for (const ex of dayData?.exercises || []) {
-                            const sets = exerciseData[ex.id];
-                            if (ex.name.includes('Ascension Test') && sets && sets.length > 0) {
-                                // Find the AMRAP set (first set should be the AMRAP)
-                                const amrapSet = sets[0];
-                                if (amrapSet && amrapSet.completed) {
-                                    const weight = parseFloat(amrapSet.weight);
-                                    const reps = parseInt(amrapSet.reps);
-
-                                    if (weight > 0 && reps > 0) {
-                                        // Calculate new 1RM using Epley formula: weight × (1 + reps/30)
-                                        const new1RM = weight * (1 + reps / 30);
-                                        const rounded1RM = Math.floor(new1RM / 2.5) * 2.5;
-
-                                        // Reset the lift's accumulated ME checkbox bonus — it was
-                                        // calculated against the OLD 1RM and would otherwise stack
-                                        // on top of the freshly-recalculated one.
-                                        if (ex.name.includes('Bench')) {
-                                            updates['ritualStatus.benchPress1RM'] = rounded1RM;
-                                            updates['ritualStatus.benchMEProgression'] = 0;
-                                        } else if (ex.name.includes('Squat')) {
-                                            updates['ritualStatus.squat1RM'] = rounded1RM;
-                                            updates['ritualStatus.squatMEProgression'] = 0;
-                                        } else if (ex.name.includes('Deadlift')) {
-                                            updates['ritualStatus.deadlift1RM'] = rounded1RM;
-                                            updates['ritualStatus.deadliftMEProgression'] = 0;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // Weeks 5+: ME singles update 1RM if heavier weight is hit
-                    if (weekNum >= 5 && !isExistingLog) {
-                        for (const ex of dayData?.exercises || []) {
-                            const sets = exerciseData[ex.id];
-                            if (ex.name.includes('(ME)') && sets && sets.length > 0) {
-                                // Find the heaviest successful single
-                                const successfulSingles = sets
-                                    .filter(s => s.completed && parseInt(s.reps) === 1)
-                                    .map(s => parseFloat(s.weight))
-                                    .filter(w => !isNaN(w) && w > 0);
-
-                                if (successfulSingles.length > 0) {
-                                    const heaviest = Math.max(...successfulSingles);
-                                    const roundedWeight = Math.floor(heaviest / 2.5) * 2.5;
-
-                                    // Only update if it's higher than current 1RM
-                                    if (ex.name.includes('Bench') && roundedWeight > ritualStatus.benchPress1RM) {
-                                        updates['ritualStatus.benchPress1RM'] = roundedWeight;
-                                    } else if (ex.name.includes('Squat') && roundedWeight > ritualStatus.squat1RM) {
-                                        updates['ritualStatus.squat1RM'] = roundedWeight;
-                                    } else if (ex.name.includes('Deadlift') && roundedWeight > ritualStatus.deadlift1RM) {
-                                        updates['ritualStatus.deadlift1RM'] = roundedWeight;
-                                    }
-
-                                    // Checkbox-based progression: If safety checkbox is ticked, apply progression
-                                    const progressionAmount = meRpeSelected[ex.id];
-                                    if (progressionAmount && (progressionAmount === 2.5 || progressionAmount === 5)) {
-                                        // Add progression marker for next session
-                                        const progressionKey = ex.name.includes('Bench') ? 'benchMEProgression' :
-                                            ex.name.includes('Squat') ? 'squatMEProgression' :
-                                                ex.name.includes('Deadlift') ? 'deadliftMEProgression' : null;
-
-                                        if (progressionKey) {
-                                            const currentProgression = (ritualStatus as any)[progressionKey] || 0;
-                                            updates[`ritualStatus.${progressionKey}`] = currentProgression + progressionAmount;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (!isExistingLog) {
-                        const pending = { ...(ritualStatus.lightWorkReductionPending || {}) };
-                        for (const ex of dayData?.exercises || []) {
-                            if (!ex.name.includes('(Light)')) continue;
-                            const lift: 'bench' | 'squat' | 'deadlift' = ex.name.toLowerCase().includes('bench') ? 'bench' : ex.name.toLowerCase().includes('squat') ? 'squat' : 'deadlift';
-                            pending[lift] = Boolean(slowVelocitySelected[ex.id]);
-                        }
-                        updates['ritualStatus.lightWorkReductionPending'] = pending;
-                    }
-
-                    // Apply updates if any
-                    if (Object.keys(updates).length > 0) {
-                        await updateDoc(userRef, updates);
-                    }
-                }
-            }
             // ========== END RITUAL LOGIC ==========
 
             if (navigateToDashboard) {

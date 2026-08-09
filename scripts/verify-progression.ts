@@ -16,11 +16,18 @@
 import { peachyProgression, pencilneckProgression } from '../src/features/workout/progression/historyEntries';
 import { skeletonProgression } from '../src/features/workout/progression/skeleton';
 import { benchDominationProgression } from '../src/features/workout/progression/benchDomination';
+import { painGloryProgression } from '../src/features/workout/progression/painGlory';
+import { ritualProgression } from '../src/features/workout/progression/ritual';
+import { trinaryProgression } from '../src/features/workout/progression/trinary';
+import { superMutantProgression } from '../src/features/workout/progression/superMutant';
 import type { LoggedSet, ProgressionContext } from '../src/features/workout/progression/types';
 import type { Exercise, UserProfile, WorkoutDay } from '../src/types';
 
 const failures: string[] = [];
-const check = (ok: boolean, msg: string) => { if (!ok) failures.push(msg); };
+// Counted and reported, so a section that silently stops running is visible
+// rather than passing by not executing.
+let checksRun = 0;
+const check = (ok: boolean, msg: string) => { checksRun++; if (!ok) failures.push(msg); };
 const near = (a: number, b: number, tol = 0.01) => Math.abs(a - b) <= tol;
 
 const exercise = (id: string, name: string): Exercise =>
@@ -332,6 +339,273 @@ const context = (over: Partial<ProgressionContext>): ProgressionContext => ({
 }
 
 // ===========================================================================
+// Pain & Glory — docs/plans/pain-and-glory.md
+// ===========================================================================
+{
+    const squat: Exercise = { id: 'sq', name: 'Paused Low Bar Squat', sets: 4, target: { type: 'range', reps: '4-6' } };
+    const e2mom: Exercise = { id: 'e2', name: 'Conventional Deadlift (E2MOM)', sets: 6, target: { type: 'range', reps: '3-5' } };
+    const amrapDl: Exercise = { id: 'dl', name: 'Conventional Deadlift (AMRAP)', sets: 1, target: { type: 'amrap', reps: 'Max' } };
+    const deficit: Exercise = { id: 'df', name: 'Deficit Snatch Grip Deadlift', sets: 10, target: { type: 'straight', reps: '6' } };
+    const pg = (over: Record<string, number> = {}) => ({ painGloryStatus: over } as unknown as UserProfile);
+
+    // Squat: every set inside 4-6 and completed earns +2.5 on the accumulator.
+    {
+        const hit = painGloryProgression(context({
+            workout: day([squat]), user: pg({ squatProgress: 5 }), week: 3,
+            sets: { sq: [set('100', '5'), set('100', '6'), set('100', '4'), set('100', '5')] },
+        }));
+        check(hit.updates['painGloryStatus.squatProgress'] === 7.5,
+            `5 + 2.5 should accumulate to 7.5, got ${hit.updates['painGloryStatus.squatProgress']}.`);
+
+        // Seven reps is outside the range and does not count as hitting it.
+        const over = painGloryProgression(context({
+            workout: day([squat]), user: pg({ squatProgress: 5 }), week: 3,
+            sets: { sq: [set('100', '7'), set('100', '5'), set('100', '5'), set('100', '5')] },
+        }));
+        check(over.updates['painGloryStatus.squatProgress'] === undefined,
+            'Reps above the range are outside the target and must not earn the increase.');
+
+        // Weeks 9+ hold the squat while the deadlift peaks.
+        const late = painGloryProgression(context({
+            workout: day([squat]), user: pg({ squatProgress: 5 }), week: 10,
+            sets: { sq: [set('100', '5'), set('100', '5'), set('100', '5'), set('100', '5')] },
+        }));
+        check(late.updates['painGloryStatus.squatProgress'] === undefined,
+            'Squat progression stops after week 8.');
+
+        // Week 8 captures the maintenance weight regardless of the target.
+        const wk8 = painGloryProgression(context({
+            workout: day([squat]), user: pg(), week: 8,
+            sets: { sq: [set('120', '3'), set('120', '3'), set('120', '3'), set('120', '3')] },
+        }));
+        check(wk8.updates['painGloryStatus.week8SquatWeight'] === 120,
+            `Week 8 should record 120 as the maintenance weight, got ${wk8.updates['painGloryStatus.week8SquatWeight']}.`);
+    }
+
+    // E2MOM: all six sets at five reps
+    {
+        const six = Array.from({ length: 6 }, () => set('140', '5'));
+        const hit = painGloryProgression(context({
+            workout: day([e2mom]), user: pg({ e2momWeightAdjustment: 2.5 }), week: 10, sets: { e2: six },
+        }));
+        check(hit.updates['painGloryStatus.e2momWeightAdjustment'] === 5,
+            `2.5 + 2.5 should be 5, got ${hit.updates['painGloryStatus.e2momWeightAdjustment']}.`);
+
+        const short = painGloryProgression(context({
+            workout: day([e2mom]), user: pg(), week: 10, sets: { e2: [...six.slice(0, 5), set('140', '4')] },
+        }));
+        check(short.updates['painGloryStatus.e2momWeightAdjustment'] === undefined,
+            'One set below five reps must not earn the increase.');
+    }
+
+    // Week 13 AMRAP: 200x5 -> Epley 233.33 -> FLOORED to 232.5, not rounded up.
+    {
+        const r = painGloryProgression(context({
+            workout: day([amrapDl]), user: pg(), week: 13, sets: { dl: [set('200', '5')] },
+        }));
+        check(r.updates['painGloryStatus.estimatedE1RM'] === 232.5,
+            `200x5 should floor to 232.5, got ${r.updates['painGloryStatus.estimatedE1RM']}. Rounding up would peak off a lift that never happened.`);
+        check(r.updates['painGloryStatus.amrapWeight'] === 200 && r.updates['painGloryStatus.amrapReps'] === 5,
+            'The actual test lift should be recorded alongside the estimate.');
+    }
+
+    // Deficit work raises the RPE prompt in weeks 1-11 only.
+    {
+        const asks = painGloryProgression(context({ workout: day([deficit]), user: pg(), week: 5, sets: {} }));
+        check(asks.effects.some(e => e.type === 'openDeficitFeedback'), 'Deficit work should ask how it felt.');
+
+        const late = painGloryProgression(context({ workout: day([deficit]), user: pg(), week: 12, sets: {} }));
+        check(!late.effects.length, 'The prompt stops after week 11.');
+    }
+}
+
+// ===========================================================================
+// Ritual of Strength — docs/plans/ritual-of-strength.md
+// ===========================================================================
+{
+    const ascension: Exercise = { id: 'asc', name: 'Paused Bench Press (Ascension Test)', sets: 1, target: { type: 'amrap', reps: 'AMRAP' } };
+    const me: Exercise = { id: 'me', name: 'Low Bar Squat (ME)', sets: 1, target: { type: 'straight', reps: '1' } };
+    const light: Exercise = { id: 'lt', name: 'Conventional Deadlift (Light)', sets: 3, target: { type: 'straight', reps: '5' } };
+    const ritual = (over: Record<string, unknown> = {}) =>
+        ({ ritualStatus: { completedWorkouts: 0, benchPress1RM: 120, squat1RM: 160, deadlift1RM: 200, ...over } } as unknown as UserProfile);
+
+    // Three sessions advance one week.
+    {
+        const r = ritualProgression(context({ workout: day([]), user: ritual({ completedWorkouts: 2, isFirstProgram: true }), sets: {} }));
+        check(r.updates['ritualStatus.completedWorkouts'] === 3, 'The session counter advances.');
+        check(r.updates['ritualStatus.currentWeek'] === 2, `Three sessions should reach week 2, got ${r.updates['ritualStatus.currentWeek']}.`);
+    }
+
+    // Ascension test: 100x8 -> Epley 126.67 -> floored 125, and the ME bonus resets.
+    {
+        const r = ritualProgression(context({
+            workout: day([ascension]), user: ritual({ benchMEProgression: 7.5 }), week: 4,
+            sets: { asc: [set('100', '8')] },
+        }));
+        check(r.updates['ritualStatus.benchPress1RM'] === 125,
+            `100x8 should floor to 125, got ${r.updates['ritualStatus.benchPress1RM']}.`);
+        check(r.updates['ritualStatus.benchMEProgression'] === 0,
+            'The old ME bonus was earned against the previous 1RM and must reset.');
+    }
+
+    // ME single heavier than the stored 1RM raises it; lighter does not.
+    {
+        const heavier = ritualProgression(context({
+            workout: day([me]), user: ritual(), week: 6, sets: { me: [set('170', '1')] },
+        }));
+        check(heavier.updates['ritualStatus.squat1RM'] === 170, `A 170 single should raise the 1RM, got ${heavier.updates['ritualStatus.squat1RM']}.`);
+
+        const lighter = ritualProgression(context({
+            workout: day([me]), user: ritual(), week: 6, sets: { me: [set('150', '1')] },
+        }));
+        check(lighter.updates['ritualStatus.squat1RM'] === undefined, 'A lighter single must not lower the 1RM.');
+
+        // The checkbox adds an explicit jump for next session.
+        const withChoice = ritualProgression(context({
+            workout: day([me]), user: ritual({ squatMEProgression: 2.5 }), week: 6,
+            sets: { me: [set('170', '1')] }, selections: { meProgression: { me: 5 } },
+        }));
+        check(withChoice.updates['ritualStatus.squatMEProgression'] === 7.5,
+            `2.5 + 5 should accumulate to 7.5, got ${withChoice.updates['ritualStatus.squatMEProgression']}.`);
+    }
+
+    // Slow bar speed on a Light day flags a reduction for that lift.
+    {
+        const slow = ritualProgression(context({
+            workout: day([light]), user: ritual(), week: 6, sets: { lt: [set('120', '5')] },
+            selections: { slowVelocity: { lt: true } },
+        }));
+        const pending = slow.updates['ritualStatus.lightWorkReductionPending'] as Record<string, boolean>;
+        check(pending?.deadlift === true, 'A slow Light deadlift should flag a reduction.');
+    }
+}
+
+// ===========================================================================
+// Trinary — conjugate, three effort types
+// ===========================================================================
+{
+    const meEx: Exercise = { id: 'me', name: 'Spoto Press (ME)', sets: 1, target: { type: 'straight', reps: '1' } };
+    const reEx: Exercise = { id: 're', name: 'Romanian Deadlift (RE)', sets: 4, target: { type: 'range', reps: '8-12' } };
+    const deEx: Exercise = { id: 'de', name: 'Low Bar Squat (DE)', sets: 8, target: { type: 'range', reps: '2-3' } };
+    const tri = (over: Record<string, unknown> = {}) =>
+        ({ trinaryStatus: { completedWorkouts: 0, bench1RM: 120, deadlift1RM: 200, squat1RM: 160, ...over } } as unknown as UserProfile);
+
+    // ME: RPE decides the jump. Spoto Press maps to bench.
+    {
+        const easy = trinaryProgression(context({
+            workout: day([meEx]), user: tri(), sets: { me: [set('130', '1')] },
+            selections: { meProgression: { me: 7 } },
+        }));
+        check(easy.updates['trinaryStatus.bench1RM'] === 130, `RPE 7 should add 10 to 120, got ${easy.updates['trinaryStatus.bench1RM']}.`);
+
+        const hard = trinaryProgression(context({
+            workout: day([meEx]), user: tri(), sets: { me: [set('130', '1')] },
+            selections: { meProgression: { me: 8.5 } },
+        }));
+        check(hard.updates['trinaryStatus.bench1RM'] === 122.5, `RPE 8-9 should add 2.5, got ${hard.updates['trinaryStatus.bench1RM']}.`);
+
+        // No self-report, no progression.
+        const noRpe = trinaryProgression(context({ workout: day([meEx]), user: tri(), sets: { me: [set('130', '1')] } }));
+        check(noRpe.updates['trinaryStatus.bench1RM'] === undefined, 'Without an RPE report there is no ME progression.');
+    }
+
+    // RE: 12 reps on all four sets queues +2.5 for the next RE exposure.
+    {
+        const twelve = Array.from({ length: 4 }, () => set('100', '12'));
+        const r = trinaryProgression(context({ workout: day([reEx]), user: tri(), sets: { re: twelve } }));
+        const pending = r.updates['trinaryStatus.reProgressionPending'] as { lift: string; amount: number }[];
+        check(pending?.[0]?.lift === 'deadlift' && pending[0].amount === 2.5,
+            `RDL should queue +2.5 against deadlift, got ${JSON.stringify(pending)}.`);
+
+        const eleven = [...twelve.slice(0, 3), set('100', '11')];
+        const missed = trinaryProgression(context({ workout: day([reEx]), user: tri(), sets: { re: eleven } }));
+        check(missed.updates['trinaryStatus.reProgressionPending'] === undefined, 'One set short of 12 queues nothing.');
+    }
+
+    // DE: all speed sets completed queues +2.5 of bar weight.
+    {
+        const speed = Array.from({ length: 8 }, () => set('100', '3'));
+        const r = trinaryProgression(context({ workout: day([deEx]), user: tri(), sets: { de: speed } }));
+        const pending = r.updates['trinaryStatus.deProgressionPending'] as { lift: string; amount: number }[];
+        check(pending?.[0]?.lift === 'squat', `DE squat should queue against squat, got ${JSON.stringify(pending)}.`);
+    }
+
+    // Accessory days log the session but must not advance the conjugate block.
+    {
+        const accessory = { dayName: 'Accessory Day', dayOfWeek: 3, exercises: [] } as WorkoutDay;
+        const r = trinaryProgression(context({ workout: accessory, user: tri({ completedWorkouts: 5 }), sets: {} }));
+        check(r.updates['trinaryStatus.completedWorkouts'] === undefined,
+            'An accessory day must not advance the block count, or the whole schedule drifts.');
+        check(r.increments?.['trinaryStatus.accessoryDaysCompleted'] === 1, 'It should still count as an accessory day.');
+        check(r.appends.some(a => a.field === 'trinaryStatus.workoutLog'), 'It should still be logged.');
+    }
+
+    // Block boundaries raise their modals.
+    {
+        const atNine = trinaryProgression(context({ workout: day([]), user: tri({ completedWorkouts: 8 }), sets: {} }));
+        check(atNine.effects.some(e => e.type === 'openWeakPointPicker'), 'Workout 9 should ask for new weak points.');
+
+        const atEnd = trinaryProgression(context({ workout: day([]), user: tri({ completedWorkouts: 26 }), sets: {} }));
+        check(atEnd.effects.some(e => e.type === 'openTrinaryRerun'), 'Workout 27 should offer a re-run.');
+        check(!atEnd.effects.some(e => e.type === 'openWeakPointPicker'), 'The end of the programme is a re-run, not a weak-point pick.');
+    }
+}
+
+// ===========================================================================
+// Super Mutant — scheduling bookkeeping
+// ===========================================================================
+{
+    const sm = (over: Record<string, unknown> = {}) => ({
+        superMutantStatus: {
+            completedWorkouts: 3, chestVariant: 'A', backVariant: 'B',
+            muscleGroupTimestamps: {}, rolling7DayVolume: {}, volumeHistory: [],
+            weeklySessionDates: [], ...over,
+        },
+    } as unknown as UserProfile);
+
+    const chestMain: Exercise = { id: 'chest-a-main', name: 'Incline DB Bench Press', sets: 4, target: { type: 'range', reps: '8-12' } };
+
+    // Session count, variant flip, and double progression on a compound.
+    {
+        const r = superMutantProgression(context({
+            workout: day([chestMain]), user: sm(),
+            sets: { 'chest-a-main': Array.from({ length: 4 }, () => set('40', '12')) },
+        }));
+        check(r.updates['superMutantStatus.completedWorkouts'] === 4, 'The session counter advances.');
+        check(r.updates['superMutantStatus.chestVariant'] === 'B', 'Training chest flips the variant to B for next time.');
+        check(r.updates['superMutantStatus.backVariant'] === undefined, 'Back was not trained, so its variant is untouched.');
+        check(r.updates['superMutantStatus.exerciseLoads.chest-a-main'] === 45,
+            `A compound at the top of the range should add 5, got ${r.updates['superMutantStatus.exerciseLoads.chest-a-main']}.`);
+    }
+
+    // Missing the top of the range earns nothing.
+    {
+        const r = superMutantProgression(context({
+            workout: day([chestMain]), user: sm(),
+            sets: { 'chest-a-main': [set('40', '12'), set('40', '12'), set('40', '12'), set('40', '10')] },
+        }));
+        check(r.updates['superMutantStatus.exerciseLoads.chest-a-main'] === undefined,
+            'One set short of the top of the range earns no increase.');
+    }
+
+    // The rolling ledger drops entries older than a week.
+    {
+        const old = new Date(Date.now() - 9 * 24 * 60 * 60 * 1000).toISOString();
+        const recent = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString();
+        const r = superMutantProgression(context({
+            workout: day([]), sets: {},
+            user: sm({ volumeHistory: [
+                { date: old, contributions: { chest: 99 } },
+                { date: recent, contributions: { chest: 4 } },
+            ] }),
+        }));
+        const rolling = r.updates['superMutantStatus.rolling7DayVolume'] as Record<string, number>;
+        check(rolling.chest === 4,
+            `Sets older than a week must expire from the rolling total; expected 4, got ${rolling.chest}. Otherwise volume only ever grows.`);
+    }
+}
+
+// ===========================================================================
 // Handlers must never write directly
 // ===========================================================================
 {
@@ -349,7 +623,10 @@ if (failures.length) {
     process.exit(1);
 }
 
-console.log('\n  verify:progression OK');
-console.log('   Peachy records the heaviest completed squat set');
-console.log('   Pencilneck records the best estimated 1RM, which is not always the heaviest set');
-console.log('   both ignore uncompleted sets, extra sets, technique rows and re-saved sessions\n');
+console.log(`\n  verify:progression OK — ${checksRun} assertions across all 8 plans`);
+console.log('   Peachy heaviest set · Pencilneck best e1RM · Skeleton plank time + completion');
+console.log('   Bench Domination AMRAP, BTN, Spoto, Wide-Grip streak, four deload triggers');
+console.log('   Pain & Glory squat window, E2MOM, AMRAP floored rather than rounded');
+console.log('   Ritual ascension recalc + ME singles · Trinary ME by RPE, RE/DE queues');
+console.log('   Super Mutant variant flip, double progression, rolling 7-day expiry');
+console.log('   all ignore uncompleted sets, extra sets, technique rows and re-saved sessions\n');

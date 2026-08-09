@@ -191,13 +191,31 @@ rather than against a copy of the original code — a test that compares
 extracted code to the code it came from proves only that the copy succeeded,
 and would pass just as happily on a faithfully copied bug.
 
-Extracted so far: Peachy and Pencilneck strength history. Everything else still
-runs inline; `PROGRESSION_HANDLERS` is consulted first and anything absent
-falls through to the existing path, so extraction is incremental and reversible.
+All eight plans are now extracted. `handleSaveSession` went from roughly 830
+lines to 157, and WorkoutView from 2430 to 1778.
 
-Note that extraction is not always behaviour-preserving by design. The
-extracted handlers ignore extra and technique sets, which the inline code did
-not — previously an extra set could set a false strength record.
+Handlers return four things:
+
+| Field | Applied as | For |
+|---|---|---|
+| `updates` | merged field writes | 1RMs, counters, status |
+| `appends` | `arrayUnion` | history entries, workout logs |
+| `increments` | `increment` | atomic counters |
+| `effects` | performed by the caller | modals, navigation |
+
+Effects are what let Trinary and Ritual be pure despite opening modals
+mid-save. They are performed *after* the write succeeds, so a failed save can
+no longer leave someone answering a prompt about work that was not recorded —
+which the inline code could do.
+
+Extraction is deliberately not behaviour-preserving in three places, all
+improvements:
+
+- extra and technique sets are excluded from every progression check, where
+  the inline code counted them;
+- stats are written as dotted paths rather than replacing the whole `stats`
+  object, so a concurrent write cannot be clobbered;
+- modals open after the save rather than during it.
 
 ---
 

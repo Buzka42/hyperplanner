@@ -31,6 +31,15 @@ export type ProgressionContext = {
     workout: WorkoutDay | undefined;
     /** Logged sets, keyed by exercise id. */
     sets: Record<string, LoggedSet[]>;
+    /**
+     * Choices the athlete made during the session that are not sets — Ritual's
+     * ME progression checkbox and its slow-velocity flag. Keyed by exercise id.
+     */
+    selections?: {
+        /** null where the athlete cleared the choice, hence not just number. */
+        meProgression?: Record<string, number | null>;
+        slowVelocity?: Record<string, boolean>;
+    };
 };
 
 /** A value to append to an array field, applied with arrayUnion by the caller. */
@@ -58,6 +67,8 @@ export type ProgressionResult = {
     updates: Record<string, unknown>;
     /** Array appends, kept separate because they need arrayUnion(). */
     appends: ProgressionAppend[];
+    /** Atomic counter bumps, applied with increment(). */
+    increments?: Record<string, number>;
     /** UI work for the caller to perform after the write succeeds. */
     effects: ProgressionEffect[];
 };
@@ -70,6 +81,7 @@ export const empty = (): ProgressionResult => ({ updates: {}, appends: [], effec
 export const merge = (...results: ProgressionResult[]): ProgressionResult => ({
     updates: Object.assign({}, ...results.map(r => r.updates)),
     appends: results.flatMap(r => r.appends),
+    increments: Object.assign({}, ...results.map(r => r.increments ?? {})),
     effects: results.flatMap(r => r.effects),
 });
 
