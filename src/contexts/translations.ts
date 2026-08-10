@@ -223,6 +223,13 @@ export const translations = {
         // ENTRY PAGE
         // ========================================
         entry: {
+            // Public keyword creation — these were hardcoded English.
+            createContinue: "CREATE & CONTINUE",
+            freeTag: "Free",
+            useExisting: "Use an existing keyword",
+            createNew: "Create a new keyword",
+            availablePlans: "Available plans",
+            pillars: ["Calculate", "Execute", "Log"],
             title: "HYPER",
             subtitle: "PLANNER",
             description: "Enter your codeword to access your program.",
@@ -1022,7 +1029,13 @@ export const translations = {
             loading: "Loading logs...",
             noWorkouts: "No workouts logged yet",
             noWorkoutsDesc: "Get in there and crush some steel.",
-            weekDay: "Week {week} Day {day}"
+            weekDay: "Week {week} Day {day}",
+            // The archive view — these were hardcoded English.
+            sessionCount: "{count} sessions logged",
+            emptyTitle: "Nothing logged yet",
+            emptyCopy: "Finish a session and it will appear here.",
+            emptyAction: "Go to dashboard",
+            edit: "Edit"
         },
 
         // ========================================
@@ -1576,6 +1589,13 @@ export const translations = {
         },
 
         entry: {
+            // Public keyword creation — these were hardcoded English.
+            createContinue: "UTWÓRZ I DALEJ",
+            freeTag: "Darmowy",
+            useExisting: "Użyj istniejącego hasła",
+            createNew: "Utwórz nowe hasło",
+            availablePlans: "Dostępne plany",
+            pillars: ["Oblicz", "Wykonaj", "Zapisz"],
             title: "HYPER",
             subtitle: "PLANNER",
             needStats: "Potrzebujemy kilku liczb, żeby spersonalizować program",
@@ -2345,7 +2365,12 @@ export const translations = {
             loading: "Ładowanie logów...",
             noWorkouts: "Brak zapisanych treningów",
             noWorkoutsDesc: "Czas przerzucić trochę żelastwa.",
-            weekDay: "Tydzień {week} Dzień {day}"
+            weekDay: "Tydzień {week} Dzień {day}",
+            sessionCount: "Zapisanych sesji: {count}",
+            emptyTitle: "Nic jeszcze nie zapisano",
+            emptyCopy: "Zakończ sesję, a pojawi się tutaj.",
+            emptyAction: "Przejdź do pulpitu",
+            edit: "Edytuj"
         },
 
         alerts: {

@@ -88,7 +88,7 @@ export const Dashboard: React.FC = () => {
                     logsForWeek[d.week] = (logsForWeek[d.week] || 0) + 1;
 
                     // Track Deficit Push-up PR for skeleton program
-                    if (user.programId === 'skeleton-to-threat' && d.exercises) {
+                    if (user.programId === 'skeleton-' && d.exercises) {
                         const deficitPushupExercise = d.exercises.find((ex: any) => ex.name === 'Deficit Push-ups');
                         if (deficitPushupExercise && deficitPushupExercise.setsData) {
                             deficitPushupExercise.setsData.forEach((set: any) => {
@@ -256,10 +256,10 @@ export const Dashboard: React.FC = () => {
         if (isSuperMutant) return { title: activePlanConfig.program.name, tagline: t('dashboard.superMutant.tagline') };
 
         const lead = activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.eradicateThe')
-            : activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.becomeA')
+            : activePlanConfig.id === 'skeleton-' ? t('dashboard.becomeA')
                 : t('dashboard.timeTo');
         const target = activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.weakness')
-            : activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.threat')
+            : activePlanConfig.id === 'skeleton-' ? t('dashboard.threat')
                 : t('dashboard.dominate');
         return { title: <>{lead} {target}</>, tagline: `${t('dashboard.welcomeBack')}, ${user?.codeword}.` };
     })();
@@ -548,7 +548,7 @@ export const Dashboard: React.FC = () => {
 
                     {/* Glory Counter widget for Pain & Glory */}
                     {isPainGlory && (
-                        <Card className="col-span-full md:col-span-4 border-red-900/30 bg-gradient-to-br from-amber-950/20 to-red-950/20">
+                        <Card className="col-span-full md:col-span-4 border-red-900/30 bg-card">
                             <CardHeader className="pb-2">
                                 <CardTitle className="text-xl text-red-500 font-black flex items-center gap-2">
                                     <Trophy className="h-5 w-5" />
@@ -564,7 +564,7 @@ export const Dashboard: React.FC = () => {
                                 </p>
                                 <div className="mt-4 h-2 bg-red-950/50 rounded-full overflow-hidden">
                                     <div
-                                        className="h-full bg-gradient-to-r from-red-600 to-amber-500 transition-all duration-1000"
+                                        className="h-full bg-card transition-all duration-1000"
                                         style={{ width: `${Math.min(100, (gloryCounter / 50000) * 100)}%` }}
                                     />
                                 </div>
@@ -577,9 +577,9 @@ export const Dashboard: React.FC = () => {
 
                     {/* Strength Altar widget for Ritual of Strength */}
                     {activeWidgets.includes('strength_altar') && activePlanConfig.id === 'ritual-of-strength' && (
-                        <Card className="col-span-full md:col-span-4 border-red-900/30 bg-gradient-to-br from-black via-red-950/20 to-black relative overflow-hidden">
+                        <Card className="col-span-full md:col-span-4 border-red-900/30 bg-card relative overflow-hidden">
                             {/* Flame shimmer background effect */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-red-900/10 to-transparent pointer-events-none" />
+                            <div className="absolute inset-0 bg-card pointer-events-none" />
 
                             <CardHeader className="pb-2 relative z-10">
                                 <CardTitle className="text-xl font-black flex items-center justify-center gap-3 text-red-500 uppercase tracking-widest">
@@ -599,7 +599,7 @@ export const Dashboard: React.FC = () => {
                                                 <Activity className="h-5 w-5" />
                                             </div>
                                             {/* Candle body */}
-                                            <div className="bg-gradient-to-t from-red-950 via-red-800 to-red-600 h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
+                                            <div className="bg-card h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
                                                 <div className="text-2xl font-black text-red-50 drop-shadow-[0_0_8px_rgba(255,100,100,0.8)]">
                                                     {((user as any)?.ritualStatus?.benchPress1RM || 0)}
                                                 </div>
@@ -620,7 +620,7 @@ export const Dashboard: React.FC = () => {
                                                 <Activity className="h-5 w-5" />
                                             </div>
                                             {/* Candle body */}
-                                            <div className="bg-gradient-to-t from-red-950 via-red-800 to-red-600 h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
+                                            <div className="bg-card h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
                                                 <div className="text-2xl font-black text-red-50 drop-shadow-[0_0_8px_rgba(255,100,100,0.8)]">
                                                     {((user as any)?.ritualStatus?.squat1RM || 0)}
                                                 </div>
@@ -641,7 +641,7 @@ export const Dashboard: React.FC = () => {
                                                 <Activity className="h-5 w-5" />
                                             </div>
                                             {/* Candle body */}
-                                            <div className="bg-gradient-to-t from-red-950 via-red-800 to-red-600 h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
+                                            <div className="bg-card h-40 flex items-center justify-center rounded-t-sm border-2 border-red-700/50 shadow-lg shadow-red-900/50">
                                                 <div className="text-2xl font-black text-red-50 drop-shadow-[0_0_8px_rgba(255,100,100,0.8)]">
                                                     {((user as any)?.ritualStatus?.deadlift1RM || 0)}
                                                 </div>
@@ -663,56 +663,56 @@ export const Dashboard: React.FC = () => {
                     {isTrinary && (
                         <>
                             {/* Schedule Tip Card */}
-                            <Card className="col-span-full md:col-span-4 border-zinc-700/30 bg-zinc-900/50">
+                            <Card className="col-span-full md:col-span-4 border-border bg-secondary">
                                 <CardHeader className="pb-2">
-                                    <CardTitle className="text-sm font-medium text-zinc-300 flex items-center gap-2">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                                         <Calendar className="h-4 w-4" />
                                         {t('dashboard.trinary.scheduleTip')}
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <p className="text-xs text-zinc-400">
+                                    <p className="text-xs text-muted-foreground">
                                         {t('dashboard.trinary.scheduleAdvice')}
                                     </p>
                                 </CardContent>
                             </Card>
 
                             {/* Workout Progress Card */}
-                            <Card className="col-span-full md:col-span-3 border-zinc-700/30 bg-zinc-900/50">
+                            <Card className="col-span-full md:col-span-3 border-border bg-secondary">
                                 <CardHeader className="pb-2">
-                                    <CardTitle className="text-sm font-medium text-zinc-300">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         {t('dashboard.trinary.progressTitle')}
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-3xl font-black text-zinc-200">
+                                    <div className="text-3xl font-black text-muted-foreground">
                                         {((user as any)?.trinaryStatus?.completedWorkouts || 0)} <span className="text-lg font-normal text-muted-foreground">/ 27</span>
                                     </div>
-                                    <div className="mt-4 h-2 bg-zinc-800 rounded-full overflow-hidden">
+                                    <div className="mt-4 h-2 bg-secondary rounded-full overflow-hidden">
                                         <div
-                                            className="h-full bg-gradient-to-r from-zinc-500 to-zinc-300 transition-all duration-1000"
+                                            className="h-full bg-card transition-all duration-1000"
                                             style={{ width: `${Math.min(100, (((user as any)?.trinaryStatus?.completedWorkouts || 0) / 27) * 100)}%` }}
                                         />
                                     </div>
-                                    <p className="text-xs text-right text-zinc-500 mt-1">
+                                    <p className="text-xs text-right text-muted-foreground mt-1">
                                         {t('dashboard.trinary.block')} {Math.ceil((((user as any)?.trinaryStatus?.completedWorkouts || 0) + 1) / 3)} / 9
                                     </p>
                                 </CardContent>
                             </Card>
 
                             {/* Next Workout Button */}
-                            <Card className="col-span-full border-zinc-600/50 bg-gradient-to-r from-zinc-800 to-slate-800">
+                            <Card className="col-span-full border-border bg-card">
                                 <CardContent className="p-6 flex items-center justify-between">
                                     <div>
-                                        <h3 className="text-xl font-bold text-zinc-200">
+                                        <h3 className="text-xl font-bold text-muted-foreground">
                                             {t('dashboard.trinary.nextWorkout', { num: ((user as any)?.trinaryStatus?.completedWorkouts || 0) + 1 })}
                                         </h3>
-                                        <p className="text-sm text-zinc-400">
+                                        <p className="text-sm text-muted-foreground">
                                             {t('dashboard.trinary.readyWhenYouAre')}
                                         </p>
                                     </div>
                                     <Link to={`/app/workout/${Math.ceil((((user as any)?.trinaryStatus?.completedWorkouts || 0) + 1) / 3)}/${((((user as any)?.trinaryStatus?.completedWorkouts || 0)) % 3) + 1}`}>
-                                        <Button size="lg" className="bg-zinc-600 hover:bg-zinc-500 text-zinc-100">
+                                        <Button size="lg" className="bg-secondary hover:bg-secondary text-muted-foreground">
                                             <Dumbbell className="mr-2 h-5 w-5" />
                                             {t('dashboard.trinary.startWorkout')}
                                         </Button>
@@ -726,7 +726,7 @@ export const Dashboard: React.FC = () => {
                     {isSuperMutant && (
                         <>
                             {/* Recovery Gauge - Cooldown Status */}
-                            <Card className="col-span-full md:col-span-4 border-green-800/30 bg-gradient-to-br from-black to-green-950/20">
+                            <Card className="col-span-full md:col-span-4 border-green-800/30 bg-card">
                                 <CardHeader className="pb-2">
                                     <CardTitle className="mutant-text text-lg font-black flex items-center gap-2">
                                         RECOVERY GAUGE
@@ -787,7 +787,7 @@ export const Dashboard: React.FC = () => {
                                                         status = 'nearly-ready';
                                                         const hoursLeft = Math.ceil(remaining / (60 * 60 * 1000));
                                                         timeRemaining = `~${hoursLeft}h`;
-                                                        bgColor = 'bg-gradient-to-br from-orange-900/30 to-green-900/30 border-yellow-600/50';
+                                                        bgColor = 'bg-card border-yellow-600/50';
                                                         textColor = 'text-yellow-300';
                                                     }
                                                 }
@@ -820,7 +820,7 @@ export const Dashboard: React.FC = () => {
                             </Card>
 
                             {/* Mutant Mindset - Motivational Quote */}
-                            <Card className="col-span-full border-orange-800/30 bg-gradient-to-r from-orange-950/20 to-green-950/20">
+                            <Card className="col-span-full border-orange-800/30 bg-card">
                                 <CardContent className="p-6 text-center">
                                     <Activity className="h-10 w-10 text-orange-500 mb-2" />
                                     <p className="text-lg font-black italic radiation-text">
@@ -844,7 +844,7 @@ export const Dashboard: React.FC = () => {
                                 const total = 84;
                                 const pct = Math.min(100, (done / total) * 100);
                                 return (
-                                    <Card className="col-span-full md:col-span-3 border-green-800/30 bg-gradient-to-br from-black to-green-950/20">
+                                    <Card className="col-span-full md:col-span-3 border-green-800/30 bg-card">
                                         <CardHeader className="pb-2">
                                             <CardTitle className="mutant-text text-lg font-black">MUTAGEN EXPOSURE</CardTitle>
                                         </CardHeader>
@@ -853,7 +853,7 @@ export const Dashboard: React.FC = () => {
                                                 {done} <span className="text-lg font-normal text-muted-foreground">/ {total} {t('dashboard.superMutant.workouts')}</span>
                                             </div>
                                             <div className="mt-4 h-2 bg-green-950/60 rounded-full overflow-hidden">
-                                                <div className="h-full bg-gradient-to-r from-green-500 to-orange-500 transition-all duration-1000" style={{ width: `${pct}%` }} />
+                                                <div className="h-full bg-card transition-all duration-1000" style={{ width: `${pct}%` }} />
                                             </div>
                                             <p className="text-xs text-right text-green-400/60 mt-1">{Math.round(pct)}%</p>
                                         </CardContent>
@@ -862,7 +862,7 @@ export const Dashboard: React.FC = () => {
                             })()}
 
                             {/* Next Workout Button / Completion / Over-mutation warning */}
-                            <Card className="col-span-full border-green-700/50 bg-gradient-to-r from-green-900/30 to-orange-900/30 mutant-glow">
+                            <Card className="col-span-full border-green-700/50 bg-card mutant-glow">
                                 <CardContent className="p-6">
                                     {(() => {
                                         const workoutNum = user.superMutantStatus?.completedWorkouts || 0;
@@ -1131,33 +1131,33 @@ export const Dashboard: React.FC = () => {
                 return (
                     <div className="space-y-6">
                         {/* Schedule Tip */}
-                        <Card className="border-zinc-700 bg-zinc-800/50">
+                        <Card className="border-border bg-secondary">
                             <CardHeader className="pb-2">
-                                <CardTitle className="text-sm text-zinc-400">{t('dashboard.trinary.scheduleTip')}</CardTitle>
+                                <CardTitle className="text-sm text-muted-foreground">{t('dashboard.trinary.scheduleTip')}</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <p className="text-sm text-zinc-300">{t('dashboard.trinary.scheduleAdvice')}</p>
+                                <p className="text-sm text-muted-foreground">{t('dashboard.trinary.scheduleAdvice')}</p>
                             </CardContent>
                         </Card>
 
                         {/* Current Workout Card */}
-                        <Card className="border-zinc-600 bg-gradient-to-br from-zinc-800 to-zinc-900">
+                        <Card className="border-border bg-card">
                             <CardHeader>
-                                <CardTitle className="text-2xl text-zinc-100 flex items-center justify-between">
+                                <CardTitle className="text-2xl text-muted-foreground flex items-center justify-between">
                                     <span>{t('dashboard.trinary.nextWorkout', { num: currentWorkout })}</span>
-                                    <span className="text-sm font-normal text-zinc-400">
+                                    <span className="text-sm font-normal text-muted-foreground">
                                         {t('dashboard.trinary.block')} {currentBlock}/9
                                     </span>
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="flex items-center justify-between">
-                                    <div className="text-zinc-400">
-                                        {t('dashboard.trinary.progressTitle')}: <span className="font-bold text-zinc-200">{completedWorkouts}/27</span>
+                                    <div className="text-muted-foreground">
+                                        {t('dashboard.trinary.progressTitle')}: <span className="font-bold text-muted-foreground">{completedWorkouts}/27</span>
                                     </div>
-                                    <div className="w-32 h-2 bg-zinc-700 rounded-full overflow-hidden">
+                                    <div className="w-32 h-2 bg-secondary rounded-full overflow-hidden">
                                         <div
-                                            className="h-full bg-zinc-400 transition-all duration-500"
+                                            className="h-full bg-secondary transition-all duration-500"
                                             style={{ width: `${(completedWorkouts / 27) * 100}%` }}
                                         />
                                     </div>
@@ -1168,7 +1168,7 @@ export const Dashboard: React.FC = () => {
                                     {/* ME - Maximum Effort */}
                                     <div className="bg-red-900/20 border border-red-700/30 rounded p-3">
                                         <div className="text-red-400 text-xs font-bold uppercase mb-1">Maximum Effort (ME)</div>
-                                        <div className="text-zinc-200 text-sm">
+                                        <div className="text-muted-foreground text-sm">
                                             {(() => {
                                                 const lift = workoutPositionInBlock === 1 ? 'deadlift' : workoutPositionInBlock === 2 ? 'squat' : 'bench';
                                                 const variation = currentBlock <= 3
@@ -1184,7 +1184,7 @@ export const Dashboard: React.FC = () => {
                                     {/* DE - Dynamic Effort */}
                                     <div className="bg-blue-900/20 border border-blue-700/30 rounded p-3">
                                         <div className="text-blue-400 text-xs font-bold uppercase mb-1">Dynamic Effort (DE)</div>
-                                        <div className="text-zinc-200 text-sm">
+                                        <div className="text-muted-foreground text-sm">
                                             {workoutPositionInBlock === 1 ? 'Low Bar Squat' : workoutPositionInBlock === 2 ? 'Paused Bench Press' : 'Conventional Deadlift'}
                                         </div>
                                     </div>
@@ -1192,13 +1192,13 @@ export const Dashboard: React.FC = () => {
                                     {/* RE - Repetition Effort */}
                                     <div className="bg-green-900/20 border border-green-700/30 rounded p-3">
                                         <div className="text-green-400 text-xs font-bold uppercase mb-1">Repetition Effort (RE)</div>
-                                        <div className="text-zinc-200 text-sm">
+                                        <div className="text-muted-foreground text-sm">
                                             {workoutPositionInBlock === 1 ? 'Paused Bench Press' : workoutPositionInBlock === 2 ? 'Conventional Deadlift' : 'Low Bar Squat'}
                                         </div>
                                     </div>
                                 </div>
 
-                                <p className="text-sm text-zinc-500 text-center">
+                                <p className="text-sm text-muted-foreground text-center">
                                     {t('dashboard.trinary.readyWhenYouAre')}
                                 </p>
 
@@ -1231,7 +1231,7 @@ export const Dashboard: React.FC = () => {
                                                         {t('dashboard.trinary.skipAccessory')}
                                                     </Button>
                                                     <Button
-                                                        className="bg-zinc-600 hover:bg-zinc-500 text-zinc-100 font-bold"
+                                                        className="bg-secondary hover:bg-secondary text-muted-foreground font-bold"
                                                         onClick={() => setShowAccessoryModal(true)}
                                                     >
                                                         {t('dashboard.trinary.startAccessory')}
@@ -1247,16 +1247,16 @@ export const Dashboard: React.FC = () => {
                                     return (
                                         <>
                                             <Button
-                                                className="w-full bg-zinc-600 hover:bg-zinc-500 text-zinc-100 font-bold"
+                                                className="w-full bg-secondary hover:bg-secondary text-muted-foreground font-bold"
                                                 onClick={() => navigate(`/app/workout/${currentBlock}/${workoutPositionInBlock}`)}
                                             >
                                                 {t('dashboard.trinary.startWorkout')}
                                             </Button>
-                                            <div className="mt-4 pt-4 border-t border-zinc-700">
-                                                <p className="text-xs text-zinc-500 text-center mb-3">{t('dashboard.trinary.manualAccessoryHint')}</p>
+                                            <div className="mt-4 pt-4 border-t border-border">
+                                                <p className="text-xs text-muted-foreground text-center mb-3">{t('dashboard.trinary.manualAccessoryHint')}</p>
                                                 <Button
                                                     variant="outline"
-                                                    className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-700"
+                                                    className="w-full border-border text-muted-foreground hover:bg-secondary"
                                                     onClick={() => setShowAccessoryModal(true)}
                                                 >
                                                     {t('dashboard.trinary.startManualAccessory')}
@@ -1270,22 +1270,22 @@ export const Dashboard: React.FC = () => {
 
                         {/* 1RM Stats */}
                         <div className="grid grid-cols-3 gap-4">
-                            <Card className="border-zinc-700 bg-zinc-800/50">
+                            <Card className="border-border bg-secondary">
                                 <CardContent className="p-4 text-center">
-                                    <div className="text-xs text-zinc-400 uppercase">Bench 1RM</div>
-                                    <div className="text-xl font-bold text-zinc-200">{trinaryStatus?.bench1RM || 0} kg</div>
+                                    <div className="text-xs text-muted-foreground uppercase">Bench 1RM</div>
+                                    <div className="text-xl font-bold text-muted-foreground">{trinaryStatus?.bench1RM || 0} kg</div>
                                 </CardContent>
                             </Card>
-                            <Card className="border-zinc-700 bg-zinc-800/50">
+                            <Card className="border-border bg-secondary">
                                 <CardContent className="p-4 text-center">
-                                    <div className="text-xs text-zinc-400 uppercase">Deadlift 1RM</div>
-                                    <div className="text-xl font-bold text-zinc-200">{trinaryStatus?.deadlift1RM || 0} kg</div>
+                                    <div className="text-xs text-muted-foreground uppercase">Deadlift 1RM</div>
+                                    <div className="text-xl font-bold text-muted-foreground">{trinaryStatus?.deadlift1RM || 0} kg</div>
                                 </CardContent>
                             </Card>
-                            <Card className="border-zinc-700 bg-zinc-800/50">
+                            <Card className="border-border bg-secondary">
                                 <CardContent className="p-4 text-center">
-                                    <div className="text-xs text-zinc-400 uppercase">Squat 1RM</div>
-                                    <div className="text-xl font-bold text-zinc-200">{trinaryStatus?.squat1RM || 0} kg</div>
+                                    <div className="text-xs text-muted-foreground uppercase">Squat 1RM</div>
+                                    <div className="text-xl font-bold text-muted-foreground">{trinaryStatus?.squat1RM || 0} kg</div>
                                 </CardContent>
                             </Card>
                         </div>

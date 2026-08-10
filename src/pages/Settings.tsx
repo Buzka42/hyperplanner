@@ -172,7 +172,7 @@ export const Settings: React.FC = () => {
         onToggle,
         mandatory = false
     }: { title: string, desc: string, isOn: boolean, onToggle: () => void, mandatory?: boolean }) => (
-        <div className={`flex items-start justify-between p-4 border rounded-lg ${isOn ? 'bg-primary/5 border-primary/20' : 'bg-background hover:bg-muted/50'} cursor-pointer`} onClick={!mandatory ? onToggle : undefined}>
+        <div className={`flex items-start justify-between p-4 border rounded-none ${isOn ? 'bg-primary/5 border-primary/20' : 'bg-background hover:bg-muted/50'} cursor-pointer`} onClick={!mandatory ? onToggle : undefined}>
             <div className="space-y-1">
                 <div className="flex items-center gap-2">
                     <h4 className="font-semibold">{title}</h4>
@@ -417,7 +417,7 @@ export const Settings: React.FC = () => {
                             <div className="border-t mt-4 pt-4"></div>
 
                             {/* Thursday Tricep Variant Selection */}
-                            <div className="space-y-3 p-4 border rounded-lg bg-background">
+                            <div className="space-y-3 p-4 border rounded-none bg-background">
                                 <div className="space-y-1">
                                     <h4 className="font-semibold">Thursday Tricep Exercise</h4>
                                     <p className="text-sm text-muted-foreground">Choose between Tricep Giant Set (default) or Heavy Rolling Extensions for lockout strength</p>
@@ -776,7 +776,7 @@ export const Settings: React.FC = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="flex flex-col gap-4">
-                        <div className="flex items-center justify-between p-4 border rounded-lg">
+                        <div className="flex items-center justify-between p-4 border rounded-none">
                             <div>
                                 <h4 className="font-semibold">{t('settings.switchProgram')}</h4>
                                 <p className="text-sm text-muted-foreground">{t('settings.switchProgramDesc')}</p>
@@ -786,7 +786,7 @@ export const Settings: React.FC = () => {
                             </Button>
                         </div>
 
-                        <div className="flex items-center justify-between p-4 border border-red-200 bg-red-50 dark:bg-red-900/10 dark:border-red-900/20 rounded-lg">
+                        <div className="flex items-center justify-between p-4 border border-red-200 bg-red-50 dark:bg-red-900/10 dark:border-red-900/20 rounded-none">
                             <div className="space-y-1">
                                 <h4 className="font-semibold text-red-600 dark:text-red-400">{t('settings.resetProgress')}</h4>
                                 <p className="text-sm text-muted-foreground">{t('settings.resetProgressDesc')}</p>

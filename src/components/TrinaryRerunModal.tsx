@@ -21,27 +21,27 @@ export const TrinaryRerunModal: React.FC<TrinaryRerunModalProps> = ({
 
     return (
         <Dialog open={open} onOpenChange={() => { /* Modal cannot be dismissed */ }}>
-            <DialogContent className="max-w-lg bg-zinc-900 border-zinc-700 text-zinc-100" onPointerDownOutside={(e) => e.preventDefault()}>
+            <DialogContent className="max-w-lg bg-card border-border text-foreground" onPointerDownOutside={(e) => e.preventDefault()}>
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-bold text-center text-zinc-100">
+                    <DialogTitle className="text-2xl font-bold text-center text-foreground">
                         {t('trinary.rerunModal.title')}
                     </DialogTitle>
-                    <DialogDescription className="text-center text-zinc-400">
+                    <DialogDescription className="text-center text-muted-foreground">
                         {t('trinary.rerunModal.description')}
                     </DialogDescription>
                 </DialogHeader>
 
                 <div className="space-y-4 py-4">
                     {/* Option A: Deload Week */}
-                    <div className="bg-zinc-800/50 border border-green-600/50 rounded-lg p-4">
+                    <div className="bg-secondary/50 border border-green-600/50 rounded-none p-4">
                         <h3 className="font-bold text-green-400 flex items-center gap-2">
                             <RefreshCw className="h-5 w-5" />
                             {t('trinary.rerunModal.optionATitle')}
                         </h3>
-                        <p className="text-sm text-zinc-400 mt-2">
+                        <p className="text-sm text-muted-foreground mt-2">
                             {t('trinary.rerunModal.optionADesc')}
                         </p>
-                        <ul className="text-xs text-zinc-500 mt-2 space-y-1 ml-4 list-disc">
+                        <ul className="text-xs text-muted-foreground mt-2 space-y-1 ml-4 list-disc">
                             <li>{t('trinary.rerunModal.optionADetail1')}</li>
                             <li>{t('trinary.rerunModal.optionADetail2')}</li>
                             <li>{t('trinary.rerunModal.optionADetail3')}</li>
@@ -55,30 +55,30 @@ export const TrinaryRerunModal: React.FC<TrinaryRerunModalProps> = ({
                     </div>
 
                     {/* Option B: Continue Without Deload */}
-                    <div className="bg-zinc-800/30 border border-zinc-600 rounded-lg p-4">
-                        <h3 className="font-bold text-zinc-300 flex items-center gap-2">
+                    <div className="bg-secondary/30 border border-border rounded-none p-4">
+                        <h3 className="font-bold text-foreground flex items-center gap-2">
                             <Play className="h-5 w-5" />
                             {t('trinary.rerunModal.optionBTitle')}
                         </h3>
-                        <p className="text-sm text-zinc-500 mt-2">
+                        <p className="text-sm text-muted-foreground mt-2">
                             {t('trinary.rerunModal.optionBDesc')}
                         </p>
                         <Button
                             onClick={onContinueNoDeload}
                             variant="outline"
-                            className="w-full mt-3 border-zinc-600 text-zinc-300 hover:bg-zinc-800"
+                            className="w-full mt-3 border-border text-foreground hover:bg-secondary"
                         >
                             {t('trinary.rerunModal.optionBButton')}
                         </Button>
                     </div>
 
                     {/* Option C: Rest Days */}
-                    <div className="bg-zinc-800/30 border border-orange-600/50 rounded-lg p-4">
+                    <div className="bg-secondary/30 border border-orange-600/50 rounded-none p-4">
                         <h3 className="font-bold text-orange-400 flex items-center gap-2">
                             <Calendar className="h-5 w-5" />
                             {t('trinary.rerunModal.optionCTitle')}
                         </h3>
-                        <p className="text-sm text-zinc-500 mt-2">
+                        <p className="text-sm text-muted-foreground mt-2">
                             {t('trinary.rerunModal.optionCDesc')}
                         </p>
                         <Button

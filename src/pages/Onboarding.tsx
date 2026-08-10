@@ -423,7 +423,7 @@ export const Onboarding: React.FC = () => {
                                 >
                                     <div className={cn("h-72 relative flex items-center justify-center", meta.coverBg)}>
                                         <img src={meta.logo} alt="" className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
-                                        <div className={cn("absolute inset-0 bg-gradient-to-t via-transparent to-transparent flex items-end p-4", meta.coverGradient)}>
+                                        <div className={cn("absolute inset-0 bg-card flex items-end p-4", meta.coverGradient)}>
                                             <h3 className="text-xl font-semibold text-white leading-tight">{copy.name}</h3>
                                         </div>
                                         {meta.alwaysFree && <span className="absolute right-3 top-3 bg-[#b7ff35] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#0a1110]">{t('adventure.free')}</span>}
@@ -458,7 +458,7 @@ export const Onboarding: React.FC = () => {
             mandatory = false,
             recommended = false
         }: { title: string, desc: string, isOn: boolean, onToggle: () => void, mandatory?: boolean, recommended?: boolean }) => (
-            <div className={`flex items-start justify-between p-4 border rounded-lg ${isOn ? 'bg-primary/5 border-primary/20' : 'bg-background hover:bg-muted/50'} cursor-pointer`} onClick={!mandatory ? onToggle : undefined}>
+            <div className={`flex items-start justify-between p-4 border rounded-none ${isOn ? 'bg-primary/5 border-primary/20' : 'bg-background hover:bg-muted/50'} cursor-pointer`} onClick={!mandatory ? onToggle : undefined}>
                 <div className="space-y-1">
                     <div className="flex items-center gap-2">
                         <h4 className="font-semibold">{title}</h4>
@@ -531,7 +531,7 @@ export const Onboarding: React.FC = () => {
                                 }}
                             />
                             {!benchModules.legDays && (
-                                <div className="p-4 bg-secondary/10 border border-primary/20 rounded-lg space-y-4 animate-in fade-in slide-in-from-top-2">
+                                <div className="p-4 bg-secondary/10 border border-primary/20 rounded-none space-y-4 animate-in fade-in slide-in-">
                                     <div className="flex items-center gap-2 text-primary font-semibold">
                                         <AlertCircle className="w-4 h-4" />
                                         <span>{t('onboarding.modules.selectDays')}</span>
@@ -572,7 +572,7 @@ export const Onboarding: React.FC = () => {
                             />
                         </div>
 
-                        <div className="bg-muted p-3 rounded-lg text-xs italic text-muted-foreground text-center">
+                        <div className="bg-muted p-3 rounded-none text-xs italic text-muted-foreground text-center">
                             “The bench press and its variations are sacred and cannot be removed. Everything else is optional. Most mortals keep triceps + pull-ups.”
                         </div>
 
@@ -698,8 +698,8 @@ export const Onboarding: React.FC = () => {
                                     <Label htmlFor="pecdec">Pec Deck</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                    <RadioGroupItem value="Low-to-High Cable Flyes" id="lowhigh" />
-                                    <Label htmlFor="lowhigh">Low-to-High Cable Flyes</Label>
+                                    <RadioGroupItem value="Low-Cable Flyes" id="lowhigh" />
+                                    <Label htmlFor="lowhigh">Low-Cable Flyes</Label>
                                 </div>
                             </RadioGroup>
                         </div>
@@ -742,8 +742,8 @@ export const Onboarding: React.FC = () => {
     // Default Stats Step - now conditional for Pain & Glory vs Bench Domination
     if (selectedProgramId === PAIN_GLORY_CONFIG.id) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-amber-950/20 to-red-950/10 flex flex-col items-center justify-center p-4">
-                <Card className="w-full max-w-lg border-red-900/30 shadow-2xl bg-gradient-to-b from-card to-amber-950/5">
+            <div className="min-h-screen bg-card flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-red-900/30  bg-card">
                     <CardHeader>
                         <div className="flex items-center gap-2">
                             <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2">
@@ -796,7 +796,7 @@ export const Onboarding: React.FC = () => {
                                 {t('onboarding.painGlory.scheduleDesc')}
                             </div>
 
-                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-red-900 to-amber-900 hover:from-red-800 hover:to-amber-800" size="lg">
+                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-card hover:hover:" size="lg">
                                 <CheckCircle2 className="mr-2 h-5 w-5" />
                                 {t('onboarding.painGlory.buildButton')}
                             </Button>
@@ -810,16 +810,16 @@ export const Onboarding: React.FC = () => {
     // Trinary stats form - heavy metal styled
     if (selectedProgramId === TRINARY_CONFIG.id) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-slate-950 via-zinc-900 to-slate-950 flex flex-col items-center justify-center p-4">
-                <Card className="w-full max-w-lg border-zinc-700/50 shadow-2xl bg-gradient-to-b from-zinc-900 to-slate-950">
+            <div className="min-h-screen bg-card flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-border/50  bg-card">
                     <CardHeader>
                         <div className="flex items-center gap-2">
-                            <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2 text-zinc-400 hover:text-zinc-200">
+                            <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2 text-muted-foreground hover:text-foreground">
                                 <ArrowLeft className="h-5 w-5" />
                             </Button>
-                            <CardTitle className="text-2xl bg-gradient-to-r from-zinc-200 via-zinc-400 to-zinc-200 bg-clip-text text-transparent">{t('onboarding.trinary.calibrationTitle')}</CardTitle>
+                            <CardTitle className="text-2xl">{t('onboarding.trinary.calibrationTitle')}</CardTitle>
                         </div>
-                        <CardDescription className="text-zinc-400">
+                        <CardDescription className="text-muted-foreground">
                             {t('onboarding.trinary.calibrationDesc')}
                         </CardDescription>
                     </CardHeader>
@@ -831,75 +831,75 @@ export const Onboarding: React.FC = () => {
                         <form onSubmit={handleTrinarySubmit} className="space-y-6">
                             <div className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="trinaryBench" className="text-base text-zinc-200">{t('onboarding.trinary.benchLabel')}</Label>
+                                    <Label htmlFor="trinaryBench" className="text-base text-foreground">{t('onboarding.trinary.benchLabel')}</Label>
                                     <Input
                                         id="trinaryBench"
                                         name="trinaryBench"
                                         type="number"
                                         min="0"
                                         placeholder="e.g. 100"
-                                        className="text-lg bg-zinc-800/50 border-zinc-700/50 text-zinc-100"
+                                        className="text-lg bg-secondary/50 border-border/50 text-foreground"
                                         onChange={handleStatsChange}
                                         step="2.5"
                                         required
                                     />
-                                    <p className="text-xs text-zinc-500">{t('onboarding.trinary.benchHint')}</p>
+                                    <p className="text-xs text-muted-foreground">{t('onboarding.trinary.benchHint')}</p>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="trinaryDeadlift" className="text-base text-zinc-200">{t('onboarding.trinary.deadliftLabel')}</Label>
+                                    <Label htmlFor="trinaryDeadlift" className="text-base text-foreground">{t('onboarding.trinary.deadliftLabel')}</Label>
                                     <Input
                                         id="trinaryDeadlift"
                                         name="trinaryDeadlift"
                                         type="number"
                                         min="0"
                                         placeholder="e.g. 180"
-                                        className="text-lg bg-zinc-800/50 border-zinc-700/50 text-zinc-100"
+                                        className="text-lg bg-secondary/50 border-border/50 text-foreground"
                                         onChange={handleStatsChange}
                                         step="2.5"
                                         required
                                     />
-                                    <p className="text-xs text-zinc-500">{t('onboarding.trinary.deadliftHint')}</p>
+                                    <p className="text-xs text-muted-foreground">{t('onboarding.trinary.deadliftHint')}</p>
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="trinarySquat" className="text-base text-zinc-200">{t('onboarding.trinary.squatLabel')}</Label>
+                                    <Label htmlFor="trinarySquat" className="text-base text-foreground">{t('onboarding.trinary.squatLabel')}</Label>
                                     <Input
                                         id="trinarySquat"
                                         name="trinarySquat"
                                         type="number"
                                         min="0"
                                         placeholder="e.g. 140"
-                                        className="text-lg bg-zinc-800/50 border-zinc-700/50 text-zinc-100"
+                                        className="text-lg bg-secondary/50 border-border/50 text-foreground"
                                         onChange={handleStatsChange}
                                         step="2.5"
                                         required
                                     />
-                                    <p className="text-xs text-zinc-500">{t('onboarding.trinary.squatHint')}</p>
+                                    <p className="text-xs text-muted-foreground">{t('onboarding.trinary.squatHint')}</p>
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <Label className="text-base text-zinc-200">{t('onboarding.trinary.meStyleTitle')}</Label>
-                                <p className="text-xs text-zinc-500">{t('onboarding.trinary.meStyleDesc')}</p>
+                                <Label className="text-base text-foreground">{t('onboarding.trinary.meStyleTitle')}</Label>
+                                <p className="text-xs text-muted-foreground">{t('onboarding.trinary.meStyleDesc')}</p>
                                 <RadioGroup value={trinaryMeRepMaxStyle} onValueChange={(v) => setTrinaryMeRepMaxStyle(v as '1rm' | '3rm')} className="grid grid-cols-2 gap-2">
-                                    <div className={`flex items-center space-x-2 p-3 rounded border ${trinaryMeRepMaxStyle === '3rm' ? 'border-zinc-500 bg-zinc-800' : 'border-zinc-700/50'}`}>
+                                    <div className={`flex items-center space-x-2 p-3 rounded border ${trinaryMeRepMaxStyle === '3rm' ? 'border-border bg-secondary' : 'border-border/50'}`}>
                                         <RadioGroupItem value="3rm" id="me-3rm" />
-                                        <Label htmlFor="me-3rm" className="text-zinc-200 cursor-pointer">{t('onboarding.trinary.meStyle3rm')}</Label>
+                                        <Label htmlFor="me-3rm" className="text-foreground cursor-pointer">{t('onboarding.trinary.meStyle3rm')}</Label>
                                     </div>
-                                    <div className={`flex items-center space-x-2 p-3 rounded border ${trinaryMeRepMaxStyle === '1rm' ? 'border-zinc-500 bg-zinc-800' : 'border-zinc-700/50'}`}>
+                                    <div className={`flex items-center space-x-2 p-3 rounded border ${trinaryMeRepMaxStyle === '1rm' ? 'border-border bg-secondary' : 'border-border/50'}`}>
                                         <RadioGroupItem value="1rm" id="me-1rm" />
-                                        <Label htmlFor="me-1rm" className="text-zinc-200 cursor-pointer">{t('onboarding.trinary.meStyle1rm')}</Label>
+                                        <Label htmlFor="me-1rm" className="text-foreground cursor-pointer">{t('onboarding.trinary.meStyle1rm')}</Label>
                                     </div>
                                 </RadioGroup>
                             </div>
 
-                            <div className="bg-zinc-800/50 border border-zinc-700/30 rounded p-3 text-sm text-zinc-300">
-                                <strong className="text-zinc-200">{t('onboarding.trinary.scheduleTitle')}</strong><br />
+                            <div className="bg-secondary/50 border border-border/30 rounded p-3 text-sm text-foreground">
+                                <strong className="text-foreground">{t('onboarding.trinary.scheduleTitle')}</strong><br />
                                 {t('onboarding.trinary.scheduleDesc')}
                             </div>
 
-                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-zinc-700 to-slate-700 hover:from-zinc-600 hover:to-slate-600 text-zinc-100" size="lg">
+                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-card hover:hover:text-foreground" size="lg">
                                 <CheckCircle2 className="mr-2 h-5 w-5" />
                                 {t('onboarding.trinary.buildButton')}
                             </Button>
@@ -913,14 +913,14 @@ export const Onboarding: React.FC = () => {
     // Ritual of Strength - First Program Question (before stats)
     if (selectedProgramId === RITUAL_CONFIG.id && ritualIsFirstProgram === null) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-black via-red-950/20 to-black flex flex-col items-center justify-center p-4">
-                <Card className="w-full max-w-lg border-red-900/40 shadow-2xl bg-gradient-to-b from-zinc-950 to-red-950/10">
+            <div className="min-h-screen bg-card flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-red-900/40  bg-card">
                     <CardHeader>
                         <div className="flex items-center gap-2">
                             <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2 text-red-200 hover:text-red-100">
                                 <ArrowLeft className="h-5 w-5" />
                             </Button>
-                            <CardTitle className="text-2xl bg-gradient-to-r from-red-200 via-red-400 to-red-200 bg-clip-text text-transparent">Ritual of Strength</CardTitle>
+                            <CardTitle className="text-2xl">Ritual of Strength</CardTitle>
                         </div>
                         <CardDescription className="text-red-200/70">
                             {t('onboarding.ritualOfStrength.firstProgramQuestion')}
@@ -930,7 +930,7 @@ export const Onboarding: React.FC = () => {
                         <div className="space-y-4">
                             <Button
                                 onClick={() => setRitualIsFirstProgram(true)}
-                                className="w-full h-16 text-lg bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-red-50"
+                                className="w-full h-16 text-lg bg-card hover:hover:text-red-50"
                                 size="lg"
                             >
                                 {t('onboarding.ritualOfStrength.firstProgramYes')}
@@ -958,14 +958,14 @@ export const Onboarding: React.FC = () => {
     // Ritual of Strength stats form - dark cult theme
     if (selectedProgramId === RITUAL_CONFIG.id) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-black via-red-950/20 to-black flex flex-col items-center justify-center p-4">
-                <Card className="w-full max-w-lg border-red-900/40 shadow-2xl bg-gradient-to-b from-zinc-950 to-red-950/10">
+            <div className="min-h-screen bg-card flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-red-900/40  bg-card">
                     <CardHeader>
                         <div className="flex items-center gap-2">
                             <Button variant="ghost" size="icon" onClick={() => setRitualIsFirstProgram(null)} className="-ml-2 text-red-200 hover:text-red-100">
                                 <ArrowLeft className="h-5 w-5" />
                             </Button>
-                            <CardTitle className="text-2xl bg-gradient-to-r from-red-200 via-red-400 to-red-200 bg-clip-text text-transparent">{t('onboarding.ritualOfStrength.calibrationTitle')}</CardTitle>
+                            <CardTitle className="text-2xl">{t('onboarding.ritualOfStrength.calibrationTitle')}</CardTitle>
                         </div>
                         <CardDescription className="text-red-200/70">
                             {t('onboarding.ritualOfStrength.calibrationDesc')}
@@ -1080,7 +1080,7 @@ export const Onboarding: React.FC = () => {
                                 {t('onboarding.ritualOfStrength.scheduleDesc')}
                             </div>
 
-                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-red-900 to-red-800 hover:from-red-800 hover:to-red-700 text-red-50" size="lg">
+                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-card hover:hover:text-red-50" size="lg">
                                 <CheckCircle2 className="mr-2 h-5 w-5" />
                                 {t('onboarding.ritualOfStrength.buildButton')}
                             </Button>
@@ -1094,14 +1094,14 @@ export const Onboarding: React.FC = () => {
     // Super Mutant stats form - Fallout wasteland theme
     if (step === 'super-mutant-stats') {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-black via-green-950/10 to-orange-950/10 flex flex-col items-center justify-center p-4">
-                <Card className="w-full max-w-lg border-green-800/40 shadow-2xl bg-gradient-to-b from-zinc-950 to-green-950/10">
+            <div className="min-h-screen bg-card flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg border-green-800/40  bg-card">
                     <CardHeader>
                         <div className="flex items-center gap-2">
                             <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2 text-green-200 hover:text-green-100">
                                 <ArrowLeft className="h-5 w-5" />
                             </Button>
-                            <CardTitle className="text-2xl bg-gradient-to-r from-green-400 via-orange-400 to-green-400 bg-clip-text text-transparent">Super Mutant Configuration</CardTitle>
+                            <CardTitle className="text-2xl">Super Mutant Configuration</CardTitle>
                         </div>
                         <CardDescription className="text-green-200/70">
                             Select your exercise preferences. The program adapts to your recovery with dynamic scheduling.
@@ -1213,7 +1213,7 @@ export const Onboarding: React.FC = () => {
                                 </div>
                             </div>
 
-                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-gradient-to-r from-green-900 to-orange-800 hover:from-green-800 hover:to-orange-700 text-green-50" size="lg">
+                            <Button type="submit" className="w-full h-12 text-lg font-bold bg-card hover:hover:text-green-50" size="lg">
                                 <CheckCircle2 className="mr-2 h-5 w-5" />
                                 BEGIN MUTATION
                             </Button>
@@ -1233,7 +1233,7 @@ export const Onboarding: React.FC = () => {
 
         return (
             <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-                <Card className="w-full max-w-lg border-primary/20 shadow-2xl">
+                <Card className="w-full max-w-lg border-primary/20 ">
                     <CardHeader>
                         <div className="flex items-center gap-2">
                             <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2">
@@ -1312,7 +1312,7 @@ export const Onboarding: React.FC = () => {
     // Bench Domination stats form
     return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
-            <Card className="w-full max-w-lg border-primary/20 shadow-2xl">
+            <Card className="w-full max-w-lg border-primary/20 ">
                 <CardHeader>
                     <div className="flex items-center gap-2">
                         <Button variant="ghost" size="icon" onClick={() => setStep('bench-modules')} className="-ml-2">

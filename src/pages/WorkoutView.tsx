@@ -1006,7 +1006,7 @@ export const WorkoutView: React.FC = () => {
             {/* Pain & Glory: Deficit Snatch Grip RPE Modal */}
             {showDeficitModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-in fade-in duration-300">
-                    <div className="bg-gradient-to-br from-amber-50 to-amber-100 border-4 border-red-700 p-8 rounded-xl max-w-md w-full shadow-2xl">
+                    <div className="bg-card border-4 border-red-700 p-8 rounded-xl max-w-md w-full ">
                         <h2 className="text-2xl font-black text-red-800 text-center mb-2">
                             How Did That Feel?
                         </h2>
@@ -1573,9 +1573,9 @@ export const WorkoutView: React.FC = () => {
                                     if (!allHit3) return null;
 
                                     return (
-                                        <div className="p-4 bg-zinc-800/50 border-t border-zinc-700 space-y-3">
-                                            <div className="text-sm font-bold text-zinc-200">{t('trinary.rpeSelector.title')}</div>
-                                            <p className="text-xs text-zinc-400">{t('trinary.rpeSelector.description')}</p>
+                                        <div className="p-4 bg-secondary border-t border-border space-y-3">
+                                            <div className="text-sm font-bold text-muted-foreground">{t('trinary.rpeSelector.title')}</div>
+                                            <p className="text-xs text-muted-foreground">{t('trinary.rpeSelector.description')}</p>
 
                                             <div className="grid grid-cols-3 gap-2">
                                                 <button
@@ -1583,7 +1583,7 @@ export const WorkoutView: React.FC = () => {
                                                     onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 7 }))}
                                                     className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 7
                                                         ? 'bg-green-600 border-green-500 text-white'
-                                                        : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
+                                                        : 'bg-secondary border-border text-muted-foreground hover:bg-secondary'
                                                         }`}
                                                 >
                                                     <div className="font-bold">RPE ≤7</div>
@@ -1595,7 +1595,7 @@ export const WorkoutView: React.FC = () => {
                                                     onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 7.5 }))}
                                                     className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 7.5
                                                         ? 'bg-yellow-600 border-yellow-500 text-white'
-                                                        : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
+                                                        : 'bg-secondary border-border text-muted-foreground hover:bg-secondary'
                                                         }`}
                                                 >
                                                     <div className="font-bold">RPE 7-8</div>
@@ -1607,7 +1607,7 @@ export const WorkoutView: React.FC = () => {
                                                     onClick={() => setMeRpeSelected(prev => ({ ...prev, [ex.id]: 8.5 }))}
                                                     className={`p-3 rounded border text-sm transition-all ${meRpeSelected[ex.id] === 8.5
                                                         ? 'bg-red-600 border-red-500 text-white'
-                                                        : 'bg-zinc-700 border-zinc-600 text-zinc-300 hover:bg-zinc-600'
+                                                        : 'bg-secondary border-border text-muted-foreground hover:bg-secondary'
                                                         }`}
                                                 >
                                                     <div className="font-bold">RPE 8-9</div>

@@ -18,8 +18,8 @@ Sequence: **A. Onboarding bug → B. UI overhaul (phases 1–7) → C. Plan test
 | B4. Ledger + click-to-edit | **Done** — spec approved as option (b), `B4-LEDGER-SPEC.md` |
 | B5. Dashboard | **Done** — options in `B5-DASHBOARD-OPTIONS.md` |
 | B6. RestTimer + modals | **Done** — options in `B6-TIMER-MODALS-OPTIONS.md` |
-| B7. Remaining surfaces | Next |
-| B8. Finish pass | Not started |
+| B7. Remaining surfaces | **Done** |
+| B8. Finish pass | Next |
 | C. Plan testing | Not started |
 
 ### Action required from the owner
@@ -351,10 +351,44 @@ Verified on a new harness plus a regression run of the B3, B4 and B5 harnesses,
 since the token sweep reaches all of them. All clean. Screenshots in
 `.impeccable/qa/b6-*`.
 
-### B7. History, ExerciseBrowser, Settings, Entry/Onboarding, Adventure, Admin ⇧ PUSH
-History as a hairline table. ExerciseBrowser images grayscale-first. Underline inputs in
-Settings/Onboarding. Entry as a split spec sheet. Adventure fully overhauled into Protocol
-Sheet. Admin inherits tokens only.
+### B7. History, ExerciseBrowser, Settings, Entry/Onboarding, Adventure, Admin ⇧ PUSH — done
+
+**Inputs are underline everywhere**, the owner's decision #10. Done at the
+shared `ui/input`, so Settings, Onboarding, Entry, the ledger and Admin all
+changed at once. The agreed mitigation for the weaker affordance is built in:
+every field is ≥44px, the `<label>` wrapping it is the click target, and focus
+is a 2px accent underline rather than a ring a hairline layout has nowhere to
+put.
+
+**Entry** is a split spec sheet, and both of its logged defects are fixed. The
+primary button hardcoded `bg-zinc-100 text-black`, so it rendered grey instead
+of the signal in every program; and `CREATE A NEW KEYWORD`, `CREATE & CONTINUE`,
+`Use an existing keyword` and the `Calculate / Execute / Log` line were all
+hardcoded English. They have real keys now. The logo image went too, matching
+the lockup.
+
+**History** was the worst style fork in the app: 32 hardcoded zinc greys and a
+red accent, so every program rendered its own archive in Pencilneck's colours.
+It is a hairline table now, reusing the ledger's row grammar, with real i18n
+keys for the six strings that were hardcoded English.
+
+**ExerciseBrowser**: the spec's "grayscale-first images" item does not apply —
+the library has no artwork. What it needed was the shared row grammar and a
+search field that stays findable.
+
+**Adventure and Admin** were still setting type in the raw program accent;
+moved to `--signal-text` with the rest.
+
+**The zinc ramp is gone from the app.** It was a hardcoded restatement of the
+token scale that ignored Peachy entirely — a light theme rendering its modals in
+dark greys. ~180 occurrences across five files mapped onto tokens.
+
+**Two outright PRODUCT.md violations went with it:** four gradient-text titles
+(`bg-clip-text text-transparent`) in Onboarding, and the gradient panel
+backgrounds the chassis replaced with tonal steps.
+
+Verified with harnesses for Entry, History and the library across
+viewport/theme/locale combinations. Screenshots in `.impeccable/qa/b7-*`.
 
 ### B8. Finish pass ⇧ PUSH
 Contrast audit of all ~13 themes incl. Peachy (light skin needs its own dark-on-light hairline

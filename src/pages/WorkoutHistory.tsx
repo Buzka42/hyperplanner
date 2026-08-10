@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { useLanguage } from '../contexts/useTranslation';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
-import { ArrowLeft, Calendar, Dumbbell, ChevronDown, ChevronUp, Edit2 } from 'lucide-react';
+import { ArrowLeft, Calendar, ChevronDown, ChevronUp, Edit2 } from 'lucide-react';
+import { cn } from '../lib/utils';
 import { collection, query, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -116,125 +116,87 @@ export const WorkoutHistory: React.FC = () => {
     if (!user) {
         return (
             <div className="p-4 bg-background h-screen flex items-center justify-center">
-                <p className="text-zinc-400">Identity check failed. Please log in.</p>
+                <p className="text-muted-foreground">Identity check failed. Please log in.</p>
             </div>
         );
     }
 
     return (
-        <div className="instrument-page history-ledger p-4 max-w-5xl mx-auto space-y-6 pb-24">
-            <div className="flex items-center gap-4 mb-2">
-                <Button variant="ghost" size="icon" onClick={() => navigate('/app/dashboard')} className="hover:bg-zinc-800">
+        <div className="instrument-page history-ledger max-w-5xl mx-auto pb-24">
+            <div className="flex items-center gap-2 mb-6">
+                <Button variant="ghost" size="icon" onClick={() => navigate('/app/dashboard')} className="-ml-2">
                     <ArrowLeft className="h-5 w-5" />
                 </Button>
                 <div>
-                    <h2 className="text-4xl font-black tracking-tight text-white uppercase">Archive</h2>
-                    <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest">
-                        {workouts.length} total sessions committed to code
-                    </p>
+                    <h1>{t('history.title')}</h1>
+                    <p className="history-count">{t('history.sessionCount', { count: workouts.length })}</p>
                 </div>
             </div>
 
             {loading ? (
-                <div className="flex flex-col items-center justify-center py-20 gap-4">
-                    <div className="w-12 h-12 border-4 border-zinc-800 border-t-red-600 rounded-full animate-spin"></div>
-                    <p className="text-zinc-500 font-bold tracking-widest uppercase text-[10px]">Retrieving Records...</p>
-                </div>
+                <p className="history-empty">{t('common.loading')}</p>
             ) : workouts.length === 0 ? (
-                <Card className="bg-zinc-950 border-zinc-900 border-dashed border-2">
-                    <CardContent className="p-20 text-center space-y-4">
-                        <Dumbbell className="h-20 w-20 mx-auto text-zinc-900" />
-                        <div className="space-y-1">
-                            <p className="text-zinc-400 font-bold uppercase tracking-tight text-xl">Empty Repository</p>
-                            <p className="text-zinc-600 text-sm">No data logged. Execute your first program to begin tracking.</p>
-                        </div>
-                        <Button onClick={() => navigate('/app/dashboard')} className="bg-red-600 hover:bg-red-500 font-black px-8">EXECUTE FIRST WORKOUT</Button>
-                    </CardContent>
-                </Card>
+                <div className="history-empty">
+                    <p>{t('history.emptyTitle')}</p>
+                    <p>{t('history.emptyCopy')}</p>
+                    <Button onClick={() => navigate('/app/dashboard')} className="mt-4">{t('history.emptyAction')}</Button>
+                </div>
             ) : (
-                <div className="grid gap-4">
+                /* Dense tabular data — a hairline table, the same grammar as the
+                   set ledger. This block used to hardcode zinc greys and a red
+                   accent, so every program rendered its history in Pencilneck's
+                   colours. */
+                <div className="history-rows">
                     {workouts.map((workout) => {
                         const isExpanded = expandedIds.has(workout.id);
                         const w = workout.week !== undefined ? workout.week : workout.weekNum;
                         const d = workout.day !== undefined ? workout.day : workout.dayNum;
+                        const when = new Date(workout.date);
 
                         return (
-                            <Card key={workout.id} className="bg-zinc-950 border-zinc-900 hover:border-zinc-800 transition-all duration-300 group shadow-2xl overflow-hidden">
-                                <CardHeader className="p-5 cursor-pointer select-none" onClick={() => toggleExpand(workout.id)}>
-                                    <div className="flex items-start justify-between">
-                                        <div className="space-y-2">
-                                            <CardTitle className="text-2xl font-black text-white uppercase tracking-tighter leading-none">
-                                                {renderWorkoutName(workout.dayName, w, d)}
-                                            </CardTitle>
-                                            <div className="flex items-center gap-4">
-                                                <div className="flex items-center gap-1.5 text-[10px] text-zinc-600 font-black uppercase tracking-widest">
-                                                    <Calendar className="h-3 w-3 text-zinc-800" />
-                                                    {new Date(workout.date).toLocaleDateString()}
-                                                </div>
-                                                <div className="text-[10px] text-red-600/80 font-black uppercase tracking-widest bg-red-950/20 px-2 py-0.5 rounded border border-red-900/30">
-                                                    {new Date(workout.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                className="bg-zinc-900 text-zinc-400 hover:text-white border border-zinc-800 h-10 px-5 uppercase font-black text-[10px] tracking-[0.2em]"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleEdit(workout);
-                                                }}
-                                            >
-                                                <Edit2 className="h-3.5 w-3.5 mr-2 text-red-600" />
-                                                Edit
-                                            </Button>
-                                            <div className="w-10 h-10 bg-zinc-900 rounded-full flex items-center justify-center border border-zinc-800 group-hover:border-zinc-700 transition-colors">
-                                                {isExpanded ? <ChevronUp className="h-4 w-4 text-zinc-400" /> : <ChevronDown className="h-4 w-4 text-zinc-400" />}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </CardHeader>
+                            <div key={workout.id} className={cn('history-session', isExpanded && 'is-open')}>
+                                <div className="history-session-head">
+                                    <button
+                                        type="button"
+                                        className="history-session-toggle"
+                                        aria-expanded={isExpanded}
+                                        onClick={() => toggleExpand(workout.id)}
+                                    >
+                                        <span className="history-session-name">{renderWorkoutName(workout.dayName, w, d)}</span>
+                                        <span className="history-session-when">
+                                            <Calendar className="h-3 w-3" aria-hidden="true" />
+                                            {when.toLocaleDateString()} · {when.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </span>
+                                        {isExpanded ? <ChevronUp className="h-4 w-4 shrink-0" aria-hidden="true" /> : <ChevronDown className="h-4 w-4 shrink-0" aria-hidden="true" />}
+                                    </button>
+                                    <Button variant="ghost" size="sm" className="history-edit" onClick={() => handleEdit(workout)}>
+                                        <Edit2 className="h-3.5 w-3.5 mr-2" />{t('history.edit')}
+                                    </Button>
+                                </div>
 
                                 {isExpanded && (
-                                    <CardContent className="px-5 pb-6 pt-2 animate-in fade-in slide-in-from-top-4 duration-300">
-                                        <div className="grid gap-6 pt-5 border-t border-zinc-900">
-                                            {workout.exercises?.map((ex: any, exIdx: number) => (
-                                                <div key={exIdx} className="space-y-3">
-                                                    <div className="flex items-center justify-between border-l-2 border-red-600 pl-3">
-                                                        <div className="text-xs font-black text-zinc-200 uppercase tracking-widest">{ex.name}</div>
-                                                        <div className="text-[9px] text-zinc-600 font-bold uppercase tracking-widest bg-zinc-900 px-2 rounded">{ex.sets} SETS DATA</div>
-                                                    </div>
-
-                                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-                                                        {ex.setsData?.map((set: any, setIdx: number) => (
-                                                            <div key={setIdx} className="flex items-center gap-4 bg-zinc-900/50 p-3 rounded-lg border border-zinc-900/80 hover:bg-zinc-900 transition-colors">
-                                                                <span className="text-[10px] font-black text-zinc-700 w-4">#{setIdx + 1}</span>
-                                                                <div className="flex-1 flex justify-around items-center">
-                                                                    <div className="flex flex-col items-center">
-                                                                        <span className="text-white font-black text-base leading-none">{set.weight}</span>
-                                                                        <span className="text-[8px] text-zinc-600 uppercase font-black tracking-tighter">kg</span>
-                                                                    </div>
-                                                                    <div className="h-4 w-[1px] bg-zinc-800" />
-                                                                    <div className="flex flex-col items-center">
-                                                                        <span className="text-white font-black text-base leading-none">{set.reps}</span>
-                                                                        <span className="text-[8px] text-zinc-600 uppercase font-black tracking-tighter">reps</span>
-                                                                    </div>
-                                                                </div>
-                                                                {set.note && (
-                                                                    <div className="absolute top-0 right-0 p-1">
-                                                                        <div className="w-1.5 h-1.5 bg-red-600 rounded-full" title={set.note} />
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        ))}
-                                                    </div>
+                                    <div className="history-session-body">
+                                        {workout.exercises?.map((ex: any, exIdx: number) => (
+                                            <div key={exIdx} className="history-exercise">
+                                                <p className="history-exercise-name">{ex.name}</p>
+                                                <div className="ledger-rows">
+                                                    {ex.setsData?.map((set: any, setIdx: number) => (
+                                                        <div key={setIdx} className="ledger-row is-complete">
+                                                            <span className="ledger-row-n">{setIdx + 1}</span>
+                                                            <span className="ledger-row-value">
+                                                                {set.weight}{t('common.kg')} <i aria-hidden="true">×</i> {set.reps}
+                                                            </span>
+                                                            <span className="ledger-row-state">
+                                                                {set.note ? <span className="history-note" title={set.note} aria-label={set.note} /> : null}
+                                                            </span>
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                            ))}
-                                        </div>
-                                    </CardContent>
+                                            </div>
+                                        ))}
+                                    </div>
                                 )}
-                            </Card>
+                            </div>
                         );
                     })}
                 </div>
