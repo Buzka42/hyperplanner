@@ -18,12 +18,12 @@ form, whose submit handler hardcoded `switchProgram(BENCH_DOMINATION_PROGRAM.id)
 Finishing it enrolled the athlete in Bench Domination rather than the plan they
 chose. Replaced with a generic benchmark step plus first-exposure calibration.
 
-**B. UI overhaul — B4 of 8 done.** Replacing the "Pit-Wall Instrument" visual
+**B. UI overhaul — all 8 phases done.** Replacing the "Pit-Wall Instrument" visual
 world with "Protocol Sheet", per `docs/protocol-sheet-redesign.md`. The direction
 was chosen by the owner before this work started and is pinned; it is not open
 for re-derivation.
 
-**C. Plan testing — not started.**
+**C. Plan testing — done.** See IMPLEMENTATION_PLAN.md §C.
 
 Along the way: three plan renames (names, artwork, ids) and a console defect
 where the load figure clipped the logged number.
@@ -33,7 +33,12 @@ where the load figure clipped the logged number.
 ## 2. Commits on this branch
 
 ```
-<this commit> Turn the ledger into a read-only protocol sheet
+<this commit> Test the calibration path, and unblock the volume audit
+             Finish the overhaul: audit every theme and rewrite DESIGN.md
+             Bring the remaining surfaces into the Protocol Sheet
+             Move the rest timer to the thumb, and flatten the modal family
+             Rebuild the dashboard as a spec sheet, and drop the logo mark
+1f54109 Turn the ledger into a read-only protocol sheet
 ae60948 Spec the ledger's click-to-edit flow for approval
 79b2d65 Rebuild the live-set console as hairline bands
 f830cf4 Rebuild the shell as a Protocol Sheet
@@ -150,33 +155,36 @@ be declared, point at a real plan, and appear in `validPlanIds()`.
 
 ---
 
-## 7. Next up — B5, the dashboard
+## 7. What is left
 
-The owner asked for design options **before** building, via the `impeccable`
-skill, on every UI phase. Do not skip that. **The skill was not installed in
-the session that built B2**, so that round was recorded as a document instead
-(`docs/plans/B2-SHELL-OPTIONS.md`) — four open element treatments, each with
-its alternates and why the built one won. Do the same if the skill is still
-missing; do not skip the round.
+**The overhaul is finished.** A, B1–B8 and C are all done and pushed. Every
+phase has an options document in `docs/plans/` recording the alternates and why
+the built one won, and `DESIGN.md` now documents the system that actually
+exists.
 
-B2, B3 and B4 are done; what each changed beyond its stated scope is listed in
-IMPLEMENTATION_PLAN.md under its own heading. The ones that will surprise you:
-page titles are sentence case app-wide now, `/app/profile` absorbed logout and
-the language switcher because the deleted drawer was their only mobile home,
-the console no longer splits into two columns on desktop, and **the ledger no
-longer contains any inputs at all** — the console is the only editor, by the
-owner's choice of option (b) in `B4-LEDGER-SPEC.md`.
+### Owner action items
 
-B5 (dashboard), B6 (RestTimer + modals),
-B7 (History, ExerciseBrowser, Settings, Entry/Onboarding, Adventure), B8 (finish
-pass: contrast audit of all themes incl. light-skin Peachy, PL strings,
-reduced-motion, detector, then **rewrite `DESIGN.md`**).
+1. **Run the plan-id migration.** Still the only blocking item. It writes to
+   production Firestore and there are no credentials in the assistant's
+   environment, so it could not be run here. `npm run migrate:plan-ids` (dry)
+   then `-- --apply`. The script was read end to end and is correct: the map
+   direction is old → new, users and accessKeys are covered, workout logs are
+   deliberately untouched.
+2. **Decide on Ritual's shoulder volume.** `verify:volume` reports it training
+   shoulders once a week on 3 direct sets. Advisory, unchanged.
+3. **Run the Impeccable detector** when the skill is available. It was not
+   installed here. `DESIGN.md` being current should make it quiet.
 
-### B4 is done — the spec is still the record
-`docs/plans/B4-LEDGER-SPEC.md` holds the approved decision (option (b)) and the
-reasoning. Read it before changing how the console and the sheet relate.
+### Judgement calls worth reviewing
 
----
+Each is a small revert if you disagree, and each is recorded in its phase's
+options doc:
+
+- The **restart** control on the rest timer was removed (B6).
+- **`Est. time`** is not on the dashboard, because nothing measures it (B5).
+- The **logo mark** is gone from Entry as well as the shell (B5/B7).
+- Page titles are **sentence case app-wide** (B2).
+- `/app/profile` absorbed **logout and the language switcher** (B2).
 
 ## 8. Known open defects, not yet fixed
 
@@ -192,14 +200,26 @@ reasoning. Read it before changing how the console and the sheet relate.
 
 ## 9. How to verify — and the constraints
 
-**No unit-test runner exists.** Verification is 14 `verify:*` tsx scripts plus
-the browser preview. Full sweep:
+**No unit-test runner exists.** Verification is 15 `verify:*` tsx scripts plus
+a set of render harnesses. Full sweep:
 
 ```bash
-for s in registry onboarding plans lifecycles progression library techniques extra-sets volume tip-coverage; do npm run verify:$s; done
+for s in registry onboarding calibration plans lifecycles progression library \
+         techniques extra-sets volume tip-coverage adventure supermutant; do
+  npm run verify:$s
+done
 ```
 
-All pass at `641991e`, and `npm run build` is clean.
+All pass, and `npm run build` is clean.
+
+**The UI is verified by rendering, not by eye.** There is no logged-in session,
+so each phase built a harness page that mounts the real markup against the real
+compiled CSS, and `audit.mjs` asserts on the result: no horizontal overflow, no
+sub-44px targets, no clipped or mid-word-broken text, ≥4.5:1 on every text role
+composited through translucent fills, and all motion collapsed under
+`prefers-reduced-motion`. Screenshots live in `.impeccable/qa/b2-*` … `b8-*`.
+See `DESIGN.md` § Verification, including two ways to write a contrast probe
+that lies.
 
 **Browser:** a dev server already runs on port 5173 (the owner's), so
 `preview_start` with a `name` fails on a port clash — open the URL directly
