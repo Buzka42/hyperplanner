@@ -14,8 +14,9 @@ Sequence: **A. Onboarding bug → B. UI overhaul (phases 1–7) → C. Plan test
 | Plan renames (names, artwork, ids) | **Done** — migration pending, see below |
 | B1. Tokens & fonts | **Done** (fonts self-hosted) |
 | B2. Shell | **Done** — options in `B2-SHELL-OPTIONS.md` |
-| B3. Live-set console | Next |
-| B4–B8 | Not started |
+| B3. Live-set console | **Done** — options in `B3-CONSOLE-OPTIONS.md` |
+| B4. Ledger + click-to-edit | Next — **needs a spec approved before code** |
+| B5–B8 | Not started |
 | C. Plan testing | Not started |
 
 ### Action required from the owner
@@ -171,21 +172,42 @@ compiled CSS, audited for horizontal overflow, sub-44px targets, clipped text
 and mid-word breaks. All clean. `b2-mobile-narrow-pl` found `USTAWIENIA`
 breaking into `USTAWIENI / A` at 320px; fixed with a narrow-width dock rule.
 
-### B3. Live-set console — the proof surface ⇧ PUSH
+### B3. Live-set console — the proof surface ⇧ PUSH — done
 
-Carries two defects found during B1 review, already fixed but worth keeping
-visible because the rebuild must not reintroduce them:
-- the live figure was sized from `vw`, so on desktop (where the console splits
-  into two columns) a 3-digit load overflowed and the input clipped it — the
-  athlete typed 333 and saw 33. Now sized from its own container via `cqi`,
-  stepping down by digit count. Verified: 0 clipped across 48 width/value
-  combinations from 620px down to 150px.
-- `transition: height` / `transition: width` on the progress meters (detector
-  findings) should become transform-based here.
-Hairline-divided bands, no panel box. Load figure `clamp(2.5rem, 10vw, 4.5rem)` in mono —
-the largest type in the app. History/advice pills → one spec row. Telemetry strip as
-hairline cells. LOG SET as a full-width signal block, min-height 56–64px.
-**Screenshot review against the sketch before proceeding.**
+Option round: `docs/plans/B3-CONSOLE-OPTIONS.md`.
+
+The console stopped being a box. It is horizontal bands separated by hairlines,
+sitting directly on the chassis, one column at every width.
+
+Both defects carried into this phase are fixed at the cause:
+
+- **The four-line exercise name.** The cause was the desktop two-column split
+  (`1.15fr .85fr`), which gave the head a ~390px column at 1024px. Dropping the
+  split to one column of bands is what §6 asks for anyway, and it widens the
+  measurement columns rather than narrowing them.
+- **`LOAD MODE — MANUAL`.** Banned fluff, but what it reported is required by
+  PRODUCT.md principle 5. It moved onto the field it describes: the weight's
+  micro-label reads `WEIGHT · AUTO` while the value is still the plan's
+  computed load, plain `WEIGHT` once the athlete types their own. Derived, so
+  there is no flag to keep in sync.
+
+Both transform-less progress transitions are gone. The session meter is no
+longer an 8×66px bar animating `height` — the head's own bottom hairline is the
+progress rule, filled with `scaleX`. `.admin-progress` moved from `width` to
+`scaleX` too.
+
+Also: history and advice pills (a banned shape) became spec rows, which gave
+the per-exercise set counter a home once LOG SET went full width; four
+hardcoded English strings (`Live set`, `Log set`, `RPE`, `Rest`) got real i18n
+keys; and the figure input is now sized in `ch` from its own value's length, so
+the clipping bug is impossible by construction rather than by bucket — which
+also puts the `kg` unit beside the number instead of stranded at the far edge
+of a 400px column.
+
+Verified across 8 viewport/theme/locale combinations, asserting on each: no
+horizontal overflow, no clipped figure, the load figure is the largest type on
+screen, the exercise name fits in ≤2 lines, the CTA is ≥56px, and nothing in
+the console is under 44px. Screenshots in `.impeccable/qa/b3-*`.
 
 ### B4. Set ledger + click-to-edit ⇧ PUSH
 The design-heavy item. **I will spec this flow and show it to you before building it.**

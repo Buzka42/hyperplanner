@@ -168,6 +168,16 @@ export const WorkoutView: React.FC = () => {
      * data. Stepping the size down by length keeps the whole number visible;
      * it stays the biggest thing on screen at every length.
      */
+    /**
+     * The figure input's width, in characters of its own value.
+     *
+     * `figureLength` picks the type size; this picks the box. Together they
+     * mean the field is never narrower than what it holds, so the athlete can
+     * never type 333 and see 33. Minimum 2 so an empty field stays visible.
+     */
+    const figureChars = (value: string): React.CSSProperties =>
+        ({ '--figure-chars': Math.max(2, (value ?? '').length) } as React.CSSProperties);
+
     const figureLength = (value: string): 'short' | 'medium' | 'long' => {
         const digits = (value ?? '').replace(/[^0-9]/g, '').length;
         if (digits <= 2) return 'short';
@@ -199,6 +209,25 @@ export const WorkoutView: React.FC = () => {
             return (Math.round(raw / 2.5) * 2.5).toString();
         }
         return "0";
+    };
+
+    /**
+     * True while the load in the input is still the one the plan computed.
+     *
+     * PRODUCT.md principle 5: an auto-calculated value must not read as one the
+     * athlete entered. This is derived rather than stored — the moment they
+     * type anything else the comparison fails and the label drops the mark, so
+     * there is no flag to keep in sync with the input.
+     *
+     * `0` means the plan could not compute a load at all (an uncalibrated max,
+     * a free-choice accessory), which is manual by definition.
+     */
+    const isAutoLoad = (ex: Parameters<typeof calculateWeight>[0], entered: string) => {
+        const computed = calculateWeight(ex);
+        if (!computed || computed === '0') return false;
+        const a = parseFloat(computed);
+        const b = parseFloat(entered);
+        return Number.isFinite(a) && Number.isFinite(b) && a === b;
     };
 
 
@@ -1044,34 +1073,35 @@ export const WorkoutView: React.FC = () => {
 
             {activeExercise && activeSet && (
                 <section className="live-set-console" aria-label="Active set control deck">
-                    <div className="live-set-head">
-                        <div>
-                            <p className="live-set-label">Live set · {completedSessionSets + 1}/{sessionSets.length}</p>
-                            <h1>{activeExercise.name}</h1>
-                            {(activePreviousStat || activeAdvice) && (
-                                <div className="live-set-history" aria-label="Previous performance and progression advice">
-                                    {activePreviousStat && activePreviousStat.weight !== "-" && (
-                                        <div className="live-set-history-pill">
-                                            <span>{t('workout.last')}</span>
-                                            <strong>{activePreviousStat.weight}{t('common.kg')}</strong>
-                                            <i aria-hidden="true">×</i>
-                                            <strong>{activePreviousStat.reps}</strong>
-                                        </div>
-                                    )}
-                                    {activeAdvice && (
-                                        <div className="live-set-advice-pill">
-                                            <AlertCircle className="h-3.5 w-3.5 shrink-0" />
-                                            <span>{activeAdvice}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                        <div className="session-meter" aria-label={`${sessionProgress}% complete`}>
-                            <strong>{sessionProgress}%</strong>
-                            <span><i style={{ height: `${sessionProgress}%` }} /></span>
-                        </div>
+                    {/* The head's bottom hairline is the session progress rule:
+                        the line was already there separating the bands, and now
+                        it reports as well. Scale, not height — the meter it
+                        replaces animated `height`, which the detector flags. */}
+                    <div className="live-set-head" style={{ '--session-progress': sessionProgress / 100 } as React.CSSProperties}>
+                        <p className="live-set-label">
+                            {t('workout.liveSet')} {completedSessionSets + 1}/{sessionSets.length}
+                        </p>
+                        <h1>{activeExercise.name}</h1>
+                        <p className="sr-only" role="status">{sessionProgress}%</p>
                     </div>
+                    <dl className="live-set-spec">
+                        <div>
+                            <dt>{t('workout.set')}</dt>
+                            <dd>{activeSetIndex + 1}/{activeSets.length}</dd>
+                        </div>
+                        {activePreviousStat && activePreviousStat.weight !== "-" && (
+                            <div>
+                                <dt>{t('workout.last')}</dt>
+                                <dd>{activePreviousStat.weight}{t('common.kg')} × {activePreviousStat.reps}</dd>
+                            </div>
+                        )}
+                        {activeAdvice && (
+                            <div className="is-advice">
+                                <dt>{t('workout.advice')}</dt>
+                                <dd><AlertCircle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />{activeAdvice}</dd>
+                            </div>
+                        )}
+                    </dl>
                     {calibratingStat(activeExercise.name) && (
                         <div className="calibration-band" role="note">
                             <p className="calibration-band-label">{t('workout.calibration.label')}</p>
@@ -1079,18 +1109,20 @@ export const WorkoutView: React.FC = () => {
                         </div>
                     )}
                     <div className="live-set-measurements">
-                        <label data-len={figureLength(activeSet.weight)}><span>{t('common.weight')}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
-                        <label data-len={figureLength(activeSet.reps)}><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value)} aria-label={t('workout.reps')} /></label>
+                        {/* `WEIGHT · AUTO` while the value is still the load the
+                            plan computed; plain `WEIGHT` the moment the athlete
+                            types their own. Principle 5, on the field it
+                            describes rather than as a status line. */}
+                        <label data-len={figureLength(activeSet.weight)} style={figureChars(activeSet.weight)}><span>{t('common.weight')}{isAutoLoad(activeExercise, activeSet.weight) && <em> · {t('workout.auto')}</em>}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
+                        <label data-len={figureLength(activeSet.reps)} style={figureChars(activeSet.reps)}><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value)} aria-label={t('workout.reps')} /></label>
                     </div>
-                    <div className="live-set-telemetry">
-                        {activeExercise.target.rpe !== undefined && <div><span>RPE</span><strong>{activeExercise.target.rpe}</strong></div>}
-                        {activeExercise.rest && <div><span>Rest</span><strong>{activeExercise.rest}</strong></div>}
-                        <div><span>Load mode</span><strong>{calculateWeight(activeExercise) !== '0' ? 'AUTO' : 'MANUAL'}</strong></div>
-                    </div>
-                    <div className="live-set-command">
-                        <div><span>{t('workout.sets')}</span><strong>{activeSetIndex + 1}/{activeSets.length}</strong></div>
-                        <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />Log set</Button>
-                    </div>
+                    {(activeExercise.target.rpe !== undefined || activeExercise.rest) && (
+                        <div className="live-set-telemetry">
+                            {activeExercise.target.rpe !== undefined && <div><span>{t('workout.rpe')}</span><strong>{activeExercise.target.rpe}</strong></div>}
+                            {activeExercise.rest && <div><span>{t('workout.restLabel')}</span><strong>{activeExercise.rest}</strong></div>}
+                        </div>
+                    )}
+                    <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />{t('workout.logSet')}</Button>
                 </section>
             )}
 

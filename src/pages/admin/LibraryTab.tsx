@@ -170,7 +170,7 @@ export const LibraryTab: React.FC = () => {
                     <strong className="admin-progress-figure">{pct}%</strong>
                 </div>
                 <div className="admin-progress" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
-                    <span style={{ width: `${pct}%` }} />
+                    <span style={{ '--admin-progress': pct / 100 } as React.CSSProperties} />
                 </div>
             </section>
 

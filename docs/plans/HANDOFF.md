@@ -18,7 +18,7 @@ form, whose submit handler hardcoded `switchProgram(BENCH_DOMINATION_PROGRAM.id)
 Finishing it enrolled the athlete in Bench Domination rather than the plan they
 chose. Replaced with a generic benchmark step plus first-exposure calibration.
 
-**B. UI overhaul — B2 of 8 done.** Replacing the "Pit-Wall Instrument" visual
+**B. UI overhaul — B3 of 8 done.** Replacing the "Pit-Wall Instrument" visual
 world with "Protocol Sheet", per `docs/protocol-sheet-redesign.md`. The direction
 was chosen by the owner before this work started and is pinned; it is not open
 for re-derivation.
@@ -33,7 +33,8 @@ where the load figure clipped the logged number.
 ## 2. Commits on this branch
 
 ```
-<this commit> Rebuild the shell as a Protocol Sheet
+<this commit> Rebuild the live-set console as hairline bands
+f830cf4 Rebuild the shell as a Protocol Sheet
 05a949f Add a session handoff document
 641991e Add the plan cover artwork
 9468548 Rename plan ids, and stop the live figure clipping the logged number
@@ -147,7 +148,7 @@ be declared, point at a real plan, and appear in `validPlanIds()`.
 
 ---
 
-## 7. Next up — B3, the live-set console
+## 7. Next up — B4, the ledger — and it needs a spec first
 
 The owner asked for design options **before** building, via the `impeccable`
 skill, on every UI phase. Do not skip that. **The skill was not installed in
@@ -156,13 +157,16 @@ the session that built B2**, so that round was recorded as a document instead
 its alternates and why the built one won. Do the same if the skill is still
 missing; do not skip the round.
 
-B2 is done. What it changed beyond its stated scope is listed in
-IMPLEMENTATION_PLAN.md under B2 — the two that will surprise you are that page
-titles are sentence case app-wide now, and that `/app/profile` absorbed logout
-and the language switcher because the deleted drawer was their only mobile home.
+B2 and B3 are done; what each changed beyond its stated scope is listed in
+IMPLEMENTATION_PLAN.md under its own heading. The ones that will surprise you:
+page titles are sentence case app-wide now, `/app/profile` absorbed logout and
+the language switcher because the deleted drawer was their only mobile home,
+and the console no longer splits into two columns on desktop.
 
-Then B3 (live-set console — the proof surface, screenshot review against the
-sketch), B4 (ledger + click-to-edit), B5 (dashboard), B6 (RestTimer + modals),
+**B4 is the one item the owner asked to approve before any code is written.**
+Do not start it with a build.
+
+Then B5 (dashboard), B6 (RestTimer + modals),
 B7 (History, ExerciseBrowser, Settings, Entry/Onboarding, Adventure), B8 (finish
 pass: contrast audit of all themes incl. light-skin Peachy, PL strings,
 reduced-motion, detector, then **rewrite `DESIGN.md`**).
@@ -181,9 +185,6 @@ interaction spec to the owner before building it.**
 | Where | Problem | Fix in |
 |---|---|---|
 | `src/pages/Entry.tsx` | Primary button hardcodes `bg-zinc-100 text-black`, so it renders grey instead of the ice signal. A per-page style fork, which PRODUCT.md bans. | B7 |
-| Live-set console | Exercise name wraps to four lines ("Flat / Barbell / Bench / Press") in a column too narrow for it. | B3 |
-| Live-set console | `LOAD MODE — MANUAL` is exactly the fake system-status line the spec bans as fluff. | B3 |
-| `src/index.css` | Two `transition: height` / `transition: width` on progress meters (detector findings). Should become transform-based. | B3/B5 |
 | `ProtectedLayout` | The badge-unlock overlay is still the old world — confetti, gradient panel, `CLAIM GLORY`, `Math.random` during render (4 eslint errors). Left alone deliberately in B2. | B6 |
 | `src/index.css` | `.theme-adventure` no longer tints the shell chrome, but Adventure's own route CSS below it is untouched. | B7 |
 | Entry | "CREATE A NEW KEYWORD" is untranslated in Polish. Pre-existing. | B7 |
@@ -244,3 +245,11 @@ Run `detect.mjs` on changed files once per phase.
 - **`overflow-wrap: anywhere` breaks Polish mid-word.** `USTAWIENIA` became
   `USTAWIENI / A` in a 320px dock slot. Keep it as the last-resort guard, and
   size the text so it never fires.
+- **When a defect is "this element is too narrow", check what made the column
+  narrow before shrinking the element.** The console's four-line exercise name
+  was caused by a desktop two-column split that the design contract didn't ask
+  for; removing the split fixed the name *and* gave the load figure more room.
+- **The figure input is sized in `ch` from its own value's length.** The face is
+  monospaced, so it can never be narrower than what it holds. Do not replace
+  this with a fixed width or a bucket — that is how the original
+  type-333-see-33 bug worked.

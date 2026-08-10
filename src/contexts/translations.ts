@@ -90,6 +90,17 @@ export const translations = {
             andMore: "+ {count} more",
             sets: "sets",
             reps: "reps",
+            // Live-set console. RPE is the standard abbreviation in Polish
+            // training writing too, so it is intentionally identical in both.
+            liveSet: "Live set",
+            logSet: "Log set",
+            rpe: "RPE",
+            restLabel: "Rest",
+            advice: "Advice",
+            set: "Set",
+            // Marks a load the plan computed, so an auto value never reads as
+            // one the athlete entered (PRODUCT.md principle 5).
+            auto: "Auto",
         },
 
         // ========================================
@@ -1426,6 +1437,13 @@ export const translations = {
             andMore: "+ {count} więcej",
             sets: "serie",
             reps: "powt.",
+            liveSet: "Seria na żywo",
+            logSet: "Zapisz serię",
+            rpe: "RPE",
+            restLabel: "Przerwa",
+            advice: "Wskazówka",
+            set: "Seria",
+            auto: "Auto",
         },
 
         dayNames: {
