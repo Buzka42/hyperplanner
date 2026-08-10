@@ -27,6 +27,7 @@
     "verify:techniques": "npx --yes tsx scripts/verify-techniques.ts",
     "verify:progression": "npx --yes tsx scripts/verify-progression.ts",
     "verify:onboarding": "npx --yes tsx scripts/verify-onboarding.ts",
+    "verify:calibration": "npx --yes tsx scripts/verify-calibration.ts",
     "migrate:plan-ids": "npx --yes tsx scripts/migrate-plan-ids.ts"
   },
   "dependencies": {

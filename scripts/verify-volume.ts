@@ -51,8 +51,15 @@ for (const planId of PLAN_IDS) {
             } catch {
                 return '';
             }
-        }).filter(Boolean);
-        return signatures.length > 1 && new Set(signatures).size === 1;
+        });
+        // "Same session every day" alone is not the signal — a full-body plan
+        // run three times a week looks exactly like that, and Skeleton was
+        // being skipped entirely as a result. What actually distinguishes a
+        // per-visit generator is that it ignores the calendar: it returns a
+        // session for *every* day it is handed, including the plan's own rest
+        // days. A calendar plan leaves those empty.
+        const everyDayTrains = signatures.every(Boolean);
+        return everyDayTrains && signatures.length > 1 && new Set(signatures).size === 1;
     })();
 
     const weeks = generatesPerVisit ? [] : config.program.weeks.map(week => {

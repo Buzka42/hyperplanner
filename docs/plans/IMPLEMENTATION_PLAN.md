@@ -426,25 +426,75 @@ detector would have checked for contrast, tap targets and text overflow; it does
 not cover the detector's undeclared-token analysis. Worth a run when the skill
 is available — `DESIGN.md` being current should make it quiet now.
 
-# C. Plan testing
+# C. Plan testing — done
 
-Scope confirmed after B lands. Starting candidates, highest value first:
+## C1. The calibration path, end to end ✅
 
-1. **King of the Squat** and **Neural Overload** — they consume the new benchmark/calibration
-   path, so they test A end to end. Verify percentage loads resolve correctly post-calibration.
-2. A **volume/fatigue audit** via the existing `verify:volume`, against the portfolio doc's
-   §28 priority list.
+`npm run verify:calibration` — **151 checks across every declarative plan.**
 
-The portfolio doc's §35 highest-priority items (Skeleton minimum-frequency, Overhead Dominion
-maintenance frequency, Workhorse second triceps exposure, Immaculate non-priority frequency)
-are separate work — not in this branch unless you say otherwise.
+`verify:onboarding` already guarded the *contract* (every stat a progression
+reads is collectable). This guards the *behaviour*, which is what Section A was
+actually about: King of the Squat and Neural Overload declared percentage
+progressions against maxes nothing collected, so every load resolved from 0 and
+the plans prescribed an empty bar. That failure was invisible — the app
+rendered, the workout looked normal, the numbers were wrong.
 
----
+Asserted per plan:
 
-# Open items I still need from you
+1. Before calibration, a load depending on an uncollected max resolves to
+   `undefined` — "not yet known" — never `"0"`, which is a prescription of
+   nothing.
+2. Every required stat has an exercise that can establish it, **and** every
+   exercise whose load is computed from a max appears in the calibration map.
+3. Logging that exercise writes a plate-rounded Epley 1RM and clears exactly
+   the flags it established, leaving other maxes outstanding.
+4. After calibration every dependent load is a 2.5kg multiple inside 30–115% of
+   the max.
+5. Re-saving a completed session does not re-establish a max the athlete has
+   since trained past.
 
-1. **§B4 ledger flow** — I'll produce the interaction spec; approve before I build it.
-2. **Calibration-set UX** — does a calibration set look visually distinct in the console
-   (a labelled band), or is it just a normal set with a different tip? Deciding at A4.
-3. **New plans (House of Iron, Apex, Venus/Athena/Kali, REDLINE)** are *design docs only* —
-   none are implemented. They are out of scope here; C tests existing plans.
+**Mutation-tested, and the first attempt was not good enough.** Reintroducing
+the original bug (a missing base resolving to `0`) fails loudly and names King
+of the Squat and Neural Overload. But narrowing the calibration map to
+percentage-only progressions — dropping wave and linear — *passed*, silently
+running 18 fewer checks, because the stats stayed reachable through other
+exercises. Check 2b was added for exactly that: it probes through the public
+surface, giving the calculator every max and asserting that any exercise it can
+now price is in the calibration map. The second mutation now fails.
+
+## C2. Volume audit ✅
+
+`npm run verify:volume` against the portfolio doc's §28 priority list.
+
+**One advisory breach, in an existing plan:** Ritual of Strength trains
+shoulders once a week with 3 direct sets. The script reports rather than fails
+by design — the existing plans predate these rules and some breaches are
+deliberate. Flagged for the owner, not changed.
+
+**A measurement gap was hiding a whole plan.** `verify:volume` reported "no
+materialised training weeks" for Skeleton and moved on, so it had never been
+volume-audited at all — while the portfolio's §35 lists Skeleton
+minimum-frequency as a top-priority item. Two causes, both in the harness:
+
+- The preview user had no `selectedDays`, and Skeleton's `preprocessDay` gates
+  on them, so every day came back as an empty rest day. The preview user now
+  trains Mon/Wed/Fri, which is what Skeleton's own onboarding requires.
+- The "generates one session per visit" detector then skipped it. Its heuristic
+  was "every day produces the same session", which is also what a legitimate
+  full-body 3×/week plan looks like. The real discriminator is that a per-visit
+  generator ignores the calendar — it fills *every* day it is handed, including
+  the plan's own rest days. Tightened accordingly; Trinary and Super Mutant are
+  still correctly skipped.
+
+Skeleton now audits at 72 direct sets in week 1 with 3× weekly frequency on
+every group it trains, and no rule breaches.
+
+## Still out of scope
+
+The portfolio doc's §35 items (Skeleton minimum-frequency, Overhead Dominion
+maintenance frequency, Workhorse second triceps exposure, Immaculate
+non-priority frequency) remain separate work, as agreed. C2 makes the first of
+them measurable; it does not change any plan's programming.
+
+The four design-only plans (House of Iron, Apex, Venus/Athena/Kali, REDLINE)
+are still unimplemented and out of scope.

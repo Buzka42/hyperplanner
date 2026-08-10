@@ -170,6 +170,15 @@ export const buildPreviewUser = (planId: string): UserProfile =>
         pencilneckStatus: { cycle: 1, startDate: new Date('2026-01-01').toISOString() },
         painGloryStatus: {},
         skeletonStatus: { completed: false },
+        /**
+         * Mon/Wed/Fri. Plans whose `preprocessDay` gates on the athlete's chosen
+         * training days — Skeleton, and any plan that copies it — return an
+         * empty rest day for every date without this, so `verify:volume` saw 12
+         * weeks of nothing and reported "no materialised training weeks"
+         * instead of auditing the plan. Three days is what Skeleton's own
+         * onboarding requires.
+         */
+        selectedDays: [1, 3, 5],
         programProgress: {},
         badges: [],
     }) as unknown as UserProfile;
