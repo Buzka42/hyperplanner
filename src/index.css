@@ -709,6 +709,20 @@ b { font-weight: 600; }
      default dark-theme color already computed on <body>. */
   color: hsl(var(--foreground));
   background-color: hsl(var(--background));
+
+  /* The program accent, made safe to set type in.
+     §4's contrast gate: an accent used for text must clear 4.5:1 on the
+     chassis, and several program primaries do not — Bench Domination's purple
+     lands at 4.15:1 on #0a0b0c. Mixing toward the foreground raises contrast
+     on the dark themes and lowers luminance on Peachy, the one light skin, so
+     one rule serves both polarities without thirteen hand-tuned values.
+     Fills, edges and glyphs keep using --primary directly; only text uses this.
+
+     It must be declared here rather than on :root: custom properties are
+     substituted where they are declared, so a :root declaration would bake in
+     the default ice accent for every program. The theme class is on this
+     element. */
+  --signal-text: color-mix(in oklab, hsl(var(--primary)) 72%, hsl(var(--foreground)));
 }
 
 .entry-console {
@@ -982,11 +996,92 @@ b { font-weight: 600; }
   background-color: hsl(var(--primary) / .07);
 }
 
-.exercise-sector { border-color: hsl(var(--border) / .9); }
-.exercise-sector > div:first-child { background-image: linear-gradient(90deg, hsl(var(--primary) / .10), transparent 38%); }
-.set-row { min-height: 58px; transition: background-color 180ms ease-out, box-shadow 180ms ease-out; }
-.set-row:focus-within { background: hsl(var(--primary) / .08); box-shadow: inset 3px 0 0 hsl(var(--primary)); }
-.set-row.is-complete { background: hsl(var(--primary) / .07); color: hsl(var(--foreground)); }
+/* ============================================================
+   SET LEDGER — the protocol sheet
+   One hairline table for the whole session, nothing collapses.
+   Rows are read-only and tap to hand their set to the console,
+   which stays the only editor.
+   ============================================================ */
+
+.ledger-exercise { border-top: 1px solid var(--instrument-rule); padding-top: 1.5rem; }
+
+.ledger-exercise-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.ledger-exercise-id { min-width: 0; }
+.ledger-exercise-head h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
+/* Polish runs ~20% longer; this wraps rather than truncating. */
+.ledger-prescription { margin-top: .3rem; color: hsl(var(--muted-foreground)); font-size: .82rem; font-variant-numeric: tabular-nums; line-height: 1.4; }
+.ledger-swap { display: inline-flex; flex: 0 0 auto; min-height: 44px; align-items: center; gap: .4rem; padding: 0 .75rem; border: 1px solid var(--instrument-rule); color: hsl(var(--muted-foreground)); font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; font-size: .62rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.ledger-swap:hover { border-color: hsl(var(--primary) / .5); color: hsl(var(--primary)); }
+
+.ledger-spec { margin-top: .9rem; }
+.ledger-spec > div { display: grid; grid-template-columns: minmax(0, 7rem) minmax(0, 1fr); align-items: baseline; gap: .75rem; padding: .35rem 0; }
+.ledger-spec dt { color: hsl(var(--muted-foreground)); font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; font-size: .6rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.ledger-spec dd { font-size: .85rem; font-variant-numeric: tabular-nums; }
+.ledger-spec .is-advice dd { display: flex; align-items: center; gap: .4rem; color: var(--signal-text); }
+
+.ledger-tips { margin-top: .9rem; display: grid; gap: .5rem; }
+.ledger-tips li { display: flex; gap: .5rem; color: hsl(var(--muted-foreground)); font-size: .8rem; line-height: 1.45; }
+.ledger-tips svg { margin-top: .15rem; color: hsl(var(--muted-foreground)); }
+
+.ledger-group-label { padding: .8rem 0 .35rem; color: hsl(var(--muted-foreground)); font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; font-size: .6rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+
+.ledger-rows { margin-top: 1rem; border-top: 1px solid var(--instrument-rule); }
+.ledger-row {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr) 2rem;
+  align-items: center;
+  gap: .75rem;
+  width: 100%;
+  min-height: 48px;
+  padding: .6rem 0;
+  border-bottom: 1px solid var(--instrument-rule);
+  border-left: 2px solid transparent;
+  text-align: left;
+  transition: background-color 180ms cubic-bezier(.16,1,.3,1), border-color 180ms cubic-bezier(.16,1,.3,1);
+}
+.ledger-row-n { padding-left: .6rem; color: hsl(var(--muted-foreground)); font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; font-size: .78rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+/* A named row's first cell is a movement or a technique, not a set number, and
+   it will not fit the numeric gutter — "Incline DB Press" broke mid-word there.
+   Named rows stack the label above their values; numbered rows keep the
+   gutter, which is what keeps the numbers aligned down the sheet. */
+/* Indented to where the numbered rows' values start, so the value column runs
+   unbroken down the sheet even where a row is named rather than numbered. */
+.ledger-row.is-step-row { grid-template-columns: minmax(0, 1fr) 2rem; row-gap: .15rem; padding-left: 3.25rem; }
+.ledger-row.is-step-row .ledger-row-n { grid-column: 1 / -1; padding-left: 0; }
+.ledger-row-n.is-step { font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; line-height: 1.25; }
+.ledger-row-value { color: hsl(var(--foreground)); font-size: .95rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+/* Prescribed-but-not-yet-lifted reads as a suggestion, not a record — the same
+   distinction the console draws with WEIGHT vs WEIGHT · AUTO. */
+.ledger-row-value em { color: hsl(var(--muted-foreground) / .75); font-style: normal; }
+.ledger-row-value i { color: hsl(var(--muted-foreground)); font-style: normal; }
+.ledger-row-state { display: flex; justify-content: center; color: hsl(var(--muted-foreground) / .5); }
+
+.ledger-row:hover { background-color: hsl(var(--foreground) / .04); }
+/* Done is fill *and* glyph *and* a screen-reader word — never colour alone. */
+.ledger-row.is-complete { background-color: hsl(var(--primary) / .07); }
+.ledger-row.is-complete .ledger-row-state { color: hsl(var(--primary)); }
+.ledger-row.is-selected { border-left-color: hsl(var(--primary)); background-color: hsl(var(--primary) / .1); }
+/* AMRAP says the word `AMRAP` where the rep target would be. A left tick would
+   have to share the 2px edge that marks the selected row, and the word alone
+   already satisfies "never by colour". */
+.ledger-row.is-amrap .ledger-row-value em:last-child { color: var(--signal-text); font-weight: 600; }
+/* The technique label was a hardcoded yellow, which is a style fork PRODUCT.md
+   bans and which failed on the one light theme. The stacked uppercase label
+   already reads as "not a numbered set" structurally, so it needs no colour of
+   its own. */
+.ledger-row.is-extra-row .ledger-row-n { color: hsl(var(--muted-foreground)); }
+/* Not tap targets, so they are not held to the 48px row — the ramp should be
+   visible without spending a third of the screen on sets that are never
+   logged. */
+.ledger-row.is-warmup { min-height: 34px; padding: .3rem 0; color: hsl(var(--muted-foreground)); opacity: .55; }
+.ledger-row.is-warmup .ledger-row-value { color: inherit; font-size: .85rem; }
+
+.ledger-extra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; padding: .5rem 0; border-bottom: 1px solid var(--instrument-rule); }
+.ledger-extra > div { display: flex; gap: 1.25rem; }
+.ledger-extra button { min-height: 44px; color: hsl(var(--muted-foreground)); font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; font-size: .62rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.ledger-extra button:hover { color: hsl(var(--foreground)); }
+.ledger-extra p { color: hsl(var(--muted-foreground) / .8); font-size: .72rem; }
+
 .workout-ledger .instrument-input { font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 1.05rem; font-weight: 600; }
 
 /* ============================================================
@@ -1074,7 +1169,7 @@ b { font-weight: 600; }
   display: flex;
   align-items: center;
   gap: .45rem;
-  color: hsl(var(--primary));
+  color: var(--signal-text);
 }
 
 /* Calibration: this set establishes a max the whole plan is computed from, so
@@ -1106,7 +1201,7 @@ b { font-weight: 600; }
 .live-set-measurements label > span { grid-column: 1/-1; color: hsl(var(--muted-foreground)); font-size: .65rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; }
 /* The auto mark rides on the label, so it reads as a fact about this field
    rather than a system-status line — the shape the brief bans. */
-.live-set-measurements label > span em { color: hsl(var(--primary)); font-style: normal; }
+.live-set-measurements label > span em { color: var(--signal-text); font-style: normal; }
 /* Width comes from the value's own character count. The face is monospaced, so
    `1ch` is exactly one digit and the field can never be narrower than what it
    holds — the clipping bug is impossible by construction rather than by
@@ -1132,7 +1227,6 @@ b { font-weight: 600; }
 /* One action, full width, flush to the console's bottom edge. */
 .log-set-command { display: flex; width: 100%; min-height: 64px; border-radius: 0; font-size: 1rem; }
 
-.workout-exercises .exercise-sector:not(:has(.set-row:focus-within)) { transition: border-color 180ms ease-out, background-color 180ms ease-out; }
 
 /* Five slots, no drawer. Everything the athlete needs mid-session is one tap
    away; identity lives on the masthead, not in here. */
@@ -1857,8 +1951,4 @@ input[type=number] {
 @media(max-width:900px){ .version-change { grid-template-columns:1fr; gap:2px; } }
 
 /* Technique and extra set rows must not read as prescribed work. */
-.set-row-label { font-size:.72rem; line-height:1.15; word-break:break-word; }
-.set-row.is-technique-row { background:hsl(45 90% 55%/.07); box-shadow:inset 2px 0 0 hsl(45 90% 55%/.55); }
-.set-row.is-technique-row .set-row-label { color:hsl(45 90% 62%); text-transform:uppercase; letter-spacing:.03em; }
-.set-row.is-extra-row { box-shadow:inset 2px 0 0 hsl(var(--muted-foreground)/.4); }
-.set-row.is-extra-row .set-row-label { color:hsl(var(--muted-foreground)); }
+

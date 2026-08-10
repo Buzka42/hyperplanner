@@ -1,12 +1,11 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { useLanguage, resolveTemplate } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Input } from '../components/ui/input';
-import { CheckCircle2, ArrowLeft, Save, AlertCircle, FlaskConical } from 'lucide-react';
+import { CheckCircle2, Circle, ArrowLeft, Save, AlertCircle, FlaskConical, Repeat } from 'lucide-react';
 import { doc, updateDoc, arrayUnion, increment, collection, addDoc, query, where, getDocs, deleteField } from 'firebase/firestore';
 import { db } from '../firebase';
 import { cn } from '../lib/utils';
@@ -97,7 +96,17 @@ export const WorkoutView: React.FC = () => {
     const [pendingWeakPoints, setPendingWeakPoints] = useState<{ bench: string, deadlift: string, squat: string } | null>(null);
     const [pendingVariations, setPendingVariations] = useState<{ bench: string, deadlift: string, squat: string } | null>(null);
     const [showTrinaryRerunModal, setShowTrinaryRerunModal] = useState(false);
-    const [expandedExerciseId, setExpandedExerciseId] = useState<string | null>(null);
+    /**
+     * Which set the console is editing.
+     *
+     * `null` means "whatever comes next", the behaviour that has always been
+     * there. Tapping a ledger row pins the console to that set instead, which
+     * is how logging out of order and correcting a logged set both work now
+     * that the rows themselves are read-only. Logging clears the pin, so the
+     * console falls back to advancing on its own.
+     */
+    const [selectedSet, setSelectedSet] = useState<{ exerciseId: string; index: number } | null>(null);
+    const consoleRef = useRef<HTMLElement | null>(null);
     // Rest countdown for the set just logged; null when idle.
     const [restTimer, setRestTimer] = useState<{ seconds: number; label: string; key: number } | null>(null);
     // Exercise the athlete is choosing a swap for.
@@ -924,11 +933,33 @@ export const WorkoutView: React.FC = () => {
 
     const sessionSets = dayData.exercises.flatMap(ex => exerciseData[ex.id] || []);
     const completedSessionSets = sessionSets.filter(set => set.completed).length;
-    const activeExercise = dayData.exercises.find(ex => (exerciseData[ex.id] || []).some(set => !set.completed)) || dayData.exercises[0];
+    // A pinned selection wins, but only while it still points at something —
+    // a swap or a removed extra set can leave it dangling.
+    const pinnedExercise = selectedSet ? dayData.exercises.find(ex => ex.id === selectedSet.exerciseId) : undefined;
+    const pinnedSets = pinnedExercise ? (exerciseData[pinnedExercise.id] || []) : [];
+    const pinned = pinnedExercise && pinnedSets[selectedSet!.index] ? selectedSet : null;
+
+    const activeExercise = pinned
+        ? pinnedExercise!
+        : dayData.exercises.find(ex => (exerciseData[ex.id] || []).some(set => !set.completed)) || dayData.exercises[0];
     const activeSets = activeExercise ? (exerciseData[activeExercise.id] || []) : [];
     const unresolvedSetIndex = activeSets.findIndex(set => !set.completed);
-    const activeSetIndex = unresolvedSetIndex >= 0 ? unresolvedSetIndex : Math.max(0, activeSets.length - 1);
+    const activeSetIndex = pinned
+        ? pinned.index
+        : (unresolvedSetIndex >= 0 ? unresolvedSetIndex : Math.max(0, activeSets.length - 1));
     const activeSet = activeSets[activeSetIndex];
+    const activeIsPullup = Boolean(activeExercise?.name.includes('Pull-ups'));
+
+    /**
+     * Tapping a ledger row hands that set to the console and brings the
+     * console back into view — the rows do not edit in place, so a selection
+     * the athlete cannot see would be a dead tap.
+     */
+    const selectSet = (exerciseId: string, index: number) => {
+        setSelectedSet({ exerciseId, index });
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        consoleRef.current?.scrollIntoView({ block: 'start', behavior: reduced ? 'auto' : 'smooth' });
+    };
     const activePreviousStat = activeExercise ? previousStats[activeExercise.name] : undefined;
     const activeAdvice = activePreviousStat?.advice || "";
     const sessionProgress = sessionSets.length > 0 ? Math.round((completedSessionSets / sessionSets.length) * 100) : 0;
@@ -939,7 +970,9 @@ export const WorkoutView: React.FC = () => {
             ...prev,
             [activeExercise.id]: (prev[activeExercise.id] || []).map((set, index) => index === activeSetIndex ? { ...set, completed: true } : set)
         }));
-        setExpandedExerciseId(null);
+        // Releasing the pin is what makes the console advance to the next
+        // unresolved set instead of sitting on the one just logged.
+        setSelectedSet(null);
 
         // Only where the plan actually prescribes a rest and the athlete
         // opted in; an unrequested countdown is nagging, not help.
@@ -1072,7 +1105,7 @@ export const WorkoutView: React.FC = () => {
             </div>
 
             {activeExercise && activeSet && (
-                <section className="live-set-console" aria-label="Active set control deck">
+                <section className="live-set-console" aria-label="Active set control deck" ref={consoleRef}>
                     {/* The head's bottom hairline is the session progress rule:
                         the line was already there separating the bands, and now
                         it reports as well. Scale, not height — the meter it
@@ -1113,8 +1146,8 @@ export const WorkoutView: React.FC = () => {
                             plan computed; plain `WEIGHT` the moment the athlete
                             types their own. Principle 5, on the field it
                             describes rather than as a status line. */}
-                        <label data-len={figureLength(activeSet.weight)} style={figureChars(activeSet.weight)}><span>{t('common.weight')}{isAutoLoad(activeExercise, activeSet.weight) && <em> · {t('workout.auto')}</em>}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
-                        <label data-len={figureLength(activeSet.reps)} style={figureChars(activeSet.reps)}><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value)} aria-label={t('workout.reps')} /></label>
+                        <label data-len={figureLength(activeSet.weight)} style={figureChars(activeSet.weight)}><span>{t('common.weight')}{isAutoLoad(activeExercise, activeSet.weight) && <em> · {t('workout.auto')}</em>}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
+                        <label data-len={figureLength(activeSet.reps)} style={figureChars(activeSet.reps)}><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('workout.reps')} /></label>
                     </div>
                     {(activeExercise.target.rpe !== undefined || activeExercise.rest) && (
                         <div className="live-set-telemetry">
@@ -1122,11 +1155,13 @@ export const WorkoutView: React.FC = () => {
                             {activeExercise.rest && <div><span>{t('workout.restLabel')}</span><strong>{activeExercise.rest}</strong></div>}
                         </div>
                     )}
-                    <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />{t('workout.logSet')}</Button>
+                    {/* Saved looks saved: re-opening a logged set must not
+                        offer a button that appears to do nothing. */}
+                    <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />{activeSet.completed ? t('workout.updateSet') : t('workout.logSet')}</Button>
                 </section>
             )}
 
-            <div className="workout-exercises space-y-3">
+            <div className="workout-exercises space-y-8">
                 {dayData.exercises.map((ex) => {
                     const sets = exerciseData[ex.id] || [];
                     const prevStat = previousStats[ex.name];
@@ -1283,268 +1318,202 @@ export const WorkoutView: React.FC = () => {
                     }
 
                     let advice = prevStat?.advice || "";
-                    const isExpanded = expandedExerciseId === ex.id;
 
                     return (
-                        <Card key={ex.id} className="exercise-sector overflow-hidden">
-                            <CardHeader
-                                className="pb-3 bg-secondary/10 border-b border-border/70 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                                role="button"
-                                tabIndex={0}
-                                aria-expanded={isExpanded}
-                                onClick={(event) => {
-                                    if ((event.target as HTMLElement).closest('button,input,textarea,a')) return;
-                                    setExpandedExerciseId(isExpanded ? null : ex.id);
-                                }}
-                                onKeyDown={(event) => {
-                                    if (event.key === 'Enter' || event.key === ' ') {
-                                        event.preventDefault();
-                                        setExpandedExerciseId(isExpanded ? null : ex.id);
-                                    }
-                                }}
-                            >
-                                <div className="flex justify-between items-start">
-                                    <div className="w-full">
-                                        <div className="flex justify-between w-full items-start gap-2">
-                                            <div className="flex flex-col gap-1">
-                                                <CardTitle className={`text-lg leading-tight ${isSuperMutant ? 'mutant-text' : ''}`}>{ex.name}</CardTitle>
-                                                {prevStat && prevStat.weight !== "-" && (
-                                                    <div className="flex items-center flex-wrap gap-2 mt-1">
-                                                        <div className="inline-flex items-center gap-1.5 text-xs font-medium bg-muted/60 border border-border text-foreground/80 px-2.5 py-1 rounded-full">
-                                                            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{t('workout.last')}</span>
-                                                            <span className="font-mono font-bold">{prevStat.weight}{t('common.kg')}</span>
-                                                            <span className="text-muted-foreground">×</span>
-                                                            <span className="font-mono font-bold">{prevStat.reps}</span>
-                                                        </div>
-                                                        {advice && (
-                                                            <div className="inline-flex items-center gap-1 text-[11px] font-bold text-primary bg-primary/10 border border-primary/25 px-2 py-1 rounded-full">
-                                                                <AlertCircle className="h-3 w-3" />
-                                                                <span>{advice}</span>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                )}
-                                                {!prevStat && advice && (
-                                                    <div className="inline-flex items-center gap-1 text-[11px] font-bold text-primary bg-primary/10 border border-primary/25 px-2 py-1 rounded-full mt-1">
-                                                        <AlertCircle className="h-3 w-3" />
-                                                        <span>{advice}</span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            {/* Swap: shown only where the plan's policy allows one */}
-                                            {(ex as { swap?: import('../data/exercises/types').ResolvedSwap }).swap && (
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    className="h-8 text-[10px] px-2 shrink-0"
-                                                    onClick={(event) => {
-                                                        event.stopPropagation();
-                                                        const resolved = (ex as { swap?: import('../data/exercises/types').ResolvedSwap }).swap;
-                                                        if (resolved) setSwapTarget({ name: ex.name, swap: resolved });
-                                                    }}
-                                                >
-                                                    {t('workout.swap')}
-                                                </Button>
-                                            )}
-                                        </div>
+                        <section key={ex.id} className="ledger-exercise" aria-label={ex.name}>
+                            {/* A section header, not a control. Nothing collapses:
+                                the whole session stays scannable, which is the
+                                point of a protocol sheet. */}
+                            <header className="ledger-exercise-head">
+                                <div className="ledger-exercise-id">
+                                    <h2 className={isSuperMutant ? 'mutant-text' : undefined}>{ex.name}</h2>
+                                    <p className="ledger-prescription">
+                                        {isGiantSet ? (
+                                            <>{ex.sets} {t('workout.giantSets')} × {ex.giantSetConfig?.steps.map(s => `${s.targetReps} ${s.name}`).join(', ')}</>
+                                        ) : ex.sets > 0 ? (
+                                            <>
+                                                {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? t('common.failure') : `${ex.target.reps} ${t('workout.reps')}`}
+                                                {targetWeight && targetWeight !== "0" && <> · {targetWeight}{t('common.kg')}</>}
+                                            </>
+                                        ) : null}
+                                    </p>
+                                </div>
+                                {(ex as { swap?: import('../data/exercises/types').ResolvedSwap }).swap && (
+                                    <button
+                                        type="button"
+                                        className="ledger-swap"
+                                        onClick={() => {
+                                            const resolved = (ex as { swap?: import('../data/exercises/types').ResolvedSwap }).swap;
+                                            if (resolved) setSwapTarget({ name: ex.name, swap: resolved });
+                                        }}
+                                    >
+                                        <Repeat className="h-4 w-4" aria-hidden="true" />
+                                        <span>{t('workout.swap')}</span>
+                                    </button>
+                                )}
+                            </header>
 
-                                        {displayTips.length > 0 && (
-                                            <div className="mt-2 p-2 bg-yellow-500/10 border border-yellow-500/20 rounded text-xs text-yellow-600 dark:text-yellow-400 font-medium flex flex-col gap-1">
-                                                {displayTips.map((tip, i) => (
-                                                    <div key={i} className="flex gap-2">
-                                                        <AlertCircle className="h-4 w-4 shrink-0" />
-                                                        <span>{tip}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                        <div className="flex flex-col gap-1 mt-2">
-                                            {isGiantSet ? (
-                                                <div className="text-sm text-muted-foreground">
-                                                    {ex.sets} {t('workout.giantSets')} × {ex.giantSetConfig?.steps.map((s, i) =>
-                                                        `${s.targetReps} ${s.name}${i < (ex.giantSetConfig?.steps.length || 0) - 1 ? ", " : ""} `
-                                                    )}
-                                                </div>
-                                            ) : ex.sets > 0 ? (
-                                                <p className="text-sm text-muted-foreground">
-                                                    {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? t('common.failure') : `${ex.target.reps} ${t('workout.reps')} `}
-                                                </p>
-                                            ) : null}
-                                            <PrescriptionBadges
-                                                pairRole={(ex as { group?: { role?: string } }).group?.role ?? ex.prescription?.pair}
-                                                tempo={(ex as { tempo?: string }).tempo ?? ex.prescription?.tempo}
-                                                restSeconds={(ex as { restSeconds?: number }).restSeconds ?? ex.prescription?.restSeconds}
-                                                technique={(ex as { technique?: never }).technique ?? ex.prescription?.technique}
-                                            />
-                                            <div className="flex justify-between items-center">
-                                                {targetWeight && targetWeight !== "0" && !isGiantSet ? (
-                                                    <span className="text-sm font-mono text-primary font-bold">{t('workout.target')} {targetWeight}{t('common.kg')}</span>
-                                                ) : <span></span>}
-                                            </div>
-                                            {programData.id === 'ritual-of-strength' && ex.name.includes('(Light)') && (
+                            {(prevStat && prevStat.weight !== "-") || advice ? (
+                                <dl className="ledger-spec">
+                                    {prevStat && prevStat.weight !== "-" && (
+                                        <div>
+                                            <dt>{t('workout.last')}</dt>
+                                            <dd>{prevStat.weight}{t('common.kg')} × {prevStat.reps}</dd>
+                                        </div>
+                                    )}
+                                    {advice && (
+                                        <div className="is-advice">
+                                            <dt>{t('workout.advice')}</dt>
+                                            <dd><AlertCircle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />{advice}</dd>
+                                        </div>
+                                    )}
+                                </dl>
+                            ) : null}
+
+                            {displayTips.length > 0 && (
+                                <ul className="ledger-tips">
+                                    {displayTips.map((tip, i) => (
+                                        <li key={i}><AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" /><span>{tip}</span></li>
+                                    ))}
+                                </ul>
+                            )}
+
+                            <PrescriptionBadges
+                                pairRole={(ex as { group?: { role?: string } }).group?.role ?? ex.prescription?.pair}
+                                tempo={(ex as { tempo?: string }).tempo ?? ex.prescription?.tempo}
+                                restSeconds={(ex as { restSeconds?: number }).restSeconds ?? ex.prescription?.restSeconds}
+                                technique={(ex as { technique?: never }).technique ?? ex.prescription?.technique}
+                            />
+
+                            {programData.id === 'ritual-of-strength' && ex.name.includes('(Light)') && (
+                                <button
+                                    type="button"
+                                    aria-pressed={Boolean(slowVelocitySelected[ex.id])}
+                                    onClick={() => setSlowVelocitySelected(current => ({ ...current, [ex.id]: !current[ex.id] }))}
+                                    className={`min-h-11 w-full border px-3 py-2 text-left text-xs font-bold uppercase tracking-[0.08em] ${slowVelocitySelected[ex.id] ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
+                                >
+                                    {t('workout.velocitySlow')}
+                                </button>
+                            )}
+
+                            {/* Warm-ups are shown but never logged, so they are
+                                half-ink and not tappable — visible ramp, no
+                                competition with real sets. */}
+                            {warmupSets && warmupSets.length > 0 && (
+                                <div className="ledger-rows is-warmup">
+                                    <p className="ledger-group-label">{t('workout.warmup')}</p>
+                                    {warmupSets.map((w, i) => (
+                                        <div key={`warmup-${i}`} className="ledger-row is-warmup">
+                                            <span className="ledger-row-n">W{i + 1}</span>
+                                            <span className="ledger-row-value">{w.weight}{t('common.kg')} × {w.reps}</span>
+                                            <span className="ledger-row-state" />
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            <div className="ledger-rows">
+                                {isGiantSet ? (
+                                    sets.map((set, idx) => {
+                                        const steps = ex.giantSetConfig?.steps || [];
+                                        const stepCount = steps.length;
+                                        if (stepCount === 0) return null;
+
+                                        const subIndex = idx % stepCount;
+                                        const giantSetIndex = Math.floor(idx / stepCount) + 1;
+                                        const step = steps[subIndex];
+                                        const isSelected = activeExercise?.id === ex.id && activeSetIndex === idx;
+
+                                        return (
+                                            <React.Fragment key={idx}>
+                                                {subIndex === 0 && (
+                                                    <p className="ledger-group-label">{t('workout.giantSet')} {giantSetIndex}</p>
+                                                )}
                                                 <button
                                                     type="button"
-                                                    aria-pressed={Boolean(slowVelocitySelected[ex.id])}
-                                                    onClick={(event) => {
-                                                        event.stopPropagation();
-                                                        setSlowVelocitySelected(current => ({ ...current, [ex.id]: !current[ex.id] }));
-                                                    }}
-                                                    className={`mt-2 min-h-11 w-full border px-3 py-2 text-left text-xs font-bold uppercase tracking-[0.08em] ${slowVelocitySelected[ex.id] ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
+                                                    onClick={() => selectSet(ex.id, idx)}
+                                                    aria-current={isSelected ? 'true' : undefined}
+                                                    className={cn('ledger-row is-step-row', set.completed ? 'is-complete' : '', isSelected ? 'is-selected' : '')}
                                                 >
-                                                    {t('workout.velocitySlow')}
+                                                    <span className="ledger-row-n is-step">{step.name}</span>
+                                                    <span className="ledger-row-value">
+                                                        {set.weight ? <>{set.weight}{t('common.kg')} × </> : null}
+                                                        {set.reps || <em>{step.targetReps}</em>}
+                                                    </span>
+                                                    <span className="ledger-row-state">
+                                                        {set.completed ? <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> : <Circle className="h-5 w-5" aria-hidden="true" />}
+                                                        <span className="sr-only">{set.completed ? t('workout.rowDone') : t('workout.rowPending')}</span>
+                                                    </span>
                                                 </button>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </CardHeader>
-                            {isExpanded && <CardContent className="p-0">
-                                {/* Warmups Section */}
-                                {warmupSets && warmupSets.length > 0 && (
-                                    <div className="bg-muted/30 border-b border-border">
-                                        <div className="p-1 text-[10px] font-bold text-muted-foreground uppercase tracking-wider text-center bg-muted/50">Warm Up (Not Logged)</div>
-                                        {warmupSets.map((w, i) => (
-                                            <div key={`warmup-${i}`} className="grid grid-cols-10 gap-2 p-1 px-2 items-center text-sm text-muted-foreground/60 select-none">
-                                                <div className="col-span-1 text-center text-[10px]">W{i + 1}</div>
-                                                <div className="col-span-4 text-center font-mono bg-muted/20 rounded mx-1">{w.weight} kg</div>
-                                                <div className="col-span-4 text-center font-mono bg-muted/20 rounded mx-1">{w.reps}</div>
-                                                <div className="col-span-1 text-center text-[10px]"></div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+                                            </React.Fragment>
+                                        );
+                                    })
+                                ) : (
+                                    sets.map((set, idx) => {
+                                        // Technique rows carry their own label
+                                        // ("Drop 1") and must not be numbered
+                                        // alongside the prescribed sets.
+                                        const isTechniqueRow = Boolean(set.label);
+                                        const workNumber = sets
+                                            .slice(0, idx + 1)
+                                            .filter(s => !s.label && s.kind !== 'extra').length;
+                                        const extraNumber = sets
+                                            .slice(0, idx + 1)
+                                            .filter(s => s.kind === 'extra' && !s.label).length;
+                                        const isSelected = activeExercise?.id === ex.id && activeSetIndex === idx;
+                                        const isAmrap = ex.target.type === 'amrap';
+                                        const prescribedReps = ex.target.reps.replace(/[^0-9-]/g, '');
 
-                                <div className="divide-y divide-border">
-                                    {!isGiantSet && (
-                                        <div className="grid grid-cols-10 gap-2 p-2 bg-muted/50 text-xs font-medium text-muted-foreground text-center">
-                                            <div className="col-span-1">SET</div>
-                                            <div className="col-span-4">KG</div>
-                                            <div className="col-span-4">REPS</div>
-                                            <div className="col-span-1"></div>
-                                        </div>
-                                    )}
-
-                                    {isGiantSet ? (
-                                        sets.map((set, idx) => {
-                                            const steps = ex.giantSetConfig?.steps || [];
-                                            const stepCount = steps.length;
-                                            if (stepCount === 0) return null;
-
-                                            const subIndex = idx % stepCount;
-                                            const giantSetIndex = Math.floor(idx / stepCount) + 1;
-                                            const isNewGroup = subIndex === 0;
-                                            const step = steps[subIndex];
-
-                                            const placeholderR = step.targetReps;
-                                            const placeholderW = step.inputPlaceholder || "-";
-                                            const disabledW = step.editableWeight === true ? false : (placeholderW === "-");
-
-                                            return (
-                                                <React.Fragment key={idx}>
-                                                    {isNewGroup && (
-                                                        <div className="p-2 bg-secondary/10 font-bold text-center text-primary text-xs tracking-wider border-b border-border">
-                                                            GIANT SET {giantSetIndex}
-                                                        </div>
-                                                    )}
-                                                    <div className={cn("set-row grid grid-cols-10 gap-2 p-2 items-center border-b border-border/50 last:border-0", set.completed ? "is-complete" : "")}>
-                                                        <div className="col-span-3 text-xs font-bold text-muted-foreground whitespace-normal leading-tight flex items-center h-full">
-                                                            {step.name}
-                                                        </div>
-                                                        <div className="col-span-3">
-                                                            <Input
-                                                                disabled={disabledW}
-                                                                type="text" inputMode="decimal"
-                                                                placeholder={placeholderW}
-                                                                value={set.weight}
-                                                                onChange={(e) => handleSetChange(ex.id, idx, 'weight', e.target.value)}
-                                                                className={cn("h-9 font-mono text-center px-1 text-sm", disabledW ? "opacity-50 bg-muted" : "")}
-                                                            />
-                                                        </div>
-                                                        <div className="col-span-3">
-                                                            <Input
-                                                                type="text" inputMode="numeric"
-                                                                placeholder={placeholderR}
-                                                                value={set.reps}
-                                                                onChange={(e) => handleSetChange(ex.id, idx, 'reps', e.target.value)}
-                                                                className={cn("h-9 font-mono text-center px-1 text-sm", set.completed ? "border-green-500 bg-green-500/10" : "")}
-                                                            />
-                                                        </div>
-                                                        <div className="col-span-1 flex justify-center">
-                                                            {set.completed && <CheckCircle2 className="h-5 w-5 text-green-500" />}
-                                                        </div>
-                                                    </div>
-                                                </React.Fragment>
-                                            );
-                                        })
-                                    ) : (
-                                        sets.map((set, idx) => {
-                                            // Technique rows carry their own label
-                                            // ("Drop 1") and must not be numbered
-                                            // alongside the prescribed sets.
-                                            const isTechniqueRow = Boolean(set.label);
-                                            const workNumber = sets
-                                                .slice(0, idx + 1)
-                                                .filter(s => !s.label && s.kind !== 'extra').length;
-                                            const extraNumber = sets
-                                                .slice(0, idx + 1)
-                                                .filter(s => s.kind === 'extra' && !s.label).length;
-                                            return (
-                                            <div key={idx} className={cn("set-row grid grid-cols-10 gap-2 p-2 items-center", set.completed ? "is-complete" : "", isTechniqueRow ? "is-technique-row" : "", set.kind === 'extra' ? "is-extra-row" : "")}>
-                                                <div className="col-span-1 text-center font-bold text-muted-foreground set-row-label">
-                                                    {isTechniqueRow ? set.label : set.kind === 'extra' ? `+${extraNumber}` : workNumber}
-                                                </div>
-                                                <div className="col-span-4">
-                                                    <Input
-                                                        disabled={weightDisabled}
-                                                        type="text" inputMode="decimal"
-                                                        placeholder={weightDisabled ? "-" : (targetWeight && targetWeight !== "0" ? targetWeight.toString() : "-")}
-                                                        value={set.weight}
-                                                        onChange={(e) => handleSetChange(ex.id, idx, 'weight', e.target.value, isPullup, ex.target.reps)}
-                                                        className={cn("h-9 font-mono text-center px-1", weightDisabled ? "opacity-50 bg-muted" : "")}
-                                                    />
-                                                </div>
-                                                <div className="col-span-4">
-                                                    <Input
-                                                        type="text" inputMode="numeric"
-                                                        placeholder={ex.target.reps.replace(/[^0-9-]/g, '')}
-                                                        value={set.reps}
-                                                        onChange={(e) => handleSetChange(ex.id, idx, 'reps', e.target.value, isPullup, ex.target.reps)}
-                                                        className={cn("h-9 font-mono text-center px-1", ex.target.type === 'amrap' ? "border-yellow-500/50 bg-yellow-500/10" : "", set.completed ? "border-green-500" : "")}
-                                                    />
-                                                </div>
-                                                <div className="col-span-1 flex justify-center">
-                                                    {set.completed && <CheckCircle2 className="h-5 w-5 text-green-500" />}
-                                                </div>
-                                            </div>
-                                            );
-                                        })
-                                    )}
-                                </div>
-
-                                {/* Add / Remove Extra Set Buttons */}
-                                <div className="mx-3 mt-2 pb-2 border-b border-border">
-                                    <div className="flex gap-2">
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="flex-1 text-xs text-muted-foreground hover:text-foreground"
-                                            onClick={() => handleAddExtraSet(ex.id)}
-                                        >
-                                            + Add Extra Set
-                                        </Button>
-                                        {sets.length > getBaseSetsCount(ex, weekNum, programData.id) && (
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                className="flex-1 text-xs text-muted-foreground hover:text-foreground"
-                                                onClick={() => handleRemoveExtraSet(ex.id)}
+                                        return (
+                                            <button
+                                                key={idx}
+                                                type="button"
+                                                onClick={() => selectSet(ex.id, idx)}
+                                                aria-current={isSelected ? 'true' : undefined}
+                                                className={cn(
+                                                    'ledger-row',
+                                                    isTechniqueRow ? 'is-step-row' : '',
+                                                    set.completed ? 'is-complete' : '',
+                                                    isSelected ? 'is-selected' : '',
+                                                    isTechniqueRow ? 'is-technique-row' : '',
+                                                    set.kind === 'extra' ? 'is-extra-row' : '',
+                                                    isAmrap ? 'is-amrap' : ''
+                                                )}
                                             >
-                                                − Remove Extra Set
-                                            </Button>
-                                        )}
-                                    </div>
-                                    <p className="text-[10px] text-center text-orange-400/60 mt-1">Not recommended — only if needed</p>
+                                                <span className={cn('ledger-row-n', isTechniqueRow && 'is-step')}>
+                                                    {isTechniqueRow ? set.label : set.kind === 'extra' ? `+${extraNumber}` : workNumber}
+                                                </span>
+                                                <span className="ledger-row-value">
+                                                    {!weightDisabled && (
+                                                        set.weight
+                                                            ? <>{set.weight}{t('common.kg')} </>
+                                                            : (targetWeight && targetWeight !== "0" ? <em>{targetWeight}{t('common.kg')} </em> : null)
+                                                    )}
+                                                    <i aria-hidden="true">×</i>{' '}
+                                                    {set.reps || <em>{isAmrap ? t('workout.amrap') : (prescribedReps || '—')}</em>}
+                                                </span>
+                                                <span className="ledger-row-state">
+                                                    {set.completed ? <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> : <Circle className="h-5 w-5" aria-hidden="true" />}
+                                                    <span className="sr-only">{set.completed ? t('workout.rowDone') : t('workout.rowPending')}</span>
+                                                </span>
+                                            </button>
+                                        );
+                                    })
+                                )}
+                            </div>
+
+                            {/* Adding volume is the athlete's call, so it is a
+                                quiet row rather than a control wearing a
+                                warning label. */}
+                            <div className="ledger-extra">
+                                <div>
+                                    <button type="button" onClick={() => handleAddExtraSet(ex.id)}>+ {t('workout.addSet')}</button>
+                                    {sets.length > getBaseSetsCount(ex, weekNum, programData.id) && (
+                                        <button type="button" onClick={() => handleRemoveExtraSet(ex.id)}>− {t('workout.removeSet')}</button>
+                                    )}
                                 </div>
+                                <p>{t('workout.extraSetNote')}</p>
+                            </div>
 
                                 {/* Intensity Technique callout */}
                                 {ex.intensityTechnique && (
@@ -1775,8 +1744,7 @@ export const WorkoutView: React.FC = () => {
                                         <CheckCircle2 className="w-3 h-3 mr-2" /> {t('workout.completed')}
                                     </Button>
                                 </div>
-                            </CardContent>}
-                        </Card>
+                        </section>
                     );
                 })}
             </div>

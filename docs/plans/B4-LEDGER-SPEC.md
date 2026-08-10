@@ -1,8 +1,12 @@
 # B4 — Set ledger + click-to-edit: interaction spec
 
-**Status: needs your approval before any code is written.** This is the item
-you asked to see specced first, and it is the most design-heavy decision left in
-the overhaul.
+**Status: approved and built.** The owner chose **§7 option (b)** — the console
+stays the only editor and ledger rows are read-only, tapping one to hand its set
+to the console. That overrides the recommendation in §7, which was (a); recorded,
+not re-litigated. What shipped is described in IMPLEMENTATION_PLAN.md under B4.
+
+Everything below is the spec as written for approval, kept as the record of what
+was decided and why. Where (b) changed a detail, §4 and §5 are marked.
 
 Your wording was "protocol sheet + click-to-edit". The agreed direction on
 record: one hairline table, tapping a row expands it in place into an edit
@@ -82,7 +86,13 @@ CLOSE-GRIP BENCH PRESS                3 × 8 · 85 kg
 State is never carried by colour alone: done is fill **and** glyph, AMRAP is
 tick **and** word.
 
-## 4. The expanded row
+## 4. The expanded row — *superseded by option (b)*
+
+Under (b) there is no expanded row: tapping hands the set to the console and
+brings the console back into view. The underline inputs, the ≥44px zones and the
+one-at-a-time rule all still hold, in the console rather than in the row.
+
+The original text follows.
 
 Tapping a pending or done row expands **that row in place**. Everything above
 and below stays where it is and stays legible — the sheet does not dim, scroll,
@@ -105,7 +115,15 @@ or navigate.
 - The expansion is a height/opacity transition at 200ms on the house easing,
   and is instant under `prefers-reduced-motion`.
 
-## 5. Logging and advancing
+## 5. Logging and advancing — *adapted for option (b)*
+
+Under (b), steps 1–3 happen in the console rather than in the row: logging
+releases the pinned selection, so the console falls back to "whatever comes
+next" on its own. Step 4's rule still holds — a tap that changes the selection
+never discards what is in the fields, because editing is not logging. Step 5 is
+unchanged and is the reason the pin exists at all.
+
+
 
 1. Tap **LOG SET**. The row writes its values, collapses, and takes the done
    state.

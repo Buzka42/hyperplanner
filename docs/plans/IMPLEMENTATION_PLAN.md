@@ -15,8 +15,9 @@ Sequence: **A. Onboarding bug → B. UI overhaul (phases 1–7) → C. Plan test
 | B1. Tokens & fonts | **Done** (fonts self-hosted) |
 | B2. Shell | **Done** — options in `B2-SHELL-OPTIONS.md` |
 | B3. Live-set console | **Done** — options in `B3-CONSOLE-OPTIONS.md` |
-| B4. Ledger + click-to-edit | **Spec written, awaiting approval** — `B4-LEDGER-SPEC.md` |
-| B5–B8 | Not started |
+| B4. Ledger + click-to-edit | **Done** — spec approved as option (b), `B4-LEDGER-SPEC.md` |
+| B5. Dashboard | Next |
+| B6–B8 | Not started |
 | C. Plan testing | Not started |
 
 ### Action required from the owner
@@ -209,16 +210,68 @@ horizontal overflow, no clipped figure, the load figure is the largest type on
 screen, the exercise name fits in ≤2 lines, the CTA is ≥56px, and nothing in
 the console is under 44px. Screenshots in `.impeccable/qa/b3-*`.
 
-### B4. Set ledger + click-to-edit ⇧ PUSH — blocked on approval
-The design-heavy item. The spec is written: **`docs/plans/B4-LEDGER-SPEC.md`**.
-Read §7 first — it asks whether the live-set console survives once every row is
-editable in place, and the answer changes the whole build.
-Direction: the workout renders as one hairline table — exercise names as section rows, sets
-as ruled rows (`set# / load × reps / state`). Tapping any row expands it *in place* into an
-edit surface (underline inputs, done/AMRAP state, swap affordance) while the rest of the
-sheet stays visible and dimmed-but-legible. One row open at a time; logging collapses it and
-advances to the next. The sheet never navigates away, so "what's left" is always scannable —
-which is the whole point of a protocol sheet.
+### B4. Set ledger + click-to-edit ⇧ PUSH — done
+
+Spec: `docs/plans/B4-LEDGER-SPEC.md`. The owner chose **option (b)** from its
+§7: the console stays the only editor, and ledger rows are read-only and tap to
+hand their set to the console. (The spec recommended (a), the sheet absorbing
+the console. Overridden, recorded, not re-litigated.)
+
+The ledger is one hairline table now. The per-exercise `Card` panels are gone,
+nothing collapses, and the twenty-four live inputs that used to sit on one
+screen are gone with them — a row reads `number / load × reps / state` and
+nothing else.
+
+How the two surfaces relate:
+
+- `selectedSet` pins the console to a chosen set. `null` means "whatever comes
+  next", the behaviour that was always there.
+- Tapping a row pins it and scrolls the console into view — a selection the
+  athlete cannot see would be a dead tap.
+- Logging releases the pin, so the console advances on its own.
+- The pin is validated on every render: a swap or a removed extra set can leave
+  it dangling, and a dangling pin falls back to the derived set.
+- Re-opening a logged set shows **Update set**, not **Log set** — a button that
+  looks like it does nothing is worse than no button.
+
+Row states: pending, selected, done, AMRAP, warm-up, technique, extra. Each
+states its condition in text for screen readers as well as in the glyph, so
+nothing is carried by colour or icon alone.
+
+Found while building:
+
+- **The pull-up EMOM auto-fill was about to be lost.** The ledger passed
+  `isPullup` and the rep target into `handleSetChange`; the console did not.
+  With the console as the only editor, editing set 1 would have stopped
+  filling the rest. It passes both now.
+- **A named row cannot live in a numeric gutter.** `Incline DB Press` broke
+  mid-word in the 2.5rem set-number column. Named rows (giant-set steps,
+  technique labels) stack their label above their values and indent to the
+  value column, so the value column runs unbroken down the sheet.
+- **The technique label was a hardcoded yellow**, a style fork PRODUCT.md bans,
+  and it failed on Peachy. The stacked uppercase label already reads as "not a
+  numbered set", so it needs no colour.
+- **The program accent is not safe to set type in.** Bench Domination's purple
+  is 4.15:1 on the chassis, under the 4.5 gate §4 sets. New `--signal-text`
+  mixes the accent toward the foreground, which raises contrast on the dark
+  themes and lowers luminance on Peachy — one rule for both polarities instead
+  of thirteen hand-tuned values. Fills, edges and glyphs still use `--primary`
+  directly; only text uses this. It is declared on `.instrument-shell`, not
+  `:root`, because custom properties substitute where they are declared and a
+  `:root` declaration would bake in the default ice accent for every program.
+  **This does not replace the B8 audit** — it fixes the text roles this phase
+  and B3 introduced, and gives B8 the mechanism to fix the rest.
+
+Verified across 7 viewport/theme/locale combinations, asserting no horizontal
+overflow, no sub-44px targets, no clipped or mid-word-broken text, no row
+without a text state, no tappable warm-up, and **≥4.5:1 on every text role in
+the sheet**, composited through the rows' translucent fills. Screenshots in
+`.impeccable/qa/b4-*`.
+
+Two probe bugs were fixed along the way and are worth knowing, because both
+reported failures that were not real: a 7% row tint counted as an opaque
+background, and `color-mix` computes to `oklab(...)`, whose numbers are not
+RGB. Colours are resolved through a canvas now.
 
 ### B5. Dashboard ⇧ PUSH
 Spec-sheet header (program name, sentence case), hairline, spec rows (Day / Focus / Top set /

@@ -101,6 +101,17 @@ export const translations = {
             // Marks a load the plan computed, so an auto value never reads as
             // one the athlete entered (PRODUCT.md principle 5).
             auto: "Auto",
+            // Set ledger. Row state is exposed as text as well as a glyph, so
+            // it never depends on colour or icon alone.
+            updateSet: "Update set",
+            rowDone: "Logged",
+            rowPending: "Not logged",
+            warmup: "Warm-up — not logged",
+            giantSet: "Giant set",
+            amrap: "AMRAP",
+            addSet: "Add set",
+            removeSet: "Remove set",
+            extraSetNote: "Extra sets are yours to add — the plan doesn't expect them.",
         },
 
         // ========================================
@@ -1444,6 +1455,15 @@ export const translations = {
             advice: "Wskazówka",
             set: "Seria",
             auto: "Auto",
+            updateSet: "Zaktualizuj serię",
+            rowDone: "Zapisana",
+            rowPending: "Niezapisana",
+            warmup: "Rozgrzewka — nie zapisywana",
+            giantSet: "Seria gigant",
+            amrap: "AMRAP",
+            addSet: "Dodaj serię",
+            removeSet: "Usuń serię",
+            extraSetNote: "Dodatkowe serie dodajesz sam — plan ich nie przewiduje.",
         },
 
         dayNames: {

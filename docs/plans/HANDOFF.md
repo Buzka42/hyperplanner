@@ -18,7 +18,7 @@ form, whose submit handler hardcoded `switchProgram(BENCH_DOMINATION_PROGRAM.id)
 Finishing it enrolled the athlete in Bench Domination rather than the plan they
 chose. Replaced with a generic benchmark step plus first-exposure calibration.
 
-**B. UI overhaul — B3 of 8 done.** Replacing the "Pit-Wall Instrument" visual
+**B. UI overhaul — B4 of 8 done.** Replacing the "Pit-Wall Instrument" visual
 world with "Protocol Sheet", per `docs/protocol-sheet-redesign.md`. The direction
 was chosen by the owner before this work started and is pinned; it is not open
 for re-derivation.
@@ -33,7 +33,9 @@ where the load figure clipped the logged number.
 ## 2. Commits on this branch
 
 ```
-<this commit> Rebuild the live-set console as hairline bands
+<this commit> Turn the ledger into a read-only protocol sheet
+ae60948 Spec the ledger's click-to-edit flow for approval
+79b2d65 Rebuild the live-set console as hairline bands
 f830cf4 Rebuild the shell as a Protocol Sheet
 05a949f Add a session handoff document
 641991e Add the plan cover artwork
@@ -148,7 +150,7 @@ be declared, point at a real plan, and appear in `validPlanIds()`.
 
 ---
 
-## 7. Next up — B4, the ledger — and it needs a spec first
+## 7. Next up — B5, the dashboard
 
 The owner asked for design options **before** building, via the `impeccable`
 skill, on every UI phase. Do not skip that. **The skill was not installed in
@@ -157,28 +159,22 @@ the session that built B2**, so that round was recorded as a document instead
 its alternates and why the built one won. Do the same if the skill is still
 missing; do not skip the round.
 
-B2 and B3 are done; what each changed beyond its stated scope is listed in
+B2, B3 and B4 are done; what each changed beyond its stated scope is listed in
 IMPLEMENTATION_PLAN.md under its own heading. The ones that will surprise you:
 page titles are sentence case app-wide now, `/app/profile` absorbed logout and
 the language switcher because the deleted drawer was their only mobile home,
-and the console no longer splits into two columns on desktop.
+the console no longer splits into two columns on desktop, and **the ledger no
+longer contains any inputs at all** — the console is the only editor, by the
+owner's choice of option (b) in `B4-LEDGER-SPEC.md`.
 
-**B4 is the one item the owner asked to approve before any code is written.**
-The spec now exists — `docs/plans/B4-LEDGER-SPEC.md` — and is waiting on them.
-Its §7 is a real fork: once every ledger row edits in place, the live-set
-console is a second editor for the same value. Do not start building B4 until
-that is answered.
-
-Then B5 (dashboard), B6 (RestTimer + modals),
+B5 (dashboard), B6 (RestTimer + modals),
 B7 (History, ExerciseBrowser, Settings, Entry/Onboarding, Adventure), B8 (finish
 pass: contrast audit of all themes incl. light-skin Peachy, PL strings,
 reduced-motion, detector, then **rewrite `DESIGN.md`**).
 
-### B4 needs a spec before code — written, awaiting approval
-`docs/plans/B4-LEDGER-SPEC.md`. Sheet structure, the seven row states, the
-expanded row, logging and advancing, a11y, and the verification plan. §7 is the
-open fork (does the console survive?), plus two smaller ones on extra sets and
-warm-ups.
+### B4 is done — the spec is still the record
+`docs/plans/B4-LEDGER-SPEC.md` holds the approved decision (option (b)) and the
+reasoning. Read it before changing how the console and the sheet relate.
 
 ---
 
@@ -255,3 +251,19 @@ Run `detect.mjs` on changed files once per phase.
   monospaced, so it can never be narrower than what it holds. Do not replace
   this with a fixed width or a bucket — that is how the original
   type-333-see-33 bug worked.
+- **Text that carries the program accent must use `--signal-text`, not
+  `--primary`.** Several program primaries fail 4.5:1 as text on the chassis
+  (Bench Domination's purple is 4.15:1). `--signal-text` mixes toward the
+  foreground, which works on the dark themes and on Peachy alike. It is
+  declared on `.instrument-shell` because custom properties substitute where
+  they are declared — on `:root` it would bake in the default ice accent for
+  every program.
+- **Two ways to write a contrast probe that lies.** Treating a 7% row tint as
+  an opaque background reports the full-strength accent as the ground; and
+  `color-mix` computes to `oklab(...)`, whose three numbers are not RGB. Both
+  produced confident failures that were not real. Resolve colours through a
+  canvas and only stop the background walk at alpha 1.
+- **When the only editor changes, check what the old editor was passing.** The
+  ledger passed `isPullup` and the rep target into `handleSetChange`; the
+  console did not, so making the console the only editor nearly dropped the
+  pull-up EMOM auto-fill.
