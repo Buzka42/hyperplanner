@@ -1627,7 +1627,7 @@ b { font-weight: 600; }
 @media (prefers-reduced-motion: reduce) {
   .shimmer-text {
     animation: none;
-    color: hsl(var(--primary));
+    color: var(--signal-text);
   }
 
   *,
