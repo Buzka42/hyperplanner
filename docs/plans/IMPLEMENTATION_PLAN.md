@@ -15,7 +15,7 @@ Sequence: **A. Onboarding bug → B. UI overhaul (phases 1–7) → C. Plan test
 | B1. Tokens & fonts | **Done** (fonts self-hosted) |
 | B2. Shell | **Done** — options in `B2-SHELL-OPTIONS.md` |
 | B3. Live-set console | **Done** — options in `B3-CONSOLE-OPTIONS.md` |
-| B4. Ledger + click-to-edit | Next — **needs a spec approved before code** |
+| B4. Ledger + click-to-edit | **Spec written, awaiting approval** — `B4-LEDGER-SPEC.md` |
 | B5–B8 | Not started |
 | C. Plan testing | Not started |
 
@@ -209,8 +209,10 @@ horizontal overflow, no clipped figure, the load figure is the largest type on
 screen, the exercise name fits in ≤2 lines, the CTA is ≥56px, and nothing in
 the console is under 44px. Screenshots in `.impeccable/qa/b3-*`.
 
-### B4. Set ledger + click-to-edit ⇧ PUSH
-The design-heavy item. **I will spec this flow and show it to you before building it.**
+### B4. Set ledger + click-to-edit ⇧ PUSH — blocked on approval
+The design-heavy item. The spec is written: **`docs/plans/B4-LEDGER-SPEC.md`**.
+Read §7 first — it asks whether the live-set console survives once every row is
+editable in place, and the answer changes the whole build.
 Direction: the workout renders as one hairline table — exercise names as section rows, sets
 as ruled rows (`set# / load × reps / state`). Tapping any row expands it *in place* into an
 edit surface (underline inputs, done/AMRAP state, swap affordance) while the rest of the

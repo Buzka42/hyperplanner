@@ -164,19 +164,21 @@ the language switcher because the deleted drawer was their only mobile home,
 and the console no longer splits into two columns on desktop.
 
 **B4 is the one item the owner asked to approve before any code is written.**
-Do not start it with a build.
+The spec now exists — `docs/plans/B4-LEDGER-SPEC.md` — and is waiting on them.
+Its §7 is a real fork: once every ledger row edits in place, the live-set
+console is a second editor for the same value. Do not start building B4 until
+that is answered.
 
 Then B5 (dashboard), B6 (RestTimer + modals),
 B7 (History, ExerciseBrowser, Settings, Entry/Onboarding, Adventure), B8 (finish
 pass: contrast audit of all themes incl. light-skin Peachy, PL strings,
 reduced-motion, detector, then **rewrite `DESIGN.md`**).
 
-### B4 needs a spec before code
-"Protocol sheet with click-to-edit" is the owner's own wording and the most
-design-heavy item. The agreed direction: one hairline table, tapping a row
-expands it in place into an edit surface while the rest of the sheet stays
-visible; one row open at a time; logging collapses and advances. **Show the
-interaction spec to the owner before building it.**
+### B4 needs a spec before code — written, awaiting approval
+`docs/plans/B4-LEDGER-SPEC.md`. Sheet structure, the seven row states, the
+expanded row, logging and advancing, a11y, and the verification plan. §7 is the
+open fork (does the console survive?), plus two smaller ones on extra sets and
+warm-ups.
 
 ---
 
