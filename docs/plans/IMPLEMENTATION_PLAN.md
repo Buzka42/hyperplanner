@@ -1,8 +1,7 @@
 # HyperPlanner — Implementation Plan
 
-Branch: `ui-overhaul-gym-ux`. Push to GitHub at every gate marked **⇧ PUSH**.
-
-Sequence: **A. Onboarding bug → B. UI overhaul (phases 1–7) → C. Plan testing.**
+Sequence: **A. Onboarding bug → B. UI overhaul (B1–B8) → C. Plan testing.**
+All three are complete and merged to `main`.
 
 ---
 
@@ -20,9 +19,9 @@ Sequence: **A. Onboarding bug → B. UI overhaul (phases 1–7) → C. Plan test
 | B6. RestTimer + modals | **Done** — options in `B6-TIMER-MODALS-OPTIONS.md` |
 | B7. Remaining surfaces | **Done** |
 | B8. Finish pass | **Done** |
-| C. Plan testing | Not started |
+| C. Plan testing | **Done** — `verify:calibration` + volume audit |
 
-### Action required from the owner
+### Action required from the owner — the only blocking item
 
 `npm run migrate:plan-ids` — rewrites the renamed plan ids in Firestore. Needs
 `GOOGLE_APPLICATION_CREDENTIALS` pointing at a service account, and
