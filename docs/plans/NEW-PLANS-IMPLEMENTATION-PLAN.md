@@ -47,7 +47,7 @@ transforms. That covers plans whose weeks are known in advance.
 
 | Plan | Shape | `definePlan` fits? |
 |---|---|---|
-| Apex Predator | Scheduled, phased (STALK / FIRST HUNT / ADAPT …) | **Yes**, probably wholesale |
+| Apex Predator | Scheduled base days + a per-user assessment layer | **Base days only** — see below |
 | Venus / Athena | Scheduled, 3-day and 4-day modes | Mostly — needs a schedule-mode choice |
 | Kali / Valkyrie | Scheduled | Likely yes |
 | House of Iron | **Four selectable sessions**, no calendar | **No** |
@@ -68,14 +68,17 @@ Extract every movement named across the four docs, diff against the library,
 and write the additions. Deliverable: a coverage report and a populated
 `libraryAdditions.ts`. No plan files yet.
 
-### Phase 1 — Apex Predator *(the declarative one)*
-The only plan that likely needs **no engine work**. Build it with `definePlan`,
-register it in `plans.ts`, `planMeta.ts` and `firestore.rules` (three places —
-`verify:registry` fails the build if they drift), add its i18n block, theme
-tokens and cover art.
+### Phase 1 — Apex Predator — **specced, see `APEX-PREDATOR-SPEC.md`**
 
-Doing this first proves the library additions and re-walks the whole
-add-a-plan path before any harder plan depends on it.
+**This was mis-scoped here as "the declarative one, no engine work".** It is
+not. The audit script found no exercises in its doc, and that was read as
+"simple" when it actually meant "differently shaped". Its three base days are
+declarative; its assessment battery, per-user access slots, retest reallocation
+and ROM tracking are not.
+
+Owner decisions are recorded in the spec: all 7 tests presented and individually
+skippable, access slots recomputed at each retest, a painful test invalidated
+rather than blocking training, and ROM tracking in v1.
 
 ### Phase 2 — Venus Rising + Athena
 Scheduled, but with a 3-day/4-day mode choice at onboarding. Establishes the
