@@ -7,6 +7,13 @@ interface LanguageSwitcherProps {
     size?: 'sm' | 'md' | 'lg';
 }
 
+/**
+ * The flag is 24-40px, but the button around it is always ≥44px — the flag is
+ * the mark, the button is the target. Before this the whole control was the
+ * flag's size and failed the 44px minimum at every size.
+ */
+const LANG_BUTTON = "inline-flex min-h-11 min-w-11 items-center justify-center border-2 transition-colors duration-200";
+
 export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className, size = 'md' }) => {
     const { language, setLanguage } = useLanguage();
 
@@ -23,9 +30,9 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className, s
             <button
                 onClick={() => setLanguage('en')}
                 className={cn(
-                    "transition-all duration-200 rounded overflow-hidden border-2 hover:scale-110",
+                    LANG_BUTTON,
                     language === 'en'
-                        ? "border-primary shadow-lg scale-105"
+                        ? "border-primary"
                         : "border-transparent opacity-60 hover:opacity-100"
                 )}
                 title="English"
@@ -40,9 +47,9 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className, s
             <button
                 onClick={() => setLanguage('pl')}
                 className={cn(
-                    "transition-all duration-200 rounded overflow-hidden border-2 hover:scale-110",
+                    LANG_BUTTON,
                     language === 'pl'
-                        ? "border-primary shadow-lg scale-105"
+                        ? "border-primary"
                         : "border-transparent opacity-60 hover:opacity-100"
                 )}
                 title="Polski"

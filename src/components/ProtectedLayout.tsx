@@ -1,31 +1,31 @@
 
-import React, { useState } from 'react';
-import { Outlet, Navigate, Link, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Outlet, Navigate, Link, NavLink, useLocation } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { useLanguage } from '../contexts/useTranslation';
 import { Button } from './ui/button';
-import { LayoutDashboard, Dumbbell, LogOut, Menu, X, Settings, History, Library } from 'lucide-react';
+import { LayoutDashboard, Dumbbell, Settings, History, Library, UserRound, X } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { BADGES } from '../data/badges';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { ADVENTURE_PLAN_ID } from '../data/adventure';
 import { getPlanMeta } from '../data/planMeta';
 
+/**
+ * One tone, tracked caps, sentence-case nothing — the sketch's treatment.
+ * The old two-tone Hyper/Planner split was decoration inside the lockup and
+ * fought the one-accent rule.
+ */
 const BrandWordmark = ({ compact = false }: { compact?: boolean }) => (
-    <div className="brand-lockup flex items-center gap-2.5" aria-label="Hyperplanner">
-        <img src="/brand/hyperplanner-logo.png" alt="" className={compact ? "h-8 w-8 object-contain" : "h-10 w-10 object-contain"} />
-        <p className={cn("font-display uppercase tracking-[0.07em] leading-none", compact ? "text-lg font-semibold" : "text-2xl font-semibold")}>
-            <span className="text-foreground">Hyper</span><span className="text-muted-foreground">Planner</span>
-        </p>
+    <div className={cn('brand-lockup', compact && 'is-compact')} aria-label="Hyperplanner">
+        <img src="/brand/hyperplanner-logo.png" alt="" />
+        <p>Hyperplanner</p>
     </div>
 );
 
 export const ProtectedLayout: React.FC = () => {
-    const { user, logout, notification, clearNotification, activePlanConfig } = useUser();
+    const { user, notification, clearNotification, activePlanConfig } = useUser();
     const { t } = useLanguage();
     const location = useLocation();
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [expandedBadgeId, setExpandedBadgeId] = useState<string | null>(null);
 
     if (!user) {
         return <Navigate to="/" replace />;
@@ -34,13 +34,20 @@ export const ProtectedLayout: React.FC = () => {
     // Determine "Current Workout" link - default to persisted or 1/1
     const lastOpened = user.programId === ADVENTURE_PLAN_ID ? '/app/adventure' : localStorage.getItem("lastOpenedPath") || "/app/workout/1/1";
 
+    const isWorkoutRoute = location.pathname.includes('/workout/') || location.pathname.includes('/adventure');
+
     const navItems = [
-        { label: t('sidebar.dashboard'), path: '/app/dashboard', icon: LayoutDashboard },
-        { label: t('sidebar.currentWorkout'), path: lastOpened, icon: Dumbbell },
-        { label: t('sidebar.history'), path: '/app/history', icon: History },
-        { label: t('sidebar.exercises'), path: '/app/exercises', icon: Library },
-        { label: t('sidebar.settings'), path: '/app/settings', icon: Settings },
+        { key: 'dashboard', label: t('sidebar.dashboard'), path: '/app/dashboard', icon: LayoutDashboard },
+        { key: 'workout', label: t('sidebar.currentWorkout'), path: lastOpened, icon: Dumbbell },
+        { key: 'history', label: t('sidebar.history'), path: '/app/history', icon: History },
+        { key: 'exercises', label: t('sidebar.exercises'), path: '/app/exercises', icon: Library },
+        { key: 'settings', label: t('sidebar.settings'), path: '/app/settings', icon: Settings },
     ];
+
+    // "Current workout" points at a remembered path, so it can't be matched by
+    // equality the way the fixed routes can.
+    const isNavActive = (key: string, path: string) =>
+        key === 'workout' ? isWorkoutRoute : location.pathname === path;
 
     const planMeta = getPlanMeta(user?.programId);
     const themeClass = planMeta.themeClass;
@@ -49,112 +56,71 @@ export const ProtectedLayout: React.FC = () => {
 
     return (
         <div className={cn("instrument-shell min-h-screen bg-background flex flex-col md:flex-row", themeClass)}>
-            {/* Mobile Header */}
-            <header className="instrument-toprail md:hidden flex items-center px-4 h-16 border-b bg-card relative">
-                <div className="min-w-0 pr-16">
+            {/* Mobile masthead. It used to exist to hold a hamburger; with the
+                drawer gone its job is orientation plus the one route the dock
+                has no slot for. */}
+            <header className="instrument-toprail flex md:hidden">
+                <div className="instrument-toprail-id">
                     <BrandWordmark compact />
-                    <p className="text-[10px] uppercase tracking-[0.14em] text-primary truncate">{activePlanConfig.program.name}</p>
+                    <p className="instrument-toprail-plan">{activePlanConfig.program.name}</p>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="absolute right-4" aria-label="Toggle menu">
-                    {mobileMenuOpen ? <X /> : <Menu />}
-                </Button>
+                <NavLink
+                    to="/app/profile"
+                    className={({ isActive }) => cn('instrument-toprail-profile flex', isActive && 'is-active')}
+                    aria-label={t('sidebar.profile')}
+                >
+                    <UserRound className="h-5 w-5" />
+                </NavLink>
             </header>
 
-            {/* Sidebar (Desktop) / Drawer (Mobile) */}
-            <div className={cn(
-                "instrument-sidebar fixed inset-y-0 left-0 z-50 w-72 bg-card border-r border-border p-4 transform transition-transform duration-200 ease-out md:sticky md:top-0 md:h-screen md:translate-x-0",
-                mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-            )}>
-                <div className="flex flex-col h-full">
-                    <div className="hidden md:flex flex-col mb-8 pt-2">
+            {/* Desktop sidebar. Labelled, flat, hairline-ruled — no drawer
+                counterpart any more, so it is desktop-only. */}
+            <div className="instrument-sidebar hidden md:flex md:sticky md:top-0 md:h-screen">
+                <div className="flex flex-col h-full w-full">
+                    <div className="instrument-sidebar-head">
                         <BrandWordmark />
-                        <div className="mt-5 flex items-center gap-3 border-y border-border/70 py-3">
-                            <img src={logoSrc} alt="Plan Logo" className="h-12 w-16 object-contain" />
-                            <div className="min-w-0"><p className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">Active protocol</p><p className="font-display text-sm font-bold uppercase text-primary truncate">{activePlanConfig.program.name}</p></div>
-                        </div>
+                        {/* The artwork slot: grayscale at rest, full colour when
+                            its own route is active, so "colour on active" is a
+                            navigation state rather than a hover trick. */}
+                        <NavLink
+                            to="/app/dashboard"
+                            className={({ isActive }) => cn('plan-plate', isActive && 'is-active')}
+                        >
+                            <img src={logoSrc} alt="" />
+                            <span>
+                                <em>{t('profile.activeProtocol')}</em>
+                                <strong>{activePlanConfig.program.name}</strong>
+                            </span>
+                        </NavLink>
                     </div>
 
-                    <div className="space-y-2 flex-1">
-                        {navItems.map((item) => {
-                            // Simple active check: strictly matches start or special case for workout
-                            const isActive = item.label === t('sidebar.currentWorkout')
-                                ? location.pathname.includes('/workout/') || location.pathname.includes('/adventure')
-                                : location.pathname === item.path;
+                    <nav className="instrument-nav flex flex-col" aria-label="Primary">
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.key}
+                                to={item.path}
+                                className={cn('nav-control flex', isNavActive(item.key, item.path) && 'is-active')}
+                                aria-current={isNavActive(item.key, item.path) ? 'page' : undefined}
+                            >
+                                <item.icon className="h-5 w-5" />
+                                <span>{item.label}</span>
+                            </Link>
+                        ))}
+                    </nav>
 
-                            return (
-                                <Link
-                                    key={item.label}
-                                    to={item.path}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                >
-                                    <Button
-                                        variant={isActive ? "secondary" : "ghost"}
-                                        className="nav-control w-full justify-start h-12"
-                                    >
-                                        <item.icon className="mr-3 h-5 w-5" />
-                                        {item.label}
-                                    </Button>
-                                </Link>
-                            );
-                        })}
-                    </div>
-
-                    <div className="border-t pt-4">
-                        <div className="px-2 mb-4">
-                            <h4 className="text-[10px] uppercase font-bold text-muted-foreground mb-2 text-center">{t('sidebar.trophyCase')}</h4>
-                            <div className="grid grid-cols-4 gap-2 justify-items-center">
-                                {BADGES.map((badge) => {
-                                    const isEarned = user.badges?.includes(badge.id);
-                                    const isExpanded = expandedBadgeId === badge.id;
-                                    const description = t(`badges.${badge.id}.description`);
-                                    return (
-                                        <div
-                                            key={badge.id}
-                                            className={`group relative transition-all duration-300 ${isExpanded ? 'col-span-4 w-full bg-secondary/50 p-2 rounded-lg border border-yellow-500/50 z-10' : ''}`}
-                                            onClick={() => setExpandedBadgeId(isExpanded ? null : badge.id)}
-                                        >
-                                            {!isExpanded && (
-                                                <div className="absolute bottom-full mb-2 -left-8 w-24 bg-black text-white text-[10px] p-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center">
-                                                    <div className="font-bold">{badge.name}</div>
-                                                    <div className="text-[8px] text-gray-300">{description}</div>
-                                                </div>
-                                            )}
-
-                                            {isExpanded ? (
-                                                <div className="flex flex-col items-center animate-in fade-in zoom-in duration-200">
-                                                    <div className="text-sm font-bold text-primary mb-1 text-center">{badge.name}</div>
-                                                    {badge.image ? (
-                                                        <img src={badge.image} alt={badge.name} className="w-24 h-24 object-contain mb-2 filter drop-shadow-md" />
-                                                    ) : (
-                                                        <span className="text-4xl mb-2">{badge.icon}</span>
-                                                    )}
-                                                    <div className="text-[10px] text-muted-foreground text-center px-2">{description}</div>
-                                                </div>
-                                            ) : (
-                                                <div className={`w-8 h-8 flex items-center justify-center transition-all duration-500 ${isEarned ? 'grayscale-0 opacity-100 scale-100' : 'grayscale opacity-20 scale-90'}`}>
-                                                    {badge.image ? (
-                                                        <img src={badge.image} alt={badge.name} className="w-full h-full object-contain filter drop-shadow-sm cursor-pointer" />
-                                                    ) : (
-                                                        <span className="text-xl filter drop-shadow-sm cursor-pointer">{badge.icon}</span>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                        <div className="border-t pt-2"></div>
-                        <div className="px-4 py-2 mb-4 bg-muted/50 rounded text-sm">
-                            <p className="text-muted-foreground">{t('sidebar.loggedInAs')}</p>
-                            <p className="font-mono text-primary font-bold truncate">{user.codeword}</p>
-                        </div>
-                        <Button variant="outline" className="w-full" onClick={logout}>
-                            <LogOut className="mr-2 h-4 w-4" /> {t('sidebar.logout')}
-                        </Button>
-                        <div className="mt-4 flex justify-center">
-                            <LanguageSwitcher size="sm" />
-                        </div>
+                    {/* The thing you tap to see who you are is the thing that
+                        says who you are. */}
+                    <div className="instrument-sidebar-foot">
+                        <NavLink
+                            to="/app/profile"
+                            className={({ isActive }) => cn('identity-row flex', isActive && 'is-active')}
+                        >
+                            <span>
+                                <em>{t('sidebar.loggedInAs')}</em>
+                                <strong>{user.codeword}</strong>
+                            </span>
+                            <UserRound className="h-4 w-4" />
+                        </NavLink>
                     </div>
                 </div>
             </div>
@@ -165,10 +131,20 @@ export const ProtectedLayout: React.FC = () => {
                 <Outlet />
             </main>
 
-            <nav className="mobile-command-dock md:hidden fixed bottom-0 inset-x-0 z-40 grid grid-cols-4 border-t bg-card/95" aria-label="Primary navigation">
+            <nav className="mobile-command-dock fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 md:hidden" aria-label="Primary navigation">
                 {navItems.map((item) => {
-                    const isActive = item.path === lastOpened ? location.pathname.includes('/workout/') : location.pathname === item.path;
-                    return <Link key={item.path} to={item.path} className={cn("flex min-h-16 flex-col items-center justify-center gap-1 px-1 text-center text-[9px] font-bold uppercase tracking-[0.06em]", isActive ? "text-primary bg-primary/10" : "text-muted-foreground")}><item.icon className="h-5 w-5"/><span className="line-clamp-1">{item.label}</span></Link>;
+                    const active = isNavActive(item.key, item.path);
+                    return (
+                        <Link
+                            key={item.key}
+                            to={item.path}
+                            className={cn('dock-item flex flex-col', active && 'is-active')}
+                            aria-current={active ? 'page' : undefined}
+                        >
+                            <item.icon className="h-5 w-5" />
+                            <span>{item.label}</span>
+                        </Link>
+                    );
                 })}
             </nav>
 

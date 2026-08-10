@@ -11,6 +11,7 @@ import { ExerciseBrowser } from './pages/ExerciseBrowser';
 import { Settings } from './pages/Settings';
 import { WorkoutHistory } from './pages/WorkoutHistory';
 import { AdventureSession } from './pages/AdventureSession';
+import { Profile } from './pages/Profile';
 
 const AppRoutes = () => {
     const { loading, isAdmin } = useUser();
@@ -28,6 +29,7 @@ const AppRoutes = () => {
                 <Route path="settings" element={<Settings />} />
                 <Route path="history" element={<WorkoutHistory />} />
                 <Route path="exercises" element={<ExerciseBrowser />} />
+                <Route path="profile" element={<Profile />} />
                 <Route index element={<Navigate to="dashboard" replace />} />
             </Route>
             <Route path="/admin" element={isAdmin ? <AdminShell /> : <Navigate to="/" replace />} />

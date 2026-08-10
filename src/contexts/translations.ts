@@ -47,6 +47,19 @@ export const translations = {
             loggedInAs: "Logged in as:",
             logout: "Logout",
             history: "Workout History",
+            profile: "Profile",
+        },
+
+        // ========================================
+        // PROFILE - identity, trophies, language, logout
+        // ========================================
+        profile: {
+            title: "Profile",
+            activeProtocol: "Active protocol",
+            badgesEarned: "Badges earned",
+            earned: "Earned",
+            locked: "Locked",
+            language: "Language",
         },
 
         // ========================================
@@ -1376,6 +1389,16 @@ export const translations = {
             loggedInAs: "Zalogowany jako:",
             logout: "Wyloguj",
             history: "Historia treningów",
+            profile: "Profil",
+        },
+
+        profile: {
+            title: "Profil",
+            activeProtocol: "Aktywny protokół",
+            badgesEarned: "Zdobyte odznaki",
+            earned: "Zdobyta",
+            locked: "Zablokowana",
+            language: "Język",
         },
 
         workout: {

@@ -18,7 +18,7 @@ form, whose submit handler hardcoded `switchProgram(BENCH_DOMINATION_PROGRAM.id)
 Finishing it enrolled the athlete in Bench Domination rather than the plan they
 chose. Replaced with a generic benchmark step plus first-exposure calibration.
 
-**B. UI overhaul — B1 of 8 done.** Replacing the "Pit-Wall Instrument" visual
+**B. UI overhaul — B2 of 8 done.** Replacing the "Pit-Wall Instrument" visual
 world with "Protocol Sheet", per `docs/protocol-sheet-redesign.md`. The direction
 was chosen by the owner before this work started and is pinned; it is not open
 for re-derivation.
@@ -33,6 +33,8 @@ where the load figure clipped the logged number.
 ## 2. Commits on this branch
 
 ```
+<this commit> Rebuild the shell as a Protocol Sheet
+05a949f Add a session handoff document
 641991e Add the plan cover artwork
 9468548 Rename plan ids, and stop the live figure clipping the logged number
 dd53e03 Apply the three plan renames and self-host the fonts
@@ -145,14 +147,19 @@ be declared, point at a real plan, and appear in `validPlanIds()`.
 
 ---
 
-## 7. Next up — B2, the shell
+## 7. Next up — B3, the live-set console
 
 The owner asked for design options **before** building, via the `impeccable`
-skill, on every UI phase. Do not skip that.
+skill, on every UI phase. Do not skip that. **The skill was not installed in
+the session that built B2**, so that round was recorded as a document instead
+(`docs/plans/B2-SHELL-OPTIONS.md`) — four open element treatments, each with
+its alternates and why the built one won. Do the same if the skill is still
+missing; do not skip the round.
 
-B2 scope: labelled sidebar re-skinned flat; 5-item mobile dock replacing the
-hamburger drawer; brand lockup in Hanken; trophy case extracted to a new
-`/app/profile` route; grayscale-first program artwork slot.
+B2 is done. What it changed beyond its stated scope is listed in
+IMPLEMENTATION_PLAN.md under B2 — the two that will surprise you are that page
+titles are sentence case app-wide now, and that `/app/profile` absorbed logout
+and the language switcher because the deleted drawer was their only mobile home.
 
 Then B3 (live-set console — the proof surface, screenshot review against the
 sketch), B4 (ledger + click-to-edit), B5 (dashboard), B6 (RestTimer + modals),
@@ -177,6 +184,8 @@ interaction spec to the owner before building it.**
 | Live-set console | Exercise name wraps to four lines ("Flat / Barbell / Bench / Press") in a column too narrow for it. | B3 |
 | Live-set console | `LOAD MODE — MANUAL` is exactly the fake system-status line the spec bans as fluff. | B3 |
 | `src/index.css` | Two `transition: height` / `transition: width` on progress meters (detector findings). Should become transform-based. | B3/B5 |
+| `ProtectedLayout` | The badge-unlock overlay is still the old world — confetti, gradient panel, `CLAIM GLORY`, `Math.random` during render (4 eslint errors). Left alone deliberately in B2. | B6 |
+| `src/index.css` | `.theme-adventure` no longer tints the shell chrome, but Adventure's own route CSS below it is untouched. | B7 |
 | Entry | "CREATE A NEW KEYWORD" is untranslated in Polish. Pre-existing. | B7 |
 | `DESIGN.md` | Still documents the replaced Pit-Wall world, so the detector reports ~146 "undeclared font/size/colour" findings. Expected. | B8 |
 
@@ -226,3 +235,12 @@ Run `detect.mjs` on changed files once per phase.
 - Artwork was assigned by *new* name to the *wrong old* id, crossing Purgatorio
   and Workhorse. **Check the wordmark rendered inside the image**, not the
   filename.
+- **Never declare `display` in `index.css` for an element that also carries a
+  Tailwind display utility.** Tailwind v4 emits utilities into
+  `@layer utilities`, and any unlayered rule beats every layered one regardless
+  of specificity — `.mobile-command-dock { display: grid }` silently defeated
+  `md:hidden` and rendered the mobile dock and masthead on desktop. Keep
+  `display` on the JSX class list; everything else can live in the stylesheet.
+- **`overflow-wrap: anywhere` breaks Polish mid-word.** `USTAWIENIA` became
+  `USTAWIENI / A` in a 320px dock slot. Keep it as the last-resort guard, and
+  size the text so it never fires.

@@ -13,8 +13,9 @@ Sequence: **A. Onboarding bug → B. UI overhaul (phases 1–7) → C. Plan test
 | A. Onboarding bug (benchmark step + calibration) | **Done** |
 | Plan renames (names, artwork, ids) | **Done** — migration pending, see below |
 | B1. Tokens & fonts | **Done** (fonts self-hosted) |
-| B2. Shell | Next |
-| B3–B8 | Not started |
+| B2. Shell | **Done** — options in `B2-SHELL-OPTIONS.md` |
+| B3. Live-set console | Next |
+| B4–B8 | Not started |
 | C. Plan testing | Not started |
 
 ### Action required from the owner
@@ -143,10 +144,32 @@ and the `tailwind.config.js` mapping. Retire Saira, `machined-graphite.png`,
 `#0a0b0c` for every theme; per-program tint moves to panel surfaces only. App will look
 "wrong but working" — that proves the token swap end to end.
 
-### B2. Shell ⇧ PUSH — next
+### B2. Shell ⇧ PUSH — done
 Labeled sidebar re-skinned flat. 5-item mobile dock, drawer deleted. Brand lockup in
 Hanken. Trophy case extracted to a new `/app/profile` route. Program artwork slot,
 grayscale-first.
+
+Option round: `docs/plans/B2-SHELL-OPTIONS.md` (four open element treatments,
+each with the alternates and why the built one won). Built beyond the stated
+scope, and worth knowing:
+
+- **The drawer held more than nav.** Logout and the language switcher were only
+  reachable on mobile through it, so `/app/profile` is identity + trophies +
+  language + logout rather than a badge grid alone.
+- **Page titles are sentence case now.** `.instrument-page > h1` still carried
+  `text-transform: uppercase` from the Pit-Wall world; B1 missed it. This
+  changes Dashboard, History, ExerciseBrowser and Settings ahead of their own
+  phases — toward their end state, so they stay shippable.
+- **The language switcher's buttons were 36–38px.** The flag was the whole
+  target. The flag is now the mark and the button around it is ≥44px. Shared
+  component, so Entry gets it too.
+- **The dock was `grid-cols-4` holding five items**, so Settings rendered
+  outside its grid.
+
+Verification: 9 viewport/theme/locale combinations rendered from the real
+compiled CSS, audited for horizontal overflow, sub-44px targets, clipped text
+and mid-word breaks. All clean. `b2-mobile-narrow-pl` found `USTAWIENIA`
+breaking into `USTAWIENI / A` at 320px; fixed with a narrow-width dock rule.
 
 ### B3. Live-set console — the proof surface ⇧ PUSH
 
