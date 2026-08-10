@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Pause, Play, RotateCcw, Timer, X } from 'lucide-react';
+import { Pause, Play, Plus, X } from 'lucide-react';
 
 import { formatRest } from './formatRest';
 
@@ -75,10 +75,18 @@ export const RestTimer: React.FC<{
         }
     };
 
-    const reset = () => {
+    /**
+     * Extending is what an athlete actually reaches for mid-rest. It replaces
+     * the restart control, which nobody uses at a rack and which cost a fourth
+     * target in a bar where each one has to stay fat-finger-proof.
+     */
+    const extend = () => {
         notifiedRef.current = false;
-        deadlineRef.current = running ? Date.now() + seconds * 1000 : null;
-        setRemaining(seconds);
+        setRemaining(current => {
+            const next = current + 30;
+            if (running) deadlineRef.current = Date.now() + next * 1000;
+            return next;
+        });
     };
 
     const done = remaining === 0;
@@ -88,15 +96,20 @@ export const RestTimer: React.FC<{
         <div className={done ? 'rest-timer is-done' : 'rest-timer'} role="timer" aria-live="off">
             <div className="rest-timer-bar" style={{ transform: `scaleX(${progress})` }} aria-hidden="true" />
             <div className="rest-timer-body">
-                <Timer className="h-4 w-4 shrink-0" />
-                <span className="rest-timer-value">{done ? 'Rest complete' : formatRest(remaining)}</span>
-                {label && <span className="rest-timer-label">{label}</span>}
+                <div className="rest-timer-read">
+                    <span className="rest-timer-value">{done ? '0:00' : formatRest(remaining)}</span>
+                    {label && <span className="rest-timer-label">{label}</span>}
+                </div>
                 <div className="rest-timer-actions">
-                    <button onClick={toggle} aria-label={running ? 'Pause rest timer' : 'Resume rest timer'}>
-                        {running ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                    <button type="button" onClick={extend} aria-label="Add 30 seconds">
+                        <Plus className="h-4 w-4" aria-hidden="true" /><span>30s</span>
                     </button>
-                    <button onClick={reset} aria-label="Restart rest timer"><RotateCcw className="h-4 w-4" /></button>
-                    <button onClick={onDismiss} aria-label="Dismiss rest timer"><X className="h-4 w-4" /></button>
+                    <button type="button" onClick={toggle} aria-label={running ? 'Pause rest timer' : 'Resume rest timer'}>
+                        {running ? <Pause className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}
+                    </button>
+                    <button type="button" onClick={onDismiss} aria-label="Skip rest" className="is-skip">
+                        <X className="h-4 w-4" aria-hidden="true" /><span>Skip</span>
+                    </button>
                 </div>
             </div>
         </div>

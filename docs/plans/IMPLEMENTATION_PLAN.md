@@ -17,8 +17,9 @@ Sequence: **A. Onboarding bug → B. UI overhaul (phases 1–7) → C. Plan test
 | B3. Live-set console | **Done** — options in `B3-CONSOLE-OPTIONS.md` |
 | B4. Ledger + click-to-edit | **Done** — spec approved as option (b), `B4-LEDGER-SPEC.md` |
 | B5. Dashboard | **Done** — options in `B5-DASHBOARD-OPTIONS.md` |
-| B6. RestTimer + modals | Next |
-| B7–B8 | Not started |
+| B6. RestTimer + modals | **Done** — options in `B6-TIMER-MODALS-OPTIONS.md` |
+| B7. Remaining surfaces | Next |
+| B8. Finish pass | Not started |
 | C. Plan testing | Not started |
 
 ### Action required from the owner
@@ -308,11 +309,47 @@ content — the Profile page's short values had hidden it since B2.
 Verified with the new generic audit (`audit.mjs`), 8 viewport/theme/locale
 combinations. Screenshots in `.impeccable/qa/b5-*`.
 
-### B6. RestTimer + modals/sheets ⇧ PUSH
-RestTimer as a full-width bar above the dock: huge tabular countdown, skip / +30s zones.
-Modal family re-skinned — 6–8px radius, the one permitted shadow, choices as ruled rows,
-destructive confirmations in warning red. Bottom sheets on mobile, centered dialogs desktop.
-PrescriptionBadges de-pilled.
+### B6. RestTimer + modals/sheets ⇧ PUSH — done
+
+Option round: `docs/plans/B6-TIMER-MODALS-OPTIONS.md`.
+
+The rest timer is a full-width bar fixed above the dock, per the owner's
+decision #8 — it used to be sticky at the *top* of the workout page, scrolling
+with the sheet and sitting nowhere near the thumb. Countdown at 1.75rem in the
+mono face, three ≥44px zones.
+
+**A behaviour was removed:** the restart control. The spec asks for skip and
+add-30s; extending is what an athlete reaches for mid-rest, restarting a rest
+period is not, and a fourth target in a bottom bar makes every one narrower.
+Cheap to put back.
+
+The modal family was re-skinned through its two shared primitives rather than
+five components — same lever as `Card` in B5. `.instrument-floating` gives
+`ui/dialog` and `ui/sheet` 6px corners and the one permitted shadow; bottom
+sheets round only their top corners, keyed off a new `data-side`. Choices render
+as ruled rows. `PrescriptionBadges` is de-pilled: the information stays as
+hairline-separated micro-labels, the bubbles go, and its hardcoded yellow went
+with them.
+
+Found:
+
+- **`--font-display` was never defined.** Five rules said
+  `font-family: var(--font-display)` and have always silently resolved to
+  whatever was inherited — a token from a system predating even the Pit-Wall
+  world. Replaced with the real stack.
+- **Peachy's destructive control was 4.2:1** under its own white label. A
+  destructive control failing the contrast gate is the last one that should;
+  darkened to 41% lightness.
+- **The accent-as-text problem is broader than B4 found.** The active dock
+  label, the active sidebar item, the identity row, the calibration labels, the
+  earned-trophy state and `shimmer-text` were all setting type in the raw
+  program accent. All moved to `--signal-text`. Glyphs, fills and edges keep
+  `--primary` — the contract pushes a failing accent out of *text* roles, not
+  out of the interface. Adventure and Admin still use it for text; they are B7.
+
+Verified on a new harness plus a regression run of the B3, B4 and B5 harnesses,
+since the token sweep reaches all of them. All clean. Screenshots in
+`.impeccable/qa/b6-*`.
 
 ### B7. History, ExerciseBrowser, Settings, Entry/Onboarding, Adventure, Admin ⇧ PUSH
 History as a hairline table. ExerciseBrowser images grayscale-first. Underline inputs in
