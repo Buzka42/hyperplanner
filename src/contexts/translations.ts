@@ -727,6 +727,10 @@ export const translations = {
         // DASHBOARD
         // ========================================
         dashboard: {
+            // Dashboard command module + the unified greeting.
+            nextSession: "Next session",
+            movements: "Movements",
+            painGloryTagline: "Pain today, glory tomorrow",
             // Headers
             timeTo: "Time to",
             eradicateThe: "Eradicate the",
@@ -2067,6 +2071,10 @@ export const translations = {
         },
 
         dashboard: {
+            // Dashboard command module + the unified greeting.
+            nextSession: "Następna sesja",
+            movements: "Ruchy",
+            painGloryTagline: "Ból dziś, chwała jutro",
             timeTo: "Time to",
             eradicateThe: "Protokół Eradykacji Ołówkowej Szyji:",
             becomeA: "Stań się",

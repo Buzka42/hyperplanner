@@ -14,6 +14,7 @@ import { db } from '../firebase';
 import { AccessoryChoiceModal } from '../components/AccessoryChoiceModal';
 import { AdventureDashboard } from './AdventureDashboard';
 import { ADVENTURE_PLAN_ID } from '../data/adventure';
+import { cn } from '../lib/utils';
 
 export const Dashboard: React.FC = () => {
     const { user, activePlanConfig, updateUserProfile } = useUser();
@@ -230,6 +231,39 @@ export const Dashboard: React.FC = () => {
         ? resolveTemplate(nextTrainingDay.dayName, t)
         : nextTrainingDay?.dayName;
 
+    /**
+     * The greeting's copy varies by program; its structure and styling do not.
+     *
+     * `mark` is the one place a program may contribute an image — Peachy's frog
+     * and peach are copy in the same sense the plan artwork is, not icons
+     * standing in for controls, which is what PRODUCT.md actually bans.
+     */
+    const greeting: { title: React.ReactNode; tagline?: string; mark?: React.ReactNode } = (() => {
+        if (isPeachy) {
+            return viewWeek <= 4
+                ? {
+                    title: <>{t('dashboard.feelingFroggy')} {t('dashboard.froggyStatus')}</>,
+                    mark: <img src="/frog.png" alt="" aria-hidden="true" className="dashboard-greeting-mark" />,
+                }
+                : {
+                    title: <>{t('dashboard.feelingPeachy')} {t('dashboard.peachyStatus')}</>,
+                    mark: <span className="dashboard-greeting-mark is-glyph" role="img" aria-label="Peach">🍑</span>,
+                };
+        }
+        if (isPainGlory) return { title: t('dashboard.painGloryTagline') };
+        if (isTrinary) return { title: t('dashboard.trinary.title'), tagline: t('dashboard.trinary.tagline') };
+        if (activePlanConfig.id === 'ritual-of-strength') return { title: t('tips.ritualDashboardTagline') };
+        if (isSuperMutant) return { title: activePlanConfig.program.name, tagline: t('dashboard.superMutant.tagline') };
+
+        const lead = activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.eradicateThe')
+            : activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.becomeA')
+                : t('dashboard.timeTo');
+        const target = activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.weakness')
+            : activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.threat')
+                : t('dashboard.dominate');
+        return { title: <>{lead} {target}</>, tagline: `${t('dashboard.welcomeBack')}, ${user?.codeword}.` };
+    })();
+
     return (
         <div className="instrument-page space-y-8 relative">
             {completionType && (() => {
@@ -335,148 +369,57 @@ export const Dashboard: React.FC = () => {
 
             {!isTrinary && !isSuperMutant && nextTrainingDay && (
                 <section className="dashboard-command" aria-label="Next workout">
-                    <div className="dashboard-command-copy">
-                        <p>{t('common.week')} {viewWeek} · {nextTrainingDay.exercises.length} {t('common.exercises')}</p>
-                        <h1>{nextDayName}</h1>
-                        <div className="dashboard-manifest">
-                            {nextTrainingDay.exercises.slice(0, 4).map((exercise, index) => (
-                                <span key={exercise.id}><b>{String(index + 1).padStart(2, '0')}</b>{exercise.name}</span>
-                            ))}
+                    <p className="dashboard-command-label">{t('dashboard.nextSession')}</p>
+                    <h1>{nextDayName}</h1>
+                    {/* Only real data. The plan sketched an "Est. time" row;
+                        nothing in the app measures session duration, and a
+                        number that lies is worse than a row that isn't there. */}
+                    <dl className="spec-rows">
+                        <div>
+                            <dt>{t('common.week')}</dt>
+                            <dd className="tabular-nums">{viewWeek}</dd>
                         </div>
-                    </div>
+                        <div>
+                            <dt>{t('common.exercises')}</dt>
+                            <dd className="tabular-nums">{nextTrainingDay.exercises.length}</dd>
+                        </div>
+                        <div>
+                            <dt>{t('dashboard.movements')}</dt>
+                            <dd>{nextTrainingDay.exercises.slice(0, 4).map(e => e.name).join(' · ')}</dd>
+                        </div>
+                    </dl>
                     <Button size="lg" className="dashboard-start" onClick={() => navigate(`/app/workout/${viewWeek}/${nextTrainingDay.dayOfWeek}`)}>
-                        <Dumbbell className="h-6 w-6" />
+                        <Dumbbell className="h-5 w-5" />
                         <span>{t('dashboard.trinary.startWorkout')}</span>
-                        <ChevronRight className="h-7 w-7" />
+                        <ChevronRight className="h-5 w-5" />
                     </Button>
                 </section>
             )}
 
-            <div>
-                {isPeachy ? (
-                    <div className="flex items-center justify-between w-full">
-                        <div className="flex flex-col gap-4">
-                            {viewWeek <= 4 ? (
-                                <div className="flex items-center gap-4">
-                                    <h2 className="text-4xl font-black tracking-tight">
-                                        {t('dashboard.feelingFroggy')} <span className="shimmer-text">{t('dashboard.froggyStatus')}</span>
-                                    </h2>
-                                    <img src="/frog.png" alt="Froggy" className="peachy-status-icon w-24 h-24 object-contain" />
-                                </div>
-                            ) : (
-                                <div className="flex items-center gap-4">
-                                    <h2 className="text-4xl font-black tracking-tight">
-                                        {t('dashboard.feelingPeachy')} <span className="shimmer-text">{t('dashboard.peachyStatus')}</span>
-                                    </h2>
-                                    <span className="peachy-status-icon peachy-status-fruit" role="img" aria-label="Peach">🍑</span>
-                                </div>
-                            )}
-                        </div>
-                        <Link to="/app/history">
-                            <Button variant="outline" className="border-rose-300 text-rose-500 hover:bg-rose-50 gap-2">
-                                <History className="h-4 w-4" />
-                                <span className="hidden sm:inline">{t('sidebar.history')}</span>
-                            </Button>
-                        </Link>
-                    </div>
-                ) : isPainGlory ? (
-                    <div className="flex items-center justify-between w-full">
-                        <div className="text-left">
-                            <h2 className="text-4xl font-black tracking-tight text-primary">
-                                Pain today, glory tomorrow
-                            </h2>
-                        </div>
-                        <Link to="/app/history">
-                            <Button variant="outline" className="border-red-900/50 bg-red-950/20 text-red-400 hover:bg-red-900/40 hover:text-red-300 gap-2">
-                                <History className="h-4 w-4" />
-                                <span className="hidden sm:inline">{t('sidebar.history')}</span>
-                            </Button>
-                        </Link>
-                    </div>
-                ) : isTrinary ? (
-                    <div className="flex items-center justify-between w-full">
-                        <div className="text-left">
-                            <h2 className="text-4xl font-black tracking-tight text-foreground">
-                                {t('dashboard.trinary.title')}
-                            </h2>
-                            <p className="text-zinc-400 mt-1 text-sm italic">{t('dashboard.trinary.tagline')}</p>
-                        </div>
-                        <Link to="/app/history">
-                            <Button variant="outline" className="border-zinc-700 bg-zinc-800 text-zinc-300 hover:bg-zinc-700 hover:text-zinc-100 gap-2">
-                                <History className="h-4 w-4" />
-                                <span className="hidden sm:inline">{t('sidebar.history')}</span>
-                            </Button>
-                        </Link>
-                    </div>
-                ) : activePlanConfig.id === 'ritual-of-strength' ? (
-                    <div className="flex items-center justify-between w-full">
-                        <div className="text-left">
-                            <h2 className="text-4xl font-black tracking-tight text-primary">
-                                {t('tips.ritualDashboardTagline')}
-                            </h2>
-                        </div>
-                        <Link to="/app/history">
-                            <Button variant="outline" className="border-red-900/50 bg-red-950/20 text-red-400 hover:bg-red-900/40 hover:text-red-300 gap-2">
-                                <History className="h-4 w-4" />
-                                <span className="hidden sm:inline">{t('sidebar.history')}</span>
-                            </Button>
-                        </Link>
-                    </div>
-                ) : isSuperMutant ? (
-                    <div className="flex items-center justify-between w-full">
-                        <div className="text-left">
-                            <h2 className="text-4xl font-black tracking-tight mutant-text">
-                                SUPER MUTANT
-                            </h2>
-                            <p className="mutant-text mt-1 text-sm italic font-mono">
-                                {t('dashboard.superMutant.tagline')}
-                            </p>
-                        </div>
-                        <Link to="/app/history">
-                            <Button variant="outline" className="border-green-800/50 bg-green-950/20 text-green-400 hover:bg-green-900/40 hover:text-green-300 gap-2 mutant-glow">
-                                <History className="h-4 w-4" />
-                                <span className="hidden sm:inline">{t('sidebar.history')}</span>
-                            </Button>
-                        </Link>
-                    </div>
-                ) : (
-                    <div className="flex items-center justify-between w-full">
-                        <div className="flex flex-col gap-1">
-                            {user.pencilneckStatus && user.pencilneckStatus.cycle > 1 && (
-                                <div className="bg-red-900/40 border border-red-500/50 p-4 rounded-lg mb-6 flex items-center gap-4 animate-in slide-in-from-top duration-700">
-                                    <Dumbbell className="h-8 w-8 text-red-500" />
-                                    <div>
-                                        <div className="font-black text-2xl text-red-500 uppercase tracking-tight">
-                                            {t('dashboard.cycleTitle', { cycle: user.pencilneckStatus.cycle })}
-                                        </div>
-                                        <div className="text-sm text-red-300">
-                                            {t('dashboard.cycleDescription')}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                            <h2 className="text-3xl font-bold tracking-tight">
-                                {activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.eradicateThe') :
-                                    activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.becomeA') :
-                                        t('dashboard.timeTo')} <span className="shimmer-text">
-                                    {activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.weakness') :
-                                        activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.threat') :
-                                            t('dashboard.dominate')}
-                                </span>
-                            </h2>
-                            <p className="text-muted-foreground">{t('dashboard.welcomeBack')}, {user?.codeword}.</p>
-                        </div>
-                        {activeWidgets.includes('workout_history') && (
-                            <Link to="/app/history">
-                                <Button variant="outline" className="gap-2">
-                                    <History className="h-4 w-4" />
-                                    <span className="hidden sm:inline">{t('sidebar.history')}</span>
-                                </Button>
-                            </Link>
-                        )}
-                    </div>
+            {/* One structure, program copy.
+                This block used to be six forks — Peachy, Pain & Glory, Trinary,
+                Ritual, Super Mutant and the default — each hardcoding its own
+                button colours. PRODUCT.md bans per-page style forks; it does not
+                ban per-program copy, which is where flavor belongs. */}
+            <header className="dashboard-greeting">
+                <div className="dashboard-greeting-copy">
+                    {user.pencilneckStatus && user.pencilneckStatus.cycle > 1 && (
+                        <p className="dashboard-cycle">
+                            <strong>{t('dashboard.cycleTitle', { cycle: user.pencilneckStatus.cycle })}</strong>
+                            <span>{t('dashboard.cycleDescription')}</span>
+                        </p>
+                    )}
+                    <h2>{greeting.title}</h2>
+                    {greeting.tagline && <p className="dashboard-greeting-tagline">{greeting.tagline}</p>}
+                </div>
+                {greeting.mark}
+                {activeWidgets.includes('workout_history') && (
+                    <Link to="/app/history" className="dashboard-history-link">
+                        <History className="h-4 w-4" aria-hidden="true" />
+                        <span>{t('sidebar.history')}</span>
+                    </Link>
                 )}
-            </div>
+            </header>
 
             {/* Dashboard Widgets (hide for Trinary) */}
             {!isTrinary && (
@@ -1387,7 +1330,7 @@ export const Dashboard: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="week-sector-list grid gap-3 md:grid-cols-2">
+                    <div className="week-sector-list">
                         {weekData?.days.sort((a, b) => a.dayOfWeek - b.dayOfWeek).map((rawDay) => {
                             let day = rawDay;
                             if (activePlanConfig.hooks?.preprocessDay) {
@@ -1414,24 +1357,26 @@ export const Dashboard: React.FC = () => {
                             const subTitle = t('workout.exercisesCount', { count: day.exercises.length });
 
                             return (
-                                <Link key={day.dayOfWeek} to={`/app/workout/${viewWeek}/${day.dayOfWeek}`}>
-                                    <Card className={`h-full transition-colors ${isDone ? (isPainGlory ? 'border-red-500/50 bg-red-500/5 hover:bg-red-500/10' : 'border-green-500/50 bg-green-500/5 hover:bg-green-500/10') : 'hover:border-primary/50'}`}>
-                                        <CardHeader className="p-4">
-                                            <div className="flex justify-between items-start">
-                                                <CardTitle className="text-base truncate pr-2" title={displayDayName}>{displayDayName}</CardTitle>
-                                                {isDone && <CheckCircleIcon className={`h-5 w-5 flex-shrink-0 ${isPainGlory ? 'text-red-500' : 'text-green-500'}`} />}
-                                            </div>
-                                            <p className="text-xs text-muted-foreground mt-1 truncate" title={subTitle}>{subTitle}</p>
-                                        </CardHeader>
-                                        <CardContent className="p-4 pt-0">
-                                            <ul className="text-sm space-y-1 text-muted-foreground">
-                                                {day.exercises.slice(0, 3).map(ex => (
-                                                    <li key={ex.id} className="truncate">• {ex.name}</li>
-                                                ))}
-                                                {day.exercises.length > 3 && <li className="text-xs opacity-70">{t('workout.andMore', { count: day.exercises.length - 3 })}</li>}
-                                            </ul>
-                                        </CardContent>
-                                    </Card>
+                                /* Same row grammar as the set ledger: done is
+                                   fill plus glyph plus a word, never colour
+                                   alone, and never a per-program colour. */
+                                <Link
+                                    key={day.dayOfWeek}
+                                    to={`/app/workout/${viewWeek}/${day.dayOfWeek}`}
+                                    className={cn('week-row', isDone && 'is-done')}
+                                >
+                                    <span className="week-row-id">
+                                        <strong title={displayDayName}>{displayDayName}</strong>
+                                        <em>{subTitle}</em>
+                                    </span>
+                                    <span className="week-row-movements">
+                                        {day.exercises.slice(0, 3).map(ex => ex.name).join(' · ')}
+                                        {day.exercises.length > 3 && ` · ${t('workout.andMore', { count: day.exercises.length - 3 })}`}
+                                    </span>
+                                    <span className="week-row-state">
+                                        {isDone && <CheckCircleIcon className="h-5 w-5" />}
+                                        <span className="sr-only">{isDone ? t('workout.rowDone') : t('workout.rowPending')}</span>
+                                    </span>
                                 </Link>
                             );
                         })}

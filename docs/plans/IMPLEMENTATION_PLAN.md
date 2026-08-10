@@ -16,8 +16,9 @@ Sequence: **A. Onboarding bug → B. UI overhaul (phases 1–7) → C. Plan test
 | B2. Shell | **Done** — options in `B2-SHELL-OPTIONS.md` |
 | B3. Live-set console | **Done** — options in `B3-CONSOLE-OPTIONS.md` |
 | B4. Ledger + click-to-edit | **Done** — spec approved as option (b), `B4-LEDGER-SPEC.md` |
-| B5. Dashboard | Next |
-| B6–B8 | Not started |
+| B5. Dashboard | **Done** — options in `B5-DASHBOARD-OPTIONS.md` |
+| B6. RestTimer + modals | Next |
+| B7–B8 | Not started |
 | C. Plan testing | Not started |
 
 ### Action required from the owner
@@ -273,9 +274,39 @@ reported failures that were not real: a 7% row tint counted as an opaque
 background, and `color-mix` computes to `oklab(...)`, whose numbers are not
 RGB. Colours are resolved through a canvas now.
 
-### B5. Dashboard ⇧ PUSH
-Spec-sheet header (program name, sentence case), hairline, spec rows (Day / Focus / Top set /
-Est. time), full-width signal START block, telemetry flattened to hairline sections.
+### B5. Dashboard ⇧ PUSH — done
+
+Option round: `docs/plans/B5-DASHBOARD-OPTIONS.md`.
+
+Spec-sheet header, hairline, spec rows, full-width signal START block, week list
+as hairline rows in the same grammar as the set ledger.
+
+- **The `01`–`04` manifest numbering is gone.** Numbers must be data; a
+  decorative index in front of an exercise name is the fluff the owner banned.
+- **No "Est. time" row.** The plan sketched one, but nothing in the app measures
+  session duration and a number that lies is worse than a missing row. Rows are
+  Week, Exercises, Movements. A real estimate is derivable later from set count
+  × prescribed rest.
+- **Six greeting forks became one.** Peachy, Pain & Glory, Trinary, Ritual,
+  Super Mutant and the default each rendered their own block with their own
+  hardcoded button colours. Now one structure picks its copy by program.
+  ~110 lines and every hardcoded colour in that block are gone. Peachy's frog
+  and peach stay — they are program copy, and PRODUCT.md bans emoji *as icons*,
+  which is a different thing.
+- **`Card` itself was flattened** rather than restyling thirteen widgets. The
+  inset double border, gradient wash and drop shadow came off `instrument-panel`,
+  so every widget flattened at once and "one system, eight skins" stays true.
+  This reaches History, ExerciseBrowser, Settings and Admin — intended, since
+  those are B7 and this moves them toward their end state.
+- `CardTitle` lost its uppercase transform, same rule as page titles in B2.
+
+Found: **`spec-rows` had its columns backwards.** The label took the flexible
+column and the value an unbounded `auto`, so a long value grew past the row and
+printed itself over its own label. It only showed up once a row carried real
+content — the Profile page's short values had hidden it since B2.
+
+Verified with the new generic audit (`audit.mjs`), 8 viewport/theme/locale
+combinations. Screenshots in `.impeccable/qa/b5-*`.
 
 ### B6. RestTimer + modals/sheets ⇧ PUSH
 RestTimer as a full-width bar above the dock: huge tabular countdown, skip / +30s zones.
