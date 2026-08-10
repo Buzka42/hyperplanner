@@ -466,10 +466,25 @@ now price is in the calibration map. The second mutation now fails.
 
 `npm run verify:volume` against the portfolio doc's §28 priority list.
 
-**One advisory breach, in an existing plan:** Ritual of Strength trains
-shoulders once a week with 3 direct sets. The script reports rather than fails
-by design — the existing plans predate these rules and some breaches are
-deliberate. Flagged for the owner, not changed.
+**The frequency rules no longer apply to powerlifting plans**, at the owner's
+direction. Two changes, both one-liners in the advisory script:
+
+- The 2-exposures-a-week floor is skipped for `kind: 'powerlifting'`. The rule
+  exists to stop a *hypertrophy* plan under-stimulating a group; once-weekly
+  supporting work for a non-priority group is a legitimate choice when the goal
+  is a total. This clears Ritual's shoulder finding, which was the plan working
+  as designed.
+- The specialisation *frequency* target is skipped for powerlifting too. The
+  owner named the 2/week rule specifically; this is the 3/week specialisation
+  target, a different rule — but the same reasoning applies, and it was
+  reporting Bench Domination as breaching its own design for benching twice a
+  week. **Extended by inference, so worth a second look.**
+
+Either check is opt-in: a powerlifting plan that wants it declares
+`minWeeklyExposures` or `specialisationExposures`. King of the Squat does, and
+is still checked.
+
+`verify:volume` now reports **0 breaches** across the portfolio.
 
 **A measurement gap was hiding a whole plan.** `verify:volume` reported "no
 materialised training weeks" for Skeleton and moved on, so it had never been

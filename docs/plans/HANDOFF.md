@@ -170,8 +170,9 @@ exists.
    then `-- --apply`. The script was read end to end and is correct: the map
    direction is old → new, users and accessKeys are covered, workout logs are
    deliberately untouched.
-2. **Decide on Ritual's shoulder volume.** `verify:volume` reports it training
-   shoulders once a week on 3 direct sets. Advisory, unchanged.
+2. **Review the volume-rule exemption.** Powerlifting plans are now exempt from
+   both the 2/week frequency floor (your call) and the specialisation frequency
+   target (extended by inference — see IMPLEMENTATION_PLAN.md §C2).
 3. **Run the Impeccable detector** when the skill is available. It was not
    installed here. `DESIGN.md` being current should make it quiet.
 
@@ -182,7 +183,7 @@ options doc:
 
 - The **restart** control on the rest timer was removed (B6).
 - **`Est. time`** is not on the dashboard, because nothing measures it (B5).
-- The **logo mark** is gone from Entry as well as the shell (B5/B7).
+- The **logo mark** is on Entry only — the shell is wordmark-only (B5/B7).
 - Page titles are **sentence case app-wide** (B2).
 - `/app/profile` absorbed **logout and the language switcher** (B2).
 

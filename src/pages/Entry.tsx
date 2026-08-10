@@ -110,8 +110,11 @@ export const Entry: React.FC = () => {
             </div>
             <div className="entry-instrument">
                 <div className="entry-identity">
-                    {/* Wordmark only, matching the shell — the logo image went
-                        with the lockup's mark. */}
+                    {/* Entry keeps the mark, the shell does not. This is the
+                        one screen with room for a brand moment and no program
+                        to carry the identity yet; inside the app the wordmark
+                        alone is enough and the plan artwork does that job. */}
+                    <img src="/brand/hyperplanner-logo.png" alt="" aria-hidden="true" className="entry-mark" />
                     <p className="brand-lockup">Hyperplanner</p>
                     <h1>
                         {t('entry.title')}

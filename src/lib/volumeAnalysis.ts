@@ -8,8 +8,10 @@
  *   - general hypertrophy: at least 2 meaningful weekly exposures per group
  *   - specialisation: 3 weekly exposures for large groups (back, quads,
  *     hamstrings), 3-4 for smaller ones (delts, biceps, triceps)
- *   - powerlifting may practise a non-priority competition lift once weekly,
- *     but the musculature still needs additional work
+ *   - powerlifting plans are exempt from the frequency minimum: the rule exists
+ *     to stop a hypertrophy plan under-stimulating a group, and once-weekly
+ *     supporting work for a non-priority group is a legitimate choice when the
+ *     goal is a total. They can opt in by declaring `minWeeklyExposures`.
  *
  * "Exposure" means meaningful direct work, not incidental involvement, so
  * secondary muscles count toward volume at a reduced weight and do not by
@@ -138,6 +140,15 @@ const evaluate = (volumes: MuscleVolume[], rules: VolumeRules): VolumeFinding[] 
         if (volume.directSets === 0) continue;
 
         if (specialised.has(volume.group)) {
+            // Same reasoning as the frequency floor below: a specialisation
+            // *frequency* target is a hypertrophy construct. A powerlifting
+            // plan that specialises the bench on two heavy exposures a week
+            // plus accessories is standard practice, not an under-dose — Bench
+            // Domination was being reported as breaching its own design. A
+            // powerlifting plan that wants the check declares
+            // `specialisationExposures` explicitly.
+            if (rules.kind === 'powerlifting' && rules.specialisationExposures === undefined) continue;
+
             const target = rules.specialisationExposures
                 ?? (LARGE_GROUPS.includes(volume.group) ? 3 : 3);
             if (volume.exposures < target) {
@@ -150,18 +161,16 @@ const evaluate = (volumes: MuscleVolume[], rules: VolumeRules): VolumeFinding[] 
             continue;
         }
 
-        if (rules.kind === 'powerlifting') {
-            // A non-priority competition lift may be practised once weekly, but
-            // the musculature still needs additional work.
-            if (volume.exposures < floor && volume.directSets < 6) {
-                findings.push({
-                    severity: 'warning',
-                    group: volume.group,
-                    message: `Only ${volume.exposures} exposure and ${volume.directSets} direct sets. A once-weekly competition lift is allowed, but the musculature needs supporting work.`,
-                });
-            }
-            continue;
-        }
+        // Powerlifting plans are exempt from the frequency minimum entirely.
+        //
+        // The rule exists to stop a *hypertrophy* plan under-stimulating a
+        // group. A powerlifting plan's job is the total, and once-weekly
+        // supporting work for a non-priority group is a legitimate programming
+        // choice, not an oversight — Ritual's single weekly shoulder exposure
+        // was being reported as a breach when it is the plan working as
+        // designed. A plan that genuinely wants the check can still opt in by
+        // declaring `minWeeklyExposures`.
+        if (rules.kind === 'powerlifting' && rules.minWeeklyExposures === undefined) continue;
 
         if (volume.exposures < floor) {
             findings.push({
