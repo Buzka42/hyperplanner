@@ -80,13 +80,35 @@ Owner decisions are recorded in the spec: all 7 tests presented and individually
 skippable, access slots recomputed at each retest, a painful test invalidated
 rather than blocking training, and ROM tracking in v1.
 
-### Phase 2 — Venus Rising + Athena
-Scheduled, but with a 3-day/4-day mode choice at onboarding. Establishes the
-schedule-mode pattern the doc asks for. Kali and Valkyrie follow in the same
-shape once it works.
+### Phase 2 — Venus Rising + Athena — decisions locked, spec not yet written
+Scheduled, 3-day/4-day mode choice, **switchable mid-program, applies from the
+next training week** (doc §12, owner confirmed). Establishes the schedule-mode
+pattern; Kali follows in the same shape.
 
-### Phase 3 — Kali + Valkyrie
-Same doc, same conventions. Should be mostly plan data by this point.
+### Phase 3 — Kali — decisions locked, spec not yet written; Valkyrie deferred
+
+Shared infrastructure spec: **`PERFORMANCE-PROFILE-SPEC.md`**. Owner decisions:
+
+- **Ecosystem-wide**, not scoped to these three plans — but implemented as one
+  addition to `WorkoutView.handleSaveSession` (the single save path every plan
+  already goes through), so it does not touch any of the 19 existing plans'
+  own code. "Touches all plans" turned out to mean "reads what all plans
+  already write," not "edit all plans."
+- Non-exact history is **shown as a suggestion with an opt-in calibration
+  offer** — never auto-applied, never forced.
+- A **direct** Venus/Athena → Kali switch trusts exact-match history from that
+  plan outright (no offer), detected via a new `lastProgramId` field set on
+  every `switchProgram` call.
+- **Kali Day II anchor: ≥5 strict pull-up reps → weighted pull-up, else
+  assisted pulldown.** Sourced from logged pull-up history if any plan has it,
+  else asked directly at Kali onboarding. This generalizes beyond Day II: any
+  slot in these plans that names two options separated by rep capability should
+  use the same threshold-and-fallback shape rather than a one-off.
+
+**Valkyrie is deferred**, per the design doc's own instruction (§26) and the
+owner's confirmation — it has no session data, only bullet-point
+characteristics, and the doc says not to finalize it until the shared profile
+is proven. Revisit after Kali ships.
 
 ### Phase 4 — House of Iron *(first real engine work)*
 Needs, roughly in order:
