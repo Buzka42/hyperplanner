@@ -80,14 +80,11 @@ Owner decisions are recorded in the spec: all 7 tests presented and individually
 skippable, access slots recomputed at each retest, a painful test invalidated
 rather than blocking training, and ROM tracking in v1.
 
-### Phase 2 — Venus Rising + Athena — decisions locked, spec not yet written
-Scheduled, 3-day/4-day mode choice, **switchable mid-program, applies from the
-next training week** (doc §12, owner confirmed). Establishes the schedule-mode
-pattern; Kali follows in the same shape.
+### Phase 2–3 — Venus + Athena + Kali — **specced, see `VENUS-ATHENA-KALI-SPEC.md`**
 
-### Phase 3 — Kali — decisions locked, spec not yet written; Valkyrie deferred
-
-Shared infrastructure spec: **`PERFORMANCE-PROFILE-SPEC.md`**. Owner decisions:
+Session templates, schedule modes, phase progression and each plan's own
+mechanics. Shared load-transfer infrastructure:
+**`PERFORMANCE-PROFILE-SPEC.md`**. Owner decisions:
 
 - **Ecosystem-wide**, not scoped to these three plans — but implemented as one
   addition to `WorkoutView.handleSaveSession` (the single save path every plan
@@ -109,6 +106,20 @@ Shared infrastructure spec: **`PERFORMANCE-PROFILE-SPEC.md`**. Owner decisions:
 owner's confirmation — it has no session data, only bullet-point
 characteristics, and the doc says not to finalize it until the shared profile
 is proven. Revisit after Kali ships.
+
+**Two new engine capabilities these three need**, both identified while
+speccing rather than assumed up front:
+
+- **Schedule modes** on `PlanSpec` — two day-sets per plan, switchable
+  mid-program. Optional field; every existing plan is unaffected.
+- **`top-set-backoff` progression** — Athena's phase-2 structure needs one
+  slot to render as two prescriptions, with back-off load derived from what
+  the top set actually produced. No existing progression type does this.
+
+**One blocking decision is still open: left/right unilateral storage** (doc
+§29 item 9). A logged set has no `side` field anywhere in the app. Athena can
+ship without it, but its "useful left/right performance data" promise can't
+be delivered until it's decided. See the spec's §3.
 
 ### Phase 4 — House of Iron *(first real engine work)*
 Needs, roughly in order:
