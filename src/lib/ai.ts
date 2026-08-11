@@ -7,11 +7,20 @@
  * model being unavailable is never allowed to block logging a set.
  */
 
-import { getFunctions, httpsCallable } from 'firebase/functions';
 import { doc, getDoc } from 'firebase/firestore';
 import { app, db } from '../firebase';
 
-const functions = getFunctions(app, 'europe-central2');
+/**
+ * The Functions SDK is loaded on first use, not at module scope.
+ *
+ * Initialising it eagerly threw `Service functions is not available` during app
+ * start-up and took the whole shell down with it — an AI feature nobody has
+ * switched on must not be able to do that.
+ */
+const getCallable = async <Request, Response>(name: string) => {
+    const { getFunctions, httpsCallable } = await import('firebase/functions');
+    return httpsCallable<Request, Response>(getFunctions(app, 'europe-central2'), name);
+};
 
 export type AiFeature = 'oracle' | 'videoAnalysis';
 
@@ -54,7 +63,7 @@ export interface CompletionRequest {
 
 export const aiComplete = async (request: CompletionRequest): Promise<string | undefined> => {
     try {
-        const call = httpsCallable<CompletionRequest, { text: string; model: string }>(functions, 'aiComplete');
+        const call = await getCallable<CompletionRequest, { text: string; model: string }>('aiComplete');
         const result = await call(request);
         return result.data.text;
     } catch (error) {
@@ -84,10 +93,10 @@ export const analyzeLiftVideo = async (
 ): Promise<LiftAnalysis | undefined> => {
     try {
         const videoBase64 = await toBase64(file);
-        const call = httpsCallable<
+        const call = await getCallable<
             { lift: string; videoBase64: string; mimeType: string },
             LiftAnalysis
-        >(functions, 'aiAnalyzeLift');
+        >('aiAnalyzeLift');
         const result = await call({ lift, videoBase64, mimeType: file.type || 'video/mp4' });
         return result.data;
     } catch (error) {
