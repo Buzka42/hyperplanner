@@ -445,8 +445,23 @@ const CORE_LIBRARY: LibraryExercise[] = [
         status: 'active',
     },
     {
+        id: 'dead-hang',
+        tip: { en: 'Full hang with the shoulders active, not collapsed. Time it; end the set when the grip starts sliding rather than when it fails.', pl: 'Pełny zwis z aktywnymi barkami, nie zapadaj się w nich. Mierz czas; zakończ, gdy chwyt zaczyna się zsuwać, a nie gdy puszcza.' },
+        name: { en: 'Dead Hang', pl: 'Zwis na drążku' },
+        aliases: ['Dead Hangs'],
+        pattern: 'core-antiextension',
+        primary: ['forearms'],
+        secondary: ['lats', 'abs'],
+        equipment: ['pull-up-bar', 'bodyweight'],
+        weightMode: 'timed',
+        status: 'active',
+    },
+    {
+        // Retired in favour of the two movements it used to combine. Kept so
+        // logged history and any stored plan config still resolve, and so the
+        // old display string keeps pointing somewhere real.
         id: 'dead-hang-plank',
-        tip: { en: 'Straight to planks after hangs, 2 min rest between supersets.', pl: 'Od razu do planków po zwisach, 2 min przerwy między superseriami.' },
+        tip: { en: 'Superseded: log the hang and the plank as separate movements.', pl: 'Zastąpione: zapisuj zwis i deskę jako osobne boje.' },
         name: { en: 'Dead Hang + Planks', pl: 'Zwis na drążku + deska' },
         aliases: [],
         pattern: 'core-antiextension',
@@ -454,7 +469,8 @@ const CORE_LIBRARY: LibraryExercise[] = [
         secondary: ['obliques'],
         equipment: ['pull-up-bar', 'bodyweight'],
         weightMode: 'timed',
-        status: 'active',
+        status: 'deprecated',
+        deprecatedFor: 'dead-hang',
     },
     {
         id: 'deficit-deadlift',

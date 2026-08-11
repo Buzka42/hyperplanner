@@ -989,27 +989,29 @@ b { font-weight: 600; }
    chrome into a colour fight; full colour when its own route is active, which
    makes "colour on active" a navigation state rather than decoration. */
 .plan-plate {
-  display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
-  align-items: center;
-  gap: .75rem;
+  display: block;
   min-height: 44px;
   margin-top: 1.5rem;
-  padding: .85rem 0;
+  padding: 0 0 .85rem;
   border-top: 1px solid var(--instrument-rule);
   border-bottom: 1px solid var(--instrument-rule);
 }
+/* The artwork is the plan's identity, and a 56px thumbnail beside a label read
+   as a favicon. It now spans the rail, bleeding to both edges of the sidebar's
+   padding, with the name beneath it. */
 .plan-plate img {
-  width: 56px;
-  height: 40px;
-  object-fit: contain;
+  width: calc(100% + 2.5rem);
+  margin-inline: -1.25rem;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
   filter: grayscale(.8) contrast(1.05);
   transition: filter 240ms cubic-bezier(.16,1,.3,1);
 }
 .plan-plate.is-active img,
 .plan-plate:hover img,
 .plan-plate:focus-visible img { filter: none; }
-.plan-plate span { min-width: 0; display: grid; gap: .25rem; }
+.plan-plate span { min-width: 0; display: grid; gap: .25rem; padding-top: .7rem; }
 .plan-plate em {
   color: hsl(var(--muted-foreground));
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
@@ -1543,7 +1545,10 @@ b { font-weight: 600; }
    `1ch` is exactly one digit and the field can never be narrower than what it
    holds — the clipping bug is impossible by construction rather than by
    bucket, and the half-ch is room for the caret. */
-.live-set-measurements .instrument-input { width: calc((var(--figure-chars, 3) + .5) * 1ch); min-width: 2ch; height: 82px; padding: 0; border: 0; background: transparent; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; font-size: var(--figure-size, clamp(2.5rem, 10vw, 4.5rem)); font-weight: 500; line-height: 1; color: hsl(var(--foreground)); box-shadow: none; }
+/* A borderless figure reads as a printed number rather than something you
+   can type into. A hairline in the plan's own colour marks it as a field
+   without turning the console into a form. */
+.live-set-measurements .instrument-input { width: calc((var(--figure-chars, 3) + .5) * 1ch); min-width: 2ch; height: 82px; padding: 0 0 .15rem; border: 0; border-bottom: 2px solid hsl(var(--primary) / .45); border-radius: 0; background: transparent; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace; font-size: var(--figure-size, clamp(2.5rem, 10vw, 4.5rem)); font-weight: 500; line-height: 1; color: hsl(var(--foreground)); box-shadow: none; }
 /* The figure is *sized* from its own column, not the viewport: a `vw` figure
    overflows because on a narrow phone the column is a fraction of the screen.
    It steps down by digit count and stays the largest type on screen at every
@@ -1552,6 +1557,7 @@ b { font-weight: 600; }
 .live-set-measurements label[data-len='short']  { --figure-size: min(4.5rem, calc(50cqi - 16px)); }
 .live-set-measurements label[data-len='medium'] { --figure-size: min(3.6rem, calc(33cqi - 11px)); }
 .live-set-measurements label[data-len='long']   { --figure-size: min(2.8rem, calc(20cqi - 7px)); }
+.live-set-measurements .instrument-input:focus, .live-set-measurements .instrument-input:focus-visible { border-bottom-color: hsl(var(--primary)); outline: none; }
 .live-set-measurements b { padding-bottom: .75rem; color: hsl(var(--muted-foreground)); font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 1.25rem; }
 
 .live-set-telemetry { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); border-bottom: 1px solid var(--instrument-rule); }
@@ -2245,17 +2251,45 @@ input[type=number] {
 
 /* De-pilled: the information stays, the bubble goes. A run of tracked micro-
    labels separated by hairlines reads as a spec, which is what it is. */
-.prescription-badges { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .9rem; margin-top:.75rem; }
+/* Prescription chips.
+   These were grey monospace text separated by hairlines, which read as a
+   caption rather than as instructions — a superset was easy to miss entirely.
+   Each is now a bounded chip with its own label, and the pairing chip carries
+   the plan signal colour so alternation is the first thing seen on the row. */
+.prescription-badges { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-top:.75rem; }
 .prescription-badge {
-  display:inline-flex; align-items:center; gap:.35rem;
-  color:hsl(var(--muted-foreground));
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.3rem .55rem;
+  border:1px solid var(--instrument-rule);
+  border-radius:.3rem;
+  background:hsl(var(--muted) / .35);
+  color:hsl(var(--foreground));
   font-family:'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
-  font-size:.62rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; white-space:nowrap;
+  font-size:.7rem; font-weight:600; letter-spacing:.06em; white-space:nowrap;
+  cursor:help;
 }
-.prescription-badge + .prescription-badge { border-left:1px solid var(--instrument-rule); padding-left:.9rem; }
+.prescription-badge-key { color:hsl(var(--muted-foreground)); text-transform:uppercase; letter-spacing:.1em; font-size:.62rem; }
+.prescription-badge-value { font-variant-numeric:tabular-nums; }
+.prescription-badge svg { color:hsl(var(--muted-foreground)); }
+
+/* Supersets are an instruction about how to run the session, so they get the
+   plan's own signal colour and a filled chip; a lone group label does not. */
 .prescription-badge.is-pair { color:var(--signal-text); }
-/* Was a hardcoded yellow, the same style fork the technique row carried. */
-.prescription-badge.is-technique { color:hsl(var(--foreground)); text-transform:none; letter-spacing:.02em; }
+.prescription-badge.is-pair svg { color:var(--signal-text); }
+.prescription-badge.is-pair .prescription-badge-key { color:var(--signal-text); }
+.prescription-badge.is-superset {
+  border-color:hsl(var(--primary) / .55);
+  background:hsl(var(--primary) / .14);
+}
+.prescription-badge-partner { color:hsl(var(--foreground)); font-weight:500; letter-spacing:.02em; text-transform:none; }
+
+.prescription-badge.is-technique { text-transform:none; letter-spacing:.02em; }
+
+@media (max-width: 480px) {
+  /* The partner name is the first thing to go on a narrow phone; the colour
+     and the icon still say "superset". */
+  .prescription-badge-partner { display:none; }
+}
 
 /* Full-width bar above the dock, the owner's decision #8. It used to be sticky
    at the top of the workout page, where it scrolled with the sheet and sat

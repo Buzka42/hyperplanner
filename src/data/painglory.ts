@@ -120,10 +120,20 @@ const createPainGloryWeeks = (): ProgramWeek[] => {
             },
             {
                 id: `pg-w${w}-d1-e5`,
-                name: "Dead Hang + Planks",
+                name: "Dead Hang",
                 sets: 3,
                 target: { type: "failure", reps: "Failure" },
-                notes: "t:tips.deadHangPlanks"
+                notes: "t:tips.deadHangPlanks",
+                // Two movements rather than one combined slot, so each carries
+                // its own history and the console alternates them.
+                prescription: { pair: "C1", restSeconds: 120 }
+            },
+            {
+                id: `pg-w${w}-d1-e5-b`,
+                name: "Planks",
+                sets: 3,
+                target: { type: "failure", reps: "Failure" },
+                prescription: { pair: "C2", restSeconds: 120 }
             }
         );
 
@@ -262,10 +272,20 @@ const createPainGloryWeeks = (): ProgramWeek[] => {
             },
             {
                 id: `pg-w${w}-d5-e5`,
-                name: "Dead Hang + Planks",
+                name: "Dead Hang",
                 sets: 3,
                 target: { type: "failure", reps: "Failure" },
-                notes: "t:tips.deadHangPlanks"
+                notes: "t:tips.deadHangPlanks",
+                // Two movements rather than one combined slot, so each carries
+                // its own history and the console alternates them.
+                prescription: { pair: "C1", restSeconds: 120 }
+            },
+            {
+                id: `pg-w${w}-d5-e5-b`,
+                name: "Planks",
+                sets: 3,
+                target: { type: "failure", reps: "Failure" },
+                prescription: { pair: "C2", restSeconds: 120 }
             }
         );
 

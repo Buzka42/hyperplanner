@@ -14,6 +14,7 @@ import { getVariantTip } from '../data/exercises/variantTips';
 import { resolveTips } from '../features/tips/resolve';
 import { resolveDay } from '../lib/planResolution';
 import { PrescriptionBadges } from '../features/workout/PrescriptionBadges';
+import { nextSlot, partnersOf, type SupersetSlot } from '../features/workout/superset';
 import { RestTimer } from '../features/workout/RestTimer';
 import { SwapSheet } from '../features/workout/SwapSheet';
 import { techniqueAppliesTo, techniqueRows } from '../features/workout/techniqueSets';
@@ -1011,9 +1012,32 @@ export const WorkoutView: React.FC = () => {
     const pinnedSets = pinnedExercise ? (exerciseData[pinnedExercise.id] || []) : [];
     const pinned = pinnedExercise && pinnedSets[selectedSet!.index] ? selectedSet : null;
 
+    /**
+     * Superset state for the whole sheet, in authored order.
+     *
+     * Built once here so the console, the badges and the ledger all describe
+     * the same pairing rather than each inferring it from a label.
+     */
+    const supersetSlots: SupersetSlot[] = dayData.exercises.map(ex => {
+        const sets = exerciseData[ex.id] || [];
+        return {
+            id: ex.id,
+            pair: (ex as { group?: { role?: string } }).group?.role ?? ex.prescription?.pair,
+            groupId: (ex as { group?: { id?: string } }).group?.id,
+            totalSets: sets.length || ex.sets,
+            completedSets: sets.filter(set => set.completed).length,
+        };
+    });
+
+    // A pair label promises alternation, so the next set comes from whichever
+    // member of the group is a round behind — not from the first row in the
+    // sheet with work left, which ran A1 to completion before offering A2.
+    const supersetNext = nextSlot(supersetSlots);
     const activeExercise = pinned
         ? pinnedExercise!
-        : dayData.exercises.find(ex => (exerciseData[ex.id] || []).some(set => !set.completed)) || dayData.exercises[0];
+        : dayData.exercises.find(ex => ex.id === supersetNext?.id)
+            || dayData.exercises.find(ex => (exerciseData[ex.id] || []).some(set => !set.completed))
+            || dayData.exercises[0];
     const activeSets = activeExercise ? (exerciseData[activeExercise.id] || []) : [];
     const unresolvedSetIndex = activeSets.findIndex(set => !set.completed);
     const activeSetIndex = pinned
@@ -1449,6 +1473,9 @@ export const WorkoutView: React.FC = () => {
 
                             <PrescriptionBadges
                                 pairRole={(ex as { group?: { role?: string } }).group?.role ?? ex.prescription?.pair}
+                                pairPartners={partnersOf(supersetSlots, ex.id)
+                                    .map(partner => dayData.exercises.find(candidate => candidate.id === partner.id)?.name)
+                                    .filter((name): name is string => !!name)}
                                 tempo={(ex as { tempo?: string }).tempo ?? ex.prescription?.tempo}
                                 restSeconds={(ex as { restSeconds?: number }).restSeconds ?? ex.prescription?.restSeconds}
                                 technique={(ex as { technique?: never }).technique ?? ex.prescription?.technique}

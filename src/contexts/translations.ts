@@ -1538,7 +1538,7 @@ export const translations = {
             andMore: "+ {count} więcej",
             sets: "serie",
             reps: "powt.",
-            liveSet: "Seria na żywo",
+            liveSet: "Aktualna seria",
             logSet: "Zapisz serię",
             rpe: "RPE",
             restLabel: "Przerwa",
