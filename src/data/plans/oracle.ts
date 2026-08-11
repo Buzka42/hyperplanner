@@ -14,6 +14,8 @@
 import { definePlan, type DaySpec, type SlotSpec } from '../planBuilder';
 import type { PlanConfig, UserProfile, WorkoutDay } from '../../types';
 import { predictFromPriors, type Exposure } from '../../features/oracle/prediction';
+import { seedLoadFor } from '../../features/onboarding/seedLoads';
+import { EXERCISE_BY_ID } from '../exercises/library';
 
 const double = { type: 'double' as const, increment: 2.5 };
 const s = (ex: string, sets: number, reps = '6-10', options: Partial<SlotSpec> = {}): SlotSpec =>
@@ -116,8 +118,29 @@ const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
     }) };
 };
 
+
+/**
+ * Opening loads from the maxes collected at onboarding.
+ *
+ * Only the first exposure: once a set is logged the plan's own progression owns
+ * the load, and `Oracle` never overrides a value the athlete has moved.
+ */
+const seededWeight = (base: PlanConfig): NonNullable<PlanConfig['hooks']>['calculateWeight'] =>
+    (target, user, exerciseName, context) => {
+        const existing = base.hooks?.calculateWeight?.(target, user, exerciseName, context);
+        if (existing) return existing;
+
+        const entry = Object.values(EXERCISE_BY_ID).find(item => item.name.en === exerciseName || item.name.pl === exerciseName);
+        if (!entry) return undefined;
+        const seed = seedLoadFor(user?.stats, entry.id, String(target?.reps ?? '8'));
+        return seed ? String(seed.kg) : undefined;
+    };
+
 export const ORACLE_CONFIG: PlanConfig = {
     ...base,
-    hooks: { ...base.hooks, preprocessDay: preprocess },
+    // Oracle predicts from logged history, which it does not have in week one.
+    // A max seeds the calibration weeks; the predictor takes over from there.
+    onboarding: { ...base.onboarding, seedStats: ['squat', 'flatBench'] },
+    hooks: { ...base.hooks, preprocessDay: preprocess, calculateWeight: seededWeight(base) },
     ui: { themeClass: 'theme-oracle', coverImage: '/oracle.png', navImage: '/oracle.png', dashboardWidgets: ['program_status', 'workout_history'] },
 };

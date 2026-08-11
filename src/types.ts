@@ -13,6 +13,13 @@ export type LiftingStats = {
     // Pain & Glory stats
     conventionalDeadlift?: number;
     lowBarSquat?: number;
+    /**
+     * Maxes for plans whose primary lifts are heavy enough that guessing the
+     * first working set costs a fortnight. They seed an opening load; the
+     * plan's own progression takes over from the first logged set.
+     */
+    flatBench?: number;
+    standingPress?: number;
 };
 
 export type BenchDominationModules = {
@@ -476,6 +483,13 @@ export interface PlanConfig {
          * Ritual, Pain & Glory) collect their own stats and leave this unset.
          */
         requiredStats?: (keyof LiftingStats)[];
+        /**
+         * Maxes used only to seed the first working load, for plans whose
+         * primary lifts are heavy enough that guessing set one costs a
+         * fortnight. Always optional to enter: the plan progresses on its own
+         * terms from the first logged set, and may move away from the seed.
+         */
+        seedStats?: (keyof LiftingStats)[];
     };
     calibration?: {
         /**

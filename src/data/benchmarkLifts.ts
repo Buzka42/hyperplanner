@@ -25,6 +25,8 @@ export const BENCHMARK_LIFTS: Partial<Record<keyof LiftingStats, BenchmarkLift>>
     spotoPress: { key: 'spotoPress', placeholder: '95' },
     lowPinPress: { key: 'lowPinPress', placeholder: '90' },
     btnPress: { key: 'btnPress', placeholder: '50' },
+    flatBench: { key: 'flatBench', placeholder: '100' },
+    standingPress: { key: 'standingPress', placeholder: '60' },
 };
 
 /**
@@ -33,8 +35,8 @@ export const BENCHMARK_LIFTS: Partial<Record<keyof LiftingStats, BenchmarkLift>>
  * rendered blank — `verify:onboarding` fails the build if a plan needs one.
  */
 const ORDER: (keyof LiftingStats)[] = [
-    'squat', 'lowBarSquat', 'pausedBench', 'wideGripBench',
-    'spotoPress', 'lowPinPress', 'btnPress', 'conventionalDeadlift',
+    'squat', 'lowBarSquat', 'pausedBench', 'flatBench', 'wideGripBench',
+    'spotoPress', 'lowPinPress', 'btnPress', 'standingPress', 'conventionalDeadlift',
 ];
 
 export const benchmarkLiftsFor = (

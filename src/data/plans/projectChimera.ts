@@ -14,6 +14,7 @@ import { definePlan, type DaySpec, type SlotSpec } from '../planBuilder';
 import type { PlanConfig, UserProfile, WorkoutDay } from '../../types';
 import { MINIMUM_WEEKLY_SETS, type Quality } from '../../features/projectChimera/mutation';
 import { EXERCISE_BY_ID } from '../exercises/library';
+import { seedLoadFor } from '../../features/onboarding/seedLoads';
 
 const double = { type: 'double' as const, increment: 2.5 };
 const s = (ex: string, sets: number, reps = '8-12', quality?: Quality, options: Partial<SlotSpec> = {}): SlotSpec =>
@@ -133,8 +134,27 @@ export const baseWeeklySets = (): Record<Quality, number> => {
 export const meetsMinimums = (weekly: Record<Quality, number>): boolean =>
     (Object.keys(MINIMUM_WEEKLY_SETS) as Quality[]).every(quality => weekly[quality] >= MINIMUM_WEEKLY_SETS[quality]);
 
+
+/**
+ * Opening loads from the maxes collected at onboarding.
+ *
+ * Only the first exposure: once a set is logged the plan's own progression owns
+ * the load, and `Project Chimera` never overrides a value the athlete has moved.
+ */
+const seededWeight = (base: PlanConfig): NonNullable<PlanConfig['hooks']>['calculateWeight'] =>
+    (target, user, exerciseName, context) => {
+        const existing = base.hooks?.calculateWeight?.(target, user, exerciseName, context);
+        if (existing) return existing;
+
+        const entry = Object.values(EXERCISE_BY_ID).find(item => item.name.en === exerciseName || item.name.pl === exerciseName);
+        if (!entry) return undefined;
+        const seed = seedLoadFor(user?.stats, entry.id, String(target?.reps ?? '8'));
+        return seed ? String(seed.kg) : undefined;
+    };
+
 export const PROJECT_CHIMERA_CONFIG: PlanConfig = {
     ...base,
-    hooks: { ...base.hooks, preprocessDay: preprocess },
+    onboarding: { ...base.onboarding, seedStats: ['squat', 'flatBench', 'conventionalDeadlift'] },
+    hooks: { ...base.hooks, preprocessDay: preprocess, calculateWeight: seededWeight(base) },
     ui: { themeClass: 'theme-project-chimera', coverImage: '/projectchimera.png', navImage: '/projectchimera.png', dashboardWidgets: ['program_status', 'workout_history'] },
 };

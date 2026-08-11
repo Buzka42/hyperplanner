@@ -10,6 +10,7 @@
 import { definePlan, type DaySpec, type SlotSpec } from '../planBuilder';
 import type { PlanConfig, UserProfile, WorkoutDay } from '../../types';
 import { APPROVED_HINGES, gauntletFor } from '../../features/atlas/carries';
+import { seedLoadFor } from '../../features/onboarding/seedLoads';
 import { EXERCISE_BY_ID } from '../exercises/library';
 
 const double = { type: 'double' as const, increment: 2.5 };
@@ -118,8 +119,30 @@ const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
             : exercise) };
 };
 
+
+/**
+ * Opening loads from the maxes collected at onboarding.
+ *
+ * Only the first exposure: once a set is logged the plan's own progression owns
+ * the load, and `Atlas` never overrides a value the athlete has moved.
+ */
+const seededWeight = (base: PlanConfig): NonNullable<PlanConfig['hooks']>['calculateWeight'] =>
+    (target, user, exerciseName, context) => {
+        const existing = base.hooks?.calculateWeight?.(target, user, exerciseName, context);
+        if (existing) return existing;
+
+        const entry = Object.values(EXERCISE_BY_ID).find(item => item.name.en === exerciseName || item.name.pl === exerciseName);
+        if (!entry) return undefined;
+        const seed = seedLoadFor(user?.stats, entry.id, String(target?.reps ?? '8'));
+        return seed ? String(seed.kg) : undefined;
+    };
+
 export const ATLAS_CONFIG: PlanConfig = {
     ...one,
-    hooks: { ...one.hooks, preprocessDay: preprocess },
+    // Safety-bar squat, trap-bar deadlift and the standing press are heavy from
+    // week one, so the plan asks for the maxes behind them rather than letting
+    // the athlete guess. Both are optional.
+    onboarding: { ...one.onboarding, seedStats: ['squat', 'conventionalDeadlift', 'standingPress'] },
+    hooks: { ...one.hooks, preprocessDay: preprocess, calculateWeight: seededWeight(one) },
     ui: { themeClass: 'theme-atlas', coverImage: '/atlas.png', navImage: '/atlas.png', dashboardWidgets: ['program_status', 'workout_history'] },
 };

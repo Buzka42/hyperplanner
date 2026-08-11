@@ -57,6 +57,15 @@ for (const [id, plan] of Object.entries(PLAN_REGISTRY)) {
         `${id}: built by definePlan but has no onboarding.requiredStats — did definePlan stop populating it?`,
     );
 
+    // Seeded maxes are optional to enter but must still be askable and
+    // translated, or the form renders a raw i18n key next to a blank input.
+    for (const stat of plan.onboarding?.seedStats ?? []) {
+        check(
+            BENCHMARK_LIFTS[stat] !== undefined,
+            `${id}: seeds stats.${stat}, but BENCHMARK_LIFTS has no entry for it.`,
+        );
+    }
+
     for (const stat of required ?? []) {
         check(
             BENCHMARK_LIFTS[stat] !== undefined,

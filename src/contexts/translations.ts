@@ -613,7 +613,9 @@ export const translations = {
             benchmark: {
                 title: "Starting Numbers",
                 desc: "This plan prescribes loads as a percentage of your max. Enter what you know — anything you skip is calibrated in your first session.",
+                seedDesc: "These set your opening weights only. The plan progresses from what you actually log, so skip anything you are unsure of.",
                 unknownToggle: "I don't know this one",
+                seedHint: "Optional. Used only to set your opening weight — the plan takes over from your first logged set.",
                 unknownNote: "Your first working set of this lift will be a calibration set: start with a weight you could manage for about 8-10 reps, stop 2 reps short of failure, and the app sets your working loads from the result.",
                 howToFind: "How to find this number",
                 buildButton: "BUILD MY PROGRAM",
@@ -626,7 +628,9 @@ export const translations = {
                     wideGripBench: { label: "Wide-Grip Bench 1RM (kg)", hint: "Wider than your competition grip." },
                     spotoPress: { label: "Spoto Press 1RM (kg)", hint: "Paused just above the chest." },
                     lowPinPress: { label: "Low Pin Press 1RM (kg)", hint: "Dead stop at chest height." },
-                    btnPress: { label: "Behind-the-Neck Press 1RM (kg)", hint: "Only if you own the shoulder mobility." }
+                    btnPress: { label: "Behind-the-Neck Press 1RM (kg)", hint: "Only if you own the shoulder mobility." },
+                    flatBench: { label: "Bench Press 1RM (kg)", hint: "Touch and go, competition grip." },
+                    standingPress: { label: "Standing Press 1RM (kg)", hint: "Strict, from the shoulders, no leg drive." }
                 }
             },
 
@@ -2045,7 +2049,9 @@ export const translations = {
             benchmark: {
                 title: "Liczby startowe",
                 desc: "Ten plan wylicza ciężary jako procent twojego maksimum. Podaj to, co wiesz — resztę skalibrujemy na pierwszym treningu.",
+                seedDesc: "Te liczby ustawiają tylko ciężary startowe. Plan i tak prowadzi od tego, co faktycznie zapiszesz, więc pomiń to, czego nie jesteś pewien.",
                 unknownToggle: "Nie znam tej wartości",
+                seedHint: "Opcjonalne. Służy tylko do ustawienia ciężaru startowego — od pierwszej zapisanej serii plan przejmuje prowadzenie.",
                 unknownNote: "Twoja pierwsza seria robocza w tym boju będzie serią kalibracyjną: zacznij od ciężaru na jakieś 8-10 powtórzeń, skończ 2 powtórzenia przed upadkiem, a aplikacja ustawi ciężary robocze na podstawie wyniku.",
                 howToFind: "Jak znaleźć tę liczbę",
                 buildButton: "ZBUDUJ MÓJ PROGRAM",
@@ -2058,7 +2064,9 @@ export const translations = {
                     wideGripBench: { label: "Wyciskanie szerokim chwytem 1RM (kg)", hint: "Szerzej niż twój chwyt startowy." },
                     spotoPress: { label: "Spoto Press 1RM (kg)", hint: "Pauza tuż nad klatką." },
                     lowPinPress: { label: "Wyciskanie z niskich pinów 1RM (kg)", hint: "Martwy start na wysokości klatki." },
-                    btnPress: { label: "Wyciskanie zza karku 1RM (kg)", hint: "Tylko jeśli masz mobilność barków." }
+                    btnPress: { label: "Wyciskanie zza karku 1RM (kg)", hint: "Tylko jeśli masz mobilność barków." },
+                    flatBench: { label: "Wyciskanie leżąc 1RM (kg)", hint: "Bez pauzy, chwyt startowy." },
+                    standingPress: { label: "Wyciskanie stojąc 1RM (kg)", hint: "Ściśle z barków, bez pomocy nóg." }
                 }
             },
 

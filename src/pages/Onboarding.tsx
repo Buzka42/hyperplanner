@@ -137,7 +137,8 @@ export const Onboarding: React.FC = () => {
             // Plans whose progressions read no maxes have nothing to ask for.
             // Showing an empty form with one button reads like a broken step,
             // so enrol straight away instead.
-            if (!benchmarkLiftsFor(getPlan(pid).onboarding?.requiredStats).length) {
+            const planOnboarding = getPlan(pid).onboarding;
+            if (!benchmarkLiftsFor([...(planOnboarding?.requiredStats ?? []), ...(planOnboarding?.seedStats ?? [])]).length) {
                 void enrolWithoutBenchmarks(pid);
                 return;
             }
@@ -402,7 +403,8 @@ export const Onboarding: React.FC = () => {
         e.preventDefault();
         if (!selectedProgramId) return;
 
-        const lifts = benchmarkLiftsFor(getPlan(selectedProgramId).onboarding?.requiredStats);
+        const onboarding = getPlan(selectedProgramId).onboarding;
+        const lifts = benchmarkLiftsFor([...(onboarding?.requiredStats ?? []), ...(onboarding?.seedStats ?? [])]);
 
         const entered: Partial<LiftingStats> = {};
         const pendingCalibration: (keyof LiftingStats)[] = [];
@@ -1281,7 +1283,9 @@ export const Onboarding: React.FC = () => {
     // progressions, so this one form serves every declarative plan and asks for
     // nothing a plan doesn't actually read.
     if (step === 'benchmark') {
-        const lifts = benchmarkLiftsFor(getPlan(selectedProgramId ?? undefined).onboarding?.requiredStats);
+        const onboarding = getPlan(selectedProgramId ?? undefined).onboarding;
+        const lifts = benchmarkLiftsFor([...(onboarding?.requiredStats ?? []), ...(onboarding?.seedStats ?? [])]);
+        const seeded = new Set(onboarding?.seedStats ?? []);
         const allUnknown = lifts.length > 0 && lifts.every(({ stat }) => unknownStats.has(stat));
 
         return (
@@ -1295,7 +1299,14 @@ export const Onboarding: React.FC = () => {
                             <CardTitle className="text-2xl">{t('onboarding.benchmark.title')}</CardTitle>
                         </div>
                         {lifts.length > 0 && (
-                            <CardDescription>{t('onboarding.benchmark.desc')}</CardDescription>
+                            <CardDescription>
+                                {/* A plan that only seeds opening loads does not
+                                    prescribe by percentage, and saying it does
+                                    makes a skipped field look consequential. */}
+                                {lifts.every(({ stat }) => seeded.has(stat))
+                                    ? t('onboarding.benchmark.seedDesc')
+                                    : t('onboarding.benchmark.desc')}
+                            </CardDescription>
                         )}
                     </CardHeader>
                     <CardContent>
@@ -1320,7 +1331,9 @@ export const Onboarding: React.FC = () => {
                                             onChange={handleStatsChange}
                                         />
                                         <p className="text-xs text-muted-foreground">
-                                            {t(`onboarding.benchmark.lifts.${lift.key}.hint`)}
+                                            {seeded.has(stat)
+                                                ? t('onboarding.benchmark.seedHint')
+                                                : t(`onboarding.benchmark.lifts.${lift.key}.hint`)}
                                         </p>
                                         <label className="flex items-center gap-2 pt-1 cursor-pointer">
                                             <Checkbox
