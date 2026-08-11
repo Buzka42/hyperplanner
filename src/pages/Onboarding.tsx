@@ -134,6 +134,13 @@ export const Onboarding: React.FC = () => {
             // Previously this fell through to the Bench Domination stats form,
             // which enrolled the athlete in Bench Domination regardless of pick.
             setUnknownStats(new Set());
+            // Plans whose progressions read no maxes have nothing to ask for.
+            // Showing an empty form with one button reads like a broken step,
+            // so enrol straight away instead.
+            if (!benchmarkLiftsFor(getPlan(pid).onboarding?.requiredStats).length) {
+                void enrolWithoutBenchmarks(pid);
+                return;
+            }
             setStep('benchmark');
         }
     };
@@ -368,6 +375,29 @@ export const Onboarding: React.FC = () => {
      * `pendingCalibration` so the first prescribed exposure of that lift runs as
      * a calibration set rather than resolving its percentage against nothing.
      */
+    /**
+     * Enrols in a plan that asks for no maxes at all.
+     *
+     * Its loads come from double progression against the athlete's own logged
+     * sets, so there is nothing to collect and nothing to calibrate.
+     */
+    const enrolWithoutBenchmarks = async (planId: string) => {
+        const blankStats: LiftingStats = { pausedBench: 0, wideGripBench: 0, spotoPress: 0, lowPinPress: 0 };
+        try {
+            if (user) {
+                await updateUserProfile({ stats: user.stats ?? blankStats, pendingCalibration: [] });
+                await switchProgram(planId);
+            } else {
+                if (!codeword) throw new Error('No codeword found. Please restart.');
+                await registerUser(codeword, blankStats, planId, [], {}, undefined, { pendingCalibration: [] });
+            }
+            navigate('/app/dashboard');
+        } catch (err: unknown) {
+            console.error('Registration failed:', err);
+            alert('Failed to build program: ' + ((err as Error)?.message || 'Unknown error'));
+        }
+    };
+
     const handleBenchmarkSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!selectedProgramId) return;

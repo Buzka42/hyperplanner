@@ -1346,12 +1346,25 @@ export const WorkoutView: React.FC = () => {
                         ? (ex.notes.startsWith('t:') ? translated(ex.notes.substring(2)) : ex.notes)
                         : undefined;
 
+                    // `resolvedTips` arrives with the library cue already folded
+                    // in. Left alone it lands in the prescription layer and the
+                    // general layer is then dropped as a duplicate — which is
+                    // how a two-colour system renders in one colour. Pull the
+                    // movement's own cue back out so it can be its own layer.
+                    const generalTexts = new Set(
+                        [libraryEntry?.tip?.en, libraryEntry?.tip?.pl]
+                            .filter((text): text is string => !!text?.trim())
+                            .map(text => text.trim().replace(/\s+/g, ' ').toLowerCase().replace(/[.!]+$/, '')),
+                    );
+                    const planOnlyTips = resolvedTips.filter(text =>
+                        !generalTexts.has(text.trim().replace(/\s+/g, ' ').toLowerCase().replace(/[.!]+$/, '')));
+
                     const prescriptionSources: ({ en?: string; pl?: string } | undefined)[] = [
                         translated(warmupKey) ? { en: translated(warmupKey) } : undefined,
                         variantTip,
                         // Only when the variant path bypassed resolution; otherwise
                         // resolvedTips already carries the note.
-                        ...(variantTip ? [] : resolvedTips.map(text => ({ en: text }))),
+                        ...(variantTip ? [] : planOnlyTips.map(text => ({ en: text }))),
                         variantTip && planNote ? { en: planNote } : undefined,
                         pullupKey && translated(pullupKey) ? { en: translated(pullupKey) } : undefined,
                         (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") ? { en: t('tips.nordicSwapTip') } : undefined,

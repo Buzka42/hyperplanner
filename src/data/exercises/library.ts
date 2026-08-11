@@ -384,7 +384,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'calf-raise',
-        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Calf Raises', pl: 'Wspięcia na palce' },
         aliases: [],
         pattern: 'calf',
@@ -791,7 +791,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'ham-curl',
-        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Ham Curls', pl: 'Uginanie nóg' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -940,7 +940,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'hip-thrust',
-        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Hip Thrusts', pl: 'Hip thrust na maszynie' },
         aliases: ['Machine Hip Thrust'],
         pattern: 'hip-extension',
@@ -1500,7 +1500,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'row',
-        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Rows', pl: 'Wiosłowanie' },
         aliases: ['Rows (neutral grip)'],
         pattern: 'horizontal-pull',
@@ -1603,7 +1603,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'shoulder-press',
-        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Shoulder Press', pl: 'Wyciskanie nad głowę' },
         aliases: [],
         pattern: 'vertical-press',
@@ -1924,7 +1924,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'tricep-extension',
-        tip: { en: 'Accessory work for weak points. Double progression: 12 reps on all sets = +2.5 kg.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
         name: { en: 'Tricep Extensions', pl: 'Prostowanie ramion' },
         aliases: [],
         pattern: 'elbow-extension',
@@ -1982,7 +1982,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'wide-grip-bench-press',
-        tip: { en: 'Wide grip with elbows flared. Focus on deep stretch at the bottom. 📈 Hit top reps (8) on ALL sets for 2 straight weeks → +2.5 kg', pl: 'Szeroki chwyt z łokciami na zewnątrz. Skup się na głębokim rozciągnięciu na dole. 📈 Zrób max powt. (8) na WSZYSTKICH seriach przez 2 tygodnie z rzędu → +2.5 kg' },
+        tip: { en: 'Wide grip with the elbows flared. Touch under control and take the deep stretch at the bottom rather than bouncing out of it.', pl: 'Szeroki chwyt z łokciami na zewnątrz. Skup się na głębokim rozciągnięciu na dole. 📈 Zrób max powt. (8) na WSZYSTKICH seriach przez 2 tygodnie z rzędu → +2.5 kg' },
         name: { en: 'Wide-Grip Bench Press', pl: 'Wyciskanie szerokim chwytem' },
         aliases: [],
         pattern: 'horizontal-press',

@@ -99,14 +99,21 @@ export const resolveTips = (inputs: TipInputs, language: TipLanguage): ResolvedT
  */
 const PRESCRIPTION_MARKERS = [
     /\bweek\s*\d/i,
+    /\d+\s*(?:straight|consecutive)?\s*weeks?\b/i,
     /\brir\b/i,
     /\brpe\s*\d/i,
     /\b\d+\s*(?:x|×)\s*\d+/i,
     /\bset[s]?\s*\d/i,
+    /\ball sets\b/i,
     /\bamrap\b/i,
     /\btest day\b/i,
     /\bphase\b/i,
     /\b\d{2,3}\s*%/,
+    // Loading rules: "+2.5 kg", "→ 2.5 kg", "double progression … kg".
+    /[+→]\s*\d+(?:\.\d+)?\s*kg/i,
+    /\bprogress(?:es|ion)?\b[^.]*\bkg\b/i,
+    // Weekday scheduling belongs to the plan, not the movement.
+    /\b(?:mon|tue|wed|thu|fri|sat|sun)\b/i,
 ];
 
 export const looksLikePrescription = (text: string): boolean =>

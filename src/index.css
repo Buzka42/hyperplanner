@@ -1284,8 +1284,8 @@ b { font-weight: 600; }
 .ledger-tips svg { margin-top: .15rem; color: hsl(var(--muted-foreground)); }
 /* The two tip layers. No labels: the plan speaks in its own signal colour and
    the movement's general cue stays deliberately quieter beneath it. */
-.ledger-tips li.ledger-tip-prescription { color: hsl(var(--signal-text)); }
-.ledger-tips li.ledger-tip-prescription svg { color: hsl(var(--signal-text)); }
+.ledger-tips li.ledger-tip-prescription { color: var(--signal-text); }
+.ledger-tips li.ledger-tip-prescription svg { color: var(--signal-text); }
 .ledger-tips li.ledger-tip-general { color: hsl(var(--muted-foreground)); }
 .ledger-tips li.ledger-tip-general svg { color: hsl(var(--muted-foreground)); opacity: .8; }
 
@@ -1300,7 +1300,7 @@ b { font-weight: 600; }
   color: hsl(var(--foreground));
 }
 .admin-textarea:disabled { opacity: .5; }
-.admin-tip-warning { display: flex; gap: .4rem; align-items: center; font-size: .78rem; color: hsl(var(--signal-text)); }
+.admin-tip-warning { display: flex; gap: .4rem; align-items: center; font-size: .78rem; color: var(--signal-text); }
 .admin-tip-actions { display: flex; gap: .5rem; }
 .admin-tip-suppress { display: flex; gap: .5rem; align-items: flex-start; font-size: .8rem; color: hsl(var(--muted-foreground)); margin-top: .4rem; }
 
@@ -1309,7 +1309,7 @@ b { font-weight: 600; }
    introducing a second visual language. */
 .plan-finder-open {
   font-size: .82rem; letter-spacing: .04em; text-transform: uppercase;
-  color: hsl(var(--signal-text)); border-bottom: 1px solid currentColor; padding-bottom: 1px;
+  color: var(--signal-text); border-bottom: 1px solid currentColor; padding-bottom: 1px;
 }
 .plan-finder {
   border: 1px solid hsl(var(--border)); border-radius: .5rem; padding: 1.1rem 1.25rem;
@@ -1327,7 +1327,7 @@ b { font-weight: 600; }
   border: 1px solid hsl(var(--border)); border-radius: 999px; padding: .3rem .7rem;
   font-size: .8rem; color: hsl(var(--foreground)); background: transparent;
 }
-.plan-finder-chip.is-active { border-color: hsl(var(--primary)); color: hsl(var(--signal-text)); }
+.plan-finder-chip.is-active { border-color: hsl(var(--primary)); color: var(--signal-text); }
 .plan-finder-hint { font-size: .82rem; color: hsl(var(--muted-foreground)); }
 .plan-finder-results { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; }
 .plan-finder-results > li {
@@ -1337,7 +1337,7 @@ b { font-weight: 600; }
 .plan-finder-result-head span { font-size: .76rem; color: hsl(var(--muted-foreground)); }
 .plan-finder-reasons { display: grid; gap: .25rem; margin: 0; padding: 0; list-style: none; font-size: .82rem; }
 .plan-finder-reasons li { display: flex; gap: .4rem; align-items: baseline; }
-.plan-finder-reasons svg { color: hsl(var(--signal-text)); flex-shrink: 0; }
+.plan-finder-reasons svg { color: var(--signal-text); flex-shrink: 0; }
 .plan-finder-caveats { margin: 0; padding: 0; list-style: none; font-size: .78rem; color: hsl(var(--muted-foreground)); }
 
 .follow-ups {
@@ -1352,7 +1352,7 @@ b { font-weight: 600; }
 .follow-up-why { font-size: .78rem; color: hsl(var(--muted-foreground)); margin: .15rem 0 0; }
 .follow-up-action {
   display: inline-flex; align-items: center; gap: .35rem; margin-top: .3rem;
-  font-size: .8rem; color: hsl(var(--signal-text));
+  font-size: .8rem; color: var(--signal-text);
 }
 
 @media (max-width: 640px) {

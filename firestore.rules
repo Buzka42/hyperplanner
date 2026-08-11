@@ -151,8 +151,9 @@ service cloud.firestore {
           'trinaryStatus', 'ritualStatus', 'superMutantStatus', 'houseOfIronStatus', 'apexPredatorStatus', 'athenaStatus', 'kaliStatus', 'redlineStatus', 'ironClockStatus', 'minimumStatus', 'lazarusStatus', 'quadfatherStatus', 'cathedralStatus', 'blackoutStatus', 'atlasStatus', 'eventHorizonStatus', 'projectChimeraStatus', 'oracleStatus', 'programProgress', 'badges', 'gluteMeasurements',
           'pencilneckBenchHistory',
           // Exercise system
-          'trainingPreferences', 'exerciseSwaps', 'planPreferences', 'isTestAccount'
+          'trainingPreferences', 'exerciseSwaps', 'planPreferences', 'isTestAccount', 'pendingCalibration'
         ]) &&
+        (!('pendingCalibration' in data) || (data.pendingCalibration is list && data.pendingCalibration.size() <= 32)) &&
         (!('trainingPreferences' in data) || (data.trainingPreferences is map && data.trainingPreferences.size() <= 16)) &&
         (!('exerciseSwaps' in data) || (data.exerciseSwaps is map && data.exerciseSwaps.size() <= validPlanIds().size())) &&
         (!('planPreferences' in data) || (data.planPreferences is map && data.planPreferences.size() <= validPlanIds().size())) &&
