@@ -20,6 +20,8 @@ material; they are not implementation authority.
 - [Shared session and lifecycle engines](architecture/shared-session-engines.md)
 - [Exercise-tip authoring and audit](architecture/exercise-tip-authoring.md)
 - [AI integration](architecture/ai.md)
+- [Portfolio and recommendations](architecture/portfolio.md)
+- [Tip system](architecture/tips.md)
 - [Translation reference](../TRANSLATIONS.md)
 
 ## Implementation-ready plan specifications

@@ -110,6 +110,10 @@ export const diffAgainstSeed = (entry: LibraryExercise): LibraryOverlayEntry | n
         patch.name = { en: entry.name.en, pl: entry.name.pl };
         changed = true;
     }
+    if ((entry.tipStatus ?? null) !== (seed.tipStatus ?? null)) {
+        patch.tipStatus = entry.tipStatus ?? null;
+        changed = true;
+    }
     for (const key of ['pattern', 'weightMode', 'status', 'swapGroup'] as const) {
         if (entry[key] !== seed[key]) { patch[key] = entry[key]; changed = true; }
     }

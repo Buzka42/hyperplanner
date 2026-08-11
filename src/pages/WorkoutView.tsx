@@ -11,6 +11,7 @@ import { db } from '../firebase';
 import { cn } from '../lib/utils';
 import type { LiftingStats, WorkoutLog } from '../types';
 import { getVariantTip } from '../data/exercises/variantTips';
+import { resolveTips } from '../features/tips/resolve';
 import { resolveDay } from '../lib/planResolution';
 import { PrescriptionBadges } from '../features/workout/PrescriptionBadges';
 import { RestTimer } from '../features/workout/RestTimer';
@@ -1307,98 +1308,60 @@ export const WorkoutView: React.FC = () => {
                     const weightDisabled = isDragonFlag || isNordic || isAroundWorlds || isPlank;
 
 
-                    // Tip Logic
-                    // Tip Logic
-                    const displayTips: string[] = [];
-
-                    // Movement cue from the exercise library, plus any
-                    // prescription-specific variant tip for this exact name.
-                    // Replaces the 110-line tipMap that used to be rebuilt here
-                    // on every render, for every exercise.
+                    // --- tips -------------------------------------------
+                    // Two layers, resolved once: the plan's prescription cues
+                    // for this set, then the movement's own coaching cue. See
+                    // src/features/tips/resolve.ts for the precedence rules.
                     const libraryEntry = exerciseResolver.resolve(ex.name);
                     const variantTip = getVariantTip(ex.name, weekNum);
-                    // Populated by resolveDay: library cue + plan override + notes.
+                    // resolveDay already merged the library cue, any plan-scoped
+                    // override and the plan's own notes into these.
                     const resolvedTips: string[] = (ex as { tips?: string[] }).tips ?? [];
 
-                    // Add general warm-up tip FIRST for bench/squat/deadlift exercises
-                    // Skip for base "Paused Bench Press" in Bench Domination (its specific tip already includes warmup)
-                    const isBenchVariation = ex.name.toLowerCase().includes('bench');
-                    const isSquatVariation = ex.name.toLowerCase().includes('squat') && ex.name !== 'Hack Squat Calf Raises';
-                    const isDeadliftVariation = ex.name.toLowerCase().includes('deadlift');
-                    const skipGeneralWarmup = ex.name === "Paused Bench Press" && programData.id === 'bench-domination';
+                    // Bar warm-up ramps are prescription content: they describe
+                    // how today's heavy set is approached, not how the movement
+                    // is performed.
+                    const warmupKey = ex.name === "Paused Bench Press" && programData.id === 'bench-domination'
+                        ? undefined
+                        : ex.name.toLowerCase().includes('bench') ? 'tips.warmupBench'
+                            : ex.name.toLowerCase().includes('squat') && ex.name !== 'Hack Squat Calf Raises' ? 'tips.warmupSquat'
+                                : ex.name.toLowerCase().includes('deadlift') ? 'tips.warmupDeadlift'
+                                    : undefined;
+                    const translated = (key?: string) => {
+                        if (!key) return undefined;
+                        const value = t(key);
+                        return value && value !== key ? value : undefined;
+                    };
 
-                    if (isBenchVariation && !skipGeneralWarmup) {
-                        const warmupBenchTip = t('tips.warmupBench');
-                        if (warmupBenchTip && warmupBenchTip !== 'tips.warmupBench') {
-                            displayTips.push(warmupBenchTip);
-                        }
-                    } else if (isSquatVariation) {
-                        const warmupSquatTip = t('tips.warmupSquat');
-                        if (warmupSquatTip && warmupSquatTip !== 'tips.warmupSquat') {
-                            displayTips.push(warmupSquatTip);
-                        }
-                    } else if (isDeadliftVariation) {
-                        const warmupDeadliftTip = t('tips.warmupDeadlift');
-                        if (warmupDeadliftTip && warmupDeadliftTip !== 'tips.warmupDeadlift') {
-                            displayTips.push(warmupDeadliftTip);
-                        }
-                    }
-
-                    // A variant tip describes how this particular set is run
-                    // (ME, Light, Ascension Test, E2MOM) and wins over the
-                    // movement's general cue.
-                    if (variantTip) {
-                        const variantText = variantTip[language] || variantTip.en;
-                        if (variantText) displayTips.push(variantText);
-                    } else if (resolvedTips.length) {
-                        // Resolution already merged the library cue, any
-                        // plan-scoped override, and the plan's own notes.
-                        displayTips.push(...resolvedTips);
-                    } else {
-                        const fallback = libraryEntry?.tip;
-                        const fallbackText = fallback?.[language] || fallback?.en;
-                        if (fallbackText) displayTips.push(fallbackText);
-                    }
-
-                    // Add Nordic/Glute-Ham swap tip for both original and alternative
-                    if (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") {
-                        displayTips.push(t('tips.nordicSwapTip'));
-
-                    }
-
+                    let pullupKey: string | undefined;
                     if (ex.name.includes("Pull-ups") && programData.id === 'bench-domination') {
-                        let pKey: string | null = null;
-                        if (weekNum <= 3) pKey = "pullupWeeks1to3";
-                        else if (weekNum <= 6) pKey = "pullupWeeks4to6";
-                        else if (weekNum <= 9) pKey = "pullupWeeks7to9";
-                        else if (weekNum === 10) pKey = "pullupWeek10";
-                        else if (weekNum >= 11) pKey = "pullupWeeks11to12";
-
-                        if (pKey) {
-                            const pullupTip = t(`tips.${pKey}`);
-                            if (pullupTip && pullupTip !== `tips.${pKey}`) {
-                                displayTips.push(pullupTip);
-                            }
-                        }
+                        pullupKey = weekNum <= 3 ? 'tips.pullupWeeks1to3'
+                            : weekNum <= 6 ? 'tips.pullupWeeks4to6'
+                                : weekNum <= 9 ? 'tips.pullupWeeks7to9'
+                                    : weekNum === 10 ? 'tips.pullupWeek10'
+                                        : 'tips.pullupWeeks11to12';
                     }
 
-                    // Plan notes. resolveDay already folded these into
-                    // resolvedTips, so only add them on the paths that bypassed it.
-                    if (ex.notes && !resolvedTips.length) {
-                        if (ex.notes.startsWith('t:')) {
-                            const noteKey = ex.notes.substring(2);
-                            const translatedNote = t(noteKey);
-                            if (translatedNote && translatedNote !== noteKey) {
-                                displayTips.push(translatedNote);
-                            }
-                        } else {
-                            displayTips.push(ex.notes);
-                        }
-                    } else if (ex.notes && variantTip) {
-                        // Variant path skipped resolvedTips; keep the plan note.
-                        const noteText = ex.notes.startsWith('t:') ? t(ex.notes.substring(2)) : ex.notes;
-                        if (noteText && noteText !== ex.notes.substring(2)) displayTips.push(noteText);
-                    }
+                    const planNote = ex.notes
+                        ? (ex.notes.startsWith('t:') ? translated(ex.notes.substring(2)) : ex.notes)
+                        : undefined;
+
+                    const prescriptionSources: ({ en?: string; pl?: string } | undefined)[] = [
+                        translated(warmupKey) ? { en: translated(warmupKey) } : undefined,
+                        variantTip,
+                        // Only when the variant path bypassed resolution; otherwise
+                        // resolvedTips already carries the note.
+                        ...(variantTip ? [] : resolvedTips.map(text => ({ en: text }))),
+                        variantTip && planNote ? { en: planNote } : undefined,
+                        pullupKey && translated(pullupKey) ? { en: translated(pullupKey) } : undefined,
+                        (ex.name === "Nordic Curls" || ex.name === "Glute-Ham Raise") ? { en: t('tips.nordicSwapTip') } : undefined,
+                    ];
+
+                    const tips = resolveTips({
+                        general: libraryEntry?.tip,
+                        prescription: prescriptionSources,
+                        suppressGeneral: (ex as { suppressGeneralTip?: boolean }).suppressGeneralTip,
+                    }, language as 'en' | 'pl');
 
                     let advice = prevStat?.advice || "";
 
@@ -1453,11 +1416,21 @@ export const WorkoutView: React.FC = () => {
                                 </dl>
                             ) : null}
 
-                            {displayTips.length > 0 && (
+                            {(tips.prescription.length > 0 || tips.general) && (
                                 <ul className="ledger-tips">
-                                    {displayTips.map((tip, i) => (
-                                        <li key={i}><AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" /><span>{tip}</span></li>
+                                    {/* Order and colour carry the distinction:
+                                        the plan speaks first in its own accent,
+                                        the movement's cue follows, quieter. */}
+                                    {tips.prescription.map((tip, i) => (
+                                        <li key={`p${i}`} className="ledger-tip-prescription">
+                                            <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" /><span>{tip}</span>
+                                        </li>
                                     ))}
+                                    {tips.general && (
+                                        <li className="ledger-tip-general">
+                                            <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" /><span>{tips.general}</span>
+                                        </li>
+                                    )}
                                 </ul>
                             )}
 

@@ -263,6 +263,12 @@ export type LibraryExercise = {
 
     /** The single canonical coaching cue. Merged from the four legacy tip sources. */
     tip?: LocalizedText;
+    /**
+     * Audit state of the general cue. `draft` means Codex-authored English
+     * awaiting the owner's training-content review; Polish is written only
+     * after approval, so a rejected cue never becomes a translation source.
+     */
+    tipStatus?: 'draft' | 'approved';
     /** Longer setup instructions, shown in the exercise detail sheet. */
     setupNotes?: LocalizedText;
 
@@ -385,10 +391,19 @@ export type PlanExerciseConfig = {
     swap?: SwapRule;
     userExtraSets?: UserExtraSetsRule;
 
-    /** Replaces the library tip for this plan only. */
+    /**
+     * Plan/slot prescription cue. Rendered first, in the plan accent.
+     *
+     * Despite the name it no longer replaces the general cue — the two are
+     * separate layers, and removing the general one requires
+     * `suppressGeneralTip`. The name is kept so stored plan configs keep
+     * resolving.
+     */
     tipOverride?: LocalizedText;
-    /** Appended after the library tip for this plan only. */
+    /** Extends the general cue rather than replacing it. */
     tipAppend?: LocalizedText;
+    /** Exceptional, explicit removal of the general cue for this plan. */
+    suppressGeneralTip?: boolean;
 
     groupId?: string;
     /** Display role within the group, e.g. 'A1' | 'A2' | 'B1'. */
@@ -511,6 +526,8 @@ export type ResolvedExercise = {
     displayName: string;
     /** Fully resolved tip strings, ready to render. */
     tips: string[];
+    /** Set by a plan that explicitly hides the movement's general cue. */
+    suppressGeneralTip?: boolean;
 
     /** Set count the plan prescribed, before user extras. Progression reads this. */
     baseSets: number;

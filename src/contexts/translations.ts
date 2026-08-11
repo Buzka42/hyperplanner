@@ -335,6 +335,7 @@ export const translations = {
             // Program Selection
             selectProtocol: "Select Your Protocol",
             choosePath: "Choose the path to your transformation.",
+            helpMeChoose: "Help me choose",
 
             // Program Cards
             programs: {
@@ -1766,6 +1767,7 @@ export const translations = {
         onboarding: {
             selectProtocol: "Wybierz swój protokół",
             choosePath: "Krok 2: Wybierz program transformacji.",
+            helpMeChoose: "Pomóż mi wybrać",
 
             programs: {
                 benchDomination: {

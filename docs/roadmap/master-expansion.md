@@ -484,7 +484,7 @@ These belong to the same master program as the 12 concepts.
 
 ---
 
-## 8. Tip system
+## 8. Tip system *(implemented 2026-08-11; owner audit outstanding)*
 
 Canonical sources:
 
@@ -566,11 +566,12 @@ mode switches, reruns, fatigue responses and deloads.
 1. F0–F3: baseline, progression extraction, library normalization, metadata.
 2. F4–F6: PerformanceProfile, lifecycle/preferences and shared session engines.
 3. House of Iron, Apex Predator, Venus, Athena, Kali and REDLINE.
-4. Tip Admin + English audit and full artwork-derived theme pass.
+4. Tip Admin + English audit and full artwork-derived theme pass. *(system and
+   drafts shipped; the English audit itself is the owner's pass)*
 5. THE MINIMUM, LAZARUS, QUADFATHER, CATHEDRAL, IRON CLOCK.
 6. BLACKOUT, MONOLITH, ATLAS.
 7. PROJECT CHIMERA, ORACLE, EVENT HORIZON.
-8. Portfolio recommendation system and end-of-plan follow-ups.
+8. Portfolio recommendation system and end-of-plan follow-ups. *(shipped)*
 9. Super Mutant indefinite-pool redesign. *(shipped as an opt-in mode)*
 10. Optional Ghost feasibility prototype only. *(video analysis shipped inside
     Apex; on-device signals not attempted)*
@@ -581,7 +582,7 @@ pre-implementation confirmation round.
 
 ---
 
-## 12. Catalogue and follow-ups
+## 12. Catalogue and follow-ups *(implemented 2026-08-11)*
 
 - Maintain a formal portfolio matrix: goal, experience, frequency, equipment,
   adaptability, fatigue, signature mechanic, prerequisites and “not for you if”.

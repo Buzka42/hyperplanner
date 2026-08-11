@@ -20,6 +20,8 @@
     "verify:library": "npx --yes tsx scripts/verify-library.ts",
     "migrate:tips": "npx --yes tsx scripts/migrate-tips.ts",
     "apply:tips": "npx --yes tsx scripts/apply-tips.ts",
+    "verify:portfolio": "npx --yes tsx scripts/verify-portfolio.ts",
+    "verify:tips": "npx --yes tsx scripts/verify-tips.ts",
     "verify:tip-coverage": "npx --yes tsx scripts/verify-tip-coverage.ts",
     "verify:tip-equivalence": "npx --yes tsx scripts/verify-tip-equivalence.ts",
     "verify:volume": "npx --yes tsx scripts/verify-volume.ts",

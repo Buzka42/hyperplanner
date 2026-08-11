@@ -432,13 +432,20 @@ export const PlanComposerTab: React.FC = () => {
                                         </div>
 
                                         <div className="admin-tip-edit">
-                                            <Label htmlFor={`tip-${movement.id}`}>Tip for this plan</Label>
-                                            {library?.tip?.en && (
-                                                <p className="admin-tip-default">Library default: {library.tip.en}</p>
+                                            <Label htmlFor={`tip-${movement.id}`}>Plan guidance for this movement</Label>
+                                            {/* The inherited cue is shown while authoring so plan
+                                                guidance is written against what the athlete will
+                                                actually see, rather than blind. */}
+                                            {library?.tip?.en ? (
+                                                <p className="admin-tip-default">
+                                                    Movement cue (shown second, quieter): {library.tip.en}
+                                                </p>
+                                            ) : (
+                                                <p className="admin-tip-default">This movement has no general cue yet.</p>
                                             )}
                                             <Input
                                                 id={`tip-${movement.id}`}
-                                                placeholder="Leave empty to use the library tip"
+                                                placeholder="Shown first, in the plan accent. Leave empty for none."
                                                 value={config.tipOverride?.en ?? ''}
                                                 onChange={e => patch(movement.id, {
                                                     tipOverride: e.target.value
@@ -447,13 +454,37 @@ export const PlanComposerTab: React.FC = () => {
                                                 })}
                                             />
                                             <Input
-                                                aria-label="Polish tip for this plan"
+                                                aria-label="Polish plan guidance"
                                                 placeholder="Polish (optional)"
                                                 value={config.tipOverride?.pl ?? ''}
                                                 onChange={e => patch(movement.id, {
                                                     tipOverride: { en: config.tipOverride?.en ?? '', pl: e.target.value },
                                                 })}
                                             />
+
+                                            <Label htmlFor={`tip-append-${movement.id}`}>Append to the movement cue</Label>
+                                            <Input
+                                                id={`tip-append-${movement.id}`}
+                                                placeholder="Extends the general cue rather than replacing it"
+                                                value={config.tipAppend?.en ?? ''}
+                                                onChange={e => patch(movement.id, {
+                                                    tipAppend: e.target.value
+                                                        ? { en: e.target.value, pl: config.tipAppend?.pl ?? '' }
+                                                        : undefined,
+                                                })}
+                                            />
+
+                                            {/* Suppression is exceptional and explicit. Plan guidance
+                                                no longer deletes the movement cue as a side effect —
+                                                that quietly removed safety-relevant coaching. */}
+                                            <label className="admin-tip-suppress">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={Boolean(config.suppressGeneralTip)}
+                                                    onChange={e => patch(movement.id, { suppressGeneralTip: e.target.checked || undefined })}
+                                                />
+                                                <span>Hide the movement cue for this plan — only when showing both would mislead.</span>
+                                            </label>
                                         </div>
 
                                         {customised && (

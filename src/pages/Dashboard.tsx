@@ -19,11 +19,13 @@ import { HouseDashboard } from '../features/houseOfIron/HouseDashboard';
 import { ApexDashboard } from '../features/apexPredator/ApexDashboard';
 import { VenusDashboard } from '../features/venusRising/VenusDashboard';
 import { AthenaDashboard } from '../features/athena/AthenaDashboard';
+import { FollowUps } from '../features/portfolio/FollowUps';
+import { ORDERED_PLAN_META } from '../data/planMeta';
 import { KaliDashboard } from '../features/kali/KaliDashboard';
 
 export const Dashboard: React.FC = () => {
     const { user, activePlanConfig, updateUserProfile } = useUser();
-    const { t, tArray } = useLanguage();
+    const { t, tArray, tObject } = useLanguage();
     const location = useLocation();
     const navigate = useNavigate();
     const [completedSet, setCompletedSet] = useState<Set<string>>(new Set());
@@ -279,8 +281,25 @@ export const Dashboard: React.FC = () => {
         return { title: <>{lead} {target}</>, tagline: `${t('dashboard.welcomeBack')}, ${user?.codeword}.` };
     })();
 
+    /**
+     * A plan counts as finished when its own weeks are all behind the athlete.
+     * Follow-ups are offered only then — never as a mid-plan nudge.
+     */
+    const planCompleted = viewWeek > (activePlanConfig.program.weeks.length || Infinity);
+
     return (
         <div className="instrument-page space-y-8 relative">
+            <FollowUps
+                planId={activePlanConfig.id}
+                completed={planCompleted}
+                availablePlanIds={user.allowedPlanIds}
+                daysPerWeek={user.selectedDays?.length}
+                planName={planId => {
+                    const meta = ORDERED_PLAN_META.find(item => item.id === planId);
+                    const copy = meta ? tObject(`onboarding.programs.${meta.i18nKey}`) : undefined;
+                    return (copy as { name?: string })?.name ?? planId;
+                }}
+            />
             {completionType && (() => {
                 const badgeId = completionType === 'skeleton' ? 'certified_threat' : 'certified_boulder';
                 const badge = BADGES.find(b => b.id === badgeId);

@@ -19,6 +19,7 @@ import { RITUAL_CONFIG } from '../data/ritual';
 import { SUPER_MUTANT_PROGRAM } from '../data/supermutant';
 import { ADVENTURE_PLAN_ID } from '../data/adventure';
 import { ORDERED_PLAN_META } from '../data/planMeta';
+import { PlanFinder } from '../features/portfolio/PlanFinder';
 import { getPlan } from '../data/plans';
 import { benchmarkLiftsFor } from '../data/benchmarkLifts';
 import { cn } from '../lib/utils';
@@ -39,6 +40,8 @@ export const Onboarding: React.FC = () => {
     const isPlanAllowed = (id: string) => !allowedPlanIds || allowedPlanIds.includes(id);
 
     const [step, setStep] = useState<Step>('program');
+    // Opt-in helper over the catalogue; the grid remains the default surface.
+    const [showFinder, setShowFinder] = useState(false);
     const [selectedProgramId, setSelectedProgramId] = useState<string | null>(null);
     const [selectedDays, setSelectedDays] = useState<number[]>([]);
     const [preferences, setPreferences] = useState<Record<string, string>>({
@@ -410,7 +413,27 @@ export const Onboarding: React.FC = () => {
                     <div className="text-center space-y-2">
                         <h1 className="text-3xl font-bold tracking-tight">{t('onboarding.selectProtocol')}</h1>
                         <p className="text-muted-foreground">{t('onboarding.choosePath')}</p>
+                        {/* Optional, and never in the way: the catalogue below
+                            stays the primary surface. */}
+                        {!showFinder && (
+                            <button className="plan-finder-open" onClick={() => setShowFinder(true)}>
+                                {t('onboarding.helpMeChoose')}
+                            </button>
+                        )}
                     </div>
+
+                    {showFinder && (
+                        <PlanFinder
+                            availablePlanIds={ORDERED_PLAN_META.filter(meta => isPlanAllowed(meta.id)).map(meta => meta.id)}
+                            planName={planId => {
+                                const meta = ORDERED_PLAN_META.find(item => item.id === planId);
+                                const copy = meta ? tObject(`onboarding.programs.${meta.i18nKey}`) : undefined;
+                                return (copy as { name?: string })?.name ?? planId;
+                            }}
+                            onPick={handleProgramSelect}
+                            onDismiss={() => setShowFinder(false)}
+                        />
+                    )}
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {ORDERED_PLAN_META.filter(meta => isPlanAllowed(meta.id)).map(meta => {

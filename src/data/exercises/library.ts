@@ -17,6 +17,7 @@
 import type { LibraryExercise } from './types';
 import { buildExerciseIntelligence } from './exerciseIntelligence';
 import { LIBRARY_ADDITIONS } from './libraryAdditions';
+import { TIP_DRAFTS_EN } from './tipDrafts';
 
 /** Movements harvested from the original nine plans. */
 const CORE_LIBRARY: LibraryExercise[] = [
@@ -193,7 +194,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'barbell-squat',
-        tip: { en: 'Every rep must break parallel. Add 2.5 kg when you hit 3×10.', pl: 'Na każdym powtórzeniu kąt w kolanie musi zejść poniżej 90°. Dodaj 2.5 kg, gdy zrobisz 3×10.' },
+        tip: { en: 'Every rep breaks parallel. Depth is the standard the set is judged by — when it shortens, the set is over.', pl: 'Każde powtórzenie schodzi poniżej równoległej. To głębokość decyduje o serii — gdy się skraca, seria jest skończona.' },
         name: { en: 'Barbell Squat', pl: 'Przysiad ze sztangą' },
         aliases: ['Squats'],
         pattern: 'squat',
@@ -647,7 +648,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'farmer-hold',
-        tip: { en: 'Mandatory grip work on deadlift days. Farmer Holds or Fat Grip Deadlift Holds 3×20-30 sec @ bodyweight or light. Progress time or weight when easy.', pl: 'Trening chwytu. Farmer Holds lub Fat Grip Deadlift Holds 3×20-30 sek @ waga ciała lub lżejsza. Progresja: +czas lub +ciężar jeśli zbyt łatwe.' },
+        tip: { en: 'Stand tall with the shoulders packed and the ribs down. End the hold when posture breaks, not when the grip finally gives out.', pl: 'Stój wyprostowany, barki ściągnięte, żebra w dół. Zakończ, gdy traci się postawę, a nie dopiero gdy puści chwyt.' },
         name: { en: 'Farmer Holds', pl: 'Farmer\'s hold (przytrzymanie)' },
         aliases: [],
         pattern: 'carry',
@@ -2021,10 +2022,17 @@ const CORE_LIBRARY: LibraryExercise[] = [
  */
 const EXERCISE_SEED: LibraryExercise[] = [...CORE_LIBRARY, ...LIBRARY_ADDITIONS];
 
-export const EXERCISE_LIBRARY: LibraryExercise[] = EXERCISE_SEED.map(exercise => ({
-    ...exercise,
-    intelligence: buildExerciseIntelligence(exercise),
-}));
+export const EXERCISE_LIBRARY: LibraryExercise[] = EXERCISE_SEED.map(exercise => {
+    // Drafted cues fill gaps only; an existing approved tip always wins, so
+    // promoting a draft is a matter of moving the text and deleting the draft.
+    const draft = exercise.tip?.en?.trim() ? undefined : TIP_DRAFTS_EN[exercise.id];
+    return {
+        ...exercise,
+        ...(draft ? { tip: { ...exercise.tip, en: draft, pl: exercise.tip?.pl ?? '' }, tipStatus: 'draft' as const } : {}),
+        ...(!draft && exercise.tip?.en?.trim() && !exercise.tipStatus ? { tipStatus: 'approved' as const } : {}),
+        intelligence: buildExerciseIntelligence(exercise),
+    };
+});
 
 /** Fast id lookup. */
 export const EXERCISE_BY_ID: Record<string, LibraryExercise> = Object.fromEntries(
