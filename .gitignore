@@ -41,3 +41,6 @@ __pycache__/
 
 # Cloud Functions dependencies are installed at deploy time.
 functions/node_modules
+
+# Firebase CLI deploy cache
+.firebase/
