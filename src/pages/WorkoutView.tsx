@@ -1226,6 +1226,17 @@ export const WorkoutView: React.FC = () => {
                             <dt>{t('workout.set')}</dt>
                             <dd>{activeSetIndex + 1}/{activeSets.length}</dd>
                         </div>
+                        {/* The rep range lived only on the exercise card below,
+                            so the console you actually type into never said what
+                            it was asking for. */}
+                        {activeExercise.target.reps && (
+                            <div>
+                                <dt>{t('workout.prescription.target')}</dt>
+                                <dd>{activeExercise.target.reps === "Failure"
+                                    ? t('common.failure')
+                                    : `${activeExercise.target.reps} ${t('workout.reps')}`}</dd>
+                            </div>
+                        )}
                         {activePreviousStat && activePreviousStat.weight !== "-" && (
                             <div>
                                 <dt>{t('workout.last')}</dt>

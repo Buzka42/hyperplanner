@@ -112,6 +112,37 @@ export const translations = {
             addSet: "Add set",
             removeSet: "Remove set",
             extraSetNote: "Extra sets are yours to add — the plan doesn't expect them.",
+            // Prescription chips. The hover/screen-reader copy explains what
+            // "40X0" and "90s" mean, so it has to speak the athlete's language.
+            prescription: {
+                target: "Target",
+                supersetTitle: "Superset {role} — alternate sets with {partners}. Do one set of each, then rest.",
+                groupTitle: "Group {role}",
+                with: "with {partners}",
+                tempo: "Tempo",
+                tempoTitle: "Tempo — seconds per phase: lowering : pause at the bottom : lifting : pause at the top. X means move it as fast as you can.",
+                rest: "Rest",
+                restTitle: "Rest between sets of this exercise, before the next one starts.",
+                restPairTitle: "Rest after the pair, once both movements are done. Move straight between them.",
+                techniqueTitle: "Finishing technique for this exercise.",
+            },
+            restTimer: {
+                add30: "Add 30 seconds",
+                pause: "Pause rest timer",
+                resume: "Resume rest timer",
+                skipLabel: "Skip rest",
+                skip: "Skip",
+            },
+            swapSheet: {
+                title: "Swap {name}",
+                policyAny: "Any movement that trains the same pattern.",
+                policyGroup: "Alternatives your coach grouped with this movement.",
+                policyPool: "Alternatives your coach approved.",
+                close: "Close",
+                search: "Search alternatives",
+                reset: "Back to the plan's own choice",
+                empty: "No alternatives match.",
+            },
         },
 
         // ========================================
@@ -1554,6 +1585,35 @@ export const translations = {
             addSet: "Dodaj serię",
             removeSet: "Usuń serię",
             extraSetNote: "Dodatkowe serie dodajesz sam — plan ich nie przewiduje.",
+            prescription: {
+                target: "Cel",
+                supersetTitle: "Superseria {role} — wykonuj serie naprzemiennie z: {partners}. Po jednej serii każdego ćwiczenia, potem przerwa.",
+                groupTitle: "Grupa {role}",
+                with: "z: {partners}",
+                tempo: "Tempo",
+                tempoTitle: "Tempo — sekundy na fazę: opuszczanie : pauza na dole : podnoszenie : pauza na górze. X oznacza możliwie najszybciej.",
+                rest: "Przerwa",
+                restTitle: "Przerwa między seriami tego ćwiczenia, przed rozpoczęciem kolejnej.",
+                restPairTitle: "Przerwa po całej parze, gdy oba ruchy są zrobione. Między nimi przechodzisz od razu.",
+                techniqueTitle: "Technika kończąca dla tego ćwiczenia.",
+            },
+            restTimer: {
+                add30: "Dodaj 30 sekund",
+                pause: "Zatrzymaj licznik przerwy",
+                resume: "Wznów licznik przerwy",
+                skipLabel: "Pomiń przerwę",
+                skip: "Pomiń",
+            },
+            swapSheet: {
+                title: "Zamień: {name}",
+                policyAny: "Dowolny ruch trenujący ten sam wzorzec.",
+                policyGroup: "Alternatywy zgrupowane z tym ruchem przez trenera.",
+                policyPool: "Alternatywy zatwierdzone przez trenera.",
+                close: "Zamknij",
+                search: "Szukaj alternatyw",
+                reset: "Wróć do wyboru planu",
+                empty: "Brak pasujących alternatyw.",
+            },
         },
 
         dayNames: {

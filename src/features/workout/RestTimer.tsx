@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Pause, Play, Plus, X } from 'lucide-react';
 
+import { useLanguage } from '../../contexts/useTranslation';
 import { formatRest } from './formatRest';
 
 /**
@@ -23,6 +24,7 @@ export const RestTimer: React.FC<{
     autoStart?: boolean;
     onDismiss: () => void;
 }> = ({ seconds, label, autoStart = true, onDismiss }) => {
+    const { t } = useLanguage();
     const [remaining, setRemaining] = useState(seconds);
     const [running, setRunning] = useState(autoStart);
 
@@ -101,14 +103,14 @@ export const RestTimer: React.FC<{
                     {label && <span className="rest-timer-label">{label}</span>}
                 </div>
                 <div className="rest-timer-actions">
-                    <button type="button" onClick={extend} aria-label="Add 30 seconds">
+                    <button type="button" onClick={extend} aria-label={t('workout.restTimer.add30')}>
                         <Plus className="h-4 w-4" aria-hidden="true" /><span>30s</span>
                     </button>
-                    <button type="button" onClick={toggle} aria-label={running ? 'Pause rest timer' : 'Resume rest timer'}>
+                    <button type="button" onClick={toggle} aria-label={t(running ? 'workout.restTimer.pause' : 'workout.restTimer.resume')}>
                         {running ? <Pause className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}
                     </button>
-                    <button type="button" onClick={onDismiss} aria-label="Skip rest" className="is-skip">
-                        <X className="h-4 w-4" aria-hidden="true" /><span>Skip</span>
+                    <button type="button" onClick={onDismiss} aria-label={t('workout.restTimer.skipLabel')} className="is-skip">
+                        <X className="h-4 w-4" aria-hidden="true" /><span>{t('workout.restTimer.skip')}</span>
                     </button>
                 </div>
             </div>

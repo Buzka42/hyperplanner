@@ -3,6 +3,7 @@ import { Repeat2, Timer, Zap } from 'lucide-react';
 
 import { techniqueLabel } from '../../data/planBuilder';
 import type { IntensityTechniqueSpec } from '../../data/exercises/types';
+import { useLanguage } from '../../contexts/useTranslation';
 import { formatRest } from './formatRest';
 
 /**
@@ -30,10 +31,6 @@ export const formatTempo = (tempo: string): string => {
     return /^[0-9X]{4}$/.test(cleaned) ? cleaned.split('').join(':') : tempo;
 };
 
-const TEMPO_TITLE = 'Tempo — seconds per phase: lowering : pause at the bottom : lifting : pause at the top. X means move it as fast as you can.';
-const REST_TITLE = 'Rest between sets of this exercise, before the next one starts.';
-const REST_PAIR_TITLE = 'Rest after the pair, once both movements are done. Move straight between them.';
-
 export const PrescriptionBadges: React.FC<{
     pairRole?: string;
     /** Display names of the movements this one alternates with. */
@@ -43,6 +40,7 @@ export const PrescriptionBadges: React.FC<{
     technique?: IntensityTechniqueSpec;
     className?: string;
 }> = ({ pairRole, pairPartners = [], tempo, restSeconds, technique, className }) => {
+    const { t } = useLanguage();
     const hasTechnique = technique && technique.kind !== 'none';
     if (!pairRole && !tempo && !restSeconds && !hasTechnique) return null;
 
@@ -57,29 +55,36 @@ export const PrescriptionBadges: React.FC<{
                 <span
                     className={supersetted ? 'prescription-badge is-pair is-superset' : 'prescription-badge is-pair'}
                     title={supersetted
-                        ? `Superset ${pairRole} — alternate sets with ${partnerText}. Do one set of each, then rest.`
-                        : `Group ${pairRole}`}
+                        ? t('workout.prescription.supersetTitle', { role: pairRole, partners: partnerText })
+                        : t('workout.prescription.groupTitle', { role: pairRole })}
                 >
                     <Repeat2 className="h-3.5 w-3.5" aria-hidden="true" />
                     <span className="prescription-badge-key">{pairRole}</span>
-                    {supersetted && <span className="prescription-badge-partner">with {partnerText}</span>}
+                    {supersetted && (
+                        <span className="prescription-badge-partner">
+                            {t('workout.prescription.with', { partners: partnerText })}
+                        </span>
+                    )}
                 </span>
             )}
             {tempo && (
-                <span className="prescription-badge is-tempo" title={TEMPO_TITLE}>
-                    <span className="prescription-badge-key">Tempo</span>
+                <span className="prescription-badge is-tempo" title={t('workout.prescription.tempoTitle')}>
+                    <span className="prescription-badge-key">{t('workout.prescription.tempo')}</span>
                     <span className="prescription-badge-value">{formatTempo(tempo)}</span>
                 </span>
             )}
             {typeof restSeconds === 'number' && restSeconds > 0 && (
-                <span className="prescription-badge is-rest" title={supersetted ? REST_PAIR_TITLE : REST_TITLE}>
+                <span
+                    className="prescription-badge is-rest"
+                    title={t(supersetted ? 'workout.prescription.restPairTitle' : 'workout.prescription.restTitle')}
+                >
                     <Timer className="h-3.5 w-3.5" aria-hidden="true" />
-                    <span className="prescription-badge-key">Rest</span>
+                    <span className="prescription-badge-key">{t('workout.prescription.rest')}</span>
                     <span className="prescription-badge-value">{formatRest(restSeconds)}</span>
                 </span>
             )}
             {hasTechnique && (
-                <span className="prescription-badge is-technique" title="Finishing technique for this exercise.">
+                <span className="prescription-badge is-technique" title={t('workout.prescription.techniqueTitle')}>
                     <Zap className="h-3.5 w-3.5" aria-hidden="true" />{techniqueLabel(technique)}
                 </span>
             )}

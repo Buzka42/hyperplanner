@@ -924,9 +924,13 @@ b { font-weight: 600; }
    the artwork plate, nowhere else.
    ============================================================ */
 
-/* Wordmark only — the chosen sketch's lockup, no mark. */
+/* Mark + wordmark. The two-tone split is the logo's own white/grey relation,
+   so the halves of the name are set as two elements rather than one string. */
 .brand-lockup {
+  align-items: center;
   color: hsl(var(--foreground));
+  display: flex;
+  gap: .5rem;
   font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
   font-size: .95rem;
   font-weight: 600;
@@ -934,7 +938,11 @@ b { font-weight: 600; }
   line-height: 1;
   text-transform: uppercase;
 }
-.brand-lockup.is-compact { font-size: .78rem; letter-spacing: .16em; }
+.brand-lockup strong { color: hsl(var(--foreground)); font-weight: inherit; }
+.brand-lockup em { color: hsl(var(--muted-foreground)); font-style: normal; font-weight: inherit; }
+.brand-lockup-mark { width: 20px; height: 20px; object-fit: contain; flex-shrink: 0; }
+.brand-lockup.is-compact { font-size: .78rem; letter-spacing: .16em; gap: .4rem; }
+.brand-lockup.is-compact .brand-lockup-mark { width: 16px; height: 16px; }
 
 /* Display stays on the utility classes in the JSX. Tailwind v4 emits utilities
    into `@layer utilities`, and an unlayered rule here beats every layered one

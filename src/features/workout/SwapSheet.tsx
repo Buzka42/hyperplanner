@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Repeat, RotateCcw, Search, X } from 'lucide-react';
 
 import { Input } from '../../components/ui/input';
+import { useLanguage } from '../../contexts/useTranslation';
 import type { Lang, ResolvedSwap } from '../../data/exercises/types';
 
 /**
@@ -20,6 +21,7 @@ export const SwapSheet: React.FC<{
     onChoose: (exerciseId: string | null) => void;
     onClose: () => void;
 }> = ({ exerciseName, swap, lang, onChoose, onClose }) => {
+    const { t } = useLanguage();
     const [query, setQuery] = useState('');
 
     const options = useMemo(() => {
@@ -38,35 +40,35 @@ export const SwapSheet: React.FC<{
             <div className="exercise-sheet" onClick={event => event.stopPropagation()}>
                 <div className="exercise-sheet-head">
                     <div>
-                        <h3>Swap {exerciseName}</h3>
+                        <h3>{t('workout.swapSheet.title', { name: exerciseName })}</h3>
                         <p className="exercise-sheet-alt">
-                            {swap.policy === 'any'
-                                ? 'Any movement that trains the same pattern.'
+                            {t(swap.policy === 'any'
+                                ? 'workout.swapSheet.policyAny'
                                 : swap.policy === 'group'
-                                    ? 'Alternatives your coach grouped with this movement.'
-                                    : 'Alternatives your coach approved.'}
+                                    ? 'workout.swapSheet.policyGroup'
+                                    : 'workout.swapSheet.policyPool')}
                         </p>
                     </div>
-                    <button onClick={onClose} aria-label="Close"><X className="h-5 w-5" /></button>
+                    <button onClick={onClose} aria-label={t('workout.swapSheet.close')}><X className="h-5 w-5" /></button>
                 </div>
 
                 <div className="exercise-sheet-body">
                     {showSearch && (
                         <div className="admin-search">
                             <Search className="h-4 w-4" />
-                            <Input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search alternatives" aria-label="Search alternatives" />
+                            <Input value={query} onChange={e => setQuery(e.target.value)} placeholder={t('workout.swapSheet.search')} aria-label={t('workout.swapSheet.search')} />
                         </div>
                     )}
 
                     {swap.current && (
                         <button className="swap-option is-reset" onClick={() => onChoose(null)}>
                             <RotateCcw className="h-4 w-4" />
-                            <span>Back to the plan's own choice</span>
+                            <span>{t('workout.swapSheet.reset')}</span>
                         </button>
                     )}
 
                     {!options.length ? (
-                        <p className="exercise-sheet-setup">No alternatives match.</p>
+                        <p className="exercise-sheet-setup">{t('workout.swapSheet.empty')}</p>
                     ) : (
                         <div className="swap-options">
                             {options.map(option => (

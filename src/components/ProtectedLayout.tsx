@@ -11,15 +11,15 @@ import { ADVENTURE_PLAN_ID } from '../data/adventure';
 import { getPlanMeta } from '../data/planMeta';
 
 /**
- * Wordmark only — one tone, tracked caps. Exactly the chosen sketch, which
- * carries no logo mark; the owner confirmed dropping it.
- *
- * The mark and the two-tone Hyper/Planner split were both decoration inside the
- * lockup, and a lockup that needs two colours and an image to say one word is
- * the opposite of the direction.
+ * Mark plus wordmark, tracked caps, split two-tone across the two halves of the
+ * name — the same white/grey relationship the logo itself uses, so the lockup
+ * and the mark read as one object rather than two.
  */
 const BrandWordmark = ({ compact = false }: { compact?: boolean }) => (
-    <p className={cn('brand-lockup', compact && 'is-compact')}>Hyperplanner</p>
+    <p className={cn('brand-lockup', compact && 'is-compact')}>
+        <img src="/brand/hyperplanner-logo.png" alt="" aria-hidden="true" className="brand-lockup-mark" />
+        <span><strong>Hyper</strong><em>planner</em></span>
+    </p>
 );
 
 export const ProtectedLayout: React.FC = () => {
