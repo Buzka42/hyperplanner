@@ -237,6 +237,22 @@ improvements:
 
 ## Authoring
 
+### Exercise intelligence metadata
+
+Selection and fatigue engines consume expert-authored metadata from
+`src/data/exercises/exerciseIntelligence.ts`. Ratings are ordinal `0..4`, with
+documented anchors from negligible to very high; they are not physiological
+percentages. `unknown` is allowed only during authoring.
+
+Run `npm run audit:exercise-metadata` for a coverage report. Any engine that
+makes decisions from this metadata must gate its release on
+`npm run verify:exercise-metadata`, which rejects missing entries and unknown
+ratings. Each entry records schema version and provenance so the owner review can
+be audited.
+
+Contextual plan roles may override cost and `systemicCompound` values at the
+slot level. Progression type always belongs to the slot, never this metadata.
+
 **A new exercise** — add to `libraryAdditions.ts` with bilingual name, pattern,
 muscles, equipment and a tip. Run `verify:library`.
 

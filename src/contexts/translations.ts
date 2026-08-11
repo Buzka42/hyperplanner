@@ -536,6 +536,74 @@ export const translations = {
                         "Hold the load until all ten sets hit ten",
                         "Back half trades a set for load"
                     ]
+                },
+                houseOfIron: {
+                    name: "House of Iron",
+                    description: "An 8-week repeatable minimal-equipment plan that makes one dumbbell or kettlebell last.",
+                    features: ["2–4 free-order sessions weekly", "Fixed-load mastery ladders", "Push/pull and knee/hinge balance", "Works with one implement"]
+                },
+                apexPredator: {
+                    name: "Apex Predator",
+                    description: "A 12-week full-body plan that turns repeatable movement assessments into focused access work.",
+                    features: ["3 full-body days", "Six optional measured regions", "Retests in weeks 4, 8 and 12", "Optional AI video advice"]
+                },
+                venusRising: {
+                    name: "Venus Rising", description: "A 12-week physique plan for glutes, delts, back and quads.",
+                    features: ["3-day full body or 4-day upper/lower", "15–16 sets per session", "User-selected priorities", "Simple double progression"]
+                },
+                athena: {
+                    name: "Athena", description: "A 12-week bridge into intelligent heavy training and reusable performance data.",
+                    features: ["3-day or 4-day mode", "User-selected lift families", "Top sets with editable back-offs", "No mandatory max test"]
+                },
+                kali: { name: "Kali", description: "An 8-week cutting plan that protects strength while controlling systemic fatigue.", features: ["Fixed four-day structure", "One systemic anchor per session", "Glute and lat intensification", "Performance-retention dashboard"]
+                },
+                redline: {
+                    name: "REDLINE", description: "An 8-week four-day full-body plan built around 40–50 minute sessions and timed finishers.",
+                    features: ["4 sessions of 40–50 minutes", "One heavy anchor, then paired burn work", "Timed finisher blocks", "Recovery check before every session"]
+                },
+                ironClock: {
+                    name: "Iron Clock", description: "An 8-week plan where the clock, not the plate, is the thing you beat.",
+                    features: ["4-day mode or 3-day full body", "Density blocks with visible pacing", "Reps, then time, then load", "Round-by-round quality"]
+                },
+                theMinimum: {
+                    name: "The Minimum", description: "A 10-week plan of two mandatory full-body sessions, with optional bonus work when you have time.",
+                    features: ["2 required sessions weekly", "14–16 sets each", "Optional underexposure-driven bonuses", "Bonus work never gates progress"]
+                },
+                lazarus: {
+                    name: "Lazarus", description: "An 8-week return plan for trained athletes coming back after three months or more away.",
+                    features: ["3 full-body days", "Memory Curve against your old bests", "Hard caps in weeks 1–2", "Accelerates once you prove it"]
+                },
+                quadfather: {
+                    name: "Quadfather", description: "A 10-week quad specialisation that trains legs three times while everything else is maintained.",
+                    features: ["Quads 3×, other muscles 2×", "Load, depth and burn roles", "Confirmed range of motion", "Knee-feedback swaps"]
+                },
+                cathedral: {
+                    name: "Cathedral", description: "A 10-week chest specialisation built on three arches: press, stretch and adduction.",
+                    features: ["Chest 3× weekly", "Incline dumbbell press as the heavy arch", "Dips and flyes for stretch", "No barbell bench"]
+                },
+                blackout: {
+                    name: "Blackout", description: "An advanced 8-week plan of one work set per movement, and nothing wasted.",
+                    features: ["3 full-body days", "One work set per exercise", "Back-off sets are earned, not scheduled", "Quality and stop reason are mandatory"]
+                },
+                monolith: {
+                    name: "Monolith", description: "A 10-week machine-dominant upper/lower plan for accumulating volume you can recover from.",
+                    features: ["4 days, upper/lower", "Machine-dominant, not machine-only", "Effort first, technique later", "Low systemic cost"]
+                },
+                atlas: {
+                    name: "Atlas", description: "A 10-week strength plan run as two five-week gauntlets, built on carries and hard basics.",
+                    features: ["3 full-body days", "Two five-week movement sets", "Carries scored as time × load", "Optional kettlebell power work"]
+                },
+                eventHorizon: {
+                    name: "Event Horizon", description: "A 12-week hypertrophy plan that finds a cheaper way to train when a joint starts complaining.",
+                    features: ["4 days, upper/lower", "Report a region, get real options", "Every swap keeps the role", "Nothing changes without confirmation"]
+                },
+                projectChimera: {
+                    name: "Project Chimera", description: "16 weeks in four blocks, reallocating a little volume toward whatever you actually respond to.",
+                    features: ["4 days, upper/lower", "Balanced across six qualities", "Small, confirmable changes each block", "No data means no change"]
+                },
+                oracle: {
+                    name: "Oracle", description: "A 10-week plan that predicts your next session and then shows you how close it got.",
+                    features: ["4 days, upper/lower", "Weeks 1–2 calibrate", "Confidence is stated, never implied", "Honest accuracy, not a score"]
                 }
             },
 
@@ -1899,6 +1967,74 @@ export const translations = {
                         "Trzymaj ciężar, aż wszystkie dziesięć serii da dziesiątkę",
                         "Druga połowa zamienia serię na ciężar"
                     ]
+                },
+                houseOfIron: {
+                    name: "House of Iron",
+                    description: "Powtarzalny 8-tygodniowy plan na minimalnym sprzęcie, który pozwala długo rozwijać się z jednym hantlem lub kettlem.",
+                    features: ["2–4 dowolnie wybierane sesje tygodniowo", "Drabinki progresji przy stałym ciężarze", "Równowaga push/pull i kolano/biodro", "Działa z jednym obciążeniem"]
+                },
+                apexPredator: {
+                    name: "Apex Predator",
+                    description: "12-tygodniowy plan całego ciała, który zamienia powtarzalne oceny ruchu w ukierunkowaną pracę nad zakresem.",
+                    features: ["3 dni całego ciała", "Sześć opcjonalnych mierzonych obszarów", "Ponowne testy w tygodniach 4, 8 i 12", "Opcjonalna analiza wideo AI"]
+                },
+                venusRising: {
+                    name: "Venus Rising", description: "12-tygodniowy plan sylwetkowy z naciskiem na pośladki, barki, plecy i czworogłowe.",
+                    features: ["3 dni całego ciała lub 4 dni góra/dół", "15–16 serii na sesję", "Priorytety wybierane przez użytkownika", "Prosta podwójna progresja"]
+                },
+                athena: {
+                    name: "Athena", description: "12-tygodniowe przejście do inteligentnego ciężkiego treningu i wspólnego profilu wyników.",
+                    features: ["Tryb 3- lub 4-dniowy", "Rodziny bojów wybierane przez użytkownika", "Serie główne i edytowalne back-offy", "Bez obowiązkowego testu maksa"]
+                },
+                kali: { name: "Kali", description: "8-tygodniowy plan redukcyjny chroniący siłę przy kontroli zmęczenia systemowego.", features: ["Stała struktura 4-dniowa", "Jedna systemowa kotwica na sesję", "Intensyfikacja pośladków i najszerszych", "Panel zachowania wyników"]
+                },
+                redline: {
+                    name: "REDLINE", description: "8-tygodniowy, czterodniowy plan całego ciała oparty na sesjach 40–50 minut i finiszerach na czas.",
+                    features: ["4 sesje po 40–50 minut", "Jedna ciężka kotwica, potem praca w parach", "Bloki finiszerów na czas", "Pytanie o regenerację przed każdą sesją"]
+                },
+                ironClock: {
+                    name: "Iron Clock", description: "8 tygodni, w których pokonujesz zegar, a nie talerz.",
+                    features: ["Tryb 4-dniowy lub 3 dni całego ciała", "Bloki gęstości z widocznym tempem", "Najpierw powtórzenia, potem czas, na końcu ciężar", "Ocena jakości po każdej rundzie"]
+                },
+                theMinimum: {
+                    name: "The Minimum", description: "10 tygodni: dwie obowiązkowe sesje całego ciała i opcjonalna praca dodatkowa, gdy masz czas.",
+                    features: ["2 obowiązkowe sesje tygodniowo", "Po 14–16 serii", "Opcjonalne bonusy z niedoborów objętości", "Bonus nigdy nie warunkuje progresji"]
+                },
+                lazarus: {
+                    name: "Lazarus", description: "8-tygodniowy powrót dla trenujących wcześniej po co najmniej trzech miesiącach przerwy.",
+                    features: ["3 dni całego ciała", "Krzywa Pamięci względem dawnych rekordów", "Twarde limity w tygodniach 1–2", "Przyspiesza, gdy to udowodnisz"]
+                },
+                quadfather: {
+                    name: "Quadfather", description: "10-tygodniowa specjalizacja na czworogłowe: nogi trzy razy, reszta podtrzymywana.",
+                    features: ["Czworogłowe 3×, pozostałe partie 2×", "Role: ciężar, zakres i pompa", "Potwierdzany zakres ruchu", "Zamiany przy dolegliwościach kolan"]
+                },
+                cathedral: {
+                    name: "Cathedral", description: "10-tygodniowa specjalizacja na klatkę oparta na trzech łukach: wyciskanie, rozciągnięcie, addukcja.",
+                    features: ["Klatka 3× w tygodniu", "Wyciskanie hantli na skosie jako ciężki łuk", "Dipy i rozpiętki na rozciągnięcie", "Bez wyciskania sztangi leżąc"]
+                },
+                blackout: {
+                    name: "Blackout", description: "Zaawansowany 8-tygodniowy plan: jedna seria robocza na bój i nic ponadto.",
+                    features: ["3 dni całego ciała", "Jedna seria robocza na ćwiczenie", "Serie back-off trzeba zasłużyć", "Obowiązkowa jakość i powód zakończenia"]
+                },
+                monolith: {
+                    name: "Monolith", description: "10-tygodniowy plan góra/dół oparty na maszynach, do budowania objętości, z której da się zregenerować.",
+                    features: ["4 dni, góra/dół", "Przewaga maszyn, ale nie tylko maszyny", "Najpierw wysiłek, później techniki", "Niski koszt systemowy"]
+                },
+                atlas: {
+                    name: "Atlas", description: "10-tygodniowy plan siłowy w dwóch pięciotygodniowych blokach, oparty na spacerach z ciężarem i twardych podstawach.",
+                    features: ["3 dni całego ciała", "Dwa pięciotygodniowe zestawy bojów", "Spacery liczone jako czas × ciężar", "Opcjonalna praca dynamiczna z kettlem"]
+                },
+                eventHorizon: {
+                    name: "Event Horizon", description: "12-tygodniowy plan hipertroficzny, który znajduje tańszy sposób treningu, gdy staw zaczyna protestować.",
+                    features: ["4 dni, góra/dół", "Zgłoś obszar, dostaniesz realne opcje", "Każda zamiana zachowuje rolę ćwiczenia", "Nic nie zmienia się bez potwierdzenia"]
+                },
+                projectChimera: {
+                    name: "Project Chimera", description: "16 tygodni w czterech blokach: objętość powoli przesuwa się tam, gdzie faktycznie reagujesz.",
+                    features: ["4 dni, góra/dół", "Równowaga sześciu cech", "Małe, potwierdzane zmiany co blok", "Brak danych oznacza brak zmian"]
+                },
+                oracle: {
+                    name: "Oracle", description: "10-tygodniowy plan, który przewiduje twoją następną sesję i pokazuje, jak blisko był.",
+                    features: ["4 dni, góra/dół", "Tygodnie 1–2 kalibrują", "Pewność zawsze podana wprost", "Uczciwa trafność zamiast oceny"]
                 }
             },
 

@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict'; import { KALI_CONFIG, KALI_DAYS } from '../src/data/plans/kali'; import type { UserProfile } from '../src/types';
+let assertions=0; const ok=(v:unknown,m:string)=>{assert.ok(v,m);assertions++;};
+ok(KALI_DAYS.length===4,'Kali is four-day only');
+for(const day of KALI_DAYS){ const sets=day.slots.reduce((n,s)=>n+s.sets,0); ok(sets>=12&&sets<=15,`${day.name} has 12–15 sets`); ok(day.slots.filter(s=>s.systemicCompound).length===1,`${day.name} has exactly one systemic anchor`); ok(day.slots.some(s=>s.unilateral),`${day.name} has unilateral work`); }
+const user={planPreferences:{kali:{scheduleMode:'4day',updatedAt:'',exerciseSelections:{pullAnchor:'weighted-pull-up'}}}} as unknown as UserProfile;
+const hunt=KALI_CONFIG.hooks!.preprocessDay!(KALI_CONFIG.program.weeks[0].days.find(d=>d.dayOfWeek===2)!,user); ok(hunt.exercises[0].exerciseId==='weighted-pull-up','pull anchor persists per run');
+const w6=KALI_CONFIG.program.weeks[5].days.flatMap(d=>d.exercises); ok(w6.some(e=>e.exerciseId==='single-leg-machine-hip-thrust'&&e.prescription?.technique?.kind==='rest-pause'),'week 6 rest-pauses stable hip thrust'); ok(w6.some(e=>e.exerciseId==='hammer-pulldown'&&e.prescription?.technique?.kind==='rest-pause'),'week 6 rest-pauses pulldown');
+const w7=KALI_CONFIG.program.weeks[6].days.flatMap(d=>d.exercises); ok(w7.some(e=>e.exerciseId==='machine-hip-abduction'&&e.prescription?.technique?.kind==='myo-reps'),'week 7 myo-reps abduction'); ok(w7.some(e=>e.exerciseId==='lat-prayer'&&e.prescription?.technique?.kind==='myo-reps'),'week 7 myo-reps lat prayer');
+const noChoice=KALI_CONFIG.hooks!.preprocessDay!(KALI_CONFIG.program.weeks[7].days.find(d=>d.dayOfWeek===4)!,{} as UserProfile); ok(!noChoice.exercises.some(e=>e.prescription?.technique),'week 8 does not guess without confirmation');
+const repeat=KALI_CONFIG.hooks!.preprocessDay!(KALI_CONFIG.program.weeks[7].days.find(d=>d.dayOfWeek===4)!,{planPreferences:{kali:{scheduleMode:'4day',updatedAt:'',exerciseSelections:{week8Intensifier:'myo'}}}} as UserProfile); ok(repeat.exercises.some(e=>e.exerciseId==='lat-prayer'&&e.prescription?.technique?.kind==='myo-reps'),'week 8 repeats confirmed best-tolerated method');
+for(const week of KALI_CONFIG.program.weeks) for(const day of week.days.filter(d=>d.exercises.length)) ok(day.exercises.reduce((n,e)=>n+e.sets,0)<=15,`week ${week.weekNumber} ${day.dayName} holds volume cap`);
+console.log(`Kali verification passed: ${assertions} assertions.`);

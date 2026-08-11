@@ -6,7 +6,7 @@ import { useLanguage, resolveTemplate } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { CheckCircle2, Circle, ArrowLeft, Save, AlertCircle, FlaskConical, Repeat } from 'lucide-react';
-import { doc, updateDoc, arrayUnion, increment, collection, addDoc, query, where, getDocs, deleteField } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion, increment, collection, query, where, getDocs, deleteField } from 'firebase/firestore';
 import { db } from '../firebase';
 import { cn } from '../lib/utils';
 import type { LiftingStats, WorkoutLog } from '../types';
@@ -21,6 +21,12 @@ import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
 import { selectVariation } from '../data/trinary';
+import { createWorkoutWithPerformanceProfile, extractPerformanceObservations } from '../features/performanceProfile';
+import { APEX_ACCESS } from '../data/apexAccess';
+import { nextRomLevel } from '../features/apexPredator/assessment';
+import { deriveBackoffLoad } from '../features/workout/engines/topSetBackoff';
+import { EXERCISE_BY_ID } from '../data/exercises/library';
+import { BlockTimer } from '../features/redline/BlockTimer';
 
 interface SetLog {
     reps: string;
@@ -30,6 +36,8 @@ interface SetLog {
     kind?: import('../data/exercises/types').SetKind;
     /** Shown instead of a set number on technique rows, e.g. "Drop 1". */
     label?: string;
+    rir?: number;
+    quality?: 'clean' | 'borderline' | 'invalid';
 }
 
 // The number of sets the PLAN itself prescribes for this exercise (before any
@@ -80,6 +88,8 @@ export const WorkoutView: React.FC = () => {
     const [submitting, setSubmitting] = useState(false);
     /** Maxes established by this session's calibration sets, shown after saving. */
     const [calibrationResults, setCalibrationResults] = useState<CalibrationOutcome[]>([]);
+    const [apexRomPending, setApexRomPending] = useState<string[]>([]);
+    const [redlineBlockTimes, setRedlineBlockTimes] = useState<Record<string, { elapsedSeconds: number; expired: boolean }>>({});
     const [isExistingLog, setIsExistingLog] = useState(false);
     const [logId, setLogId] = useState<string | null>(null);
 
@@ -464,6 +474,7 @@ export const WorkoutView: React.FC = () => {
                     ?? ex.prescription?.technique;
 
                 const sets: SetLog[] = [];
+                const topSetBackoff = ex.prescription?.topSetBackoff;
                 for (let i = 0; i < setsCount; i++) {
                     const targetWeight = calculateWeight(ex);
                     const defaultWeight = (targetWeight && !isGiantSet && targetWeight !== "0") ? targetWeight : "";
@@ -481,7 +492,8 @@ export const WorkoutView: React.FC = () => {
                         reps: '',
                         weight: defaultWeight,
                         completed: null,
-                        ...(i >= baseCount ? { kind: 'extra' as const } : {})
+                        ...(i >= baseCount ? { kind: 'extra' as const } : {}),
+                        ...(topSetBackoff && { label: i === 0 ? 'Top set' : `Back-off ${i}`, ...(i === 0 ? { quality: undefined, rir: undefined } : {}) })
                     });
 
                     // A technique attached to this set gets its own rows, so the
@@ -711,9 +723,6 @@ export const WorkoutView: React.FC = () => {
                 await updateDoc(userRef, updatePayload);
             }
 
-            // ========== BENCH DOMINATION DELOAD TRIGGERS ==========
-            // ========== END BENCH DOMINATION DELOAD TRIGGERS ==========
-
             // Set by progression effects below; consumed after the save.
             let navigateToDashboard: Record<string, boolean> | null = null;
             // A modal raised by progression. Opened after the session is saved,
@@ -804,11 +813,28 @@ export const WorkoutView: React.FC = () => {
                         ...((source as { exerciseId?: string })?.exerciseId
                             ? { exerciseId: (source as { exerciseId?: string }).exerciseId }
                             : {}),
-                        setsData: sets,
+                        setsData: sets.map(set => {
+                            const exerciseId = (source as { exerciseId?: string })?.exerciseId;
+                            const mode = exerciseId ? EXERCISE_BY_ID[exerciseId]?.weightMode : undefined;
+                            const bodyweight = user.kaliStatus?.bodyweightKg;
+                            const external = Number(set.weight);
+                            return programData.id === 'kali' && bodyweight && Number.isFinite(external) && (mode === 'bodyweight' || mode === 'weighted-bodyweight')
+                                ? { ...set, totalSystemWeightKg: Math.max(0, bodyweight + external) }
+                                : set;
+                        }),
                         notes: exerciseNotes[id] || null
                     };
                 }),
                 programId: programData.id,
+                ...(activePlanConfig.session?.kind && { sessionKind: activePlanConfig.session.kind }),
+                ...(programData.id === 'redline' && { redline: {
+                    blocks: Object.entries(redlineBlockTimes).map(([id, timing]) => {
+                        const exercises = dayData?.exercises.filter(ex => ex.prescription?.block?.id === id) ?? [];
+                        const kind = exercises[0]?.prescription?.block?.kind === 'finisher' ? 'finisher' as const : 'burn' as const;
+                        const signature = JSON.stringify(exercises.map(ex => ({ exerciseId: ex.exerciseId, sets: (exerciseData[ex.id] ?? []).map(set => ({ weight: set.weight, reps: set.reps, completed: set.completed })), duration: ex.prescription?.block?.durationSeconds }))); 
+                        return { id, kind, ...timing, completed: true, signature };
+                    }), recovery: user.redlineStatus?.nextRecovery?.response,
+                } }),
                 // Test sessions stay out of PRs, badges and analytics.
                 ...(user.isTestAccount === true && { isTest: true })
             };
@@ -818,7 +844,33 @@ export const WorkoutView: React.FC = () => {
             if (isExistingLog && logId) {
                 await updateDoc(doc(workoutsRef, logId), sessionLog);
             } else {
-                await addDoc(workoutsRef, sessionLog);
+                const workoutRef = doc(workoutsRef);
+                const observations = user.isTestAccount === true
+                    ? []
+                    : extractPerformanceObservations({
+                        sessionId: workoutRef.id,
+                        date: sessionLog.date,
+                        programId: sessionLog.programId,
+                        week: sessionLog.week,
+                        day: sessionLog.day,
+                        exercises: sessionLog.exercises,
+                    });
+                await createWorkoutWithPerformanceProfile(
+                    user.id,
+                    workoutRef.id,
+                    sessionLog,
+                    observations,
+                );
+            }
+
+            if (programData.id === 'apex-predator') {
+                const romIds = [...new Set(dayData?.exercises.map(ex => ex.exerciseId).filter((id): id is string =>
+                    Boolean(id && Object.values(APEX_ACCESS).flat().some(movement => movement.exerciseId === id))) ?? [])];
+                if (romIds.length) {
+                    setApexRomPending(romIds);
+                    setSubmitting(false);
+                    return;
+                }
             }
 
             // Modals raised by progression, opened now that the session is saved.
@@ -887,6 +939,22 @@ export const WorkoutView: React.FC = () => {
         return <div className="p-8 text-center text-muted-foreground">{t('workout.restDayOrInvalid')}</div>;
     }
 
+    if (apexRomPending.length && user) {
+        const answerRom = async (exerciseId: string, controlled: boolean) => {
+            const movement = Object.values(APEX_ACCESS).flat().find(item => item.exerciseId === exerciseId);
+            if (!movement) return;
+            const current = user.apexPredatorStatus?.rom?.[exerciseId]?.level ?? 1;
+            const rom = { ...(user.apexPredatorStatus?.rom ?? {}), [exerciseId]: { level: nextRomLevel(current, controlled, movement.maxRomLevel), updatedWeek: weekNum } };
+            await updateDoc(doc(db, 'users', user.id), { 'apexPredatorStatus.rom': rom });
+            const remaining = apexRomPending.filter(id => id !== exerciseId);
+            setApexRomPending(remaining);
+            if (!remaining.length) navigate('/app/dashboard');
+        };
+        const exerciseId = apexRomPending[0];
+        const exercise = dayData.exercises.find(item => item.exerciseId === exerciseId);
+        return <main className="instrument-page max-w-2xl space-y-6"><h1>{language === 'pl' ? 'Czy kontrolowałeś ten zakres?' : 'Did you control that range?'}</h1><p className="text-xl">{exercise?.name ?? exerciseId}</p><p className="text-muted-foreground">{language === 'pl' ? 'Tak zwiększa zakres przy następnym kontakcie. Nie utrzymuje obecny poziom.' : 'Yes advances the range at the next exposure. No holds the current level.'}</p><div className="grid grid-cols-2 gap-3"><Button size="lg" className="min-h-14" onClick={() => void answerRom(exerciseId, true)}>{language === 'pl' ? 'Tak' : 'Yes'}</Button><Button size="lg" variant="outline" className="min-h-14" onClick={() => void answerRom(exerciseId, false)}>{language === 'pl' ? 'Nie' : 'No'}</Button></div></main>;
+    }
+
     const resolveDayName = (name: string) => {
         if (name.startsWith('t:')) {
             return resolveTemplate(name, t);
@@ -932,6 +1000,9 @@ export const WorkoutView: React.FC = () => {
     const isSuperMutant = programData.id === 'super-mutant';
 
     const sessionSets = dayData.exercises.flatMap(ex => exerciseData[ex.id] || []);
+    // Timed blocks. REDLINE times burn/finisher work; Iron Clock's whole session
+    // after the anchor is density blocks, so both read from the same prescription.
+    const timedBlocks = ['redline', 'iron-clock'].includes(programData.id) ? [...new Map(dayData.exercises.filter(ex => ['burn','finisher','density'].includes(ex.prescription?.block?.kind ?? '')).map(ex => [ex.prescription!.block!.id, ex.prescription!.block!])).values()] : [];
     const completedSessionSets = sessionSets.filter(set => set.completed).length;
     // A pinned selection wins, but only while it still points at something —
     // a swap or a removed extra set can leave it dangling.
@@ -966,10 +1037,17 @@ export const WorkoutView: React.FC = () => {
 
     const logActiveSet = () => {
         if (!activeExercise || !activeSet || !activeSet.reps) return;
-        setExerciseData(prev => ({
-            ...prev,
-            [activeExercise.id]: (prev[activeExercise.id] || []).map((set, index) => index === activeSetIndex ? { ...set, completed: true } : set)
-        }));
+        setExerciseData(prev => {
+            const config = activeExercise.prescription?.topSetBackoff;
+            const topWeight = Number(activeSet.weight);
+            const derived = config && activeSetIndex === 0 && Number.isFinite(topWeight) && topWeight > 0
+                ? String(deriveBackoffLoad(topWeight, config.backoffPercent, config.incrementKg)) : null;
+            return { ...prev, [activeExercise.id]: (prev[activeExercise.id] || []).map((set, index) => {
+                if (index === activeSetIndex) return { ...set, completed: true };
+                if (derived && index > 0 && !set.weight) return { ...set, weight: derived };
+                return set;
+            }) };
+        });
         // Releasing the pin is what makes the console advance to the next
         // unresolved set instead of sitting on the one just logged.
         setSelectedSet(null);
@@ -1103,6 +1181,7 @@ export const WorkoutView: React.FC = () => {
                     <p className="text-muted-foreground">{t('common.week')} {weekNum} {isExistingLog && <span className={`font-bold ml-2 ${activePlanConfig.id === 'pain-and-glory' ? 'text-red-500' : 'text-green-500'}`}>({t('workout.completed')})</span>}</p>
                 </div>
             </div>
+            {timedBlocks.length > 0 && <section className="border-t border-border" aria-label="Block timers">{timedBlocks.map(block => <BlockTimer key={block.id} label={`${block.kind === 'burn' ? 'BURN' : block.kind === 'density' ? 'BLOCK' : 'FINISHER'} · ${block.id}`} limitSeconds={block.kind === 'burn' ? undefined : block.durationSeconds} onFinish={(elapsedSeconds,expired)=>setRedlineBlockTimes(old=>({...old,[block.id]:{elapsedSeconds,expired}}))}/>)}</section>}
 
             {activeExercise && activeSet && (
                 <section className="live-set-console" aria-label="Active set control deck" ref={consoleRef}>
@@ -1149,6 +1228,10 @@ export const WorkoutView: React.FC = () => {
                         <label data-len={figureLength(activeSet.weight)} style={figureChars(activeSet.weight)}><span>{t('common.weight')}{isAutoLoad(activeExercise, activeSet.weight) && <em> · {t('workout.auto')}</em>}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
                         <label data-len={figureLength(activeSet.reps)} style={figureChars(activeSet.reps)}><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('workout.reps')} /></label>
                     </div>
+                    {activeExercise.prescription?.topSetBackoff && activeSetIndex === 0 && <div className="live-set-telemetry">
+                        <label><span>RIR</span><select value={activeSet.rir ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === 0 ? { ...set, rir: event.target.value === '' ? undefined : Number(event.target.value) } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3+</option></select></label>
+                        <label><span>{language === 'pl' ? 'Jakość' : 'Quality'}</span><select value={activeSet.quality ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === 0 ? { ...set, quality: event.target.value as SetLog['quality'] } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="clean">{language === 'pl' ? 'Czysta' : 'Clean'}</option><option value="borderline">{language === 'pl' ? 'Graniczna' : 'Borderline'}</option><option value="invalid">{language === 'pl' ? 'Nieważna' : 'Invalid'}</option></select></label>
+                    </div>}
                     {(activeExercise.target.rpe !== undefined || activeExercise.rest) && (
                         <div className="live-set-telemetry">
                             {activeExercise.target.rpe !== undefined && <div><span>{t('workout.rpe')}</span><strong>{activeExercise.target.rpe}</strong></div>}
@@ -1157,7 +1240,7 @@ export const WorkoutView: React.FC = () => {
                     )}
                     {/* Saved looks saved: re-opening a logged set must not
                         offer a button that appears to do nothing. */}
-                    <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />{activeSet.completed ? t('workout.updateSet') : t('workout.logSet')}</Button>
+                    <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps || Boolean(activeExercise.prescription?.topSetBackoff && activeSetIndex === 0 && (activeSet.rir == null || !activeSet.quality))} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />{activeSet.completed ? t('workout.updateSet') : t('workout.logSet')}</Button>
                 </section>
             )}
 

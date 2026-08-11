@@ -15,6 +15,11 @@ import { AccessoryChoiceModal } from '../components/AccessoryChoiceModal';
 import { AdventureDashboard } from './AdventureDashboard';
 import { ADVENTURE_PLAN_ID } from '../data/adventure';
 import { cn } from '../lib/utils';
+import { HouseDashboard } from '../features/houseOfIron/HouseDashboard';
+import { ApexDashboard } from '../features/apexPredator/ApexDashboard';
+import { VenusDashboard } from '../features/venusRising/VenusDashboard';
+import { AthenaDashboard } from '../features/athena/AthenaDashboard';
+import { KaliDashboard } from '../features/kali/KaliDashboard';
 
 export const Dashboard: React.FC = () => {
     const { user, activePlanConfig, updateUserProfile } = useUser();
@@ -33,6 +38,11 @@ export const Dashboard: React.FC = () => {
     const isTrinary = activePlanConfig.id === 'trinary';
     const isSuperMutant = activePlanConfig.id === 'super-mutant';
     const isAdventure = activePlanConfig.id === ADVENTURE_PLAN_ID;
+    const isHouseOfIron = activePlanConfig.id === 'house-of-iron';
+    const isApexPredator = activePlanConfig.id === 'apex-predator';
+    const isVenusRising = activePlanConfig.id === 'venus-rising';
+    const isAthena = activePlanConfig.id === 'athena';
+    const isKali = activePlanConfig.id === 'kali';
     const [gloryCounter, setGloryCounter] = useState<number>(0);
     const [showAccessoryModal, setShowAccessoryModal] = useState(false);
 
@@ -184,6 +194,11 @@ export const Dashboard: React.FC = () => {
 
     if (!user) return null;
     if (isAdventure) return <AdventureDashboard />;
+    if (isHouseOfIron) return <HouseDashboard user={user} />;
+    if (isApexPredator) return <ApexDashboard user={user} />;
+    if (isVenusRising) return <VenusDashboard user={user} />;
+    if (isAthena) return <AthenaDashboard user={user} />;
+    if (isKali) return <KaliDashboard user={user} />;
 
     const weekData = currentProgram.weeks.find(w => w.weekNumber === viewWeek);
 

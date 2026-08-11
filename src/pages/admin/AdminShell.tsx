@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Activity, History, KeyRound, Layers, Library, ShieldCheck } from 'lucide-react';
+import { Activity, History, KeyRound, Layers, Library, ShieldCheck, Sparkles } from 'lucide-react';
 
 import { AdminPanel } from '../AdminPanel';
 import { LibraryTab } from './LibraryTab';
 import { PlanComposerTab } from './PlanComposerTab';
 import { AnalysisTab } from './AnalysisTab';
 import { VersionsTab } from './VersionsTab';
+import { AiTab } from './AiTab';
 
-type TabId = 'access' | 'library' | 'composer' | 'analysis' | 'versions';
+type TabId = 'access' | 'library' | 'composer' | 'analysis' | 'versions' | 'ai';
 
 const TABS: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: 'access', label: 'Access control', icon: KeyRound },
@@ -15,6 +16,7 @@ const TABS: { id: TabId; label: string; icon: React.ComponentType<{ className?: 
     { id: 'composer', label: 'Plan composer', icon: Layers },
     { id: 'analysis', label: 'Volume analysis', icon: Activity },
     { id: 'versions', label: 'History', icon: History },
+    { id: 'ai', label: 'AI', icon: Sparkles },
 ];
 
 /**
@@ -56,6 +58,7 @@ export const AdminShell: React.FC = () => {
             {tab === 'composer' && <PlanComposerTab />}
             {tab === 'analysis' && <AnalysisTab />}
             {tab === 'versions' && <VersionsTab />}
+            {tab === 'ai' && <AiTab />}
         </div>
     );
 };

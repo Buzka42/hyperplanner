@@ -691,6 +691,141 @@
       --chart-5: 168 45% 58%;
   }
 
+  .theme-house-of-iron {
+    --background: 42 28% 5%;
+    --foreground: 43 35% 91%;
+    --card: 39 22% 8%;
+    --card-foreground: 43 35% 91%;
+    --popover: 39 22% 8%;
+    --popover-foreground: 43 35% 91%;
+    --primary: 38 68% 48%;
+    --primary-foreground: 40 30% 5%;
+    --secondary: 27 25% 15%;
+    --secondary-foreground: 43 35% 91%;
+    --muted: 35 15% 14%;
+    --muted-foreground: 40 16% 68%;
+    --accent: 17 63% 39%;
+    --accent-foreground: 43 35% 96%;
+    --border: 37 25% 22%;
+    --input: 37 25% 22%;
+    --ring: 38 68% 48%;
+    --signal-text: 40 75% 68%;
+  }
+
+  .theme-apex-predator {
+    --background: 198 42% 6%;
+    --foreground: 188 24% 92%;
+    --card: 198 34% 8%;
+    --card-foreground: 188 24% 92%;
+    --popover: 198 34% 8%;
+    --popover-foreground: 188 24% 92%;
+    --primary: 174 72% 44%;
+    --primary-foreground: 198 52% 5%;
+    --secondary: 196 24% 14%;
+    --secondary-foreground: 188 24% 92%;
+    --muted: 196 22% 13%;
+    --muted-foreground: 188 12% 65%;
+    --accent: 174 56% 17%;
+    --accent-foreground: 174 72% 70%;
+    --border: 188 18% 25%;
+    --input: 188 18% 25%;
+    --ring: 174 72% 44%;
+    --signal-text: 174 72% 56%;
+  }
+
+  .theme-venus-rising {
+    --background: 330 38% 5%; --foreground: 330 18% 94%; --card: 330 30% 8%; --card-foreground: 330 18% 94%;
+    --popover: 330 30% 8%; --popover-foreground: 330 18% 94%; --primary: 337 68% 55%; --primary-foreground: 330 38% 5%;
+    --secondary: 322 22% 15%; --secondary-foreground: 330 18% 94%; --muted: 326 18% 13%; --muted-foreground: 330 12% 68%;
+    --accent: 347 48% 22%; --accent-foreground: 337 72% 78%; --border: 330 20% 25%; --input: 330 20% 25%; --ring: 337 68% 55%; --signal-text: 337 78% 72%;
+  }
+
+  .theme-athena {
+    --background: 214 42% 5%; --foreground: 210 20% 94%; --card: 214 34% 8%; --card-foreground: 210 20% 94%;
+    --popover: 214 34% 8%; --popover-foreground: 210 20% 94%; --primary: 42 70% 53%; --primary-foreground: 214 42% 5%;
+    --secondary: 215 26% 15%; --secondary-foreground: 210 20% 94%; --muted: 215 22% 13%; --muted-foreground: 213 12% 69%;
+    --accent: 42 42% 19%; --accent-foreground: 42 78% 76%; --border: 214 20% 26%; --input: 214 20% 26%; --ring: 42 70% 53%; --signal-text: 42 78% 70%;
+  }
+  .theme-kali {
+    --background: 357 50% 4%; --foreground: 18 20% 94%; --card: 357 38% 7%; --card-foreground: 18 20% 94%; --popover: 357 38% 7%; --popover-foreground: 18 20% 94%;
+    --primary: 5 72% 50%; --primary-foreground: 357 50% 4%; --secondary: 350 28% 14%; --secondary-foreground: 18 20% 94%; --muted: 352 23% 12%; --muted-foreground: 12 12% 68%;
+    --accent: 5 48% 20%; --accent-foreground: 8 78% 75%; --border: 355 22% 25%; --input: 355 22% 25%; --ring: 5 72% 50%; --signal-text: 7 82% 70%;
+  }
+
+  /* Themes below are derived from the plan artwork with scripts/extract-theme.py,
+     then separated by hue where two covers landed on the same warm neutral. */
+  .theme-redline {
+    --background: 0 0% 4%; --foreground: 240 12% 96%; --card: 0 0% 8%; --card-foreground: 240 12% 96%; --popover: 0 0% 8%; --popover-foreground: 240 12% 96%;
+    --primary: 0 92% 54%; --primary-foreground: 0 0% 4%; --secondary: 0 0% 14%; --secondary-foreground: 240 12% 96%; --muted: 0 0% 13%; --muted-foreground: 0 8% 66%;
+    --accent: 0 60% 20%; --accent-foreground: 0 90% 78%; --border: 0 0% 20%; --input: 0 0% 20%; --ring: 0 92% 54%; --signal-text: 0 96% 70%;
+  }
+
+  .theme-iron-clock {
+    --background: 30 16% 5%; --foreground: 36 14% 95%; --card: 30 14% 8%; --card-foreground: 36 14% 95%; --popover: 30 14% 8%; --popover-foreground: 36 14% 95%;
+    --primary: 34 68% 52%; --primary-foreground: 30 16% 5%; --secondary: 30 14% 15%; --secondary-foreground: 36 14% 95%; --muted: 30 12% 13%; --muted-foreground: 34 10% 68%;
+    --accent: 34 44% 20%; --accent-foreground: 34 78% 76%; --border: 30 14% 25%; --input: 30 14% 25%; --ring: 34 68% 52%; --signal-text: 36 82% 70%;
+  }
+
+  .theme-the-minimum {
+    --background: 180 10% 5%; --foreground: 180 8% 95%; --card: 180 8% 8%; --card-foreground: 180 8% 95%; --popover: 180 8% 8%; --popover-foreground: 180 8% 95%;
+    --primary: 6 74% 55%; --primary-foreground: 180 10% 5%; --secondary: 180 8% 15%; --secondary-foreground: 180 8% 95%; --muted: 180 6% 13%; --muted-foreground: 180 8% 67%;
+    --accent: 6 48% 20%; --accent-foreground: 6 80% 78%; --border: 180 8% 24%; --input: 180 8% 24%; --ring: 6 74% 55%; --signal-text: 6 84% 71%;
+  }
+
+  .theme-lazarus {
+    --background: 200 14% 5%; --foreground: 40 10% 95%; --card: 200 12% 8%; --card-foreground: 40 10% 95%; --popover: 200 12% 8%; --popover-foreground: 40 10% 95%;
+    --primary: 36 44% 67%; --primary-foreground: 200 14% 5%; --secondary: 200 12% 15%; --secondary-foreground: 40 10% 95%; --muted: 200 10% 13%; --muted-foreground: 40 8% 68%;
+    --accent: 36 28% 20%; --accent-foreground: 36 52% 80%; --border: 200 10% 25%; --input: 200 10% 25%; --ring: 36 44% 67%; --signal-text: 36 56% 76%;
+  }
+
+  .theme-quadfather {
+    --background: 22 20% 5%; --foreground: 30 12% 95%; --card: 22 18% 8%; --card-foreground: 30 12% 95%; --popover: 22 18% 8%; --popover-foreground: 30 12% 95%;
+    --primary: 22 62% 52%; --primary-foreground: 22 20% 5%; --secondary: 22 16% 15%; --secondary-foreground: 30 12% 95%; --muted: 22 14% 13%; --muted-foreground: 26 10% 68%;
+    --accent: 22 44% 20%; --accent-foreground: 22 74% 78%; --border: 22 16% 25%; --input: 22 16% 25%; --ring: 22 62% 52%; --signal-text: 24 78% 70%;
+  }
+
+  .theme-blackout {
+    --background: 0 0% 3%; --foreground: 60 8% 96%; --card: 0 0% 7%; --card-foreground: 60 8% 96%; --popover: 0 0% 7%; --popover-foreground: 60 8% 96%;
+    --primary: 60 24% 88%; --primary-foreground: 0 0% 3%; --secondary: 0 0% 13%; --secondary-foreground: 60 8% 96%; --muted: 0 0% 11%; --muted-foreground: 60 6% 66%;
+    --accent: 60 12% 18%; --accent-foreground: 60 30% 90%; --border: 0 0% 20%; --input: 0 0% 20%; --ring: 60 24% 88%; --signal-text: 60 24% 88%;
+  }
+
+  .theme-monolith {
+    --background: 210 10% 5%; --foreground: 40 10% 95%; --card: 210 9% 8%; --card-foreground: 40 10% 95%; --popover: 210 9% 8%; --popover-foreground: 40 10% 95%;
+    --primary: 40 40% 78%; --primary-foreground: 210 10% 5%; --secondary: 210 9% 15%; --secondary-foreground: 40 10% 95%; --muted: 210 8% 13%; --muted-foreground: 40 8% 69%;
+    --accent: 40 24% 20%; --accent-foreground: 40 50% 84%; --border: 210 9% 26%; --input: 210 9% 26%; --ring: 40 40% 78%; --signal-text: 40 52% 82%;
+  }
+
+  .theme-atlas {
+    --background: 36 24% 5%; --foreground: 40 12% 95%; --card: 36 20% 8%; --card-foreground: 40 12% 95%; --popover: 36 20% 8%; --popover-foreground: 40 12% 95%;
+    --primary: 36 62% 52%; --primary-foreground: 36 24% 5%; --secondary: 36 18% 15%; --secondary-foreground: 40 12% 95%; --muted: 36 16% 13%; --muted-foreground: 38 10% 68%;
+    --accent: 36 44% 20%; --accent-foreground: 36 72% 78%; --border: 36 18% 26%; --input: 36 18% 26%; --ring: 36 62% 52%; --signal-text: 38 76% 70%;
+  }
+
+  .theme-event-horizon {
+    --background: 276 26% 4%; --foreground: 300 8% 95%; --card: 276 22% 8%; --card-foreground: 300 8% 95%; --popover: 276 22% 8%; --popover-foreground: 300 8% 95%;
+    --primary: 0 82% 57%; --primary-foreground: 276 26% 4%; --secondary: 276 18% 15%; --secondary-foreground: 300 8% 95%; --muted: 276 16% 13%; --muted-foreground: 300 8% 68%;
+    --accent: 0 50% 21%; --accent-foreground: 0 86% 80%; --border: 276 16% 26%; --input: 276 16% 26%; --ring: 0 82% 57%; --signal-text: 0 88% 72%;
+  }
+
+  .theme-project-chimera {
+    --background: 128 18% 4%; --foreground: 60 8% 95%; --card: 128 15% 8%; --card-foreground: 60 8% 95%; --popover: 128 15% 8%; --popover-foreground: 60 8% 95%;
+    --primary: 35 74% 50%; --primary-foreground: 128 18% 4%; --secondary: 128 13% 15%; --secondary-foreground: 60 8% 95%; --muted: 128 11% 13%; --muted-foreground: 60 8% 68%;
+    --accent: 35 48% 20%; --accent-foreground: 35 80% 78%; --border: 128 12% 26%; --input: 128 12% 26%; --ring: 35 74% 50%; --signal-text: 37 84% 68%;
+  }
+
+  .theme-oracle {
+    --background: 250 24% 5%; --foreground: 250 10% 95%; --card: 250 20% 8%; --card-foreground: 250 10% 95%; --popover: 250 20% 8%; --popover-foreground: 250 10% 95%;
+    --primary: 262 62% 66%; --primary-foreground: 250 24% 5%; --secondary: 250 18% 15%; --secondary-foreground: 250 10% 95%; --muted: 250 16% 13%; --muted-foreground: 250 9% 70%;
+    --accent: 262 40% 22%; --accent-foreground: 262 72% 82%; --border: 250 16% 26%; --input: 250 16% 26%; --ring: 262 62% 66%; --signal-text: 262 74% 78%;
+  }
+
+  .theme-cathedral {
+    --background: 264 22% 5%; --foreground: 42 12% 95%; --card: 264 18% 8%; --card-foreground: 42 12% 95%; --popover: 264 18% 8%; --popover-foreground: 42 12% 95%;
+    --primary: 40 48% 71%; --primary-foreground: 264 22% 5%; --secondary: 264 16% 15%; --secondary-foreground: 42 12% 95%; --muted: 264 14% 13%; --muted-foreground: 40 8% 70%;
+    --accent: 40 30% 21%; --accent-foreground: 40 60% 82%; --border: 264 14% 26%; --input: 264 14% 26%; --ring: 40 48% 71%; --signal-text: 40 62% 78%;
+  }
+
 
 .font-display,
 h1, h2, h3,

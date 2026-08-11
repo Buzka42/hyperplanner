@@ -1,7 +1,8 @@
 # Venus Rising / Athena / Kali — implementation spec
 
-Design doc: `HYPERPLANNER_VENUS_ATHENA_KALI_VALKYRIE_PLAN.md`. Shared
-infrastructure: `PERFORMANCE-PROFILE-SPEC.md`. Valkyrie is deferred (owner
+Source design:
+`../../archive/source-planning/HYPERPLANNER_VENUS_ATHENA_KALI_VALKYRIE_PLAN.md`.
+Shared infrastructure: `../../architecture/performance-profile.md`. Valkyrie is deferred (owner
 confirmed, doc §26 asks for the same).
 
 This is the session-level spec: schedule modes, day allocation, phase
@@ -160,19 +161,14 @@ as the concrete new capability Athena needs beyond schedule modes.
 ### PerformanceProfile population
 
 Athena is doc §24's "advanced onboarding program for the wider ecosystem" —
-no special write path needed beyond what §3 of `PERFORMANCE-PROFILE-SPEC.md`
+no special write path needed beyond what §3 of
+`../../architecture/performance-profile.md`
 already gives every plan; Athena just produces cleaner data because its top
 sets are near-limit by design.
 
-**Left open, not decided here:** left/right unilateral storage (doc §29 item
-9). The current logged-set shape has no `side` field — a set is weight × reps,
-full stop. Splitting L/R would mean either two exercise ids
-(`ffe-split-squat-left` / `-right`) or a new field on every logged set across
-the app. Both are real data-model changes with consequences for history,
-badges and PerformanceProfile beyond Athena. **This needs its own decision
-before Athena's unilateral slots (FFE Bulgarian Split Squat) can record
-per-side data** — until then they log as a single bilateral-shaped set, same
-as every existing plan's unilateral exercises do today.
+Unilateral work is not logged separately by side. The weaker side always goes
+first and the stronger side matches its reps; one shared set record keeps the
+workflow simple and prevents prescribed asymmetry.
 
 ---
 
@@ -234,9 +230,9 @@ displayed as the doc's own example (`Squat: 98% retained`), never as a single
 overall number — same "no fake precision, no one blended score" rule the
 contrast/volume work already follows elsewhere in this app.
 
-Bodyweight-change context (doc §23, optional) is out of scope for v1 — it
-needs a bodyweight-logging surface Kali doesn't currently have reason to
-introduce, and the Preservation Index reads fine without it.
+Bodyweight is optional and editable from Kali's dashboard without an onboarding
+prompt. When supplied, it contributes to total-system-weight calculations; the
+dashboard remains open-ended for a later external weight-data integration.
 
 ---
 
@@ -248,7 +244,8 @@ introduce, and the Preservation Index reads fine without it.
 3. Athena templates + phases + the new `top-set-backoff` progression type and
    console rendering.
 4. PerformanceProfile write hook + `lastProgramId` (from
-   `PERFORMANCE-PROFILE-SPEC.md`) — can happen in parallel with 2–3, since it
+   `../../architecture/performance-profile.md`) — can happen in parallel with
+   2–3, since it
    doesn't depend on either plan existing.
 5. Kali templates + `systemicCompound` field + `verify:kali` guard +
    intensification phase transform + Preservation Index.

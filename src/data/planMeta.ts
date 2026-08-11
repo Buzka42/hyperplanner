@@ -207,6 +207,82 @@ export const PLAN_META: Record<string, PlanMeta> = {
         coverBg: 'bg-[#0a0808]',
         coverGradient: 'from-[#0a0808]',
         order: 19
+    },
+    'house-of-iron': {
+        id: 'house-of-iron',
+        i18nKey: 'houseOfIron',
+        themeClass: 'theme-house-of-iron',
+        logo: '/houseofiron.png',
+        coverBg: 'bg-[#090805]',
+        coverGradient: 'from-[#090805]',
+        order: 20
+    },
+    'apex-predator': {
+        id: 'apex-predator',
+        i18nKey: 'apexPredator',
+        themeClass: 'theme-apex-predator',
+        logo: '/apexpredator.png',
+        coverBg: 'bg-[#071014]',
+        coverGradient: 'from-[#071014]',
+        order: 21
+    },
+    'venus-rising': {
+        id: 'venus-rising', i18nKey: 'venusRising', themeClass: 'theme-venus-rising', logo: '/venusrising.png',
+        coverBg: 'bg-[#12080e]', coverGradient: 'from-[#12080e]', order: 22
+    },
+    'athena': {
+        id: 'athena', i18nKey: 'athena', themeClass: 'theme-athena', logo: '/athena.png',
+        coverBg: 'bg-[#080d14]', coverGradient: 'from-[#080d14]', order: 23
+    },
+    'kali': { id: 'kali', i18nKey: 'kali', themeClass: 'theme-kali', logo: '/kali.png', coverBg: 'bg-[#100405]', coverGradient: 'from-[#100405]', order: 24
+    },
+    'redline': {
+        id: 'redline', i18nKey: 'redline', themeClass: 'theme-redline', logo: '/redline.png',
+        coverBg: 'bg-[#0a0a0a]', coverGradient: 'from-[#0a0a0a]', order: 25
+    },
+    'iron-clock': {
+        id: 'iron-clock', i18nKey: 'ironClock', themeClass: 'theme-iron-clock', logo: '/ironclock.png',
+        coverBg: 'bg-[#0e0b07]', coverGradient: 'from-[#0e0b07]', order: 26
+    },
+    'the-minimum': {
+        id: 'the-minimum', i18nKey: 'theMinimum', themeClass: 'theme-the-minimum', logo: '/minimum.png',
+        coverBg: 'bg-[#0a0d0d]', coverGradient: 'from-[#0a0d0d]', order: 27
+    },
+    'lazarus': {
+        id: 'lazarus', i18nKey: 'lazarus', themeClass: 'theme-lazarus', logo: '/lazarus.png',
+        coverBg: 'bg-[#080b0d]', coverGradient: 'from-[#080b0d]', order: 28
+    },
+    'quadfather': {
+        id: 'quadfather', i18nKey: 'quadfather', themeClass: 'theme-quadfather', logo: '/quadfather.png',
+        coverBg: 'bg-[#0f0a06]', coverGradient: 'from-[#0f0a06]', order: 29
+    },
+    'cathedral': {
+        id: 'cathedral', i18nKey: 'cathedral', themeClass: 'theme-cathedral', logo: '/cathedral.png',
+        coverBg: 'bg-[#0a0810]', coverGradient: 'from-[#0a0810]', order: 30
+    },
+    'blackout': {
+        id: 'blackout', i18nKey: 'blackout', themeClass: 'theme-blackout', logo: '/blackout.png',
+        coverBg: 'bg-[#070707]', coverGradient: 'from-[#070707]', order: 31
+    },
+    'monolith': {
+        id: 'monolith', i18nKey: 'monolith', themeClass: 'theme-monolith', logo: '/monolith.png',
+        coverBg: 'bg-[#080a0b]', coverGradient: 'from-[#080a0b]', order: 32
+    },
+    'atlas': {
+        id: 'atlas', i18nKey: 'atlas', themeClass: 'theme-atlas', logo: '/atlas.png',
+        coverBg: 'bg-[#0d0a06]', coverGradient: 'from-[#0d0a06]', order: 33
+    },
+    'event-horizon': {
+        id: 'event-horizon', i18nKey: 'eventHorizon', themeClass: 'theme-event-horizon', logo: '/eventhorizon.png',
+        coverBg: 'bg-[#0a070d]', coverGradient: 'from-[#0a070d]', order: 34
+    },
+    'project-chimera': {
+        id: 'project-chimera', i18nKey: 'projectChimera', themeClass: 'theme-project-chimera', logo: '/projectchimera.png',
+        coverBg: 'bg-[#060a07]', coverGradient: 'from-[#060a07]', order: 35
+    },
+    'oracle': {
+        id: 'oracle', i18nKey: 'oracle', themeClass: 'theme-oracle', logo: '/oracle.png',
+        coverBg: 'bg-[#08070d]', coverGradient: 'from-[#08070d]', order: 36
     }
 };
 

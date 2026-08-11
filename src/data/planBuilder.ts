@@ -49,7 +49,8 @@ export type Progression =
     /** Accumulate a fixed jump per week. */
     | { type: 'linear'; increment: number; of: keyof LiftingStats; startPercent: number }
     /** Hit a total rep count in as few sets as possible. */
-    | { type: 'totalReps'; target: number; maxSets?: number };
+    | { type: 'totalReps'; target: number; maxSets?: number }
+    | { type: 'top-set-backoff'; topReps: [number, number]; backoffPercent?: number; backoffSets: number; backoffReps: [number, number]; incrementKg?: number };
 
 // ---------------------------------------------------------------------------
 // Plan description
@@ -69,6 +70,11 @@ export type SlotSpec = {
     /** Antagonist / superset pairing label, e.g. 'A1'. Shares a letter with its partner. */
     pair?: string;
     notes?: string;
+    optional?: boolean;
+    primary?: boolean;
+    systemicCompound?: boolean;
+    unilateral?: boolean;
+    block?: { kind: 'anchor' | 'burn' | 'finisher' | 'density'; id: string; durationSeconds?: number };
     /** Restrict this slot to specific weeks. */
     weeks?: number[];
 };
@@ -103,7 +109,9 @@ export type PlanSpec = {
 // ---------------------------------------------------------------------------
 
 const targetFor = (slot: SlotSpec): SetTarget => {
-    const reps = slot.reps.trim();
+    const reps = slot.progression?.type === 'top-set-backoff'
+        ? slot.progression.topReps.join('-')
+        : slot.reps.trim();
     const type: SetTarget['type'] =
         /amrap/i.test(reps) ? 'amrap'
             : /fail/i.test(reps) ? 'failure'
@@ -217,10 +225,12 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
 
                     return {
                         id: `${spec.id}-w${week}-d${day.dayOfWeek}-e${index + 1}`,
+                        exerciseId: entry.id,
                         name: entry.name.en,
                         sets: slot.sets,
                         target: targetFor(slot),
                         notes: slot.notes,
+                        optional: slot.optional,
                         rest: slot.restSeconds ? `${slot.restSeconds}s` : undefined,
                         // Structured, so the rest timer and prescription badges
                         // can read it. `notes` keeps only the author's prose —
@@ -231,6 +241,13 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
                             tempo: slot.tempo,
                             technique: slot.technique,
                             pair: slot.pair,
+                            ...(slot.progression?.type === 'top-set-backoff' && { topSetBackoff: {
+                                backoffPercent: slot.progression.backoffPercent ?? 10,
+                                backoffSets: slot.progression.backoffSets,
+                                backoffReps: slot.progression.backoffReps.join('-'),
+                                incrementKg: slot.progression.incrementKg ?? 2.5,
+                            } }),
+                            ...(slot.block && { block: slot.block }),
                         },
                     };
                 });

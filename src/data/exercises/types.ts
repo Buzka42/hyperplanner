@@ -198,6 +198,37 @@ export type WeightMode =
 /** How the set is meant to end — carried over from AdventureExercise.failureMode. */
 export type FailureMode = 'muscular' | 'technical' | 'preprogrammed';
 
+/**
+ * Expert-authored ordinal used by exercise-selection engines.
+ *
+ * 0 = absent/negligible, 1 = low, 2 = moderate, 3 = high, 4 = very high.
+ * `unknown` is permitted while the library is being authored but is rejected by
+ * the strict completeness audit required before a consuming engine ships.
+ */
+export type ExerciseRating = 0 | 1 | 2 | 3 | 4 | 'unknown';
+
+export type ExerciseIntelligence = {
+    schemaVersion: 1;
+    provenance: 'codex-v1' | 'owner-reviewed-v1';
+
+    stabilityDemand: ExerciseRating;
+    systemicCost: ExerciseRating;
+    axialCost: ExerciseRating;
+    lowerBackCost: ExerciseRating;
+    elbowCost: ExerciseRating;
+    shoulderCost: ExerciseRating;
+    kneeCost: ExerciseRating;
+    lengthenedBias: ExerciseRating;
+    shortenedBias: ExerciseRating;
+
+    /** Intrinsic default. A plan slot may override this contextual property. */
+    systemicCompound: boolean;
+    homeCompatible: boolean;
+    cameraFriendly: boolean;
+    densityCompatible: boolean;
+    failureSuitability: 'avoid' | 'advanced-only' | 'suitable';
+};
+
 // ---------------------------------------------------------------------------
 // The library entry
 // ---------------------------------------------------------------------------
@@ -223,6 +254,12 @@ export type LibraryExercise = {
 
     weightMode: WeightMode;
     failureMode?: FailureMode;
+
+    /**
+     * Expert-authored selection/fatigue metadata. Kept in a separate authored
+     * map and merged into the canonical seed so library entries stay readable.
+     */
+    intelligence?: ExerciseIntelligence;
 
     /** The single canonical coaching cue. Merged from the four legacy tip sources. */
     tip?: LocalizedText;
@@ -462,6 +499,8 @@ export type ResolvedExercise = {
         tempo?: string;
         technique?: IntensityTechniqueSpec;
         pair?: string;
+        topSetBackoff?: { backoffPercent: number; backoffSets: number; backoffReps: string; incrementKg: number };
+        block?: { kind: 'anchor' | 'burn' | 'finisher' | 'density'; id: string; durationSeconds?: number };
     };
 
     // --- added by resolution ---

@@ -12,7 +12,7 @@ const firebaseConfig = {
   appId: "1:93180527378:web:f4b0c339dcef86766669cb"
 };
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
 // Disable offline persistence to prevent Opera GX from running in offline mode
 export const db = initializeFirestore(app, {

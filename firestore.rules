@@ -28,7 +28,7 @@ service cloud.firestore {
     // code deploy and the migration can happen in either order. Remove them
     // once the migration has run everywhere and no old workout logs are written.
     function validPlanIds() {
-      return ['bench-domination', 'pencilneck-eradication', 'skeleton-to-threat', 'peachy-glute-plan', 'pain-and-glory', 'trinary', 'ritual-of-strength', 'super-mutant', '30-minute-adventure', 'king-of-the-squat', 'gravity-is-optional', 'purgatorio', 'immaculate-restructure', 'overhead-dominion', 'hamstring-foundry', 'arms-race', 'workhorse', 'neural-overload', 'tenfold', 'accumulate-intensify', 'the-weakest-link', 'upper-body-squat'];
+      return ['bench-domination', 'pencilneck-eradication', 'skeleton-to-threat', 'peachy-glute-plan', 'pain-and-glory', 'trinary', 'ritual-of-strength', 'super-mutant', '30-minute-adventure', 'king-of-the-squat', 'gravity-is-optional', 'purgatorio', 'immaculate-restructure', 'overhead-dominion', 'hamstring-foundry', 'arms-race', 'workhorse', 'neural-overload', 'tenfold', 'house-of-iron', 'apex-predator', 'venus-rising', 'athena', 'kali', 'redline', 'iron-clock', 'the-minimum', 'lazarus', 'quadfather', 'cathedral', 'blackout', 'monolith', 'atlas', 'event-horizon', 'project-chimera', 'oracle', 'accumulate-intensify', 'the-weakest-link', 'upper-body-squat'];
     }
 
     function ownsUser(userId) {
@@ -49,6 +49,19 @@ service cloud.firestore {
       return exists(/databases/$(database)/documents/appConfig/onboarding)
         ? onboardingConfig().generalPlanIds.concat(['30-minute-adventure'])
         : validPlanIds();
+    }
+
+    // AI switches only. There is deliberately no key field here: the Gemini key
+    // lives in Secret Manager and is read exclusively by the callable
+    // functions, so nothing in Firestore can leak it to a client.
+    function validAiConfig(data) {
+      return data.keys().hasOnly(['enabled', 'model', 'features', 'dailyRequestLimit', 'updatedAt', 'updatedBy']) &&
+        data.enabled is bool &&
+        data.model is string && data.model.size() > 0 && data.model.size() <= 80 &&
+        (!('features' in data) || (data.features is map && data.features.size() <= 8)) &&
+        (!('dailyRequestLimit' in data) || (data.dailyRequestLimit is int && data.dailyRequestLimit >= 0 && data.dailyRequestLimit <= 1000)) &&
+        (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 64)) &&
+        (!('updatedBy' in data) || (data.updatedBy is string && data.updatedBy.size() <= 128));
     }
 
     function validAccessKey(data, keyword) {
@@ -134,13 +147,29 @@ service cloud.firestore {
           'id', 'ownerUid', 'codeword', 'stats', 'startDate', 'programId', 'allowedPlanIds', 'allowPlanSwitching',
           'completedSessions', 'lastAmrapDate', 'benchHistory', 'squatHistory', 'selectedDays', 'exercisePreferences',
           'benchDominationModules', 'benchDominationStatus', 'pencilneckStatus', 'skeletonStatus', 'painGloryStatus',
-          'trinaryStatus', 'ritualStatus', 'superMutantStatus', 'programProgress', 'badges', 'gluteMeasurements',
+          'trinaryStatus', 'ritualStatus', 'superMutantStatus', 'houseOfIronStatus', 'apexPredatorStatus', 'athenaStatus', 'kaliStatus', 'redlineStatus', 'ironClockStatus', 'minimumStatus', 'lazarusStatus', 'quadfatherStatus', 'cathedralStatus', 'blackoutStatus', 'atlasStatus', 'eventHorizonStatus', 'projectChimeraStatus', 'oracleStatus', 'programProgress', 'badges', 'gluteMeasurements',
           'pencilneckBenchHistory',
           // Exercise system
-          'trainingPreferences', 'exerciseSwaps', 'isTestAccount'
+          'trainingPreferences', 'exerciseSwaps', 'planPreferences', 'isTestAccount'
         ]) &&
         (!('trainingPreferences' in data) || (data.trainingPreferences is map && data.trainingPreferences.size() <= 16)) &&
         (!('exerciseSwaps' in data) || (data.exerciseSwaps is map && data.exerciseSwaps.size() <= validPlanIds().size())) &&
+        (!('planPreferences' in data) || (data.planPreferences is map && data.planPreferences.size() <= validPlanIds().size())) &&
+        (!('houseOfIronStatus' in data) || (data.houseOfIronStatus is map && data.houseOfIronStatus.size() <= 8)) &&
+        (!('apexPredatorStatus' in data) || (data.apexPredatorStatus is map && data.apexPredatorStatus.size() <= 6)) &&
+        (!('athenaStatus' in data) || (data.athenaStatus is map && data.athenaStatus.size() <= 4)) &&
+        (!('kaliStatus' in data) || (data.kaliStatus is map && data.kaliStatus.size() <= 4)) &&
+        (!('redlineStatus' in data) || (data.redlineStatus is map && data.redlineStatus.size() <= 6)) &&
+        (!('ironClockStatus' in data) || (data.ironClockStatus is map && data.ironClockStatus.size() <= 6)) &&
+        (!('minimumStatus' in data) || (data.minimumStatus is map && data.minimumStatus.size() <= 6)) &&
+        (!('lazarusStatus' in data) || (data.lazarusStatus is map && data.lazarusStatus.size() <= 8)) &&
+        (!('quadfatherStatus' in data) || (data.quadfatherStatus is map && data.quadfatherStatus.size() <= 6)) &&
+        (!('cathedralStatus' in data) || (data.cathedralStatus is map && data.cathedralStatus.size() <= 6)) &&
+        (!('blackoutStatus' in data) || (data.blackoutStatus is map && data.blackoutStatus.size() <= 6)) &&
+        (!('atlasStatus' in data) || (data.atlasStatus is map && data.atlasStatus.size() <= 6)) &&
+        (!('eventHorizonStatus' in data) || (data.eventHorizonStatus is map && data.eventHorizonStatus.size() <= 6)) &&
+        (!('projectChimeraStatus' in data) || (data.projectChimeraStatus is map && data.projectChimeraStatus.size() <= 6)) &&
+        (!('oracleStatus' in data) || (data.oracleStatus is map && data.oracleStatus.size() <= 6)) &&
         // A test flag is granted by an admin on the access key, never chosen by
         // the athlete, so it may only be set to true when the key says so.
         (!('isTestAccount' in data) || data.isTestAccount is bool) &&
@@ -182,7 +211,7 @@ service cloud.firestore {
 
     function validWorkout(data) {
       return data.keys().hasAll(['date', 'dayName', 'exercises', 'programId']) &&
-        data.keys().hasOnly(['date', 'week', 'day', 'weekNum', 'dayNum', 'dayName', 'exercises', 'programId', 'sessionKind', 'elapsedSeconds', 'adventure', 'notes', 'isTest']) &&
+        data.keys().hasOnly(['date', 'week', 'day', 'weekNum', 'dayNum', 'dayName', 'exercises', 'programId', 'sessionKind', 'elapsedSeconds', 'adventure', 'redline', 'ironClock', 'notes', 'isTest']) &&
         (!('isTest' in data) || data.isTest is bool) &&
         data.date is string && data.date.size() > 0 && data.date.size() <= 64 &&
         data.dayName is string && data.dayName.size() <= 256 &&
@@ -192,9 +221,11 @@ service cloud.firestore {
         (!('day' in data) || (data.day is int && data.day >= 0 && data.day <= 7)) &&
         (!('weekNum' in data) || (data.weekNum is int && data.weekNum >= 0 && data.weekNum <= 1000)) &&
         (!('dayNum' in data) || (data.dayNum is int && data.dayNum >= 0 && data.dayNum <= 7)) &&
-        (!('sessionKind' in data) || data.sessionKind in ['scheduled', 'pair-select']) &&
+        (!('sessionKind' in data) || data.sessionKind in ['scheduled', 'pair-select', 'session-select']) &&
         (!('elapsedSeconds' in data) || (data.elapsedSeconds is int && data.elapsedSeconds >= 0 && data.elapsedSeconds <= 86400)) &&
         (!('notes' in data) || data.notes == null || (data.notes is string && data.notes.size() <= 5000)) &&
+        (!('redline' in data) || (data.redline is map && data.redline.size() <= 4)) &&
+        (!('ironClock' in data) || (data.ironClock is map && data.ironClock.size() <= 6)) &&
         (!('adventure' in data) || (
           data.adventure is map &&
           data.adventure.keys().hasAll(['sessionToken', 'selectedPairIds', 'challengeAnswers']) &&
@@ -205,12 +236,75 @@ service cloud.firestore {
         ));
     }
 
+    function validPerformanceSummary(data, exerciseId) {
+      return data.keys().hasAll([
+          'schemaVersion', 'exerciseId', 'updatedAt', 'observationCount',
+          'latestObservation', 'recentObservations'
+        ]) &&
+        data.keys().hasOnly([
+          'schemaVersion', 'exerciseId', 'updatedAt', 'observationCount',
+          'latestObservation', 'bestObservation', 'recentObservations'
+        ]) &&
+        data.schemaVersion == 1 &&
+        data.exerciseId is string && data.exerciseId == exerciseId && data.exerciseId.size() <= 100 &&
+        data.updatedAt is string && data.updatedAt.size() <= 64 &&
+        data.observationCount is int && data.observationCount >= 1 && data.observationCount <= 1000000 &&
+        data.latestObservation is map && data.latestObservation.size() <= 28 &&
+        (!('bestObservation' in data) || (data.bestObservation is map && data.bestObservation.size() <= 28)) &&
+        data.recentObservations is list && data.recentObservations.size() > 0 && data.recentObservations.size() <= 10;
+    }
+
+    function validPerformanceObservation(data, exerciseId) {
+      return data.keys().hasAll([
+          'schemaVersion', 'id', 'sessionId', 'exerciseId', 'sourceExerciseId',
+          'date', 'programId', 'week', 'day', 'setIndex', 'setKind', 'reps',
+          'externalLoadKg', 'estimateConfidence', 'comparableEstimate', 'eligibleForBest'
+        ]) &&
+        data.keys().hasOnly([
+          'schemaVersion', 'id', 'sessionId', 'exerciseId', 'sourceExerciseId',
+          'date', 'programId', 'week', 'day', 'setIndex', 'setKind', 'reps',
+          'externalLoadKg', 'totalSystemWeightKg', 'assistanceCategory', 'rir',
+          'quality', 'completionReason', 'variantId', 'equipmentVersionId',
+          'estimated1RMKg', 'estimateConfidence', 'comparableEstimate', 'eligibleForBest'
+        ]) &&
+        data.schemaVersion == 1 &&
+        data.id is string && data.id.size() > 0 && data.id.size() <= 512 &&
+        data.sessionId is string && data.sessionId.size() > 0 && data.sessionId.size() <= 128 &&
+        data.exerciseId is string && data.exerciseId == exerciseId && data.exerciseId.size() <= 100 &&
+        data.sourceExerciseId is string && data.sourceExerciseId.size() <= 160 &&
+        data.date is string && data.date.size() > 0 && data.date.size() <= 64 &&
+        data.programId is string && data.programId in validPlanIds() &&
+        data.week is int && data.week >= 0 && data.week <= 1000 &&
+        data.day is int && data.day >= 0 && data.day <= 7 &&
+        data.setIndex is int && data.setIndex >= 0 && data.setIndex <= 1000 &&
+        data.setKind in ['work', 'extra'] &&
+        data.reps is number && data.reps > 0 && data.reps <= 10000 &&
+        data.externalLoadKg is number && data.externalLoadKg >= -1000 && data.externalLoadKg <= 3000 &&
+        data.estimateConfidence in ['low', 'standard'] &&
+        data.comparableEstimate is bool && data.eligibleForBest is bool &&
+        (!('totalSystemWeightKg' in data) || (data.totalSystemWeightKg is number && data.totalSystemWeightKg >= 0 && data.totalSystemWeightKg <= 3000)) &&
+        (!('assistanceCategory' in data) || (data.assistanceCategory is string && data.assistanceCategory.size() <= 80)) &&
+        (!('rir' in data) || (data.rir is number && data.rir >= 0 && data.rir <= 10)) &&
+        (!('quality' in data) || data.quality in ['clean', 'borderline', 'invalid']) &&
+        (!('completionReason' in data) || data.completionReason in ['target-met', 'technical-failure', 'muscular-failure', 'pain', 'time-limit', 'stopped-early', 'other']) &&
+        (!('variantId' in data) || (data.variantId is string && data.variantId.size() <= 120)) &&
+        (!('equipmentVersionId' in data) || (data.equipmentVersionId is string && data.equipmentVersionId.size() <= 120)) &&
+        (!('estimated1RMKg' in data) || (data.estimated1RMKg is number && data.estimated1RMKg >= 0 && data.estimated1RMKg <= 5000));
+    }
+
+    // Server-owned AI quota counters. The callable functions write these with
+    // admin credentials, which bypass rules; no client may read or forge them.
+    match /aiUsage/{userId} {
+      allow read, write: if false;
+    }
+
     match /appConfig/{configId} {
       allow get: if signedIn();
       allow list: if isAdmin();
       allow create, update: if isAdmin() && (
         (configId == 'onboarding' && validOnboardingConfig(request.resource.data)) ||
-        (configId == 'libraryMeta' && validLibraryMeta(request.resource.data))
+        (configId == 'libraryMeta' && validLibraryMeta(request.resource.data)) ||
+        (configId == 'ai' && validAiConfig(request.resource.data))
       );
       allow delete: if isAdmin();
     }
@@ -275,6 +369,20 @@ service cloud.firestore {
         allow read: if isAdmin() || ownsUser(userId);
         allow create, update: if (isAdmin() || ownsUser(userId)) && validWorkout(request.resource.data);
         allow delete: if isAdmin() || ownsUser(userId);
+      }
+
+      match /performanceProfile/{exerciseId} {
+        allow read: if isAdmin() || ownsUser(userId);
+        allow create, update: if (isAdmin() || ownsUser(userId)) && validPerformanceSummary(request.resource.data, exerciseId);
+        allow delete: if isAdmin() || ownsUser(userId);
+
+        match /observations/{observationId} {
+          allow read: if isAdmin() || ownsUser(userId);
+          allow create: if (isAdmin() || ownsUser(userId)) && validPerformanceObservation(request.resource.data, exerciseId);
+          // Observations are immutable. Identical transactional retries are safe.
+          allow update: if (isAdmin() || ownsUser(userId)) && request.resource.data == resource.data;
+          allow delete: if isAdmin() || ownsUser(userId);
+        }
       }
     }
   }

@@ -15,6 +15,7 @@
  */
 
 import type { LibraryExercise } from './types';
+import { buildExerciseIntelligence } from './exerciseIntelligence';
 import { LIBRARY_ADDITIONS } from './libraryAdditions';
 
 /** Movements harvested from the original nine plans. */
@@ -736,6 +737,10 @@ const CORE_LIBRARY: LibraryExercise[] = [
         secondary: ['calves'],
         equipment: ['machine'],
         weightMode: 'external',
+        variants: {
+            en: ['Assisted', 'Eccentric only', 'Full repetition', 'Loaded'],
+            pl: ['Z pomocą', 'Tylko ekscentryka', 'Pełne powtórzenie', 'Z obciążeniem'],
+        },
         status: 'active',
     },
     {
@@ -1249,6 +1254,10 @@ const CORE_LIBRARY: LibraryExercise[] = [
         secondary: ['calves'],
         equipment: ['bodyweight'],
         weightMode: 'bodyweight',
+        variants: {
+            en: ['Assisted / partial', 'Eccentric only', 'Full repetition', 'Loaded'],
+            pl: ['Z pomocą / częściowe', 'Tylko ekscentryka', 'Pełne powtórzenie', 'Z obciążeniem'],
+        },
         status: 'active',
     },
     {
@@ -1711,10 +1720,10 @@ const CORE_LIBRARY: LibraryExercise[] = [
         status: 'active',
     },
     {
-        id: 'single-leg-hip-thrust',
+        id: 'single-leg-machine-hip-thrust',
         tip: { en: 'Drive through heel, full hip extension, brutal glute squeeze at top.', pl: 'Napędzaj piętą, pełne wyprostowanie bioder, brutalny ścisk pośladków na górze.' },
         name: { en: 'Single Leg Machine Hip Thrust', pl: 'Hip Thrust jednónoż (maszyna)' },
-        aliases: ['Single-Leg Machine Hip Thrust'],
+        aliases: ['Single-Leg Machine Hip Thrust', 'Single Leg Hip Thrust Machine'],
         pattern: 'hip-extension',
         primary: ['glutes'],
         secondary: ['hamstrings'],
@@ -2010,7 +2019,12 @@ const CORE_LIBRARY: LibraryExercise[] = [
  * The full library: movements from the existing plans plus those authored for
  * the Poliquin-inspired plans.
  */
-export const EXERCISE_LIBRARY: LibraryExercise[] = [...CORE_LIBRARY, ...LIBRARY_ADDITIONS];
+const EXERCISE_SEED: LibraryExercise[] = [...CORE_LIBRARY, ...LIBRARY_ADDITIONS];
+
+export const EXERCISE_LIBRARY: LibraryExercise[] = EXERCISE_SEED.map(exercise => ({
+    ...exercise,
+    intelligence: buildExerciseIntelligence(exercise),
+}));
 
 /** Fast id lookup. */
 export const EXERCISE_BY_ID: Record<string, LibraryExercise> = Object.fromEntries(

@@ -18,6 +18,8 @@ export type LoggedSet = {
     weight: string;
     completed: boolean | null;
     kind?: string;
+    rir?: number;
+    quality?: 'clean' | 'borderline' | 'invalid';
 };
 
 export type ProgressionContext = {

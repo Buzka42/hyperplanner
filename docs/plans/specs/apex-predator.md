@@ -1,9 +1,11 @@
 # Apex Predator — implementation spec
 
-Design doc: `HYPERPLANNER_APEX_PREDATOR_PLAN.md`. This is the build spec derived
+Source design: `../../archive/source-planning/HYPERPLANNER_APEX_PREDATOR_PLAN.md`.
+This is the build spec derived
 from it plus the owner's four decisions.
 
-**Correcting the earlier scoping.** `NEW-PLANS-IMPLEMENTATION-PLAN.md` listed
+**Correcting the earlier scoping.** The archived
+`../../archive/source-planning/NEW-PLANS-IMPLEMENTATION-PLAN.md` listed
 Apex as "the declarative one — probably needs no engine work". That was wrong,
 and it was wrong because the audit script found no exercises in this doc and I
 read that as "simple" rather than "differently shaped". The three base days are
@@ -67,9 +69,15 @@ apexProfile = {
 Regions: `ankle`, `hipFlexion`, `hipRotation`, `shoulderFlexion`,
 `shoulderRotation`, `thoracicRotation`, `squatAccess`.
 
-Scores are **ordinal 1–3**, not measurements. The doc is explicit about
-avoiding fake precision, so the ankle test's centimetre reading is bucketed into
-1–3 on entry and the raw number is kept only for the athlete's own reference.
+The UI accepts exact left/right measurements and stores them, while retaining a
+1–3 fallback for users who cannot measure. Test-specific thresholds normalize
+the exact values to the same 1–3 ranking scale; raw values remain visible for
+trend review and are never compared across tests without normalization.
+
+Squat access remains a separate descriptive screen. Optional Squat, Bench Press
+and Deadlift video uploads may receive structured AI technique advice. That
+advice is non-diagnostic and cannot change emphasis or exercise selection
+without the user's explicit action.
 
 ## 2. Assessment flow
 

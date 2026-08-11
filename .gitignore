@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.codex-artifacts/
 dist
 dist-ssr
 *.local
@@ -23,8 +24,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# User specific docs
+# User-specific nested readmes; the repository root README is canonical.
 README.md
+!/README.md
+/README.local.md
 PLANS.md
 /backups
 
@@ -35,3 +38,6 @@ PLANS.md
 # Python
 __pycache__/
 *.py[cod]
+
+# Cloud Functions dependencies are installed at deploy time.
+functions/node_modules

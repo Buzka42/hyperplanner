@@ -3,6 +3,8 @@
 
 import type { Program, PlanConfig, WorkoutDay, UserProfile, Exercise } from '../types';
 
+import { poolModeEnabled, rotateSession } from '../features/superMutant/pool';
+
 export type { SuperMutantStatus } from '../types';
 
 // Cooldown periods in hours
@@ -792,10 +794,14 @@ export const SUPER_MUTANT_CONFIG: PlanConfig = {
         preprocessDay: (day, user) => {
             // Generate next workout dynamically
             const nextWorkout = generateNextWorkout(user);
-            if (nextWorkout) {
-                return nextWorkout;
-            }
-            return day;
+            const session = nextWorkout ?? day;
+
+            // Optional indefinite-pool mode. Off by default: an athlete who has
+            // never opted in gets the base programme, byte for byte. When on,
+            // only the movement filling each slot rotates — the queue, volume,
+            // RIR ladder and deloads above are untouched.
+            if (!poolModeEnabled(user.planPreferences?.['super-mutant'])) return session;
+            return { ...session, exercises: rotateSession(session.exercises, user.superMutantStatus?.pool) };
         }
     }
 };

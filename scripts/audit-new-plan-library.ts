@@ -6,11 +6,14 @@
  * Heel-Elevated Squat`, `## Anchor`, `### Superset A` — so the heading text
  * after the em-dash is the movement, where there is one.
  */
-import { readFileSync, readdirSync } from 'node:fs';
-import { EXERCISE_LIBRARY } from '/home/user/hyperplanner/src/data/exercises/library';
-import { LIBRARY_ADDITIONS } from '/home/user/hyperplanner/src/data/exercises/libraryAdditions';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { EXERCISE_LIBRARY } from '../src/data/exercises/library';
 
-const LIB = [...EXERCISE_LIBRARY, ...LIBRARY_ADDITIONS];
+// EXERCISE_LIBRARY already includes the authored additions.
+const LIB = EXERCISE_LIBRARY;
+const ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 
 const norm = (s: string) =>
     s.toLowerCase()
@@ -61,7 +64,7 @@ const add = (doc: string, raw: string) => {
 };
 
 for (const doc of DOCS) {
-    const text = readFileSync(`/home/user/hyperplanner/docs/plans/${doc}`, 'utf8');
+    const text = readFileSync(resolve(ROOT, 'docs', 'archive', 'source-planning', doc), 'utf8');
     const lines = text.split('\n');
     for (let i = 0; i < lines.length; i++) {
         const m = /^#{2,4}\s+(.*)$/.exec(lines[i].trim());
@@ -96,7 +99,7 @@ for (const doc of DOCS) {
 const missing = rows.filter(r => !r.id);
 const present = rows.filter(r => r.id);
 
-console.log(`\n  Library: ${LIB.length} movements (${EXERCISE_LIBRARY.length} generated + ${LIBRARY_ADDITIONS.length} authored)`);
+console.log(`\n  Library: ${LIB.length} canonical movements`);
 console.log(`  Named across the four docs: ${rows.length} candidate movements`);
 console.log(`  Already present: ${present.length}`);
 console.log(`  MISSING: ${missing.length}\n`);

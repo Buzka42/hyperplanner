@@ -229,4 +229,30 @@ export const PLAN_RULES: Record<string, VolumeRules> = {
     'workhorse': { kind: 'specialisation', specialisation: ['back'], specialisationExposures: 3 },
     'neural-overload': { kind: 'powerbuilding' },
     'tenfold': { kind: 'hypertrophy' },
+    // Free-order plan: two sessions are valid, so the four-card catalogue is
+    // not a promise that every muscle receives two calendar exposures.
+    'house-of-iron': { kind: 'general', minWeeklyExposures: 1 },
+    'apex-predator': { kind: 'general', minWeeklyExposures: 2 },
+    'venus-rising': { kind: 'hypertrophy' },
+    'athena': { kind: 'powerbuilding' },
+    'kali': { kind: 'general', minWeeklyExposures: 2 },
+    'redline': { kind: 'general', minWeeklyExposures: 2 },
+    'iron-clock': { kind: 'general', minWeeklyExposures: 2 },
+    // Two mandatory sessions is the whole premise: every major muscle is hit in
+    // both, so two exposures is the floor and the ceiling of what it promises.
+    'the-minimum': { kind: 'general', minWeeklyExposures: 2 },
+    // Deliberately submaximal on the way back in; weeks 1–2 are capped by design.
+    'lazarus': { kind: 'general', minWeeklyExposures: 2 },
+    // One work set per slot is the whole premise; the rule that matters here is
+    // frequency, which the three full-body days satisfy.
+    'blackout': { kind: 'general', minWeeklyExposures: 2 },
+    'monolith': { kind: 'hypertrophy' },
+    'atlas': { kind: 'general', minWeeklyExposures: 2 },
+    'event-horizon': { kind: 'hypertrophy' },
+    'oracle': { kind: 'powerbuilding', minWeeklyExposures: 2 },
+    'project-chimera': { kind: 'powerbuilding', minWeeklyExposures: 2 },
+    'quadfather': { kind: 'specialisation', specialisation: ['quads'], specialisationExposures: 3 },
+    // One lower-body day is the deliberate cost of training chest three times.
+    // The legs are maintained, not developed, and the plan says so in its copy.
+    'cathedral': { kind: 'specialisation', specialisation: ['chest'], specialisationExposures: 3, exempt: ['quads', 'hamstrings', 'glutes'] },
 };

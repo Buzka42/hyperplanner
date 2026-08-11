@@ -20,6 +20,7 @@ import { painGloryProgression } from '../src/features/workout/progression/painGl
 import { ritualProgression } from '../src/features/workout/progression/ritual';
 import { trinaryProgression } from '../src/features/workout/progression/trinary';
 import { superMutantProgression } from '../src/features/workout/progression/superMutant';
+import { houseOfIronProgression } from '../src/features/workout/progression/houseOfIron';
 import type { LoggedSet, ProgressionContext } from '../src/features/workout/progression/types';
 import type { Exercise, UserProfile, WorkoutDay } from '../src/types';
 
@@ -606,6 +607,33 @@ const context = (over: Partial<ProgressionContext>): ProgressionContext => ({
 }
 
 // ===========================================================================
+// House of Iron — two consecutive clean top-range exposures recommend a step
+// ===========================================================================
+{
+    const squat = { ...exercise('house-slot', 'Goblet Heel-Elevated Squat'), exerciseId: 'goblet-heel-elevated-squat', target: { type: 'range' as const, reps: '8-15' } };
+    const logged = { 'house-slot': [set('16', '15'), set('16', '15'), set('16', '15'), set('16', '30', true, 'extra')] };
+    const first = houseOfIronProgression(context({ planId: 'house-of-iron', workout: day([squat]), sets: logged }));
+    const firstProgression = first.updates['houseOfIronStatus.progression'] as Record<string, { cleanTopRangeExposures: number }>;
+    check(firstProgression['goblet-heel-elevated-squat'].cleanTopRangeExposures === 1, 'House records the first clean top-range exposure.');
+
+    const second = houseOfIronProgression(context({
+        planId: 'house-of-iron', workout: day([squat]), sets: logged,
+        user: { houseOfIronStatus: { progression: firstProgression as any } } as UserProfile,
+    }));
+    const pending = second.updates['houseOfIronStatus.pendingProgressions'] as Record<string, { stage: string }>;
+    check(pending['goblet-heel-elevated-squat']?.stage === 'rom', 'Two clean exposures should recommend the authored ROM step.');
+
+    const miss = houseOfIronProgression(context({
+        planId: 'house-of-iron', workout: day([squat]),
+        user: { houseOfIronStatus: { progression: firstProgression as any } } as UserProfile,
+        sets: { 'house-slot': [set('16', '15'), set('16', '14'), set('16', '15')] },
+    }));
+    const reset = miss.updates['houseOfIronStatus.progression'] as Record<string, { cleanTopRangeExposures: number }>;
+    check(reset['goblet-heel-elevated-squat'].cleanTopRangeExposures === 0, 'A missed exposure breaks the consecutive streak.');
+    check(houseOfIronProgression(context({ planId: 'house-of-iron', isExistingLog: true, workout: day([squat]), sets: logged })).updates['houseOfIronStatus.progression'] === undefined, 'Re-saving a House workout must not earn progression twice.');
+}
+
+// ===========================================================================
 // Handlers must never write directly
 // ===========================================================================
 {
@@ -623,10 +651,11 @@ if (failures.length) {
     process.exit(1);
 }
 
-console.log(`\n  verify:progression OK — ${checksRun} assertions across all 8 plans`);
+console.log(`\n  verify:progression OK — ${checksRun} assertions across all 9 stateful plans`);
 console.log('   Peachy heaviest set · Pencilneck best e1RM · Skeleton plank time + completion');
 console.log('   Bench Domination AMRAP, BTN, Spoto, Wide-Grip streak, four deload triggers');
 console.log('   Pain & Glory squat window, E2MOM, AMRAP floored rather than rounded');
 console.log('   Ritual ascension recalc + ME singles · Trinary ME by RPE, RE/DE queues');
 console.log('   Super Mutant variant flip, double progression, rolling 7-day expiry');
+console.log('   House of Iron consecutive mastery exposures + confirmed ladder recommendations');
 console.log('   all ignore uncompleted sets, extra sets, technique rows and re-saved sessions\n');
