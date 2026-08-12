@@ -1,7 +1,7 @@
 # Graph Report - workout planner  (2026-08-12)
 
 ## Corpus Check
-- 243 files · ~8,004,244 words
+- 243 files · ~8,006,174 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `dfd465be`
+- Built from commit: `e3fb6a6a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -49,16 +49,16 @@
 - [[_COMMUNITY_Community 32|Community 32]]
 - [[_COMMUNITY_Community 33|Community 33]]
 - [[_COMMUNITY_Community 34|Community 34]]
-- [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 36|Community 36]]
 - [[_COMMUNITY_Community 37|Community 37]]
 - [[_COMMUNITY_Community 38|Community 38]]
 - [[_COMMUNITY_Community 39|Community 39]]
 - [[_COMMUNITY_Community 42|Community 42]]
 - [[_COMMUNITY_Community 43|Community 43]]
-- [[_COMMUNITY_Community 46|Community 46]]
-- [[_COMMUNITY_Community 48|Community 48]]
-- [[_COMMUNITY_Community 51|Community 51]]
+- [[_COMMUNITY_Community 47|Community 47]]
+- [[_COMMUNITY_Community 49|Community 49]]
 - [[_COMMUNITY_Community 52|Community 52]]
+- [[_COMMUNITY_Community 53|Community 53]]
 - [[_COMMUNITY_Community 55|Community 55]]
 - [[_COMMUNITY_Community 56|Community 56]]
 - [[_COMMUNITY_Community 57|Community 57]]
@@ -206,11 +206,11 @@ Nodes (11): isAccessKeyUsable(), isAlwaysFreePlan(), normalizeKeyword(), withAlw
 Cohesion: 0.14
 Nodes (9): techniqueLabel(), pair(), slot(), formatRest(), formatTempo(), groupKeyOf(), isSupersetted(), nextSlot() (+1 more)
 
-### Community 16 - "Community 16"
+### Community 17 - "Community 17"
 Cohesion: 0.11
 Nodes (19): Acolyte of Strength Badge Image, Behemoth of the Wastes Badge Image, 20kg Bench Jump Badge Image, 30kg Bench Jump Badge Image, Bench Psychopath Badge Image, Certified Shoulder Boulder Badge Image, Cannonball Delts Badge Image, Deficit Demon Badge Image (+11 more)
 
-### Community 17 - "Community 17"
+### Community 18 - "Community 18"
 Cohesion: 0.14
 Nodes (6): benchmarkLiftsFor(), enrolWithoutBenchmarks(), handleAdventureSubmit(), handleBenchmarkSubmit(), handleProgramSelect(), isPlanAllowed()
 
@@ -223,54 +223,54 @@ Cohesion: 0.28
 Nodes (11): baseAxial(), baseLowerBack(), baseStability(), baseSystemic(), buildExerciseIntelligence(), clamp(), failureSuitability(), hasAny() (+3 more)
 
 ### Community 21 - "Community 21"
-Cohesion: 0.23
-Nodes (12): aiComplete(), accuracyBand(), accuracyTrend(), assessConfidence(), daysAgo(), epley(), predict(), predictFromPriors() (+4 more)
-
-### Community 22 - "Community 22"
 Cohesion: 0.18
 Nodes (8): carryScore(), compareCarries(), gauntletFor(), isPowerWork(), limiterAdvice(), preprocess(), firstDayIds(), session()
+
+### Community 22 - "Community 22"
+Cohesion: 0.23
+Nodes (12): aiComplete(), accuracyBand(), accuracyTrend(), assessConfidence(), daysAgo(), epley(), predict(), predictFromPriors() (+4 more)
 
 ### Community 23 - "Community 23"
 Cohesion: 0.21
 Nodes (8): rankExerciseSwaps(), describe(), learnedCost(), rating(), recommendSwap(), splitFor(), swapVerdict(), tradeoffsFor()
+
+### Community 24 - "Community 24"
+Cohesion: 0.19
+Nodes (7): UserProvider(), canonicalPlanId(), canonicalPlanIds(), normalizeLegacyPlanIds(), getPlanMeta(), getPlan(), getPlanExerciseConfig()
 
 ### Community 26 - "Community 26"
 Cohesion: 0.24
 Nodes (8): harvestDay(), harvestExercise(), isProbablyExercise(), normalise(), record(), syntheticUser(), tokens(), userVariants()
 
 ### Community 28 - "Community 28"
-Cohesion: 0.26
-Nodes (6): canonicalPlanId(), canonicalPlanIds(), normalizeLegacyPlanIds(), getPlanMeta(), getPlan(), getPlanExerciseConfig()
-
-### Community 29 - "Community 29"
 Cohesion: 0.21
 Nodes (5): missingFromPortfolio(), comparableTo(), eligible(), followUpsFor(), recommend()
 
-### Community 30 - "Community 30"
+### Community 29 - "Community 29"
 Cohesion: 0.29
 Nodes (6): applyPendingScheduleMode(), calendarPlanWeek(), requestScheduleMode(), effectiveAthenaMode(), preprocess(), replace()
 
-### Community 31 - "Community 31"
+### Community 30 - "Community 30"
 Cohesion: 0.33
 Nodes (7): check(), checkDay(), checkExercise(), fail(), isPlaceholder(), syntheticUser(), userVariants()
 
-### Community 32 - "Community 32"
+### Community 31 - "Community 31"
 Cohesion: 0.31
 Nodes (4): calculateE1RM(), getPausedBenchBase(), getRepThresholdForWeek(), roundDownToNearest2_5()
 
-### Community 33 - "Community 33"
+### Community 32 - "Community 32"
 Cohesion: 0.33
 Nodes (5): calculateE1RM(), createPurgeWeek(), createRitualWeeks(), roundDownTo2_5(), updateRitual1RMsFromAscensionTest()
 
-### Community 34 - "Community 34"
+### Community 33 - "Community 33"
 Cohesion: 0.46
 Nodes (6): contain_image(), front(), make_pdf(), paragraph(), reverse(), wrap()
 
-### Community 35 - "Community 35"
+### Community 34 - "Community 34"
 Cohesion: 0.43
 Nodes (4): humanise(), isCuratedGeneralCue(), isPrescriptionSpecific(), rank()
 
-### Community 37 - "Community 37"
+### Community 36 - "Community 36"
 Cohesion: 0.52
 Nodes (4): maxFor(), openingLoad(), seedLoadFor(), statsUsedBy()
 
@@ -278,11 +278,11 @@ Nodes (4): maxFor(), openingLoad(), seedLoadFor(), statsUsedBy()
 Cohesion: 0.29
 Nodes (7): Bench Domination Badge, Pain & Glory Badge, AMRAP (As Many Reps As Possible), Bench Domination, Epley Formula, Pain & Glory, Reactive Deload
 
-### Community 51 - "Community 51"
+### Community 52 - "Community 52"
 Cohesion: 0.83
 Nodes (3): inject(), mockUser(), run()
 
-### Community 52 - "Community 52"
+### Community 53 - "Community 53"
 Cohesion: 0.83
 Nodes (3): brand_front(), build(), tracked_text()
 
@@ -294,11 +294,11 @@ Nodes (3): brand_front(), build(), tracked_text()
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `definePlan()` connect `Community 6` to `Community 1`, `Community 3`, `Community 38`, `Community 8`, `Community 9`, `Community 42`, `Community 11`, `Community 19`, `Community 22`, `Community 30`?**
+- **Why does `definePlan()` connect `Community 6` to `Community 1`, `Community 3`, `Community 37`, `Community 8`, `Community 9`, `Community 42`, `Community 11`, `Community 19`, `Community 21`, `Community 29`?**
   _High betweenness centrality (0.116) - this node is a cross-community bridge._
 - **Why does `resolveDay()` connect `Community 7` to `Community 2`?**
   _High betweenness centrality (0.088) - this node is a cross-community bridge._
-- **Why does `useUser()` connect `Community 25` to `Community 2`, `Community 3`, `Community 38`, `Community 11`, `Community 14`, `Community 46`, `Community 17`, `Community 18`, `Community 54`, `Community 24`, `Community 28`?**
+- **Why does `useUser()` connect `Community 16` to `Community 2`, `Community 3`, `Community 37`, `Community 38`, `Community 11`, `Community 14`, `Community 46`, `Community 47`, `Community 18`, `Community 24`?**
   _High betweenness centrality (0.084) - this node is a cross-community bridge._
 - **Are the 21 inferred relationships involving `empty()` (e.g. with `athenaProgression()` and `accessories()`) actually correct?**
   _`empty()` has 21 INFERRED edges - model-reasoned connections that need verification._

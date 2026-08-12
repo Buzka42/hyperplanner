@@ -182,7 +182,7 @@ Do not sprinkle myo-reps on everything. Attach one lever per plan, in a late blo
 |---|---|---|
 | Double progression | Default for hypertrophy slots | Already tagged, not executed — see P0-2 |
 | Wave load (5/4/3…) | Strength specialisation (KoS, OD press) | Hypertrophy isolation |
-| Rest-pause / myo | Small muscles, machines, late block (Kali already; Cathedral adduction already) | Systemic compounds |
+| Last-set to failure (2 hard sets) | Specialisation isolation, machines, cables, DBs | Squat / RDL / press / weighted-chin strength / 1–6 / 10×10 |
 | Lengthened partials after failure | Stretch-day finishers (Cathedral flyes, Arms Race lengthened day, Foundry curls) | Replacing full-ROM compounds |
 | Tempo 40X0 / 30X0 | Accumulation (Purgatorio, Foundry curls, Tenfold) | Strength singles |
 | Density (rounds in a window) | Iron Clock, Arms Race density day, Redline furnace | Strength days |
@@ -607,7 +607,10 @@ Do not start with dashboards. Order is “does the next session get the right lo
 | 9 | Foundry Nordic ladder + seated-first | Best-supported specialisation upgrade |
 | 10 | Cathedral last-set lengthened partials | Zero extra sets |
 | 11 | Pencilneck week-5 cut | Survival |
-| 12 | Everything else you tick |
+| 12 | **P0-12** trackedLift + instrument charts | Stop plotting bench on squat/chin plans |
+| 13 | Hard-two + last-set-failure on specialisation isolation | Quality over the third easy set |
+| 14 | Quadfather / Cathedral / Athena goal cards | Dashboards that match the thesis |
+| 15 | Everything else you tick |
 
 > **Owner:** accept this order? [ ] yes  [ ] reorder:  
 > notes:
@@ -762,14 +765,183 @@ Peachy, House of Iron, Athena workout sheets, Workhorse, Tenfold, Cathedral, Bla
 
 ---
 
+## 12. Gym lock — no new movements
+
+The library is the gym. `libraryAdditions.ts` is authored against that inventory: DBs to 50 kg, Smith, standing hack squat, Hammer chest / upper / lower row, pec deck, cables, TRX, ab wheel, hanging space, pull-up bar. Core `library.ts` is the rest of what you already train there.
+
+**Hard rule for every change below**
+
+- Prescription changes only (sets, reps, rest, tempo, last-set-failure, progression).
+- Swaps only from `EXERCISE_BY_ID` / existing `swapGroup`s. If it is not in the library, it is not in the gym.
+- Do not add preacher machines, pendulum squat, hip-thrust machine, Nordic bench variants, extra cable stations, or “better” literature movements that you cannot load there.
+- Dual-name EN/PL already exists; do not invent display names that are not library entries.
+
+> **Owner:** gym lock accepted as a standing constraint? [ ] yes  
+> notes:
+
+---
+
+## 13. Two hard sets, last to failure
+
+You are right: **3×8–12 on everything is the default habit**, not a method. Quadfather / Cathedral already mix 4 / 3 / 2 / 1. Most `definePlan` specialisation accessories and almost all of Pencilneck are still `sets: 3`.
+
+### Why this is more efficient here
+
+Proximity to failure on the **last** set does most of the hypertrophy work (Refalo 2022; Pelland / Robinson line). A third set at RIR 3 is usually junk, especially when the same muscle already has 3–4 weekly exposures. Two hard sets, set 1 at RIR 1–2, set 2 to true failure:
+
+- raises quality per minute
+- frees recovery for the *next* specialised session (the whole point of Arms Race / OD / Foundry / Cathedral frequency)
+- cuts the volume-ceiling problem without deleting the exercise
+
+**Never** take these to failure: squat, RDL, standing press, deficit / snatch-grip pull, weighted chin strength work, close-grip 4–6, Neural 1–6, Tenfold 10×10, any axial grind. Failure lives on **machines, cables, DBs, unilateral, isolation**.
+
+### Runtime shape (already almost there)
+
+There is no `last-set-failure` kind yet. `TechniqueScope` already has `'last'`. Add:
+
+```
+{ kind: 'last-set-failure' }
+```
+
+UI: badge on the last working set only (`TO FAILURE` / `DO ZAŁAMANIA`). Logging: last set is AMRAP, no cap. Double progression: if that AMRAP hits the top of the range, add the increment next time (still P0-2). Do not count the failure set as a third “bonus” set.
+
+Helper in plan files: `hardTwo(ex, reps)` → `{ sets: 2, reps, technique: { kind: 'last-set-failure' } }`. Same library ids.
+
+### Where to apply (library ids only)
+
+| Plan | Convert to 2 + last-to-failure | Leave as-is |
+|---|---|---|
+| **Pencilneck** | Flyes, pec deck, laterals, rear delt, tri extensions, curls, leg extension, calf, ham curl | Bench / row / pulldown / hack / RDL stay 3 (heavier 6–10 in W5–8) |
+| **Arms Race** | Lengthened + density isolation (incline DB curl, Bayesian cable, pressdown, skullcrusher, hammer curl). Day 2 reverse/hammer/overhead tri | Day 1 CGBP + straight-bar curl **5×4–6** |
+| **Overhead Dominion** | Cable lateral, rear-delt fly, reverse pec deck, pressdown | Standing press + weighted chin **5×5–8** |
+| **Hamstring Foundry** | Upper accessories (press, row, lateral, curl, pressdown). Optional: the *second* seated-curl exposure in a week | RDL 4×5–8; first seated curl 4×8–12 @ 40X0 (that *is* the specialisation) |
+| **Cathedral** | Pec deck, cable fly, crossover, laterals | Incline DB 4×6–10, dips 3, Smith incline 3 |
+| **Quadfather** | Leg extension, sissy, reverse Nordic, laterals, arm maintenance | Hack 4×5–8, BSS/KOT 3, press 3 |
+| **Workhorse / Gravity** | Chest / rear delt / tri / lateral accessories | Weighted chin / dip strength slots |
+| **Peachy** | Seated ham curl, calf, laterals if present | Sumo / squat / BSS / hip thrust stay 3 — load is the overload |
+| **Tenfold** | Accessories only (row, lateral, tri, curl) | The 10×10 (or 5×10 if you tick consolidation) |
+| **Event Horizon / Chimera / Venus / Monolith** | Isolation slots currently at 3 | Systemic compounds |
+| **Blackout / Kali / Minimum / Lazarus** | Skip or only on the isolation that is already a finisher | Intensity/density is already the method |
+| **Strength plans** (BD, KoS, Ritual, Neural, Purgatorio, Atlas) | Isolation accessories only if they are 3× fluff | All main-lift work |
+
+This is also how we cut Arms Race ~33 biceps sets and OD ~41 delt sets **without adding a fifth day or a new curl**.
+
+> **Owner:** hard-two on specialisation isolation, keep compounds? [ ] yes  [ ] also convert some compounds  [ ] Pencilneck isolation only first  
+> notes:
+
+---
+
+## 14. Dashboards — keep the lift trackers, kill the theatre, fit the sheet
+
+The strength 1RM + history line is the right idea. Two problems: most specialisation dashboards do not track **their** lift, and the chart is a Recharts default sitting on an instrument sheet.
+
+### 14.1 P0-12. `strength_chart` always plots bench (except Peachy)
+
+```208:210:src/pages/Dashboard.tsx
+    const strengthHistory = isPeachy ? (user.squatHistory || []) : (user.benchHistory || []);
+    const strengthChartTitle = isPeachy ? t('dashboard.cards.squatStrengthProgression') : t('dashboard.cards.strengthProgression');
+```
+
+King of the Squat, Overhead Dominion, Workhorse, Gravity, Foundry, Arms Race, Tenfold, Neural, Purgatorio, Immaculate all request `strength_chart` and get **paused-bench history**. That is not a tracker. It is a lie.
+
+History fields today: `benchHistory`, `squatHistory`. Pencilneck already writes bench e1RM; Peachy writes heaviest squat. Everyone else with a chart is piggy-backing bench.
+
+**Fix:** one `trackedLift` per plan (library id + history field). Append on save like Peachy/Pencilneck. Chart title = that lift’s name.
+
+| Plan | Track this (already in the gym) |
+|---|---|
+| Bench Domination / Neural / Trinary | Paused bench e1RM (already) |
+| King of the Squat / Athena / Peachy | Squat (heaviest or e1RM) |
+| Pain & Glory | Conventional + deficit snatch-grip (Glory Counter already; keep it) |
+| Ritual | Altar already has bench / squat / deadlift — **keep**, do not add a fourth sparkline |
+| Overhead Dominion | Standing press |
+| Workhorse / Gravity | Chin **belt kg** (TSW = BW + belt, P0-5) |
+| Hamstring Foundry | RDL heaviest |
+| Arms Race | Straight-bar curl heaviest **and** close-grip bench (two numbers, one card, no dual rainbow) |
+| Cathedral | Incline DB heaviest |
+| Quadfather | Hack squat heaviest |
+| Tenfold | The day’s 10×10 load (chest / quad / back / ham) — four small figures, not a bench line |
+| Immaculate | The lagging lift’s working weight |
+| Pencilneck | Bench e1RM (already logged) — **replace** commandments + fake trap barometer with this number + a goal |
+
+> **Owner:** P0-12 trackedLift map [ ] yes  [ ] change:  
+> notes:
+
+### 14.2 Widget audit (keep / replace / kill)
+
+**Keep — they are the goal**
+
+| Widget | Why it stays |
+|---|---|
+| Bench 1RM + chart (once it is the right lift) | Strength plans live or die on this |
+| Ritual Strength Altar | Three numbers, one glance, on-theme |
+| P&G Glory Counter + deficit tracker | Tonnes pulled is the motivation; deficit load is the method |
+| Skeleton deficit push-up PR + weeks-left | The actual beginner goal |
+| Peachy glute cm log | The specialisation metric. Sparkline must use theme tokens (today `stroke="#FF7A5C"`) |
+| Super Mutant recovery gauge | It changes the next session |
+| House equipment list | Constraint is the program |
+| Adventure route command | The plan *is* the picker |
+
+**Replace — flavour that is sitting where a goal should be**
+
+| Now | Replace with |
+|---|---|
+| `program_status` “Week N / Viewing schedule” | Delete. The command header already has the week |
+| Pencilneck commandments + trap barometer (“13% GONE” is not data) | Bench e1RM + a **target** you set at onboarding (e.g. +10 kg / +2 cm arms — arms only if you want a tape, not a fake %) |
+| Skeleton quotes / mutant mindset | Push-up PR is enough; quotes are Gemini-class fluff |
+| Athena / Venus dashboards | They are **settings forms**. Keep the selectors, add squat / hinge / press **current vs start** like the altar |
+| Kali | “Performance retained %” is the right widget — keep, make the numbers large |
+| Apex | Assessment scores are the goal — keep, do not add a bench chart |
+| Quadfather / Cathedral | Engines exist (`roles.ts`, `arches.ts`) and **no dashboard uses them**. Show Load / Depth / Burn or Press / Stretch / Adduction as three figures + “next session job”. That is motivational because it is the thesis |
+| Workhorse / Gravity | Chin TSW now / TSW at week 1 / trial target |
+| OD | Press now vs onboarding; laterals do not get a chart |
+| Foundry | RDL now vs start |
+| Arms Race | Curl + CGBP now vs start |
+| Oracle / Chimera / Event Horizon | Honest engine output (prediction, mutation, cost) — they already have copy; do not slap a bench line on them |
+
+**Kill**
+
+- Particle / chime / radar (already in Gemini kill-list)
+- Circumference widgets on non-Peachy plans
+- A second generic “strength progression” card that is not the plan’s lift
+- Rainbow `--chart-2`…`--chart-5` series on a single-lift card
+
+> **Owner:** kill program_status + trap barometer + quotes? [ ] yes  [ ] keep quotes  
+> notes:
+
+### 14.3 Chart style — instrument sheet, not a dashboard kit
+
+Today: Recharts `monotone` line, dots on every point, `label` on every kg, hidden axes, Peachy sparkline hardcoded coral. Theme files define `--chart-1`…`5` as a hue wheel that nothing in the sheet language uses.
+
+**Rules if we draw a graph**
+
+1. Stroke = `hsl(var(--primary))`. Fill none. No area gradient.
+2. One series unless the plan truly has two lifts (Ritual altar is numbers, not two lines).
+3. Dots only on the **last** point. Tabular kg, Hanken / JetBrains, `hsl(var(--foreground))`.
+4. No X/Y chrome. If a rule is needed, `var(--instrument-rule)` hairline, not a Recharts grid.
+5. Height ~140px, full width of the card, no `pl-0` clipping.
+6. Empty state = the onboarding max as a single point labelled Start — already done; keep it.
+7. Peachy glute sparkline: same rules, drop `#FF7A5C`.
+8. Do not animate. `prefers-reduced-motion` already matters in the sheet spec.
+
+Goal-setting on the same card, not a second widget: **Start · Now · Target**. Target is set once at onboarding (or “beat week-1 by 5%”). That is motivation that is still a number.
+
+> **Owner:** chart rules [ ] yes  [ ] tweak:  
+> notes:
+
+---
+
 ## 9. What I am not proposing
 
 - New plans.
+- New exercises that are not already in `EXERCISE_BY_ID` / the gym library.
 - More weekly days on specialisation plans that are already at 4.
 - “Daily extra laterals / extra VMO / extra neck” on plans that are already past 20 hard sets on the target.
+- Taking squat / RDL / standing press / weighted-chin strength work to failure.
 - Replacing Poliquin 1–6, waves, or structural screening with a generic PPL.
 - Treating Poliquin ratios as injury prediction.
 - Building Gemini’s animation layer.
+- A bench sparkline on a squat or chin plan.
 
 ---
 
@@ -780,6 +952,8 @@ Peachy, House of Iron, Athena workout sheets, Workhorse, Tenfold, Cathedral, Bla
 3. For **Neural Overload**, is the second six allowed to use a **lighter bar** if 77.5% still dies after a 90% single, or must % stay fixed and only rest change?
 4. **Double progression:** auto +2.5 on all hypertrophy slots, or only on the plan’s primary lifts so accessories stay athlete-judged?
 5. **Immaculate:** are you willing to auto-add sets from a ratio, or should the dashboard only *recommend* and wait for a confirm (Chimera-style)?
+6. **Hard-two:** isolation-only on specialisation plans first, or also Pencilneck isolation in the same pass?
+7. **Tape vs bar:** Peachy keeps circumference. For Arms Race / Pencilneck, is a curl/bench number enough, or do you want an optional arm tape like glutes?
 
 > **Owner answers:**  
 > 1.  
@@ -787,3 +961,5 @@ Peachy, House of Iron, Athena workout sheets, Workhorse, Tenfold, Cathedral, Bla
 > 3.  
 > 4.  
 > 5.  
+> 6.  
+> 7.  
