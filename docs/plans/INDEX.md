@@ -50,6 +50,7 @@ guide with per-test image prompts: [assessment guide](apex-assessment-guide.md).
 
 ## Expansion specifications
 
+- [Plan efficiency proposed changes](specs/plan-efficiency-proposed-changes.md) — owner-review draft: science, live `test_workhorse` findings, Gemini filter, per-plan ticks
 - [Master expansion roadmap](../roadmap/master-expansion.md)
 - [Apex Predator implementation spec](specs/apex-predator.md)
 - [House of Iron implementation spec](specs/house-of-iron.md)
