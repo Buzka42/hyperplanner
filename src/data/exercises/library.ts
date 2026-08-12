@@ -46,7 +46,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: '45-back-extension',
-        tip: { en: 'Round upper back slightly, toes flared 45°, press hips HARD into pad. Pure hip hinge.', pl: 'Lekko zaokrąglij górną część pleców, stopy rozstawione 45° do zewnątrz, wciśnij biodra MOCNO w podkladkę. Czysty hip hinge.' },
+        tip: { en: 'Round upper back slightly, toes flared 45°, press hips HARD into pad. Pure hip hinge.', pl: 'Lekko zaokrąglij górną część pleców, stopy rozstawione 45° na zewnątrz, mocno dociśnij biodra do podkładki. Czysty zawias w biodrach.' },
         name: { en: '45° Back Extension', pl: 'Wyprost grzbietu na ławce 45°' },
         aliases: ['45-Degree Hyperextension'],
         pattern: 'hip-extension',
@@ -70,8 +70,8 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'ab-wheel-rollout',
-        tip: { en: 'Start from knees, go as far as possible while hitting 5+ reps. Progress distance weekly.', pl: 'Start z kolan, wyjedź tak daleko jak możesz przy minimum 5 powt. Zwiększaj dystans co tydzień.' },
-        name: { en: 'Ab Wheel Rollouts', pl: 'Rollouty z kółkiem' },
+        tip: { en: 'Start from knees, go as far as possible while hitting 5+ reps. Progress distance weekly.', pl: 'Zacznij z kolan, wyjedź tak daleko, jak dasz radę przy minimum 5 powtórzeniach. Co tydzień zwiększaj dystans.' },
+        name: { en: 'Ab Wheel Rollouts', pl: 'Wyjazdy z kółkiem do brzucha' },
         aliases: [],
         pattern: 'core-antiextension',
         primary: ['abs'],
@@ -93,7 +93,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'arnold-press',
-        name: { en: 'Arnold Press', pl: 'Arnold press' },
+        name: { en: 'Arnold Press', pl: 'Wyciskanie Arnolda' },
         aliases: [],
         pattern: 'vertical-press',
         primary: ['frontDelt'],
@@ -104,8 +104,8 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'around-the-worlds',
-        tip: { en: 'If 16 reps is easy, slow down the eccentric (3-4 sec).', pl: 'Jeśli 16 powt. jest łatwe, zwolnij ekscentrykę (3-4 sek).' },
-        name: { en: 'Around-the-Worlds', pl: 'Around-the-Worlds' },
+        tip: { en: 'If 16 reps is easy, slow down the eccentric (3-4 sec).', pl: 'Jeśli 16 powtórzeń jest łatwe, zwolnij fazę ekscentryczną (3–4 s).' },
+        name: { en: 'Around-the-Worlds', pl: 'Krążenia hantli (around-the-worlds)' },
         aliases: [],
         pattern: 'shoulder-horizontal-abduction',
         primary: ['rearDelt'],
@@ -128,7 +128,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'b-stance-hip-thrust',
-        name: { en: 'B-Stance Hip Thrust', pl: 'Hip thrust w pozycji B-stance' },
+        name: { en: 'B-Stance Hip Thrust', pl: 'Hip thrust w pozycji B (jedna noga)' },
         aliases: [],
         pattern: 'hip-extension',
         primary: ['glutes'],
@@ -151,7 +151,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'banded-ezbar-bar-skullcrushers',
-        name: { en: 'Banded EZ Bar Skullcrushers', pl: 'Skullcrushers z gumą (EZ bar)' },
+        name: { en: 'Banded EZ Bar Skullcrushers', pl: 'Wyciskanie francuskie z gumą (EZ)' },
         aliases: [],
         pattern: 'elbow-extension',
         primary: ['triceps'],
@@ -218,7 +218,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'bench-hip-thrust',
-        name: { en: 'Bench Hip Thrust', pl: 'Hip thrust przy ławce' },
+        name: { en: 'Bench Hip Thrust', pl: 'Hip thrust z oparciem o ławkę' },
         aliases: [],
         pattern: 'hip-extension',
         primary: ['glutes'],
@@ -263,7 +263,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'bodyweight-dip',
-        name: { en: 'Bodyweight Dips', pl: 'Dipy na masie ciała' },
+        name: { en: 'Bodyweight Dips', pl: 'Pompki na poręczach' },
         aliases: [],
         pattern: 'horizontal-press',
         primary: ['chest', 'triceps'],
@@ -319,7 +319,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'cable-cyclist-squat',
-        name: { en: 'Cable Cyclist Squat', pl: 'Cyclist squat na wyciągu' },
+        name: { en: 'Cable Cyclist Squat', pl: 'Przysiad kolarski na wyciągu' },
         aliases: [],
         pattern: 'squat',
         primary: ['quads', 'glutes'],
@@ -352,7 +352,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'cable-pull-through',
-        name: { en: 'Cable Pull-Through', pl: 'Pull-through na wyciągu' },
+        name: { en: 'Cable Pull-Through', pl: 'Przeciąganie linki między nogami' },
         aliases: [],
         pattern: 'hip-extension',
         primary: ['glutes', 'lowerBack'],
@@ -384,7 +384,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'calf-raise',
-        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Ćwiczenie akcesoryjne na słaby punkt. Pełny zakres, pod kontrolą, bez zamachu.' },
         name: { en: 'Calf Raises', pl: 'Wspięcia na palce' },
         aliases: [],
         pattern: 'calf',
@@ -423,7 +423,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'close-neutral-grip-lat-pulldown',
-        tip: { en: 'Full stretch \'dead hang\' at top, split movement: pulldown + scap pull at bottom, squeeze scap pull.', pl: 'Pełne rozciągnięcie, \'martwy zwis\' na górze, rozbij ruch na 2 części: ściąganie łopatek + pulldown.' },
+        tip: { en: 'Full stretch \'dead hang\' at top, split movement: pulldown + scap pull at bottom, squeeze scap pull.', pl: 'Pełne rozciągnięcie, „martwy zwis” na górze — rozbij ruch na dwie części: ściąganie łopatek, potem ściągnięcie drążka.' },
         name: { en: 'Close Neutral Grip Lat Pulldown', pl: 'Ściąganie drążka wąskim chwytem neutralnym' },
         aliases: [],
         pattern: 'vertical-pull',
@@ -461,7 +461,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
         // logged history and any stored plan config still resolve, and so the
         // old display string keeps pointing somewhere real.
         id: 'dead-hang-plank',
-        tip: { en: 'Superseded: log the hang and the plank as separate movements.', pl: 'Zastąpione: zapisuj zwis i deskę jako osobne boje.' },
+        tip: { en: 'Superseded: log the hang and the plank as separate movements.', pl: 'Zastąpione: zapisuj zwis i deskę jako osobne ćwiczenia.' },
         name: { en: 'Dead Hang + Planks', pl: 'Zwis na drążku + deska' },
         aliases: [],
         pattern: 'core-antiextension',
@@ -519,7 +519,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'deficit-snatch-grip-deadlift',
-        name: { en: 'Deficit Snatch Grip Deadlift', pl: 'Martwy ciąg snatch grip z deficytu' },
+        name: { en: 'Deficit Snatch Grip Deadlift', pl: 'Martwy ciąg chwytem rwaniowym z deficytu' },
         aliases: ['Snatch Grip Deficit'],
         pattern: 'hinge',
         primary: ['hamstrings', 'glutes', 'lowerBack'],
@@ -541,8 +541,8 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'dragon-flags',
-        tip: { en: 'Cheat the concentric if needed, control the eccentric (3-5 sec lowering).', pl: 'Oszukuj fazę koncentryczną jeśli trzeba, kontroluj ekscentrykę (3-5 sek opuszczania).' },
-        name: { en: 'Dragon Flags', pl: 'Dragon Flags' },
+        tip: { en: 'Cheat the concentric if needed, control the eccentric (3-5 sec lowering).', pl: 'Oszukuj fazę koncentryczną, jeśli trzeba; kontroluj ekscentrykę (3–5 s opuszczania).' },
+        name: { en: 'Dragon Flags', pl: 'Flagi smoka' },
         aliases: [],
         pattern: 'core-antiextension',
         primary: ['abs'],
@@ -597,7 +597,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'dumbbell-romanian-deadlift',
-        tip: { en: 'Heavy. Straps OK. Dumbbells track the legs, 1-2 sec glute squeeze at top.', pl: 'Ciężko. Paski OK. Hantle prowadź wzdłuż nóg, 1-2 sek ścisk pośladków na górze.' },
+        tip: { en: 'Heavy. Straps OK. Dumbbells track the legs, 1-2 sec glute squeeze at top.', pl: 'Ciężko. Paski dozwolone. Hantle prowadź wzdłuż nóg, 1–2 sekundy spięcia pośladków na górze.' },
         name: { en: 'DB Romanian Deadlift', pl: 'Martwy ciąg rumuński z hantlami' },
         aliases: ['Dumbbell Romanian Deadlift', 'DB/KB Romanian Deadlift', 'KB RDL', 'Dumbbell RDL'],
         pattern: 'hinge',
@@ -609,7 +609,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'dumbbell-seal-row',
-        name: { en: 'Dumbbell Seal Row', pl: 'Seal row z hantlami' },
+        name: { en: 'Dumbbell Seal Row', pl: 'Wiosłowanie leżąc na brzuchu (seal row)' },
         aliases: [],
         pattern: 'horizontal-pull',
         primary: ['upperBack', 'lats'],
@@ -631,7 +631,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'ezbar-preacher-curl',
-        tip: { en: 'Full ROM, slow down at the stretched position. Control the negative.', pl: 'Pełny zakres, zwolnij w rozciągnieciu. Kontroluj fazę negatywną.' },
+        tip: { en: 'Full ROM, slow down at the stretched position. Control the negative.', pl: 'Pełny zakres, zwolnij w rozciągnięciu. Kontroluj fazę ekscentryczną.' },
         name: { en: 'EZ Preacher Curl', pl: 'Uginanie na modlitewniku (EZ)' },
         aliases: ['Preacher EZ-Bar Curls'],
         pattern: 'elbow-flexion',
@@ -653,7 +653,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'face-pulls',
-        name: { en: 'Face Pulls', pl: 'Face pull' },
+        name: { en: 'Face Pulls', pl: 'Przyciąganie do twarzy' },
         aliases: [],
         pattern: 'shoulder-horizontal-abduction',
         primary: ['rearDelt'],
@@ -665,7 +665,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: 'farmer-hold',
         tip: { en: 'Stand tall with the shoulders packed and the ribs down. End the hold when posture breaks, not when the grip finally gives out.', pl: 'Stój wyprostowany, barki ściągnięte, żebra w dół. Zakończ, gdy traci się postawę, a nie dopiero gdy puści chwyt.' },
-        name: { en: 'Farmer Holds', pl: 'Farmer\'s hold (przytrzymanie)' },
+        name: { en: 'Farmer Holds', pl: 'Przytrzymanie farmera' },
         aliases: [],
         pattern: 'carry',
         primary: ['forearms', 'traps'],
@@ -710,7 +710,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'frog-pump',
-        name: { en: 'Frog Pump', pl: 'Frog pump' },
+        name: { en: 'Frog Pump', pl: 'Wypychanie bioder w pozycji żaby' },
         aliases: [],
         pattern: 'hip-extension',
         primary: ['glutes'],
@@ -721,7 +721,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'front-foot-elevated-bulgarian-split-squat',
-        tip: { en: 'Hold rack with one hand, DB in other. Rear foot shoelaces on bench (toes DOWN). Sit back, limit front knee travel, stay upright.', pl: 'Trzymaj stojak jedną ręką, hantlę w drugiej. Tylna stopa sznurówkami na ławce (palce W DÓŁ). Siadaj do tyłu - ogranicz ruch kolana do przodu, trzymaj tors prosto.' },
+        tip: { en: 'Hold rack with one hand, DB in other. Rear foot shoelaces on bench (toes DOWN). Sit back, limit front knee travel, stay upright.', pl: 'Trzymaj stojak jedną ręką, hantlę w drugiej. Tylna stopa sznurówkami na ławce (palce w dół). Siadaj do tyłu — ogranicz wyjście kolana do przodu, trzymaj tułów prosto.' },
         name: { en: 'Front-Foot Elevated Bulgarian Split Squat', pl: 'Przysiad bułgarski z przednią nogą uniesioną' },
         aliases: [],
         pattern: 'lunge',
@@ -734,7 +734,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'front-squat',
-        tip: { en: 'Full ROM, slow eccentric. Stay upright, elbows high.', pl: 'Pełny ROM, wolna ekscentryka. Trzymaj się prosto, łokcie wysoko.' },
+        tip: { en: 'Full ROM, slow eccentric. Stay upright, elbows high.', pl: 'Pełny zakres ruchu, wolna faza ekscentryczna. Trzymaj tułów prosto, łokcie wysoko.' },
         name: { en: 'Front Squats', pl: 'Przysiad przedni' },
         aliases: ['Front Squat'],
         pattern: 'squat',
@@ -746,8 +746,8 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'glute-ham-raise',
-        tip: { en: 'Control the eccentric, explode up. Use assistance if needed for full ROM.', pl: 'Kontroluj ekscentryk, wystrzel do góry. Użyj pomocy (odepchnij się od czegoś na dole) jeśli potrzebne żeby uzyskać pełny zakres powtórzenia.' },
-        name: { en: 'Glute-Ham Raise', pl: 'Glute-ham raise' },
+        tip: { en: 'Control the eccentric, explode up. Use assistance if needed for full ROM.', pl: 'Kontroluj fazę ekscentryczną, wystrzel do góry. Użyj pomocy (odepchnij się od czegoś na dole), jeśli potrzeba pełnego zakresu.' },
+        name: { en: 'Glute-Ham Raise', pl: 'Unoszenie tułowia na GHR' },
         aliases: ['Glute Ham Raise (eccentric only)'],
         pattern: 'knee-flexion',
         primary: ['hamstrings'],
@@ -762,8 +762,8 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'glute-pump-finisher',
-        tip: { en: '100 reps banded thrust/abduction in under 5 minutes. Chase the pump.', pl: '100 powt. hip thrust/odwodzenie z gumą w poniżej 5 minut. Maksymalna pompa.' },
-        name: { en: 'Glute Pump Finisher', pl: 'Finisher na pośladki' },
+        tip: { en: '100 reps banded thrust/abduction in under 5 minutes. Chase the pump.', pl: '100 powtórzeń hip thrustu lub odwodzenia z gumą w mniej niż 5 minut. Celuj w maksymalną pompę.' },
+        name: { en: 'Glute Pump Finisher', pl: 'Dopalenie pośladków' },
         aliases: [],
         pattern: 'hip-extension',
         primary: ['glutes'],
@@ -773,7 +773,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'good-mornings',
-        name: { en: 'Good Mornings', pl: 'Good morning (skłon ze sztangą)' },
+        name: { en: 'Good Mornings', pl: 'Skłon „good morning” ze sztangą' },
         aliases: [],
         pattern: 'hinge',
         primary: ['hamstrings', 'glutes'],
@@ -785,7 +785,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: 'hack-calf-raise',
         tip: { en: '1 second pause at bottom, slow eccentric.', pl: '1 sek pauza na dole, wolna ekscentryka.' },
-        name: { en: 'Hack Squat Calf Raises', pl: 'Łydki na Hack Squat' },
+        name: { en: 'Hack Squat Calf Raises', pl: 'Wspięcia na palce na hack squat' },
         aliases: ['Hack Calf Raises', 'Hack-Squat Calf Raise'],
         pattern: 'calf',
         primary: ['calves'],
@@ -796,7 +796,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: 'hack-squat',
         tip: { en: 'Feet narrow, full ROM - ass to grass. Try to touch calves with glutes.', pl: 'Stopy wąsko, pełny zakres – tyłek do ziemi. Spróbuj dotknąć łydek pośladkami.' },
-        name: { en: 'Hack Squat', pl: 'Hack squat' },
+        name: { en: 'Hack Squat', pl: 'Hack squat (maszyna)' },
         aliases: [],
         pattern: 'squat',
         primary: ['quads', 'glutes'],
@@ -807,7 +807,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'ham-curl',
-        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Ćwiczenie akcesoryjne na słaby punkt. Pełny zakres, pod kontrolą, bez zamachu.' },
         name: { en: 'Ham Curls', pl: 'Uginanie nóg' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -877,8 +877,8 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'heavy-rolling-tricep-extension',
-        tip: { en: 'Heavy tricep option – focusing on lockout strength', pl: '' },
-        name: { en: 'Heavy Rolling Tricep Extensions', pl: 'Ciężkie rolling tricep extensions' },
+        tip: { en: 'Heavy tricep option – focusing on lockout strength', pl: 'Ciężka opcja na triceps — skup się na sile w zamknięciu ruchu.' },
+        name: { en: 'Heavy Rolling Tricep Extensions', pl: 'Ciężkie wyciskanie francuskie z toczeniem' },
         aliases: [],
         pattern: 'elbow-extension',
         primary: ['triceps'],
@@ -888,7 +888,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'heel-elevated-goblet-squat',
-        name: { en: 'Heel-Elevated Goblet Squat', pl: 'Goblet squat z uniesionymi piętami' },
+        name: { en: 'Heel-Elevated Goblet Squat', pl: 'Przysiad goblet z uniesionymi piętami' },
         aliases: [],
         pattern: 'squat',
         primary: ['quads', 'glutes'],
@@ -900,7 +900,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: 'heels-off-narrow-leg-press',
         tip: { en: 'Knees out, deep stretch at the bottom. Try to touch hamstrings with calves.', pl: 'Kolana na zewnątrz, głębokie rozciągnięcie na dole. Próbuj dotknąć dwugłowymi łydek.' },
-        name: { en: 'Heels-Off Narrow Leg Press', pl: 'Leg Press (pięty w górze, wąsko)' },
+        name: { en: 'Heels-Off Narrow Leg Press', pl: 'Suwnica – pięty w górze, wąsko' },
         aliases: [],
         pattern: 'squat',
         primary: ['quads', 'glutes'],
@@ -923,7 +923,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: 'high-elbow-facepulls',
         tip: { en: 'Cable at forehead height, wide elbows, external rotation at top (thumbs back). Light weight, perfect form.', pl: 'Wyciąg na wysokości czoła, szerokie łokcie, rotacja zewnętrzna na górze (kciuki do tyłu). Lekki ciężar, idealna forma.' },
-        name: { en: 'High-Elbow Facepulls', pl: 'Face pull z wysokimi łokciami' },
+        name: { en: 'High-Elbow Facepulls', pl: 'Przyciąganie do twarzy z wysokimi łokciami' },
         aliases: [],
         pattern: 'shoulder-horizontal-abduction',
         primary: ['rearDelt'],
@@ -945,7 +945,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'hip-adduction',
-        tip: { en: 'Stretch with warm-up, then max width. Use arms to help wedge into position if needed.', pl: 'Rozciągnij na rozgrzewce, potem max szerokość. Użyj rąk do wklinowania się w pozycję jeśli trzeba.' },
+        tip: { en: 'Stretch with warm-up, then max width. Use arms to help wedge into position if needed.', pl: 'Rozciągnij się na rozgrzewce, potem ustaw maksymalną szerokość. Rękami dociśnij się w pozycję, jeśli trzeba.' },
         name: { en: 'Hip Adduction', pl: 'Przywodzenie bioder' },
         aliases: [],
         pattern: 'hip-adduction',
@@ -956,7 +956,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'hip-thrust',
-        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Ćwiczenie akcesoryjne na słaby punkt. Pełny zakres, pod kontrolą, bez zamachu.' },
         name: { en: 'Hip Thrusts', pl: 'Hip thrust na maszynie' },
         aliases: ['Machine Hip Thrust'],
         pattern: 'hip-extension',
@@ -1006,7 +1006,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: 'kas-glute-bridge',
         tip: { en: 'Upper back on bench. Lower only 5-10 cm, never touch floor. Constant tension.', pl: 'Górna część pleców na ławce. Opuszczaj tylko 5-10 cm – nigdy nie dotykaj podłogi. Ciągłe napięcie.' },
-        name: { en: 'Kas Glute Bridge', pl: 'Kas glute bridge' },
+        name: { en: 'Kas Glute Bridge', pl: 'Mostek pośladkowy Kasa' },
         aliases: [],
         pattern: 'hip-extension',
         primary: ['glutes'],
@@ -1029,7 +1029,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'larsen-press',
-        name: { en: 'Larsen Press', pl: 'Larsen Press' },
+        name: { en: 'Larsen Press', pl: 'Wyciskanie Larsena' },
         aliases: [],
         pattern: 'horizontal-press',
         primary: ['chest'],
@@ -1040,8 +1040,8 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'lat-prayer',
-        tip: { en: 'Internal rotation at stretched position for maximum lat stretch.', pl: 'Rotacja wewnętrzna w pozycji rozciągniętej dla max rozciągnięcia latów.' },
-        name: { en: 'Lat Prayer', pl: 'Prostowanie ramion na wyciągu (lat prayer)' },
+        tip: { en: 'Internal rotation at stretched position for maximum lat stretch.', pl: 'Rotacja wewnętrzna w pozycji rozciągniętej dla maksymalnego rozciągnięcia najszerszych.' },
+        name: { en: 'Lat Prayer', pl: 'Modlitwa najszerszych (lat prayer)' },
         aliases: [],
         pattern: 'vertical-pull',
         primary: ['lats'],
@@ -1064,8 +1064,8 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'lateral-raise',
-        tip: { en: 'Cable or DB variation', pl: '' },
-        name: { en: 'Lateral Raises', pl: 'Wznosy bokiem' },
+        tip: { en: 'Cable or DB variation', pl: 'Wariant na wyciągu lub z hantlami.' },
+        name: { en: 'Lateral Raises', pl: 'Unoszenie bokiem' },
         aliases: [],
         pattern: 'shoulder-abduction',
         primary: ['sideDelt'],
@@ -1087,7 +1087,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: 'leaning-single-arm-dumbbell-lateral-raise',
         tip: { en: 'Lean against wall at 15-30°. Rep ends when DB points straight down.', pl: 'Oprzyj się o ścianę pod 15-30°. Powt. kończy się gdy hantel wskazuje prosto w dół.' },
-        name: { en: 'Leaning Single Arm DB Lateral Raises', pl: 'Wznosy bokiem jednorącz z odchyleniem' },
+        name: { en: 'Leaning Single Arm DB Lateral Raises', pl: 'Unoszenie bokiem jednorącz z odchyleniem' },
         aliases: ['Leaning Single Arm DB Lateral Raises (FINAL EXAM)'],
         pattern: 'shoulder-abduction',
         primary: ['sideDelt'],
@@ -1109,7 +1109,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'leg-press',
-        name: { en: 'Leg Press', pl: 'Suwnica (leg press)' },
+        name: { en: 'Leg Press', pl: 'Suwnica' },
         aliases: [],
         pattern: 'squat',
         primary: ['quads', 'glutes'],
@@ -1142,7 +1142,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'low-bar-squat',
-        name: { en: 'Paused Low Bar Squat', pl: 'Przysiad low bar z pauzą' },
+        name: { en: 'Paused Low Bar Squat', pl: 'Przysiad low-bar z pauzą' },
         aliases: ['Low Bar Squat', 'Low Bar Squat (Ascension Test)', 'Low Bar Squat (Back-down)', 'Low Bar Squat (DE)', 'Low Bar Squat (Light)', 'Low Bar Squat (ME)', 'Low Bar Squat (RE)'],
         pattern: 'squat',
         primary: ['quads', 'glutes'],
@@ -1198,7 +1198,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: 'lying-cable-lat-raise',
         tip: { en: 'Pull \'away\' from body, not up. Focus on side delt stretch.', pl: 'Ciągnij „od” ciała, nie w górę. Skup się na rozciągnięciu bocznej części barku.' },
-        name: { en: 'Lying Cable Lat Raises', pl: 'Wznosy bokiem na wyciągu leżąc' },
+        name: { en: 'Lying Cable Lat Raises', pl: 'Unoszenie bokiem na wyciągu leżąc' },
         aliases: [],
         pattern: 'shoulder-abduction',
         primary: ['sideDelt'],
@@ -1218,7 +1218,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'lying-leg-curl',
-        tip: { en: 'Full ROM, slow down at the stretched position.', pl: 'Pełny zakres, zwolnij w rozciągnieciu.' },
+        tip: { en: 'Full ROM, slow down at the stretched position.', pl: 'Pełny zakres, zwolnij w rozciągnięciu.' },
         name: { en: 'Lying Leg Curls', pl: 'Uginanie nóg leżąc' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -1263,7 +1263,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'nordic-curl',
-        tip: { en: 'Cheat concentric if under 5 reps. Control eccentric (3-5 sec lowering).', pl: 'Oszukuj koncentrykę jeśli poniżej 5 powt. Kontroluj ekscentrykę (3-5 sek opuszczania).' },
+        tip: { en: 'Cheat concentric if under 5 reps. Control eccentric (3-5 sec lowering).', pl: 'Oszukuj koncentrykę, jeśli schodzisz poniżej 5 powtórzeń. Kontroluj ekscentrykę (3–5 s opuszczania).' },
         name: { en: 'Nordic Curls', pl: 'Nordic curls' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -1312,7 +1312,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'paused-bench-press',
-        tip: { en: 'Warm-up: ramp fast, low reps, paused every set. Save energy for working sets. Bar comes to complete stop at chest, 0.5-1 second full pause. General warm-up (rotator cuff, dynamic arching, lat activation, glute bridges) → Barbell warm-up. All warm-up sets paused.', pl: 'Rozgrzewka: szybka progresja ciężaru, mało powtórzeń, pauza w każdej serii. Oszczędzaj energię. Sztanga zatrzymuje się całkowicie na klatce, 0.5-1 sek pełnej pauzy. Rozgrzej obręcz barkową, lekko spompuj najszerszy grzbietu, wykonaj kilka dynamicznych ruchów a\'la mostkowanie i glute bridge jednonóż z przytrzymaniem w spięciu zanim przejdziesz do rozgrzewki ze sztangą (lub pomiędzy seriami rozgrzewkowymi).' },
+        tip: { en: 'Warm-up: ramp fast, low reps, paused every set. Save energy for working sets. Bar comes to complete stop at chest, 0.5-1 second full pause. General warm-up (rotator cuff, dynamic arching, lat activation, glute bridges) → Barbell warm-up. All warm-up sets paused.', pl: 'Rozgrzewka: szybka progresja ciężaru, mało powtórzeń, pauza w każdej serii. Oszczędzaj energię. Sztanga zatrzymuje się całkowicie na klatce na 0,5–1 s. Rozgrzej obręcz barkową, lekko napnij najszersze, zrób kilka mostków i mostków pośladkowych jednonóż z przytrzymaniem w spięciu, zanim przejdziesz do rozgrzewki ze sztangą.' },
         name: { en: 'Paused Bench Press', pl: 'Wyciskanie pauzowane' },
         aliases: ['Paused Bench Press (1RM TEST)', 'Paused Bench Press (AMRAP)', 'Paused Bench Press (Ascension Test)', 'Paused Bench Press (Back-down)', 'Paused Bench Press (Back-off)', 'Paused Bench Press (DE)', 'Paused Bench Press (Light)', 'Paused Bench Press (ME)', 'Paused Bench Press (RE)'],
         pattern: 'horizontal-press',
@@ -1357,7 +1357,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'pec-deck',
-        tip: { en: 'Full stretch at the bottom. Squeeze at contraction.', pl: 'Pełne rozciągnięcie na dole. Ścisk w kontrakcji.' },
+        tip: { en: 'Full stretch at the bottom. Squeeze at contraction.', pl: 'Pełne rozciągnięcie na dole. Spięcie w skurczu.' },
         name: { en: 'Pec Deck', pl: 'Rozpiętki na maszynie' },
         aliases: [],
         pattern: 'horizontal-press',
@@ -1403,7 +1403,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'rear-delt-burnout',
-        tip: { en: '100 reps total. Rest-pause if needed.', pl: '' },
+        tip: { en: '100 reps total. Rest-pause if needed.', pl: 'Łącznie 100 powtórzeń. Rób krótkie przerwy w serii, jeśli trzeba.' },
         name: { en: 'Rear Delt Burnout', pl: 'Dobicie tylnego aktonu' },
         aliases: [],
         pattern: 'shoulder-horizontal-abduction',
@@ -1439,7 +1439,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'reverse-nordic-curl',
-        tip: { en: '1 weighted set, 1 weighted + drop set to bodyweight.', pl: '1 seria z obciążeniem, 1 z obciążeniem + drop do własnej masy.' },
+        tip: { en: '1 weighted set, 1 weighted + drop set to bodyweight.', pl: '1 seria z obciążeniem, 1 z obciążeniem i zrzutem do masy ciała.' },
         name: { en: 'Reverse Nordic Curls', pl: 'Odwrócone Nordic Curls' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -1462,7 +1462,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'rolling-dumbbell-tricep-extension',
-        name: { en: 'Rolling DB Tricep Extensions', pl: 'Rolling tricep extensions (hantle)' },
+        name: { en: 'Rolling DB Tricep Extensions', pl: 'Wyciskanie francuskie z toczeniem hantli' },
         aliases: [],
         pattern: 'elbow-extension',
         primary: ['triceps'],
@@ -1472,7 +1472,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'romanian-deadlift',
-        tip: { en: 'Heavy. Straps OK. 1-2 sec glute squeeze at top.', pl: 'Ciężko. Paski OK. 1-2 sek ścisk pośladków na górze.' },
+        tip: { en: 'Heavy. Straps OK. 1-2 sec glute squeeze at top.', pl: 'Ciężko. Paski dozwolone. 1–2 sekundy spięcia pośladków na górze.' },
         name: { en: 'Romanian Deadlift', pl: 'Martwy ciąg rumuński' },
         aliases: ['RDLs'],
         pattern: 'hinge',
@@ -1516,7 +1516,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'row',
-        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Ćwiczenie akcesoryjne na słaby punkt. Pełny zakres, pod kontrolą, bez zamachu.' },
         name: { en: 'Rows', pl: 'Wiosłowanie' },
         aliases: ['Rows (neutral grip)'],
         pattern: 'horizontal-pull',
@@ -1540,7 +1540,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'seated-cable-row',
-        tip: { en: 'Neutral or wide grip. Round shoulders forward for max stretch at bottom.', pl: 'Neutralny lub szeroki chwyt. Zaokrąglaj ramiona do przodu dla max stretcha na dole.' },
+        tip: { en: 'Neutral or wide grip. Round shoulders forward for max stretch at bottom.', pl: 'Chwyt neutralny lub szeroki. Zaokrąglaj ramiona do przodu dla maksymalnego rozciągnięcia na dole.' },
         name: { en: 'Seated Cable Row', pl: 'Wiosłowanie na wyciągu siedząc' },
         aliases: [],
         pattern: 'horizontal-pull',
@@ -1552,6 +1552,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'seated-dumbbell-calf-raise',
+        tip: { en: 'Rest the dumbbell across the working thigh. Full stretch at the bottom, brief pause at the top.', pl: 'Oprzyj hantel na pracującym udzie. Pełne rozciągnięcie na dole, krótka pauza na górze.' },
         name: { en: 'Seated Dumbbell Calf Raise', pl: 'Wspięcia na palce siedząc z hantlem' },
         aliases: [],
         pattern: 'calf',
@@ -1596,7 +1597,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'seated-hamstring-curl',
-        tip: { en: 'Lean torso forward for massive stretch. Control the eccentric.', pl: 'Pochyl tułów do przodu dla mega rozciągnięcia. Kontroluj opuszczanie.' },
+        tip: { en: 'Lean torso forward for massive stretch. Control the eccentric.', pl: 'Pochyl tułów do przodu dla mocnego rozciągnięcia. Kontroluj opuszczanie.' },
         name: { en: 'Seated Hamstring Curl', pl: 'Uginanie nóg siedząc' },
         aliases: [],
         pattern: 'knee-flexion',
@@ -1620,7 +1621,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'shoulder-press',
-        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Ćwiczenie akcesoryjne na słaby punkt. Pełny zakres, pod kontrolą, bez zamachu.' },
         name: { en: 'Shoulder Press', pl: 'Wyciskanie nad głowę' },
         aliases: [],
         pattern: 'vertical-press',
@@ -1632,7 +1633,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'shrug',
-        name: { en: 'Shrugs', pl: 'Wznosy barków (szrugsy)' },
+        name: { en: 'Shrugs', pl: 'Szrugsy (unoszenie barków)' },
         aliases: [],
         pattern: 'horizontal-pull',
         primary: ['traps'],
@@ -1740,7 +1741,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: 'single-leg-machine-hip-thrust',
         tip: { en: 'Drive through heel, full hip extension, brutal glute squeeze at top.', pl: 'Napędzaj piętą, pełne wyprostowanie bioder, brutalny ścisk pośladków na górze.' },
-        name: { en: 'Single Leg Machine Hip Thrust', pl: 'Hip Thrust jednónoż (maszyna)' },
+        name: { en: 'Single Leg Machine Hip Thrust', pl: 'Hip thrust jednonóż na maszynie' },
         aliases: ['Single-Leg Machine Hip Thrust', 'Single Leg Hip Thrust Machine'],
         pattern: 'hip-extension',
         primary: ['glutes'],
@@ -1796,7 +1797,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'spoto-press',
-        name: { en: 'Spoto Press', pl: 'Spoto Press' },
+        name: { en: 'Spoto Press', pl: 'Wyciskanie Spoto' },
         aliases: ['Spoto Press (1cm above chest)'],
         pattern: 'horizontal-press',
         primary: ['chest'],
@@ -1819,7 +1820,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'standing-calf-raise',
-        tip: { en: 'Full stretch at bottom, 2-sec pause at bottom. Step, hack machine, or leg-press.', pl: 'Pełne rozciągnięcie na dole, 2-sek pauza na dole. Step, maszyna hack lub leg-press.' },
+        tip: { en: 'Full stretch at bottom, 2-sec pause at bottom. Step, hack machine, or leg-press.', pl: 'Pełne rozciągnięcie na dole, 2-sekundowa pauza na dole. Stopień, hack squat albo suwnica.' },
         name: { en: 'Standing Calf Raises', pl: 'Wspięcia na palce stojąc' },
         aliases: [],
         pattern: 'calf',
@@ -1941,7 +1942,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'tricep-extension',
-        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Praca akcesoryjne na słabe punkty. Podwójna progresja: 12 powt. we wszystkich seriach = +2.5 kg.' },
+        tip: { en: 'Accessory work chosen for a weak point. Full range, controlled, no swing.', pl: 'Ćwiczenie akcesoryjne na słaby punkt. Pełny zakres, pod kontrolą, bez zamachu.' },
         name: { en: 'Tricep Extensions', pl: 'Prostowanie ramion' },
         aliases: [],
         pattern: 'elbow-extension',
@@ -1999,7 +2000,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'wide-grip-bench-press',
-        tip: { en: 'Wide grip with the elbows flared. Touch under control and take the deep stretch at the bottom rather than bouncing out of it.', pl: 'Szeroki chwyt z łokciami na zewnątrz. Skup się na głębokim rozciągnięciu na dole. 📈 Zrób max powt. (8) na WSZYSTKICH seriach przez 2 tygodnie z rzędu → +2.5 kg' },
+        tip: { en: 'Wide grip with the elbows flared. Touch under control and take the deep stretch at the bottom rather than bouncing out of it.', pl: 'Szeroki chwyt, łokcie na zewnątrz. Dotykaj pod kontrolą i bierz głębokie rozciągnięcie na dole zamiast odbijać.' },
         name: { en: 'Wide-Grip Bench Press', pl: 'Wyciskanie szerokim chwytem' },
         aliases: [],
         pattern: 'horizontal-press',
@@ -2011,7 +2012,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'y-raise',
-        name: { en: 'Y-Raises', pl: 'Y-Raises' },
+        name: { en: 'Y-Raises', pl: 'Unoszenie Y' },
         aliases: [],
         pattern: 'shoulder-horizontal-abduction',
         primary: ['rearDelt'],

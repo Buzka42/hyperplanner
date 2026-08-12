@@ -1,30 +1,131 @@
 # Blackout
 
-Advanced only. Eight weeks, three days a week, one work set per movement. The
-warm-up ramp is the calibration; the work set is the entire prescription.
+**Program ID:** `blackout` · **Source:** [src/data/plans/blackout.ts](../../src/data/plans/blackout.ts) · **Engine:** [src/features/blackout/singleSet.ts](../../src/features/blackout/singleSet.ts)
+**Duration:** 8 weeks · **Frequency:** 3 full-body days/week (Mon / Wed / Fri)
 
-Because a session is short it is wide — seven or eight slots of one set each —
-so the body is still covered twice a week without running three sets of
-anything. The cap is enforced in the program tree and again at session build.
+## Overview
 
-Quality (`clean` / `borderline` / `invalid`) and completion reason are
-mandatory here rather than advisory: a single work set carries the whole
-session's evidence, and an unlabelled set progresses nothing.
+Advanced-only austerity: **exactly one work set per movement**. Warm-up is calibration; the work set is the prescription. Sessions are short but wide (7–8 slots) so the body is still covered twice weekly without stacking sets. Cap enforced in the tree and again in `preprocessDay` (`sets: 1`). Default tempo `20X0`. Rest: systemic **240 s**, else **150 s**.
 
-A back-off set is earned, never scheduled. It requires a clean primary set that
-met its target, a completion reason other than technical failure or pain, and
-acceptable recovery. After a poor primary set, extra volume is the worst
-available response.
+## Onboarding
 
-Training to muscular failure is allowed only on slots the plan approves — the
-machine and isolation work, not the loaded squat and hinge patterns. Every
-session sheet says which it is.
+- **Stats:** none required.
+- **Schedule:** 3 FB days.
+- **Modules:** none. Quality + completion reason are mandatory at set log time.
+- **Access:** paid. Portfolio: **advanced** only; prerequisites years of training + honest quality assessment.
 
-The stall response runs in a fixed order: recovery check, repeat, adjust the rep
-target, change the exercise, and only then add a set. The last two require
-confirmation, because adding a set changes what the plan is.
+### EN (`onboarding.programs.blackout`)
 
-Recovery recommends when to train next — one, two or three days — and never
-blocks a session. An athlete who wants to train sooner is told what it costs.
+- **Name:** Blackout
+- **Description:** An advanced 8-week plan of one work set per movement, and nothing wasted.
+- **Features:** 3 full-body days · One work set per exercise · Back-off sets are earned, not scheduled · Quality and stop reason are mandatory
 
-Verification: `npm run verify:blackout`.
+### PL (`onboarding.programs.blackout`)
+
+- **Name:** Blackout
+- **Description:** Zaawansowany 8-tygodniowy plan: jedna seria robocza na bój i nic ponadto.
+- **Features:** 3 dni całego ciała · Jedna seria robocza na ćwiczenie · Serie back-off trzeba zasłużyć · Obowiązkowa jakość i powód zakończenia
+
+## Weekly structure
+
+Every exercise: **1 set**. Quality `clean` / `borderline` / `invalid` and completion reason are mandatory (`isEvaluable`).
+
+### Blackout I — Mon
+
+| Exercise | Reps | Notes |
+|---|---|---|
+| Hack Squat | 5-8 | systemic · primary |
+| Incline DB Bench | 6-10 | primary |
+| SA Hammer Row | 8-12 | unilateral |
+| RDL | 6-10 | |
+| Lateral Raise | 12-15 | failure-approved |
+| Leg Extension | 12-15 | failure-approved |
+| Hammer Curl | 8-12 | failure-approved |
+
+### Blackout II — Wed
+
+| Exercise | Reps | Notes |
+|---|---|---|
+| Paused Bench | 4-6 | systemic · primary |
+| Hammer Pulldown | 8-12 | primary · failure-approved |
+| Leg Press | 8-12 | |
+| Seated Ham Curl | 10-15 | failure-approved |
+| SA Reverse Pec Deck | 12-15 | failure-approved |
+| Cable Tri Ext | 10-15 | failure-approved |
+| Hack Calf | 12-20 | failure-approved |
+
+### Blackout III — Fri
+
+| Exercise | Reps | Notes |
+|---|---|---|
+| FFE Bulgarian Split Squat | 6-10 | uni · primary |
+| Seated DB Press | 6-10 | primary |
+| Lat Pulldown | 8-12 | |
+| Lying Leg Curl | 10-15 | failure-approved |
+| Pec Deck | 12-15 | failure-approved |
+| Hammer Curl | 10-15 | failure-approved |
+| Cable Tri Ext | 10-15 | failure-approved |
+| Hack Calf | 12-20 | failure-approved |
+
+## Phases & week-to-week progression
+
+| Phase | Weeks | Change |
+|---|---|---|
+| Adjustment | 1–2 | Base |
+| Blackout | 3–6 | Base |
+| Deep | 7–8 | Primary slots → **RPE 10** (never adds a set) |
+
+### Earned back-off (`earnedBackoff`)
+
+Offered only when: evaluable + quality `clean` + met target floor + completion not pain/technical-failure + recovery action `continue`. Then **1 set @ −10%**. Otherwise session ends.
+
+### Stall ladder (`BLACKOUT_STALL_LADDER`)
+
+Fixed order: **recovery-check → repeat → rep-target → exercise-change → add-set**. Last two require confirmation (add-set changes what the plan is).
+
+### Recovery
+
+Recommends next exposure in **1 / 2 / 3 days** — never blocks training; warns of cost if sooner.
+
+### Failure
+
+Allowed only on `FAILURE_APPROVED` (machines / isolation). Loaded squat/hinge patterns: stop at target. Notes state which.
+
+## Techniques, supersets, finishers
+
+- No scheduled techniques / supersets / finishers.
+- Back-off is earned, never authored into the day tree.
+
+## Dashboard & UI theme
+
+| Meta | Value |
+|---|---|
+| `themeClass` | `theme-blackout` |
+| `i18nKey` | `blackout` |
+| `logo` | `/blackout.png` |
+| `coverBg` | `bg-[#070707]` |
+| `order` | 31 |
+
+**CSS:** near-mono — `--background: 0 0% 3%`; `--primary: 60 24% 88%`; `--accent: 60 12% 18%`; `--signal-text: 60 24% 88%`.
+
+**Widgets:** `program_status`, `workout_history`. Engine-only for backoff/stall; generic quality select helps if wired in workout UI.
+
+## Implementation completion analysis
+
+| Area | Status |
+|---|---|
+| Plan generator | **complete** — single-set enforcement |
+| Engine | **complete** — backoff, stall, failure, recovery |
+| Dashboard | **missing** specialty UI |
+| Onboarding | card complete; no extra modules |
+| EN / PL | EN complete; PL keeps English “back-off” |
+| Tips | none |
+| Verify | `npm run verify:blackout` |
+
+## Translation notes
+
+| String | Issue | Suggested PL |
+|---|---|---|
+| `Serie back-off trzeba zasłużyć` | English loan + stiff | `Serie obniżone (back-off) trzeba sobie wypracować` |
+| `jedna seria robocza na bój` | “bój” OK for lift | Keep or `na ćwiczenie` for consistency with feature 2 |
+| Description | Clear | — |

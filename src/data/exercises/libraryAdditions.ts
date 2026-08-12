@@ -585,7 +585,7 @@ export const LIBRARY_ADDITIONS: LibraryExercise[] = [
     },
     {
         id: 'side-glute-medius-hip-thrust',
-        name: { en: 'Side Glute-Medius Hip Thrust', pl: 'Boczny hip thrust na pośladkowy średni' },
+        name: { en: 'Side Glute-Medius Hip Thrust', pl: 'Boczny hip thrust (pośladkowy średni)' },
         aliases: ['Glute Medius Hip Thrust', 'Side Hip Thrust'],
         pattern: 'hip-abduction',
         primary: ['abductors', 'glutes'],
@@ -683,7 +683,7 @@ export const LIBRARY_ADDITIONS: LibraryExercise[] = [
     },
     {
         id: 'stripper-squat',
-        name: { en: 'Stripper Squat', pl: 'Stripper squat' },
+        name: { en: 'Stripper Squat', pl: 'Przysiad „stripper” na hack squat' },
         aliases: ['Hack Stripper Squat'],
         pattern: 'knee-extension',
         primary: ['quads'],
@@ -693,7 +693,7 @@ export const LIBRARY_ADDITIONS: LibraryExercise[] = [
         swapGroup: 'knee-extension',
         tip: {
             en: 'Use a light Hack Squat load. Let the hips rise first, then finish by driving the knees straight; keep every rep controlled and use it as a quad burn movement.',
-            pl: 'Użyj lekkiego obciążenia na Hack Squat. Najpierw unieś biodra, potem doprostuj kolana; kontroluj każde powtórzenie i traktuj ruch jako dopalenie czworogłowych.',
+            pl: 'Użyj lekkiego obciążenia na hack squat. Najpierw unieś biodra, potem doprostuj kolana; kontroluj każde powtórzenie i traktuj ruch jako dopalenie czworogłowych.',
         },
         status: 'active',
     },
@@ -747,12 +747,12 @@ export const LIBRARY_ADDITIONS: LibraryExercise[] = [
         pattern: 'horizontal-pull', primary: ['upperBack', 'lats'], secondary: ['obliques'], equipment: ['cable'], unilateral: true, weightMode: 'external', status: 'active',
         tip: { en: 'Initiate with a controlled trunk turn, then row; reverse the sequence slowly.', pl: 'Zacznij od kontrolowanego obrotu tułowia, potem wiosłuj; wracaj powoli w odwrotnej kolejności.' },
     },
-    { id: 'kettlebell-swing', name: { en: 'Kettlebell Swing', pl: 'Swing kettlem' }, aliases: ['KB Swing'], pattern: 'hinge', primary: ['glutes','hamstrings'], secondary: ['lowerBack'], equipment: ['kettlebell'], weightMode: 'external', status: 'active', tip: { en: 'Snap the hips and let the bell float; stop when the hinge turns into a squat or the back loses position.', pl: 'Dynamicznie wyprostuj biodra i pozwól kettlowi unieść się; przerwij, gdy hinge zmienia się w przysiad lub tracisz pozycję pleców.' } },
+    { id: 'kettlebell-swing', name: { en: 'Kettlebell Swing', pl: 'Swing kettlem' }, aliases: ['KB Swing'], pattern: 'hinge', primary: ['glutes','hamstrings'], secondary: ['lowerBack'], equipment: ['kettlebell'], weightMode: 'external', status: 'active', tip: { en: 'Snap the hips and let the bell float; stop when the hinge turns into a squat or the back loses position.', pl: 'Dynamicznie wyprostuj biodra i pozwól kettlowi unieść się; przerwij, gdy zawias zmienia się w przysiad albo tracisz pozycję pleców.' } },
     { id: 'farmer-carry', name: { en: 'Farmer Carry', pl: 'Spacer farmera' }, aliases: ["Farmer's Carry"], pattern: 'carry', primary: ['forearms','traps'], secondary: ['abs','obliques'], equipment: ['dumbbell','kettlebell'], weightMode: 'external', status: 'active', tip: { en: 'Walk tall with short controlled steps. End the interval before grip or posture makes the carry unsafe.', pl: 'Idź wysoko, krótkimi kontrolowanymi krokami. Zakończ odcinek, zanim chwyt lub pozycja staną się niebezpieczne.' } },
     // --- Atlas: the gauntlet movements --------------------------------------
     { id: 'trap-bar-deadlift', name: { en: 'Trap-Bar Deadlift', pl: 'Martwy ciąg z gryfem heksagonalnym' }, aliases: ['Hex Bar Deadlift', 'Trap Bar Deadlift'], pattern: 'hinge', primary: ['glutes','hamstrings','quads'], secondary: ['lowerBack','traps','forearms'], equipment: ['barbell'], weightMode: 'external', swapGroup: 'hinge-heavy', status: 'active', tip: { en: 'Handles beside the hips, hips slightly higher than a squat. Stand up; do not turn it into a squat or a stiff-legged pull.', pl: 'Uchwyty przy biodrach, biodra nieco wyżej niż w przysiadzie. Wstań; nie zamieniaj tego w przysiad ani w martwy ciąg na prostych.' } },
     { id: 'kettlebell-shoulder-press', name: { en: 'Kettlebell Shoulder Press', pl: 'Wyciskanie kettla nad głowę' }, aliases: ['KB Press', 'KB Shoulder Press'], pattern: 'vertical-press', primary: ['frontDelt'], secondary: ['triceps','abs'], equipment: ['kettlebell'], unilateral: true, weightMode: 'external', status: 'active', tip: { en: 'Rack the bell on the forearm, ribs down, press without leaning away. Match the weaker side.', pl: 'Oprzyj kettel na przedramieniu, żebra w dół, wyciskaj bez odchylania tułowia. Dopasuj do słabszej strony.' } },
-    { id: 'turkish-get-up', name: { en: 'Turkish Get-Up', pl: 'Turkish get-up' }, aliases: ['TGU', 'Get-Up'], pattern: 'carry', primary: ['abs','obliques','frontDelt'], secondary: ['glutes','quads','rotatorCuff'], equipment: ['kettlebell'], unilateral: true, weightMode: 'external', status: 'active', tip: { en: 'One position at a time, eyes on the bell until standing. Stop the set the moment a position stops being controlled.', pl: 'Jedna pozycja naraz, wzrok na kettlu aż do wstania. Przerwij serię, gdy tylko tracisz kontrolę nad którąś pozycją.' } },
+    { id: 'turkish-get-up', name: { en: 'Turkish Get-Up', pl: 'Wstawanie tureckie' }, aliases: ['TGU', 'Get-Up'], pattern: 'carry', primary: ['abs','obliques','frontDelt'], secondary: ['glutes','quads','rotatorCuff'], equipment: ['kettlebell'], unilateral: true, weightMode: 'external', status: 'active', tip: { en: 'One position at a time, eyes on the bell until standing. Stop the set the moment a position stops being controlled.', pl: 'Jedna pozycja naraz, wzrok na kettlu aż do wstania. Przerwij serię, gdy tylko tracisz kontrolę nad którąś pozycją.' } },
     // Distinct from both Chest Press and Pec Deck: the combo station's press
     // and fly arcs share one seat and one history, and Cathedral lets the
     // athlete assign it to either the Press or the Adduction arch.

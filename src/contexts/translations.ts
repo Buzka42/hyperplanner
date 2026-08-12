@@ -448,7 +448,7 @@ export const translations = {
                         "Dynamic 4-6 sessions/week",
                         "Auto-adaptive cooldown system (48h upper / 72h lower)",
                         "Reactive volume targeting ~20 sets/muscle/week",
-                        "Progressive RPE ramp (8→9→9.5→10)"
+                        "Progressive RIR wave (2→1→0→beyond failure)"
                     ]
                 },
                 adventure: {
@@ -1772,7 +1772,7 @@ export const translations = {
             title: "30 Minute Adventure",
             free: "Plan darmowy",
             seconds: "sekundy",
-            heroPick: "Wybór Bohatera Akcji",
+            heroPick: "Propozycja bohatera",
             lastCleanRep: "Ostatnie czyste powtórzenie",
             confirmReset: "Wyczyścić tę trasę i aktualny szkic treningu?",
             equipment: {
@@ -1876,9 +1876,9 @@ export const translations = {
                     name: "Protokół Pencilneck",
                     description: "8-tygodniowy split na górę ciała. Dla tych, których szyja wygląda jak ołówek.",
                     features: [
-                        "Cel: Hipertrofia upper body",
+                        "Cel: hipertrofia górnej części ciała",
                         "4 dni/tydzień",
-                        "Split Push / Pull"
+                        "Split pchanie / ciągnięcie"
                     ]
                 },
                 skeleton: {
@@ -1892,10 +1892,10 @@ export const translations = {
                 },
                 peachy: {
                     name: "Peachy",
-                    description: "8-tygodniowy program hipertrofii pośladków. Zbuduj prawdziwą półkę.",
+                    description: "12-tygodniowy program hipertrofii pośladków. Zbuduj prawdziwą półkę.",
                     features: [
                         "Cel: Pośladki i dół",
-                        "5 dni/tydzień",
+                        "4 dni/tydzień",
                         "Programowanie oparte na nauce"
                     ]
                 },
@@ -1904,8 +1904,8 @@ export const translations = {
                     description: "16-tygodniowy program specjalizacyjny na martwy ciąg. Dziś ból, jutro chwała.",
                     features: [
                         "Cel: Siła w martwym ciągu",
-                        "4 dni/tydzień - Pull/Push",
-                        "16 tyg. z peakingiem",
+                        "4 dni/tydzień — ciągnięcie / pchanie",
+                        "16 tyg. z fazą peakingu",
                         "Autoregulacja przez uproszczony system RPE"
                     ]
                 },
@@ -1921,12 +1921,12 @@ export const translations = {
                 },
                 ritualOfStrength: {
                     name: "Rytuał Siły",
-                    description: "3 dni/tydzień prograu trójboju siłowego z minimalną efektywną dawką.",
+                    description: "3 dni/tydzień programu trójboju siłowego z minimalną efektywną dawką.",
                     features: [
                         "Cel: Wycisk / Martwy / Przysiad",
                         "3 dni/tydzień (Pon/Śr/Pt idealnie)",
                         "16 tyg. (z opcjonalną 4-tyg. rozgrzewką)",
-                        "ME single + progresja na podstawie oceny RPE"
+                        "Maksymalny single + progresja na podstawie RPE"
                     ]
                 },
                 superMutant: {
@@ -1934,17 +1934,17 @@ export const translations = {
                     description: "Zaawansowany 12+2 tyg. program kulturystyczny o wysokiej częstotliwości w stylu Fallout. Przyjmij mutację poprzez ból i żelazo.",
                     features: [
                         "Cel: Wszystkie grupy mięśniowe",
-                        "Dynamiczny 4-6 sesji/tydzień",
+                        "Dynamiczny 4–6 sesji/tydzień",
                         "Auto-adaptacyjny system przerw (48h góra / 72h dół)",
                         "Reaktywny cel objętości ~20 serii/mięsień/tydzień",
-                        "Progresywny wzrost RPE (8→9→9.5→10)"
+                        "Progresywna fala RIR (2→1→0→poza upadek)"
                     ]
                 },
                 adventure: {
                     name: "30 Minute Adventure",
                     description: "Elastyczny generator treningu całego ciała, zoptymalizowany pod czas i dostępny sprzęt.",
                     features: [
-                        "Darmowy dla każdego nowego słowa kluczowego",
+                        "Darmowy dla każdego nowego konta",
                         "5 portali · 10 ćwiczeń · 20 serii roboczych",
                         "Bez kalibracji 1RM i RPE",
                         "Historia ćwiczeń i sugestie ciężaru"
@@ -1985,7 +1985,7 @@ export const translations = {
                 },
                 immaculateRestructure: {
                     name: "Immaculate (Re)Structure",
-                    description: "10 tygodni opartych na relacjach siłowych Poliquina. Znajdź zapóźnioną strukturę i nadrób ją.",
+                    description: "10 tygodni opartych na relacjach siłowych Poliquina. Znajdź słabe ogniwo w strukturze i nadrób je.",
                     features: [
                         "Cel: Równowaga strukturalna",
                         "4 dni / tydzień - każda partia min. 2x",
@@ -1995,13 +1995,13 @@ export const translations = {
                     ]
                 },
                 overheadDominion: {
-                    name: "Dominium Barków",
+                    name: "Dominacja Barków",
                     description: "10 tygodni specjalizacji barkowej. Naramienne cztery razy w tygodniu i nigdy tak samo.",
                     features: [
                         "Cel: Barki",
                         "4 dni / tydzień - naramienne 4x, górny grzbiet 3x",
                         "Ciężkie wyciskanie, objętość na bokach, jednorącz z podparciem, praca strukturalna",
-                        "Objętość przedniego, bocznego i tylnego aktonu liczona osobno",
+                        "Objętość przedniej, bocznej i tylnej głowy naramiennego liczona osobno",
                         "W drugim bloku wyciskanie przechodzi na fale 5/3/2"
                     ]
                 },
@@ -2011,8 +2011,8 @@ export const translations = {
                     features: [
                         "Cel: Dwugłowe uda",
                         "4 dni / tydzień - dwugłowe 3x",
-                        "Siła w zawiasie, zginanie kolana, kontrola w rozciągnięciu",
-                        "Czterosekundowe ekscentryki w bloku akumulacji",
+                        "Siła w zgięciu biodra, zginanie kolana, kontrola w rozciągnięciu",
+                        "Czterosekundowa faza ekscentryczna w bloku akumulacji",
                         "Jeden dzień górny bez ciężkiej pracy na dwugłowe, dla regeneracji"
                     ]
                 },
@@ -2022,9 +2022,9 @@ export const translations = {
                     features: [
                         "Cel: Biceps i triceps",
                         "4 dni / tydzień - ramiona 4x",
-                        "Ciężko, ramienny, w rozciągnięciu i dzień gęstości",
+                        "Dzień ciężki, dzień na ramienne, dzień w rozciągnięciu i dzień gęstości",
                         "Superserie w dniu gęstości",
-                        "Reszta partii utrzymana na 2x w tygodniu"
+                        "Reszta partii utrzymana na 2× w tygodniu"
                     ]
                 },
                 workhorse: {
@@ -2044,14 +2044,14 @@ export const translations = {
                     features: [
                         "Cel: Siła i masa jednocześnie",
                         "4 dni / tydzień",
-                        "Potencjacja: czy druga szóstka bije pierwszą?",
+                        "Potencjacja postaktywacyjna: czy druga szóstka bije pierwszą?",
                         "Pojedyncza nigdy nie jest cotygodniowym maksem",
                         "Dzień 4 buduje bez dokładania obciążenia nerwowego"
                     ]
                 },
                 tenfold: {
                     name: "Dziesięciokrotność",
-                    description: "8 tygodni German Volume Training. Dziesięć serii po dziesięć na dokładnie jednym boju w sesji.",
+                    description: "8 tygodni niemieckiego treningu objętościowego (GVT). Dziesięć serii po dziesięć na dokładnie jednym boju w sesji.",
                     features: [
                         "Cel: Hipertrofia przez objętość",
                         "4 dni / tydzień",
@@ -2076,9 +2076,9 @@ export const translations = {
                 },
                 athena: {
                     name: "Athena", description: "12-tygodniowe przejście do inteligentnego ciężkiego treningu i wspólnego profilu wyników.",
-                    features: ["Tryb 3- lub 4-dniowy", "Rodziny bojów wybierane przez użytkownika", "Serie główne i edytowalne back-offy", "Bez obowiązkowego testu maksa"]
+                    features: ["Tryb 3- lub 4-dniowy", "Rodziny bojów wybierane przez użytkownika", "Serie główne i edytowalne serie odciążające", "Bez obowiązkowego testu maksa"]
                 },
-                kali: { name: "Kali", description: "8-tygodniowy plan redukcyjny chroniący siłę przy kontroli zmęczenia systemowego.", features: ["Stała struktura 4-dniowa", "Jedna systemowa kotwica na sesję", "Intensyfikacja pośladków i najszerszych", "Panel zachowania wyników"]
+                kali: { name: "Kali", description: "8-tygodniowy plan redukcyjny chroniący siłę przy kontroli zmęczenia systemowego.", features: ["Stała struktura 4-dniowa", "Jeden główny bój systemowy na sesję", "Intensyfikacja pośladków i najszerszych", "Panel zachowania wyników"]
                 },
                 redline: {
                     name: "REDLINE", description: "8-tygodniowy, czterodniowy plan całego ciała oparty na sesjach 40–50 minut i finiszerach na czas.",
@@ -2090,26 +2090,26 @@ export const translations = {
                 },
                 theMinimum: {
                     name: "The Minimum", description: "10 tygodni: dwie obowiązkowe sesje całego ciała i opcjonalna praca dodatkowa, gdy masz czas.",
-                    features: ["2 obowiązkowe sesje tygodniowo", "Po 14–16 serii", "Opcjonalne bonusy z niedoborów objętości", "Bonus nigdy nie warunkuje progresji"]
+                    features: ["2 obowiązkowe sesje tygodniowo", "Po 14–16 serii na sesję", "Opcjonalne bonusy z niedoborów objętości", "Bonus nigdy nie warunkuje progresji"]
                 },
                 lazarus: {
-                    name: "Lazarus", description: "8-tygodniowy powrót dla trenujących wcześniej po co najmniej trzech miesiącach przerwy.",
+                    name: "Lazarus", description: "8-tygodniowy powrót dla osób wracających po co najmniej trzech miesiącach przerwy.",
                     features: ["3 dni całego ciała", "Krzywa Pamięci względem dawnych rekordów", "Twarde limity w tygodniach 1–2", "Przyspiesza, gdy to udowodnisz"]
                 },
                 quadfather: {
-                    name: "Quadfather", description: "10-tygodniowa specjalizacja na czworogłowe: nogi trzy razy, reszta podtrzymywana.",
+                    name: "Quadfather", description: "10-tygodniowa specjalizacja na czworogłowe: czworogłowe trzy razy w tygodniu, reszta podtrzymywana.",
                     features: ["Czworogłowe 3×, pozostałe partie 2×", "Role: ciężar, zakres i pompa", "Potwierdzany zakres ruchu", "Zamiany przy dolegliwościach kolan"]
                 },
                 cathedral: {
-                    name: "Cathedral", description: "10-tygodniowa specjalizacja na klatkę oparta na trzech łukach: wyciskanie, rozciągnięcie, addukcja.",
+                    name: "Cathedral", description: "10-tygodniowa specjalizacja na klatkę oparta na trzech łukach: wyciskanie, rozciągnięcie, przywodzenie.",
                     features: ["Klatka 3× w tygodniu", "Wyciskanie hantli na skosie jako ciężki łuk", "Dipy i rozpiętki na rozciągnięcie", "Bez wyciskania sztangi leżąc"]
                 },
                 blackout: {
                     name: "Blackout", description: "Zaawansowany 8-tygodniowy plan: jedna seria robocza na bój i nic ponadto.",
-                    features: ["3 dni całego ciała", "Jedna seria robocza na ćwiczenie", "Serie back-off trzeba zasłużyć", "Obowiązkowa jakość i powód zakończenia"]
+                    features: ["3 dni całego ciała", "Jedna seria robocza na ćwiczenie", "Serie odciążające trzeba sobie wypracować", "Obowiązkowa jakość i powód zakończenia"]
                 },
                 monolith: {
-                    name: "Monolith", description: "10-tygodniowy plan góra/dół oparty na maszynach, do budowania objętości, z której da się zregenerować.",
+                    name: "Monolith", description: "10-tygodniowy plan góra/dół oparty na maszynach, żeby budować objętość, z której da się zregenerować.",
                     features: ["4 dni, góra/dół", "Przewaga maszyn, ale nie tylko maszyny", "Najpierw wysiłek, później techniki", "Niski koszt systemowy"]
                 },
                 atlas: {
@@ -2122,10 +2122,10 @@ export const translations = {
                 },
                 projectChimera: {
                     name: "Project Chimera", description: "16 tygodni w czterech blokach: objętość powoli przesuwa się tam, gdzie faktycznie reagujesz.",
-                    features: ["4 dni, góra/dół", "Równowaga sześciu cech", "Małe, potwierdzane zmiany co blok", "Brak danych oznacza brak zmian"]
+                    features: ["4 dni, góra/dół", "Równowaga sześciu kategorii ruchu", "Małe, potwierdzane zmiany co blok", "Brak danych oznacza brak zmian"]
                 },
                 oracle: {
-                    name: "Oracle", description: "10-tygodniowy plan, który przewiduje twoją następną sesję i pokazuje, jak blisko był.",
+                    name: "Oracle", description: "10-tygodniowy plan, który przewiduje twoją następną sesję i pokazuje, jak blisko trafił.",
                     features: ["4 dni, góra/dół", "Tygodnie 1–2 kalibrują", "Pewność zawsze podana wprost", "Uczciwa trafność zamiast oceny"]
                 }
             },

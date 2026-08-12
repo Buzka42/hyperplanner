@@ -1,16 +1,16 @@
 # Graph Report - workout planner  (2026-08-12)
 
 ## Corpus Check
-- 229 files · ~7,366,219 words
+- 230 files · ~7,424,641 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1049 nodes · 1468 edges · 95 communities detected
+- 1051 nodes · 1471 edges · 95 communities detected
 - Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 127 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a2977edf`
+- Built from commit: `514f7b44`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -54,17 +54,20 @@
 - [[_COMMUNITY_Community 36|Community 36]]
 - [[_COMMUNITY_Community 37|Community 37]]
 - [[_COMMUNITY_Community 38|Community 38]]
-- [[_COMMUNITY_Community 40|Community 40]]
+- [[_COMMUNITY_Community 39|Community 39]]
 - [[_COMMUNITY_Community 41|Community 41]]
 - [[_COMMUNITY_Community 42|Community 42]]
 - [[_COMMUNITY_Community 45|Community 45]]
 - [[_COMMUNITY_Community 46|Community 46]]
+- [[_COMMUNITY_Community 48|Community 48]]
 - [[_COMMUNITY_Community 49|Community 49]]
-- [[_COMMUNITY_Community 51|Community 51]]
+- [[_COMMUNITY_Community 52|Community 52]]
 - [[_COMMUNITY_Community 54|Community 54]]
-- [[_COMMUNITY_Community 57|Community 57]]
-- [[_COMMUNITY_Community 58|Community 58]]
-- [[_COMMUNITY_Community 59|Community 59]]
+- [[_COMMUNITY_Community 55|Community 55]]
+- [[_COMMUNITY_Community 56|Community 56]]
+- [[_COMMUNITY_Community 72|Community 72]]
+- [[_COMMUNITY_Community 73|Community 73]]
+- [[_COMMUNITY_Community 74|Community 74]]
 - [[_COMMUNITY_Community 75|Community 75]]
 - [[_COMMUNITY_Community 76|Community 76]]
 - [[_COMMUNITY_Community 77|Community 77]]
@@ -74,18 +77,19 @@
 - [[_COMMUNITY_Community 81|Community 81]]
 - [[_COMMUNITY_Community 82|Community 82]]
 - [[_COMMUNITY_Community 83|Community 83]]
-- [[_COMMUNITY_Community 84|Community 84]]
-- [[_COMMUNITY_Community 85|Community 85]]
-- [[_COMMUNITY_Community 86|Community 86]]
+- [[_COMMUNITY_Community 107|Community 107]]
+- [[_COMMUNITY_Community 108|Community 108]]
+- [[_COMMUNITY_Community 109|Community 109]]
+- [[_COMMUNITY_Community 110|Community 110]]
 - [[_COMMUNITY_Community 111|Community 111]]
 - [[_COMMUNITY_Community 112|Community 112]]
 - [[_COMMUNITY_Community 113|Community 113]]
 - [[_COMMUNITY_Community 114|Community 114]]
 - [[_COMMUNITY_Community 115|Community 115]]
-- [[_COMMUNITY_Community 116|Community 116]]
-- [[_COMMUNITY_Community 117|Community 117]]
-- [[_COMMUNITY_Community 118|Community 118]]
 - [[_COMMUNITY_Community 119|Community 119]]
+- [[_COMMUNITY_Community 120|Community 120]]
+- [[_COMMUNITY_Community 121|Community 121]]
+- [[_COMMUNITY_Community 122|Community 122]]
 - [[_COMMUNITY_Community 123|Community 123]]
 - [[_COMMUNITY_Community 124|Community 124]]
 - [[_COMMUNITY_Community 125|Community 125]]
@@ -106,10 +110,6 @@
 - [[_COMMUNITY_Community 140|Community 140]]
 - [[_COMMUNITY_Community 141|Community 141]]
 - [[_COMMUNITY_Community 142|Community 142]]
-- [[_COMMUNITY_Community 143|Community 143]]
-- [[_COMMUNITY_Community 144|Community 144]]
-- [[_COMMUNITY_Community 145|Community 145]]
-- [[_COMMUNITY_Community 146|Community 146]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `definePlan()` - 32 edges
@@ -143,31 +143,31 @@
 - **Workout Programs** — readme_v15_finaltrinaryfixes_bench_domination, readme_v15_finaltrinaryfixes_painglory, readme_v15_finaltrinaryfixes_peachy, readme_v15_finaltrinaryfixes_pencilneck, readme_v15_finaltrinaryfixes_skeleton, readme_v15_finaltrinaryfixes_trinary [EXTRACTED 1.00]
 - **Workout Achievement System** — emom_executioner_badge, final_boss_badge, first_blood_badge, glory_achieved_badge, glute_queen_badge, highpriest_badge, immortal_badge, initiate_badge, kas_glute_bridge_100_badge, mutant_badge [INFERRED 0.95]
 
-## Communities (147 total, 56 thin omitted)
+## Communities (143 total, 56 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.06
+Cohesion: 0.05
 Nodes (49): getMuscleContributions(), getBlockFromWorkout(), handleSaveSession(), extractPerformanceObservations(), accessories(), allSetsReach(), benchDominationProgression(), deloads() (+41 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.05
-Nodes (16): buildWeightCalculator(), calibrationExercisesFor(), definePlan(), phaseFor(), requiredStatsFor(), applyPendingScheduleMode(), calendarPlanWeek(), requestScheduleMode() (+8 more)
+Nodes (14): buildWeightCalculator(), calibrationExercisesFor(), definePlan(), phaseFor(), requiredStatsFor(), accumulate(), intensify(), roundRest() (+6 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.07
-Nodes (26): carryScore(), compareCarries(), gauntletFor(), isPowerWork(), limiterAdvice(), aiComplete(), maxFor(), openingLoad() (+18 more)
+Cohesion: 0.06
+Nodes (20): selectVariation(), async(), calculateWeight(), fetchPreviousStats(), initializeEmptyState(), initView(), isAutoLoad(), pair() (+12 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.08
-Nodes (24): save(), hasEn(), hasPl(), patch(), save(), setTip(), tipOf(), createResolver() (+16 more)
-
-### Community 4 - "Community 4"
 Cohesion: 0.05
 Nodes (42): AdminPanel, Authentication Gate, Badges Registry, Dashboard, Entry Page, History Page, Onboarding Flow, Pain & Glory Configuration (+34 more)
 
+### Community 4 - "Community 4"
+Cohesion: 0.08
+Nodes (21): adventureDraftKey(), adventureResultKey(), buildAdventureSequence(), findPreviousAdventureWeight(), getAdventureExercise(), getAdventurePair(), getVariantTip(), advance() (+13 more)
+
 ### Community 5 - "Community 5"
-Cohesion: 0.07
-Nodes (16): selectVariation(), async(), calculateWeight(), fetchPreviousStats(), initializeEmptyState(), initView(), isAutoLoad(), pair() (+8 more)
+Cohesion: 0.1
+Nodes (20): save(), hasEn(), hasPl(), patch(), save(), setTip(), tipOf(), createResolver() (+12 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.09
@@ -178,12 +178,12 @@ Cohesion: 0.1
 Nodes (18): a(), b(), f(), s(), adv(), day(), exByName(), gen() (+10 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.11
-Nodes (16): adventureDraftKey(), adventureResultKey(), buildAdventureSequence(), findPreviousAdventureWeight(), getAdventureExercise(), getAdventurePair(), advance(), answerChallenge() (+8 more)
+Cohesion: 0.08
+Nodes (13): advanceDensityBlock(), blockDensity(), compareBlocks(), restWarning(), startingState(), applyPendingScheduleMode(), calendarPlanWeek(), requestScheduleMode() (+5 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.09
-Nodes (12): UserProvider(), benchmarkLiftsFor(), canonicalPlanId(), canonicalPlanIds(), normalizeLegacyPlanIds(), getPlan(), getPlanExerciseConfig(), enrolWithoutBenchmarks() (+4 more)
+Cohesion: 0.12
+Nodes (18): aiComplete(), maxFor(), openingLoad(), seedLoadFor(), statsUsedBy(), accuracyBand(), accuracyTrend(), assessConfidence() (+10 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.11
@@ -210,60 +210,56 @@ Cohesion: 0.11
 Nodes (19): Acolyte of Strength Badge Image, Behemoth of the Wastes Badge Image, 20kg Bench Jump Badge Image, 30kg Bench Jump Badge Image, Bench Psychopath Badge Image, Certified Shoulder Boulder Badge Image, Cannonball Delts Badge Image, Deficit Demon Badge Image (+11 more)
 
 ### Community 16 - "Community 16"
+Cohesion: 0.14
+Nodes (6): benchmarkLiftsFor(), enrolWithoutBenchmarks(), handleAdventureSubmit(), handleBenchmarkSubmit(), handleProgramSelect(), isPlanAllowed()
+
+### Community 17 - "Community 17"
 Cohesion: 0.16
 Nodes (8): baseWeeklySets(), blockFor(), meetsMinimums(), preprocess(), applyMutation(), phenotype(), proposeMutation(), withinCap()
 
-### Community 17 - "Community 17"
+### Community 18 - "Community 18"
 Cohesion: 0.19
 Nodes (9): transferConfidence(), capIsHard(), detrainingFactor(), injuryReturnGuidance(), openingLoad(), shouldAccelerate(), weekSetCap(), preprocess() (+1 more)
 
 ### Community 19 - "Community 19"
+Cohesion: 0.28
+Nodes (11): baseAxial(), baseLowerBack(), baseStability(), baseSystemic(), buildExerciseIntelligence(), clamp(), failureSuitability(), hasAny() (+3 more)
+
+### Community 20 - "Community 20"
+Cohesion: 0.18
+Nodes (8): carryScore(), compareCarries(), gauntletFor(), isPowerWork(), limiterAdvice(), preprocess(), firstDayIds(), session()
+
+### Community 21 - "Community 21"
 Cohesion: 0.21
 Nodes (8): rankExerciseSwaps(), describe(), learnedCost(), rating(), recommendSwap(), splitFor(), swapVerdict(), tradeoffsFor()
 
-### Community 20 - "Community 20"
-Cohesion: 0.19
-Nodes (5): advanceDensityBlock(), blockDensity(), compareBlocks(), restWarning(), startingState()
-
-### Community 21 - "Community 21"
-Cohesion: 0.4
-Nodes (11): baseAxial(), baseLowerBack(), baseStability(), baseSystemic(), buildExerciseIntelligence(), clamp(), failureSuitability(), hasAny() (+3 more)
-
-### Community 22 - "Community 22"
+### Community 24 - "Community 24"
 Cohesion: 0.23
 Nodes (6): advanceStall(), earnedBackoff(), failureAllowed(), isEvaluable(), nextExposureAdvice(), recoveryRecommendation()
 
-### Community 23 - "Community 23"
+### Community 25 - "Community 25"
 Cohesion: 0.26
 Nodes (6): adjustForLimitingFatigue(), archBalance(), archOf(), chestProfile(), isBalanced(), preprocess()
 
-### Community 24 - "Community 24"
-Cohesion: 0.27
-Nodes (6): kneeCost(), proposeKneeSwap(), recommendMainLoad(), resolveDepth(), roleBalance(), roleOf()
-
-### Community 25 - "Community 25"
+### Community 26 - "Community 26"
 Cohesion: 0.24
 Nodes (8): harvestDay(), harvestExercise(), isProbablyExercise(), normalise(), record(), syntheticUser(), tokens(), userVariants()
-
-### Community 26 - "Community 26"
-Cohesion: 0.21
-Nodes (5): missingFromPortfolio(), comparableTo(), eligible(), followUpsFor(), recommend()
 
 ### Community 27 - "Community 27"
 Cohesion: 0.21
 Nodes (3): applyHouseProgressions(), houseBalance(), recommendHouseSession()
 
 ### Community 28 - "Community 28"
-Cohesion: 0.25
-Nodes (5): getVariantTip(), tipFor(), newTip(), norm(), oldTip()
+Cohesion: 0.21
+Nodes (5): missingFromPortfolio(), comparableTo(), eligible(), followUpsFor(), recommend()
 
 ### Community 29 - "Community 29"
+Cohesion: 0.26
+Nodes (6): canonicalPlanId(), canonicalPlanIds(), normalizeLegacyPlanIds(), getPlanMeta(), getPlan(), getPlanExerciseConfig()
+
+### Community 31 - "Community 31"
 Cohesion: 0.33
 Nodes (7): check(), checkDay(), checkExercise(), fail(), isPlaceholder(), syntheticUser(), userVariants()
-
-### Community 32 - "Community 32"
-Cohesion: 0.22
-Nodes (3): techniqueLabel(), formatRest(), formatTempo()
 
 ### Community 33 - "Community 33"
 Cohesion: 0.31
@@ -282,10 +278,14 @@ Cohesion: 0.36
 Nodes (5): deriveBackoffLoad(), roundToIncrement(), topSetCanProgress(), athenaProgression(), upper()
 
 ### Community 37 - "Community 37"
+Cohesion: 0.22
+Nodes (3): techniqueLabel(), formatRest(), formatTempo()
+
+### Community 38 - "Community 38"
 Cohesion: 0.46
 Nodes (6): contain_image(), front(), make_pdf(), paragraph(), reverse(), wrap()
 
-### Community 38 - "Community 38"
+### Community 39 - "Community 39"
 Cohesion: 0.43
 Nodes (4): humanise(), isCuratedGeneralCue(), isPrescriptionSpecific(), rank()
 
@@ -293,11 +293,11 @@ Nodes (4): humanise(), isCuratedGeneralCue(), isPrescriptionSpecific(), rank()
 Cohesion: 0.29
 Nodes (7): Bench Domination Badge, Pain & Glory Badge, AMRAP (As Many Reps As Possible), Bench Domination, Epley Formula, Pain & Glory, Reactive Deload
 
-### Community 45 - "Community 45"
+### Community 46 - "Community 46"
 Cohesion: 0.47
 Nodes (3): effectiveAthenaMode(), preprocess(), replace()
 
-### Community 54 - "Community 54"
+### Community 52 - "Community 52"
 Cohesion: 0.83
 Nodes (3): brand_front(), build(), tracked_text()
 
@@ -309,17 +309,17 @@ Nodes (3): brand_front(), build(), tracked_text()
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `definePlan()` connect `Community 1` to `Community 2`, `Community 7`, `Community 10`, `Community 45`, `Community 16`, `Community 17`, `Community 22`, `Community 23`, `Community 24`, `Community 27`?**
-  _High betweenness centrality (0.170) - this node is a cross-community bridge._
-- **Why does `useUser()` connect `Community 31` to `Community 1`, `Community 5`, `Community 40`, `Community 9`, `Community 10`, `Community 8`, `Community 41`, `Community 45`, `Community 13`, `Community 48`, `Community 49`, `Community 56`, `Community 27`, `Community 28`?**
-  _High betweenness centrality (0.130) - this node is a cross-community bridge._
-- **Why does `useLanguage()` connect `Community 40` to `Community 32`, `Community 1`, `Community 5`, `Community 8`, `Community 41`, `Community 10`, `Community 9`, `Community 45`, `Community 13`, `Community 48`, `Community 49`, `Community 50`, `Community 56`, `Community 27`, `Community 28`, `Community 31`?**
-  _High betweenness centrality (0.104) - this node is a cross-community bridge._
+- **Why does `definePlan()` connect `Community 1` to `Community 7`, `Community 8`, `Community 9`, `Community 10`, `Community 46`, `Community 17`, `Community 18`, `Community 20`, `Community 24`, `Community 25`, `Community 27`?**
+  _High betweenness centrality (0.177) - this node is a cross-community bridge._
+- **Why does `useUser()` connect `Community 23` to `Community 2`, `Community 4`, `Community 8`, `Community 41`, `Community 10`, `Community 13`, `Community 46`, `Community 16`, `Community 49`, `Community 27`, `Community 29`, `Community 30`?**
+  _High betweenness centrality (0.129) - this node is a cross-community bridge._
+- **Why does `useLanguage()` connect `Community 30` to `Community 2`, `Community 4`, `Community 37`, `Community 8`, `Community 41`, `Community 10`, `Community 13`, `Community 46`, `Community 16`, `Community 49`, `Community 50`, `Community 23`, `Community 27`, `Community 29`?**
+  _High betweenness centrality (0.105) - this node is a cross-community bridge._
 - **Are the 21 inferred relationships involving `empty()` (e.g. with `athenaProgression()` and `accessories()`) actually correct?**
   _`empty()` has 21 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `extract-theme  Derives a plan's colour theme from its cover artwork.  Each n`, `WCAG relative luminance.`, `Emitted as bare `H S% L%` to match the existing hsl(var(--token)) usage.` to the rest of the system?**
   _106 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.06 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._

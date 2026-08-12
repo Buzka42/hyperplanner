@@ -1,44 +1,124 @@
 # From Skeleton to Threat
 
-**Program ID:** `skeleton-to-threat` · **Source:** [src/data/skeleton.ts](../../src/data/skeleton.ts)
-**Duration:** 12 weeks · **Frequency:** user-selected days (every selected day is the same full-body session)
+**Program ID:** `skeleton-to-threat` · **Source:** [src/data/skeleton.ts](../../src/data/skeleton.ts) · **Progression:** [src/features/workout/progression/skeleton.ts](../../src/features/workout/progression/skeleton.ts)
+**Duration:** 12 weeks · **Frequency:** user-selected days (every selected day is the same full-body session; onboarding targets **3** days)
 
-A beginner full-body program. The week grid is generated empty; `preprocessDay` injects the same six-exercise session into every day the user selected during onboarding, and marks everything else Rest & Recovery.
+## Overview
 
-## The Session (every training day)
+Beginner full-body program. The week grid is generated empty; `preprocessDay` injects the same six-exercise (+ plank) session into every day the user selected during onboarding, and marks everything else Rest & Recovery.
 
-| # | Exercise | Sets | Reps |
+## Onboarding
+
+- **Stats / 1RMs:** none (blank lifting stats).
+- **Schedule:** selectable days; target count **3** (`selectedProgramId === SKELETON` uses `targetCount = 3`). Every selected weekday gets the identical session.
+- **Modules/toggles:** none.
+- **Access:** paid (not `alwaysFree`).
+
+### EN (`onboarding.programs.skeleton`)
+
+- **Name:** From Skeleton to Threat
+- **Description:** 12-week beginner program. For those who have never touched a weight.
+- **Features:** Focus: Full Body · 3 Days / Week · Flexible Schedule
+
+### PL (`onboarding.programs.skeleton`)
+
+- **Name:** Od Szkieleta do Zagrożenia
+- **Description:** 12-tygodniowy program dla początkujących. Dla tych, którzy nigdy nie ruszyli żelastwa.
+- **Features:** Cel: Hipertrofia całego ciała · 3 dni/tydzień · Elastyczny grafik
+
+## Weekly structure
+
+Same session every training day:
+
+| # | Exercise | Sets | Reps / notes |
 |---|---|---|---|
 | 1 | Deficit Push-ups | 3 | AMRAP |
-| 2 | Leg Extensions | 3 (+1 late) | 12–20 |
-| 3 | Supported Stiff-Legged DB Deadlift | 3 (+1 late) | 10–15 |
-| 4 | Standing Calf Raises | 3 (+1 late) | 15–20 |
-| 5 | Inverted Rows | 2 (+1 late) | 8–15 |
-| 6 | Overhand Mid-Grip Pulldown | 2 (+1 late) | 10–15 |
-| 7 | Planks | 3 | starts at 30s, see below |
+| 2 | Leg Extensions | 3 (+1 from W9) | 12–20 |
+| 3 | Supported Stiff-Legged DB Deadlift | 3 (+1 from W9) | 10–15 |
+| 4 | Standing Calf Raises | 3 (+1 from W9) | 15–20 |
+| 5 | Inverted Rows | 2 (+1 from W9) | 8–15 |
+| 6 | Overhand Mid-Grip Pulldown | 2 (+1 from W9) | 10–15 |
+| 7 | Planks | 3 | time target (starts 30s) — weight input disabled |
 
-**Late-phase volume bump:** from **Week 9** every exercise except push-ups and Planks gets +1 set (`getSets`).
+**Late-phase volume:** from **Week 9**, every exercise except push-ups and Planks gets +1 set (`getSets`).
 
-### Planks: time-based progression
+Tempo / rest / RPE: not percentage-based; beat-your-log advice drives load. Planks are time-only.
 
-Planks is bodyweight/time only — the weight input is disabled. The target hold time starts at **30 seconds** and is persisted in `skeletonStatus.plankTargetSeconds` (defaults to 30 when unset). Each exercise render reads this stored value directly into `target.reps` (e.g. `"30sec"`), so it's the single source of truth for both the displayed target and the advice check.
+## Phases & week-to-week progression
 
-On save, if **all sets** hit the current target time, `plankTargetSeconds` is incremented by **+10 seconds** for the next session (`handleSaveSession` in WorkoutView.tsx). The advice pill (`getExerciseAdvice`) parses the *current* target directly out of `exercise.target.reps` (rather than needing separate history lookups) and shows "Add 10 seconds from last session!" once all sets meet it. The accompanying tip explains the rule ("Hold each plank for the target time. Hit the target on ALL sets → +10 seconds next session.").
+### Planks (time-based)
 
-## Progression Rules (`getExerciseAdvice`)
+- Target starts at **30 seconds**, stored in `skeletonStatus.plankTargetSeconds`.
+- Rendered into `target.reps` (e.g. `"30sec"`).
+- On save, if **all sets** hit the current target → `plankTargetSeconds` **+10** (`skeletonProgression` / save path).
+- Advice: “Add 10 seconds from last session!” when all sets meet target.
 
-No calculated weights — everything is beat-your-log:
+### Other exercises (`getExerciseAdvice`)
 
-- **Deficit Push-ups:** always shows "Try to beat: {last max reps}".
-- **Leg Extensions:** all sets ≥20 → "+7 kg".
-- **Supported SLDL:** all sets ≥15 → "+2.5 kg" if already ≥10 kg per hand, otherwise "+1 kg each dumbbell".
-- **Standing Calf Raises:** all sets ≥20 → "switch to single-leg"; **Single Leg Calf Raises** at 20s → "+5 kg dumbbell".
-- **Inverted Rows:** all sets ≥15 → "go deeper — decrease body angle".
-- **Pulldown:** all sets ≥15 → "+7 kg".
+No calculated weights:
 
-Both modern (`exercises[].setsData`) and legacy (`setResults`) log formats are handled when reading history.
+| Exercise | Progression cue |
+|---|---|
+| Deficit Push-ups | “Try to beat: {last max reps}” |
+| Leg Extensions | all sets ≥20 → “+7 kg” |
+| Supported SLDL | all sets ≥15 → “+2.5 kg” if already ≥10 kg/hand, else “+1 kg each dumbbell” |
+| Standing Calf Raises | all sets ≥20 → “switch to single-leg”; Single-Leg at 20s → “+5 kg dumbbell” |
+| Inverted Rows | all sets ≥15 → “go deeper — decrease body angle” |
+| Pulldown | all sets ≥15 → “+7 kg” |
 
-## Completion & Widgets
+Both modern (`exercises[].setsData`) and legacy (`setResults`) log formats are handled.
 
-- Saving the session on the **highest selected day of Week 12** sets `skeletonStatus.completed`, triggers the victory screen, and awards **Certified Threat**; the follow-up screen offers trainer contact.
-- Dashboard widgets: metamorphosis countdown (weeks remaining), Deficit Push-up PR (max reps in any single set across all logs), rest-day quotes.
+### Completion
+
+Saving on the **highest selected day of Week 12** → `skeletonStatus.completed`, victory screen, **Certified Threat**, trainer-contact follow-up.
+
+## Techniques, supersets, finishers
+
+- N/A — straight sets only; no supersets, drop sets, or timed finishers beyond plank holds.
+
+## Dashboard & UI theme
+
+| Meta | Value |
+|---|---|
+| `themeClass` | `theme-skeleton` |
+| `i18nKey` | `skeleton` |
+| `logo` | `/SKELETON.png` |
+| `coverBg` / gradient | `bg-black` / `from-black/90` |
+| `order` | 3 |
+| `alwaysFree` | no |
+
+**CSS tokens** (`.theme-skeleton` — toxic green over dark rot):
+
+| Token | HSL |
+|---|---|
+| `--background` | `210 8% 4%` |
+| `--primary` | `110 90% 45%` |
+| `--accent` | `0 70% 42%` (blood red contrast) |
+| `--secondary` | `0 55% 14%` |
+| `--ring` | `110 90% 45%` |
+| `--signal-text` | global fallback |
+
+**Widgets:** `skeleton_countdown`, `skeleton_pushup_max`, `skeleton_quotes`, `workout_history`. Metamorphosis countdown (weeks remaining), Deficit Push-up PR (max reps any set), rest-day quotes.
+
+## Implementation completion analysis
+
+| Area | Status |
+|---|---|
+| Plan generator | **complete** — `SKELETON_CONFIG` + `preprocessDay` injection |
+| Progression hooks | **complete** — `skeletonProgression` |
+| Dashboard | **complete** — countdown / PR / quotes |
+| Onboarding wiring | **complete** — 3-day selectable schedule |
+| EN translations | **complete** |
+| PL translations | **natural** for card copy |
+| Exercise library / tips | **complete** for beginner stack |
+| Verify script | **shared** — `verify:progression` |
+
+## Translation notes
+
+PL onboarding card reads naturally. Minor optional polish:
+
+| String | Note |
+|---|---|
+| `nigdy nie ruszyli żelastwa` | Idiomatic; OK |
+| Feature `Cel: Hipertrofia całego ciała` | EN says “Full Body” (broader than hypertrophy) — acceptable |
+| No calques flagged in program card | — |

@@ -145,14 +145,14 @@ export const TIP_DRAFTS_EN: Record<string, string> = {
 /** exerciseId -> Polish translation of the drafted cue above. */
 export const TIP_DRAFTS_PL: Record<string, string> = {
     // --- squat and knee-dominant ---------------------------------------------
-    'low-bar-squat': 'Sztanga na tylnych aktach barków, nadgarstki neutralne, większy pochyl niż w high bar. Schodź biodrami i kolanami razem; kończ serię, gdy klatka zaczyna wyprzedzać biodra.',
-    'high-box-squat': 'Siadaj na boks pod kontrolą i pauzuj bez odbijania. To boks ustawia głębokość, nie odbicie od niego.',
-    'low-box-squat': 'Siadaj na boks na równoległości lub minimalnie poniżej, utrzymaj napięcie w pauzie i wstań bez przesuwania się w przód.',
+    'low-bar-squat': 'Sztanga na tylnych aktonach barków, nadgarstki neutralne, większy pochyl niż przy high-barze. Schodź biodrami i kolanami razem; kończ serię, gdy klatka zaczyna wyprzedzać biodra.',
+    'high-box-squat': 'Siadaj na skrzynię pod kontrolą i pauzuj bez odbijania. To skrzynia ustawia głębokość, nie odbicie od niej.',
+    'low-box-squat': 'Siadaj na skrzynię na równoległości lub minimalnie poniżej, utrzymaj napięcie w pauzie i wstań bez przesuwania się w przód.',
     'paused-squat': 'Pełne zatrzymanie na dole z usztywnionym tułowiem. Trzymaj pozycję zamiast w nią zapadać, potem wstań bez odbicia.',
     'tempo-squat': 'Schodź równo przez zadaną liczbę sekund — w większości tempo przysiadów dołek jest za szybki, a to on jest najważniejszy.',
     'safety-bar-squat': 'Trzymaj uchwyty bez ściągania sztangi w dół i pozwól klamrze utrzymać tułów pionowo. Łokcie pod sztangą, nie rozchylone w przód.',
     'zercher-squat': 'Sztanga w zgięciach łokci, przyciśnięta do ciała. Klatka wysoko; seria kończy się, gdy sztanga zaczyna zjeżdżać, nie gdy poddają nogi.',
-    'mid-pin-squat': 'Start z martwego zatrzymania na pinach, z pełnym napięciem przed ruchem. Żadnego odbijania od pinów.',
+    'mid-pin-squat': 'Zaczynaj z martwego zatrzymania na pinach, z pełnym napięciem przed ruchem. Bez odbijania od pinów.',
     'banded-squat': 'Guma ciężeje w miarę wstawania, więc przyspieszaj przez górę zamiast pozwalać jej zatrzymać ruch.',
     'bulgarian-split-squat': 'Tylna stopa na ławce, przednia goleń mniej więcej pionowo, ciężar na całej przedniej stopie. Zacznij od słabszej strony i wyrównaj nią silniejszą.',
     'heel-elevated-goblet-squat': 'Pięty uniesione, tułów wysoko, kolana jadą w przód za palce. Schodź prosto w dół, nie w tył.',
@@ -205,7 +205,7 @@ export const TIP_DRAFTS_PL: Record<string, string> = {
     'single-arm-reverse-pec-deck': 'Jedno ramię pozwala łopatce pracować naturalnie. Tułów nieruchomy; nie dokręcaj się do powtórzenia.',
 
     // --- vertical and horizontal pull ----------------------------------------
-    'pull-up': 'Pełne zwisanie, barki ustawione, broda nad drążkiem bez szarpania. Opuszczaj pod kontrolą — ekscentryk to większość wartości.',
+    'pull-up': 'Pełny zwis, barki ustawione, broda nad drążkiem bez szarpania. Opuszczaj pod kontrolą — faza ekscentryczna daje większość wartości.',
     'weighted-pull-up': 'Ciężar całkowity to masa ciała plus obciążenie na pasie. Pełne zwisanie do brody nad drążkiem; kończ serię, gdy zakres się skraca.',
     'inverted-row': 'Ciało w jednej linii, drążek do mostka, łopatki schodzą się na końcu. Podnieś drążek lub ugnij kolana zamiast skracać zakres.',
     'barbell-row': 'Kąt tułowia ustalony na całą serię. Przyciągaj pod dolne żebra i kończ, gdy tułów zaczyna się podnosić do sztangi.',
@@ -233,7 +233,7 @@ export const TIP_DRAFTS_PL: Record<string, string> = {
     'straight-bar-cable-curl': 'Stałe napięcie przez cały ruch. Łokcie nieruchome, ściśnij na górze bez odciągania w tył.',
     'low-pulley-cable-curl': 'Dolny wyciąg utrzymuje napięcie w rozciągnięciu. Nie pozwól łokciom odjeżdżać w przód.',
     'dumbbell-hammer-curl': 'Chwyt neutralny przez cały ruch, łokcie przy bokach. Kontroluj opuszczanie; tu łatwo oszukiwać.',
-    'hammer-curl': 'Chwyt neutralny, łokcie przy bokach, bez bujania. Opuszczaj pod kontrolą — tu łatwo oszukiwać, a ekscentryk pracuje na ramienne.',
+    'hammer-curl': 'Chwyt neutralny, łokcie przy bokach, bez bujania. Opuszczaj pod kontrolą — tu łatwo oszukiwać, a faza ekscentryczna buduje ramienne.',
     'rope-hammer-curl': 'Chwyt neutralny na linie, łokcie przy bokach. Rozciągnij końcówki liny na górze.',
     'ezbar-skullcrushers': 'Opuszczaj do czoła lub minimalnie za głowę, łokcie nieruchome. Kończ serię przy pierwszym dyskomforcie w łokciach zamiast przez niego przechodzić.',
     'banded-ezbar-bar-skullcrushers': 'Napięcie gumy szczytuje w zamknięciu, więc łokcie nieruchomo i prostuj zdecydowanie do końca.',

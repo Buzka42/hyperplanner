@@ -1,46 +1,124 @@
 # Ritual of Strength
 
-**Program ID:** `ritual-of-strength` · **Source:** [src/data/ritual.ts](../../src/data/ritual.ts)
-**Duration:** 16 weeks (4-week ramp-in + 12-week main phase) · **Frequency:** 3 days/week (Mon / Wed / Fri pattern)
+**Program ID:** `ritual-of-strength` · **Source:** [src/data/ritual.ts](../../src/data/ritual.ts) · **Progression:** [src/features/workout/progression/ritual.ts](../../src/features/workout/progression/ritual.ts)
+**Duration:** 16 weeks (4-week ramp-in + 12-week main phase; purge weeks insert into the calendar) · **Frequency:** 3 days/week (Mon / Wed / Fri pattern)
 
-Cult-themed powerlifting frequency program: every session touches all three lifts — one at max effort, the other two light — plus user-chosen accessories.
+## Overview
 
-## Phase 1: Ramp-In (Weeks 1–4, first-timers)
+Cult-themed powerlifting frequency program: every session touches all three lifts — one at max effort, the other two light — plus user-chosen accessories. Optional ramp-in for first-timers.
+
+## Onboarding
+
+- **First-program question:** `isFirstProgram` true → weeks 1–4 ramp-in; false → `preprocessDay` jumps to week-5 content.
+- **Stats / 1RMs:** ritual bench, squat, deadlift 1RMs → `ritualStatus`.
+- **Schedule:** 3 days/week ideal Mon/Wed/Fri.
+- **Modules:** up to 3 **user-selected accessories** per day type in Settings → Ritual Accessories (`ritualStatus.ritualAccessories`).
+- **Access:** paid (not `alwaysFree`).
+
+### EN (`onboarding.programs.ritualOfStrength`)
+
+- **Name:** Ritual of Strength
+- **Description:** 3 day/week minimum effective dose powerlifting program.
+- **Features:** Focus: Bench / Deadlift / Squat · 3 Days / Week (Mon/Wed/Fri ideal) · 16 Week Program (with optional 4-week ramp-in) · ME singles + RPE based progression
+
+### PL (`onboarding.programs.ritualOfStrength`)
+
+- **Name:** Rytuał Siły
+- **Description:** 3 dni/tydzień **prograu** trójboju siłowego z minimalną efektywną dawką. ← **typo**
+- **Features:** Cel: Wycisk / Martwy / Przysiad · 3 dni/tydzień (Pon/Śr/Pt idealnie) · 16 tyg. (z opcjonalną 4-tyg. rozgrzewką) · ME single + progresja na podstawie oceny RPE
+
+## Weekly structure
+
+### Phase 1: Ramp-In (Weeks 1–4, first-timers)
 
 Each week: Day 1 bench focus, Day 2 squat focus, Day 3 deadlift focus, each with 2 accessories (rows/face pulls, ham curls/leg extensions, farmer holds/ab wheel).
 
-- Week 1: 3×9 @ **70%** of 1RM
-- Week 2: 3×6 @ **80%**
-- Week 3: 3×3 @ **90%**
-- Week 4: **Ascension Test** — 1 AMRAP @ **85%** + 3×5 back-down @ 80% of the AMRAP weight (= 68% of 1RM; applies to back-downs on every ascension week). The AMRAP is run through Epley (`weight × (1 + reps/30)`, floored to 2.5 kg) and **replaces the stored 1RM** for that lift.
+| Week | Prescription |
+|---|---|
+| 1 | 3×9 @ **70%** of 1RM |
+| 2 | 3×6 @ **80%** |
+| 3 | 3×3 @ **90%** |
+| 4 | **Ascension Test** — 1 AMRAP @ **85%** + 3×5 back-down @ 80% of AMRAP weight (= 68% of 1RM). Epley replaces stored 1RM |
 
-Users marked `isFirstProgram: false` skip straight to week 5 (`preprocessDay` swaps in week-5 content).
-
-## Phase 2: Main Phase (Weeks 5–16)
+### Phase 2: Main Phase (Weeks 5–16)
 
 Every session (rotating which lift is ME):
 
 - **ME lift:** 1 heavy single @ ~**95%** of current 1RM (+ accumulated ME progression)
 - **Other two lifts (Light):** 3×5 @ **70%** — velocity work
 - Day 3 adds Farmer Holds 3×20-30 s
-- Up to 3 **user-selected accessories** per day type (bench: rows/rear delts/tricep ext/face pulls; squat: ham curls/leg ext/hip thrusts/calves; deadlift: shrugs/pull-aparts/ab wheel/planks) at 3×10-12, injected from `ritualStatus.ritualAccessories` — selectable in **Settings → Ritual Accessories** (the injection clones the day's exercise array; a shallow copy used to stack duplicates into the static program).
-- Day names for weeks 8 and 16 used to incorrectly read "Purge Day" (they're Ascension Test weeks, not deload weeks) — fixed to always use the normal Bench/Squat/Deadlift day names.
+- Up to 3 accessories per day type at 3×10-12 (bench: rows/rear delts/tricep ext/face pulls; squat: ham curls/leg ext/hip thrusts/calves; deadlift: shrugs/pull-aparts/ab wheel/planks)
 
-**Ascension Tests** recur every 4 weeks (weeks 8, 12, 16): AMRAP @ 85% + back-downs, updating 1RMs via Epley. This update now correctly fires on **every** ascension week (see bugfix note below) — not just week 4.
+**Ascension Tests** every 4 weeks (8, 12, 16): AMRAP @ 85% + back-downs, Epley 1RM update. Day names for weeks 8/16 are normal Bench/Squat/Deadlift (not “Purge Day”).
 
-Purge/deload weeks are inserted as schedule weeks 9, 14, and 19, with the underlying training-week mapping preserved. The Light-work velocity answer persists a per-lift reduction and changes the next light prescription from 70% to 65% until a successful exposure clears it.
+Purge/deload weeks insert as schedule weeks **9, 14, and 19**, with underlying training-week mapping preserved.
 
-## Progression Mechanics (applied in `handleSaveSession`)
+## Phases & week-to-week progression
 
-- **Ascension Test 1RM update (fixed):** previously this only ran when `weekNum === 4`, so the recurring Ascension Tests at weeks 8/12/16 never actually updated the stored 1RM — the ME weight would silently stall since `calculateWeight` derives everything from that 1RM. It's now gated purely by the exercise name containing "Ascension Test" (which only appears on ascension weeks anyway), so all four tests (4, 8, 12, 16) update the 1RM via Epley. Each Ascension Test recalculation also **resets that lift's accumulated ME checkbox bonus to 0** — the bonus was computed against the old 1RM and would otherwise stack on top of the freshly-recalculated one.
-- **ME singles auto-PR:** any successful single heavier than the stored 1RM (floored to 2.5 kg) overwrites it.
-- **Checkbox progression:** after entering a single, a safety checkbox appears — "RPE ≤9 with perfect form?" → queues **+2.5 kg** for the next ME session; a second checkbox ("exceptionally easy") upgrades it to **+5 kg**. Stored per-lift in `benchMEProgression / squatMEProgression / deadliftMEProgression` and added on top of the 95% calculation.
-- **Velocity check on Light work:** slow bar speed persists a per-lift reduction, changing the next light exposure from 70% to 65%; successful work clears the pending reduction.
+Applied in `ritualProgression` / save path:
 
-## State & Badges
+- **Ascension Test 1RM update:** gated by exercise name containing “Ascension Test” (weeks 4/8/12/16). Also **resets that lift’s ME checkbox bonus to 0**.
+- **ME singles auto-PR:** successful single heavier than stored 1RM (floored 2.5) overwrites it.
+- **Checkbox progression:** “RPE ≤9 with perfect form?” → **+2.5 kg** next ME; “exceptionally easy” upgrades to **+5 kg**. Per-lift: `benchMEProgression / squatMEProgression / deadliftMEProgression` added on top of 95%.
+- **Velocity check on Light work:** slow bar speed persists per-lift reduction → next light **65%** instead of 70%; successful work clears it.
+
+### State
 
 `ritualStatus`: three 1RMs, `currentWeek`, `completedWorkouts`, `isFirstProgram`/`rampInComplete`, weak points, accessory picks, ME progressions, `lastAscensionWeek`, `lastDeloadWeek`.
 
-Badges: **Initiate of Iron** (complete week 1, all 3 sessions) · **Disciple of Pain** (complete ramp-in incl. all of week 4) · **Acolyte of Strength** (any week-16 log) · **High Priest of Power** (2+ full cycles with continued training) · **Eternal Worshipper** (Ritual PRs are all-time bests across all programs, all three lifts).
+### Badges
 
-Dashboard centerpiece: the **Strength Altar** — three candles displaying current bench/squat/deadlift 1RMs.
+Initiate of Iron · Disciple of Pain · Acolyte of Strength · High Priest of Power · Eternal Worshipper.
+
+## Techniques, supersets, finishers
+
+- ME singles + light velocity work triad.
+- Farmer Holds timed holds on Day 3.
+- Ascension AMRAP + back-downs.
+- No supersets in the core template; accessories are straight sets.
+
+## Dashboard & UI theme
+
+| Meta | Value |
+|---|---|
+| `themeClass` | `theme-ritual` |
+| `i18nKey` | `ritualOfStrength` |
+| `logo` | `/ritual.png` |
+| `coverBg` / gradient | `bg-black` / `from-black/90` |
+| `order` | 7 |
+| `alwaysFree` | no |
+
+**CSS tokens** (`.theme-ritual` — candlelit black, deep red):
+
+| Token | HSL |
+|---|---|
+| `--background` | `210 8% 4%` |
+| `--primary` | `0 80% 42%` |
+| `--accent` | `20 70% 45%` |
+| `--card` | `0 8% 8%` |
+| `--ring` | `0 80% 42%` |
+| `--signal-text` | global fallback |
+
+**Widgets:** `strength_altar`, `program_status`, `workout_history`. **Strength Altar** — three candles for bench/squat/deadlift 1RMs. Tagline via `tips.ritualDashboardTagline`.
+
+## Implementation completion analysis
+
+| Area | Status |
+|---|---|
+| Plan generator | **complete** — `RITUAL_CONFIG` |
+| Progression hooks | **complete** — `ritualProgression` |
+| Dashboard | **complete** — Strength Altar |
+| Onboarding wiring | **complete** — first-program gate + 1RMs + accessories |
+| EN translations | **complete** |
+| PL translations | **typo** in description (`prograu`); otherwise natural |
+| Exercise library / tips | **complete** |
+| Verify script | **shared** — `verify:progression` |
+
+## Translation notes
+
+| String | Issue | Suggested PL |
+|---|---|---|
+| `3 dni/tydzień prograu trójboju…` | Typo **prograu** | `3 dni/tydzień programu trójboju siłowego z minimalną efektywną dawką.` |
+| `4-tyg. rozgrzewką` for ramp-in | “Warm-up” undersells ramp-in | `4-tyg. fazą wprowadzającą` |
+| `ME single` | Gym jargon OK | Optional `seria maksymalna (ME)` |
+| Dashboard PL tagline `ofiara dla bogów żelaza` | Dramatic; OK for theme | Keep |

@@ -57,6 +57,12 @@ guide with per-test image prompts: [assessment guide](apex-assessment-guide.md).
 - [PerformanceProfile architecture](../architecture/performance-profile.md)
 - [AI integration](../architecture/ai.md)
 
+## Related docs
+
+- [Exercise tips translation proposal](../translations/exercise-tips-proposal.md) —
+  bilingual EN/PL ledger for library cues (review surface; runtime remains
+  `src/data/exercises/library.ts`).
+
 ## Shared implementation rules
 
 - New plans use `definePlan()` unless their behavior genuinely requires a
@@ -64,7 +70,9 @@ guide with per-test image prompts: [assessment guide](apex-assessment-guide.md).
 - Save-time progression is implemented as pure handlers under
   `src/features/workout/progression/`.
 - Exercise names, tips, swaps, techniques and plan overrides resolve through the
-  [exercise system](../architecture/exercise-system.md).
+  [exercise system](../architecture/exercise-system.md). Plan-doc Translation
+  notes cover onboarding card copy; exercise-tip Polish is tracked in the
+  [tips proposal](../translations/exercise-tips-proposal.md).
 - Every added plan requires registry metadata, Firestore allowlisting,
   onboarding copy, English/Polish strings, artwork and a contrast-verified theme.
 - Extra and technique-derived sets never drive plan progression.
