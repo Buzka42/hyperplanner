@@ -593,13 +593,16 @@ Do not start with dashboards. Order is “does the next session get the right lo
 
 | Rank | Item | Why first |
 |---|---|---|
-| 1 | **P0-1** same-name % collision | Neural Overload is currently wrong in production |
-| 2 | **P0-2** generic double-progression on save | Unlocks ~20 plans that already claim it |
-| 3 | **P0-3** seedLoadFor fallback | Stops week-1 empty barbell fields |
-| 4 | **P0-5** TSW for Workhorse + Gravity | Those plans’ actual overload |
-| 5 | Tenfold collapse + real hold-until-complete | Method is currently a note |
-| 6 | Neural rest + six-vs-six coupling | After loads are correct |
-| 7 | Volume ceiling + delt split in the auditor | So we cut Arms Race / OD / Pencilneck with numbers |
+| 1 | **P0-1** same-name % collision | Neural Overload is currently wrong in production — W1, W5, and W9 |
+| 2 | **P0-6** Skeleton week id after remap | Late phase never runs |
+| 3 | **P0-2** generic double-progression on save | Unlocks ~20 plans that already claim it |
+| 4 | **P0-3** seedLoadFor fallback | Stops week-1 empty barbell fields |
+| 5 | **P0-9** Pain & Glory modal tokens | Load feedback is unreadable |
+| 6 | **P0-8 / UI-1** muted-foreground bump | Gym-lighting readability on every dark plan |
+| 7 | **P0-5** TSW for Workhorse + Gravity | Those plans’ actual overload |
+| 8 | Tenfold collapse + real hold-until-complete | Method is currently a note |
+| 9 | Neural rest + six-vs-six coupling + single warm-up | After loads are correct |
+| 10 | Volume ceiling + delt split in the auditor | So we cut Arms Race / OD / Pencilneck with numbers |
 | 8 | Immaculate third dose | Spec already sold it |
 | 9 | Foundry Nordic ladder + seated-first | Best-supported specialisation upgrade |
 | 10 | Cathedral last-set lengthened partials | Zero extra sets |
@@ -621,8 +624,141 @@ Do not start with dashboards. Order is “does the next session get the right lo
 | Tenfold W1D1 live | Hammer Chest **10×10**, row 4×8–12, laterals, tri, curl. Matches `tenfold.ts`. No opening load (machine) |
 | Neural Overload W1D1 live | Four paused-bench slots with correct *rep* scheme (1 / 6 / 1 / 6) and **incorrect identical 125 kg**. Spec breach |
 | `verify:volume` | 0 rule breaches; ceilings not encoded |
+| Later-week live pass (W1 / mid / last, all 36, mobile 390px) | Phase *names* change where the spec has phases. **Loads do not** on Neural. Skeleton always renders Week 1. Super Mutant `/workout/n/1` is Rest without `superMutantStatus`. See §11 |
+| Visual (desktop) | Peachy is readable. Pencilneck commandment numbers fail contrast. Gravity / Neural muted copy is the dimmest. Pain & Glory RPE modal uses `text-amber-900` on a dark card |
 
 Lab injection used `window.__SET_TEST_USER__` (same path as `scripts/capture-all-plans-ui.ts`) with paused bench 140 / squat 180 / deadlift 220.
+
+---
+
+## 11. Later-week pass + UI readability (2026-08-12, continued)
+
+Every plan was opened at week 1, a mid-block week, and the last week (`test_workhorse`, mobile 390×844, then desktop spot-checks). Generator dump: `output/plan-week-structure-audit.json`. Live UI dump: `output/plan-ui-audit/report.json`.
+
+### 11.1 What later weeks actually do
+
+Phase **titles** mostly work. The training change underneath is uneven.
+
+| Plan | W1 → mid → last (day 1) | Verdict |
+|---|---|---|
+| Workhorse | Ascent 6×3–5 → Overhang 6×3 → Chin-Up Trial 3×1–3 | Phases are real. TSW still a note |
+| Tenfold | 10×10 → 10×10 → Consolidation **8×8–10** | Phase exists. Consolidation is still high-set GVT; prefer 5×10 / 6×6 |
+| Neural | Charge → Discharge → Overload (accessories −1 set) | Title + accessory cut work. **All four 1–6 slots stay 125 kg in W5 and W9** |
+| King of the Squat | Volume Waves → Intensity Waves → Test Week | Real wave change |
+| Gravity | Ascent → Escape Velocity → Orbit | Real |
+| Purgatorio | Accumulation → Intensification → Intensification II | Real. Still no load memory across the block cut (PURG-1) |
+| Immaculate | Assessment → Correction → Re-Test | Real |
+| Overhead Dominion | Bombardment through W5 → Artillery W10 | Mid-block is a label, not a cut |
+| Hamstring Foundry | Forging through W5 → Tempering W10 | Same |
+| Arms Race | Escalation through W4 → Proliferation W8 | Volume does not come down |
+| Ritual | Ramp-In → Bench ME (W10) → Purge (W19) | Real |
+| Bench Domination | Heavy → same pattern W8 → W16 legs maintenance | Peaking exists. A 4-day `selectedDays` remap can put `/1/1` on **Tuesday Legs** |
+| Pencilneck | Same split all 8 weeks; W5–8 compounds go **6–10** via `preprocessDay` | Heavier phase is real. No deload. 144 sets still standing |
+| Peachy | Same days all 12 weeks; W9–12 only adds a bodyweight drop-set note on BSS / reverse lunge | Weak intensification |
+| Athena | Wisdom 6–8 → Discipline 4–6 → Judgment 3–5 | Workout weeks are real. **Dashboard says Judgment on week 1** if `startDate` is missing — it uses `calendarPlanWeek`, not `currentWeek` |
+| Venus / Kali / Apex / House | Workout phases change | Same calendar-week dashboard trap |
+| Atlas | Gauntlet I through W5 → Gauntlet II W10 | Real |
+| Chimera | Block I → II (W8) → IV (W16) | Real |
+| Event Horizon | Approach → Accretion → Escape | Real |
+| Oracle | Calibration → Reading → Proof | Title changes; slot tree is one shape (engine is runtime) |
+| Lazarus | Waking → Remembering → Returned | Real |
+| Quadfather / Cathedral / Monolith / Blackout / Redline / Iron Clock / Minimum | Phase names change on schedule | Blackout / Kali / Minimum / Oracle / Atlas / Trinary trees are **one shape**; change is runtime or intensity |
+| Skeleton | W1 / W6 / W12 all render **Full Body – Week 1**, 3 sets not 4 | **Bug.** See P0-6 |
+| Super Mutant | `/workout/*/1` = **Rest** | Needs `superMutantStatus`. Static day 1 is empty until `generateNextWorkout` |
+| Adventure | No week tree; route builder | Fine. Identity-row name overflows at 390px |
+
+> **Owner:** later-week map accepted? [ ] yes  [ ] fix list:  
+> notes:
+
+### 11.2 New P0s from this pass
+
+#### P0-6. Skeleton loses the week when days are remapped
+
+`selectedDays` remap in `UserContext` keeps only days that **already have exercises**. Skeleton stores empty days and fills them in `preprocessDay`, reading week from `day.id` (`sk-w6-d1`). Remap replaces those with `{ dayName: 'Rest', exercises: [] }` **with no id**. Preprocess then always parses week **1**. Late phase (`w >= 9`, +1 set) never appears.
+
+Pencilneck survives because exercises exist before remap, so `pn-w8-d1` ids live.
+
+**Fix:** remap must copy `id` / `weekNumber`, or preprocess must take week from the URL / `weekData.weekNumber`, never from a reconstructed Rest stub.
+
+> **Owner:** [ ] yes, fix now  [ ] no  
+> notes:
+
+#### P0-7. `text-primary` on dark cards fails WCAG
+
+| Surface | Ratio | Text |
+|---|---|---|
+| Bench Domination module chip `bg-primary/20 text-primary` | **3.81** | “Core Bench” |
+| Pencilneck “5 Commandments” numbers `font-bold text-primary` | **3.79** | 1. 2. 3. 4. 5. |
+| Kali `START EARTH` primary button | **4.32** | borderline |
+
+Bump `--primary` lightness on those themes, or paint chips with `--foreground` / `--signal-text`. Do not add a radar.
+
+> **Owner:** [ ] retoken chips  [ ] retoken primary  [ ] later  
+> notes:
+
+#### P0-8. Muted copy is the real readability problem
+
+`--muted-foreground` sits around 62–68% on a 4% background. On Gravity / Neural / Pencilneck that is the Polish secondary name, “Extra sets are yours to add”, placeholders, and the long warm-up paragraph. Peachy (the light theme) is the **clearest** of the set.
+
+`.identity-row strong` is `.82rem` ellipsis; `.dashboard-command-label` is **.65rem**. Adventure’s “30 MINUTE ADVENTURE” overflowed the identity row at 390px.
+
+**Fix:** raise muted-foreground toward ~75% on dark themes; stop using `text-primary` for body lists; let long plan names wrap in the rail.
+
+> **Owner:** [ ] yes, global muted bump  [ ] per-theme  [ ] no  
+> notes:
+
+#### P0-9. Pain & Glory RPE modal is dark-on-dark
+
+`WorkoutView` deficit modal: `text-amber-900` and `text-red-800` on `bg-card` (Pain & Glory card is ~13% lightness). Those Tailwind ambers are for **light** paper. The copy will vanish on the actual theme.
+
+> **Owner:** [ ] yes, use foreground tokens  [ ] no  
+> notes:
+
+#### P0-10. Calendar dashboards ignore the week you opened
+
+Athena / Venus / Kali / Apex / House compute week from `calendarPlanWeek(startDate, now)`. Injecting `currentWeek: 1` without `startDate` makes Athena’s dashboard say **Judgment** (week 12) while `/workout/1/1` correctly says Wisdom. Real athletes with a start date are fine; lab, reruns, and a missing `startDate` are not.
+
+> **Owner:** [ ] clamp dashboard to program week  [ ] require startDate  [ ] later  
+> notes:
+
+#### P0-11. Neural 1–6 is wrong in every phase, not just week 1
+
+W1 Charge, W5 Discharge, W9 Overload: four paused-bench rows, all **125 kg**. Warm-up ramp (20 → 117.5) is duplicated under **each** of the four slots. Overload only drops accessory sets. Same P0-1 bug; later weeks do not save it.
+
+> **Owner:** covered by P0-1? [ ] yes  [ ] also collapse warm-up to the first slot  
+> notes:
+
+### 11.3 Readability hit list (fix these, not radars)
+
+| ID | Where | What’s wrong | Efficiency-relevant? |
+|---|---|---|---|
+| UI-1 | All dark themes | Muted Polish names + extra-set line too dim | No, but you asked for readable UI |
+| UI-2 | Pencilneck dashboard | Primary-coloured commandment numerals 3.79:1 | No |
+| UI-3 | Bench chips | `text-primary` on `primary/20` 3.81:1 | No |
+| UI-4 | Kali CTA | 4.32:1 on START EARTH | No |
+| UI-5 | Identity row | Long names ellipsis at phone width | No |
+| UI-6 | Neural 1–6 | Four copies of the paused-bench warm-up essay; last line clips | Yes — the sheet hides 1 vs 6 |
+| UI-7 | Pain & Glory modal | amber-900 / red-800 on dark card | Yes — that’s the load feedback |
+| UI-8 | Micro-labels | 9.6–10.9px WEEK / EXERCISES / top-rail | By design; leave unless you want ≥12px |
+
+Peachy, House of Iron, Athena workout sheets, Workhorse, Tenfold, Cathedral, Blackout: body copy was readable on desktop. Do not restyle those for flavour.
+
+> **Owner:** UI-1 + UI-6 + UI-7 first? [ ] yes  [ ] pick:  
+> notes:
+
+### 11.4 Later-week efficiency notes (not fluff)
+
+1. **Neural “Discharge” does not discharge.** Weeks 4–6 are a rename. The 1–6 percents never move.
+2. **Tenfold Consolidation is 8×8–10.** Still high-set GVT. If 10×10 stays for weeks 1–5, weeks 6–8 should be **5×10 or 6×6**.
+3. **Overhead Dominion / Arms Race / Hamstring Foundry** mid-block weeks are the same tree as week 1. Intensification is a title.
+4. **Peachy W9–12** only stamps a drop-set sentence. W9 should add load or drop a set on hip-thrust / squat.
+5. **Pencilneck W8** is still a full 9-exercise Push A. Heavier reps without a set cut is how you get 144 weekly sets with no deload.
+6. **Skeleton late phase never runs** until P0-6 is fixed. Spec says +1 set from week 9.
+7. **Workhorse trial week is correct** (3×1–3). Wire TSW (P0-5) before inventing a new chin variation.
+8. **Atlas / Chimera / Oracle / Blackout / Kali** look static in the generator because the engine mutates at save time. Do not flatten them into definePlan phases.
+
+> **Owner:** Discharge should change 1–6 percents or rest? [ ] percents  [ ] rest only  [ ] title is enough  
+> notes:
 
 ---
 

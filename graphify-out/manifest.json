@@ -35,6 +35,10 @@
     "mtime": 1786252124.7486627,
     "hash": "f22d48aec5d2548c692fc2f038a53076"
   },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\audit-all-plan-weeks.ts": {
+    "mtime": 1786561326.41972,
+    "hash": "13a035b1622d541d82c41b3d0a2c6477"
+  },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\audit-exercise-metadata.ts": {
     "mtime": 1786395771.61824,
     "hash": "f3f2e7633fb83a2f127f8ff61bc10f18"
@@ -42,6 +46,10 @@
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\audit-new-plan-library.ts": {
     "mtime": 1786396772.2939942,
     "hash": "93ad85791e22a24d0f0cd3e6d3f381b4"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\audit-plan-ui-readability.ts": {
+    "mtime": 1786561420.465362,
+    "hash": "5cbf1cf3afa6d82b1362eeb1f60cbd32"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\browser-all-plans-clickthrough.ts": {
     "mtime": 1786552122.74371,
@@ -1456,8 +1464,8 @@
     "hash": "bf27b49b20f05ea89ca83c78e6309329"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\specs\\plan-efficiency-proposed-changes.md": {
-    "mtime": 1786561069.1436925,
-    "hash": "578bdb530426121259c775e41b0756ff"
+    "mtime": 1786562000.108584,
+    "hash": "f57ebc46f1722d19c0efee0ea628e89d"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\specs\\venus-athena-kali.md": {
     "mtime": 1786400655.2070217,
@@ -1598,6 +1606,22 @@
   "C:\\Users\\Arawn\\Documents\\workout planner\\output\\pdf\\model-sources\\front.png": {
     "mtime": 1786011318.1087797,
     "hash": "4477f44d36b2f3dc061d0b3880ca9c68"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\output\\plan-ui-audit\\30-minute-adventure-dashboard.png": {
+    "mtime": 1786561483.221065,
+    "hash": "f48f45ac1b19563bb962c475b0ad47c4"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\output\\plan-ui-audit\\bench-domination-dashboard.png": {
+    "mtime": 1786561433.499817,
+    "hash": "5142db44450df4d46970d8338176a387"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\output\\plan-ui-audit\\kali-dashboard.png": {
+    "mtime": 1786561572.3707762,
+    "hash": "defe7b2392bad95bf61d2f2395583105"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\output\\plan-ui-audit\\pencilneck-eradication-dashboard.png": {
+    "mtime": 1786561438.9082131,
+    "hash": "e2c41bcb059de6ea1126996c1f7ffa6f"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\output\\screenshots\\30-minute-adventure-dashboard.png": {
     "mtime": 1786553959.749672,
