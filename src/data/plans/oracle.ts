@@ -67,7 +67,7 @@ const phases = [
     { name: 'Proof', weeks: [9, 10] },
 ];
 
-const base = definePlan({ id: 'oracle', name: 'Oracle', weeks: 10, days: ORACLE_DAYS, phases });
+const base = definePlan({ id: 'oracle', name: 'Oracle', weeks: 10, defaultTempo: '20X0', days: ORACLE_DAYS, phases });
 
 export const isCalibrationWeek = (week: number): boolean => week <= 2;
 

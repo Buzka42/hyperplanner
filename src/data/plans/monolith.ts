@@ -85,7 +85,7 @@ const phases = [
     { name: 'Settling', weeks: [10], transform: (slot: SlotSpec): SlotSpec => ({ ...slot, sets: Math.max(1, slot.sets - 1) }) },
 ];
 
-const base = definePlan({ id: 'monolith', name: 'Monolith', weeks: 10, days: MONOLITH_DAYS, phases });
+const base = definePlan({ id: 'monolith', name: 'Monolith', weeks: 10, defaultTempo: '20X0', days: MONOLITH_DAYS, phases });
 
 const preprocess = (day: WorkoutDay, _user: UserProfile): WorkoutDay => ({
     ...day,

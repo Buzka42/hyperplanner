@@ -141,7 +141,7 @@ export type SuperMutantStatus = {
     deadlift1RM: number;
     squat1RM: number;
     // Exercise preferences
-    quadExercise: 'Hack Squat' | 'Front Squat';
+    quadExercise: 'Hack Squat' | 'Front Squat' | 'Safety Bar Squat';
     hamstringExercise: 'Good Mornings' | 'Deficit RDLs';
     // Weekly session tracking for cap
     weeklySessionDates?: string[]; // Last 7 days of session dates
@@ -347,6 +347,12 @@ export type UserProfile = {
     benchHistory: { date: string; week?: number; weight: number; actualWeight?: number; actualReps?: number }[];
     squatHistory?: { date: string; week?: number; weight: number; actualWeight?: number; actualReps?: number }[];
     selectedDays?: number[]; // [1, 2, 4, 5] for Mon,Tue,Thu,Fri
+    /**
+     * 'fixed' (default): sessions are bound to `selectedDays` weekdays.
+     * 'rolling': an irregular template (e.g. 2 on / 1 off) was chosen, so
+     * sessions advance on completion, weekday-agnostic.
+     */
+    scheduleMode?: 'fixed' | 'rolling';
     exercisePreferences?: Record<string, string>; // "legPrimary": "Hack Squat"
     benchDominationModules?: BenchDominationModules;
     // Status tracking for complex programs
@@ -490,6 +496,22 @@ export interface PlanConfig {
          * terms from the first logged set, and may move away from the seed.
          */
         seedStats?: (keyof LiftingStats)[];
+    };
+    schedule?: {
+        /**
+         * Onboarding offers weekday selection for this many sessions a week.
+         * Declarative plans get this by default from `definePlan`; plans with
+         * bespoke flows (Bench Domination, Super Mutant) set it false.
+         */
+        selectable?: boolean;
+        /** Suggested weekday combinations, 1 = Monday … 7 = Sunday. */
+        suggestedSplits?: number[][];
+        /**
+         * Irregular rotation templates ("2 days on / 1 day off"). Choosing one
+         * enrols with `scheduleMode: 'rolling'`: sessions advance on
+         * completion rather than calendar weekday.
+         */
+        irregularTemplates?: { id: string; onDays: number; offDays: number }[];
     };
     calibration?: {
         /**

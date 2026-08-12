@@ -43,7 +43,7 @@ const LOWER_A: DaySpec = {
     name: 'Lower Structural A',
     dayOfWeek: 2,
     slots: [
-        { ex: 'front-squat', sets: 4, reps: '3-6', restSeconds: 210, notes: 'Keep the reps low — the torso should not be the limiter.' },
+        { ex: 'front-squat', sets: 4, reps: '3-6', restSeconds: 210, notes: 'Keep the reps low — the torso should not be the limiter.', alternates: ['Safety Bar Squat'] },
         { ex: 'single-leg-hamstring-curl', sets: 3, reps: '8-12', restSeconds: 90 },
         { ex: 'goblet-skater-squat', sets: 3, reps: '8-12', restSeconds: 105, notes: 'Per side. Weaker leg first.' },
         { ex: 'hip-supported-db-deadlift', sets: 3, reps: '8-12', restSeconds: 120 },
@@ -86,6 +86,7 @@ export const IMMACULATE_RESTRUCTURE_CONFIG = definePlan({
     id: 'immaculate-restructure',
     name: 'Immaculate (Re)Structure',
     weeks: 10,
+    defaultTempo: '20X0',
     days: [UPPER_A, LOWER_A, UPPER_B, LOWER_B],
     phases: [
         { name: 'Assessment', weeks: [1, 2] },

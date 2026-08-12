@@ -1031,7 +1031,7 @@ Sets Per Workout = Remaining Sets / Estimated Workouts
 
 #### Calves (Cluster 2)
 - Standing Calf Raises
-- Seated Calf Raises
+- Hack Squat Calf Raises
 - Leg Press Calf Raises
 
 #### Hamstrings (Cluster 3)

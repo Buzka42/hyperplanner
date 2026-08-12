@@ -87,6 +87,7 @@ export const OVERHEAD_DOMINION_CONFIG = definePlan({
     id: 'overhead-dominion',
     name: 'Overhead Dominion',
     weeks: 10,
+    defaultTempo: '20X0',
     days: [OVERHEAD_STRENGTH, DELTS_AND_LEGS, SHOULDER_HYPERTROPHY, STRUCTURAL_SHOULDERS],
     phases: [
         { name: 'Bombardment', weeks: [1, 2, 3, 4, 5] },

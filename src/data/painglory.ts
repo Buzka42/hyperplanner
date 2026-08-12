@@ -301,10 +301,29 @@ const createPainGloryWeeks = (): ProgramWeek[] => {
     return weeks;
 };
 
+// Strength-plan tempos: deadlifts and variants pull explosively off the floor
+// (10X0); the paused squat holds one second in the hole (11X0).
+const PAIN_GLORY_TEMPO: [RegExp, string][] = [
+    [/deadlift/i, '10X0'],
+    [/^Paused Low Bar Squat/, '11X0'],
+];
+
+const withTempo = (weeks: ProgramWeek[]): ProgramWeek[] =>
+    weeks.map(week => ({
+        ...week,
+        days: week.days.map(day => ({
+            ...day,
+            exercises: day.exercises.map(ex => {
+                const hit = PAIN_GLORY_TEMPO.find(([re]) => re.test(ex.name));
+                return hit ? { ...ex, prescription: { ...ex.prescription, tempo: hit[1] } } : ex;
+            }),
+        })),
+    }));
+
 export const PAIN_GLORY_PROGRAM: Program = {
     id: "pain-and-glory",
     name: "Pain & Glory",
-    weeks: createPainGloryWeeks()
+    weeks: withTempo(createPainGloryWeeks())
 };
 
 export const PAIN_GLORY_CONFIG: PlanConfig = {

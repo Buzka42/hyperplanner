@@ -77,7 +77,7 @@ const phases = [
     { name: 'Block IV', weeks: BLOCKS[3], transform: (slot: SlotSpec): SlotSpec => slot.primary ? { ...slot, reps: '3-5' } : { ...slot, rpe: 9 } },
 ];
 
-const base = definePlan({ id: 'project-chimera', name: 'Project Chimera', weeks: 16, days: CHIMERA_DAYS, phases });
+const base = definePlan({ id: 'project-chimera', name: 'Project Chimera', weeks: 16, defaultTempo: '20X0', days: CHIMERA_DAYS, phases });
 
 export const blockFor = (week: number): number => BLOCKS.findIndex(weeks => weeks.includes(week)) + 1;
 

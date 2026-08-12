@@ -32,7 +32,7 @@ const days: DaySpec[] = [
 ];
 
 export const APEX_PREDATOR_CONFIG = definePlan({
-    id: 'apex-predator', name: 'Apex Predator', weeks: 12, days,
+    id: 'apex-predator', name: 'Apex Predator', weeks: 12, defaultTempo: '20X0', days,
     phases: [
         { name: 'Stalk', weeks: [1, 2, 3] },
         { name: 'First Hunt · Retest', weeks: [4], transform: slot => ({ ...slot, sets: Math.min(slot.sets, 2) }) },

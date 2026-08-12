@@ -62,7 +62,7 @@ const phases = [
     { name: 'Escape', weeks: [12], transform: (slot: SlotSpec): SlotSpec => ({ ...slot, sets: Math.max(1, slot.sets - 1) }) },
 ];
 
-const base = definePlan({ id: 'event-horizon', name: 'Event Horizon', weeks: 12, days: EVENT_HORIZON_DAYS, phases });
+const base = definePlan({ id: 'event-horizon', name: 'Event Horizon', weeks: 12, defaultTempo: '20X0', days: EVENT_HORIZON_DAYS, phases });
 
 /**
  * Applies only swaps the athlete has already accepted. Recommendations are

@@ -59,10 +59,24 @@ const createPeachyWeeks = (): ProgramWeek[] => {
     return weeks;
 }
 
+// Hypertrophy tempo across the plan: 2s eccentric, explosive concentric.
+// The paused squat keeps its 1s hold in the hole.
+const withTempo = (weeks: ProgramWeek[]): ProgramWeek[] =>
+    weeks.map(week => ({
+        ...week,
+        days: week.days.map(day => ({
+            ...day,
+            exercises: day.exercises.map(ex => ({
+                ...ex,
+                prescription: { ...ex.prescription, tempo: ex.name.startsWith('Paused') ? '11X0' : '20X0' }
+            })),
+        })),
+    }));
+
 export const PEACHY_PROGRAM: Program = {
     id: "peachy-glute-plan",
     name: "Peachy",
-    weeks: createPeachyWeeks()
+    weeks: withTempo(createPeachyWeeks())
 };
 
 export const PEACHY_CONFIG: PlanConfig = {

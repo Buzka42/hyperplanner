@@ -22,7 +22,7 @@ const phases=[
  // identical to week 7 and the deload existed only on paper.
  slot.block?.kind==='burn'?{...slot,sets:Math.max(1,Math.round(slot.sets*.65))}:slot.block?.kind==='finisher'?{...slot,block:{...slot.block,durationSeconds:300}}:slot},
 ];
-const base=definePlan({id:'redline',name:'REDLINE',weeks:8,days:REDLINE_DAYS,phases});
+const base=definePlan({id:'redline',name:'REDLINE',weeks:8,defaultTempo:'20X0',days:REDLINE_DAYS,phases});
 const preprocess=(day:WorkoutDay,user:UserProfile):WorkoutDay=>{ let result=day; if(day.dayOfWeek===4){const id=user.planPreferences?.redline?.exerciseSelections?.furnaceAnchor??'paused-bench-press';const entry=EXERCISE_BY_ID[id];if(entry)result={...result,exercises:result.exercises.map((e,i)=>i===0?{...e,exerciseId:id,name:entry.name.en}:e)};}
  const recovery=user.redlineStatus?.nextRecovery; if(!recovery?.confirmed)return result; if(recovery.response==='recovered')return result; const multiplier=recovery.response==='somewhat-fatigued'?0.85:0.7; const burn=result.exercises.filter(e=>e.prescription?.block?.kind==='burn'); const current=burn.reduce((n,e)=>n+e.sets,0); let remove=current-Math.round(current*multiplier);
  return {...result,exercises:result.exercises.flatMap(e=>{if(recovery.response==='performance-impaired'&&e.prescription?.block?.kind==='finisher')return[];if(e.prescription?.block?.kind!=='burn'||remove<=0)return[e];const cut=Math.min(remove,Math.max(0,e.sets-1));remove-=cut;return[{...e,sets:e.sets-cut}];})};};

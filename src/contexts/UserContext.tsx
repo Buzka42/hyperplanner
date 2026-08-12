@@ -63,6 +63,22 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const activePlanConfig = React.useMemo(() => {
         const plan = getPlan(user?.programId);
 
+        // Rolling schedules (irregular templates like 2 on / 1 off) are
+        // completion-driven: sessions sit on sequential dayOfWeek slots and
+        // the dashboard simply offers the next unfinished one. No weekday
+        // remap applies.
+        if (user?.scheduleMode === 'rolling') {
+            const newWeeks = plan.program.weeks.map(week => {
+                const training = week.days.filter(d => d.exercises && d.exercises.length > 0);
+                const newDays = training.map((d, i) => ({ ...d, dayOfWeek: i + 1 }));
+                for (let dow = training.length + 1; dow <= 7; dow++) {
+                    newDays.push({ dayName: 'Rest', dayOfWeek: dow, exercises: [] });
+                }
+                return { ...week, days: newDays };
+            });
+            return { ...plan, program: { ...plan.program, weeks: newWeeks } };
+        }
+
         if (user?.selectedDays && user.selectedDays.length > 0) {
             // Remap training days to selected days
             const userDays = [...user.selectedDays].sort((a, b) => a - b);
@@ -98,7 +114,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
 
         return plan;
-    }, [user?.programId, user?.selectedDays]);
+    }, [user?.programId, user?.selectedDays, user?.scheduleMode]);
 
     // 1. Initialize Auth
     useEffect(() => {

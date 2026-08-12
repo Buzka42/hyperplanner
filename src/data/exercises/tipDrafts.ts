@@ -16,8 +16,9 @@
  *     days — that is prescription content and belongs to the other layer;
  *   - no medical, rehabilitation or fake-biomechanical claims.
  *
- * Polish is deliberately absent. It is written only after the English content
- * is approved, so a rejected cue never becomes a translation source.
+ * Polish translations live in `TIP_DRAFTS_PL` below. They were commissioned by
+ * the owner together with the English review; both still render under
+ * `tipStatus: 'draft'` until approved in the admin Library tab.
  */
 
 /** exerciseId -> drafted English general cue. */
@@ -126,7 +127,6 @@ export const TIP_DRAFTS_EN: Record<string, string> = {
     // --- calves, trunk and the rest -------------------------------------------
     'calf': 'Full stretch at the bottom and a real pause at the top. Bouncing turns this into a tendon exercise.',
     'standing-calf-raise-off-step': 'Heels well below the step for full stretch, then all the way up. Slow at both ends.',
-    'seated-dumbbell-calf-raise': 'Seated bends the knee and shifts the work to the soleus. Pause at the top of every rep.',
     'standing-dumbbell-kb-calf-raise': 'Balance against something so the calves do the work rather than the ankles stabilising. Full range, brief squeeze.',
     'smith-calf-raise': 'The fixed bar lets you push the stretch safely. Do not rush the bottom position.',
     'single-leg-cable-calf-raise': 'One leg at a time, full stretch and a pause. Match the weaker side.',
@@ -140,4 +140,125 @@ export const TIP_DRAFTS_EN: Record<string, string> = {
 
     // --- machines and placeholders --------------------------------------------
     'apex-access-placeholder': 'Placeholder slot for a selected access movement. The prescribed movement carries its own cue.',
+};
+
+/** exerciseId -> Polish translation of the drafted cue above. */
+export const TIP_DRAFTS_PL: Record<string, string> = {
+    // --- squat and knee-dominant ---------------------------------------------
+    'low-bar-squat': 'Sztanga na tylnych aktach barków, nadgarstki neutralne, większy pochyl niż w high bar. Schodź biodrami i kolanami razem; kończ serię, gdy klatka zaczyna wyprzedzać biodra.',
+    'high-box-squat': 'Siadaj na boks pod kontrolą i pauzuj bez odbijania. To boks ustawia głębokość, nie odbicie od niego.',
+    'low-box-squat': 'Siadaj na boks na równoległości lub minimalnie poniżej, utrzymaj napięcie w pauzie i wstań bez przesuwania się w przód.',
+    'paused-squat': 'Pełne zatrzymanie na dole z usztywnionym tułowiem. Trzymaj pozycję zamiast w nią zapadać, potem wstań bez odbicia.',
+    'tempo-squat': 'Schodź równo przez zadaną liczbę sekund — w większości tempo przysiadów dołek jest za szybki, a to on jest najważniejszy.',
+    'safety-bar-squat': 'Trzymaj uchwyty bez ściągania sztangi w dół i pozwól klamrze utrzymać tułów pionowo. Łokcie pod sztangą, nie rozchylone w przód.',
+    'zercher-squat': 'Sztanga w zgięciach łokci, przyciśnięta do ciała. Klatka wysoko; seria kończy się, gdy sztanga zaczyna zjeżdżać, nie gdy poddają nogi.',
+    'mid-pin-squat': 'Start z martwego zatrzymania na pinach, z pełnym napięciem przed ruchem. Żadnego odbijania od pinów.',
+    'banded-squat': 'Guma ciężeje w miarę wstawania, więc przyspieszaj przez górę zamiast pozwalać jej zatrzymać ruch.',
+    'bulgarian-split-squat': 'Tylna stopa na ławce, przednia goleń mniej więcej pionowo, ciężar na całej przedniej stopie. Zacznij od słabszej strony i wyrównaj nią silniejszą.',
+    'heel-elevated-goblet-squat': 'Pięty uniesione, tułów wysoko, kolana jadą w przód za palce. Schodź prosto w dół, nie w tył.',
+    'cable-cyclist-squat': 'Pięty uniesione i wąski rozstaw, żeby pracowały czworogłowe. Utrzymaj stałe napięcie linki na górze.',
+    'leg-press': 'Stopy w połowie platformy, schodź aż miednica zacznie się podwijać, potem wypchnij bez twardego prostowania kolan. Zakres ważniejszy niż liczba talerzy.',
+    'high-foot-leg-press': 'Stopy wysoko na platformie przenoszą pracę na biodra i dwugłowe. Dolne plecy cały czas płasko na oparciu.',
+    'narrow-stance-leg-press': 'Stopy blisko i nisko na platformie pod czworogłowe. Przerwij zjazd, gdy biodra zaczynają się podwijać.',
+    'leg-extension': 'Ustaw kolano w osi obrotu maszyny, krótka pauza na górze i opuszczaj pod kontrolą zamiast spuszczać stos.',
+
+    // --- hinge, hip extension and hamstrings ---------------------------------
+    'conventional-deadlift': 'Sztanga nad środkiem stopy, najszersze napięte, biodra tak wysoko, żeby sztanga oderwała się z barkami minimalnie przed nią. Kończ serię, gdy dolne plecy zaczynają się zaokrąglać w górze.',
+    'paused-deadlift': 'Pauza tuż nad podłogą lub pod kolanem bez rozluźniania. To zatrzymanie jest celem; nie używaj go do poprawiania ułożenia.',
+    'deficit-deadlift': 'Stanie na podwyższeniu dokłada zakresu w najtrudniejszej pozycji. Zachowaj tę samą pozycję startową co z podłogi i zmniejsz ciężar, żeby ją utrzymać.',
+    'paused-deficit-deadlift': 'Deficyt plus pauza to najbardziej wymagająca wersja startu. Trzymaj pozycję zamiast zapadać się na sztangę.',
+    'deficit-snatch-grip-deadlift': 'Szeroki chwyt i deficyt obciążają górę pleców na serio. Trzymaj sztangę przy nogach i kończ, gdy góra pleców puszcza.',
+    'block-pull': 'Sztanga na blokach, to samo napięcie i ustawienie najszerszych co przy ciągu z podłogi. Nie pozwól, by skrócony zakres zamienił go w ciąg na prostych nogach.',
+    'anderson-deadlift': 'Każde powtórzenie startuje martwo z pinów, bez odbicia. Odnów napięcie między powtórzeniami.',
+    'speed-deadlift-with-bands': 'Prowadź sztangę tak szybko jak potrafisz, zachowując pozycję. Przyspieszaj przez zamknięcie zamiast w nie wjeżdżać.',
+    'barbell-romanian-deadlift': 'Sztanga blisko nóg, biodra w tył, kolana miękkie i nieruchome. Schodź, aż dwugłowe przestaną się wydłużać — nie aż sztanga dotknie podłogi.',
+    'cable-romanian-deadlift': 'Stałe napięcie wyciągu sprawia, że najtrudniejsza jest pozycja rozciągnięcia. Prowadź ciąg poziomo, nie daj mu uciekać w górę.',
+    'deficit-romanian-deadlift': 'Stanie na płytce dokłada rozciągnięcia na dole. Najpierw zakres, potem ciężar.',
+    'single-leg-dumbbell-romanian-deadlift': 'Biodra ustawione równo, ciężar prowadzony blisko pracującej nogi. Stop, gdy biodro zaczyna się otwierać, zamiast gonić głębokość.',
+    'good-mornings': 'Sztanga wysoko na plecach, biodra w tył, kręgosłup nieruchomy. Ciężar tak lekki, żeby pozycja nigdy się nie zmieniała.',
+    'cable-pull-through': 'Kończ wypchnięciem bioder w przód; to zawias, nie przysiad ani wyprost dolnych pleców. Ściśnij w zamknięciu bez odchylania się.',
+    'seated-ham-curl': 'Biodra dociśnięte do siedziska, tułów nieruchomy. Kontroluj powrót; praca jest w pozycji wydłużonej.',
+
+    // --- hip thrust and glutes ------------------------------------------------
+    'bench-hip-thrust': 'Ławka pod łopatkami, broda schowana, żebra w dół. Kończ z biodrami w linii, bez przeprostu w lędźwiach.',
+    'dumbbell-hip-thrust': 'Hantel na biodrach z podkładką. To samo zamknięcie co w wersji ze sztangą: biodra w linii, żebra w dół, krótkie spięcie.',
+    'b-stance-hip-thrust': 'Pracująca stopa płasko, druga tylko dla balansu na pięcie. Większość ciężaru zostaje po pracującej stronie.',
+    'frog-pump': 'Podeswy razem, kolana na zewnątrz. Krótki zakres i stałe napięcie; pchaj z pośladków, nie z dolnych pleców.',
+
+    // --- horizontal press and chest -------------------------------------------
+    'spoto-press': 'Zatrzymaj sztangę centymetry nad klatką, przytrzymaj i wypchnij. Bez dotyku, bez odbicia.',
+    'larsen-press': 'Stopy nad podłogą, więc nic nie pochodzi z pracy nóg. Góra pleców cały czas dociśnięta do ławki.',
+    'long-pause-bench-press': 'Pełne zatrzymanie na klatce, sztanga nieruchoma. Pauza jest ćwiczeniem; skróć serię, zanim skrócisz pauzę.',
+    'low-pin-press': 'Martwy start z pinów na wysokości klatki. Odnów napięcie co powtórzenie zamiast się odbijać.',
+    '30-smith-incline-bench-press': 'Tor sztangi jest ustalony, więc najpierw ustaw ławkę. Dotykaj wysoko na klatce i wyciskaj bez toczenia barków w przód.',
+    'hammer-chest-press': 'Ustaw siedzisko tak, żeby uchwyty były na wysokości środka klatki. Wyciskaj bez wzruszania barków i nie prostuj twardo na górze, żeby utrzymać napięcie.',
+    'dual-cable-chest-press': 'Wyciągi na wysokości klatki, lekki pochyl i krok w przód dla napięcia na starcie. Wyciskaj i pozwól dłoniom zbliżyć się.',
+    'push-up': 'Ciało w jednej linii, dłonie pod barkami, klatka do podłogi. Seria kończy się, gdy biodra zaczynają opadać.',
+    'close-grip-push-up': 'Dłonie wężej niż barki, łokcie wzdłuż tułowia. Żebra w dół zamiast wygiania się, by dosięgnąć podłogi.',
+    'diamond-push-up': 'Dłonie razem pod mostkiem, łokcie blisko. Kończ serię, gdy łokcie zaczynają uciekać na boki.',
+    'deficit-push-up': 'Dłonie na płytkach lub uchwytach dla dodatkowego rozciągnięcia. Schodź powoli w nowy zakres zamiast w niego wpadać.',
+    'bodyweight-dip': 'Lekki pochyl w przód dla klatki, pionowo dla tricepsa. Schodź do komfortowego rozciągnięcia i kończ przy pierwszym ukłuciu w barku.',
+    'mid-cable-fly': 'Miękki, stały kąt w łokciach przez cały ruch. Otwieraj aż klatka się rozciągnie, potem zbieraj dłonie zamiast wyciskać.',
+    'low-to-high-cable-fly': 'Dłonie jadą w górę i do środka, kończąc przed obojczykiem. Kąt łokcia bez zmian.',
+    'cable-crossover': 'Lekki pochyl, dłonie mijają się na końcu ruchu. Kontroluj powrót; to rozciągnięcie jest celem.',
+    'reverse-pec-deck': 'Klatka na poduszce, ramiona prawie proste, prowadź łokciami. Stop, gdy przejmują czworoboczne.',
+    'single-arm-reverse-pec-deck': 'Jedno ramię pozwala łopatce pracować naturalnie. Tułów nieruchomy; nie dokręcaj się do powtórzenia.',
+
+    // --- vertical and horizontal pull ----------------------------------------
+    'pull-up': 'Pełne zwisanie, barki ustawione, broda nad drążkiem bez szarpania. Opuszczaj pod kontrolą — ekscentryk to większość wartości.',
+    'weighted-pull-up': 'Ciężar całkowity to masa ciała plus obciążenie na pasie. Pełne zwisanie do brody nad drążkiem; kończ serię, gdy zakres się skraca.',
+    'inverted-row': 'Ciało w jednej linii, drążek do mostka, łopatki schodzą się na końcu. Podnieś drążek lub ugnij kolana zamiast skracać zakres.',
+    'barbell-row': 'Kąt tułowia ustalony na całą serię. Przyciągaj pod dolne żebra i kończ, gdy tułów zaczyna się podnosić do sztangi.',
+    'dumbbell-seal-row': 'Klatka na ławce wyklucza szarpanie. Przyciągaj do bioder i pauzuj; ruszają się tylko ramiona i łopatki.',
+    'bench-supported-one-arm-dumbbell-row': 'Oprzyj wolną rękę i trzymaj tułów prosto. Wiosłuj w stronę biodra, nie pachy.',
+    'kneeling-one-arm-cable-row': 'W półklęku, spięty, żeby ciągnąć z pleców, nie z tułowia. Pozwól łopatce odjechać w przód na starcie.',
+    'single-arm-cable-row': 'Pozwól łopatce wyjść w przód i kończ ściągając ją z powrotem, nie skręcając tułowia.',
+    'rope-cable-row': 'Przyciągnij linę do środka tułowia i rozdziel dłonie na końcu. Łokcie blisko ciała.',
+    'dual-cable-high-row': 'Przyciągaj w dół i w tył pod dolne żebra. Klatka wysoko; to wiosłowanie, nie ściąganie drążka.',
+    'hammer-underhand-pulldown': 'Podchwyt angażuje dolne najszersze i biceps. Prowadź łokcie do żeber i kończ serię, gdy tułów zaczyna się bujać.',
+    'dumbbell-pullover': 'Żebra w dół, biodra nisko. Sięgnij w tył aż poczujesz rozciągnięcie najszerszych, potem przeciągnij ciężar nad klatkę bez wygiania.',
+
+    // --- delts, arms and forearms ---------------------------------------------
+    'smith-overhead-press': 'Tor sztangi jest ustalony, więc ustawienie siedziska decyduje o wszystkim. Wyciskaj bez wydychania żeber i bez twardego zamknięcia na górze.',
+    'arnold-press': 'Rotuj z dłoni do siebie na dłonie w przód w trakcie wyciskania. Rotacja płynna, bez szarpnięcia na dole.',
+    'seated-dumbbell-lateral-raise': 'Siedzenie eliminuje wymach. Prowadź łokciami do wysokości barków i opuszczaj powoli.',
+    'leaning-one-arm-lateral-raise': 'Odsuń się od pracującej strony, by obciążyć rozciągnięcie. Tułów nieruchomy — pochyl to ustawienie, nie część powtórzenia.',
+    'cable-lateral-raise': 'Stałe napięcie przez cały zakres. Unoś łokciem do wysokości barków i kontroluj powrót.',
+    'y-raise': 'Ramiona pod kątem około 45 stopni, kciuki w górę. Lekki ciężar; stop, gdy przejmują czworoboczne.',
+    'band-pull-aparts': 'Ramiona prawie proste, rozciągaj gumę aż dotknie klatki. Ściśnij łopatki bez wzruszania barków.',
+    'face-pulls': 'Lina na wysokości oczu, przyciągaj do twarzy i rotuj dłonie w tył. Lekko i pod kontrolą; to nie jest ciężkie wiosłowanie.',
+    'rear-delt-rope-pulls-to-face': 'Górny wyciąg, łokcie jadą na zewnątrz i w tył. Stop, zanim dolne plecy zaczną pomagać wyprostem.',
+    'shrug': 'Prosto w górę i w dół. Pauza na górze; kręcenie barkami nic nie daje, a obciąża staw.',
+    'standing-straight-bar-curl': 'Łokcie przy bokach, bez bujania. Seria kończy się, gdy tułów zaczyna się ruszać, nie gdy ramiona się poddają.',
+    'straight-bar-cable-curl': 'Stałe napięcie przez cały ruch. Łokcie nieruchome, ściśnij na górze bez odciągania w tył.',
+    'low-pulley-cable-curl': 'Dolny wyciąg utrzymuje napięcie w rozciągnięciu. Nie pozwól łokciom odjeżdżać w przód.',
+    'dumbbell-hammer-curl': 'Chwyt neutralny przez cały ruch, łokcie przy bokach. Kontroluj opuszczanie; tu łatwo oszukiwać.',
+    'hammer-curl': 'Chwyt neutralny, łokcie przy bokach, bez bujania. Opuszczaj pod kontrolą — tu łatwo oszukiwać, a ekscentryk pracuje na ramienne.',
+    'rope-hammer-curl': 'Chwyt neutralny na linie, łokcie przy bokach. Rozciągnij końcówki liny na górze.',
+    'ezbar-skullcrushers': 'Opuszczaj do czoła lub minimalnie za głowę, łokcie nieruchome. Kończ serię przy pierwszym dyskomforcie w łokciach zamiast przez niego przechodzić.',
+    'banded-ezbar-bar-skullcrushers': 'Napięcie gumy szczytuje w zamknięciu, więc łokcie nieruchomo i prostuj zdecydowanie do końca.',
+    'lying-dumbbell-skullcrusher': 'Hantle dają łagodniejszy tor dla łokci. Ramiona nieruchome, opuszczaj za głowę.',
+    'rolling-dumbbell-tricep-extension': 'Tocz hantle za głowę, potem prostuj. To toczanie buduje rozciągnięcie; nie skracaj go.',
+    'french-press': 'Łokcie blisko i skierowane w górę, opuszczaj za głowę pod kontrolą. Zmniejsz ciężar, zanim łokcie zaczną się rozjeżdżać.',
+    'one-dumbbell-overhead-triceps-extension': 'Obie dłonie na jednym hantlu, łokcie blisko głowy. Pełne rozciągnięcie na dole, bez wygiania się, by go wypchnąć.',
+    'single-arm-overhead-extension': 'Pracujący łokieć w górze i blisko głowy. Wolna ręka podpiera, nie pomaga.',
+    'rope-pressdown': 'Łokcie przy bokach, rozdziel linę w zamknięciu. Stop, gdy barki zaczynają napędzać ruch.',
+    'triangle-pushdown': 'Chwyt neutralny na uchwycie, łokcie nieruchome. Pełne wyprostowanie na dole bez wchodzenia w uchwyt tułowiem.',
+
+    // --- calves, trunk and the rest -------------------------------------------
+    'calf': 'Pełne rozciągnięcie na dole i prawdziwa pauza na górze. Podskoki zamieniają to w ćwiczenie ścięgna.',
+    'standing-calf-raise-off-step': 'Pięty wyraźnie poniżej stopnia dla pełnego rozciągnięcia, potem maksymalnie w górę. Powoli na obu końcach.',
+    'standing-dumbbell-kb-calf-raise': 'Oprzyj się o coś, żeby łydki pracowały zamiast stabilizujących kostek. Pełny zakres, krótkie spięcie.',
+    'smith-calf-raise': 'Prowadzona sztanga pozwala bezpiecznie wejść głęboko w rozciągnięcie. Nie spiesz się w dolnej pozycji.',
+    'single-leg-cable-calf-raise': 'Jedna noga naraz, pełne rozciągnięcie i pauza. Wyrównaj słabszą stronę.',
+    'plank': 'Jedna linia od głowy do pięt, żebra w dół, pośladki spięte. Kończ serię, gdy biodra opadają, nie gdy mówi zegar.',
+    'cable-crunch': 'Zaokrąglaj kręgosłup w stronę kolan zamiast zginać się w biodrach. Kontroluj powrót.',
+    'cable-crunches': 'Zaokrąglaj kręgosłup w stronę kolan zamiast zginać się w biodrach. Kontroluj powrót.',
+    'weighted-crunch': 'Krótki zakres, zaokrąglenie kręgosłupa, bez ciągnięcia biodrami. Dokładaj ciężar dopiero, gdy ruch jest czysty.',
+    'bench-reverse-crunch': 'Unoś biodra nad ławkę brzuchem, nie zamachem nóg. Powoli w dół.',
+    'ab-wheel': 'Żebra w dół, biodra podwinięte. Wyjeżdżaj tylko tak daleko, jak utrzymasz tę pozycję, i kończ serię w momencie wygięcia w lędźwiach.',
+    'dumbbell-walking-lunge': 'Tułów pionowo, krok tak długi, żeby przednia goleń była blisko pionu. Stop, gdy kroki zaczynają się skracać.',
+
+    // --- machines and placeholders --------------------------------------------
+    'apex-access-placeholder': 'Miejsce na wybrany ruch dostępowy. Wskazówka pochodzi od przypisanego ćwiczenia.',
 };

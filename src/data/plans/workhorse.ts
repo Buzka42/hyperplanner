@@ -9,6 +9,10 @@
  * on the belt.
  *
  * Week 10 is the Chin-Up Trial.
+ *
+ * The 3:30 rest on the weighted chin-up is intentional, not a typo: Poliquin
+ * prescribes 3–4 minutes between 3–5-rep strength exposures for near-complete
+ * phosphagen recovery, and 210 s sits mid-window.
  */
 
 import { definePlan } from '../planBuilder';
@@ -81,6 +85,7 @@ export const WORKHORSE_CONFIG = definePlan({
     id: 'workhorse',
     name: 'Workhorse',
     weeks: 10,
+    defaultTempo: '20X0',
     days: [WEIGHTED_CHIN_STRENGTH, LEGS_AND_PULL_VOLUME, HORIZONTAL_BACK, LEGS_AND_CHEST],
     phases: [
         { name: 'Ascent', weeks: [1, 2, 3, 4] },
@@ -105,8 +110,8 @@ export const WORKHORSE_CONFIG = definePlan({
     ],
     ui: {
         themeClass: 'theme-workhorse',
-        coverImage: '/purgatorio.png',
-        navImage: '/purgatorio.png',
+        coverImage: '/workhorse.png',
+        navImage: '/workhorse.png',
         dashboardWidgets: ['1rm', 'program_status', 'strength_chart', 'workout_history'],
     },
 });

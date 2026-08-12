@@ -27,8 +27,8 @@ const phases = [
     { name: 'Judgment', weeks: [12], transform: (slot: SlotSpec) => slot.primary ? { ...slot, sets: Math.min(slot.sets, 3), progression: { type: 'top-set-backoff' as const, topReps: [3, 5] as [number, number], backoffPercent: 10, backoffSets: Math.min(2, slot.sets - 1), backoffReps: [5, 7] as [number, number], incrementKg: 2.5 } } : { ...slot, sets: Math.max(1, slot.sets - 1) } },
 ];
 
-const four = definePlan({ id: 'athena', name: 'Athena', weeks: 12, days: ATHENA_FOUR_DAY, phases });
-const three = definePlan({ id: 'athena-3day-internal', name: 'Athena', weeks: 12, days: ATHENA_THREE_DAY, phases });
+const four = definePlan({ id: 'athena', name: 'Athena', weeks: 12, defaultTempo: '20X0', days: ATHENA_FOUR_DAY, phases });
+const three = definePlan({ id: 'athena-3day-internal', name: 'Athena', weeks: 12, defaultTempo: '20X0', days: ATHENA_THREE_DAY, phases });
 
 export const effectiveAthenaMode = (user: UserProfile, now = new Date().toISOString()): '3day' | '4day' => {
     const prefs = user.planPreferences?.athena;

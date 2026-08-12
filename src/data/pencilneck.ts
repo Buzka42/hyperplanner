@@ -77,7 +77,7 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                         { id: `pn-w${w}-d4-e4`, name: "Standing Barbell Military Press", sets: 3, target: { type: "range", reps: "8-12" } },
                         { id: `pn-w${w}-d4-e5`, name: "Leaning Single Arm DB Lateral Raises", sets: 3, target: { type: "range", reps: "15-20" } },
                         { id: `pn-w${w}-d4-e6`, name: "Close-Grip Bench Press", sets: 3, target: { type: "range", reps: "10-14" } },
-                        { id: `pn-w${w}-d4-e7`, name: "Front Squats", sets: 3, target: { type: "range", reps: "10-15" }, alternates: ["Stiletto Squats"] },
+                        { id: `pn-w${w}-d4-e7`, name: "Front Squats", sets: 3, target: { type: "range", reps: "10-15" }, alternates: ["Stiletto Squats", "Safety Bar Squat"] },
                         { id: `pn-w${w}-d4-e8`, name: "Walking Lunges (DB)", sets: 3, target: { type: "range", reps: "12-16" } },
                         { id: `pn-w${w}-d4-e9`, name: "Hack Calf Raises", sets: 3, target: { type: "range", reps: "15-20" } }
                     ]
@@ -132,6 +132,7 @@ export const PENCILNECK_CONFIG: PlanConfig = {
                     "Pec Deck": "push-b-fly",
                     "Low-to-High Cable Flyes": "push-b-fly",
                     "Front Squats": "push-b-leg-secondary",
+                    "Safety Bar Squat": "push-b-leg-secondary",
                     "Narrow-Stance Leg Press": "push-b-leg-secondary",
                     "Stiletto Squats": "push-b-leg-secondary"
                 };
@@ -226,9 +227,12 @@ export const PENCILNECK_CONFIG: PlanConfig = {
 
             // 5. Append Cycle to ID
             // CRITICAL: This allows getExerciseAdvice to know the cycle context
+            // Also stamps the plan-wide hypertrophy tempo: 2s eccentric,
+            // explosive concentric.
             exercises = exercises.map(ex => ({
                 ...ex,
-                id: `${ex.id}-c${cycle}`
+                id: `${ex.id}-c${cycle}`,
+                prescription: { ...ex.prescription, tempo: ex.prescription?.tempo ?? '20X0' }
             }));
 
             return { ...day, exercises };

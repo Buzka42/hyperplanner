@@ -1286,10 +1286,25 @@ export const WorkoutView: React.FC = () => {
                     const prevStat = previousStats[ex.name];
                     const targetWeight = calculateWeight(ex);
 
-                    // Generate warm-up sets for bench/squat/deadlift variations
-                    const isMainLift = ex.name.toLowerCase().includes('bench') ||
-                        ex.name.toLowerCase().includes('squat') ||
-                        ex.name.toLowerCase().includes('deadlift');
+                    // The entry resolveDay used — after swaps that differs from
+                    // resolve(ex.name), and using the pre-swap entry below would
+                    // let a swapped variant's near-identical cue render twice.
+                    const libraryEntry = (ex as { library?: ReturnType<typeof exerciseResolver.resolve> }).library
+                        ?? exerciseResolver.resolve(ex.name);
+
+                    // Warm-up ramps assume a 20 kg bar, so they only make sense
+                    // for barbell main lifts — a dumbbell incline press or a
+                    // machine squat gets neither a bar ramp nor a bar cue.
+                    const isBarbellLift = libraryEntry
+                        ? libraryEntry.equipment.includes('barbell')
+                        : !/dumbbell|\bdb\b|smith|machine|cable|band|bodyweight/i.test(ex.name);
+                    const lowerName = ex.name.toLowerCase();
+                    const isMainLift = isBarbellLift && (
+                        libraryEntry?.pattern === 'squat' ||
+                        (lowerName.includes('deadlift') && !/romanian|stiff/.test(lowerName)) ||
+                        ((libraryEntry?.pattern === 'horizontal-press' || (!libraryEntry && lowerName.includes('bench'))) &&
+                            (lowerName.includes('bench') || lowerName.includes('press')))
+                    );
 
                     const isHeavyDay = ex.name.includes('(ME)') ||
                         ex.name.includes('Heavy') ||
@@ -1347,7 +1362,6 @@ export const WorkoutView: React.FC = () => {
                     // Two layers, resolved once: the plan's prescription cues
                     // for this set, then the movement's own coaching cue. See
                     // src/features/tips/resolve.ts for the precedence rules.
-                    const libraryEntry = exerciseResolver.resolve(ex.name);
                     const variantTip = getVariantTip(ex.name, weekNum);
                     // resolveDay already merged the library cue, any plan-scoped
                     // override and the plan's own notes into these.
@@ -1355,13 +1369,22 @@ export const WorkoutView: React.FC = () => {
 
                     // Bar warm-up ramps are prescription content: they describe
                     // how today's heavy set is approached, not how the movement
-                    // is performed.
-                    const warmupKey = ex.name === "Paused Bench Press" && programData.id === 'bench-domination'
+                    // is performed. The elite warm-up scheme (PLAN.md) applies
+                    // only to the main barbell lifts of the plans that
+                    // prescribe it — a dumbbell incline press or a bodyweight
+                    // squat variation must not inherit it.
+                    const ELITE_WARMUP_PLANS = new Set(['bench-domination', 'trinary', 'pain-and-glory', 'ritual-of-strength']);
+                    const warmupKey = !ELITE_WARMUP_PLANS.has(programData.id) || !isBarbellLift
                         ? undefined
-                        : ex.name.toLowerCase().includes('bench') ? 'tips.warmupBench'
-                            : ex.name.toLowerCase().includes('squat') && ex.name !== 'Hack Squat Calf Raises' ? 'tips.warmupSquat'
-                                : ex.name.toLowerCase().includes('deadlift') ? 'tips.warmupDeadlift'
-                                    : undefined;
+                        : ex.name === "Paused Bench Press" && programData.id === 'bench-domination'
+                            ? undefined
+                            : libraryEntry?.pattern === 'squat' || (!libraryEntry && lowerName.includes('squat') && !lowerName.includes('calf'))
+                                ? 'tips.warmupSquat'
+                                : lowerName.includes('deadlift') && !/romanian|stiff/.test(lowerName)
+                                    ? 'tips.warmupDeadlift'
+                                    : libraryEntry?.pattern === 'horizontal-press' || (!libraryEntry && lowerName.includes('bench'))
+                                        ? 'tips.warmupBench'
+                                        : undefined;
                     const translated = (key?: string) => {
                         if (!key) return undefined;
                         const value = t(key);
@@ -1420,7 +1443,28 @@ export const WorkoutView: React.FC = () => {
                                 point of a protocol sheet. */}
                             <header className="ledger-exercise-head">
                                 <div className="ledger-exercise-id">
-                                    <h2 className={isSuperMutant ? 'mutant-text' : undefined}>{ex.name}</h2>
+                                    {(() => {
+                                        // English leads by default with the Polish
+                                        // name beneath; `exerciseNamePriority: 'pl'`
+                                        // flips the order. Plan-authored display
+                                        // names (variants, "(ME)" tags) stay as-is
+                                        // and only get the library pair when the
+                                        // names actually differ.
+                                        const lib = libraryEntry?.name;
+                                        const primaryFirst = user?.trainingPreferences?.exerciseNamePriority === 'pl' ? 'pl' : 'en';
+                                        const secondary = primaryFirst === 'pl' ? 'en' : 'pl';
+                                        const showDual = lib && lib[secondary] && lib[primaryFirst] !== lib[secondary] && ex.name === lib.en;
+                                        return (
+                                            <>
+                                                <h2 className={isSuperMutant ? 'mutant-text' : undefined}>
+                                                    {showDual ? lib[primaryFirst] : ex.name}
+                                                </h2>
+                                                {showDual && (
+                                                    <p className="ledger-exercise-alt">{lib[secondary]}</p>
+                                                )}
+                                            </>
+                                        );
+                                    })()}
                                     <p className="ledger-prescription">
                                         {isGiantSet ? (
                                             <>{ex.sets} {t('workout.giantSets')} × {ex.giantSetConfig?.steps.map(s => `${s.targetReps} ${s.name}`).join(', ')}</>

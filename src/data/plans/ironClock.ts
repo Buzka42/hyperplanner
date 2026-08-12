@@ -125,8 +125,8 @@ const phases = [
     { name: 'Benchmark', weeks: [8] },
 ];
 
-const four = definePlan({ id: 'iron-clock', name: 'Iron Clock', weeks: 8, days: IRON_CLOCK_FOUR_DAY, phases });
-const three = definePlan({ id: 'iron-clock-3day-internal', name: 'Iron Clock', weeks: 8, days: IRON_CLOCK_THREE_DAY, phases });
+const four = definePlan({ id: 'iron-clock', name: 'Iron Clock', weeks: 8, defaultTempo: '20X0', days: IRON_CLOCK_FOUR_DAY, phases });
+const three = definePlan({ id: 'iron-clock-3day-internal', name: 'Iron Clock', weeks: 8, defaultTempo: '20X0', days: IRON_CLOCK_THREE_DAY, phases });
 
 export const effectiveIronClockMode = (user: UserProfile, now = new Date().toISOString()): '3day' | '4day' => {
     const prefs = user.planPreferences?.['iron-clock'];

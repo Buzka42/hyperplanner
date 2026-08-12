@@ -29,6 +29,7 @@ export const translations = {
             required: "REQUIRED",
             exportData: "Export Data Backup",
             optional: "Optional",
+            daysShort: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
             primary: "Primary",
             yes: "Yes",
             no: "No",
@@ -367,6 +368,7 @@ export const translations = {
             selectProtocol: "Select Your Protocol",
             choosePath: "Choose the path to your transformation.",
             helpMeChoose: "Help me choose",
+            programCard: { weeks: "wk", daysPerWeek: "days/wk" },
 
             // Program Cards
             programs: {
@@ -641,6 +643,18 @@ export const translations = {
 
             // Generic benchmark step — shown for plans whose progressions are
             // percentage-based. Which lifts appear is derived from plan data.
+            schedule: {
+                title: "Training Schedule",
+                desc: "This plan has {count} sessions a week. Pick fixed weekdays or an irregular rotation.",
+                fixedDays: "Fixed weekdays",
+                suggested: "Suggested splits",
+                rollingNote: "Sessions advance as you complete them — the dashboard always offers the next workout, whatever the weekday.",
+                templates: {
+                    "2on-1off": "2 days on / 1 day off",
+                    "3on-1off": "3 days on / 1 day off",
+                    "every-other-day": "Every other day"
+                }
+            },
             benchmark: {
                 title: "Starting Numbers",
                 desc: "This plan prescribes loads as a percentage of your max. Enter what you know — anything you skip is calibrated in your first session.",
@@ -651,6 +665,10 @@ export const translations = {
                 howToFind: "How to find this number",
                 buildButton: "BUILD MY PROGRAM",
                 allUnknownNote: "You're calibrating every lift. Your first session of each will find your loads — expect the first week to be exploratory.",
+                suggest: {
+                    profile: "From your profile: {kg} kg — tap to use",
+                    history: "Estimated from your logs: ~{kg} kg — tap to use"
+                },
                 lifts: {
                     pausedBench: { label: "Paused Bench Press 1RM (kg)", hint: "Pause on the chest, full ROM." },
                     squat: { label: "Squat 1RM (kg)", hint: "Full depth, controlled." },
@@ -1087,7 +1105,13 @@ export const translations = {
                 techniques: "Finishing techniques",
                 techniquesDesc: "Show drop sets, rest-pause and similar when your plan prescribes them.",
                 showTips: "Exercise tips",
-                showTipsDesc: "Show the coaching cue under each exercise."
+                showTipsDesc: "Show the coaching cue under each exercise.",
+                namePriority: "Exercise name language",
+                namePriorityDesc: "English leads by default with Polish underneath. Switch to lead with Polish instead.",
+                namePriorityOption: {
+                    en: "English first",
+                    pl: "Polish first"
+                }
             },
             title: "Settings",
             description: "Manage your program preferences.",
@@ -1516,6 +1540,7 @@ export const translations = {
             required: "WYMAGANE",
             exportData: "Eksportuj kopię danych",
             optional: "Opcjonalne",
+            daysShort: ["Pn", "Wt", "Śr", "Cz", "Pt", "So", "Nd"],
             primary: "Główne",
             yes: "Tak",
             no: "Nie",
@@ -1832,6 +1857,7 @@ export const translations = {
             selectProtocol: "Wybierz swój protokół",
             choosePath: "Krok 2: Wybierz program transformacji.",
             helpMeChoose: "Pomóż mi wybrać",
+            programCard: { weeks: "tyg.", daysPerWeek: "dni/tyg." },
 
             programs: {
                 benchDomination: {
@@ -2106,6 +2132,18 @@ export const translations = {
 
             // Generic benchmark step — shown for plans whose progressions are
             // percentage-based. Which lifts appear is derived from plan data.
+            schedule: {
+                title: "Harmonogram treningowy",
+                desc: "Ten plan ma {count} treningi w tygodniu. Wybierz stałe dni albo nieregularną rotację.",
+                fixedDays: "Stałe dni tygodnia",
+                suggested: "Sugerowane układy",
+                rollingNote: "Treningi przesuwają się w miarę ukończenia — na pulpicie zawsze czeka kolejny trening, niezależnie od dnia tygodnia.",
+                templates: {
+                    "2on-1off": "2 dni treningu / 1 dzień wolny",
+                    "3on-1off": "3 dni treningu / 1 dzień wolny",
+                    "every-other-day": "Co drugi dzień"
+                }
+            },
             benchmark: {
                 title: "Liczby startowe",
                 desc: "Ten plan wylicza ciężary jako procent twojego maksimum. Podaj to, co wiesz — resztę skalibrujemy na pierwszym treningu.",
@@ -2116,6 +2154,10 @@ export const translations = {
                 howToFind: "Jak znaleźć tę liczbę",
                 buildButton: "ZBUDUJ MÓJ PROGRAM",
                 allUnknownNote: "Kalibrujesz każdy bój. Pierwszy trening każdego z nich wyznaczy ciężary — potraktuj pierwszy tydzień jako rozpoznanie.",
+                suggest: {
+                    profile: "Z twojego profilu: {kg} kg — dotknij, aby użyć",
+                    history: "Oszacowane z twoich treningów: ~{kg} kg — dotknij, aby użyć"
+                },
                 lifts: {
                     pausedBench: { label: "Wyciskanie z pauzą 1RM (kg)", hint: "Pauza na klatce, pełny zakres ruchu." },
                     squat: { label: "Przysiad 1RM (kg)", hint: "Pełna głębokość, pod kontrolą." },
@@ -2533,7 +2575,13 @@ export const translations = {
                 techniques: "Techniki intensyfikacji",
                 techniquesDesc: "Pokazuj drop sety, rest-pause i podobne, gdy plan je przewiduje.",
                 showTips: "Wskazówki do ćwiczeń",
-                showTipsDesc: "Pokazuj wskazówkę techniczną pod każdym ćwiczeniem."
+                showTipsDesc: "Pokazuj wskazówkę techniczną pod każdym ćwiczeniem.",
+                namePriority: "Język nazw ćwiczeń",
+                namePriorityDesc: "Domyślnie nazwa angielska jest na górze, a polska poniżej. Przełącz, aby polska była na górze.",
+                namePriorityOption: {
+                    en: "Najpierw angielski",
+                    pl: "Najpierw polski"
+                }
             },
             title: "Ustawienia",
             description: "Zarządzaj preferencjami programu.",

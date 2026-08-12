@@ -17,7 +17,7 @@
 import type { LibraryExercise } from './types';
 import { buildExerciseIntelligence } from './exerciseIntelligence';
 import { LIBRARY_ADDITIONS } from './libraryAdditions';
-import { TIP_DRAFTS_EN } from './tipDrafts';
+import { TIP_DRAFTS_EN, TIP_DRAFTS_PL } from './tipDrafts';
 
 /** Movements harvested from the original nine plans. */
 const CORE_LIBRARY: LibraryExercise[] = [
@@ -597,7 +597,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'dumbbell-romanian-deadlift',
-        tip: { en: 'Heavy. Straps OK. 1-2 sec glute squeeze at top.', pl: 'Ciężkie powtórzenia! Paski OK. 1-2 sek ścisk pośladków na górze.' },
+        tip: { en: 'Heavy. Straps OK. Dumbbells track the legs, 1-2 sec glute squeeze at top.', pl: 'Ciężko. Paski OK. Hantle prowadź wzdłuż nóg, 1-2 sek ścisk pośladków na górze.' },
         name: { en: 'DB Romanian Deadlift', pl: 'Martwy ciąg rumuński z hantlami' },
         aliases: ['Dumbbell Romanian Deadlift', 'DB/KB Romanian Deadlift', 'KB RDL', 'Dumbbell RDL'],
         pattern: 'hinge',
@@ -1558,7 +1558,8 @@ const CORE_LIBRARY: LibraryExercise[] = [
         primary: ['calves'],
         equipment: ['dumbbell'],
         weightMode: 'external',
-        status: 'active',
+        status: 'deprecated',
+        deprecatedFor: 'standing-dumbbell-kb-calf-raise',
     },
     {
         id: 'seated-dumbbell-lateral-raise',
@@ -1840,7 +1841,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     {
         id: 'standing-dumbbell-kb-calf-raise',
         name: { en: 'Standing Dumbbell/KB Calf Raise', pl: 'Wspięcia na palce stojąc z hantlem/kettlem' },
-        aliases: [],
+        aliases: ['Standing Calf Raise (DB)'],
         pattern: 'calf',
         primary: ['calves'],
         equipment: ['dumbbell', 'kettlebell'],
@@ -2044,7 +2045,7 @@ export const EXERCISE_LIBRARY: LibraryExercise[] = EXERCISE_SEED.map(exercise =>
     const draft = exercise.tip?.en?.trim() ? undefined : TIP_DRAFTS_EN[exercise.id];
     return {
         ...exercise,
-        ...(draft ? { tip: { ...exercise.tip, en: draft, pl: exercise.tip?.pl ?? '' }, tipStatus: 'draft' as const } : {}),
+        ...(draft ? { tip: { ...exercise.tip, en: draft, pl: exercise.tip?.pl ?? TIP_DRAFTS_PL[exercise.id] ?? '' }, tipStatus: 'draft' as const } : {}),
         ...(!draft && exercise.tip?.en?.trim() && !exercise.tipStatus ? { tipStatus: 'approved' as const } : {}),
         intelligence: buildExerciseIntelligence(exercise),
     };

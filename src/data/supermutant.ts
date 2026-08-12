@@ -217,7 +217,7 @@ const EXERCISES = {
             target: { type: 'range' as const, reps: '8-12', rpe: 8 }
         }
     ],
-    quads: (choice: 'Hack Squat' | 'Front Squat') => [
+    quads: (choice: 'Hack Squat' | 'Front Squat' | 'Safety Bar Squat') => [
         {
             id: 'quads-1',
             name: 'Leg Extensions',
@@ -796,12 +796,19 @@ export const SUPER_MUTANT_CONFIG: PlanConfig = {
             const nextWorkout = generateNextWorkout(user);
             const session = nextWorkout ?? day;
 
+            // Plan-wide hypertrophy tempo: 2s eccentric, explosive concentric.
+            const stampTempo = (exercises: Exercise[]): Exercise[] =>
+                exercises.map(ex => ({
+                    ...ex,
+                    prescription: { ...ex.prescription, tempo: ex.prescription?.tempo ?? '20X0' }
+                }));
+
             // Optional indefinite-pool mode. Off by default: an athlete who has
             // never opted in gets the base programme, byte for byte. When on,
             // only the movement filling each slot rotates — the queue, volume,
             // RIR ladder and deloads above are untouched.
-            if (!poolModeEnabled(user.planPreferences?.['super-mutant'])) return session;
-            return { ...session, exercises: rotateSession(session.exercises, user.superMutantStatus?.pool) };
+            if (!poolModeEnabled(user.planPreferences?.['super-mutant'])) return { ...session, exercises: stampTempo(session.exercises) };
+            return { ...session, exercises: stampTempo(rotateSession(session.exercises, user.superMutantStatus?.pool)) };
         }
     }
 };

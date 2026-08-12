@@ -41,7 +41,7 @@ export const MINIMUM_DAYS: DaySpec[] = [
         s('single-leg-machine-hip-thrust', 1, '10-15', { unilateral: true }),
         s('cable-curl', 1, '10-15'),
         s('rope-pressdown', 1, '10-15'),
-        s('seated-dumbbell-calf-raise', 1, '12-20'),
+        s('leg-press-calf-raise', 1, '12-20'),
         s('hanging-knee-raise', 1, '10-15'),
     ] },
 ];
@@ -56,7 +56,7 @@ const phases = [
     { name: 'Confirm', weeks: [10] },
 ];
 
-const base = definePlan({ id: 'the-minimum', name: 'The Minimum', weeks: 10, days: MINIMUM_DAYS, phases });
+const base = definePlan({ id: 'the-minimum', name: 'The Minimum', weeks: 10, defaultTempo: '20X0', days: MINIMUM_DAYS, phases });
 
 /**
  * Bonus work is recorded but must not alter the required session, so the hook

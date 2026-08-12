@@ -14,8 +14,9 @@ import { seedLoadFor } from '../../features/onboarding/seedLoads';
 import { EXERCISE_BY_ID } from '../exercises/library';
 
 const double = { type: 'double' as const, increment: 2.5 };
+// Primary lifts are strength work: controlled down, explosive up.
 const s = (ex: string, sets: number, reps = '6-10', options: Partial<SlotSpec> = {}): SlotSpec =>
-    ({ ex, sets, reps, restSeconds: options.systemicCompound ? 180 : 90, progression: double, ...options });
+    ({ ex, sets, reps, restSeconds: options.systemicCompound ? 180 : 90, progression: double, ...(options.primary && { tempo: '10X0' }), ...options });
 
 /** Carries are prescribed in seconds; `reps` carries the interval. */
 const carry = (ex: string, sets: number, seconds: string, options: Partial<SlotSpec> = {}): SlotSpec =>
@@ -59,7 +60,7 @@ export const ATLAS_GAUNTLET_ONE: DaySpec[] = [
  */
 export const ATLAS_GAUNTLET_TWO: DaySpec[] = [
     { name: 'Atlas IV — Carry the Bar', dayOfWeek: 1, slots: [
-        s('front-squat', 4, '4-6', { systemicCompound: true, primary: true }),
+        s('front-squat', 4, '4-6', { systemicCompound: true, primary: true, alternates: ['Safety Bar Squat'] }),
         s('single-arm-standing-press', 3, '6-10', { unilateral: true, primary: true }),
         s('weighted-pull-up', 3, '4-8'),
         s('staggered-stance-rdl', 2, '8-12', { unilateral: true }),

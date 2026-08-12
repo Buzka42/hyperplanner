@@ -80,11 +80,11 @@ const LOWER_B: DaySpec = {
     name: 'Lower B',
     dayOfWeek: 5,
     slots: [
-        { ex: 'front-squat', sets: 3, reps: '6-10', restSeconds: 150, pair: 'A1' },
+        { ex: 'front-squat', sets: 3, reps: '6-10', restSeconds: 150, pair: 'A1', alternates: ['Safety Bar Squat'] },
         { ex: 'single-leg-hamstring-curl', sets: 3, reps: '10-12', restSeconds: 120, pair: 'A2' },
         { ex: 'heel-elevated-goblet-squat', sets: 3, reps: '10-15', restSeconds: 90, pair: 'B1' },
         { ex: 'hip-supported-db-deadlift', sets: 3, reps: '10-12', restSeconds: 120, pair: 'B2' },
-        { ex: 'seated-dumbbell-calf-raise', sets: 3, reps: '12-20', restSeconds: 60, pair: 'C1' },
+        { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60, pair: 'C1' },
         { ex: 'ab-wheel', sets: 3, reps: '8-15', restSeconds: 60, pair: 'C2' },
     ],
 };
@@ -102,8 +102,8 @@ export const PURGATORIO_CONFIG = definePlan({
     ],
     ui: {
         themeClass: 'theme-purgatorio',
-        coverImage: '/workhorse.png',
-        navImage: '/workhorse.png',
+        coverImage: '/purgatorio.png',
+        navImage: '/purgatorio.png',
         dashboardWidgets: ['program_status', 'strength_chart', 'workout_history'],
     },
 });

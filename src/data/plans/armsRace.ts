@@ -84,6 +84,7 @@ export const ARMS_RACE_CONFIG = definePlan({
     id: 'arms-race',
     name: 'Arms Race',
     weeks: 8,
+    defaultTempo: '20X0',
     days: [ARM_STRENGTH, BRACHIALIS_AND_LEGS, LENGTHENED_ARMS, ARM_DENSITY],
     phases: [
         { name: 'Escalation', weeks: [1, 2, 3, 4] },

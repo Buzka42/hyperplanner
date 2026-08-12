@@ -18,7 +18,7 @@ export const DEADLIFT_VARIATIONS = {
 };
 
 export const SQUAT_VARIATIONS = {
-    'bottom': ['Paused Squat', 'Low Box Squat', 'Front Squat', 'Zercher Squat'],
+    'bottom': ['Paused Squat', 'Low Box Squat', 'Front Squat', 'Safety Bar Squat', 'Zercher Squat'],
     'mid-range': ['Stiletto Squat', 'Safety Bar Squat', 'Mid Pin Squat', 'Tempo Squat'],
     'lockout': ['High Box Squat', 'Banded Squat']
 };
@@ -442,6 +442,11 @@ export const TRINARY_CONFIG: PlanConfig = {
 
             // Replace exercise names with correct variations based on block
             const processedExercises = day.exercises.map(ex => {
+                // Paused variations keep their 1s pause; everything on the
+                // ME/RE slots is controlled-down, explosive-up strength work;
+                // DE is dynamic effort — maximum bar speed both directions.
+                const tempoFor = (liftName: string, fallback: string) =>
+                    liftName.startsWith('Paused') ? '11X0' : fallback;
                 if (ex.id.includes('-me')) {
                     const liftName = getLiftName(pattern.me, 'me', user, block);
                     return {
@@ -449,14 +454,15 @@ export const TRINARY_CONFIG: PlanConfig = {
                         name: liftName,
                         sets: meSetup.sets,
                         target: meSetup.target,
+                        prescription: { ...ex.prescription, tempo: tempoFor(liftName, '10X0') },
                         notes: block <= 3 ? 't:tips.trinaryMEStandard' : 't:tips.trinaryMEVariation'
                     };
                 } else if (ex.id.includes('-de')) {
                     const liftName = getLiftName(pattern.de, 'de', user, block);
-                    return { ...ex, name: liftName };
+                    return { ...ex, name: liftName, prescription: { ...ex.prescription, tempo: tempoFor(liftName, 'X0X0') } };
                 } else if (ex.id.includes('-re')) {
                     const liftName = getLiftName(pattern.re, 're', user, block);
-                    return { ...ex, name: liftName };
+                    return { ...ex, name: liftName, prescription: { ...ex.prescription, tempo: tempoFor(liftName, '10X0') } };
                 }
                 return ex;
             });

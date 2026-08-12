@@ -69,7 +69,7 @@ const phases = [
     { name: 'Settlement', weeks: [10], transform: (slot: SlotSpec): SlotSpec => ({ ...slot, sets: Math.max(1, slot.sets - 1) }) },
 ];
 
-const base = definePlan({ id: 'quadfather', name: 'Quadfather', weeks: 10, days: QUADFATHER_DAYS, phases });
+const base = definePlan({ id: 'quadfather', name: 'Quadfather', weeks: 10, defaultTempo: '20X0', days: QUADFATHER_DAYS, phases });
 
 /**
  * Applies the athlete's confirmed main-load choice, their confirmed depth, and

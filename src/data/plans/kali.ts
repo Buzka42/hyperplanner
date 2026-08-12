@@ -10,7 +10,7 @@ export const KALI_DAYS: DaySpec[] = [
     { name: 'III — Death', dayOfWeek: 4, slots: [s('romanian-deadlift', 3, '4-6', { systemicCompound: true }), s('leg-extension', 2), s('lat-prayer', 3), s('machine-hip-abduction', 3), s('single-arm-reverse-pec-deck', 2, '12-20', { unilateral: true }), s('ab-wheel', 1), s('hack-calf-raise', 1)] },
     { name: 'IV — Rebirth', dayOfWeek: 5, slots: [s('paused-bench-press', 3, '3-6', { systemicCompound: true }), s('single-arm-hammer-row', 3, '8-12', { unilateral: true }), s('single-leg-hip-thrust', 3, '8-12', { unilateral: true }), s('lat-pulldown', 2), s('lying-leg-curl', 2), s('lateral-raise', 1), s('hammer-curl', 1)] },
 ];
-const base = definePlan({ id: 'kali', name: 'Kali', weeks: 8, days: KALI_DAYS, phases: [
+const base = definePlan({ id: 'kali', name: 'Kali', weeks: 8, defaultTempo: '20X0', days: KALI_DAYS, phases: [
     { name: 'Severance', weeks: [1, 2] }, { name: 'Preservation', weeks: [3, 4, 5] },
     { name: 'Unleashed I', weeks: [6], transform: slot => ['single-leg-machine-hip-thrust', 'hammer-pulldown'].includes(slot.ex) ? { ...slot, technique: { kind: 'rest-pause', bursts: 2, restSeconds: 20, applyTo: 'last' as const } } : slot },
     { name: 'Unleashed II', weeks: [7], transform: slot => ['machine-hip-abduction', 'lat-prayer'].includes(slot.ex) ? { ...slot, technique: { kind: 'myo-reps', activationReps: '12-20', miniSets: 3, miniReps: '4-5', restBreaths: 5, applyTo: 'last' as const } } : slot },

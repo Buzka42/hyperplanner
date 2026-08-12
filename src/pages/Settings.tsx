@@ -293,6 +293,28 @@ export const Settings: React.FC = () => {
                                 <span className="block text-xs text-muted-foreground">{t('settings.training.showTipsDesc')}</span>
                             </span>
                         </label>
+
+                        <div className="space-y-2">
+                            <Label className="text-sm font-semibold">{t('settings.training.namePriority')}</Label>
+                            <p className="text-xs text-muted-foreground">{t('settings.training.namePriorityDesc')}</p>
+                            <RadioGroup
+                                value={trainingPrefs.exerciseNamePriority ?? 'en'}
+                                onValueChange={(value) => {
+                                    setTrainingPrefs(prev => ({ ...prev, exerciseNamePriority: value as 'en' | 'pl' }));
+                                    setSaved(false);
+                                }}
+                                className="flex gap-4"
+                            >
+                                {(['en', 'pl'] as const).map(priority => (
+                                    <div key={priority} className="flex items-center space-x-2">
+                                        <RadioGroupItem value={priority} id={`name-priority-${priority}`} />
+                                        <Label htmlFor={`name-priority-${priority}`} className="font-normal">
+                                            {t(`settings.training.namePriorityOption.${priority}`)}
+                                        </Label>
+                                    </div>
+                                ))}
+                            </RadioGroup>
+                        </div>
                     </div>
                 </CardContent>
             </Card>
@@ -347,6 +369,10 @@ export const Settings: React.FC = () => {
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="Front Squats" id="front" />
                                     <Label htmlFor="front">Front Squats</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="Safety Bar Squat" id="safety-bar" />
+                                    <Label htmlFor="safety-bar">Safety Bar Squat</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="Narrow-Stance Leg Press" id="narrow" />

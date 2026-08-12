@@ -95,7 +95,13 @@ const SKELETON_CONFIG: PlanConfig = {
                 }
             ];
 
-            return { ...day, dayName: `t:dayNames.fullBodyWeek|{"week":${w}}`, exercises };
+            // Plan-wide hypertrophy tempo: 2s eccentric, explosive concentric.
+            // Planks are isometric — no tempo.
+            const stamped = exercises.map(ex => ex.name === 'Planks'
+                ? ex
+                : { ...ex, prescription: { ...ex.prescription, tempo: '20X0' } });
+
+            return { ...day, dayName: `t:dayNames.fullBodyWeek|{"week":${w}}`, exercises: stamped };
         },
         calculateWeight: () => undefined,
         getExerciseAdvice: (exercise: Exercise, history: WorkoutLog[]) => {

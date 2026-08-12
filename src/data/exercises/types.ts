@@ -459,6 +459,11 @@ export type TrainingPreferences = {
     /** Opt out of drop sets / rest-pause / myo-reps prescriptions. */
     techniquesEnabled?: boolean;
     units?: 'kg' | 'lb';
+    /**
+     * Which exercise name leads in the workout view. Default 'en': English on
+     * top, Polish underneath in small type. 'pl' flips the priority.
+     */
+    exerciseNamePriority?: 'en' | 'pl';
 };
 
 /** planId → exerciseId → chosen replacement exerciseId. */

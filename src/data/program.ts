@@ -1004,6 +1004,17 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                     }
                 }
 
+                // Tempo stamps: every BD bench press is a paused press — 1s on
+                // the chest, explosive off. Spoto keeps a 1s hover pause; the
+                // low pin press restarts from a dead stop each rep.
+                if (ex.name.startsWith("Paused Bench Press")) {
+                    ex.prescription = { ...ex.prescription, tempo: "11X0" };
+                } else if (ex.name === "Spoto Press") {
+                    ex.prescription = { ...ex.prescription, tempo: "11X0" };
+                } else if (ex.name === "Low Pin Press") {
+                    ex.prescription = { ...ex.prescription, tempo: "10X0" };
+                }
+
                 // BTN Warmups
                 if (ex.name === "Behind-the-Neck Press") {
                     // Previous BTN Logic maintained but refactored into this map block to avoid duplicate overrides

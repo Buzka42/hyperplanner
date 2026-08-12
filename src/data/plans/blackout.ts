@@ -59,7 +59,7 @@ const phases = [
         slot.primary ? { ...slot, rpe: 10 } : slot },
 ];
 
-const base = definePlan({ id: 'blackout', name: 'Blackout', weeks: 8, days: BLACKOUT_DAYS, phases });
+const base = definePlan({ id: 'blackout', name: 'Blackout', weeks: 8, defaultTempo: '20X0', days: BLACKOUT_DAYS, phases });
 
 const preprocess = (day: WorkoutDay, _user: UserProfile): WorkoutDay => ({
     ...day,

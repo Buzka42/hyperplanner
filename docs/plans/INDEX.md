@@ -29,10 +29,24 @@ not appear in this runtime table until implemented.
 | [Event Horizon](event-horizon.md) | `event-horizon` | 12 weeks | Cost-aware hypertrophy substitution |
 | [Project Chimera](project-chimera.md) | `project-chimera` | 16 weeks | Confirmable per-block volume reallocation |
 | [Oracle](oracle.md) | `oracle` | 10 weeks | Prediction, stated confidence and honest accuracy |
+| [King of the Squat](king-of-the-squat.md) | `king-of-the-squat` | 12 weeks | Squat specialisation on descending waves |
+| [Purgatorio](purgatorio.md) | `purgatorio` | 12 weeks | Accumulation/intensification upper/lower blocks |
+| [Immaculate (Re)Structure](immaculate-restructure.md) | `immaculate-restructure` | 10 weeks | Structural balance against Poliquin ratios |
+| [Overhead Dominion](overhead-dominion.md) | `overhead-dominion` | 10 weeks | Shoulder specialisation, wave-converted press |
+| [Hamstring Foundry](hamstring-foundry.md) | `hamstring-foundry` | 10 weeks | Hamstrings through all three functions |
+| [Arms Race](arms-race.md) | `arms-race` | 8 weeks | Arm specialisation, four distinct exposures |
+| [Workhorse](workhorse.md) | `workhorse` | 10 weeks | Weighted chin-up as a major strength lift |
+| [Neural Overload](neural-overload.md) | `neural-overload` | 9 weeks | 1-6 post-activation powerbuilding |
+| [Tenfold](tenfold.md) | `tenfold` | 8 weeks | One 10×10 per session, hold-until-complete |
+| [Gravity Is Optional](gravity-is-optional.md) | `gravity-is-optional` | 12 weeks | Weighted calisthenics on total system weight |
+| [Venus Rising](venus-rising.md) | `venus-rising` | 12 weeks | RPE-escalating hypertrophy, 3- or 4-day modes |
+| [Athena](athena.md) | `athena` | 12 weeks | Barbell strength in switchable 3/4-day schedules |
+| [Kali](kali.md) | `kali` | 8 weeks | Low volume, intensifiers only in the final block |
+| [Apex Predator](apex-predator.md) | `apex-predator` | 12 weeks | Movement-access-driven full body |
+| [30 Minute Adventure](30-minute-adventure.md) | `30-minute-adventure` | ongoing | Time-boxed drafted superset circuits |
 
-The registry also contains 30 Minute Adventure and ten declarative method plans.
-Their canonical concise runtime documents will be created during the per-plan
-specification pass; the earlier Adventure drafts are retained in the archive.
+Apex Predator's six-region movement screen has its own step-by-step field
+guide with per-test image prompts: [assessment guide](apex-assessment-guide.md).
 
 ## Expansion specifications
 

@@ -392,10 +392,30 @@ const createRitualWeeks = (): ProgramWeek[] => {
     return scheduled.sort((a, b) => a.weekNumber - b.weekNumber);
 };
 
+// Strength-plan tempos: every bench exposure is a paused press (1s on the
+// chest); squats and deadlifts move controlled down, explosive up.
+const RITUAL_TEMPO: [RegExp, string][] = [
+    [/^Paused Bench Press/, '11X0'],
+    [/^Low Bar Squat/, '10X0'],
+    [/^Conventional Deadlift/, '10X0'],
+];
+
+const withTempo = (weeks: ProgramWeek[]): ProgramWeek[] =>
+    weeks.map(week => ({
+        ...week,
+        days: week.days.map(day => ({
+            ...day,
+            exercises: day.exercises.map(ex => {
+                const hit = RITUAL_TEMPO.find(([re]) => re.test(ex.name));
+                return hit ? { ...ex, prescription: { ...ex.prescription, tempo: hit[1] } } : ex;
+            }),
+        })),
+    }));
+
 export const RITUAL_PROGRAM: Program = {
     id: 'ritual-of-strength',
     name: 'Ritual of Strength',
-    weeks: createRitualWeeks()
+    weeks: withTempo(createRitualWeeks())
 };
 
 export const RITUAL_CONFIG: PlanConfig = {

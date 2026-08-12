@@ -62,6 +62,7 @@ export const SUPER_MUTANT_POOL: Record<string, PoolEntry[]> = {
         { id: 'leg-extension', role: 'preExhaust' },
         { id: 'hack-squat', role: 'main' },
         { id: 'front-squat', role: 'main' },
+        { id: 'safety-bar-squat', role: 'main' },
         { id: 'leg-press', role: 'main' },
         { id: 'stiletto-squat', role: 'main' },
         { id: 'supported-sissy-squat', role: 'finisher' },
@@ -100,7 +101,7 @@ export const SUPER_MUTANT_POOL: Record<string, PoolEntry[]> = {
     calves: [
         { id: 'hack-calf-raise', role: 'main' },
         { id: 'standing-calf-raise', role: 'main' },
-        { id: 'seated-dumbbell-calf-raise', role: 'main' },
+        { id: 'standing-dumbbell-kb-calf-raise', role: 'main' },
         { id: 'leg-press-calf-raise', role: 'finisher' },
     ],
 };

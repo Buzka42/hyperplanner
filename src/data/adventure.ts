@@ -104,7 +104,7 @@ export const ADVENTURE_EXERCISES: Record<string, AdventureExercise> = Object.fro
     exercise('standing-calf-raise', 'Standing Dumbbell/KB Calf Raise', 'Wspięcia na palce stojąc z hantlem/kettlem', 15, 20),
     exercise('hack-calf-raise', 'Hack-Squat Calf Raise', 'Wspięcia na palce na hack-maszynie', 10, 15),
     exercise('leaning-lateral-raise', 'Leaning One-Arm Lateral Raise', 'Jednorącz unoszenie bokiem w pochyleniu', 12, 20),
-    exercise('seated-calf-raise', 'Seated Dumbbell Calf Raise', 'Wspięcia na palce siedząc z hantlem', 15, 25),
+    exercise('leg-press-calf-raise', 'Leg Press Calf Raise', 'Wspięcia na palce na suwnicy', 15, 25),
     exercise('seated-lateral-raise', 'Seated Dumbbell Lateral Raise', 'Unoszenie hantli bokiem siedząc', 12, 20),
     exercise('cable-lateral-raise', 'Cable Lateral Raise', 'Unoszenie ramienia bokiem na wyciągu', 15, 20),
     exercise('single-leg-cable-calf', 'Single-Leg Cable Calf Raise', 'Jednonóż wspięcia na palce przy wyciągu', 10, 15),
@@ -175,9 +175,9 @@ export const ADVENTURE_PAIRS: AdventurePair[] = [
 
     pair('calves-military-standing', 'calves-shoulders', 'military-press', 'standing-calf-raise', 90, 'moderate', ['dumbbells'], 'Press first; calf work must not fatigue your stance.', 'Najpierw wyciskanie; łydki nie mogą zmęczyć pozycji.'),
     pair('calves-hack-leaning-lateral', 'calves-shoulders', 'hack-calf-raise', 'leaning-lateral-raise', 60, 'moderate', ['machines', 'dumbbells'], 'Keep the dumbbell beside the hack station.', 'Trzymaj hantel obok hack-maszyny.'),
-    pair('calves-seated-lateral', 'calves-shoulders', 'seated-calf-raise', 'seated-lateral-raise', 60, 'fast', ['dumbbells'], 'One bench and two manageable dumbbell loads.', 'Jedna ławka i dwa dobrane ciężary hantli.'),
+    pair('calves-seated-lateral', 'calves-shoulders', 'standing-calf-raise', 'seated-lateral-raise', 60, 'fast', ['dumbbells'], 'One bench and two manageable dumbbell loads.', 'Jedna ławka i dwa dobrane ciężary hantli.'),
     pair('calves-cable-lateral', 'calves-shoulders', 'cable-lateral-raise', 'single-leg-cable-calf', 60, 'slow', ['cable'], 'Four unilateral bouts per round; expect extra time.', 'Cztery jednostronne odcinki w rundzie; dolicz czas.'),
-    pair('calves-arnold-seated', 'calves-shoulders', 'arnold-press', 'seated-calf-raise', 60, 'fast', ['dumbbells'], 'One bench, shoulder work first.', 'Jedna ławka, najpierw barki.'),
+    pair('calves-arnold-seated', 'calves-shoulders', 'arnold-press', 'standing-calf-raise', 60, 'fast', ['dumbbells'], 'One bench, shoulder work first.', 'Jedna ławka, najpierw barki.'),
     pair('calves-seated-press-step', 'calves-shoulders', 'seated-db-shoulder-press', 'step-calf-raise', 75, 'moderate', ['dumbbells'], 'Use the bench base as the calf step only if stable.', 'Użyj podstawy ławki jako stopnia tylko, gdy jest stabilna.'),
     pair('calves-smith-route', 'calves-shoulders', 'smith-ohp', 'smith-calf-raise', 75, 'moderate', ['machines'], 'One Smith station; expect a load adjustment.', 'Jedna maszyna Smitha; potrzebna zmiana ciężaru.'),
 

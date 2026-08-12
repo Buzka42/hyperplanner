@@ -72,7 +72,7 @@ const phases = [
     { name: 'Rest of the Stone', weeks: [10], transform: (slot: SlotSpec): SlotSpec => ({ ...slot, sets: Math.max(1, slot.sets - 1) }) },
 ];
 
-const base = definePlan({ id: 'cathedral', name: 'Cathedral', weeks: 10, days: CATHEDRAL_DAYS, phases });
+const base = definePlan({ id: 'cathedral', name: 'Cathedral', weeks: 10, defaultTempo: '20X0', days: CATHEDRAL_DAYS, phases });
 
 const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
     const week = Number(day.id?.match(/-w(\d+)-/)?.[1] ?? 1);

@@ -9,6 +9,7 @@ import { ArrowRight, KeyRound, Loader2, X } from 'lucide-react';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '../firebase';
 import { DEFAULT_ONBOARDING_CONFIG, isAlwaysFreePlan, normalizeKeyword, PLAN_OPTIONS, withAlwaysFreePlans, type OnboardingConfig } from '../data/accessControl';
+import { PLAN_META } from '../data/planMeta';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 
 export const Entry: React.FC = () => {
@@ -18,7 +19,14 @@ export const Entry: React.FC = () => {
     const [config, setConfig] = useState<OnboardingConfig>(DEFAULT_ONBOARDING_CONFIG);
     const [selectedPlans, setSelectedPlans] = useState<string[]>([]);
     const { checkCodeword } = useUser();
-    const { t, tArray } = useLanguage();
+    const { t, tArray, tObject } = useLanguage();
+
+    const localizedPlanName = (planId: string, fallback: string): string => {
+        const meta = PLAN_META[planId];
+        if (!meta) return fallback;
+        const copy = tObject(`onboarding.programs.${meta.i18nKey}`);
+        return (copy as { name?: string })?.name || fallback;
+    };
     const navigate = useNavigate();
 
     const [error, setError] = useState<string | null>(null);
@@ -141,7 +149,7 @@ export const Entry: React.FC = () => {
                     {creating && <div className="choice-rows" aria-label={t('entry.availablePlans')}>
                         {PLAN_OPTIONS.filter(plan => config.generalPlanIds.includes(plan.id)).map(plan => (
                             <label key={plan.id} className="choice-row">
-                                <span>{plan.name}{isAlwaysFreePlan(plan.id) ? ` · ${t('entry.freeTag')}` : ''}</span>
+                                <span>{localizedPlanName(plan.id, plan.name)}{isAlwaysFreePlan(plan.id) ? ` · ${t('entry.freeTag')}` : ''}</span>
                                 <input type="checkbox" disabled={isAlwaysFreePlan(plan.id)} checked={selectedPlans.includes(plan.id)} onChange={() => setSelectedPlans(value => value.includes(plan.id) ? value.filter(id => id !== plan.id) : [...value, plan.id])} />
                             </label>
                         ))}

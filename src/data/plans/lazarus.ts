@@ -56,7 +56,7 @@ const phases = [
         slot.systemicCompound ? { ...slot, reps: '6-10' } : slot },
 ];
 
-const base = definePlan({ id: 'lazarus', name: 'Lazarus', weeks: 8, days: LAZARUS_DAYS, phases });
+const base = definePlan({ id: 'lazarus', name: 'Lazarus', weeks: 8, defaultTempo: '20X0', days: LAZARUS_DAYS, phases });
 
 const weekOf = (day: WorkoutDay): number => Number(day.id?.match(/-w(\d+)-/)?.[1] ?? 1);
 

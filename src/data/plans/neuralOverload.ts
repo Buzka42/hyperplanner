@@ -20,13 +20,18 @@ import type { DaySpec, SlotSpec } from '../planBuilder';
  * The 1-6 pattern as four slots. Expressed explicitly rather than as a
  * technique so each exposure carries its own load prescription.
  */
-const oneSixWave = (ex: string, of: 'pausedBench' | 'squat' | 'conventionalDeadlift'): SlotSpec[] => [
+const oneSixWave = (ex: string, of: 'pausedBench' | 'squat' | 'conventionalDeadlift'): SlotSpec[] => {
+    // Paused lifts keep their competition pause; every 1-6 exposure is
+    // explosive on the way up by construction.
+    const tempo = ex.includes('paused') ? '11X0' : '10X0';
+    return [
     {
         ex,
         sets: 1,
         reps: '1',
         restSeconds: 180,
         progression: { type: 'percentage', of, percent: 0.9 },
+        tempo,
         notes: 'Heavy single at about 90%. Confident, not maximal — this primes the set that follows.',
     },
     {
@@ -35,6 +40,7 @@ const oneSixWave = (ex: string, of: 'pausedBench' | 'squat' | 'conventionalDeadl
         reps: '6',
         restSeconds: 180,
         progression: { type: 'percentage', of, percent: 0.75 },
+        tempo,
         notes: 'Back-off six. Note the bar speed.',
     },
     {
@@ -43,6 +49,7 @@ const oneSixWave = (ex: string, of: 'pausedBench' | 'squat' | 'conventionalDeadl
         reps: '1',
         restSeconds: 180,
         progression: { type: 'percentage', of, percent: 0.925 },
+        tempo,
         notes: 'Heavier single.',
     },
     {
@@ -51,9 +58,11 @@ const oneSixWave = (ex: string, of: 'pausedBench' | 'squat' | 'conventionalDeadl
         reps: '6',
         restSeconds: 180,
         progression: { type: 'percentage', of, percent: 0.775 },
+        tempo,
         notes: 'Second back-off six, heavier than the first. If it moves better than set two, the priming worked.',
     },
 ];
+};
 
 const BENCH_NEURAL: DaySpec = {
     name: 'Bench Neural',
@@ -110,6 +119,7 @@ const LOWER_POWERBUILDING: DaySpec = {
             reps: '3-5',
             restSeconds: 210,
             progression: { type: 'percentage', of: 'squat', percent: 0.65 },
+            alternates: ['Safety Bar Squat'],
             // Section 8: use a lower-fatigue strength movement rather than
             // forcing literal 1-6 onto every lift.
             notes: 'Straight sets, not 1-6. This day exists to build without adding neural cost.',

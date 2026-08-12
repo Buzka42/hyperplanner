@@ -77,6 +77,8 @@ export type SlotSpec = {
     block?: { kind: 'anchor' | 'burn' | 'finisher' | 'density'; id: string; durationSeconds?: number };
     /** Restrict this slot to specific weeks. */
     weeks?: number[];
+    /** Legacy-style swap alternates (library display names), offered in the Swap sheet. */
+    alternates?: string[];
 };
 
 export type DaySpec = {
@@ -102,7 +104,30 @@ export type PlanSpec = {
     hooks?: PlanConfig['hooks'];
     ui?: PlanConfig['ui'];
     session?: PlanConfig['session'];
+    /** Applied to every slot without its own tempo, e.g. '20X0' on hypertrophy plans. */
+    defaultTempo?: string;
+    /**
+     * Scheduling options shown at onboarding. Defaults: weekday selection with
+     * suggested splits and 2-on/1-off and 3-on/1-off irregular templates.
+     * Set `selectable: false` to keep the authored weekdays.
+     */
+    schedule?: PlanConfig['schedule'];
 };
+
+/** Sensible weekday combinations per sessions-per-week, 1 = Monday. */
+const DEFAULT_SPLITS: Record<number, number[][]> = {
+    2: [[1, 4], [2, 6], [1, 5]],
+    3: [[1, 3, 5], [2, 4, 6], [1, 3, 6]],
+    4: [[1, 2, 4, 5], [1, 3, 5, 6], [2, 4, 6, 7]],
+    5: [[1, 2, 3, 5, 6], [1, 2, 4, 5, 6]],
+    6: [[1, 2, 3, 4, 5, 6], [1, 2, 3, 5, 6, 7]],
+};
+
+const DEFAULT_IRREGULAR_TEMPLATES = [
+    { id: '2on-1off', onDays: 2, offDays: 1 },
+    { id: '3on-1off', onDays: 3, offDays: 1 },
+    { id: 'every-other-day', onDays: 1, offDays: 1 },
+];
 
 // ---------------------------------------------------------------------------
 // Build
@@ -230,6 +255,7 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
                         sets: slot.sets,
                         target: targetFor(slot),
                         notes: slot.notes,
+                        alternates: slot.alternates,
                         optional: slot.optional,
                         rest: slot.restSeconds ? `${slot.restSeconds}s` : undefined,
                         // Structured, so the rest timer and prescription badges
@@ -238,7 +264,7 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
                         // invisible to the runtime.
                         prescription: {
                             restSeconds: slot.restSeconds,
-                            tempo: slot.tempo,
+                            tempo: slot.tempo ?? spec.defaultTempo,
                             technique: slot.technique,
                             pair: slot.pair,
                             ...(slot.progression?.type === 'top-set-backoff' && { topSetBackoff: {
@@ -281,6 +307,11 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
         session: spec.session,
         onboarding: { requiredStats: requiredStatsFor(spec) },
         calibration: { exerciseNameToStat: calibrationExercisesFor(spec) },
+        schedule: spec.schedule ?? {
+            selectable: true,
+            suggestedSplits: DEFAULT_SPLITS[spec.days.length],
+            irregularTemplates: DEFAULT_IRREGULAR_TEMPLATES,
+        },
         hooks: {
             calculateWeight: buildWeightCalculator(spec),
             ...(spec.hooks ?? {}),

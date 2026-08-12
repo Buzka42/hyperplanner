@@ -25,10 +25,11 @@ import { benchmarkLiftsFor } from '../data/benchmarkLifts';
 import { cn } from '../lib/utils';
 import { Checkbox } from '../components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import { epley } from '../features/workout/progression/types';
 
-type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules' | 'super-mutant-stats' | 'benchmark';
+type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules' | 'super-mutant-stats' | 'benchmark' | 'schedule';
 
 export const Onboarding: React.FC = () => {
     const { state } = useLocation();
@@ -44,6 +45,10 @@ export const Onboarding: React.FC = () => {
     const [showFinder, setShowFinder] = useState(false);
     const [selectedProgramId, setSelectedProgramId] = useState<string | null>(null);
     const [selectedDays, setSelectedDays] = useState<number[]>([]);
+    /** 'rolling' = an irregular template (2 on / 1 off) chosen on the schedule step. */
+    const [scheduleMode, setScheduleMode] = useState<'fixed' | 'rolling'>('fixed');
+    /** Which irregular template was picked when scheduleMode is 'rolling'. */
+    const [selectedTemplate, setSelectedTemplate] = useState<string>('2on-1off');
     const [preferences, setPreferences] = useState<Record<string, string>>({
         "push-a-leg-primary": "Hack Squat",
         "push-b-fly": "Pec Deck",
@@ -76,10 +81,12 @@ export const Onboarding: React.FC = () => {
 
     /** Stats the athlete marked "I don't know" on the benchmark step. */
     const [unknownStats, setUnknownStats] = useState<Set<keyof LiftingStats>>(new Set());
+    /** Suggested maxes for the benchmark step — profile first, log-derived e1RM next. */
+    const [benchmarkSuggestions, setBenchmarkSuggestions] = useState<Partial<Record<keyof LiftingStats, { kg: number; source: 'profile' | 'history' }>>>({});
 
     const [ritualIsFirstProgram, setRitualIsFirstProgram] = useState<boolean | null>(null);
     const [superMutantPrefs, setSuperMutantPrefs] = useState<{
-        quadExercise: 'Hack Squat' | 'Front Squat';
+        quadExercise: 'Hack Squat' | 'Front Squat' | 'Safety Bar Squat';
         hamstringExercise: 'Good Mornings' | 'Deficit RDLs';
     }>({
         quadExercise: 'Hack Squat',
@@ -134,6 +141,14 @@ export const Onboarding: React.FC = () => {
             // Previously this fell through to the Bench Domination stats form,
             // which enrolled the athlete in Bench Domination regardless of pick.
             setUnknownStats(new Set());
+            // Declarative plans offer weekday selection (with suggested splits
+            // and irregular templates) before any benchmark questions.
+            if (getPlan(pid).schedule?.selectable) {
+                setSelectedDays([]);
+                setScheduleMode('fixed');
+                setStep('schedule');
+                return;
+            }
             // Plans whose progressions read no maxes have nothing to ask for.
             // Showing an empty form with one button reads like a broken step,
             // so enrol straight away instead.
@@ -145,6 +160,75 @@ export const Onboarding: React.FC = () => {
             setStep('benchmark');
         }
     };
+
+    // Prefill benchmark maxes for a returning athlete: known stats come from
+    // the profile, and anything missing is estimated (Epley, best set) from
+    // logged sessions of the lifts this plan calibrates on.
+    useEffect(() => {
+        if (step !== 'benchmark' || !user || !selectedProgramId) return;
+        const plan = getPlan(selectedProgramId);
+        const onboarding = plan.onboarding;
+        const lifts = benchmarkLiftsFor([...(onboarding?.requiredStats ?? []), ...(onboarding?.seedStats ?? [])]);
+        if (!lifts.length) return;
+
+        const suggestions: Partial<Record<keyof LiftingStats, { kg: number; source: 'profile' | 'history' }>> = {};
+        const missing: (keyof LiftingStats)[] = [];
+        for (const { stat } of lifts) {
+            const known = (user.stats as Record<string, number | undefined>)?.[stat] ?? 0;
+            if (known > 0) suggestions[stat] = { kg: known, source: 'profile' };
+            else missing.push(stat);
+        }
+        setBenchmarkSuggestions(suggestions);
+        setStats(prev => ({
+            ...prev,
+            ...Object.fromEntries(Object.entries(suggestions).map(([stat, s]) => [stat, s!.kg])),
+        }));
+
+        if (!missing.length) return;
+        const nameToStat = plan.calibration?.exerciseNameToStat ?? {};
+        const wanted = new Set(missing);
+        const nameForStat = new Map<string, keyof LiftingStats>();
+        for (const [name, stat] of Object.entries(nameToStat)) {
+            if (wanted.has(stat)) nameForStat.set(name, stat);
+        }
+        if (!nameForStat.size) return;
+
+        let cancelled = false;
+        void (async () => {
+            try {
+                const snapshot = await getDocs(collection(db, 'users', user.id, 'workouts'));
+                const best: Partial<Record<keyof LiftingStats, number>> = {};
+                for (const docSnap of snapshot.docs) {
+                    const data = docSnap.data();
+                    for (const ex of data.exercises ?? []) {
+                        const stat = nameForStat.get(ex.name);
+                        if (!stat) continue;
+                        for (const set of ex.setsData ?? []) {
+                            if (!set.completed) continue;
+                            const w = parseFloat(set.weight || '0');
+                            const r = parseInt(set.reps || '0', 10);
+                            if (w > 0 && r > 0) {
+                                const est = epley(w, r);
+                                if (est > (best[stat] ?? 0)) best[stat] = est;
+                            }
+                        }
+                    }
+                }
+                if (cancelled) return;
+                const round = (n: number) => Math.round(n / 2.5) * 2.5;
+                setBenchmarkSuggestions(prev => {
+                    const next = { ...prev };
+                    for (const [stat, kg] of Object.entries(best) as [keyof LiftingStats, number][]) {
+                        if (!next[stat] && kg > 0) next[stat] = { kg: round(kg), source: 'history' };
+                    }
+                    return next;
+                });
+            } catch {
+                // Suggestions are a convenience; the plain form still works.
+            }
+        })();
+        return () => { cancelled = true; };
+    }, [step, selectedProgramId, user?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleDayToggle = (dayIndex: number) => {
         // Target count depends on program
@@ -386,11 +470,16 @@ export const Onboarding: React.FC = () => {
         const blankStats: LiftingStats = { pausedBench: 0, wideGripBench: 0, spotoPress: 0, lowPinPress: 0 };
         try {
             if (user) {
-                await updateUserProfile({ stats: user.stats ?? blankStats, pendingCalibration: [] });
+                await updateUserProfile({
+                    stats: user.stats ?? blankStats,
+                    pendingCalibration: [],
+                    selectedDays: scheduleMode === 'fixed' ? selectedDays : [],
+                    scheduleMode,
+                });
                 await switchProgram(planId);
             } else {
                 if (!codeword) throw new Error('No codeword found. Please restart.');
-                await registerUser(codeword, blankStats, planId, [], {}, undefined, { pendingCalibration: [] });
+                await registerUser(codeword, blankStats, planId, scheduleMode === 'fixed' ? selectedDays : [], {}, undefined, { pendingCalibration: [], scheduleMode });
             }
             navigate('/app/dashboard');
         } catch (err: unknown) {
@@ -423,11 +512,16 @@ export const Onboarding: React.FC = () => {
 
         try {
             if (user) {
-                await updateUserProfile({ stats: finalStats, pendingCalibration });
+                await updateUserProfile({
+                    stats: finalStats,
+                    pendingCalibration,
+                    selectedDays: scheduleMode === 'fixed' ? selectedDays : [],
+                    scheduleMode,
+                });
                 await switchProgram(selectedProgramId);
             } else {
                 if (!codeword) throw new Error("No codeword found. Please restart.");
-                await registerUser(codeword, finalStats, selectedProgramId, [], {}, undefined, { pendingCalibration });
+                await registerUser(codeword, finalStats, selectedProgramId, scheduleMode === 'fixed' ? selectedDays : [], {}, undefined, { pendingCalibration, scheduleMode });
             }
             navigate('/app/dashboard');
         } catch (err: any) {
@@ -470,24 +564,31 @@ export const Onboarding: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {ORDERED_PLAN_META.filter(meta => isPlanAllowed(meta.id)).map(meta => {
                             const copy = tObject(`onboarding.programs.${meta.i18nKey}`);
+                            const plan = getPlan(meta.id);
+                            const weeks = plan.program.weeks.length;
+                            const daysPerWeek = plan.program.weeks[0]?.days.filter(d => d.exercises.length > 0).length ?? 0;
                             return (
                                 <Card
                                     key={meta.id}
                                     className="overflow-hidden cursor-pointer hover:border-primary transition-all hover:scale-[1.02] group"
                                     onClick={() => handleProgramSelect(meta.id)}
                                 >
-                                    <div className={cn("h-72 relative flex items-center justify-center", meta.coverBg)}>
-                                        <img src={meta.logo} alt="" className="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-opacity" />
-                                        <div className={cn("absolute inset-0 bg-card flex items-end p-4", meta.coverGradient)}>
-                                            <h3 className="text-xl font-semibold text-white leading-tight">{copy.name}</h3>
-                                        </div>
+                                    {/* Artwork panel: the cover carries the plan's identity, so it
+                                        stays fully visible; title and copy live below it. */}
+                                    <div className={cn("relative h-56 flex items-center justify-center p-5", meta.coverBg)}>
+                                        <img src={meta.logo} alt={copy.name ?? ''} className="max-h-full w-auto object-contain opacity-95 group-hover:opacity-100 group-hover:scale-[1.03] transition-all" />
                                         {meta.alwaysFree && <span className="absolute right-3 top-3 bg-[#b7ff35] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#0a1110]">{t('adventure.free')}</span>}
+                                        <div className="absolute left-3 bottom-3 flex gap-1.5">
+                                            <span className="bg-black/60 backdrop-blur-sm px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-white/90">{weeks} {t('onboarding.programCard.weeks')}</span>
+                                            {daysPerWeek > 0 && <span className="bg-black/60 backdrop-blur-sm px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-white/90">{daysPerWeek} {t('onboarding.programCard.daysPerWeek')}</span>}
+                                        </div>
                                     </div>
                                     <CardContent className="pt-4 p-4">
+                                        <h3 className="text-lg font-semibold leading-tight mb-1.5">{copy.name}</h3>
                                         <p className="text-muted-foreground text-xs mb-3">{copy.description}</p>
                                         <ul className="space-y-1 text-xs">
                                             {tArray(`onboarding.programs.${meta.i18nKey}.features`).map((feature, i) => (
-                                                <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-primary" /> {feature}</li>
+                                                <li key={i} className="flex items-center"><CheckCircle2 className="mr-2 h-3 w-3 text-primary shrink-0" /> {feature}</li>
                                             ))}
                                         </ul>
                                     </CardContent>
@@ -768,6 +869,10 @@ export const Onboarding: React.FC = () => {
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="Front Squats" id="front" />
                                     <Label htmlFor="front">Front Squats</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="Safety Bar Squat" id="safety-bar" />
+                                    <Label htmlFor="safety-bar">Safety Bar Squat</Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <RadioGroupItem value="Narrow-Stance Leg Press" id="narrow" />
@@ -1224,7 +1329,7 @@ export const Onboarding: React.FC = () => {
 
                                 <div className="space-y-2">
                                     <Label className="text-base text-green-100">Quad Exercise</Label>
-                                    <RadioGroup value={superMutantPrefs.quadExercise} onValueChange={(v) => setSuperMutantPrefs(p => ({ ...p, quadExercise: v as 'Hack Squat' | 'Front Squat' }))}>
+                                    <RadioGroup value={superMutantPrefs.quadExercise} onValueChange={(v) => setSuperMutantPrefs(p => ({ ...p, quadExercise: v as 'Hack Squat' | 'Front Squat' | 'Safety Bar Squat' }))}>
                                         <div className="flex items-center space-x-2 p-3 border border-green-900/30 rounded hover:bg-green-950/20 cursor-pointer">
                                             <RadioGroupItem value="Hack Squat" id="hack-squat" />
                                             <Label htmlFor="hack-squat" className="text-green-200 cursor-pointer flex-1">Hack Squat</Label>
@@ -1232,6 +1337,10 @@ export const Onboarding: React.FC = () => {
                                         <div className="flex items-center space-x-2 p-3 border border-green-900/30 rounded hover:bg-green-950/20 cursor-pointer">
                                             <RadioGroupItem value="Front Squat" id="front-squat" />
                                             <Label htmlFor="front-squat" className="text-green-200 cursor-pointer flex-1">Front Squat</Label>
+                                        </div>
+                                        <div className="flex items-center space-x-2 p-3 border border-green-900/30 rounded hover:bg-green-950/20 cursor-pointer">
+                                            <RadioGroupItem value="Safety Bar Squat" id="safety-bar-squat" />
+                                            <Label htmlFor="safety-bar-squat" className="text-green-200 cursor-pointer flex-1">Safety Bar Squat</Label>
                                         </div>
                                     </RadioGroup>
                                 </div>
@@ -1279,6 +1388,126 @@ export const Onboarding: React.FC = () => {
         );
     }
 
+    // Generic schedule step for declarative plans: pick weekdays (suggested
+    // splits offered as one-tap chips) or an irregular rotation template like
+    // 2 days on / 1 day off, which runs the plan completion-driven.
+    if (step === 'schedule') {
+        const plan = getPlan(selectedProgramId ?? undefined);
+        const schedule = plan.schedule ?? {};
+        const daysPerWeek = plan.program.weeks[0]?.days.filter(d => d.exercises.length > 0).length ?? 0;
+        const weekDayLabels = tArray('common.daysShort');
+        const templates = schedule.irregularTemplates ?? [];
+
+        const continueFromSchedule = () => {
+            const planOnboarding = plan.onboarding;
+            if (!benchmarkLiftsFor([...(planOnboarding?.requiredStats ?? []), ...(planOnboarding?.seedStats ?? [])]).length) {
+                void enrolWithoutBenchmarks(plan.id);
+                return;
+            }
+            setStep('benchmark');
+        };
+
+        const toggleFixedDay = (dayNum: number) => {
+            setSelectedDays(prev => {
+                if (prev.includes(dayNum)) return prev.filter(d => d !== dayNum);
+                if (prev.length >= daysPerWeek) return prev;
+                return [...prev, dayNum].sort((a, b) => a - b);
+            });
+        };
+
+        return (
+            <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg">
+                    <CardHeader>
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2">
+                                <ArrowLeft className="h-5 w-5" />
+                            </Button>
+                            <CardTitle>{t('onboarding.schedule.title')}</CardTitle>
+                        </div>
+                        <CardDescription>{t('onboarding.schedule.desc', { count: daysPerWeek })}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        <RadioGroup
+                            value={scheduleMode === 'fixed' ? 'fixed' : `tpl:${selectedTemplate}`}
+                            onValueChange={(v) => {
+                                if (v === 'fixed') setScheduleMode('fixed');
+                                else {
+                                    setScheduleMode('rolling');
+                                    setSelectedTemplate(v.replace('tpl:', ''));
+                                }
+                            }}
+                            className="space-y-3"
+                        >
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="fixed" id="sched-fixed" />
+                                <Label htmlFor="sched-fixed" className="font-normal">{t('onboarding.schedule.fixedDays')}</Label>
+                            </div>
+                            {templates.map(tpl => (
+                                <div key={tpl.id} className="flex items-center space-x-2">
+                                    <RadioGroupItem value={`tpl:${tpl.id}`} id={`sched-${tpl.id}`} />
+                                    <Label htmlFor={`sched-${tpl.id}`} className="font-normal">
+                                        {t(`onboarding.schedule.templates.${tpl.id}`, { on: tpl.onDays, off: tpl.offDays })}
+                                    </Label>
+                                </div>
+                            ))}
+                        </RadioGroup>
+
+                        {scheduleMode === 'fixed' && (
+                            <div className="space-y-3">
+                                {(schedule.suggestedSplits ?? []).length > 0 && (
+                                    <div className="space-y-2">
+                                        <Label className="text-sm font-semibold">{t('onboarding.schedule.suggested')}</Label>
+                                        <div className="flex flex-wrap gap-2">
+                                            {(schedule.suggestedSplits ?? []).map(split => (
+                                                <button
+                                                    key={split.join('-')}
+                                                    type="button"
+                                                    onClick={() => setSelectedDays(split)}
+                                                    className={`px-3 py-1.5 border rounded text-xs font-medium transition-colors ${selectedDays.join('-') === split.join('-') ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted'}`}
+                                                >
+                                                    {split.map(d => weekDayLabels[d - 1] ?? d).join(' · ')}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="grid grid-cols-7 gap-1">
+                                    {Array.from({ length: 7 }, (_, i) => i + 1).map(dayNum => {
+                                        const isSelected = selectedDays.includes(dayNum);
+                                        return (
+                                            <div
+                                                key={dayNum}
+                                                onClick={() => toggleFixedDay(dayNum)}
+                                                className={`aspect-square flex items-center justify-center rounded cursor-pointer text-sm font-bold border transition-colors ${isSelected ? 'bg-primary text-primary-foreground border-primary' : 'bg-background hover:bg-muted'}`}
+                                            >
+                                                {weekDayLabels[dayNum - 1] ?? dayNum}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <p className="text-[10px] text-right text-muted-foreground">{selectedDays.length} / {daysPerWeek}</p>
+                            </div>
+                        )}
+
+                        {scheduleMode === 'rolling' && (
+                            <p className="text-sm text-muted-foreground">{t('onboarding.schedule.rollingNote')}</p>
+                        )}
+
+                        <Button
+                            className="w-full"
+                            size="lg"
+                            disabled={scheduleMode === 'fixed' && selectedDays.length !== daysPerWeek}
+                            onClick={continueFromSchedule}
+                        >
+                            {t('onboarding.nextExerciseSelection')}
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
     // Generic benchmark step. Which lifts appear comes from the plan's own
     // progressions, so this one form serves every declarative plan and asks for
     // nothing a plan doesn't actually read.
@@ -1293,7 +1522,7 @@ export const Onboarding: React.FC = () => {
                 <Card className="w-full max-w-lg border-primary/20 ">
                     <CardHeader>
                         <div className="flex items-center gap-2">
-                            <Button variant="ghost" size="icon" onClick={() => setStep('program')} className="-ml-2">
+                            <Button variant="ghost" size="icon" onClick={() => setStep(getPlan(selectedProgramId ?? undefined).schedule?.selectable ? 'schedule' : 'program')} className="-ml-2">
                                 <ArrowLeft className="h-5 w-5" />
                             </Button>
                             <CardTitle className="text-2xl">{t('onboarding.benchmark.title')}</CardTitle>
@@ -1328,6 +1557,7 @@ export const Onboarding: React.FC = () => {
                                             disabled={isUnknown}
                                             placeholder={`e.g. ${lift.placeholder}`}
                                             className="text-lg"
+                                            value={(stats as unknown as Record<string, number>)[stat] || ''}
                                             onChange={handleStatsChange}
                                         />
                                         <p className="text-xs text-muted-foreground">
@@ -1335,6 +1565,15 @@ export const Onboarding: React.FC = () => {
                                                 ? t('onboarding.benchmark.seedHint')
                                                 : t(`onboarding.benchmark.lifts.${lift.key}.hint`)}
                                         </p>
+                                        {benchmarkSuggestions[stat] && !isUnknown && (
+                                            <button
+                                                type="button"
+                                                onClick={() => setStats(prev => ({ ...prev, [stat]: benchmarkSuggestions[stat]!.kg }))}
+                                                className="text-xs font-medium text-primary hover:underline"
+                                            >
+                                                {t(`onboarding.benchmark.suggest.${benchmarkSuggestions[stat]!.source}`, { kg: benchmarkSuggestions[stat]!.kg })}
+                                            </button>
+                                        )}
                                         <label className="flex items-center gap-2 pt-1 cursor-pointer">
                                             <Checkbox
                                                 checked={isUnknown}

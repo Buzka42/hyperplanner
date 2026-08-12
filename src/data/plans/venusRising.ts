@@ -25,8 +25,8 @@ const phases = [
     { name: 'Rebirth', weeks: [12], transform: (s: SlotSpec) => ({ ...s, sets: s.sets >= 3 ? 2 : 1, rpe: 8 }) },
 ];
 
-const four = definePlan({ id: 'venus-rising', name: 'Venus Rising', weeks: 12, days: VENUS_FOUR_DAY, phases });
-const three = definePlan({ id: 'venus-rising-3day-internal', name: 'Venus Rising', weeks: 12, days: VENUS_THREE_DAY, phases });
+const four = definePlan({ id: 'venus-rising', name: 'Venus Rising', weeks: 12, defaultTempo: '20X0', days: VENUS_FOUR_DAY, phases });
+const three = definePlan({ id: 'venus-rising-3day-internal', name: 'Venus Rising', weeks: 12, defaultTempo: '20X0', days: VENUS_THREE_DAY, phases });
 
 export const effectiveVenusMode = (user: UserProfile, now = new Date().toISOString()): '3day' | '4day' => {
     const prefs = user.planPreferences?.['venus-rising'];
