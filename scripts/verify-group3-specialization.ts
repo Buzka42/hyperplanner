@@ -218,7 +218,25 @@ console.log('--- 2. OVERHEAD DOMINION (overhead-dominion) ---');
     // Exposure 2: Volume laterals & rears
     const latD2 = d2.exercises.find(e => e.exerciseId === 'cable-lateral-raise');
     const revPecD2 = d2.exercises.find(e => e.exerciseId === 'single-arm-reverse-pec-deck');
-    ok(latD2 && revPecD2 && latD2.sets === 4 && revPecD2.sets === 4, 'Day 2 has 4 sets cable lateral and 4 sets single arm reverse pec deck');
+    // §9.17.2 converts the delt isolation to hard-two + last-set-failure, so the
+    // volume rework shows up here as 2 sets carrying a failure set, not 4 straight.
+    ok(latD2 && revPecD2 && latD2.sets === 2 && revPecD2.sets === 2, 'Day 2 runs cable lateral and reverse pec deck as hard-two');
+    ok(latD2?.prescription?.technique?.kind === 'last-set-failure' && revPecD2?.prescription?.technique?.kind === 'last-set-failure', 'Day 2 delt isolation takes the last set to failure');
+
+    // §9.17.1 targets side ~12-16 and rear ~8-12 hard sets a week. Hard-two means
+    // that volume arrives as more lateral angles, not longer straight-set runs —
+    // so the floor is asserted on the weekly total, not on any single slot.
+    const SIDE_DELT = ['cable-lateral-raise', 'seated-dumbbell-lateral-raise', 'leaning-one-arm-lateral-raise'];
+    const REAR_DELT = ['rear-delt-fly', 'single-arm-reverse-pec-deck'];
+    for (const weekIndex of [0, 5]) {
+        let side = 0, rear = 0;
+        for (const day of cfg.program.weeks[weekIndex].days) for (const e of day.exercises) {
+            if (SIDE_DELT.includes(e.exerciseId)) side += e.sets;
+            if (REAR_DELT.includes(e.exerciseId)) rear += e.sets;
+        }
+        ok(side >= 12 && side <= 16, `week ${weekIndex + 1} side delts hit the 12-16 specialisation target (got ${side})`);
+        ok(rear >= 8 && rear <= 12, `week ${weekIndex + 1} rear delts hit the 8-12 target (got ${rear})`);
+    }
 
     // Exposure 3: Braced unilateral press
     const bracedD4 = d4.exercises.find(e => e.exerciseId === 'one-arm-braced-db-press');
@@ -362,7 +380,8 @@ console.log('--- 4. ARMS RACE (arms-race) ---');
     const bayesianCurl = d4.exercises.find(e => e.exerciseId === 'bayesian-cable-curl');
     const frenchPress = d4.exercises.find(e => e.exerciseId === 'french-press');
     ok(inclineCurl && bayesianCurl && frenchPress, 'Day 4 has Incline Lying DB Curl, Bayesian Cable Curl, and French Press');
-    ok(inclineCurl?.notes?.includes('behind the torso'), 'Incline curl notes stretch behind torso');
+    // The Bayesian curl now leads the lengthened day, so it carries the stretch cue.
+    ok(bayesianCurl?.notes?.includes('behind the torso'), 'Lengthened lead notes the stretch behind the torso');
 
     // Exposure 4: Density Supersets (A1/A2 and B1/B2)
     const a1 = d5.exercises.find(e => e.prescription?.pair === 'A1' || e.exerciseId === 'standing-straight-bar-curl');
@@ -376,11 +395,15 @@ console.log('--- 4. ARMS RACE (arms-race) ---');
     // 4.3 Phases: Escalation (W1-4) vs Proliferation (W5-8)
     const w1d1SbCurl = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'standing-straight-bar-curl')!;
     const w5d1SbCurl = cfg.program.weeks[4].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'standing-straight-bar-curl')!;
-    ok(w1d1SbCurl.sets === 5 && w5d1SbCurl.sets === 6, 'Straight Bar Curl gains +1 set in Proliferation (5 -> 6)');
+    // Proliferation now intensifies instead of adding raw volume: arm work keeps
+    // its set count and gains myo-reps (§9 Arms Race — "myo instead of +1 set").
+    ok(w1d1SbCurl.sets === 5 && w5d1SbCurl.sets === 5, 'Straight Bar Curl holds its sets in Proliferation');
+    ok(w5d1SbCurl.prescription?.technique?.kind === 'myo-reps', 'Straight Bar Curl gains myo-reps in Proliferation');
 
     const w1d2RevCurl = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 2)!.exercises.find(e => e.exerciseId === 'reverse-curl')!;
     const w5d2RevCurl = cfg.program.weeks[4].days.find(d => d.dayOfWeek === 2)!.exercises.find(e => e.exerciseId === 'reverse-curl')!;
-    ok(w1d2RevCurl.sets === 3 && w5d2RevCurl.sets === 4, 'Reverse Curl gains +1 set in Proliferation (3 -> 4)');
+    ok(w1d2RevCurl.sets === 3 && w5d2RevCurl.sets === 3, 'Reverse Curl holds its sets in Proliferation');
+    ok(w5d2RevCurl.prescription?.technique?.kind === 'myo-reps', 'Reverse Curl gains myo-reps in Proliferation');
 
     // Non-arm exercises hold sets
     const w1Hack = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 2)!.exercises.find(e => e.exerciseId === 'hack-squat')!;

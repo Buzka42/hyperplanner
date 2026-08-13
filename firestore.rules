@@ -149,10 +149,21 @@ service cloud.firestore {
           'completedSessions', 'lastAmrapDate', 'benchHistory', 'squatHistory', 'selectedDays', 'exercisePreferences',
           'benchDominationModules', 'benchDominationStatus', 'pencilneckStatus', 'skeletonStatus', 'painGloryStatus',
           'trinaryStatus', 'ritualStatus', 'superMutantStatus', 'houseOfIronStatus', 'apexPredatorStatus', 'athenaStatus', 'kaliStatus', 'redlineStatus', 'ironClockStatus', 'minimumStatus', 'lazarusStatus', 'quadfatherStatus', 'cathedralStatus', 'blackoutStatus', 'atlasStatus', 'eventHorizonStatus', 'projectChimeraStatus', 'oracleStatus', 'programProgress', 'badges', 'gluteMeasurements',
-          'pencilneckBenchHistory',
+          'pencilneckBenchHistory', 'scheduleMode', 'kingOfTheSquatStatus',
+          // Plan-efficiency overhaul: shared load memory and the plan trees that grew their own state.
+          'workingLoads', 'liftHistory', 'neuralOverloadStatus', 'tenfoldStatus', 'armMeasurements', 'adventureEquipment',
           // Exercise system
           'trainingPreferences', 'exerciseSwaps', 'planPreferences', 'isTestAccount', 'pendingCalibration'
         ]) &&
+        (!('scheduleMode' in data) || data.scheduleMode in ['fixed', 'rolling']) &&
+        (!('kingOfTheSquatStatus' in data) || (data.kingOfTheSquatStatus is map && data.kingOfTheSquatStatus.size() <= 4)) &&
+        // One entry per plan, each a map of exerciseId -> working load.
+        (!('workingLoads' in data) || (data.workingLoads is map && data.workingLoads.size() <= validPlanIds().size())) &&
+        (!('liftHistory' in data) || (data.liftHistory is map && data.liftHistory.size() <= 64)) &&
+        (!('neuralOverloadStatus' in data) || (data.neuralOverloadStatus is map && data.neuralOverloadStatus.size() <= 6)) &&
+        (!('tenfoldStatus' in data) || (data.tenfoldStatus is map && data.tenfoldStatus.size() <= 4)) &&
+        (!('armMeasurements' in data) || (data.armMeasurements is list && data.armMeasurements.size() <= 2000)) &&
+        (!('adventureEquipment' in data) || (data.adventureEquipment is list && data.adventureEquipment.size() <= 8)) &&
         (!('pendingCalibration' in data) || (data.pendingCalibration is list && data.pendingCalibration.size() <= 32)) &&
         (!('trainingPreferences' in data) || (data.trainingPreferences is map && data.trainingPreferences.size() <= 16)) &&
         (!('exerciseSwaps' in data) || (data.exerciseSwaps is map && data.exerciseSwaps.size() <= validPlanIds().size())) &&

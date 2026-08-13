@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { ATHENA_CONFIG, ATHENA_FOUR_DAY, ATHENA_THREE_DAY, effectiveAthenaMode } from '../src/data/plans/athena';
-import { deriveBackoffLoad, topSetCanProgress } from '../src/features/workout/engines/topSetBackoff';
+import { backoffPercentFor, deriveBackoffLoad, topSetCanProgress } from '../src/features/workout/engines/topSetBackoff';
 import { athenaProgression } from '../src/features/workout/progression/athena';
 import type { UserProfile } from '../src/types';
 
@@ -11,6 +11,13 @@ for (const [label, days, count] of [['4-day', ATHENA_FOUR_DAY, 4], ['3-day', ATH
 }
 ok(deriveBackoffLoad(101, 10, 2.5) === 90, 'back-off uses top load, 10%, and equipment rounding');
 ok(deriveBackoffLoad(100, 7.5, 5) === 95, 'slot override and increment rounding work');
+// The grind cut is a response to a ground-out top set, never the resting default.
+ok(backoffPercentFor(10, { rir: 2 }) === 10, 'a normal top set keeps the plan back-off');
+ok(backoffPercentFor(10, { rir: 0 }) === 15, 'RIR 0 deepens the cut to 15% for that session');
+ok(backoffPercentFor(10, { rpe: 9.5 }) === 15, 'RPE 9.5 deepens the cut to 15%');
+ok(backoffPercentFor(10, {}) === 10, 'missing top-set metadata falls back to the plan back-off');
+ok(backoffPercentFor(20, { rir: 0 }) === 20, 'a plan that already cuts deeper than 15% keeps its own');
+ok(deriveBackoffLoad(100, backoffPercentFor(10, { rir: 0 }), 2.5) === 85, 'a ground-out 100kg top set backs off to 85kg');
 ok(topSetCanProgress({ completed: true, reps: 6, targetMaxReps: 6, rir: 2, quality: 'clean' }), 'clean upper-target top set progresses');
 for (const input of [
     { completed: false, reps: 6, rir: 1, quality: 'clean' as const },

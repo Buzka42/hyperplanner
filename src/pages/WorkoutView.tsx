@@ -26,7 +26,7 @@ import { selectVariation } from '../data/trinary';
 import { createWorkoutWithPerformanceProfile, extractPerformanceObservations } from '../features/performanceProfile';
 import { APEX_ACCESS } from '../data/apexAccess';
 import { nextRomLevel } from '../features/apexPredator/assessment';
-import { deriveBackoffLoad } from '../features/workout/engines/topSetBackoff';
+import { backoffPercentFor, deriveBackoffLoad } from '../features/workout/engines/topSetBackoff';
 import { EXERCISE_BY_ID } from '../data/exercises/library';
 import { BlockTimer } from '../features/redline/BlockTimer';
 
@@ -1091,7 +1091,7 @@ export const WorkoutView: React.FC = () => {
             const config = activeExercise.prescription?.topSetBackoff;
             const topWeight = Number(activeSet.weight);
             const derived = config && activeSetIndex === 0 && Number.isFinite(topWeight) && topWeight > 0
-                ? String(deriveBackoffLoad(topWeight, config.backoffPercent, config.incrementKg)) : null;
+                ? String(deriveBackoffLoad(topWeight, backoffPercentFor(config.backoffPercent, activeSet), config.incrementKg)) : null;
             return { ...prev, [activeExercise.id]: (prev[activeExercise.id] || []).map((set, index) => {
                 if (index === activeSetIndex) return { ...set, completed: true };
                 if (derived && index > 0 && !set.weight) return { ...set, weight: derived };

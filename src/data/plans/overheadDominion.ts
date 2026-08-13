@@ -27,6 +27,10 @@ const OVERHEAD_STRENGTH: DaySpec = {
         },
         { ex: 'weighted-chin-up', sets: 5, reps: '5-8', restSeconds: 180 },
         { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        // Side delts carry the plan's specialisation target (§9.17.1, ~12-16 hard
+        // sets). Hard-two keeps every set honest, so the volume comes from a
+        // second angle rather than a longer straight-set run.
+        { ex: 'leaning-one-arm-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         { ex: 'rope-pressdown', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
@@ -37,6 +41,7 @@ const DELTS_AND_LEGS: DaySpec = {
     dayOfWeek: 2,
     slots: [
         { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'seated-dumbbell-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         { ex: 'single-arm-reverse-pec-deck', sets: 2, reps: '12-20', restSeconds: 60, notes: 'Per side.', technique: { kind: 'last-set-failure' } },
         { ex: 'hack-squat', sets: 3, reps: '8-12', restSeconds: 150 },
         { ex: 'seated-ham-curl', sets: 3, reps: '8-12', restSeconds: 90 },
@@ -60,7 +65,8 @@ const SHOULDER_HYPERTROPHY: DaySpec = {
             notes: 'Weaker side first; the stronger side matches its reps.',
         },
         { ex: 'hammer-upper-row', sets: 4, reps: '8-12', restSeconds: 120 },
-        { ex: 'seated-dumbbell-lateral-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'seated-dumbbell-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'leaning-one-arm-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         { ex: 'rear-delt-fly', sets: 3, reps: '15-25', restSeconds: 60 },
         { ex: 'incline-dumbbell-bench-press', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'cable-curl', sets: 3, reps: '10-15', restSeconds: 60 },

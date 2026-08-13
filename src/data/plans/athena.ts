@@ -22,9 +22,9 @@ export const ATHENA_THREE_DAY: DaySpec[] = [
 
 const phases = [
     { name: 'Wisdom', weeks: [1, 2, 3, 4] },
-    { name: 'Discipline', weeks: [5, 6, 7, 8], transform: (slot: SlotSpec) => slot.primary ? { ...slot, progression: { type: 'top-set-backoff' as const, topReps: [4, 6] as [number, number], backoffPercent: 15, backoffSets: slot.sets - 1, backoffReps: [6, 8] as [number, number], incrementKg: 2.5 } } : slot },
-    { name: 'Command', weeks: [9, 10, 11], transform: (slot: SlotSpec) => slot.primary ? { ...slot, progression: { type: 'top-set-backoff' as const, topReps: [3, 5] as [number, number], backoffPercent: 15, backoffSets: Math.max(1, slot.sets - 1), backoffReps: [5, 7] as [number, number], incrementKg: 2.5 } } : slot },
-    { name: 'Judgment', weeks: [12], transform: (slot: SlotSpec) => slot.primary ? { ...slot, sets: Math.min(slot.sets, 3), notes: 'Default: a confident single. AMRAP is opt-in only.', progression: { type: 'top-set-backoff' as const, topReps: [1, 3] as [number, number], backoffPercent: 15, backoffSets: Math.min(2, slot.sets - 1), backoffReps: [5, 7] as [number, number], incrementKg: 2.5 } } : { ...slot, sets: Math.max(1, slot.sets - 1) } },
+    { name: 'Discipline', weeks: [5, 6, 7, 8], transform: (slot: SlotSpec) => slot.primary ? { ...slot, progression: { type: 'top-set-backoff' as const, topReps: [4, 6] as [number, number], backoffPercent: 10, backoffSets: slot.sets - 1, backoffReps: [6, 8] as [number, number], incrementKg: 2.5 } } : slot },
+    { name: 'Command', weeks: [9, 10, 11], transform: (slot: SlotSpec) => slot.primary ? { ...slot, progression: { type: 'top-set-backoff' as const, topReps: [3, 5] as [number, number], backoffPercent: 10, backoffSets: Math.max(1, slot.sets - 1), backoffReps: [5, 7] as [number, number], incrementKg: 2.5 } } : slot },
+    { name: 'Judgment', weeks: [12], transform: (slot: SlotSpec) => slot.primary ? { ...slot, sets: Math.min(slot.sets, 3), notes: 'Default: a confident single. AMRAP is opt-in only.', progression: { type: 'top-set-backoff' as const, topReps: [1, 3] as [number, number], backoffPercent: 10, backoffSets: Math.min(2, slot.sets - 1), backoffReps: [5, 7] as [number, number], incrementKg: 2.5 } } : { ...slot, sets: Math.max(1, slot.sets - 1) } },
 ];
 
 const four = definePlan({ id: 'athena', name: 'Athena', weeks: 12, defaultTempo: '20X0', days: ATHENA_FOUR_DAY, phases });

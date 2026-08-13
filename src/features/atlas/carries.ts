@@ -63,6 +63,8 @@ export const APPROVED_HINGES = ['trap-bar-deadlift', 'conventional-deadlift', 's
 /** Optional power work. Never required, never a progression input. */
 export const POWER_POOL = ['kettlebell-swing', 'kettlebell-shoulder-press', 'turkish-get-up'];
 
+export const isPowerWork = (exerciseId: string): boolean => POWER_POOL.includes(exerciseId);
+
 export const nextCarryFor = (exerciseId: string, limiter: CarryLimiter): string => {
     if (limiter === 'grip' && exerciseId === 'farmer-carry') return 'suitcase-hold';
     if (limiter === 'grip' && exerciseId === 'suitcase-carry') return 'farmer-carry';

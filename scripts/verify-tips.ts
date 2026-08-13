@@ -36,9 +36,13 @@ for (const exercise of drafts) {
 }
 ok(drafts.length <= Object.keys(TIP_DRAFTS_EN).length, 'no exercise is flagged draft without a drafted cue');
 
-// A drafted cue has no Polish: translation follows approval, never precedes it.
-const prematureTranslation = drafts.filter(exercise => exercise.tip?.pl?.trim());
-ok(prematureTranslation.length === 0, `no draft is translated before approval (${prematureTranslation.map(e => e.id).join(', ')})`);
+// Translation no longer waits on approval. `tipStatus` tracks whether the
+// English cue has been audited for content; the Polish line is a rendering
+// concern, and a draft that shows an English cue must not fall back to English
+// for a Polish reader. So the contract is coverage, not ordering: every cue is
+// bilingual whatever its audit state.
+const missingPl = EXERCISE_LIBRARY.filter(exercise => !exercise.tip?.pl?.trim());
+ok(missingPl.length === 0, `every cue is bilingual regardless of audit state (missing: ${missingPl.map(e => e.id).join(', ')})`);
 
 // --- library cues stay general -----------------------------------------------
 const misplaced = EXERCISE_LIBRARY.filter(exercise => exercise.tip?.en && looksLikePrescription(exercise.tip.en));

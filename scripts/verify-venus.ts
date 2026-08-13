@@ -8,7 +8,9 @@ for (const [name, days] of [['4-day', VENUS_FOUR_DAY], ['3-day', VENUS_THREE_DAY
     ok(days.length === (name === '4-day' ? 4 : 3), `${name} has correct frequency`);
     for (const day of days) {
         const sets = day.slots.reduce((sum, slot) => sum + slot.sets, 0);
-        ok(sets >= 15 && sets <= 16, `${name} ${day.name} stays at 15–16 sets`);
+        // Upper A runs to 17: the chest and side-delt floor (§9.9) was worth the
+        // extra set, and the owner took it rather than cutting back elsewhere.
+        ok(sets >= 15 && sets <= 17, `${name} ${day.name} stays at 15–17 sets`);
     }
 }
 ok(VENUS_RISING_CONFIG.program.weeks.length === 12, 'plan has 12 weeks');
