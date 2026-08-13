@@ -12,6 +12,7 @@ import { Checkbox } from '../components/ui/checkbox';
 import { Save, CheckCircle2 } from 'lucide-react';
 import { doc, updateDoc } from 'firebase/firestore';
 import type { TrainingPreferences } from '../data/exercises/types';
+import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8 } from '../features/planSelections/options';
 import { db } from '../firebase';
 import { PENCILNECK_PROGRAM } from '../data/pencilneck';
 import { BENCH_DOMINATION_PROGRAM } from '../data/program';
@@ -108,9 +109,16 @@ export const Settings: React.FC = () => {
     const [trainingPrefs, setTrainingPrefs] = useState<TrainingPreferences>(
         () => user?.trainingPreferences ?? {}
     );
+    const [kaliPull, setKaliPull] = useState(user?.planPreferences?.kali?.exerciseSelections?.pullAnchor ?? 'assisted-pull-up');
+    const [kaliWeek8, setKaliWeek8] = useState(user?.planPreferences?.kali?.exerciseSelections?.week8Intensifier ?? 'none');
+    const [gravityAbs, setGravityAbs] = useState(user?.planPreferences?.['gravity-is-optional']?.exerciseSelections?.abs ?? user?.trainingPreferences?.coreRaiseId ?? 'hanging-leg-raise');
     useEffect(() => {
         if (user?.trainingPreferences) setTrainingPrefs(user.trainingPreferences);
-    }, [user?.trainingPreferences]);
+        if (user?.planPreferences?.kali?.exerciseSelections?.pullAnchor) setKaliPull(user.planPreferences.kali.exerciseSelections.pullAnchor);
+        if (user?.planPreferences?.kali?.exerciseSelections?.week8Intensifier) setKaliWeek8(user.planPreferences.kali.exerciseSelections.week8Intensifier);
+        const abs = user?.planPreferences?.['gravity-is-optional']?.exerciseSelections?.abs ?? user?.trainingPreferences?.coreRaiseId;
+        if (abs) setGravityAbs(abs);
+    }, [user?.trainingPreferences, user?.planPreferences]);
 
     const handleSave = async () => {
         if (!user) return;
@@ -144,7 +152,37 @@ export const Settings: React.FC = () => {
                 }
             }
 
-            updates.trainingPreferences = trainingPrefs;
+            updates.trainingPreferences = {
+                ...trainingPrefs,
+                coreRaiseId: gravityAbs || trainingPrefs.coreRaiseId,
+            };
+
+            if (user.programId === 'kali') {
+                const now = new Date().toISOString();
+                updates.planPreferences = {
+                    ...(user.planPreferences ?? {}),
+                    kali: {
+                        scheduleMode: user.planPreferences?.kali?.scheduleMode ?? '4day',
+                        updatedAt: now,
+                        exerciseSelections: {
+                            ...(user.planPreferences?.kali?.exerciseSelections ?? {}),
+                            pullAnchor: kaliPull,
+                            week8Intensifier: kaliWeek8 === 'none' ? '' : kaliWeek8,
+                        },
+                    },
+                };
+            }
+            if (user.programId === 'gravity-is-optional') {
+                const now = new Date().toISOString();
+                updates.planPreferences = {
+                    ...(user.planPreferences ?? {}),
+                    'gravity-is-optional': {
+                        scheduleMode: user.planPreferences?.['gravity-is-optional']?.scheduleMode ?? '4day',
+                        updatedAt: now,
+                        exerciseSelections: { abs: gravityAbs },
+                    },
+                };
+            }
 
             if (Object.keys(updates).length > 0) {
                 await updateDoc(userRef, updates);
@@ -476,6 +514,29 @@ export const Settings: React.FC = () => {
                                     setSaved(false);
                                 }}
                             />
+
+                            <div className="space-y-3 p-4 border rounded-none bg-background">
+                                <div className="space-y-1">
+                                    <h4 className="font-semibold">Bench tempo</h4>
+                                    <p className="text-sm text-muted-foreground">Display only. Competition pause stays the default; touch-and-go does not change the formula.</p>
+                                </div>
+                                <RadioGroup
+                                    value={benchModules.pauseStyle || 'paused'}
+                                    onValueChange={(v) => {
+                                        setBenchModules(prev => ({ ...prev, pauseStyle: v as 'paused' | 'touch-and-go' }));
+                                        setSaved(false);
+                                    }}
+                                >
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="paused" id="pause-paused" />
+                                        <Label htmlFor="pause-paused">Paused (11X0)</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="touch-and-go" id="pause-tng" />
+                                        <Label htmlFor="pause-tng">Touch-and-go (10X0)</Label>
+                                    </div>
+                                </RadioGroup>
+                            </div>
                         </CardContent>
                     </Card>
 
@@ -788,8 +849,50 @@ export const Settings: React.FC = () => {
                     <CardHeader>
                         <CardTitle>{t('settings.programSettings')}</CardTitle>
                     </CardHeader>
-                    <CardContent>
-                        <p className="text-muted-foreground">{t('settings.noConfigurableSettings')}</p>
+                    <CardContent className="space-y-6">
+                        {user?.programId === 'kali' && (
+                            <>
+                                <div className="space-y-2">
+                                    <Label>Pull anchor (Hunt day)</Label>
+                                    <RadioGroup value={kaliPull} onValueChange={v => { setKaliPull(v); setSaved(false); }}>
+                                        {KALI_PULL_ANCHORS.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`set-kali-${option.id}`} />
+                                                <Label htmlFor={`set-kali-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Week 8 intensifier repeat</Label>
+                                    <RadioGroup value={kaliWeek8} onValueChange={v => { setKaliWeek8(v); setSaved(false); }}>
+                                        {KALI_WEEK8.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`set-kali-w8-${option.id}`} />
+                                                <Label htmlFor={`set-kali-w8-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                            </>
+                        )}
+                        <div className="space-y-2">
+                            <Label>Hanging Leg Raise alternative</Label>
+                            <p className="text-sm text-muted-foreground">Used wherever a plan prescribes hanging leg raises{user?.programId === 'gravity-is-optional' ? ', and for Gravity’s other ab slot.' : '.'}</p>
+                            <RadioGroup value={gravityAbs} onValueChange={v => { setGravityAbs(v); setSaved(false); }}>
+                                {CORE_RAISE_OPTIONS.map(option => (
+                                    <div key={option.id} className="flex items-start space-x-2">
+                                        <RadioGroupItem value={option.id} id={`set-abs-${option.id}`} className="mt-1" />
+                                        <Label htmlFor={`set-abs-${option.id}`} className="font-normal">
+                                            <span className="font-semibold capitalize">{option.level}</span>
+                                            {' — '}
+                                            {option.label}
+                                            <span className="block text-xs text-muted-foreground">{option.hint}</span>
+                                        </Label>
+                                    </div>
+                                ))}
+                            </RadioGroup>
+                        </div>
                     </CardContent>
                 </Card>
             )}

@@ -15,6 +15,12 @@ import { superMutantProgression } from './superMutant';
 import { trinaryProgression } from './trinary';
 import { houseOfIronProgression } from './houseOfIron';
 import { athenaProgression } from './athena';
+import { kingOfTheSquatProgression } from './kingOfTheSquat';
+import { genericDoubleProgression } from './genericDouble';
+import { neuralOverloadProgression } from './neuralOverload';
+import { tenfoldProgression } from './tenfold';
+import { atlasProgression } from './atlas';
+import { oracleProgression } from './oracle';
 import type { ProgressionHandler } from './types';
 
 export * from './types';
@@ -31,4 +37,12 @@ export const PROGRESSION_HANDLERS: Record<string, ProgressionHandler> = {
     'trinary': trinaryProgression,
     'house-of-iron': houseOfIronProgression,
     'athena': athenaProgression,
+    'king-of-the-squat': kingOfTheSquatProgression,
+    'neural-overload': neuralOverloadProgression,
+    tenfold: tenfoldProgression,
+    atlas: atlasProgression,
+    oracle: oracleProgression,
 };
+
+export const progressionHandlerFor = (planId: string): ProgressionHandler | undefined =>
+    PROGRESSION_HANDLERS[planId] ?? genericDoubleProgression;

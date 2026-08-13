@@ -22,9 +22,18 @@ import type { LoggedSet, ProgressionContext, ProgressionResult } from './types';
 
 const INCREMENT = 2.5;
 const MONDAY = 1;
+const WEDNESDAY = 3;
 const SATURDAY = 6;
 const REACTIVE_DELOAD_REPS = 7;
 const BIG_DROP_PERCENT = 15;
+
+/** Saturday AMRAP must hit this many reps to add +2.5 kg to the paused-bench base. */
+export const amrapRepThreshold = (week: number): number => {
+    if (week >= 13) return 6;
+    if (week >= 10) return 8;
+    if (week >= 7) return 10;
+    return 12;
+};
 
 const topOfRange = (reps: string): number => {
     const parts = reps.split('-').map(Number);
@@ -34,7 +43,7 @@ const topOfRange = (reps: string): number => {
 const firstWeight = (sets: LoggedSet[]): number => parseFloat(sets[0]?.weight || '0');
 
 const allSetsReach = (sets: LoggedSet[], target: number): boolean =>
-    workSets(sets).every(s => parseInt(s.reps) >= target);
+    workSets(sets).every(s => s.completed && parseInt(s.reps) >= target);
 
 // ---------------------------------------------------------------------------
 // Accessory progressions
@@ -44,6 +53,7 @@ const accessories = (ctx: ProgressionContext): ProgressionResult => {
     if (ctx.isExistingLog) return empty();
 
     const stats: Record<string, number> = {};
+    const statusUpdates: Record<string, unknown> = {};
     let history: ProgressionResult['appends'] = [];
     let pullupOneRepMax: number | undefined;
 
@@ -67,6 +77,17 @@ const accessories = (ctx: ProgressionContext): ProgressionResult => {
                         actualReps: reps,
                     },
                 }];
+                const easy = Boolean(ctx.user.benchDominationStatus?.wednesdayVolumeEasy);
+                statusUpdates['benchDominationStatus.saturdayBackoffBump'] = easy && reps >= amrapRepThreshold(ctx.week);
+                statusUpdates['benchDominationStatus.wednesdayVolumeEasy'] = false;
+            }
+        }
+
+        if (ctx.day === WEDNESDAY && exercise.name === 'Paused Bench Press') {
+            const rirs = workSets(sets).map(s => s.rir).filter((n): n is number => typeof n === 'number');
+            if (rirs.length) {
+                const avg = rirs.reduce((a, b) => a + b, 0) / rirs.length;
+                statusUpdates['benchDominationStatus.wednesdayVolumeEasy'] = avg >= 3;
             }
         }
 
@@ -114,7 +135,7 @@ const accessories = (ctx: ProgressionContext): ProgressionResult => {
 
     // Dotted paths rather than replacing the whole stats object, so a
     // concurrent write to an unrelated stat cannot be clobbered.
-    const updates: Record<string, unknown> = {};
+    const updates: Record<string, unknown> = { ...statusUpdates };
     for (const [key, value] of Object.entries(stats)) updates[`stats.${key}`] = value;
     if (pullupOneRepMax !== undefined) updates.pullup1RM = pullupOneRepMax;
 

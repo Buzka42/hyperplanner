@@ -7,9 +7,9 @@ const slot = (ex: string, sets: number, reps = '8-12', restSeconds = 75): SlotSp
 
 export const VENUS_FOUR_DAY: DaySpec[] = [
     { name: 'Lower A — Quads + Glutes', dayOfWeek: 1, slots: [slot('hack-squat', 3), slot('front-foot-elevated-bulgarian-split-squat', 3), slot('seated-hamstring-curl', 2), slot('leg-extension', 2), slot('machine-hip-abduction', 2), slot('hack-calf-raise', 2), slot('ab-wheel', 1)] },
-    { name: 'Upper A — Back + Delts', dayOfWeek: 2, slots: [slot('assisted-pull-up', 3), slot('single-arm-hammer-row', 3), slot('incline-dumbbell-bench-press', 2), slot('lateral-raise', 3, '12-20', 60), slot('single-arm-reverse-pec-deck', 2, '12-20', 60), slot('bayesian-cable-curl', 1, '10-15', 60), slot('overhead-tricep-extension', 1, '10-15', 60)] },
+    { name: 'Upper A — Back + Delts', dayOfWeek: 2, slots: [slot('assisted-pull-up', 3), slot('single-arm-hammer-row', 3), slot('incline-dumbbell-bench-press', 3), slot('lateral-raise', 4, '12-20', 60), slot('single-arm-reverse-pec-deck', 2, '12-20', 60), slot('bayesian-cable-curl', 1, '10-15', 60), slot('overhead-tricep-extension', 1, '10-15', 60)] },
     { name: 'Lower B — Glutes + Posterior Chain', dayOfWeek: 4, slots: [slot('hip-thrust', 3), slot('romanian-deadlift', 3), slot('deficit-reverse-lunge', 3), slot('supported-sissy-squat', 2, '10-15'), slot('lying-leg-curl', 2), slot('hack-calf-raise', 2)] },
-    { name: 'Upper B — Shape', dayOfWeek: 5, slots: [slot('single-arm-hammer-row', 3), slot('flat-dumbbell-press', 3), slot('dumbbell-pullover', 2), slot('seated-dumbbell-shoulder-press', 2), slot('lateral-raise', 3, '12-20', 60), slot('hammer-curl', 1), slot('cable-triceps-extension', 1)] },
+    { name: 'Upper B — Shape', dayOfWeek: 5, slots: [slot('single-arm-hammer-row', 3), slot('flat-dumbbell-press', 3), slot('pec-deck', 2), slot('seated-dumbbell-shoulder-press', 1), slot('lateral-raise', 4, '12-20', 60), slot('hammer-curl', 1), slot('cable-triceps-extension', 1)] },
 ];
 
 export const VENUS_THREE_DAY: DaySpec[] = [

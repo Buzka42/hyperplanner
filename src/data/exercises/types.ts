@@ -323,7 +323,8 @@ export type IntensityTechniqueSpec =
     | { kind: 'total-reps'; targetReps: number; maxSets?: number }
     | { kind: 'back-off'; percent: number; sets: number; reps: string }
     | { kind: 'wave'; ladder: number[]; waves: number }
-    | { kind: 'amrap-finisher' };
+    | { kind: 'amrap-finisher' }
+    | { kind: 'last-set-failure' };
 
 export type TechniqueKind = IntensityTechniqueSpec['kind'];
 
@@ -464,6 +465,8 @@ export type TrainingPreferences = {
      * top, Polish underneath in small type. 'pl' flips the priority.
      */
     exerciseNamePriority?: 'en' | 'pl';
+    /** Replaces hanging-leg-raise everywhere it is prescribed. */
+    coreRaiseId?: ExerciseId;
 };
 
 /** planId → exerciseId → chosen replacement exerciseId. */
@@ -504,6 +507,7 @@ export type ResolvedExercise = {
     sets: number;
     target: SetTarget;
     notes?: string;
+    predictedKg?: number;
     rest?: string;
     giantSetConfig?: { steps: { name: string; targetReps: string; inputPlaceholder?: string; editableWeight?: boolean }[] };
     warmups?: { sets: { reps: string; weight: string; completed?: boolean }[]; note?: string };

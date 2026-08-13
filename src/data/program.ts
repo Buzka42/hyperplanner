@@ -1008,7 +1008,8 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 // the chest, explosive off. Spoto keeps a 1s hover pause; the
                 // low pin press restarts from a dead stop each rep.
                 if (ex.name.startsWith("Paused Bench Press")) {
-                    ex.prescription = { ...ex.prescription, tempo: "11X0" };
+                    const touchAndGo = user.benchDominationModules?.pauseStyle === 'touch-and-go';
+                    ex.prescription = { ...ex.prescription, tempo: touchAndGo ? "10X0" : "11X0" };
                 } else if (ex.name === "Spoto Press") {
                     ex.prescription = { ...ex.prescription, tempo: "11X0" };
                 } else if (ex.name === "Low Pin Press") {
@@ -1309,6 +1310,10 @@ export const BENCH_DOMINATION_CONFIG: PlanConfig = {
                 } else {
                     // Heavy (Mon) and Power (Thu): round to nearest with safety cap
                     finalWeight = roundToNearest2_5WithCap(rawWeight);
+                }
+
+                if (exerciseName === 'Paused Bench Press (Back-off)' && user.benchDominationStatus?.saturdayBackoffBump) {
+                    finalWeight += 2.5;
                 }
 
                 return finalWeight.toString();

@@ -180,6 +180,22 @@ export const LIBRARY_ADDITIONS: LibraryExercise[] = [
         status: 'active',
     },
     {
+        id: 'high-bar-squat',
+        name: { en: 'High Bar Squat', pl: 'Przysiad high-bar' },
+        aliases: ['High-Bar Squat', 'Highbar Squat'],
+        pattern: 'squat',
+        primary: ['quads', 'glutes'],
+        secondary: ['hamstrings', 'adductors'],
+        equipment: ['barbell'],
+        weightMode: 'external',
+        swapGroup: 'squat-heavy',
+        tip: {
+            en: 'Bar on the traps, more upright than low-bar. Break at the knees and hips together; depth is still below parallel.',
+            pl: 'Sztanga na kapturach, tułów bardziej pionowy niż przy low-barze. Kolana i biodra razem; głębokość nadal poniżej równoległej.',
+        },
+        status: 'active',
+    },
+    {
         id: 'split-squat',
         name: { en: 'Split Squat', pl: 'Przysiad bułgarski (w rozkroku)' },
         aliases: ['Static Lunge'],

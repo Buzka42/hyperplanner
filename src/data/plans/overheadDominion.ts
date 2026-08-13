@@ -26,9 +26,9 @@ const OVERHEAD_STRENGTH: DaySpec = {
             notes: 'Strict. If the knees bend, the set is over.',
         },
         { ex: 'weighted-chin-up', sets: 5, reps: '5-8', restSeconds: 180 },
-        { ex: 'cable-lateral-raise', sets: 3, reps: '12-20', restSeconds: 60 },
-        { ex: 'rope-pressdown', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
+        { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'rope-pressdown', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -36,8 +36,8 @@ const DELTS_AND_LEGS: DaySpec = {
     name: 'Delts + Legs',
     dayOfWeek: 2,
     slots: [
-        { ex: 'cable-lateral-raise', sets: 4, reps: '12-20', restSeconds: 60 },
-        { ex: 'single-arm-reverse-pec-deck', sets: 4, reps: '12-20', restSeconds: 60, notes: 'Per side.' },
+        { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'single-arm-reverse-pec-deck', sets: 2, reps: '12-20', restSeconds: 60, notes: 'Per side.', technique: { kind: 'last-set-failure' } },
         { ex: 'hack-squat', sets: 3, reps: '8-12', restSeconds: 150 },
         { ex: 'seated-ham-curl', sets: 3, reps: '8-12', restSeconds: 90 },
         // Second weekly chest exposure. The doc calls for chest 2x, but its own
@@ -95,9 +95,11 @@ export const OVERHEAD_DOMINION_CONFIG = definePlan({
             name: 'Artillery',
             weeks: [6, 7, 8, 9, 10],
             // Later block moves the press onto 5/3/2 waves, per the doc.
-            transform: slot =>
+            transform: (slot, ctx) =>
                 slot.ex === 'standing-barbell-military-press'
-                    ? { ...slot, reps: '3', sets: 5, technique: { kind: 'wave', ladder: [5, 3, 2], waves: 2 } }
+                    ? ctx.week >= 9
+                        ? { ...slot, reps: '3', sets: 5, notes: 'Weeks 9–10: optional push-press on the top set only. Strict on the rest.', technique: { kind: 'wave', ladder: [5, 3, 2], waves: 2 } }
+                        : { ...slot, reps: '3', sets: 5, technique: { kind: 'wave', ladder: [5, 3, 2], waves: 2 } }
                     : slot,
         },
     ],

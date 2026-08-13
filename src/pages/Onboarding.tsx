@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { useLanguage } from '../contexts/useTranslation';
-import type { LiftingStats } from '../types';
+import type { LiftingStats, UserProfile } from '../types';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
@@ -28,8 +28,9 @@ import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { doc, updateDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { epley } from '../features/workout/progression/types';
+import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8, needsPlanSelections } from '../features/planSelections/options';
 
-type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules' | 'super-mutant-stats' | 'benchmark' | 'schedule';
+type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules' | 'super-mutant-stats' | 'benchmark' | 'schedule' | 'plan-selections';
 
 export const Onboarding: React.FC = () => {
     const { state } = useLocation();
@@ -70,6 +71,9 @@ export const Onboarding: React.FC = () => {
     });
 
     const [trinaryMeRepMaxStyle, setTrinaryMeRepMaxStyle] = useState<'1rm' | '3rm'>('3rm');
+    const [kaliPull, setKaliPull] = useState('assisted-pull-up');
+    const [kaliWeek8, setKaliWeek8] = useState('none');
+    const [coreRaise, setCoreRaise] = useState('hanging-leg-raise');
 
     const [stats, setStats] = useState<LiftingStats>({
         pausedBench: 0,
@@ -147,6 +151,10 @@ export const Onboarding: React.FC = () => {
                 setSelectedDays([]);
                 setScheduleMode('fixed');
                 setStep('schedule');
+                return;
+            }
+            if (needsPlanSelections(pid)) {
+                setStep('plan-selections');
                 return;
             }
             // Plans whose progressions read no maxes have nothing to ask for.
@@ -466,6 +474,28 @@ export const Onboarding: React.FC = () => {
      * Its loads come from double progression against the athlete's own logged
      * sets, so there is nothing to collect and nothing to calibrate.
      */
+    const selectionProfile = (planId: string): Partial<UserProfile> => {
+        const now = new Date().toISOString();
+        const planPreferences = { ...(user?.planPreferences ?? {}) };
+        const trainingPreferences = { ...(user?.trainingPreferences ?? {}) };
+        if (planId === 'kali') {
+            planPreferences.kali = {
+                scheduleMode: '4day',
+                updatedAt: now,
+                exerciseSelections: { pullAnchor: kaliPull, ...(kaliWeek8 !== 'none' ? { week8Intensifier: kaliWeek8 } : {}) },
+            };
+        }
+        if (planId === 'gravity-is-optional') {
+            planPreferences['gravity-is-optional'] = {
+                scheduleMode: '4day',
+                updatedAt: now,
+                exerciseSelections: { abs: coreRaise },
+            };
+            trainingPreferences.coreRaiseId = coreRaise;
+        }
+        return { planPreferences, trainingPreferences };
+    };
+
     const enrolWithoutBenchmarks = async (planId: string) => {
         const blankStats: LiftingStats = { pausedBench: 0, wideGripBench: 0, spotoPress: 0, lowPinPress: 0 };
         try {
@@ -475,11 +505,12 @@ export const Onboarding: React.FC = () => {
                     pendingCalibration: [],
                     selectedDays: scheduleMode === 'fixed' ? selectedDays : [],
                     scheduleMode,
+                    ...selectionProfile(planId),
                 });
                 await switchProgram(planId);
             } else {
                 if (!codeword) throw new Error('No codeword found. Please restart.');
-                await registerUser(codeword, blankStats, planId, scheduleMode === 'fixed' ? selectedDays : [], {}, undefined, { pendingCalibration: [], scheduleMode });
+                await registerUser(codeword, blankStats, planId, scheduleMode === 'fixed' ? selectedDays : [], {}, undefined, { pendingCalibration: [], scheduleMode, ...selectionProfile(planId) });
             }
             navigate('/app/dashboard');
         } catch (err: unknown) {
@@ -503,6 +534,15 @@ export const Onboarding: React.FC = () => {
             else entered[stat] = value;
         }
 
+        if (onboarding?.requireBodyweight) {
+            const kg = stats.bodyweightKg ?? 0;
+            if (!kg || kg <= 0) {
+                alert(t('onboarding.benchmark.bodyweightRequired') || 'Bodyweight is required for this plan.');
+                return;
+            }
+            entered.bodyweightKg = kg;
+        }
+
         // The bench-family keys are non-optional on LiftingStats; anything this
         // plan doesn't use stays 0 and is simply never read.
         const finalStats: LiftingStats = {
@@ -517,11 +557,12 @@ export const Onboarding: React.FC = () => {
                     pendingCalibration,
                     selectedDays: scheduleMode === 'fixed' ? selectedDays : [],
                     scheduleMode,
+                    ...selectionProfile(selectedProgramId),
                 });
                 await switchProgram(selectedProgramId);
             } else {
                 if (!codeword) throw new Error("No codeword found. Please restart.");
-                await registerUser(codeword, finalStats, selectedProgramId, scheduleMode === 'fixed' ? selectedDays : [], {}, undefined, { pendingCalibration, scheduleMode });
+                await registerUser(codeword, finalStats, selectedProgramId, scheduleMode === 'fixed' ? selectedDays : [], {}, undefined, { pendingCalibration, scheduleMode, ...selectionProfile(selectedProgramId) });
             }
             navigate('/app/dashboard');
         } catch (err: any) {
@@ -1391,6 +1432,80 @@ export const Onboarding: React.FC = () => {
     // Generic schedule step for declarative plans: pick weekdays (suggested
     // splits offered as one-tap chips) or an irregular rotation template like
     // 2 days on / 1 day off, which runs the plan completion-driven.
+    if (step === 'plan-selections') {
+        const plan = getPlan(selectedProgramId ?? undefined);
+        const continueFromSelections = () => {
+            const planOnboarding = plan.onboarding;
+            if (!benchmarkLiftsFor([...(planOnboarding?.requiredStats ?? []), ...(planOnboarding?.seedStats ?? [])]).length) {
+                void enrolWithoutBenchmarks(plan.id);
+                return;
+            }
+            setStep('benchmark');
+        };
+        return (
+            <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+                <Card className="w-full max-w-lg">
+                    <CardHeader>
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="icon" onClick={() => setStep(plan.schedule?.selectable ? 'schedule' : 'program')} className="-ml-2">
+                                <ArrowLeft className="h-5 w-5" />
+                            </Button>
+                            <CardTitle>Exercise choices</CardTitle>
+                        </div>
+                        <CardDescription>These can be changed later in Settings.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        {selectedProgramId === 'kali' && (
+                            <>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Pull anchor (Hunt day)</Label>
+                                    <RadioGroup value={kaliPull} onValueChange={setKaliPull}>
+                                        {KALI_PULL_ANCHORS.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`kali-pull-${option.id}`} />
+                                                <Label htmlFor={`kali-pull-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Week 8 intensifier repeat</Label>
+                                    <RadioGroup value={kaliWeek8} onValueChange={setKaliWeek8}>
+                                        {KALI_WEEK8.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`kali-w8-${option.id}`} />
+                                                <Label htmlFor={`kali-w8-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                            </>
+                        )}
+                        {selectedProgramId === 'gravity-is-optional' && (
+                            <div className="space-y-3">
+                                <Label className="text-base font-semibold">Ab raise</Label>
+                                <RadioGroup value={coreRaise} onValueChange={setCoreRaise}>
+                                    {CORE_RAISE_OPTIONS.map(option => (
+                                        <div key={option.id} className="flex items-start space-x-2">
+                                            <RadioGroupItem value={option.id} id={`abs-${option.id}`} className="mt-1" />
+                                            <Label htmlFor={`abs-${option.id}`} className="font-normal">
+                                                <span className="font-semibold capitalize">{option.level}</span>
+                                                {' — '}
+                                                {option.label}
+                                                <span className="block text-xs text-muted-foreground">{option.hint}</span>
+                                            </Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            </div>
+                        )}
+                        <Button className="w-full" size="lg" onClick={continueFromSelections}>Continue</Button>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
     if (step === 'schedule') {
         const plan = getPlan(selectedProgramId ?? undefined);
         const schedule = plan.schedule ?? {};
@@ -1400,6 +1515,10 @@ export const Onboarding: React.FC = () => {
 
         const continueFromSchedule = () => {
             const planOnboarding = plan.onboarding;
+            if (needsPlanSelections(plan.id)) {
+                setStep('plan-selections');
+                return;
+            }
             if (!benchmarkLiftsFor([...(planOnboarding?.requiredStats ?? []), ...(planOnboarding?.seedStats ?? [])]).length) {
                 void enrolWithoutBenchmarks(plan.id);
                 return;
@@ -1596,6 +1715,21 @@ export const Onboarding: React.FC = () => {
                                     </div>
                                 );
                             })}
+
+                            {onboarding?.requireBodyweight && (
+                                <div className="space-y-2">
+                                    <Label htmlFor="bodyweightKg" className="text-base">Bodyweight (kg)</Label>
+                                    <Input
+                                        id="bodyweightKg"
+                                        name="bodyweightKg"
+                                        type="number"
+                                        inputMode="decimal"
+                                        required
+                                        value={stats.bodyweightKg || ''}
+                                        onChange={e => setStats(current => ({ ...current, bodyweightKg: Number(e.target.value) || 0 }))}
+                                    />
+                                </div>
+                            )}
 
                             {allUnknown && (
                                 <p className="text-xs text-muted-foreground">

@@ -21,25 +21,25 @@ import type { DaySpec, SlotSpec } from '../planBuilder';
  * technique so each exposure carries its own load prescription.
  */
 const oneSixWave = (ex: string, of: 'pausedBench' | 'squat' | 'conventionalDeadlift'): SlotSpec[] => {
-    // Paused lifts keep their competition pause; every 1-6 exposure is
-    // explosive on the way up by construction.
     const tempo = ex.includes('paused') ? '11X0' : '10X0';
+    const discharge = (charge: number, rest: number) =>
+        (ctx: { week: number }) => ctx.week >= 4 && ctx.week <= 6 ? rest : charge;
     return [
     {
         ex,
         sets: 1,
         reps: '1',
-        restSeconds: 180,
-        progression: { type: 'percentage', of, percent: 0.9 },
+        restSeconds: 270,
+        progression: { type: 'percentage', of, percent: discharge(0.9, 0.85) },
         tempo,
-        notes: 'Heavy single at about 90%. Confident, not maximal — this primes the set that follows.',
+        notes: 'Heavy single. Confident, not maximal — this primes the set that follows.',
     },
     {
         ex,
         sets: 1,
         reps: '6',
         restSeconds: 180,
-        progression: { type: 'percentage', of, percent: 0.75 },
+        progression: { type: 'percentage', of, percent: discharge(0.75, 0.70) },
         tempo,
         notes: 'Back-off six. Note the bar speed.',
     },
@@ -47,19 +47,19 @@ const oneSixWave = (ex: string, of: 'pausedBench' | 'squat' | 'conventionalDeadl
         ex,
         sets: 1,
         reps: '1',
-        restSeconds: 180,
-        progression: { type: 'percentage', of, percent: 0.925 },
+        restSeconds: 270,
+        progression: { type: 'percentage', of, percent: discharge(0.925, 0.875) },
         tempo,
-        notes: 'Heavier single.',
+        notes: 'Heavier single. If the first single ground, keep this at the easier wave.',
     },
     {
         ex,
         sets: 1,
         reps: '6',
         restSeconds: 180,
-        progression: { type: 'percentage', of, percent: 0.775 },
+        progression: { type: 'percentage', of, percent: discharge(0.775, 0.725) },
         tempo,
-        notes: 'Second back-off six, heavier than the first. If it moves better than set two, the priming worked.',
+        notes: 'Second back-off six. Allowed to be lighter than the first six if the single ground.',
     },
 ];
 };
@@ -70,9 +70,9 @@ const BENCH_NEURAL: DaySpec = {
     slots: [
         ...oneSixWave('paused-bench-press', 'pausedBench'),
         { ex: 'hammer-upper-row', sets: 4, reps: '8-12', restSeconds: 120 },
-        { ex: 'cable-lateral-raise', sets: 3, reps: '12-20', restSeconds: 60 },
-        { ex: 'cable-curl', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'cable-triceps-extension', sets: 3, reps: '10-15', restSeconds: 60 },
+        { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -96,12 +96,12 @@ const CHIN_NEURAL: DaySpec = {
             ex: 'weighted-chin-up',
             sets: 1,
             reps: '1-2',
-            restSeconds: 180,
+            restSeconds: 270,
             notes: 'Heavy rep. Total system weight — bodyweight plus the belt.',
         },
         { ex: 'weighted-chin-up', sets: 1, reps: '6', restSeconds: 180, notes: 'Back-off six.' },
-        { ex: 'weighted-chin-up', sets: 1, reps: '1-2', restSeconds: 180, notes: 'Heavier rep.' },
-        { ex: 'weighted-chin-up', sets: 1, reps: '6', restSeconds: 180, notes: 'Second back-off six, heavier.' },
+        { ex: 'weighted-chin-up', sets: 1, reps: '1-2', restSeconds: 270, notes: 'Heavier rep.' },
+        { ex: 'weighted-chin-up', sets: 1, reps: '6', restSeconds: 180, notes: 'Second back-off six — may be lighter if the single ground.' },
         { ex: 'incline-dumbbell-bench-press', sets: 4, reps: '8-12', restSeconds: 120 },
         { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
         { ex: 'dumbbell-hammer-curl', sets: 3, reps: '10-15', restSeconds: 60 },

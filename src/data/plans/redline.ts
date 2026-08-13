@@ -24,6 +24,11 @@ const phases=[
 ];
 const base=definePlan({id:'redline',name:'REDLINE',weeks:8,defaultTempo:'20X0',days:REDLINE_DAYS,phases});
 const preprocess=(day:WorkoutDay,user:UserProfile):WorkoutDay=>{ let result=day; if(day.dayOfWeek===4){const id=user.planPreferences?.redline?.exerciseSelections?.furnaceAnchor??'paused-bench-press';const entry=EXERCISE_BY_ID[id];if(entry)result={...result,exercises:result.exercises.map((e,i)=>i===0?{...e,exerciseId:id,name:entry.name.en}:e)};}
- const recovery=user.redlineStatus?.nextRecovery; if(!recovery?.confirmed)return result; if(recovery.response==='recovered')return result; const multiplier=recovery.response==='somewhat-fatigued'?0.85:0.7; const burn=result.exercises.filter(e=>e.prescription?.block?.kind==='burn'); const current=burn.reduce((n,e)=>n+e.sets,0); let remove=current-Math.round(current*multiplier);
+ const recovery=user.redlineStatus?.nextRecovery;
+ const furnace=day.dayOfWeek===4;
+ if(furnace && recovery?.response!=='recovered'){
+  result={...result,exercises:result.exercises.map(e=>e.prescription?.block?.kind==='finisher'&&e.prescription.block.durationSeconds?{...e,prescription:{...e.prescription,block:{...e.prescription.block,durationSeconds:Math.min(e.prescription.block.durationSeconds,360)}}}:e)};
+ }
+ if(!recovery?.confirmed)return result; if(recovery.response==='recovered')return result; const multiplier=recovery.response==='somewhat-fatigued'?0.85:0.7; const burn=result.exercises.filter(e=>e.prescription?.block?.kind==='burn'); const current=burn.reduce((n,e)=>n+e.sets,0); let remove=current-Math.round(current*multiplier);
  return {...result,exercises:result.exercises.flatMap(e=>{if(recovery.response==='performance-impaired'&&e.prescription?.block?.kind==='finisher')return[];if(e.prescription?.block?.kind!=='burn'||remove<=0)return[e];const cut=Math.min(remove,Math.max(0,e.sets-1));remove-=cut;return[{...e,sets:e.sets-cut}];})};};
 export const REDLINE_CONFIG:PlanConfig={...base,hooks:{...base.hooks,preprocessDay:preprocess},ui:{themeClass:'theme-redline',coverImage:'/redline.png',navImage:'/redline.png',dashboardWidgets:['program_status','workout_history']}};

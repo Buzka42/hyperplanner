@@ -5,7 +5,7 @@ import { useLanguage } from '../../contexts/useTranslation';
 import { useUser } from '../../contexts/UserContext';
 import type { ApexRegion, UserProfile } from '../../types';
 import { APEX_REGIONS } from '../../data/apexAccess';
-import { calendarPlanWeek } from '../planLifecycle';
+import { clampProgramWeek } from '../planLifecycle';
 import { requestApexVideoAdvice } from './videoAdvice';
 import { selectApexEmphasis, validRegionScore, type ApexAssessment, type ApexPain, type ApexRegionResult } from './assessment';
 
@@ -26,7 +26,7 @@ export const ApexDashboard = ({ user }: { user: UserProfile }) => {
     const navigate = useNavigate();
     const pl = language === 'pl';
     const start = user.programProgress?.['apex-predator']?.startDate ?? user.startDate;
-    const week = Math.min(12, calendarPlanWeek(start, new Date().toISOString()));
+    const week = clampProgramWeek({ startDate: start, completedSessions: user.programProgress?.['apex-predator']?.completedSessions, sessionsPerWeek: 3, maxWeeks: 12 });
     const checkpoint = checkpointFor(week);
     const assessments = user.apexPredatorStatus?.assessments ?? [];
     const current = [...assessments].reverse().find(item => item.week === checkpoint);

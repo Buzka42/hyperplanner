@@ -12,7 +12,8 @@ const createPeachyWeeks = (): ProgramWeek[] => {
             { id: `py-w${w}-d1-e2`, name: "Front-Foot Elevated Bulgarian Split Squat", sets: 3, target: { type: "range", reps: "8-12" } },
             { id: `py-w${w}-d1-e3`, name: "Squats", sets: 3, target: { type: "range", reps: "5-10" } },
             { id: `py-w${w}-d1-e4`, name: "Seated Hamstring Curl", sets: 3, target: { type: "range", reps: "8-12" } },
-            { id: `py-w${w}-d1-e5`, name: "Hack Squat Calf Raises", sets: 3, target: { type: "range", reps: "15-20" } }
+            { id: `py-w${w}-d1-e5`, name: "Hack Squat Calf Raises", sets: 3, target: { type: "range", reps: "15-20" } },
+            { id: `py-w${w}-d1-e6`, name: "Machine Hip Abduction", sets: 2, target: { type: "range", reps: "12-20" } }
         ];
 
         // Wednesday
@@ -31,7 +32,8 @@ const createPeachyWeeks = (): ProgramWeek[] => {
             { id: `py-w${w}-d5-e2`, name: "Paused Squat", sets: 3, target: { type: "range", reps: "5-10", percentage: 0.8, percentageRef: 'squat' } },
             { id: `py-w${w}-d5-e3`, name: "Glute Ham Raise (eccentric only)", sets: 3, target: { type: "failure", reps: "Failure" } },
             { id: `py-w${w}-d5-e4`, name: "Hip Adduction", sets: 3, target: { type: "range", reps: "8-12" } },
-            { id: `py-w${w}-d5-e5`, name: "Leg Press Calf Raises", sets: 3, target: { type: "range", reps: "15-20" } }
+            { id: `py-w${w}-d5-e5`, name: "Leg Press Calf Raises", sets: 3, target: { type: "range", reps: "15-20" } },
+            { id: `py-w${w}-d5-e6`, name: "Machine Hip Abduction", sets: 2, target: { type: "range", reps: "12-20" } }
         ];
 
         // Saturday
@@ -96,6 +98,9 @@ export const PEACHY_CONFIG: PlanConfig = {
                 processedDay.exercises = processedDay.exercises.map(ex => {
                     if (ex.name === "Front-Foot Elevated Bulgarian Split Squat" || ex.name === "Deficit Reverse Lunge") {
                         return { ...ex, intensityTechnique: "LAST SET: Drop to Bodyweight - Go to Failure" };
+                    }
+                    if (ex.name === "Squats" || ex.name === "Paused Squat") {
+                        return { ...ex, sets: ex.sets + 1, notes: 'Week 9+: add a set or 2.5 kg — do not only drop-set the accessories.' };
                     }
                     return ex;
                 });

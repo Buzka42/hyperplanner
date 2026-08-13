@@ -116,10 +116,12 @@ export const AdventureSession: React.FC = () => {
                         setChallengeAnswers(draft.challengeAnswers || {});
                         setCurrentIndex(draft.currentIndex || 0);
                         setStartedAt(draft.startedAt || new Date().toISOString());
-                        setSelectedEquipment(draft.selectedEquipment || ALL_EQUIPMENT);
+                        setSelectedEquipment(draft.selectedEquipment || user.adventureEquipment || ALL_EQUIPMENT);
                     } catch {
                         localStorage.removeItem(adventureDraftKey(user.id));
                     }
+                } else if (user.adventureEquipment?.length) {
+                    setSelectedEquipment(user.adventureEquipment);
                 }
             }
             setHydrated(true);
@@ -183,7 +185,13 @@ export const AdventureSession: React.FC = () => {
     if (!user || !hydrated) return <div className="instrument-page flex min-h-[60vh] items-center justify-center text-muted-foreground">{t('common.loading')}</div>;
 
     const availablePairs = (portalId: AdventurePortalId) => ADVENTURE_PAIRS.filter(pair => pair.portalId === portalId && pair.equipment.every(item => selectedEquipment.includes(item)));
-    const toggleEquipment = (item: AdventureEquipment) => setSelectedEquipment(value => value.includes(item) ? value.filter(entry => entry !== item) : [...value, item]);
+    const toggleEquipment = (item: AdventureEquipment) => {
+        setSelectedEquipment(value => {
+            const next = value.includes(item) ? value.filter(entry => entry !== item) : [...value, item];
+            void updateUserProfile({ adventureEquipment: next });
+            return next;
+        });
+    };
     const choosePair = (portalId: AdventurePortalId, pairId: string) => setSelectedPairIds(value => ({ ...value, [portalId]: pairId }));
     const randomize = () => {
         const next: Record<string, string> = {};

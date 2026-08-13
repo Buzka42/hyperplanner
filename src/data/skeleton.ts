@@ -30,17 +30,17 @@ const SKELETON_CONFIG: PlanConfig = {
     id: SKELETON_PROGRAM.id,
     program: SKELETON_PROGRAM,
     ui: {
-        dashboardWidgets: ['skeleton_countdown', 'skeleton_pushup_max', 'skeleton_quotes', 'workout_history']
+        dashboardWidgets: ['skeleton_countdown', 'skeleton_pushup_max', 'workout_history']
     },
     hooks: {
         preprocessDay: (day: WorkoutDay, user: UserProfile) => {
             const isTrainingDay = user.selectedDays?.includes(day.dayOfWeek);
             if (!isTrainingDay) return { ...day, dayName: "t:dayNames.restAndRecovery", exercises: [] };
 
-            let w = 1;
+            let w = day.weekNumber ?? 1;
             if (day.id) {
                 const parts = day.id.split('-');
-                if (parts.length >= 2) w = parseInt(parts[1].replace('w', '')) || 1;
+                if (parts.length >= 2) w = parseInt(parts[1].replace('w', '')) || w;
             }
 
             const isLatePhase = w >= 9;

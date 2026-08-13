@@ -23,6 +23,7 @@ export const MINIMUM_WEEKLY_SETS: Record<Quality, number> = {
 };
 
 export const REALLOCATION_CAP = 2;
+export const reallocationCap = (failedBlocks = 0) => failedBlocks >= 2 ? 4 : REALLOCATION_CAP;
 
 export interface QualityEvidence {
     quality: Quality;
@@ -65,7 +66,9 @@ export const proposeMutation = (
     block: number,
     evidence: QualityEvidence[],
     currentSets: Record<Quality, number>,
+    failedBlocks = 0,
 ): MutationProposal => {
+    const cap = reallocationCap(failedBlocks);
     const usable = evidence.filter(entry => entry.comparableExposures >= HAS_EVIDENCE);
     if (usable.length < 2) {
         return { block, components: [], message: 'Not enough comparable work this block to justify changing anything. The programme continues as written.' };
@@ -74,7 +77,7 @@ export const proposeMutation = (
     // Give up sets where fatigue is high relative to return; invest where the
     // athlete is either improving fastest or clearly behind.
     const donors = [...usable]
-        .filter(entry => currentSets[entry.quality] - REALLOCATION_CAP >= MINIMUM_WEEKLY_SETS[entry.quality])
+        .filter(entry => currentSets[entry.quality] - cap >= MINIMUM_WEEKLY_SETS[entry.quality])
         .sort((a, b) => (b.fatigue - b.trend * 10) - (a.fatigue - a.trend * 10));
     const receivers = [...usable].sort((a, b) => (b.trend * 10 - b.fatigue) - (a.trend * 10 - a.fatigue));
 
@@ -84,7 +87,7 @@ export const proposeMutation = (
     const components: MutationComponent[] = [];
 
     if (donor && receiver && donor.quality !== receiver.quality) {
-        const delta = Math.min(REALLOCATION_CAP, currentSets[donor.quality] - MINIMUM_WEEKLY_SETS[donor.quality]);
+        const delta = Math.min(cap, currentSets[donor.quality] - MINIMUM_WEEKLY_SETS[donor.quality]);
         if (delta > 0) {
             components.push({
                 kind: 'reallocate-sets', quality: donor.quality, setDelta: -delta, confirmed: false,

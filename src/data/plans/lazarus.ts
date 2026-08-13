@@ -23,7 +23,7 @@ export const LAZARUS_DAYS: DaySpec[] = [
         s('incline-dumbbell-bench-press', 3, '8-12'),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
         s('seated-hamstring-curl', 2, '10-15'),
-        s('lateral-raise', 2, '12-15'),
+        s('lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
         s('cable-triceps-extension', 1, '8-15'),
         s('hack-calf-raise', 1, '12-20'),
         s('ab-wheel', 1, '8-12'),
@@ -65,12 +65,19 @@ const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
     const acceleration = shouldAccelerate(user.lazarusStatus, week);
     return {
         ...day,
-        exercises: day.exercises.map(exercise => ({
-            ...exercise,
-            // The cap is reasserted here rather than trusted from the tree.
-            sets: weekSetCap(week, exercise.sets),
-            notes: exercise.notes ?? (acceleration.accelerate ? acceleration.reason : undefined),
-        })),
+        exercises: day.exercises.map(exercise => {
+            const entry = exercise.exerciseId ? EXERCISE_BY_ID[exercise.exerciseId] : undefined;
+            const memory = entry && user.lazarusStatus?.memoryCurve?.[entry.id];
+            const opening = memory && user.lazarusStatus?.breakMonths
+                ? openingLoad(memory, user.lazarusStatus.breakMonths)
+                : undefined;
+            return {
+                ...exercise,
+                sets: weekSetCap(week, exercise.sets),
+                notes: exercise.notes ?? (acceleration.accelerate ? acceleration.reason : undefined),
+                predictedKg: opening?.openingKg,
+            };
+        }),
     };
 };
 

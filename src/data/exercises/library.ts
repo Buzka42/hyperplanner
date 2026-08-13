@@ -70,6 +70,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'ab-wheel-rollout',
+        swapGroup: 'core-raise',
         tip: { en: 'Start from knees, go as far as possible while hitting 5+ reps. Progress distance weekly.', pl: 'Zacznij z kolan, wyjedź tak daleko, jak dasz radę przy minimum 5 powtórzeniach. Co tydzień zwiększaj dystans.' },
         name: { en: 'Ab Wheel Rollouts', pl: 'Wyjazdy z kółkiem do brzucha' },
         aliases: [],
@@ -541,6 +542,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'dragon-flags',
+        swapGroup: 'core-raise',
         tip: { en: 'Cheat the concentric if needed, control the eccentric (3-5 sec lowering).', pl: 'Oszukuj fazę koncentryczną, jeśli trzeba; kontroluj ekscentrykę (3–5 s opuszczania).' },
         name: { en: 'Dragon Flags', pl: 'Flagi smoka' },
         aliases: [],
@@ -865,6 +867,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
     },
     {
         id: 'hanging-leg-raise',
+        swapGroup: 'core-raise',
         tip: { en: 'Straight legs if bent is too easy. No swinging.', pl: 'Proste nogi, jeśli zgięte są za łatwe. Bez kołysania.' },
         name: { en: 'Hanging Leg Raises', pl: 'Unoszenie nóg w zwisie' },
         aliases: ['Hanging Leg Raise', 'Power Hanging Leg Raises'],
@@ -1149,6 +1152,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
         secondary: ['hamstrings', 'adductors'],
         equipment: ['barbell'],
         weightMode: 'external',
+        swapGroup: 'squat-heavy',
         status: 'active',
     },
     {
@@ -1536,6 +1540,7 @@ const CORE_LIBRARY: LibraryExercise[] = [
         secondary: ['hamstrings', 'adductors'],
         equipment: ['barbell'],
         weightMode: 'external',
+        swapGroup: 'squat-heavy',
         status: 'active',
     },
     {

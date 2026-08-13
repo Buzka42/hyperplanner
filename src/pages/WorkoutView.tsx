@@ -18,7 +18,7 @@ import { nextSlot, partnersOf, type SupersetSlot } from '../features/workout/sup
 import { RestTimer } from '../features/workout/RestTimer';
 import { SwapSheet } from '../features/workout/SwapSheet';
 import { techniqueAppliesTo, techniqueRows } from '../features/workout/techniqueSets';
-import { PROGRESSION_HANDLERS, calibrationOutcomes, calibrationProgression, type CalibrationOutcome } from '../features/workout/progression';
+import { progressionHandlerFor, calibrationOutcomes, calibrationProgression, type CalibrationOutcome } from '../features/workout/progression';
 import { WeakPointModal } from '../components/WeakPointModal';
 import { VariationSwapModal } from '../components/VariationSwapModal';
 import { TrinaryRerunModal } from '../components/TrinaryRerunModal';
@@ -40,6 +40,7 @@ interface SetLog {
     label?: string;
     rir?: number;
     quality?: 'clean' | 'borderline' | 'invalid';
+    totalSystemWeightKg?: number;
 }
 
 // The number of sets the PLAN itself prescribes for this exercise (before any
@@ -102,6 +103,8 @@ export const WorkoutView: React.FC = () => {
     // Trinary: RPE selection state for ME exercises (exerciseId -> RPE value or null)
     const [meRpeSelected, setMeRpeSelected] = useState<Record<string, number | null>>({});
     const [slowVelocitySelected, setSlowVelocitySelected] = useState<Record<string, boolean>>({});
+    const [hipCapsuleSelected, setHipCapsuleSelected] = useState<Record<string, boolean>>({});
+    const [carryLimiterSelected, setCarryLimiterSelected] = useState<Record<string, string>>({});
     // Trinary: Modal states
     const [showWeakPointModal, setShowWeakPointModal] = useState(false);
     const [showVariationSwapModal, setShowVariationSwapModal] = useState(false);
@@ -133,7 +136,7 @@ export const WorkoutView: React.FC = () => {
 
         // Hooks: Preprocess Day
         const generated = activePlanConfig.hooks?.preprocessDay
-            ? activePlanConfig.hooks.preprocessDay(rawDayData, user)
+            ? activePlanConfig.hooks.preprocessDay({ ...rawDayData, weekNumber: weekNum }, user)
             : rawDayData;
 
         // Apply the exercise layer on top of whatever the plan generated:
@@ -207,13 +210,13 @@ export const WorkoutView: React.FC = () => {
     };
 
     // Helper: Calculate Weight Wrapper
-    const calculateWeight = (ex: any) => {
+    const calculateWeight = (ex: any, setIndex = 0) => {
         if (activePlanConfig.hooks?.calculateWeight && user) {
             const hookResult = activePlanConfig.hooks.calculateWeight(
                 ex.target,
                 user,
                 ex.name,
-                { week: weekNum, day: dayNum }
+                { week: weekNum, day: dayNum, setIndex, exerciseId: ex.id }
             );
             if (hookResult !== undefined) return hookResult;
         }
@@ -243,8 +246,8 @@ export const WorkoutView: React.FC = () => {
      * `0` means the plan could not compute a load at all (an uncalibrated max,
      * a free-choice accessory), which is manual by definition.
      */
-    const isAutoLoad = (ex: Parameters<typeof calculateWeight>[0], entered: string) => {
-        const computed = calculateWeight(ex);
+    const isAutoLoad = (ex: Parameters<typeof calculateWeight>[0], entered: string, setIndex = 0) => {
+        const computed = calculateWeight(ex, setIndex);
         if (!computed || computed === '0') return false;
         const a = parseFloat(computed);
         const b = parseFloat(entered);
@@ -283,14 +286,16 @@ export const WorkoutView: React.FC = () => {
                                 // Configured extra sets are real rows, tagged so
                                 // progression ignores them.
                                 const extraCount = Math.max(0, (ex as { extraSets?: number }).extraSets ?? 0);
-                                const targetWeight = calculateWeight(ex);
-                                const defaultWeight = (targetWeight && !ex.giantSetConfig && targetWeight !== "0") ? targetWeight : "";
-                                merged[ex.id] = Array.from({ length: baseCount + extraCount }, (_, i) => ({
+                                merged[ex.id] = Array.from({ length: baseCount + extraCount }, (_, setIndex) => {
+                                    const targetWeight = calculateWeight(ex, setIndex);
+                                    const defaultWeight = (targetWeight && !ex.giantSetConfig && targetWeight !== "0") ? targetWeight : "";
+                                    return {
                                     reps: '',
                                     weight: defaultWeight,
                                     completed: null,
-                                    ...(i >= baseCount ? { kind: 'extra' as const } : {})
-                                }));
+                                    ...(setIndex >= baseCount ? { kind: 'extra' as const } : {})
+                                };
+                                });
                             }
                         });
 
@@ -478,7 +483,7 @@ export const WorkoutView: React.FC = () => {
                 const sets: SetLog[] = [];
                 const topSetBackoff = ex.prescription?.topSetBackoff;
                 for (let i = 0; i < setsCount; i++) {
-                    const targetWeight = calculateWeight(ex);
+                    const targetWeight = calculateWeight(ex, i);
                     const defaultWeight = (targetWeight && !isGiantSet && targetWeight !== "0") ? targetWeight : "";
 
                     // For Pullups specific placeholder logic if NOT handled by calculateWeight returning a value?
@@ -495,13 +500,14 @@ export const WorkoutView: React.FC = () => {
                         weight: defaultWeight,
                         completed: null,
                         ...(i >= baseCount ? { kind: 'extra' as const } : {}),
-                        ...(topSetBackoff && { label: i === 0 ? 'Top set' : `Back-off ${i}`, ...(i === 0 ? { quality: undefined, rir: undefined } : {}) })
+                        ...(topSetBackoff && { label: i === 0 ? 'Top set' : `Back-off ${i}`, ...(i === 0 ? { quality: undefined, rir: undefined } : {}) }),
+                        ...(technique?.kind === 'last-set-failure' && i === baseCount - 1 ? { label: language === 'pl' ? 'Do załamania' : 'To failure' } : {}),
                     });
 
                     // A technique attached to this set gets its own rows, so the
                     // work is recorded rather than only described.
                     if (techniqueAppliesTo(technique, i, baseCount)) {
-                        const seedWeight = calculateWeight(ex) ?? '';
+                        const seedWeight = calculateWeight(ex, i) ?? '';
                         for (const row of techniqueRows(technique, seedWeight)) {
                             sets.push({
                                 reps: '',
@@ -721,8 +727,13 @@ export const WorkoutView: React.FC = () => {
                 updatePayload[`programProgress.${programData.id}.completedSessions`] = increment(1);
             }
 
-            if (Object.keys(updatePayload).length > 0) {
-                await updateDoc(userRef, updatePayload);
+            const isEphemeralTestUser = typeof sessionStorage !== 'undefined' && Boolean(sessionStorage.getItem('hyperplanner_test_user'));
+            if (Object.keys(updatePayload).length > 0 && !isEphemeralTestUser) {
+                try {
+                    await updateDoc(userRef, updatePayload);
+                } catch (err) {
+                    console.warn("Firestore updateDoc skipped/failed for test user:", err);
+                }
             }
 
             // Set by progression effects below; consumed after the save.
@@ -735,7 +746,7 @@ export const WorkoutView: React.FC = () => {
             // Per-plan save-time progression — see
             // src/features/workout/progression/, checked by verify:progression.
             {
-                const handler = PROGRESSION_HANDLERS[programData.id];
+                const handler = progressionHandlerFor(programData.id);
                 if (handler) {
                     const result = handler({
                         planId: programData.id,
@@ -745,7 +756,7 @@ export const WorkoutView: React.FC = () => {
                         user,
                         workout: dayData,
                         sets: exerciseData,
-                        selections: { meProgression: meRpeSelected, slowVelocity: slowVelocitySelected },
+                        selections: { meProgression: meRpeSelected, slowVelocity: slowVelocitySelected, hipCapsule: hipCapsuleSelected, carryLimiter: carryLimiterSelected },
                     });
 
                     const payload: Record<string, unknown> = { ...result.updates };
@@ -755,8 +766,12 @@ export const WorkoutView: React.FC = () => {
                     for (const [field, by] of Object.entries(result.increments ?? {})) {
                         payload[field] = increment(by);
                     }
-                    if (Object.keys(payload).length > 0) {
-                        await updateDoc(userRef, payload);
+                    if (Object.keys(payload).length > 0 && !isEphemeralTestUser) {
+                        try {
+                            await updateDoc(userRef, payload);
+                        } catch (err) {
+                            console.warn("Firestore progression payload write skipped/failed for test user:", err);
+                        }
                     }
 
                     // Effects are performed after the write, so a failed save
@@ -793,8 +808,12 @@ export const WorkoutView: React.FC = () => {
                 const map = activePlanConfig.calibration?.exerciseNameToStat;
                 const outcomes = calibrationOutcomes(ctx, map);
                 const result = calibrationProgression(ctx, map);
-                if (Object.keys(result.updates).length > 0) {
-                    await updateDoc(userRef, result.updates);
+                if (Object.keys(result.updates).length > 0 && !isEphemeralTestUser) {
+                    try {
+                        await updateDoc(userRef, result.updates);
+                    } catch (err) {
+                        console.warn("Calibration updateDoc skipped for test user:", err);
+                    }
                 }
                 if (outcomes.length) setCalibrationResults(outcomes);
             }
@@ -818,9 +837,9 @@ export const WorkoutView: React.FC = () => {
                         setsData: sets.map(set => {
                             const exerciseId = (source as { exerciseId?: string })?.exerciseId;
                             const mode = exerciseId ? EXERCISE_BY_ID[exerciseId]?.weightMode : undefined;
-                            const bodyweight = user.kaliStatus?.bodyweightKg;
+                            const bodyweight = user.stats.bodyweightKg ?? user.kaliStatus?.bodyweightKg;
                             const external = Number(set.weight);
-                            return programData.id === 'kali' && bodyweight && Number.isFinite(external) && (mode === 'bodyweight' || mode === 'weighted-bodyweight')
+                            return (programData.id === 'kali' || programData.id === 'workhorse' || programData.id === 'gravity-is-optional') && bodyweight && Number.isFinite(external) && (mode === 'bodyweight' || mode === 'weighted-bodyweight')
                                 ? { ...set, totalSystemWeightKg: Math.max(0, bodyweight + external) }
                                 : set;
                         }),
@@ -841,28 +860,34 @@ export const WorkoutView: React.FC = () => {
                 ...(user.isTestAccount === true && { isTest: true })
             };
 
-            const workoutsRef = collection(db, 'users', user.id, 'workouts');
+            if (!isEphemeralTestUser) {
+                try {
+                    const workoutsRef = collection(db, 'users', user.id, 'workouts');
 
-            if (isExistingLog && logId) {
-                await updateDoc(doc(workoutsRef, logId), sessionLog);
-            } else {
-                const workoutRef = doc(workoutsRef);
-                const observations = user.isTestAccount === true
-                    ? []
-                    : extractPerformanceObservations({
-                        sessionId: workoutRef.id,
-                        date: sessionLog.date,
-                        programId: sessionLog.programId,
-                        week: sessionLog.week,
-                        day: sessionLog.day,
-                        exercises: sessionLog.exercises,
-                    });
-                await createWorkoutWithPerformanceProfile(
-                    user.id,
-                    workoutRef.id,
-                    sessionLog,
-                    observations,
-                );
+                    if (isExistingLog && logId) {
+                        await updateDoc(doc(workoutsRef, logId), sessionLog);
+                    } else {
+                        const workoutRef = doc(workoutsRef);
+                        const observations = user.isTestAccount === true
+                            ? []
+                            : extractPerformanceObservations({
+                                sessionId: workoutRef.id,
+                                date: sessionLog.date,
+                                programId: sessionLog.programId,
+                                week: sessionLog.week,
+                                day: sessionLog.day,
+                                exercises: sessionLog.exercises,
+                            });
+                        await createWorkoutWithPerformanceProfile(
+                            user.id,
+                            workoutRef.id,
+                            sessionLog,
+                            observations,
+                        );
+                    }
+                } catch (err) {
+                    console.warn("Workout history write skipped for test user:", err);
+                }
             }
 
             if (programData.id === 'apex-predator') {
@@ -1110,10 +1135,10 @@ export const WorkoutView: React.FC = () => {
             {showDeficitModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-in fade-in duration-300">
                     <div className="bg-card border-4 border-red-700 p-8 rounded-xl max-w-md w-full ">
-                        <h2 className="text-2xl font-black text-red-800 text-center mb-2">
+                        <h2 className="text-2xl font-black text-foreground text-center mb-2">
                             How Did That Feel?
                         </h2>
-                        <p className="text-amber-900 text-center text-sm mb-6">
+                        <p className="text-muted-foreground text-center text-sm mb-6">
                             Based on your RPE, we'll adjust next session's weight
                         </p>
 
@@ -1179,7 +1204,7 @@ export const WorkoutView: React.FC = () => {
                             </Button>
                         </div>
 
-                        <p className="text-xs text-center text-amber-800/70 mt-4">
+                        <p className="text-xs text-center text-muted-foreground mt-4">
                             Current weight: {user?.painGloryStatus?.deficitSnatchGripWeight || '?'} kg
                         </p>
                     </div>
@@ -1250,10 +1275,10 @@ export const WorkoutView: React.FC = () => {
                             </div>
                         )}
                     </dl>
-                    {calibratingStat(activeExercise.name) && (
+                    {(Boolean(calibratingStat(activeExercise.name)) || (programData.id === 'oracle' && weekNum <= 2)) && (
                         <div className="calibration-band" role="note">
                             <p className="calibration-band-label">{t('workout.calibration.label')}</p>
-                            <p className="calibration-band-copy">{t('workout.calibration.instruction')}</p>
+                            <p className="calibration-band-copy">{programData.id === 'oracle' ? 'Pick a load for the target reps, then rank RIR after every working set.' : t('workout.calibration.instruction')}</p>
                         </div>
                     )}
                     <div className="live-set-measurements">
@@ -1261,12 +1286,12 @@ export const WorkoutView: React.FC = () => {
                             plan computed; plain `WEIGHT` the moment the athlete
                             types their own. Principle 5, on the field it
                             describes rather than as a status line. */}
-                        <label data-len={figureLength(activeSet.weight)} style={figureChars(activeSet.weight)}><span>{t('common.weight')}{isAutoLoad(activeExercise, activeSet.weight) && <em> · {t('workout.auto')}</em>}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
+                        <label data-len={figureLength(activeSet.weight)} style={figureChars(activeSet.weight)}><span>{t('common.weight')}{isAutoLoad(activeExercise, activeSet.weight, activeSetIndex) && <em> · {t('workout.auto')}</em>}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
                         <label data-len={figureLength(activeSet.reps)} style={figureChars(activeSet.reps)}><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('workout.reps')} /></label>
                     </div>
-                    {activeExercise.prescription?.topSetBackoff && activeSetIndex === 0 && <div className="live-set-telemetry">
-                        <label><span>RIR</span><select value={activeSet.rir ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === 0 ? { ...set, rir: event.target.value === '' ? undefined : Number(event.target.value) } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3+</option></select></label>
-                        <label><span>{language === 'pl' ? 'Jakość' : 'Quality'}</span><select value={activeSet.quality ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === 0 ? { ...set, quality: event.target.value as SetLog['quality'] } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="clean">{language === 'pl' ? 'Czysta' : 'Clean'}</option><option value="borderline">{language === 'pl' ? 'Graniczna' : 'Borderline'}</option><option value="invalid">{language === 'pl' ? 'Nieważna' : 'Invalid'}</option></select></label>
+                    {((activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press') || programData.id === 'oracle') && <div className="live-set-telemetry">
+                        <label><span>RIR</span><select value={activeSet.rir ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, rir: event.target.value === '' ? undefined : Number(event.target.value) } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3+</option></select></label>
+                        {activeExercise.prescription?.topSetBackoff && activeSetIndex === 0 && <label><span>{language === 'pl' ? 'Jakość' : 'Quality'}</span><select value={activeSet.quality ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === 0 ? { ...set, quality: event.target.value as SetLog['quality'] } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="clean">{language === 'pl' ? 'Czysta' : 'Clean'}</option><option value="borderline">{language === 'pl' ? 'Graniczna' : 'Borderline'}</option><option value="invalid">{language === 'pl' ? 'Nieważna' : 'Invalid'}</option></select></label>}
                     </div>}
                     {(activeExercise.target.rpe !== undefined || activeExercise.rest) && (
                         <div className="live-set-telemetry">
@@ -1276,15 +1301,15 @@ export const WorkoutView: React.FC = () => {
                     )}
                     {/* Saved looks saved: re-opening a logged set must not
                         offer a button that appears to do nothing. */}
-                    <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps || Boolean(activeExercise.prescription?.topSetBackoff && activeSetIndex === 0 && (activeSet.rir == null || !activeSet.quality))} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />{activeSet.completed ? t('workout.updateSet') : t('workout.logSet')}</Button>
+                    <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps || (programData.id === 'oracle' && activeSet.rir == null) || Boolean(activeExercise.prescription?.topSetBackoff && activeSetIndex === 0 && (activeSet.rir == null || !activeSet.quality))} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />{activeSet.completed ? t('workout.updateSet') : t('workout.logSet')}</Button>
                 </section>
             )}
 
             <div className="workout-exercises space-y-8">
-                {dayData.exercises.map((ex) => {
+                {dayData.exercises.map((ex, exIndex) => {
                     const sets = exerciseData[ex.id] || [];
                     const prevStat = previousStats[ex.name];
-                    const targetWeight = calculateWeight(ex);
+                    const targetWeight = calculateWeight(ex, 0);
 
                     // The entry resolveDay used — after swaps that differs from
                     // resolve(ex.name), and using the pre-swap entry below would
@@ -1346,6 +1371,11 @@ export const WorkoutView: React.FC = () => {
                                 warmupSets.push({ weight: roundTo2_5(firstSetWeight * singlePercent).toString(), reps: '1' });
                             }
                         }
+                    }
+
+                    const prevEx = exIndex > 0 ? dayData.exercises[exIndex - 1] : undefined;
+                    if (prevEx && prevEx.name === ex.name && (prevEx.exerciseId ?? prevEx.name) === (ex.exerciseId ?? ex.name)) {
+                        warmupSets = null;
                     }
 
                     const isGiantSet = !!ex.giantSetConfig;
@@ -1472,6 +1502,7 @@ export const WorkoutView: React.FC = () => {
                                             <>
                                                 {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? t('common.failure') : `${ex.target.reps} ${t('workout.reps')}`}
                                                 {targetWeight && targetWeight !== "0" && <> · {targetWeight}{t('common.kg')}</>}
+                                                {ex.predictedKg != null && <> · pred {ex.predictedKg}{t('common.kg')}</>}
                                             </>
                                         ) : null}
                                     </p>
@@ -1545,6 +1576,46 @@ export const WorkoutView: React.FC = () => {
                                 >
                                     {t('workout.velocitySlow')}
                                 </button>
+                            )}
+                            {programData.id === 'ritual-of-strength' && ex.name.includes('(Light)') && (() => {
+                                const lift = ex.name.toLowerCase().includes('bench') ? 'bench' : ex.name.toLowerCase().includes('squat') ? 'squat' : 'deadlift';
+                                const pending = Boolean((user as { ritualStatus?: { lightWorkReductionPending?: Record<string, boolean> } })?.ritualStatus?.lightWorkReductionPending?.[lift]);
+                                return pending ? <p className="text-xs text-muted-foreground">Last light session was slow — today is 65%, not 70%.</p> : null;
+                            })()}
+                            {programData.id === 'trinary' && ex.name.includes('(DE)') && (
+                                <button
+                                    type="button"
+                                    aria-pressed={Boolean(slowVelocitySelected[ex.id])}
+                                    onClick={() => setSlowVelocitySelected(current => ({ ...current, [ex.id]: !current[ex.id] }))}
+                                    className={`min-h-11 w-full border px-3 py-2 text-left text-xs font-bold uppercase tracking-[0.08em] ${slowVelocitySelected[ex.id] ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
+                                >
+                                    Bar speed died — hold this load next DE
+                                </button>
+                            )}
+                            {programData.id === 'king-of-the-squat' && (ex.exerciseId === 'low-bar-squat' || ex.exerciseId === 'high-bar-squat' || ex.exerciseId === 'safety-bar-squat' || ex.name === 'Paused Low Bar Squat' || ex.name === 'High Bar Squat' || ex.name === 'Safety Bar Squat') && (
+                                <button
+                                    type="button"
+                                    aria-pressed={Boolean(hipCapsuleSelected[ex.id])}
+                                    onClick={() => setHipCapsuleSelected(current => ({ ...current, [ex.id]: !current[ex.id] }))}
+                                    className={`min-h-11 w-full border px-3 py-2 text-left text-xs font-bold uppercase tracking-[0.08em] ${hipCapsuleSelected[ex.id] ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
+                                >
+                                    Hips / capsule limited this squat — two flags swap to safety bar
+                                </button>
+                            )}
+                            {programData.id === 'atlas' && (ex.exerciseId?.includes('carry') || ex.exerciseId === 'suitcase-hold') && (
+                                <div className="flex flex-wrap gap-2">
+                                    {(['grip', 'trunk', 'breathing', 'upper-back', 'legs', 'none'] as const).map(limiter => (
+                                        <button
+                                            key={limiter}
+                                            type="button"
+                                            aria-pressed={carryLimiterSelected[ex.id] === limiter}
+                                            onClick={() => setCarryLimiterSelected(current => ({ ...current, [ex.id]: limiter }))}
+                                            className={`min-h-11 border px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] ${carryLimiterSelected[ex.id] === limiter ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
+                                        >
+                                            {limiter}
+                                        </button>
+                                    ))}
+                                </div>
                             )}
 
                             {/* Warm-ups are shown but never logged, so they are
@@ -1637,11 +1708,15 @@ export const WorkoutView: React.FC = () => {
                                                 <span className="ledger-row-value">
                                                     {!weightDisabled && (
                                                         set.weight
-                                                            ? <>{set.weight}{t('common.kg')} </>
+                                                            ? <>{set.weight}{t('common.kg')}{set.totalSystemWeightKg ? <> · TSW {set.totalSystemWeightKg}{t('common.kg')}</> : null} </>
                                                             : (targetWeight && targetWeight !== "0" ? <em>{targetWeight}{t('common.kg')} </em> : null)
+                                                    )}
+                                                    {ex.predictedKg != null && set.weight && Number(set.weight) !== ex.predictedKg && (
+                                                        <span className="text-muted-foreground"> (pred {ex.predictedKg})</span>
                                                     )}
                                                     <i aria-hidden="true">×</i>{' '}
                                                     {set.reps || <em>{isAmrap ? t('workout.amrap') : (prescribedReps || '—')}</em>}
+                                                    {set.rir != null && <> · {set.rir} RIR</>}
                                                 </span>
                                                 <span className="ledger-row-state">
                                                     {set.completed ? <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> : <Circle className="h-5 w-5" aria-hidden="true" />}

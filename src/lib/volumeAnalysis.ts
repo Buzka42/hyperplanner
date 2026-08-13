@@ -36,6 +36,12 @@ export type VolumeRules = {
     exempt?: MajorMuscleGroup[];
     minWeeklyExposures?: number;
     specialisationExposures?: number;
+    /** Warn when a non-priority group exceeds this many direct sets. */
+    maxDirectSets?: number;
+    /** Specialised groups may sit higher than maxDirectSets. */
+    maxSpecialisationSets?: number;
+    /** Report front / side / rear delts separately. */
+    splitDelts?: boolean;
 };
 
 export type MuscleVolume = {
@@ -70,7 +76,10 @@ const majorOf = (muscle: MuscleGroup): MajorMuscleGroup | undefined =>
  * Working sets only. An exercise with 0 sets is a disabled module, and
  * technique sub-sets are not part of the prescription.
  */
-const workingSets = (exercise: Exercise): number => Math.max(0, exercise.sets || 0);
+const workingSets = (exercise: Exercise): number => {
+    if (exercise.prescription?.block?.kind === 'density') return 1;
+    return Math.max(0, exercise.sets || 0);
+};
 
 export const analyseWeek = (
     days: WorkoutDay[],
@@ -114,10 +123,35 @@ export const analyseWeek = (
         days: [...(dayHits.get(group) ?? [])].sort((a, b) => a - b),
     }));
 
+    const findings = evaluate(volumes, rules);
+
+    if (rules.splitDelts) {
+        const delt: Record<'frontDelt' | 'sideDelt' | 'rearDelt', number> = { frontDelt: 0, sideDelt: 0, rearDelt: 0 };
+        for (const day of days) {
+            for (const exercise of day.exercises ?? []) {
+                const sets = workingSets(exercise);
+                if (!sets) continue;
+                const entry = resolver.resolve(exercise.name);
+                for (const muscle of entry?.primary ?? []) {
+                    if (muscle === 'frontDelt' || muscle === 'sideDelt' || muscle === 'rearDelt') {
+                        delt[muscle] += sets;
+                    }
+                }
+            }
+        }
+        if (delt.frontDelt > delt.sideDelt + 4) {
+            findings.push({
+                severity: 'warning',
+                group: 'shoulders',
+                message: `Front delts (${delt.frontDelt}) outrun side delts (${delt.sideDelt}) — cut pressing isolation, keep laterals.`,
+            });
+        }
+    }
+
     return {
         week,
         volumes,
-        findings: evaluate(volumes, rules),
+        findings,
         totalSets: Math.round(volumes.reduce((n, v) => n + v.directSets, 0) * 10) / 10,
     };
 };
@@ -158,6 +192,14 @@ const evaluate = (volumes: MuscleVolume[], rules: VolumeRules): VolumeFinding[] 
                     message: `Specialisation target is ${target} weekly exposures; this week has ${volume.exposures}.`,
                 });
             }
+            const specCeiling = rules.maxSpecialisationSets ?? 40;
+            if (volume.directSets > specCeiling) {
+                findings.push({
+                    severity: 'warning',
+                    group: volume.group,
+                    message: `${volume.directSets} direct sets exceeds the ${specCeiling}-set specialisation ceiling.`,
+                });
+            }
             continue;
         }
 
@@ -177,6 +219,17 @@ const evaluate = (volumes: MuscleVolume[], rules: VolumeRules): VolumeFinding[] 
                 severity: 'error',
                 group: volume.group,
                 message: `Trained on ${volume.exposures} day${volume.exposures === 1 ? '' : 's'} this week; ${floor} meaningful exposures is the minimum.`,
+            });
+        }
+
+        const ceiling = specialised.has(volume.group)
+            ? (rules.maxSpecialisationSets ?? 40)
+            : rules.maxDirectSets;
+        if (ceiling && volume.directSets > ceiling) {
+            findings.push({
+                severity: 'warning',
+                group: volume.group,
+                message: `${volume.directSets} direct sets exceeds the ${ceiling}-set ceiling for this role.`,
             });
         }
     }
@@ -221,20 +274,20 @@ export const PLAN_RULES: Record<string, VolumeRules> = {
     // New plans are held to the concept doc's rules under --strict.
     'king-of-the-squat': { kind: 'powerlifting', specialisation: ['quads'], specialisationExposures: 3 },
     'gravity-is-optional': { kind: 'hypertrophy', specialisation: ['back'], specialisationExposures: 3 },
-    'purgatorio': { kind: 'hypertrophy' },
-    'immaculate-restructure': { kind: 'hypertrophy' },
-    'overhead-dominion': { kind: 'specialisation', specialisation: ['shoulders'], specialisationExposures: 4 },
-    'hamstring-foundry': { kind: 'specialisation', specialisation: ['hamstrings'], specialisationExposures: 3 },
-    'arms-race': { kind: 'specialisation', specialisation: ['biceps', 'triceps'], specialisationExposures: 4 },
+    'purgatorio': { kind: 'hypertrophy', maxDirectSets: 25 },
+    'immaculate-restructure': { kind: 'hypertrophy', maxDirectSets: 25 },
+    'overhead-dominion': { kind: 'specialisation', specialisation: ['shoulders'], specialisationExposures: 4, splitDelts: true, maxSpecialisationSets: 40 },
+    'hamstring-foundry': { kind: 'specialisation', specialisation: ['hamstrings'], specialisationExposures: 3, maxSpecialisationSets: 28 },
+    'arms-race': { kind: 'specialisation', specialisation: ['biceps', 'triceps'], specialisationExposures: 4, maxSpecialisationSets: 40 },
     'workhorse': { kind: 'specialisation', specialisation: ['back'], specialisationExposures: 3 },
     'neural-overload': { kind: 'powerbuilding' },
-    'tenfold': { kind: 'hypertrophy' },
+    'tenfold': { kind: 'hypertrophy', maxDirectSets: 25 },
     // Free-order plan: two sessions are valid, so the four-card catalogue is
     // not a promise that every muscle receives two calendar exposures.
     'house-of-iron': { kind: 'general', minWeeklyExposures: 1 },
     'apex-predator': { kind: 'general', minWeeklyExposures: 2 },
-    'venus-rising': { kind: 'hypertrophy' },
-    'athena': { kind: 'powerbuilding' },
+    'venus-rising': { kind: 'hypertrophy', maxDirectSets: 25 },
+    'athena': { kind: 'powerbuilding', maxDirectSets: 22 },
     'kali': { kind: 'general', minWeeklyExposures: 2 },
     'redline': { kind: 'general', minWeeklyExposures: 2 },
     'iron-clock': { kind: 'general', minWeeklyExposures: 2 },
@@ -248,9 +301,9 @@ export const PLAN_RULES: Record<string, VolumeRules> = {
     'blackout': { kind: 'general', minWeeklyExposures: 2 },
     'monolith': { kind: 'hypertrophy' },
     'atlas': { kind: 'general', minWeeklyExposures: 2 },
-    'event-horizon': { kind: 'hypertrophy' },
-    'oracle': { kind: 'powerbuilding', minWeeklyExposures: 2 },
-    'project-chimera': { kind: 'powerbuilding', minWeeklyExposures: 2 },
+    'event-horizon': { kind: 'hypertrophy', maxDirectSets: 25 },
+    'oracle': { kind: 'powerbuilding', minWeeklyExposures: 2, maxDirectSets: 22 },
+    'project-chimera': { kind: 'powerbuilding', minWeeklyExposures: 2, maxDirectSets: 22 },
     'quadfather': { kind: 'specialisation', specialisation: ['quads'], specialisationExposures: 3 },
     // One lower-body day is the deliberate cost of training chest three times.
     // The legs are maintained, not developed, and the plan says so in its copy.

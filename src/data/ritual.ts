@@ -68,6 +68,7 @@ export type RitualStatus = {
     squatMEProgression?: number;
     deadliftMEProgression?: number;
     lightWorkReductionPending?: Partial<Record<'bench' | 'squat' | 'deadlift', boolean>>;
+    meEasyStreak?: Partial<Record<'bench' | 'squat' | 'deadlift', number>>;
 };
 
 export const RITUAL_PURGE_WEEKS = [9, 14, 19] as const;

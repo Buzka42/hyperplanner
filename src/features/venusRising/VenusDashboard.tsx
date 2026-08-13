@@ -4,7 +4,7 @@ import { Button } from '../../components/ui/button';
 import { useUser } from '../../contexts/UserContext';
 import { useLanguage } from '../../contexts/useTranslation';
 import type { UserProfile } from '../../types';
-import { calendarPlanWeek, requestScheduleMode } from '../planLifecycle';
+import { clampProgramWeek, requestScheduleMode } from '../planLifecycle';
 import { effectiveVenusMode } from '../../data/plans/venusRising';
 import { EXERCISE_BY_ID } from '../../data/exercises/library';
 
@@ -16,8 +16,8 @@ export const VenusDashboard = ({ user }: { user: UserProfile }) => {
     const navigate = useNavigate();
     const pl = language === 'pl';
     const start = user.programProgress?.['venus-rising']?.startDate ?? user.startDate;
-    const week = Math.min(12, calendarPlanWeek(start, new Date().toISOString()));
     const mode = effectiveVenusMode(user);
+    const week = clampProgramWeek({ startDate: start, completedSessions: user.programProgress?.['venus-rising']?.completedSessions, sessionsPerWeek: mode === '3day' ? 3 : 4, maxWeeks: 12 });
     const current = user.planPreferences?.['venus-rising'];
     const [first, setFirst] = useState(current?.exerciseSelections?.priority1 ?? 'lateral-raise');
     const [second, setSecond] = useState(current?.exerciseSelections?.priority2 ?? 'side-glute-medius-hip-thrust');

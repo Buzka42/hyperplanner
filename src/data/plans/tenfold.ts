@@ -29,10 +29,10 @@ const CHEST_TENFOLD: DaySpec = {
     dayOfWeek: 1,
     slots: [
         tenfold('hammer-chest-press'),
-        { ex: 'hammer-upper-row', sets: 4, reps: '8-12', restSeconds: 120 },
-        { ex: 'cable-lateral-raise', sets: 3, reps: '12-20', restSeconds: 60 },
-        { ex: 'cable-triceps-extension', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'cable-curl', sets: 3, reps: '10-15', restSeconds: 60 },
+        { ex: 'hammer-upper-row', sets: 2, reps: '8-12', restSeconds: 120, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -91,8 +91,8 @@ export const TENFOLD_CONFIG = definePlan({
             // trades a set for a rep range so the load can finally move.
             transform: slot =>
                 slot.sets === 10
-                    ? { ...slot, sets: 8, reps: '8-10', notes: 'Eight sets now. Push the load rather than the count.' }
-                    : slot,
+                    ? { ...slot, sets: 5, reps: '10', notes: 'Consolidation: 5×10. Add 5–7.5% to the tenfold load.' }
+                    : { ...slot, sets: 2, technique: { kind: 'last-set-failure' as const } },
         },
     ],
     ui: {

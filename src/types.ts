@@ -20,6 +20,7 @@ export type LiftingStats = {
      */
     flatBench?: number;
     standingPress?: number;
+    bodyweightKg?: number;
 };
 
 export type BenchDominationModules = {
@@ -30,6 +31,8 @@ export type BenchDominationModules = {
     legDays: boolean; // Toggle for Tuesday/Friday leg sessions
     thursdayTricepVariant?: 'giant-set' | 'heavy-extensions'; // Thursday tricep exercise option
     lowPinPressExtraSet?: boolean; // Toggle to swap 1 set from Paused Bench to Low Pin Press
+    /** Display/tempo only — competition pause stays the default. */
+    pauseStyle?: 'paused' | 'touch-and-go';
 };
 
 export type BenchDominationStatus = {
@@ -41,6 +44,10 @@ export type BenchDominationStatus = {
     forcedDeloadCompleted?: boolean; // Tracks if forced week-8 deload happened
     lastReactiveCheckWeek?: number; // Tracks last week we checked reactive deload
     week5BaseBeforeRecalc?: number; // Base weight before week 5 e1RM recalc (for >15% drop check)
+    /** Wednesday paused-bench average RIR was ≥ 3 — Saturday backoff may bump. */
+    wednesdayVolumeEasy?: boolean;
+    /** +2.5 kg on Saturday back-off only, not the paused-bench base. */
+    saturdayBackoffBump?: boolean;
 };
 
 export type PencilneckStatus = {
@@ -59,6 +66,8 @@ export type PainGloryStatus = {
     amrapWeight?: number; // Week 13 AMRAP weight
     amrapReps?: number; // Week 13 AMRAP reps achieved
     estimatedE1RM?: number; // Calculated via Epley formula
+    /** Classic GVT-style 10×6 speed, or a lower-fatigue 8×3 for older backs. */
+    speedScheme?: 'classic' | 'low-fatigue';
 };
 
 export type TrinaryStatus = {
@@ -229,7 +238,7 @@ export type ApexPredatorStatus = {
     rom?: Record<string, { level: number; updatedWeek: number }>;
 };
 export type AthenaStatus = { exerciseLoads?: Record<string, number> };
-export type KaliStatus = { bodyweightKg?: number; baseline?: Partial<Record<'squat' | 'hinge' | 'push' | 'pull', number>> };
+export type KaliStatus = { bodyweightKg?: number; aggressive?: boolean; baseline?: Partial<Record<'squat' | 'hinge' | 'push' | 'pull', number>> };
 export type RedlineStatus = { nextRecovery?: { response: 'recovered' | 'somewhat-fatigued' | 'performance-impaired'; confirmed: boolean; recordedAt: string }; baseline?: Record<string, number> };
 
 /**
@@ -378,6 +387,12 @@ export type UserProfile = {
     eventHorizonStatus?: EventHorizonStatus;
     projectChimeraStatus?: ProjectChimeraStatus;
     oracleStatus?: OracleStatus;
+    kingOfTheSquatStatus?: { hipCapsuleStreak?: number };
+    /** definePlan double-progression seeds, keyed planId → exerciseId → kg. */
+    workingLoads?: Record<string, Record<string, number>>;
+    liftHistory?: Record<string, { date: string; weight: number }[]>;
+    neuralOverloadStatus?: { sixLoads?: Record<string, number>; holdWave2?: boolean; coupleNextSixes?: boolean };
+    tenfoldStatus?: { collapsePending?: boolean };
     programProgress?: Record<string, { completedSessions: number; startDate: string; }>;
 
     /**
@@ -390,6 +405,8 @@ export type UserProfile = {
     // New Fields
     badges?: BadgeId[];
     gluteMeasurements?: { date: string; sizeCm: number }[];
+    armMeasurements?: { date: string; sizeCm: number }[];
+    adventureEquipment?: ('bodyweight' | 'dumbbells' | 'barbell' | 'cable' | 'machines')[];
     pencilneckBenchHistory?: { date: string; week?: number; weight: number; actualWeight?: number; actualReps?: number }[]; // Separate tracking for Pencilneck
 
     // Exercise system (see src/data/exercises/types.ts)
@@ -429,6 +446,8 @@ export type Exercise = {
     sets: number;
     target: SetTarget;
     notes?: string;
+    /** Predicted load for Oracle / Lazarus, shown next to the logged set. */
+    predictedKg?: number;
     rest?: string;
     giantSetConfig?: {
         steps: GiantSetStep[];
@@ -462,6 +481,8 @@ export type Exercise = {
 
 export type WorkoutDay = {
     id?: string;
+    /** Stamped by the session view so preprocess can see the program week. */
+    weekNumber?: number;
     dayName: string; // "Monday - Heavy Strength"
     dayOfWeek: number; // 1=Mon, 2=Tue...
     exercises: Exercise[];
@@ -474,7 +495,7 @@ export interface PlanConfig {
         kind: 'scheduled' | 'pair-select' | 'session-select';
     };
     ui?: {
-        dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'deficit_snatch_tracker' | 'strength_altar' | 'workout_history' | 'mutagen_exposure' | 'recovery_gauge' | 'mutant_mindset')[];
+        dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'arm_tracker' | 'deficit_snatch_tracker' | 'strength_altar' | 'workout_history' | 'mutagen_exposure' | 'recovery_gauge' | 'mutant_mindset')[];
         themeClass?: string;
         coverImage?: string;
         navImage?: string;
@@ -496,6 +517,8 @@ export interface PlanConfig {
          * terms from the first logged set, and may move away from the seed.
          */
         seedStats?: (keyof LiftingStats)[];
+        /** Workhorse / Gravity / Kali need BW for total system weight. */
+        requireBodyweight?: boolean;
     };
     schedule?: {
         /**
@@ -528,7 +551,7 @@ export interface PlanConfig {
             target: SetTarget,
             user: UserProfile,
             exerciseName?: string,
-            context?: { week: number; day: number }
+            context?: { week: number; day: number; setIndex?: number; exerciseId?: string }
         ) => string | undefined;
     };
 }

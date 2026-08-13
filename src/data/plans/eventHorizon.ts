@@ -21,9 +21,9 @@ export const EVENT_HORIZON_DAYS: DaySpec[] = [
         s('single-arm-hammer-row', 4, '8-12', { unilateral: true }),
         s('seated-dumbbell-shoulder-press', 3, '8-12'),
         s('lat-pulldown', 3, '8-12'),
-        s('lateral-raise', 3, '12-15'),
-        s('hammer-curl', 2, '8-12'),
-        s('cable-triceps-extension', 2, '10-15'),
+        s('lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
+        s('hammer-curl', 2, '8-12', { technique: { kind: 'last-set-failure' } }),
+        s('cable-triceps-extension', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Horizon — Lower A', dayOfWeek: 2, slots: [
         s('hack-squat', 4, '6-10', { systemicCompound: true, primary: true }),
@@ -36,11 +36,11 @@ export const EVENT_HORIZON_DAYS: DaySpec[] = [
     { name: 'Horizon — Upper B', dayOfWeek: 4, slots: [
         s('hammer-pulldown', 4, '8-12', { primary: true }),
         s('hammer-chest-press', 4, '8-12'),
-        s('single-arm-reverse-pec-deck', 3, '12-15', { unilateral: true }),
-        s('pec-deck', 3, '12-15'),
-        s('lateral-raise', 3, '12-20'),
-        s('cable-curl', 2, '10-15'),
-        s('rope-pressdown', 2, '10-15'),
+        s('single-arm-reverse-pec-deck', 2, '12-15', { unilateral: true, technique: { kind: 'last-set-failure' } }),
+        s('pec-deck', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
+        s('lateral-raise', 2, '12-20', { technique: { kind: 'last-set-failure' } }),
+        s('cable-curl', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
+        s('rope-pressdown', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Horizon — Lower B', dayOfWeek: 5, slots: [
         s('leg-press', 4, '8-12', { systemicCompound: true, primary: true }),
@@ -55,8 +55,9 @@ export const EVENT_HORIZON_DAYS: DaySpec[] = [
 
 const phases = [
     { name: 'Approach', weeks: [1, 2, 3] },
-    { name: 'Accretion', weeks: [4, 5, 6, 7], transform: (slot: SlotSpec): SlotSpec =>
+    { name: 'Accretion', weeks: [4, 5, 6], transform: (slot: SlotSpec): SlotSpec =>
         slot.systemicCompound ? slot : { ...slot, rpe: 9 } },
+    { name: 'Deload', weeks: [7], transform: (slot: SlotSpec): SlotSpec => ({ ...slot, sets: Math.max(1, slot.sets - 1), rpe: 7 }) },
     { name: 'Horizon', weeks: [8, 9, 10, 11], transform: (slot: SlotSpec): SlotSpec =>
         slot.primary ? { ...slot, rpe: 9 } : { ...slot, rpe: 9, sets: slot.sets + (slot.sets < 4 ? 1 : 0) } },
     { name: 'Escape', weeks: [12], transform: (slot: SlotSpec): SlotSpec => ({ ...slot, sets: Math.max(1, slot.sets - 1) }) },
@@ -70,10 +71,12 @@ const base = definePlan({ id: 'event-horizon', name: 'Event Horizon', weeks: 12,
  * anything on its own.
  */
 const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
+    const week = Number(day.id?.match(/-w(\d+)-/)?.[1] ?? day.weekNumber ?? 1);
     const accepted = user.eventHorizonStatus?.acceptedSwaps ?? {};
-    if (!Object.keys(accepted).length) return day;
+    const named = week === 7 ? { ...day, dayName: `Deload — ${day.dayName}` } : day;
+    if (!Object.keys(accepted).length) return named;
 
-    return { ...day, exercises: day.exercises.flatMap(exercise => {
+    return { ...named, exercises: named.exercises.flatMap(exercise => {
         const replacement = exercise.exerciseId ? accepted[exercise.exerciseId] : undefined;
         if (!replacement) return [exercise];
 

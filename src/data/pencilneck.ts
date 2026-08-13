@@ -115,7 +115,7 @@ export const PENCILNECK_CONFIG: PlanConfig = {
     id: PENCILNECK_PROGRAM.id,
     program: PENCILNECK_PROGRAM,
     ui: {
-        dashboardWidgets: ['pencilneck_commandments', 'program_status', 'trap_barometer', 'workout_history'] // trap_barometer hardcoded logic check in dashboard
+        dashboardWidgets: ['strength_chart', 'workout_history']
     },
     hooks: {
         preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {
@@ -205,6 +205,15 @@ export const PENCILNECK_CONFIG: PlanConfig = {
                     return { ...ex, intensityTechnique: "LAST SET: Drop Set or Rest-Pause to Failure" };
                 }
                 return ex;
+            });
+
+            exercises = exercises.map(ex => {
+                if (COMPOUND_EXERCISES.has(ex.name)) return ex;
+                return {
+                    ...ex,
+                    sets: Math.min(ex.sets, 2),
+                    prescription: { ...ex.prescription, technique: { kind: 'last-set-failure' as const } },
+                };
             });
 
             // 4. Week 8 Final Exam (Day 4)

@@ -16,6 +16,7 @@
 
 import { EXERCISE_BY_ID } from './exercises/library';
 import type { IntensityTechniqueSpec } from './exercises/types';
+import { seedLoadFor } from '../features/onboarding/seedLoads';
 import type {
     Exercise,
     LiftingStats,
@@ -166,6 +167,7 @@ export const techniqueLabel = (technique: IntensityTechniqueSpec): string => {
         case 'back-off': return `Back-off ${technique.sets}x${technique.reps} @ ${technique.percent}%`;
         case 'wave': return `Waves: ${technique.waves}x ${technique.ladder.join('/')}`;
         case 'amrap-finisher': return 'AMRAP finisher';
+        case 'last-set-failure': return 'Last set to failure';
         default: return '';
     }
 };
@@ -325,9 +327,27 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
 
 const round2p5 = (n: number) => Math.round(n / 2.5) * 2.5;
 
+/** Percent for one rung of a 5/4/3-style wave. Wave 2 starts one step above wave 1. */
+export const wavePercentForSet = (
+    progression: Extract<Progression, { type: 'wave' }>,
+    weekInPhase: number,
+    setIndex: number,
+): number => {
+    const rungs = Math.max(1, progression.ladder.length);
+    const rung = setIndex % rungs;
+    const waveIndex = Math.floor(setIndex / rungs);
+    return progression.basePercent
+        + progression.step * (weekInPhase - 1)
+        + progression.step * waveIndex
+        + progression.step * rung;
+};
+
 /**
  * Resolves percentage-of-max, wave and linear progressions into a working
  * weight. Anything else returns undefined so WorkoutView's own fallback runs.
+ *
+ * Slot percentage stamped on `target` wins over a name lookup — four Neural
+ * 1-6 rows share a display name and must not all resolve to the first %.
  */
 const buildWeightCalculator = (spec: PlanSpec): NonNullable<PlanConfig['hooks']>['calculateWeight'] => {
     const byName = new Map<string, SlotSpec>();
@@ -338,15 +358,38 @@ const buildWeightCalculator = (spec: PlanSpec): NonNullable<PlanConfig['hooks']>
         }
     }
 
-    return (_target, user, exerciseName, context) => {
-        const slot = exerciseName ? byName.get(exerciseName) : undefined;
-        const progression = slot?.progression;
-        if (!progression || !user?.stats) return undefined;
-
+    return (target, user, exerciseName, context) => {
         const week = context?.week ?? 1;
         const phase = spec.phases?.find(p => p.weeks.includes(week));
         const weekInPhase = phase ? phase.weeks.indexOf(week) + 1 : week;
         const ctx: ProgressionContext = { week, weekInPhase, phase: phase?.name, user };
+
+        if (typeof target?.percentage === 'number' && target.percentageRef && user?.stats) {
+            const base = (user.stats[target.percentageRef] as number) || 0;
+            if (base) return round2p5(base * target.percentage).toString();
+        }
+
+        let slot: SlotSpec | undefined;
+        if (exerciseName && context?.day) {
+            const daySpec = spec.days.find(d => d.dayOfWeek === context.day);
+            const matches = daySpec?.slots.filter(s => EXERCISE_BY_ID[s.ex]?.name.en === exerciseName) ?? [];
+            if (context.exerciseId) {
+                const indexMatch = context.exerciseId.match(/-e(\d+)$/);
+                const slotIndex = indexMatch ? parseInt(indexMatch[1], 10) - 1 : 0;
+                slot = matches[slotIndex] ?? matches[0];
+            } else {
+                slot = matches[0];
+            }
+        }
+        if (!slot && exerciseName) {
+            for (const day of spec.days) {
+                const s = day.slots.find(s => EXERCISE_BY_ID[s.ex]?.name.en === exerciseName && s.progression);
+                if (s) { slot = s; break; }
+            }
+            if (!slot) slot = byName.get(exerciseName);
+        }
+        const progression = slot?.progression;
+        if (!progression || !user) return undefined;
 
         switch (progression.type) {
             case 'percentage': {
@@ -360,14 +403,21 @@ const buildWeightCalculator = (spec: PlanSpec): NonNullable<PlanConfig['hooks']>
             case 'wave': {
                 const base = (user.stats[progression.of] as number) || 0;
                 if (!base) return undefined;
-                // Each wave through the ladder is heavier than the last.
-                const percent = progression.basePercent + progression.step * (weekInPhase - 1);
+                const percent = wavePercentForSet(progression, weekInPhase, context?.setIndex ?? 0);
                 return round2p5(base * percent).toString();
             }
             case 'linear': {
                 const base = (user.stats[progression.of] as number) || 0;
                 if (!base) return undefined;
                 return round2p5(base * progression.startPercent + progression.increment * (week - 1)).toString();
+            }
+            case 'double':
+            case 'top-set-backoff': {
+                if (!slot) return undefined;
+                const saved = user.workingLoads?.[spec.id]?.[slot.ex];
+                if (saved) return String(saved);
+                const seed = seedLoadFor(user.stats, slot.ex, slot.reps);
+                return seed ? String(seed.kg) : undefined;
             }
             default:
                 return undefined;

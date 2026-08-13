@@ -50,6 +50,7 @@
     "verify:lazarus": "npx --yes tsx scripts/verify-lazarus.ts",
     "verify:quadfather": "npx --yes tsx scripts/verify-quadfather.ts",
     "verify:cathedral": "npx --yes tsx scripts/verify-cathedral.ts",
+    "verify:group3": "npx --yes tsx scripts/verify-group3-specialization.ts",
     "verify:blackout": "npx --yes tsx scripts/verify-blackout.ts",
     "verify:monolith": "npx --yes tsx scripts/verify-monolith.ts",
     "verify:atlas": "npx --yes tsx scripts/verify-atlas.ts",
@@ -57,6 +58,7 @@
     "verify:project-chimera": "npx --yes tsx scripts/verify-project-chimera.ts",
     "verify:oracle": "npx --yes tsx scripts/verify-oracle.ts",
     "verify:supermutant-pool": "npx --yes tsx scripts/verify-supermutant-pool.ts",
+    "verify:group6": "npx --yes tsx scripts/verify-group6-workhorse-simulation.ts",
     "migrate:plan-ids": "npx --yes tsx scripts/migrate-plan-ids.ts"
   },
   "dependencies": {
@@ -96,6 +98,7 @@
     "firebase-admin": "^14.2.0",
     "globals": "^16.5.0",
     "postcss": "^8.5.6",
+    "puppeteer-core": "^25.6.0",
     "tailwindcss": "^4.1.17",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "~5.9.3",

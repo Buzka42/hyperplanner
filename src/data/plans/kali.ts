@@ -27,6 +27,15 @@ const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
         const targets = repeat === 'myo' ? ['machine-hip-abduction', 'lat-prayer'] : repeat === 'rest-pause' ? ['single-leg-machine-hip-thrust', 'hammer-pulldown'] : [];
         result = { ...result, exercises: result.exercises.map(exercise => targets.includes(exercise.exerciseId ?? '') ? { ...exercise, prescription: { ...exercise.prescription, technique: repeat === 'myo' ? { kind: 'myo-reps', activationReps: '12-20', miniSets: 3, miniReps: '4-5', restBreaths: 5, applyTo: 'last' } : { kind: 'rest-pause', bursts: 2, restSeconds: 20, applyTo: 'last' } } } : exercise) };
     }
+    if (user.kaliStatus?.aggressive) {
+        const lastAccessory = [...result.exercises].reverse().find(exercise => (exercise.sets ?? 0) <= 2);
+        if (lastAccessory) result = { ...result, exercises: result.exercises.filter(exercise => exercise.id !== lastAccessory.id) };
+    }
     return result;
 };
-export const KALI_CONFIG: PlanConfig = { ...base, hooks: { ...base.hooks, preprocessDay: preprocess }, ui: { themeClass: 'theme-kali', coverImage: '/kali.png', navImage: '/kali.png', dashboardWidgets: ['program_status', 'workout_history'] } };
+export const KALI_CONFIG: PlanConfig = {
+    ...base,
+    onboarding: { ...base.onboarding, requireBodyweight: true },
+    hooks: { ...base.hooks, preprocessDay: preprocess },
+    ui: { themeClass: 'theme-kali', coverImage: '/kali.png', navImage: '/kali.png', dashboardWidgets: ['program_status', 'workout_history'] },
+};

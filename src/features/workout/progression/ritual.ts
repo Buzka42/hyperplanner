@@ -26,6 +26,7 @@ type RitualStatus = {
     squat1RM?: number;
     deadlift1RM?: number;
     lightWorkReductionPending?: Partial<Record<Lift, boolean>>;
+    meEasyStreak?: Partial<Record<Lift, number>>;
 } & Record<string, unknown>;
 
 const MAX_WEEK = 19;
@@ -127,9 +128,16 @@ const maxEffortSingles = (ctx: ProgressionContext, status: RitualStatus): Progre
 
         // The athlete's own call on whether to add load next session.
         const chosen = ctx.selections?.meProgression?.[exercise.id];
+        const streakMap = (status.meEasyStreak ?? {}) as Partial<Record<Lift, number>>;
+        const streak = streakMap[lift] || 0;
         if (chosen === 2.5 || chosen === 5) {
+            const autoFive = chosen === 2.5 && streak >= 1;
+            const jump = autoFive || chosen === 5 ? 5 : 2.5;
             const accumulated = (status[ME_PROGRESSION_FIELD[lift]] as number) || 0;
-            updates[`ritualStatus.${ME_PROGRESSION_FIELD[lift]}`] = accumulated + chosen;
+            updates[`ritualStatus.${ME_PROGRESSION_FIELD[lift]}`] = accumulated + jump;
+            updates[`ritualStatus.meEasyStreak.${lift}`] = (chosen === 5 || autoFive) ? streak + 1 : 1;
+        } else {
+            updates[`ritualStatus.meEasyStreak.${lift}`] = 0;
         }
     }
 

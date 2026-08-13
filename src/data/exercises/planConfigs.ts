@@ -19,7 +19,22 @@ export const GLOBAL_DEFAULTS: PlanExerciseDefaults = {
     swap: { policy: 'locked' },
 };
 
-export const PLAN_EXERCISE_CONFIGS: Record<string, PlanExerciseDoc> = {};
+export const PLAN_EXERCISE_CONFIGS: Record<string, PlanExerciseDoc> = {
+    'gravity-is-optional': {
+        planId: 'gravity-is-optional',
+        version: 1,
+        updatedAt: '2026-08-13',
+        updatedBy: 'seed',
+        exercises: {
+            'ab-wheel-rollout': {
+                tipOverride: {
+                    en: 'Chest to the ground every rep.',
+                    pl: 'Klatka do ziemi w każdym powtórzeniu.',
+                },
+            },
+        },
+    },
+};
 
 export const getPlanExerciseConfig = (planId: string): PlanExerciseDoc | undefined =>
     PLAN_EXERCISE_CONFIGS[planId];

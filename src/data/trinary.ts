@@ -459,7 +459,12 @@ export const TRINARY_CONFIG: PlanConfig = {
                     };
                 } else if (ex.id.includes('-de')) {
                     const liftName = getLiftName(pattern.de, 'de', user, block);
-                    return { ...ex, name: liftName, prescription: { ...ex.prescription, tempo: tempoFor(liftName, 'X0X0') } };
+                    return {
+                        ...ex,
+                        name: liftName,
+                        prescription: { ...ex.prescription, tempo: tempoFor(liftName, 'X0X0') },
+                        notes: 'Optional bands or chains ~15–25% of the bar at the top. Bar weight stays the prescribed DE %. If bar speed dies, hold the load next DE — do not add weight.',
+                    };
                 } else if (ex.id.includes('-re')) {
                     const liftName = getLiftName(pattern.re, 're', user, block);
                     return { ...ex, name: liftName, prescription: { ...ex.prescription, tempo: tempoFor(liftName, '10X0') } };

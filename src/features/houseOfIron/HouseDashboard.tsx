@@ -7,7 +7,7 @@ import type { UserProfile } from '../../types';
 import { useUser } from '../../contexts/UserContext';
 import { EXERCISE_BY_ID } from '../../data/exercises/library';
 import { HOUSE_LADDERS } from '../workout/progression/houseOfIron';
-import { calendarPlanWeek } from '../planLifecycle';
+import { clampProgramWeek } from '../planLifecycle';
 import { HOUSE_SESSION_DAY, houseBalance, recommendHouseSession, type HouseSessionId } from './recommendation';
 
 const LABELS: Record<HouseSessionId, string> = {
@@ -20,10 +20,9 @@ export const HouseDashboard = ({ user }: { user: UserProfile }) => {
     const { language } = useLanguage();
     const start = user.programProgress?.['house-of-iron']?.startDate ?? user.startDate;
     const now = new Date().toISOString();
-    const rawWeek = calendarPlanWeek(start, now);
-    const week = Math.min(8, rawWeek);
+    const week = clampProgramWeek({ startDate: start, completedSessions: user.programProgress?.['house-of-iron']?.completedSessions, sessionsPerWeek: 4, maxWeeks: 8 });
     const allHistory = user.houseOfIronStatus?.sessionHistory ?? [];
-    const weekStart = new Date(new Date(start).getTime() + (week - 1) * 7 * 86_400_000).getTime();
+    const weekStart = new Date(new Date(start ?? now).getTime() + (week - 1) * 7 * 86_400_000).getTime();
     const history = allHistory.filter(entry => new Date(entry.date).getTime() >= weekStart);
     const recommended = recommendHouseSession(history, now);
     const balance = houseBalance(history);
@@ -138,7 +137,7 @@ export const HouseDashboard = ({ user }: { user: UserProfile }) => {
         </div>
     );
 
-    if (rawWeek > 8) return <div className="instrument-page max-w-3xl">
+    if (week > 8) return <div className="instrument-page max-w-3xl">
         <section className="border-y border-border py-8 space-y-4">
             <h1 className="text-3xl font-semibold">{pl ? 'Odbuduj dom' : 'Rebuild the house'}</h1>
             <p className="text-muted-foreground">{pl ? 'Zachowasz sprzęt, wybory i zaakceptowane poziomy. Tylko zdobyte progresje przechodzą dalej.' : 'Equipment, selections, and accepted levels stay. Only earned progressions carry forward.'}</p>

@@ -135,6 +135,10 @@ const swapOptionsFor = (
             .sort((a, b) => a.name.en.localeCompare(b.name.en));
     }
 
+    if (current?.swapGroup === 'core-raise' || current?.id === 'hanging-leg-raise') {
+        return resolver.all.filter(e => e.swapGroup === 'core-raise' && e.status === 'active' && e.id !== current.id);
+    }
+
     const byIds = (ids: ExerciseId[]) =>
         ids.map(id => resolver.byId(id)).filter((e): e is LibraryExercise => Boolean(e) && e!.id !== current?.id);
 
@@ -281,7 +285,8 @@ export const resolveDay = (
 
         // Admin substitution first, then the user's own swap on top of it.
         const adminId = config.substituteWith ?? originalId;
-        const userId = userSwaps[originalId];
+        const userId = userSwaps[originalId]
+            ?? (originalId === 'hanging-leg-raise' ? user?.trainingPreferences?.coreRaiseId : undefined);
 
         const swapRule = config.swap ?? defaults.swap ?? { policy: 'locked' as const };
         const adminEntry = resolver.byId(adminId) ?? resolver.resolve(exercise.name);

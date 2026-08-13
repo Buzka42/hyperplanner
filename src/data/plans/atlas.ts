@@ -9,7 +9,7 @@
 
 import { definePlan, type DaySpec, type SlotSpec } from '../planBuilder';
 import type { PlanConfig, UserProfile, WorkoutDay } from '../../types';
-import { APPROVED_HINGES, gauntletFor } from '../../features/atlas/carries';
+import { APPROVED_HINGES, gauntletFor, nextCarryFor } from '../../features/atlas/carries';
 import { seedLoadFor } from '../../features/onboarding/seedLoads';
 import { EXERCISE_BY_ID } from '../exercises/library';
 
@@ -107,17 +107,26 @@ const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
         ? day
         : two.program.weeks[week - 1]?.days.find(candidate => candidate.dayOfWeek === Number(match[2])) ?? day;
 
-    // The hinge is the athlete's choice among approved variants, held for the
-    // whole run rather than picked per session.
-    const hinge = user.planPreferences?.atlas?.exerciseSelections?.hinge;
-    if (!hinge || !APPROVED_HINGES.includes(hinge)) return source;
-    const entry = EXERCISE_BY_ID[hinge];
-    if (!entry) return source;
+    const carries = user.atlasStatus?.carries ?? [];
+    const last = carries[carries.length - 1];
+    const prev = carries[carries.length - 2];
+    const carrySwap = last?.limiter && prev?.limiter && last.limiter === prev.limiter && last.limiter !== 'none'
+        ? nextCarryFor(last.exerciseId, last.limiter as 'grip' | 'trunk' | 'breathing' | 'upper-back' | 'legs' | 'none')
+        : undefined;
 
-    return { ...source, exercises: source.exercises.map(exercise =>
-        exercise.exerciseId === 'trap-bar-deadlift'
-            ? { ...exercise, exerciseId: entry.id, name: entry.name.en }
-            : exercise) };
+    const hinge = user.planPreferences?.atlas?.exerciseSelections?.hinge;
+    return { ...source, exercises: source.exercises.map(exercise => {
+        let next = exercise;
+        if (hinge && APPROVED_HINGES.includes(hinge) && exercise.exerciseId === 'trap-bar-deadlift') {
+            const entry = EXERCISE_BY_ID[hinge];
+            if (entry) next = { ...next, exerciseId: entry.id, name: entry.name.en };
+        }
+        if (carrySwap && (exercise.exerciseId?.includes('carry') || exercise.exerciseId === 'suitcase-hold')) {
+            const entry = EXERCISE_BY_ID[carrySwap];
+            if (entry) next = { ...next, exerciseId: entry.id, name: entry.name.en, notes: `Swapped from last limiter (${last?.limiter}).` };
+        }
+        return next;
+    }) };
 };
 
 

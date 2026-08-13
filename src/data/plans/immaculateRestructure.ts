@@ -19,6 +19,8 @@
 
 import { definePlan } from '../planBuilder';
 import type { DaySpec } from '../planBuilder';
+import type { PlanConfig, UserProfile, WorkoutDay } from '../../types';
+import { EXERCISE_BY_ID } from '../exercises/library';
 
 const UPPER_A: DaySpec = {
     name: 'Upper Structural A',
@@ -35,7 +37,7 @@ const UPPER_A: DaySpec = {
         { ex: 'incline-barbell-bench-press', sets: 3, reps: '6-10', restSeconds: 150, notes: 'Poliquin target: ~83% of close-grip bench.' },
         { ex: 'single-arm-external-rotation', sets: 3, reps: '12-20', restSeconds: 60, notes: 'Poliquin target: ~9% of close-grip bench.' },
         { ex: 'reverse-curl', sets: 3, reps: '8-12', restSeconds: 75, notes: 'Poliquin target: ~30% of close-grip bench.' },
-        { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
+        { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -64,8 +66,8 @@ const UPPER_B: DaySpec = {
         // Second weekly tricep exposure. The concept doc's Upper Structural B
         // has no direct tricep work, leaving one exposure a week and breaking
         // its own two-exposure minimum; section 16's intent wins.
-        { ex: 'cable-triceps-extension', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
+        { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -82,7 +84,7 @@ const LOWER_B: DaySpec = {
     ],
 };
 
-export const IMMACULATE_RESTRUCTURE_CONFIG = definePlan({
+const base = definePlan({
     id: 'immaculate-restructure',
     name: 'Immaculate (Re)Structure',
     weeks: 10,
@@ -94,14 +96,39 @@ export const IMMACULATE_RESTRUCTURE_CONFIG = definePlan({
         {
             name: 'Re-Test',
             weeks: [8, 9, 10],
-            // Volume drops so the retest measures strength, not accumulated fatigue.
             transform: slot => ({ ...slot, sets: Math.max(2, slot.sets - 1) }),
         },
     ],
+});
+
+const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
+    const week = Number(day.id?.match(/-w(\d+)-/)?.[1] ?? day.weekNumber ?? 1);
+    if (week < 3 || (day.dayOfWeek !== 2 && day.dayOfWeek !== 4)) return day;
+    const loads = user.workingLoads?.['immaculate-restructure'] ?? {};
+    const closeGrip = loads['close-grip-bench-press'] ?? 0;
+    if (!closeGrip) return day;
+
+    return {
+        ...day,
+        exercises: day.exercises.map(exercise => {
+            const entry = exercise.exerciseId ? EXERCISE_BY_ID[exercise.exerciseId] : undefined;
+            const ref = entry?.strengthRef;
+            if (!ref || ref.ratioOf !== 'close-grip-bench-press') return exercise;
+            const expected = closeGrip * (ref.poliquinPercent / 100);
+            const actual = loads[entry.id];
+            if (!actual || actual >= expected * 0.9) return exercise;
+            return { ...exercise, sets: exercise.sets + 2, notes: `${exercise.notes ?? ''} Lagging vs close-grip ratio — +2 sets.`.trim() };
+        }),
+    };
+};
+
+export const IMMACULATE_RESTRUCTURE_CONFIG: PlanConfig = {
+    ...base,
+    hooks: { ...base.hooks, preprocessDay: preprocess },
     ui: {
         themeClass: 'theme-immaculate-restructure',
         coverImage: '/imamculate.png',
         navImage: '/imamculate.png',
         dashboardWidgets: ['1rm', 'program_status', 'strength_chart', 'workout_history'],
     },
-});
+};

@@ -31,9 +31,9 @@ const WEIGHTED_CHIN_STRENGTH: DaySpec = {
             notes: 'Total system weight: bodyweight plus the belt. Full hang every rep.',
         },
         { ex: 'hammer-chest-press', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
-        { ex: 'cable-triceps-extension', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'cable-lateral-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -70,7 +70,7 @@ const LEGS_AND_CHEST: DaySpec = {
     dayOfWeek: 5,
     slots: [
         { ex: 'heel-elevated-goblet-squat', sets: 3, reps: '10-15', restSeconds: 90 },
-        { ex: 'sissy-squat', sets: 3, reps: '12-20', restSeconds: 90 },
+        { ex: 'sissy-squat', sets: 2, reps: '12-20', restSeconds: 90, technique: { kind: 'last-set-failure' } },
         { ex: 'seated-ham-curl', sets: 3, reps: '10-15', restSeconds: 90 },
         { ex: 'flat-dumbbell-press', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'hanging-leg-raise', sets: 3, reps: '10-20', restSeconds: 60 },
@@ -115,3 +115,5 @@ export const WORKHORSE_CONFIG = definePlan({
         dashboardWidgets: ['1rm', 'program_status', 'strength_chart', 'workout_history'],
     },
 });
+
+WORKHORSE_CONFIG.onboarding = { ...WORKHORSE_CONFIG.onboarding, requireBodyweight: true };

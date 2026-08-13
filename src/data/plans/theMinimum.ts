@@ -64,9 +64,12 @@ const base = definePlan({ id: 'the-minimum', name: 'The Minimum', weeks: 10, def
  * a third mandatory session.
  */
 const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
+    const week = Number(day.id?.match(/-w(\d+)-/)?.[1] ?? day.weekNumber ?? 1);
     const bonuses = user.minimumStatus?.bonusSessions?.length ?? 0;
-    if (!bonuses) return day;
-    return { ...day, exercises: day.exercises.map(exercise => ({ ...exercise })) };
+    if (week >= 6 && bonuses < Math.ceil(week / 2)) {
+        return { ...day, dayName: `${day.dayName} · bonus unused` };
+    }
+    return day;
 };
 
 export const THE_MINIMUM_CONFIG: PlanConfig = {

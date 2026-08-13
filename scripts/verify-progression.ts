@@ -21,6 +21,7 @@ import { ritualProgression } from '../src/features/workout/progression/ritual';
 import { trinaryProgression } from '../src/features/workout/progression/trinary';
 import { superMutantProgression } from '../src/features/workout/progression/superMutant';
 import { houseOfIronProgression } from '../src/features/workout/progression/houseOfIron';
+import { kingOfTheSquatProgression } from '../src/features/workout/progression/kingOfTheSquat';
 import type { LoggedSet, ProgressionContext } from '../src/features/workout/progression/types';
 import type { Exercise, UserProfile, WorkoutDay } from '../src/types';
 
@@ -337,6 +338,25 @@ const context = (over: Partial<ProgressionContext>): ProgressionContext => ({
         check(week4.updates['benchDominationStatus.week5BaseBeforeRecalc'] === 100,
             'Week 4 Saturday should record the current base for the week 5 comparison.');
     }
+
+    {
+        const wed: Exercise = { id: 'wed', name: 'Paused Bench Press', sets: 4, target: { type: 'range', reps: '5-10', percentageRef: 'pausedBench' } };
+        const easyWed = benchDominationProgression(context({
+            workout: day([wed]), user: stats(), week: 2, day: 3,
+            sets: { wed: [set('80', '8'), set('80', '8'), set('80', '8'), set('80', '8')].map(s => ({ ...s, rir: 3 })) },
+        }));
+        check(easyWed.updates['benchDominationStatus.wednesdayVolumeEasy'] === true,
+            'Wednesday average RIR ≥ 3 should flag an easy volume day.');
+
+        const crush = benchDominationProgression(context({
+            workout: day([amrapEx]),
+            user: { ...stats(), benchDominationStatus: { wednesdayVolumeEasy: true } } as unknown as UserProfile,
+            week: 2, day: 6,
+            sets: { amrap: [set('100', '12')] },
+        }));
+        check(crush.updates['benchDominationStatus.saturdayBackoffBump'] === true,
+            'Easy Wednesday plus a crushed AMRAP should bump Saturday back-off, not the base.');
+    }
 }
 
 // ===========================================================================
@@ -468,6 +488,13 @@ const context = (over: Partial<ProgressionContext>): ProgressionContext => ({
         }));
         check(withChoice.updates['ritualStatus.squatMEProgression'] === 7.5,
             `2.5 + 5 should accumulate to 7.5, got ${withChoice.updates['ritualStatus.squatMEProgression']}.`);
+
+        const secondEasy = ritualProgression(context({
+            workout: day([me]), user: ritual({ squatMEProgression: 2.5, meEasyStreak: { squat: 1 } }), week: 7,
+            sets: { me: [set('170', '1')] }, selections: { meProgression: { me: 2.5 } },
+        }));
+        check(secondEasy.updates['ritualStatus.squatMEProgression'] === 7.5,
+            `Two easy ME weeks should auto-jump +5, got ${secondEasy.updates['ritualStatus.squatMEProgression']}.`);
     }
 
     // Slow bar speed on a Light day flags a reduction for that lift.
@@ -529,6 +556,13 @@ const context = (over: Partial<ProgressionContext>): ProgressionContext => ({
         const r = trinaryProgression(context({ workout: day([deEx]), user: tri(), sets: { de: speed } }));
         const pending = r.updates['trinaryStatus.deProgressionPending'] as { lift: string; amount: number }[];
         check(pending?.[0]?.lift === 'squat', `DE squat should queue against squat, got ${JSON.stringify(pending)}.`);
+
+        const held = trinaryProgression(context({
+            workout: day([deEx]), user: tri(), sets: { de: speed },
+            selections: { slowVelocity: { de: true } },
+        }));
+        check(held.updates['trinaryStatus.deProgressionPending'] === undefined,
+            'A slow DE bar should hold the load instead of queueing +2.5.');
     }
 
     // Accessory days log the session but must not advance the conjugate block.
@@ -631,6 +665,27 @@ const context = (over: Partial<ProgressionContext>): ProgressionContext => ({
     const reset = miss.updates['houseOfIronStatus.progression'] as Record<string, { cleanTopRangeExposures: number }>;
     check(reset['goblet-heel-elevated-squat'].cleanTopRangeExposures === 0, 'A missed exposure breaks the consecutive streak.');
     check(houseOfIronProgression(context({ planId: 'house-of-iron', isExistingLog: true, workout: day([squat]), sets: logged })).updates['houseOfIronStatus.progression'] === undefined, 'Re-saving a House workout must not earn progression twice.');
+}
+
+// ===========================================================================
+// King of the Squat — two hip/capsule flags swap to the safety bar
+// ===========================================================================
+{
+    const squat: Exercise = { id: 'sq', name: 'Paused Low Bar Squat', exerciseId: 'low-bar-squat', sets: 6, target: { type: 'straight', reps: '5' } };
+    const first = kingOfTheSquatProgression(context({
+        planId: 'king-of-the-squat', workout: day([squat]), sets: { sq: [set('135', '5')] },
+        selections: { hipCapsule: { sq: true } },
+    }));
+    check(first.updates['kingOfTheSquatStatus.hipCapsuleStreak'] === 1, 'First hip flag should start a streak.');
+    check(first.updates['exerciseSwaps.king-of-the-squat.low-bar-squat'] === undefined, 'One flag must not swap the bar.');
+
+    const second = kingOfTheSquatProgression(context({
+        planId: 'king-of-the-squat', workout: day([squat]), sets: { sq: [set('135', '5')] },
+        user: { kingOfTheSquatStatus: { hipCapsuleStreak: 1 } } as UserProfile,
+        selections: { hipCapsule: { sq: true } },
+    }));
+    check(second.updates['exerciseSwaps.king-of-the-squat.low-bar-squat'] === 'safety-bar-squat',
+        'Two consecutive hip flags should auto-swap to the safety bar.');
 }
 
 // ===========================================================================

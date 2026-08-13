@@ -117,7 +117,7 @@
     --secondary: 0 45% 13%;
     --secondary-foreground: 0 10% 96%;
     --muted: 0 12% 15%;
-    --muted-foreground: 0 8% 68%;
+    --muted-foreground: 0 8% 78%;
     --accent: 0 0% 88%;
     --accent-foreground: 0 0% 8%;
     --border: 0 25% 17%;
@@ -332,7 +332,7 @@
       --accent: 336 100% 61%;
       --accent-foreground: 240 8% 5%;
       --muted: 0 0% 13%;
-      --muted-foreground: 0 12% 62%;
+      --muted-foreground: 0 12% 75%;
       --border: 0 0% 18%;
       --input: 0 0% 18%;
       --ring: 65 100% 51%;
@@ -632,7 +632,7 @@
       --accent: 53 100% 49%;
       --accent-foreground: 240 8% 5%;
       --muted: 0 0% 13%;
-      --muted-foreground: 0 12% 62%;
+      --muted-foreground: 0 12% 75%;
       --border: 0 0% 18%;
       --input: 0 0% 18%;
       --ring: 53 100% 49%;
@@ -1075,9 +1075,9 @@ b { font-weight: 600; }
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   font-size: .82rem;
   font-weight: 500;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow: visible;
+  white-space: normal;
+  word-break: break-word;
 }
 .identity-row.is-active { color: var(--signal-text); }
 .identity-row.is-active strong { color: var(--signal-text); }

@@ -41,6 +41,8 @@ export type ProgressionContext = {
         /** null where the athlete cleared the choice, hence not just number. */
         meProgression?: Record<string, number | null>;
         slowVelocity?: Record<string, boolean>;
+        hipCapsule?: Record<string, boolean>;
+        carryLimiter?: Record<string, string>;
     };
 };
 

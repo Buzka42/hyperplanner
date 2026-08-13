@@ -41,6 +41,7 @@ export const LIFT_SOURCES: Record<string, Derivation> = {
     'tempo-squat': { from: 'squat', percent: 0.85 },
     'front-squat': { from: 'squat', percent: 0.85 },
     'safety-bar-squat': { from: 'squat', percent: 0.9 },
+    'high-bar-squat': { from: 'squat', percent: 1 },
     'high-box-squat': { from: 'squat', percent: 0.9 },
     'low-box-squat': { from: 'squat', percent: 0.9 },
 
@@ -54,7 +55,7 @@ export const LIFT_SOURCES: Record<string, Derivation> = {
 
     // --- bench -------------------------------------------------------------
     'flat-barbell-bench-press': { from: 'flatBench', percent: 1 },
-    'paused-bench-press': { from: 'flatBench', percent: 0.95 },
+    'paused-bench-press': { from: 'pausedBench', percent: 1 },
     'close-grip-bench-press': { from: 'flatBench', percent: 0.92 },
     'incline-barbell-bench-press': { from: 'flatBench', percent: 0.85 },
     'spoto-press': { from: 'pausedBench', percent: 0.95 },
@@ -78,7 +79,8 @@ export const maxFor = (
 ): { kg: number; from: keyof LiftingStats; derived: boolean } | undefined => {
     const source = LIFT_SOURCES[exerciseId];
     if (!source || !stats) return undefined;
-    const parent = stats[source.from];
+    let parent = stats[source.from];
+    if ((typeof parent !== 'number' || parent <= 0) && source.from === 'pausedBench') parent = stats.flatBench;
     if (typeof parent !== 'number' || parent <= 0) return undefined;
     return {
         kg: Math.round((parent * source.percent) / 2.5) * 2.5,

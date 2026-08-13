@@ -31,8 +31,8 @@ const HEAVY_HIP_EXTENSION: DaySpec = {
         { ex: 'flat-dumbbell-press', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'hammer-upper-row', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'cable-lateral-raise', sets: 3, reps: '12-20', restSeconds: 60 },
-        { ex: 'cable-curl', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'rope-pressdown', sets: 3, reps: '10-15', restSeconds: 60 },
+        { ex: 'cable-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'rope-pressdown', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -64,9 +64,9 @@ const UPPER_DOMINANT: DaySpec = {
         { ex: 'hammer-lower-row', sets: 4, reps: '8-12', restSeconds: 120 },
         { ex: 'lat-pulldown', sets: 3, reps: '8-12', restSeconds: 105 },
         { ex: 'seated-dumbbell-shoulder-press', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
-        { ex: 'dumbbell-hammer-curl', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'cable-triceps-extension', sets: 3, reps: '10-15', restSeconds: 60 },
+        { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'dumbbell-hammer-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         // No hard hamstring work today by design — this day protects recovery
         // between the two specialised lower sessions.
     ],
@@ -81,7 +81,7 @@ const LENGTHENED_HAMSTRINGS: DaySpec = {
             sets: 4,
             reps: '10-15',
             restSeconds: 120,
-            notes: 'Once 2x50 kg is easy: 3s eccentric, then 4s, then a pause in the stretch, then 1.5 reps, then more reps.',
+            notes: 'Lengthened control. Progress the ladder: 3s eccentric → 4s → pause in the stretch → 1.5 reps → extra reps.',
         },
         { ex: 'single-leg-hamstring-curl', sets: 3, reps: '10-15', restSeconds: 90, notes: 'Weaker leg first.' },
         { ex: 'heel-elevated-goblet-squat', sets: 3, reps: '10-15', restSeconds: 90 },

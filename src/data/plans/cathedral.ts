@@ -23,9 +23,9 @@ export const CATHEDRAL_DAYS: DaySpec[] = [
     { name: 'Nave — Press', dayOfWeek: 1, slots: [
         s('incline-dumbbell-bench-press', 4, '6-10', { systemicCompound: true, primary: true }),
         s('dip', 3, '8-12'),
-        s('pec-deck', 3, '12-15'),
+        s('pec-deck', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
-        s('lateral-raise', 2, '12-15'),
+        s('lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
         s('cable-triceps-extension', 1, '10-15'),
     ] },
     // Lower day: the chest gets a day off so the next exposure is not a
@@ -40,9 +40,9 @@ export const CATHEDRAL_DAYS: DaySpec[] = [
     ] },
     // Chest exposure 2 — stretch leads.
     { name: 'Transept — Stretch', dayOfWeek: 4, slots: [
-        s('cable-fly', 3, '10-15'),
+        s('cable-fly', 2, '10-15', { technique: { kind: 'partials', extraReps: '6', range: 'bottom', applyTo: 'last' } }),
         s('30-smith-incline-bench-press', 3, '8-12'),
-        s('cable-crossover', 3, '12-20'),
+        s('cable-crossover', 2, '12-20', { technique: { kind: 'last-set-failure' } }),
         s('hammer-pulldown', 3, '8-12'),
         s('single-arm-reverse-pec-deck', 2, '12-15', { unilateral: true }),
         s('hammer-curl', 2, '8-12'),
@@ -50,7 +50,7 @@ export const CATHEDRAL_DAYS: DaySpec[] = [
     // Chest exposure 3 — adduction leads; the lightest of the three on the
     // shoulder, so it can follow the other two without stacking front-delt cost.
     { name: 'Spire — Adduction', dayOfWeek: 5, slots: [
-        s('pec-deck', 3, '12-20'),
+        s('pec-deck', 2, '12-20', { technique: { kind: 'last-set-failure' } }),
         s('flat-dumbbell-press', 3, '8-12'),
         s('dip', 2, '8-12'),
         s('lat-pulldown', 3, '8-12'),

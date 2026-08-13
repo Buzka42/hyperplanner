@@ -33,7 +33,7 @@ const ARM_STRENGTH: DaySpec = {
         },
         { ex: 'flat-dumbbell-press', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'hammer-upper-row', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
+        { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -55,8 +55,8 @@ const LENGTHENED_ARMS: DaySpec = {
     name: 'Lengthened Arms + Torso',
     dayOfWeek: 4,
     slots: [
-        { ex: '30-incline-lying-dumbbell-curl', sets: 3, reps: '8-12', restSeconds: 75, notes: 'Arm behind the torso — that stretch is the point.' },
-        { ex: 'bayesian-cable-curl', sets: 3, reps: '12-15', restSeconds: 60 },
+        { ex: 'bayesian-cable-curl', sets: 3, reps: '8-12', restSeconds: 75, notes: 'Lengthened lead — arm behind the torso.' },
+        { ex: '30-incline-lying-dumbbell-curl', sets: 3, reps: '12-15', restSeconds: 60 },
         { ex: 'cable-triceps-extension', sets: 3, reps: '10-15', restSeconds: 60 },
         { ex: 'french-press', sets: 3, reps: '10-15', restSeconds: 75 },
         { ex: 'incline-barbell-bench-press', sets: 3, reps: '8-12', restSeconds: 120 },
@@ -94,7 +94,7 @@ export const ARMS_RACE_CONFIG = definePlan({
             // Density block: arm work gains a set, everything else holds.
             transform: slot =>
                 slot.pair || slot.ex.includes('curl') || slot.ex.includes('pressdown')
-                    ? { ...slot, sets: slot.sets + 1 }
+                    ? { ...slot, technique: { kind: 'myo-reps', miniSets: 2, miniReps: '4-5', restBreaths: 5 } }
                     : slot,
         },
     ],
@@ -102,6 +102,6 @@ export const ARMS_RACE_CONFIG = definePlan({
         themeClass: 'theme-arms-race',
         coverImage: '/armsrace.png',
         navImage: '/armsrace.png',
-        dashboardWidgets: ['program_status', 'strength_chart', 'workout_history'],
+        dashboardWidgets: ['program_status', 'strength_chart', 'arm_tracker', 'workout_history'],
     },
 });

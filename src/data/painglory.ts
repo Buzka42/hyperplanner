@@ -108,32 +108,32 @@ const createPainGloryWeeks = (): ProgramWeek[] => {
                 id: `pg-w${w}-d1-e3`,
                 name: "Slow Eccentric Cheat Nordic Curls",
                 sets: 2,
-                target: { type: "failure", reps: "Failure" },
-                notes: "t:tips.slowEccentricNordic"
+                target: { type: "range", reps: "4-8" },
+                notes: "t:tips.slowEccentricNordic",
+                prescription: { technique: { kind: 'last-set-failure' } }
             },
             {
                 id: `pg-w${w}-d1-e4`,
                 name: "Single-Leg Machine Hip Thrust",
-                sets: 3,
+                sets: 2,
                 target: { type: "range", reps: "8-12" },
-                notes: "t:tips.singleLegHipThrustPG"
+                notes: "t:tips.singleLegHipThrustPG",
+                prescription: { technique: { kind: 'last-set-failure' } }
             },
             {
                 id: `pg-w${w}-d1-e5`,
                 name: "Dead Hang",
-                sets: 3,
-                target: { type: "failure", reps: "Failure" },
+                sets: 2,
+                target: { type: "range", reps: "20-40" },
                 notes: "t:tips.deadHangPlanks",
-                // Two movements rather than one combined slot, so each carries
-                // its own history and the console alternates them.
-                prescription: { pair: "C1", restSeconds: 120 }
+                prescription: { pair: "C1", restSeconds: 120, technique: { kind: 'last-set-failure' } }
             },
             {
                 id: `pg-w${w}-d1-e5-b`,
                 name: "Planks",
-                sets: 3,
-                target: { type: "failure", reps: "Failure" },
-                prescription: { pair: "C2", restSeconds: 120 }
+                sets: 2,
+                target: { type: "range", reps: "20-40" },
+                prescription: { pair: "C2", restSeconds: 120, technique: { kind: 'last-set-failure' } }
             }
         );
 
@@ -149,16 +149,18 @@ const createPainGloryWeeks = (): ProgramWeek[] => {
             {
                 id: `pg-w${w}-d2-e2`,
                 name: "Leg Extensions",
-                sets: 3,
+                sets: 2,
                 target: { type: "range", reps: "6-10" },
-                notes: "t:tips.legExtensionsPG"
+                notes: "t:tips.legExtensionsPG",
+                prescription: { technique: { kind: 'last-set-failure' } }
             },
             {
                 id: `pg-w${w}-d2-e3`,
                 name: "Hack Squat Calf Raises",
-                sets: 3,
+                sets: 2,
                 target: { type: "range", reps: "15-20" },
-                notes: "t:tips.hackCalfRaisesPG"
+                notes: "t:tips.hackCalfRaisesPG",
+                prescription: { technique: { kind: 'last-set-failure' } }
             },
             {
                 id: `pg-w${w}-d2-e4`,
@@ -188,16 +190,18 @@ const createPainGloryWeeks = (): ProgramWeek[] => {
             {
                 id: `pg-w${w}-d4-e2`,
                 name: "Leg Extensions",
-                sets: 3,
+                sets: 2,
                 target: { type: "range", reps: "6-10" },
-                notes: "t:tips.legExtensionsPG"
+                notes: "t:tips.legExtensionsPG",
+                prescription: { technique: { kind: 'last-set-failure' } }
             },
             {
                 id: `pg-w${w}-d4-e3`,
                 name: "Hack Squat Calf Raises",
-                sets: 3,
+                sets: 2,
                 target: { type: "range", reps: "15-20" },
-                notes: "t:tips.hackCalfRaisesPG"
+                notes: "t:tips.hackCalfRaisesPG",
+                prescription: { technique: { kind: 'last-set-failure' } }
             },
             {
                 id: `pg-w${w}-d4-e4`,
@@ -260,32 +264,32 @@ const createPainGloryWeeks = (): ProgramWeek[] => {
                 id: `pg-w${w}-d5-e3`,
                 name: "Slow Eccentric Cheat Nordic Curls",
                 sets: 2,
-                target: { type: "failure", reps: "Failure" },
-                notes: "t:tips.slowEccentricNordic"
+                target: { type: "range", reps: "4-8" },
+                notes: "t:tips.slowEccentricNordic",
+                prescription: { technique: { kind: 'last-set-failure' } }
             },
             {
                 id: `pg-w${w}-d5-e4`,
                 name: "Single-Leg Machine Hip Thrust",
-                sets: 3,
+                sets: 2,
                 target: { type: "range", reps: "8-12" },
-                notes: "t:tips.singleLegHipThrustPG"
+                notes: "t:tips.singleLegHipThrustPG",
+                prescription: { technique: { kind: 'last-set-failure' } }
             },
             {
                 id: `pg-w${w}-d5-e5`,
                 name: "Dead Hang",
-                sets: 3,
-                target: { type: "failure", reps: "Failure" },
+                sets: 2,
+                target: { type: "range", reps: "20-40" },
                 notes: "t:tips.deadHangPlanks",
-                // Two movements rather than one combined slot, so each carries
-                // its own history and the console alternates them.
-                prescription: { pair: "C1", restSeconds: 120 }
+                prescription: { pair: "C1", restSeconds: 120, technique: { kind: 'last-set-failure' } }
             },
             {
                 id: `pg-w${w}-d5-e5-b`,
                 name: "Planks",
-                sets: 3,
-                target: { type: "failure", reps: "Failure" },
-                prescription: { pair: "C2", restSeconds: 120 }
+                sets: 2,
+                target: { type: "range", reps: "20-40" },
+                prescription: { pair: "C2", restSeconds: 120, technique: { kind: 'last-set-failure' } }
             }
         );
 
@@ -338,6 +342,15 @@ export const PAIN_GLORY_CONFIG: PlanConfig = {
             const weekNum = weekMatch ? parseInt(weekMatch[1]) : 1;
 
             let processedDay = { ...day };
+
+            const speedScheme = user.painGloryStatus?.speedScheme ?? 'classic';
+            if (speedScheme === 'low-fatigue') {
+                processedDay.exercises = processedDay.exercises.map(ex =>
+                    ex.name === 'Deficit Snatch Grip Deadlift' && ex.sets >= 8
+                        ? { ...ex, sets: 8, target: { ...ex.target, type: 'straight' as const, reps: '3' } }
+                        : ex,
+                );
+            }
 
             // Handle peaking weeks weight calculations
             if (weekNum >= 13 && weekNum <= 16) {

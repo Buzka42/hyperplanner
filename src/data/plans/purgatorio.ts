@@ -44,8 +44,8 @@ const UPPER_A: DaySpec = {
         { ex: 'hammer-upper-row', sets: 3, reps: '8-12', restSeconds: 120, pair: 'A2' },
         { ex: 'seated-dumbbell-shoulder-press', sets: 3, reps: '8-12', restSeconds: 105, pair: 'B1' },
         { ex: 'lat-pulldown', sets: 3, reps: '8-12', restSeconds: 105, pair: 'B2' },
-        { ex: 'standing-straight-bar-curl', sets: 3, reps: '10-12', restSeconds: 75, pair: 'C1' },
-        { ex: 'rope-pressdown', sets: 3, reps: '10-12', restSeconds: 75, pair: 'C2' },
+        { ex: 'standing-straight-bar-curl', sets: 2, reps: '10-12', restSeconds: 75, pair: 'C1', technique: { kind: 'last-set-failure' } },
+        { ex: 'rope-pressdown', sets: 2, reps: '10-12', restSeconds: 75, pair: 'C2', technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -69,10 +69,10 @@ const UPPER_B: DaySpec = {
     slots: [
         { ex: 'incline-dumbbell-bench-press', sets: 3, reps: '8-12', restSeconds: 120, pair: 'A1' },
         { ex: 'hammer-lower-row', sets: 3, reps: '8-12', restSeconds: 120, pair: 'A2' },
-        { ex: 'cable-lateral-raise', sets: 3, reps: '12-20', restSeconds: 75, pair: 'B1' },
+        { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 75, pair: 'B1', technique: { kind: 'last-set-failure' } },
         { ex: 'pull-up', sets: 3, reps: '6-10', restSeconds: 120, pair: 'B2' },
-        { ex: 'dumbbell-hammer-curl', sets: 3, reps: '10-12', restSeconds: 75, pair: 'C1' },
-        { ex: 'lying-dumbbell-skullcrusher', sets: 3, reps: '10-12', restSeconds: 75, pair: 'C2' },
+        { ex: 'dumbbell-hammer-curl', sets: 2, reps: '10-12', restSeconds: 75, pair: 'C1', technique: { kind: 'last-set-failure' } },
+        { ex: 'lying-dumbbell-skullcrusher', sets: 2, reps: '10-12', restSeconds: 75, pair: 'C2', technique: { kind: 'last-set-failure' } },
     ],
 };
 

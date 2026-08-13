@@ -27,9 +27,9 @@ export const ORACLE_DAYS: DaySpec[] = [
         s('single-arm-hammer-row', 4, '8-12', { unilateral: true }),
         s('seated-dumbbell-shoulder-press', 3, '8-12'),
         s('lat-pulldown', 3, '8-12'),
-        s('lateral-raise', 3, '12-15'),
-        s('cable-triceps-extension', 2, '10-15'),
-        s('hammer-curl', 2, '8-12'),
+        s('lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
+        s('cable-triceps-extension', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
+        s('hammer-curl', 2, '8-12', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Oracle — Lower A', dayOfWeek: 2, slots: [
         s('barbell-squat', 4, '5-8', { systemicCompound: true, primary: true }),
@@ -44,9 +44,9 @@ export const ORACLE_DAYS: DaySpec[] = [
         s('hammer-pulldown', 4, '8-12'),
         s('hammer-chest-press', 3, '8-12'),
         s('single-arm-reverse-pec-deck', 3, '12-15', { unilateral: true }),
-        s('lateral-raise', 3, '12-20'),
-        s('rope-pressdown', 2, '10-15'),
-        s('cable-curl', 2, '10-15'),
+        s('lateral-raise', 2, '12-20', { technique: { kind: 'last-set-failure' } }),
+        s('rope-pressdown', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
+        s('cable-curl', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Oracle — Lower B', dayOfWeek: 5, slots: [
         s('hack-squat', 4, '6-10', { systemicCompound: true, primary: true }),
@@ -90,11 +90,11 @@ const exposuresFor = (user: UserProfile, exerciseId: string): Exposure[] =>
  * a network call.
  */
 const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
-    const week = Number(day.id?.match(/-w(\d+)-/)?.[1] ?? 1);
+    const week = day.weekNumber ?? Number(day.id?.match(/-w(\d+)-/)?.[1] ?? 1);
     if (isCalibrationWeek(week)) {
         return { ...day, exercises: day.exercises.map(exercise => ({
             ...exercise,
-            notes: exercise.notes ?? 'Calibration week — train to the target and report RIR honestly. No prediction yet.',
+            notes: exercise.notes ?? 'Calibration week — pick a load you can hit for the target, then rank RIR on every working set. No prediction yet.',
         })) };
     }
 
@@ -114,7 +114,7 @@ const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
                 ? `Predicted ${prediction.range[0]}–${prediction.range[1]} kg (medium confidence). ${prediction.rationale}`
                 : `Predicted ${prediction.loadKg} kg (high confidence). ${prediction.rationale}`;
 
-        return { ...exercise, notes: exercise.notes ?? label };
+        return { ...exercise, notes: exercise.notes ?? label, predictedKg: prediction.loadKg ?? prediction.range?.[0] };
     }) };
 };
 
@@ -129,6 +129,7 @@ const seededWeight = (base: PlanConfig): NonNullable<PlanConfig['hooks']>['calcu
     (target, user, exerciseName, context) => {
         const existing = base.hooks?.calculateWeight?.(target, user, exerciseName, context);
         if (existing) return existing;
+        if (isCalibrationWeek(context?.week ?? 1)) return undefined;
 
         const entry = Object.values(EXERCISE_BY_ID).find(item => item.name.en === exerciseName || item.name.pl === exerciseName);
         if (!entry) return undefined;

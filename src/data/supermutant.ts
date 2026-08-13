@@ -512,7 +512,22 @@ export function generateNextWorkout(user: UserProfile): WorkoutDay | null {
     if (upperBlockAReady) upperCandidates.push({ block: 'A', score: lastTrained(['chest', 'triceps', 'biceps']) });
     if (upperBlockBReady) upperCandidates.push({ block: 'B', score: lastTrained(['back', 'shoulders', 'calves']) });
     upperCandidates.sort((a, b) => a.score - b.score);
-    const selectedUpperBlock: 'A' | 'B' | null = upperCandidates[0]?.block ?? null;
+    const starving = Object.entries(status.rolling7DayVolume || {})
+        .filter(([, volume]) => (volume as number) < 8)
+        .map(([muscle]) => muscle);
+    const coversStarving = (muscles: string[]) => starving.some(muscle => muscles.includes(muscle));
+    if (starving.length) {
+        const coveringUpper = upperCandidates.filter(candidate =>
+            candidate.block === 'A' ? coversStarving(['chest', 'triceps', 'biceps']) : coversStarving(['back', 'shoulders', 'calves']));
+        if (coveringUpper.length) coveringUpper.sort((a, b) => a.score - b.score);
+    }
+
+    const selectedUpperBlock: 'A' | 'B' | null = (() => {
+        if (!starving.length) return upperCandidates[0]?.block ?? null;
+        const covering = upperCandidates.filter(candidate =>
+            candidate.block === 'A' ? coversStarving(['chest', 'triceps', 'biceps']) : coversStarving(['back', 'shoulders', 'calves']));
+        return (covering[0] ?? upperCandidates[0])?.block ?? null;
+    })();
 
     // If neither upper block is ready, return rest day
     if (!selectedUpperBlock) {

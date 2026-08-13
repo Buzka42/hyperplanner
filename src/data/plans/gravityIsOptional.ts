@@ -14,6 +14,9 @@
 
 import { definePlan } from '../planBuilder';
 import type { DaySpec } from '../planBuilder';
+import type { PlanConfig, UserProfile, WorkoutDay } from '../../types';
+import { EXERCISE_BY_ID } from '../exercises/library';
+import { GRAVITY_ABS_SLOTS } from '../../features/planSelections/options';
 
 const HEAVY_GRAVITY: DaySpec = {
     name: 'Heavy Gravity',
@@ -77,9 +80,9 @@ const VOLUME_GRAVITY: DaySpec = {
             notes: 'Accumulate 50 total reps.',
         },
         { ex: 'heel-elevated-goblet-squat', sets: 4, reps: '10-15', restSeconds: 90 },
-        { ex: 'cable-lateral-raise', sets: 3, reps: '12-20', restSeconds: 60 },
-        { ex: 'cable-curl', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'cable-triceps-extension', sets: 3, reps: '10-15', restSeconds: 60 },
+        { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -106,7 +109,7 @@ const CONTROL_GRAVITY: DaySpec = {
     ],
 };
 
-export const GRAVITY_IS_OPTIONAL_CONFIG = definePlan({
+const base = definePlan({
     id: 'gravity-is-optional',
     name: 'Gravity Is Optional',
     weeks: 12,
@@ -139,3 +142,31 @@ export const GRAVITY_IS_OPTIONAL_CONFIG = definePlan({
         dashboardWidgets: ['program_status', 'strength_chart', 'workout_history'],
     },
 });
+
+export const GRAVITY_IS_OPTIONAL_CONFIG: PlanConfig = {
+    ...base,
+    onboarding: { ...base.onboarding, requireBodyweight: true },
+    hooks: {
+        ...base.hooks,
+        preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {
+            const chosen = user.planPreferences?.['gravity-is-optional']?.exerciseSelections?.abs
+                ?? user.trainingPreferences?.coreRaiseId;
+            const entry = chosen ? EXERCISE_BY_ID[chosen] : undefined;
+            if (!entry) return day;
+            return {
+                ...day,
+                exercises: day.exercises.map(exercise =>
+                    GRAVITY_ABS_SLOTS.has(exercise.exerciseId ?? '')
+                        ? {
+                            ...exercise,
+                            exerciseId: entry.id,
+                            name: entry.name.en,
+                            notes: chosen === 'ab-wheel-rollout'
+                                ? 'Chest to the ground every rep.'
+                                : exercise.notes,
+                        }
+                        : exercise),
+            };
+        },
+    },
+};

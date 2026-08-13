@@ -42,6 +42,27 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [authReady, setAuthReady] = useState(false);
     const [notification, setNotification] = useState<{ type: 'badge'; badgeId: BadgeId } | null>(null);
 
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            (window as any).__SET_TEST_USER__ = (testProfile: UserProfile | null) => {
+                if (testProfile) {
+                    sessionStorage.setItem('hyperplanner_test_user', JSON.stringify(testProfile));
+                } else {
+                    sessionStorage.removeItem('hyperplanner_test_user');
+                }
+                setUser(testProfile);
+                setLoading(false);
+            };
+            const stored = sessionStorage.getItem('hyperplanner_test_user');
+            if (stored) {
+                try {
+                    setUser(JSON.parse(stored));
+                    setLoading(false);
+                } catch (e) {}
+            }
+        }
+    }, []);
+
     // Starts as the bundled seed so the first render never waits on Firestore,
     // then upgrades in place once the admin overlay arrives.
     const [exerciseResolver, setExerciseResolver] = useState<ExerciseResolver>(SEED_RESOLVER);
@@ -70,9 +91,12 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (user?.scheduleMode === 'rolling') {
             const newWeeks = plan.program.weeks.map(week => {
                 const training = week.days.filter(d => d.exercises && d.exercises.length > 0);
+                // Skeleton (and similar) stores empty placeholders and fills
+                // from `day.id` in preprocessDay — do not strip those ids.
+                if (training.length === 0) return week;
                 const newDays = training.map((d, i) => ({ ...d, dayOfWeek: i + 1 }));
                 for (let dow = training.length + 1; dow <= 7; dow++) {
-                    newDays.push({ dayName: 'Rest', dayOfWeek: dow, exercises: [] });
+                    newDays.push({ id: `${week.weekNumber}-rest-${dow}`, dayName: 'Rest', dayOfWeek: dow, exercises: [] });
                 }
                 return { ...week, days: newDays };
             });
@@ -84,6 +108,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const userDays = [...user.selectedDays].sort((a, b) => a - b);
             const newWeeks = plan.program.weeks.map(week => {
                 const originalTrainingDays = week.days.filter(d => d.exercises && d.exercises.length > 0);
+                if (originalTrainingDays.length === 0) return week;
                 const newDays = [];
                 let trainIdx = 0;
 
@@ -96,10 +121,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                             });
                             trainIdx++;
                         } else {
-                            newDays.push({ dayName: 'Rest', dayOfWeek: d, exercises: [] });
+                            newDays.push({ id: `w${week.weekNumber}-d${d}`, dayName: 'Rest', dayOfWeek: d, exercises: [] });
                         }
                     } else {
-                        newDays.push({ dayName: 'Rest', dayOfWeek: d, exercises: [] });
+                        newDays.push({ id: `w${week.weekNumber}-d${d}`, dayName: 'Rest', dayOfWeek: d, exercises: [] });
                     }
                 }
                 return { ...week, days: newDays };
@@ -142,6 +167,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (!authReady) return;
 
         if (!listeningId) {
+            const stored = typeof window !== 'undefined' ? sessionStorage.getItem('hyperplanner_test_user') : null;
+            if (stored) {
+                setLoading(false);
+                return;
+            }
             setLoading(false);
             setUser(null);
             return;
@@ -304,6 +334,8 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 programProgress: existingData?.programProgress || {},
                 badges: existingData?.badges || [],
                 gluteMeasurements: existingData?.gluteMeasurements || [],
+                armMeasurements: existingData?.armMeasurements || [],
+                ...(existingData?.adventureEquipment && { adventureEquipment: existingData.adventureEquipment }),
                 pencilneckBenchHistory: existingData?.pencilneckBenchHistory || [],
                 ...(existingData?.benchDominationStatus && { benchDominationStatus: existingData.benchDominationStatus }),
                 ...(existingData?.pencilneckStatus && { pencilneckStatus: existingData.pencilneckStatus }),

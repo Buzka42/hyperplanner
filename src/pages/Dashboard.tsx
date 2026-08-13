@@ -15,6 +15,7 @@ import { AccessoryChoiceModal } from '../components/AccessoryChoiceModal';
 import { AdventureDashboard } from './AdventureDashboard';
 import { ADVENTURE_PLAN_ID } from '../data/adventure';
 import { cn } from '../lib/utils';
+import { trackedLiftFor } from '../features/dashboard/trackedLift';
 import { HouseDashboard } from '../features/houseOfIron/HouseDashboard';
 import { ApexDashboard } from '../features/apexPredator/ApexDashboard';
 import { VenusDashboard } from '../features/venusRising/VenusDashboard';
@@ -22,6 +23,10 @@ import { AthenaDashboard } from '../features/athena/AthenaDashboard';
 import { FollowUps } from '../features/portfolio/FollowUps';
 import { ORDERED_PLAN_META } from '../data/planMeta';
 import { KaliDashboard } from '../features/kali/KaliDashboard';
+import { QUADFATHER_DAYS } from '../data/plans/quadfather';
+import { roleBalance } from '../features/quadfather/roles';
+import { CATHEDRAL_DAYS } from '../data/plans/cathedral';
+import { archBalance } from '../features/cathedral/arches';
 
 export const Dashboard: React.FC = () => {
     const { user, activePlanConfig, updateUserProfile } = useUser();
@@ -35,6 +40,7 @@ export const Dashboard: React.FC = () => {
     const [completionType, setCompletionType] = useState<'skeleton' | 'pencilneck' | null>(null);
     const [showNextSteps, setShowNextSteps] = useState(false);
     const [gluteInput, setGluteInput] = useState("");
+    const [armInput, setArmInput] = useState("");
     const isPeachy = activePlanConfig.id === 'peachy-glute-plan';
     const isPainGlory = activePlanConfig.id === 'pain-and-glory';
     const isTrinary = activePlanConfig.id === 'trinary';
@@ -204,10 +210,10 @@ export const Dashboard: React.FC = () => {
 
     const weekData = currentProgram.weeks.find(w => w.weekNumber === viewWeek);
 
-    // Use squat history for Peachy, bench history for others
-    const strengthHistory = isPeachy ? (user.squatHistory || []) : (user.benchHistory || []);
-    const strengthChartTitle = isPeachy ? t('dashboard.cards.squatStrengthProgression') : t('dashboard.cards.strengthProgression');
-    const initialStat = isPeachy ? user.stats.squat : user.stats.pausedBench;
+    const tracked = trackedLiftFor(activePlanConfig.id, user);
+    const strengthHistory = tracked.history;
+    const strengthChartTitle = tracked.title;
+    const initialStat = tracked.startKg;
 
     const data = strengthHistory?.map((entry: any) => ({
         date: new Date(entry.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
@@ -278,7 +284,7 @@ export const Dashboard: React.FC = () => {
         const target = activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.weakness')
             : activePlanConfig.id === 'skeleton-' ? t('dashboard.threat')
                 : t('dashboard.dominate');
-        return { title: <>{lead} {target}</>, tagline: `${t('dashboard.welcomeBack')}, ${user?.codeword}.` };
+        return { title: <>{lead} {target}</> };
     })();
 
     /**
@@ -511,7 +517,7 @@ export const Dashboard: React.FC = () => {
                                             <ResponsiveContainer width="100%" height="100%">
                                                 <LineChart data={user.gluteMeasurements.slice(-5)}>
                                                     <YAxis domain={['dataMin', 'auto']} hide />
-                                                    <Line type="monotone" dataKey="sizeCm" stroke="#FF7A5C" strokeWidth={2} dot={false} />
+                                                    <Line type="monotone" dataKey="sizeCm" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
                                                 </LineChart>
                                             </ResponsiveContainer>
                                         </div>
@@ -521,7 +527,57 @@ export const Dashboard: React.FC = () => {
                         </Card>
                     )}
 
-                    {activeWidgets.includes('program_status') && (
+                    {activeWidgets.includes('arm_tracker') && (
+                        <Card className="col-span-3 border-primary/20 bg-primary/5">
+                            <CardHeader className="pb-2">
+                                <CardTitle className="text-sm font-medium flex items-center justify-between">
+                                    <span>Arm tape</span>
+                                    <Activity className="w-4 h-4 text-primary" />
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex gap-2 items-end">
+                                    <div className="grid gap-1.5 flex-1">
+                                        <label className="text-xs font-medium text-muted-foreground">Circumference (cm)</label>
+                                        <Input
+                                            type="number"
+                                            placeholder="e.g. 38"
+                                            value={armInput}
+                                            onChange={(e) => setArmInput(e.target.value)}
+                                            className="h-8"
+                                        />
+                                    </div>
+                                    <Button
+                                        size="sm"
+                                        onClick={async () => {
+                                            if (!armInput) return;
+                                            const newVal = parseFloat(armInput);
+                                            const newHistory = [...(user.armMeasurements || []), { date: new Date().toISOString(), sizeCm: newVal }];
+                                            await updateUserProfile({ armMeasurements: newHistory });
+                                            setArmInput("");
+                                        }}
+                                    >
+                                        {t('common.log')}
+                                    </Button>
+                                </div>
+                                {user.armMeasurements && user.armMeasurements.length > 0 && (
+                                    <div className="mt-4">
+                                        <div className="text-xs text-muted-foreground mb-1">{t('dashboard.cards.latestGrowthTrend')}</div>
+                                        <div className="h-[60px] w-full">
+                                            <ResponsiveContainer width="100%" height="100%">
+                                                <LineChart data={user.armMeasurements.slice(-5)}>
+                                                    <YAxis domain={['dataMin', 'auto']} hide />
+                                                    <Line type="monotone" dataKey="sizeCm" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
+                                                </LineChart>
+                                            </ResponsiveContainer>
+                                        </div>
+                                    </div>
+                                )}
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {false && activeWidgets.includes('program_status') && (
                         <Card className="col-span-2">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">{t('dashboard.cards.programStatus')}</CardTitle>
@@ -570,12 +626,91 @@ export const Dashboard: React.FC = () => {
                                                 dataKey="weight"
                                                 stroke="hsl(var(--primary))"
                                                 strokeWidth={2}
-                                                dot={{ fill: "hsl(var(--primary))", r: 3 }}
-                                                label={{ position: 'top', fill: 'hsl(var(--foreground))', fontSize: 12, formatter: (value: any) => `${value} kg` }}
+                                                fill="none"
+                                                dot={(props: { index?: number; cx?: number; cy?: number }) =>
+                                                    props.index === data.length - 1
+                                                        ? <circle cx={props.cx} cy={props.cy} r={3} fill="hsl(var(--primary))" />
+                                                        : <g />
+                                                }
                                             />
                                         </LineChart>
                                     </ResponsiveContainer>
                                 </div>
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {(activePlanConfig.id === 'workhorse' || activePlanConfig.id === 'gravity-is-optional') && (
+                        <Card className="col-span-2">
+                            <CardHeader className="pb-2">
+                                <CardTitle className="text-sm font-medium">TSW</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">{user.stats.bodyweightKg ? `${user.stats.bodyweightKg} kg BW` : 'Log bodyweight'}</div>
+                                <p className="text-xs text-muted-foreground">Belt load + bodyweight on chins and dips.</p>
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {activePlanConfig.id === 'quadfather' && (() => {
+                        const balance = user.quadfatherStatus?.roleBalance ?? roleBalance(QUADFATHER_DAYS.flatMap(day => day.slots.map(slot => slot.ex)));
+                        return (
+                        <Card className="col-span-2 md:col-span-3">
+                            <CardHeader className="pb-2"><CardTitle className="text-sm font-medium">Load / Depth / Burn</CardTitle></CardHeader>
+                            <CardContent>
+                                <dl className="grid grid-cols-3 gap-3 text-center">
+                                    {(['load', 'depth', 'burn'] as const).map(role => (
+                                        <div key={role}>
+                                            <dt className="text-xs uppercase tracking-widest text-muted-foreground">{role}</dt>
+                                            <dd className="text-2xl font-bold">{balance[role]}</dd>
+                                        </div>
+                                    ))}
+                                </dl>
+                            </CardContent>
+                        </Card>
+                        );
+                    })()}
+
+                    {activePlanConfig.id === 'cathedral' && (() => {
+                        const setsById: Record<string, number> = {};
+                        for (const day of CATHEDRAL_DAYS) for (const slot of day.slots) setsById[slot.ex] = (setsById[slot.ex] ?? 0) + slot.sets;
+                        const balance = user.cathedralStatus?.arches ?? archBalance(CATHEDRAL_DAYS.flatMap(day => day.slots.map(slot => slot.ex)), setsById, user.cathedralStatus?.comboMachineRole);
+                        return (
+                        <Card className="col-span-2 md:col-span-3">
+                            <CardHeader className="pb-2"><CardTitle className="text-sm font-medium">Press / Stretch / Adduction</CardTitle></CardHeader>
+                            <CardContent>
+                                <dl className="grid grid-cols-3 gap-3 text-center">
+                                    {(['press', 'stretch', 'adduction'] as const).map(arch => (
+                                        <div key={arch}>
+                                            <dt className="text-xs uppercase tracking-widest text-muted-foreground">{arch}</dt>
+                                            <dd className="text-2xl font-bold">{balance[arch]}</dd>
+                                        </div>
+                                    ))}
+                                </dl>
+                            </CardContent>
+                        </Card>
+                        );
+                    })()}
+
+                    {activePlanConfig.id === 'lazarus' && (
+                        <Card className="col-span-3">
+                            <CardHeader className="pb-2"><CardTitle className="text-sm font-medium">Predicted vs logged</CardTitle></CardHeader>
+                            <CardContent className="space-y-2 text-sm">
+                                {Object.entries(user.lazarusStatus?.memoryCurve ?? {}).slice(0, 6).map(([id, memory]) => {
+                                    const predicted = memory.preBreakKg && user.lazarusStatus?.breakMonths
+                                        ? Math.round((memory.preBreakKg * (user.lazarusStatus.breakMonths < 3 ? 0.9 : user.lazarusStatus.breakMonths < 6 ? 0.8 : user.lazarusStatus.breakMonths < 12 ? 0.7 : 0.6)) / 2.5) * 2.5
+                                        : undefined;
+                                    const logged = user.workingLoads?.lazarus?.[id];
+                                    return (
+                                        <div key={id} className="flex justify-between gap-3 border-b border-border py-1">
+                                            <span className="text-muted-foreground">{id}</span>
+                                            <span>{predicted ? `${predicted} kg pred` : '—'} · {logged ? `${logged} kg logged` : '—'}</span>
+                                        </div>
+                                    );
+                                })}
+                                {!Object.keys(user.lazarusStatus?.memoryCurve ?? {}).length && (
+                                    <p className="text-muted-foreground">No memory-curve loads yet — first sessions calibrate.</p>
+                                )}
                             </CardContent>
                         </Card>
                     )}
@@ -605,6 +740,24 @@ export const Dashboard: React.FC = () => {
                                 <p className="text-xs text-right text-amber-500/70 mt-1">
                                     {Math.round((gloryCounter / 50000) * 100)}% to 50,000 kg milestone
                                 </p>
+                                <div className="mt-4 flex gap-2">
+                                    <Button
+                                        type="button"
+                                        variant={(user as { painGloryStatus?: { speedScheme?: string } }).painGloryStatus?.speedScheme === 'low-fatigue' ? 'secondary' : 'default'}
+                                        size="sm"
+                                        onClick={() => updateDoc(doc(db, 'users', user.id), { 'painGloryStatus.speedScheme': 'classic' })}
+                                    >
+                                        Speed 10×6
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        variant={(user as { painGloryStatus?: { speedScheme?: string } }).painGloryStatus?.speedScheme === 'low-fatigue' ? 'default' : 'secondary'}
+                                        size="sm"
+                                        onClick={() => updateDoc(doc(db, 'users', user.id), { 'painGloryStatus.speedScheme': 'low-fatigue' })}
+                                    >
+                                        Low-fatigue 8×3
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
                     )}
@@ -853,24 +1006,7 @@ export const Dashboard: React.FC = () => {
                                 </CardContent>
                             </Card>
 
-                            {/* Mutant Mindset - Motivational Quote */}
-                            <Card className="col-span-full border-orange-800/30 bg-card">
-                                <CardContent className="p-6 text-center">
-                                    <Activity className="h-10 w-10 text-orange-500 mb-2" />
-                                    <p className="text-lg font-black italic radiation-text">
-                                        "{(() => {
-                                            const quotes = tArray('superMutantQuotes');
-                                            const workoutCount = user.superMutantStatus?.completedWorkouts || 0;
-                                            // Rotate quote based on workout count
-                                            const index = workoutCount % quotes.length;
-                                            return quotes[index] || quotes[0];
-                                        })()}"
-                                    </p>
-                                    <div className="text-xs text-green-400/60 mt-3 font-mono">
-                                        {t('dashboard.superMutant.mindsetTitle')}
-                                    </div>
-                                </CardContent>
-                            </Card>
+                            {/* Mutant Mindset removed — recovery gauge is the product. */}
 
                             {/* Mutagen Exposure - program progress */}
                             {(() => {

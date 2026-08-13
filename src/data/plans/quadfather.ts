@@ -21,10 +21,10 @@ export const QUADFATHER_DAYS: DaySpec[] = [
     { name: 'The Offer — Load', dayOfWeek: 1, slots: [
         s('hack-squat', 4, '5-8', { systemicCompound: true, primary: true }),
         s('goblet-heel-elevated-squat', 3, '8-12'),
-        s('leg-extension', 2, '12-15'),
+        s('leg-extension', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
         s('incline-dumbbell-bench-press', 3, '6-10'),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
-        s('lateral-raise', 2, '12-15'),
+        s('lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
     ] },
     // Posterior and upper maintenance; no quad work at all, on purpose.
     { name: 'The Family — Maintain', dayOfWeek: 2, slots: [
@@ -41,7 +41,7 @@ export const QUADFATHER_DAYS: DaySpec[] = [
     { name: 'The Debt — Depth', dayOfWeek: 4, slots: [
         s('front-foot-elevated-bulgarian-split-squat', 3, '8-12', { unilateral: true }),
         s('leg-press', 3, '10-15', { systemicCompound: true }),
-        s('supported-sissy-squat', 2, '10-15'),
+        s('supported-sissy-squat', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
         s('seated-dumbbell-shoulder-press', 3, '8-12'),
         s('hammer-pulldown', 3, '8-12'),
         s('hack-calf-raise', 2, '12-20'),
@@ -51,7 +51,7 @@ export const QUADFATHER_DAYS: DaySpec[] = [
     { name: 'The Reckoning — Burn', dayOfWeek: 5, slots: [
         s('knee-over-toe-split-squat', 3, '8-12', { unilateral: true }),
         s('stripper-squat', 3, '10-15'),
-        s('reverse-nordic-curl', 2, '8-12'),
+        s('reverse-nordic-curl', 2, '8-12', { technique: { kind: 'last-set-failure' } }),
         s('lying-leg-curl', 2, '10-15'),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
         s('hammer-curl', 1, '10-15'),
@@ -81,8 +81,18 @@ const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
     const week = Number(day.id?.match(/-w(\d+)-/)?.[1] ?? 1);
     // Accepted knee swaps, latest confirmation per movement wins.
     const accepted = new Map<string, string>();
+    const strainedCounts = new Map<string, number>();
     for (const entry of user.quadfatherStatus?.kneeFeedback ?? []) {
         if (entry.acceptedSwap && entry.week <= week) accepted.set(entry.exerciseId, entry.acceptedSwap);
+        if (entry.severity !== 'normal' && !entry.acceptedSwap) {
+            strainedCounts.set(entry.exerciseId, (strainedCounts.get(entry.exerciseId) ?? 0) + 1);
+        }
+    }
+    const autoSwaps = new Map<string, string>();
+    for (const [exerciseId, count] of strainedCounts) {
+        if (count < 2) continue;
+        const offer = proposeKneeSwap(exerciseId, 'strained');
+        if (offer?.to) autoSwaps.set(exerciseId, offer.to);
     }
 
     return { ...day, exercises: day.exercises.map(exercise => {
@@ -93,7 +103,9 @@ const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
             if (entry) next = { ...next, exerciseId: entry.id, name: entry.name.en };
         }
 
-        const swap = next.exerciseId ? choices[`swap:${next.exerciseId}`] ?? accepted.get(next.exerciseId) : undefined;
+        const swap = next.exerciseId
+            ? choices[`swap:${next.exerciseId}`] ?? accepted.get(next.exerciseId) ?? autoSwaps.get(next.exerciseId)
+            : undefined;
         if (swap && next.exerciseId && roleOf(swap) && roleOf(swap) === roleOf(next.exerciseId)) {
             const entry = EXERCISE_BY_ID[swap];
             if (entry) next = { ...next, exerciseId: entry.id, name: entry.name.en };

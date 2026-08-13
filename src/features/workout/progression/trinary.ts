@@ -142,7 +142,8 @@ export const trinaryProgression = (ctx: ProgressionContext): ProgressionResult =
         if (exercise.name.includes('(DE)')) {
             const prescribed = (exercise as { baseSets?: number }).baseSets ?? exercise.sets;
             const work = workSets(sets);
-            if (work.length >= prescribed && work.every(s => s.completed && parseInt(s.reps) >= 2)) {
+            const speedDied = Boolean(ctx.selections?.slowVelocity?.[exercise.id]);
+            if (!speedDied && work.length >= prescribed && work.every(s => s.completed && parseInt(s.reps) >= 2)) {
                 dePending = queue(dePending, lift, 2.5);
                 updates['trinaryStatus.deProgressionPending'] = dePending;
             }

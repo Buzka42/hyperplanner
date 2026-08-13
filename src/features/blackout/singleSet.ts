@@ -115,7 +115,7 @@ const MESSAGES: Record<BlackoutStallStage, string> = {
     repeat: 'Repeat the prescription. One missed set is not a trend.',
     'rep-target': 'Adjust the rep target rather than the load — the same work at a different target often moves again.',
     'exercise-change': 'Change the movement for this slot. Confirm the replacement before it is applied.',
-    'add-set': 'Only now: add a second work set. This changes what the plan is, so it is confirmed explicitly.',
+    'add-set': 'Rest-pause the work set instead of stacking a second back-off.',
 };
 
 export const advanceStall = (previous: StallState, progressed: boolean): StallResponse => {
