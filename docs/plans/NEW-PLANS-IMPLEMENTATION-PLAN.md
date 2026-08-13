@@ -1,5 +1,11 @@
 # New plans — implementation plan
 
+> **This is one phase of a larger plan.** The master document is
+> `GPT-IMPLEMENTATION-PLAN.md`, which sequences these seven plans behind two
+> phases they depend on (shared engine extraction, then exercise metadata) and
+> ahead of the portfolio fixes and the 12 new concepts. Read that first; this
+> document is the detail for its Phase 3.
+
 Four design documents in `docs/plans/` describe **seven** unimplemented plans.
 They were explicitly out of scope for the overhaul; this is the plan for
 building them.
@@ -207,5 +213,13 @@ assessment results. Its exercise list has to be read out by hand.
 
 ### Next
 
-Phase 1 (Apex Predator) as planned — but note its library needs are still
-unknown, so read its doc for movements before building.
+**Superseded by the owner's build-order decision.** These seven plans no longer
+come first: the owner chose to **extract the shared engines before building any
+plan**, because the same stall-breaking ladder is specified in four docs, the
+same calibration in three variants, and the same confidence system in five of
+the twelve new concepts. See `GPT-IMPLEMENTATION-PLAN.md` §4 and §5.
+
+Within this phase, when it is reached, the order is unchanged: Apex Predator
+first (triage its library needs by hand — the audit script cannot see them),
+then Venus/Athena/Kali, then House of Iron and REDLINE once each has a build
+spec.

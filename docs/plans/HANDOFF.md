@@ -6,6 +6,13 @@ Written 2026-08-10. Branch `ui-overhaul-gym-ux`, pushed to
 Read this first, then `docs/plans/IMPLEMENTATION_PLAN.md` for the full plan and
 `docs/protocol-sheet-redesign.md` for the design contract.
 
+> **Picking this up to build the next phase?** The overhaul described below is
+> finished. The plan for everything that comes after it — engine extraction,
+> exercise metadata, the 7 in-progress plans, the portfolio fixes and the 12 new
+> concepts — is **`docs/plans/GPT-IMPLEMENTATION-PLAN.md`**. Read this document
+> for the repo's conventions and traps (§4, §9, §10 especially), then work from
+> that one.
+
 ---
 
 ## 1. What this work is
@@ -161,6 +168,21 @@ be declared, point at a real plan, and appear in `validPlanIds()`.
 phase has an options document in `docs/plans/` recording the alternates and why
 the built one won, and `DESIGN.md` now documents the system that actually
 exists.
+
+### The next body of work
+
+**`docs/plans/GPT-IMPLEMENTATION-PLAN.md`** is the plan for it, written to be
+picked up cold. It covers five phases in dependency order — shared engine
+extraction, exercise metadata for all 208 movements, the 7 in-progress plans,
+the portfolio fixes from the review's §35, and the 12 new concepts — plus the
+owner decisions that are locked, the four that are still open, and the three
+things blocked on credentials.
+
+Build specs that already exist and are owner-approved:
+`APEX-PREDATOR-SPEC.md`, `VENUS-ATHENA-KALI-SPEC.md`,
+`PERFORMANCE-PROFILE-SPEC.md`. House of Iron and REDLINE still need one, and
+writing it is part of their phase — do not build either from its design doc
+alone.
 
 ### Owner action items
 
