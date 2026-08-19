@@ -1,0 +1,705 @@
+<title>Thirty-Six Plans, Re-Measured</title>
+<style>
+:root {
+  --ground: #EBEEEF;
+  --surface: #FFFFFF;
+  --surface-2: #F3F5F6;
+  --ink: #14181C;
+  --ink-soft: #3A444E;
+  --muted: #626D78;
+  --hairline: #D2D8DC;
+  --hairline-strong: #B6BEC5;
+  --after: #0F6B62;
+  --after-soft: #0f6b6222;
+  --before: #8A959E;
+  --before-soft: #8a959e33;
+  --gain: #2F7A4F;
+  --loss: #A8332A;
+  --warn: #8A6212;
+  --shadow: 0 1px 2px rgba(20,24,28,.06), 0 8px 24px -16px rgba(20,24,28,.28);
+  --serif: Charter, "Iowan Old Style", "Source Serif 4", "Source Serif Pro", Palatino, Georgia, serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0D1013;
+    --surface: #15191E;
+    --surface-2: #1B2027;
+    --ink: #E7EBEF;
+    --ink-soft: #C2CBD3;
+    --muted: #8C99A4;
+    --hairline: #262D35;
+    --hairline-strong: #38424C;
+    --after: #45C3B2;
+    --after-soft: #45c3b229;
+    --before: #6E7C88;
+    --before-soft: #6e7c8838;
+    --gain: #5AB183;
+    --loss: #D97164;
+    --warn: #C7A155;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0D1013;
+  --surface: #15191E;
+  --surface-2: #1B2027;
+  --ink: #E7EBEF;
+  --ink-soft: #C2CBD3;
+  --muted: #8C99A4;
+  --hairline: #262D35;
+  --hairline-strong: #38424C;
+  --after: #45C3B2;
+  --after-soft: #45c3b229;
+  --before: #6E7C88;
+  --before-soft: #6e7c8838;
+  --gain: #5AB183;
+  --loss: #D97164;
+  --warn: #C7A155;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px -18px rgba(0,0,0,.8);
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0 20px 96px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 1180px; margin: 0 auto; }
+.narrow { max-width: 660px; }
+
+/* ---------- masthead ---------- */
+.masthead { padding: 72px 0 40px; border-bottom: 2px solid var(--ink); }
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+h1 {
+  font-size: clamp(38px, 6vw, 62px);
+  line-height: 1.02;
+  letter-spacing: -.022em;
+  font-weight: 600;
+  margin: 0 0 20px;
+  text-wrap: balance;
+}
+.standfirst { font-size: 20px; line-height: 1.5; color: var(--ink-soft); margin: 0; max-width: 680px; }
+.byline {
+  display: flex; flex-wrap: wrap; gap: 8px 28px;
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  margin-top: 32px; letter-spacing: .02em;
+}
+
+/* ---------- sections ---------- */
+section { padding-top: 64px; }
+h2 {
+  font-size: 15px; font-family: var(--mono); font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink); margin: 0 0 8px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--hairline-strong);
+}
+h3 { font-size: 22px; font-weight: 600; letter-spacing: -.01em; margin: 40px 0 10px; }
+p { margin: 0 0 16px; }
+.lede { font-size: 18px; color: var(--ink-soft); }
+.note { font-size: 14px; color: var(--muted); line-height: 1.55; }
+strong { font-weight: 700; }
+code, .m { font-family: var(--mono); font-size: .88em; }
+
+/* ---------- headline tiles ---------- */
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); margin-top: 28px; }
+@media (max-width: 900px) { .tiles { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .tiles { grid-template-columns: 1fr; } }
+.tile { background: var(--surface); padding: 22px 20px 20px; }
+.tile-label { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.tile-value { font-family: var(--mono); font-size: 30px; font-weight: 600; letter-spacing: -.02em; line-height: 1; font-variant-numeric: tabular-nums; margin: 0; }
+.tile-value .from { color: var(--before); font-size: 20px; }
+.tile-value .arrow { color: var(--muted); font-size: 17px; padding: 0 4px; }
+.tile-note { font-size: 13px; color: var(--muted); margin: 12px 0 0; line-height: 1.45; }
+
+/* ---------- verdict ---------- */
+.verdict { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 28px; }
+.finding { border-left: 3px solid var(--hairline-strong); padding: 4px 0 4px 20px; margin-bottom: 26px; }
+.finding.good { border-left-color: var(--gain); }
+.finding.bad  { border-left-color: var(--loss); }
+.finding.flat { border-left-color: var(--warn); }
+.finding h4 { margin: 0 0 6px; font-size: 18px; font-weight: 600; letter-spacing: -.01em; }
+.finding p { margin: 0; color: var(--ink-soft); font-size: 15.5px; }
+
+/* ---------- tables ---------- */
+.scroller { overflow-x: auto; border: 1px solid var(--hairline); background: var(--surface); margin-top: 24px; }
+table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+thead th {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--surface-2); color: var(--muted);
+  font-weight: 600; font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  text-align: right; padding: 11px 10px; white-space: nowrap;
+  border-bottom: 1px solid var(--hairline-strong);
+}
+thead th.l { text-align: left; }
+tbody td { padding: 9px 10px; text-align: right; border-bottom: 1px solid var(--hairline); white-space: nowrap; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: var(--surface-2); }
+td.l { text-align: left; }
+td.plan { font-family: var(--serif); font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+td.plan .pid { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; color: var(--muted); font-weight: 400; text-transform: uppercase; }
+.parked td { opacity: .5; }
+.dim { color: var(--muted); }
+
+/* inline bars */
+.bar { display: flex; align-items: center; gap: 7px; justify-content: flex-end; }
+.bar .track { position: relative; width: 74px; height: 15px; background: var(--before-soft); flex: none; }
+.bar .fill { position: absolute; inset: 0 auto 0 0; background: var(--after); opacity: .85; }
+.bar .ghost { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--before); }
+.bar .num { min-width: 30px; text-align: right; }
+
+.delta { font-size: 11.5px; padding: 1px 5px; border-radius: 2px; letter-spacing: .01em; }
+.delta.up { color: var(--gain); background: color-mix(in srgb, var(--gain) 12%, transparent); }
+.delta.down { color: var(--loss); background: color-mix(in srgb, var(--loss) 12%, transparent); }
+.delta.same { color: var(--muted); }
+.delta.warnchip { color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, transparent); }
+.wrapcell { width: 380px; white-space: normal; font-size: 11.5px; line-height: 1.45; color: var(--muted); }
+.stack { display: flex; width: 210px; height: 13px; background: var(--surface-2); }
+.stack span { display: block; height: 100%; }
+
+/* ---------- figures ---------- */
+figure { margin: 28px 0 0; }
+figcaption { font-size: 13.5px; color: var(--muted); margin-top: 14px; line-height: 1.5; max-width: 720px; }
+.fig-box { border: 1px solid var(--hairline); background: var(--surface); padding: 22px 18px 14px; overflow-x: auto; }
+svg { display: block; max-width: 100%; height: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 22px; font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 16px; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.swatch { width: 11px; height: 11px; flex: none; }
+
+
+/* ---------- set shape ---------- */
+(() => {
+  const rows = D.plans.filter(p => p.id !== '30-minute-adventure');
+  const maxSlots = Math.max(...rows.map(p => p.shape.a.slots));
+  const seg = (n, total, color) => n ? `<span style="width:${(n / total * 100).toFixed(1)}%;background:${color}"></span>` : '';
+  document.getElementById('shape').innerHTML = `
+    <thead><tr>
+      <th class="l">Plan</th><th>Slots</th><th>Sets/slot</th><th>1-set</th><th>4+ non-lead</th><th>Flags</th>
+      <th class="l" style="width:230px">Slot mix after</th><th class="l">Corrections applied</th>
+    </tr></thead><tbody>` + rows.map(p => {
+      const b = p.shape.b, a = p.shape.a, t = a.slots || 1;
+      const fixed = n => n === 0 ? '<span class="delta same">0</span>' : `<span class="delta down">${n}</span>`;
+      const drop = (from, to) => from === to
+        ? (from === 0 ? '<span class="dim">0</span>' : `<span class="delta down">${from}</span>`)
+        : `<span class="dim">${from}</span> <span class="delta up">→ ${to}</span>`;
+      return `<tr${p.parked ? ' class="parked"' : ''}>
+        <td class="l plan">${p.name}<span class="pid">${p.shapeFix.length} corrections</span></td>
+        <td>${a.slots}</td>
+        <td>${b.avg.toFixed(2)} <span class="dim">→</span> ${a.avg.toFixed(2)}</td>
+        <td>${drop(b.one, a.one)}</td>
+        <td>${drop(b.deep, a.deep)}</td>
+        <td>${(() => { const u = (p.flags || []).filter(f => !f.x).length;
+          return u ? `<span class="delta down">${u}</span>` : '<span class="delta same">0</span>'; })()}</td>
+        <td class="l"><span class="stack">${seg(a.one, t, 'var(--loss)')}${seg(a.two, t, 'var(--after)')}${seg(a.three, t, 'color-mix(in srgb, var(--after) 60%, transparent)')}${seg(a.four, t, 'var(--warn)')}</span></td>
+        <td class="l"><div class="wrapcell">${p.shapeFix.slice(0, 3).join('; ') || '—'}${p.shapeFix.length > 3 ? `; +${p.shapeFix.length - 3} more` : ''}</div></td>
+      </tr>`;
+    }).join('') + '</tbody>';
+})();
+
+/* ---------- specialisation fit ---------- */
+(() => {
+  const mark = v => {
+    if (v === 'holds') return '<span class="delta up">holds</span>';
+    if (v === 'partial') return '<span class="delta warnchip">partial</span>';
+    if (v === 'misses') return '<span class="delta down">misses</span>';
+    return '<span class="delta same">—</span>';
+  };
+  document.getElementById('fit').innerHTML = `
+    <thead><tr>
+      <th class="l">Plan</th><th class="l">Declared focus</th><th>Rank</th><th>Exposures</th><th class="l">Focus</th>
+      <th>Fatigue d/m</th><th class="l">Fatigue</th><th class="l">Experience</th><th class="l">Level</th><th class="l">What is off</th>
+    </tr></thead><tbody>` + D.plans.filter(p => p.fit).map(p => {
+      const f = p.fit;
+      return `<tr${p.parked ? ' class="parked"' : ''}>
+        <td class="l plan">${p.name}</td>
+        <td class="l">${f.spec.join(' + ') || '<span class="dim">none declared</span>'}</td>
+        <td>${f.spec.length ? '#' + f.rank : '<span class="dim">—</span>'}</td>
+        <td>${f.spec.length ? `${f.exp}/${f.req}` : '<span class="dim">—</span>'}</td>
+        <td class="l">${mark(f.specV)}</td>
+        <td>${f.fd} / ${f.fm}</td>
+        <td class="l">${mark(f.fV)}</td>
+        <td class="l" style="font-size:11px">${f.xp.map(x => x.slice(0, 3)).join('/')}</td>
+        <td class="l">${mark(f.xpV)}</td>
+        <td class="l"><div class="wrapcell">${f.notes.join(' · ') || '—'}</div></td>
+      </tr>`;
+    }).join('') + '</tbody>';
+
+  const fits = D.plans.filter(p => p.fit).map(p => p.fit);
+  const findings = [
+    { tone: 'bad', h: 'Pencilneck is mis-sold on both axes at once',
+      p: 'It is offered to beginners at fatigue 2, and measures fatigue 4 with 22.8 sets a session — the heaviest weekly systemic load in the catalogue outside Super Mutant. PN-RB-I already votes to retag it intermediate; the fatigue rating needs the same correction, and the ramp from ~50 sets is what makes the opening weeks survivable.' },
+    { tone: 'good', h: 'Nine of ten specialisation plans hold',
+      p: 'Peachy, Overhead Dominion, Arms Race, Workhorse, Gravity Is Optional, Hamstring Foundry, Quadfather, Cathedral and Bench Domination all lead on their declared group and clear their exposure requirement. Only King of the Squat is partial: it declares quads, which rank #2 behind glutes at 28 sets — largely inherent, since the low-bar squat lists quads and glutes as co-primary. Its real gap is elsewhere: shoulders 6, triceps 3, calves 3 and core 3 are all under a growth dose.' },
+    { tone: 'bad', h: 'Four plans claim more fatigue than they deliver',
+      p: 'Kali, Cathedral, Blackout and Iron Clock all declare fatigue 3 and measure 1. For Kali and Blackout that is arguably correct positioning — a cut plan and a one-set plan should feel hard without accumulating load — but the number on the card is a promise about recovery cost, and it is wrong by two bands. Cathedral is a chest specialisation sitting in the catalogue's lightest quartile.' },
+    { tone: 'flat', h: 'Two plans sell a specialisation nothing checks',
+      p: 'Pain & Glory and Venus Rising both carry the specialisation goal on their cards, but declare no specialisation group in PLAN_RULES — so verify:volume cannot test whether they deliver it. Venus names glutes, delts, back and quads in its own copy; Pain & Glory is a deadlift plan.' },
+  ];
+  document.getElementById('fitFindings').innerHTML = findings.map(f =>
+    `<div class="finding ${f.tone}"><h4>${f.h}</h4><p>${f.p}</p></div>`).join('');
+})();
+
+/* ---------- open items ---------- */
+.items { border-top: 1px solid var(--hairline-strong); margin-top: 24px; }
+.item { display: grid; grid-template-columns: 190px 1fr; gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--hairline); }
+.item-plan { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.item p { margin: 0; font-size: 15px; color: var(--ink-soft); }
+@media (max-width: 620px) { .item { grid-template-columns: 1fr; gap: 6px; } }
+
+ul { margin: 0 0 16px; padding-left: 22px; }
+li { margin-bottom: 9px; color: var(--ink-soft); }
+li::marker { color: var(--muted); }
+
+.foot { margin-top: 72px; padding-top: 24px; border-top: 2px solid var(--ink); font-size: 14px; color: var(--muted); }
+.foot code { color: var(--ink-soft); }
+:focus-visible { outline: 2px solid var(--after); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Portfolio review · vote simulation + variety assignment</p>
+    <h1>Thirty-Six Plans, Re-Measured</h1>
+    <p class="standfirst">Every plan in the catalogue, measured in three states: as shipped, after the audit votes, and after the variety assignment and set-shape rules. Scored throughout on the v2 audit's own axes — plus two new questions: is the set count on each slot productive, and does each plan actually do what its card claims?</p>
+    <div class="byline">
+      <span id="stamp">Simulated 2026-08-16</span>
+      <span>36 plans · 1 parked</span>
+      <span>Rounds 1–2 · 6 proposed library ids</span>
+    </div>
+  </header>
+
+  <section>
+    <h2>The short version</h2>
+    <div class="narrow">
+      <p class="lede">Round 1 — the audit votes — barely moved anything, and the catalogue-wide rules made plans converge: one triceps movement landed in 22 of them. Round 2 spends the library instead. Near-clone plan pairs fall from 53 to 3, every non-exempt plan loses its 1-set filler slots, and the assignment is driven by what each plan is for rather than by one rule applied everywhere.</p>
+    </div>
+    <div class="tiles" id="tiles"></div>
+    <div class="verdict narrow" id="verdict"></div>
+  </section>
+
+  <section>
+    <h2>Portfolio aggregates</h2>
+    <p class="note narrow">Medians across the 35 live plans, in all three states. Iron Clock is parked and excluded.</p>
+    <div class="scroller"><table id="agg"></table></div>
+  </section>
+
+  <section>
+    <h2>The matrix</h2>
+    <p class="note narrow">Every plan, as shipped → after both rounds. Bars are scaled within each column; the tick marks the shipped value, the fill is the final. Iron Clock is greyed — parked, measured for completeness only.</p>
+    <div class="scroller"><table id="matrix"></table></div>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--after)"></i>after</span>
+      <span><i class="swatch" style="background:var(--before)"></i>before</span>
+      <span><i class="swatch" style="background:color-mix(in srgb, var(--gain) 40%, transparent)"></i>moved down (less fatigue / better balance)</span>
+      <span><i class="swatch" style="background:color-mix(in srgb, var(--loss) 40%, transparent)"></i>moved up</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where each plan sits</h2>
+    <figure>
+      <div class="fig-box"><div id="scatter"></div></div>
+      <figcaption>Session size against fatigue density. Each plan is a dot at its after-state; the tail shows where the votes moved it from. A plan high and right is asking for a lot of hard sets in one sitting; low and left is a light, machine-heavy session. Only Monolith, Ritual of Strength, Purgatorio, House of Iron and Blackout travel any real distance — and the cluster between 15 and 21 sets a session at 1.3–1.7 systemic per set is where most of the catalogue still lives, before and after.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Are they still the same plan?</h2>
+    <p class="note narrow">Jaccard overlap on exercise ids between every pair of plans. Above about 0.6, two plans are running most of the same movements under different names.</p>
+    <figure>
+      <div class="fig-box"><div id="slope"></div></div>
+      <figcaption>The twelve closest pairs before the votes, and where they land after. Monolith's rebuild broke the worst clone in the catalogue. But Chimera–Oracle and Blackout–Event Horizon got <em>closer</em>, because they each received the same catalogue-wide swaps.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>The new wallpaper</h2>
+    <p class="note narrow">How many of the 36 plans use each movement, as shipped and after both rounds. Round 1's catalogue-wide rules replaced scattered choices with one shared answer; round 2 spends the library instead.</p>
+    <figure>
+      <div class="fig-box"><div id="conc"></div></div>
+      <figcaption>Round 1 put overhead triceps extension into 22 plans; the assignment splits that across French press, rolling extensions and single-arm work, and it drops out of the top fourteen entirely. Two concentrations survive untouched because the owner's list did not cover them: <strong>cable crunch at 17 plans</strong> (round 1's core votes) and <strong>cable triceps extension at 21</strong> — the pressdown half of the triceps mix, which never received the same treatment as the overhead half.</figcaption>
+    </figure>
+  </section>
+
+
+  <section>
+    <h2>Set shape</h2>
+    <p class="note narrow">A slot at one set is a gesture; a fourth set stacked on an accessory isolation is usually better spent on a second movement. Both are corrected by rule — a floor of 2 sets and a cap of 3 on accessory isolations — with exemptions for plans whose identity depends on the exception.</p>
+    <div class="scroller"><table id="shape"></table></div>
+    <p class="note narrow" style="margin-top:16px">The <em>4+ non-lead</em> column counts every slot after the day's first carrying four or more sets. The cap only trims the <em>isolation</em> ones — a 4-set compound after the opener is a programming choice, not junk volume, which is why Tenfold's 10×10 blocks and Purgatorio's paired compounds survive.</p>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--loss)"></i>1 set</span>
+      <span><i class="swatch" style="background:var(--after)"></i>2 sets</span>
+      <span><i class="swatch" style="background:color-mix(in srgb, var(--after) 60%, transparent)"></i>3 sets</span>
+      <span><i class="swatch" style="background:var(--warn)"></i>4+ sets</span>
+    </div>
+    <p class="note narrow" style="margin-top:16px"><strong>Flags</strong> is the standing review check: every slot at one set or above three, minus the ones a plan’s own identity explains. All remaining flags are second compounds at four sets — a programming judgement call, not junk volume. Run it directly with <code class="m">npx tsx scripts/review-flags.ts</code>.</p>
+    <p class="note narrow" style="margin-top:18px">Exempt from the floor: Blackout (one work set is the plan), Neural Overload (the 1-6 PAP singles are the mechanic), the four legacy powerlifting plans (ME, AMRAP and top singles), and Iron Clock (parked). Timed and density blocks are skipped everywhere — REDLINE's finishers are not slots with a missing second set. Exempt from the cap: each specialisation plan, on its own muscle.</p>
+  </section>
+
+  <section>
+    <h2>Does each plan do what it says?</h2>
+    <p class="note narrow">Three checks against declarations the codebase already makes: the specialisation groups in <code class="m">PLAN_RULES</code>, and the fatigue rating and experience range in <code class="m">portfolio.ts</code>. Fatigue is banded against the catalogue's own spread across three views — weekly systemic, systemic per session, and axial per session — because a three-day plan with brutal sessions is not a light plan.</p>
+    <div class="scroller"><table id="fit"></table></div>
+    <div class="verdict narrow" id="fitFindings" style="margin-top:34px"></div>
+  </section>
+
+  <section>
+    <h2>Still open</h2>
+    <p class="note narrow">Decisions the votes left unmade, and measurement limits worth knowing before the next round of changes.</p>
+    <div class="items" id="open"></div>
+  </section>
+
+  <section>
+    <h2>How this was measured</h2>
+    <div class="narrow">
+      <p>Each plan's representative training week is materialised straight from <code class="m">PLAN_REGISTRY</code> — generators run, hooks applied — then every slot is resolved against the exercise library and scored using the same <code class="m">exerciseIntelligence</code> ratings the audit used. The method reproduces the audit's own published figures exactly where they overlap: Athena at 61 sets, 103 systemic, 49 axial, 1.69 per set.</p>
+      <p>The after-state applies <code class="m">scripts/v2-change-map.ts</code>, which encodes every vote that moves a measured number, each citing its vote id. Votes about wiring, tempo, RIR, progression and dashboards are real work but invisible to a volume model, so they are recorded rather than faked into the arithmetic.</p>
+      <p><strong>One correction worth naming.</strong> An earlier pass credited a 3-set row with six sets of back, because <code class="m">back</code> aggregates lats, upper back, traps and lower back and a row lists two of them as primary. Quads and hamstrings are single-muscle groups and never inflate, so every multi-muscle group looked dominant. Each major group is now counted once per exercise. This reversed two findings: Hamstring Foundry and Workhorse both hold their specialisation, and King of the Squat is led by glutes rather than back. <strong>The same defect is live in <code class="m">src/lib/volumeAnalysis.ts</code></strong>, which is what <code class="m">verify:volume</code> uses to gate new plans.</p>
+      <p class="note">Known limits: the sample is one steady-state week, so ramps and deloads are described but not scored. Trinary and Ritual generate accessory work outside the template, so their figures are the barbell spine only. Super Mutant is measured at 5 sessions/week from a 4–6 range. Adventure is the expected value over all reachable pair routes, not one route. Where a vote made a slot a picker, the default is scored and the alternatives counted separately.</p>
+    </div>
+    <div class="foot">
+      <p>Reproduce with <code>npx tsx scripts/build-portfolio-report.ts</code>. Measurement core in <code>scripts/portfolio-metrics.ts</code>; vote map in <code>scripts/v2-change-map.ts</code>.</p>
+    </div>
+  </section>
+
+</div>
+
+<script type="application/json" id="data">{"generated":"2026-08-19","aggregates":{"totalSets":{"beforeMedian":69,"afterMedian":68,"finalMedian":74,"beforeMean":69.2,"afterMean":69.68,"finalMean":71.59},"setsPerSession":{"beforeMedian":18.5,"afterMedian":18.5,"finalMedian":19,"beforeMean":17.97,"afterMean":18.27,"finalMean":18.83},"distinctExercises":{"beforeMedian":21,"afterMedian":22,"finalMedian":23,"beforeMean":21,"afterMean":21.69,"finalMean":22.54},"varietyDensity":{"beforeMedian":3.08,"afterMedian":3.08,"finalMedian":3.33,"beforeMean":3.33,"afterMean":3.41,"finalMean":3.37},"systemic":{"beforeMedian":109,"afterMedian":112,"finalMedian":112,"beforeMean":110.58,"afterMean":110.09,"finalMean":112.35},"axial":{"beforeMedian":31,"afterMedian":30,"finalMedian":28,"beforeMean":36.2,"afterMean":34.49,"finalMean":33.89},"perSetSystemic":{"beforeMedian":1.53,"afterMedian":1.53,"finalMedian":1.51,"beforeMean":1.62,"afterMean":1.6,"finalMean":1.58},"perSetAxial":{"beforeMedian":0.46,"afterMedian":0.4,"finalMedian":0.38,"beforeMean":0.56,"afterMean":0.52,"finalMean":0.49},"avgLengthened":{"beforeMedian":1.89,"afterMedian":1.9,"finalMedian":1.91,"beforeMean":1.96,"afterMean":1.95,"finalMean":1.97},"stimulusPerFatigue":{"beforeMedian":1.25,"afterMedian":1.24,"finalMedian":1.25,"beforeMean":1.24,"afterMean":1.26,"finalMean":1.28},"groupsInMav":{"beforeMedian":4,"afterMedian":4,"finalMedian":4,"beforeMean":4.03,"afterMean":3.94,"finalMean":4.14},"twicePlusGroups":{"beforeMedian":9,"afterMedian":9,"finalMedian":9,"beforeMean":8.66,"afterMean":8.71,"finalMean":8.83},"failureSafeShare":{"beforeMedian":0.41,"afterMedian":0.37,"finalMedian":0.37,"beforeMean":0.39,"afterMean":0.37,"finalMean":0.39},"evenness":{"beforeMedian":0.98,"afterMedian":0.98,"finalMedian":0.98,"beforeMean":0.97,"afterMean":0.97,"finalMean":0.98}},"similarity":{"meanBefore":0.176,"meanAfter":0.13,"clonesBefore":53,"clonesAfter":1,"topBefore":[{"a":"monolith","b":"event-horizon","score":0.88,"after":0.438},{"a":"redline","b":"iron-clock","score":0.846,"after":0.515},{"a":"event-horizon","b":"oracle","score":0.846,"after":0.317},{"a":"lazarus","b":"blackout","score":0.762,"after":0.464},{"a":"lazarus","b":"quadfather","score":0.75,"after":0.438},{"a":"lazarus","b":"event-horizon","score":0.75,"after":0.324},{"a":"lazarus","b":"oracle","score":0.75,"after":0.205},{"a":"monolith","b":"oracle","score":0.741,"after":0.294},{"a":"project-chimera","b":"oracle","score":0.741,"after":0.472},{"a":"blackout","b":"event-horizon","score":0.72,"after":0.455},{"a":"blackout","b":"monolith","score":0.68,"after":0.462},{"a":"quadfather","b":"event-horizon","score":0.655,"after":0.395}],"topAfter":[{"a":"redline","b":"iron-clock","score":0.515},{"a":"athena","b":"oracle","score":0.485},{"a":"project-chimera","b":"oracle","score":0.472},{"a":"lazarus","b":"blackout","score":0.464},{"a":"kali","b":"event-horizon","score":0.462},{"a":"blackout","b":"monolith","score":0.462},{"a":"blackout","b":"event-horizon","score":0.455},{"a":"hamstring-foundry","b":"workhorse","score":0.441},{"a":"kali","b":"blackout","score":0.441},{"a":"lazarus","b":"quadfather","score":0.438},{"a":"monolith","b":"event-horizon","score":0.438},{"a":"kali","b":"quadfather","score":0.421}]},"concentration":{"distinctBefore":182,"distinctAfter":191,"libraryActive":230,"top":[{"id":"hack-calf-raise","before":22,"after":22},{"id":"incline-dumbbell-bench-press","before":24,"after":22},{"id":"cable-triceps-extension","before":22,"after":21},{"id":"cable-crunch","before":6,"after":19},{"id":"leg-extension","before":21,"after":17},{"id":"single-arm-hammer-row","before":17,"after":17},{"id":"seated-hamstring-curl","before":17,"after":17},{"id":"ab-wheel","before":20,"after":15},{"id":"pec-deck","before":11,"after":14},{"id":"standing-calf-raise","before":10,"after":13},{"id":"hammer-pulldown","before":12,"after":13},{"id":"lying-leg-curl","before":11,"after":13},{"id":"front-foot-elevated-bulgarian-split-squat","before":14,"after":13},{"id":"cable-lateral-raise","before":9,"after":13},{"id":"rear-delt-fly","before":9,"after":12},{"id":"hip-supported-db-deadlift","before":12,"after":12},{"id":"leg-press","before":8,"after":12},{"id":"hack-squat","before":18,"after":11},{"id":"romanian-deadlift","before":16,"after":11},{"id":"leaning-one-arm-lateral-raise","before":2,"after":11}]},"plans":[{"id":"bench-domination","name":"Bench Domination","parked":false,"votes":4,"edits":2,"r2":0,"pick":0,"rationale":"","nb":{"plan":"peachy-glute-plan","score":0.114},"na":{"plan":"peachy-glute-plan","score":0.167},"open":["Weighted Pull-ups stays at 0 sets in the measured week — the fix is voted but unimplemented, so chest:back stays as broken as the audit found it"],"shapeFix":[],"flags":[{"k":"over-three","d":2,"e":"Paused Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Paused Bench Press","s":5,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Behind-the-Neck Press","s":4,"x":"BD-E7 module: BTN press is a prescribed second press on Mon and Thu"},{"k":"over-three","d":5,"e":"Paused Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":5,"e":"Behind-the-Neck Press","s":4,"x":"BD-E7 module: BTN press is a prescribed second press on Mon and Thu"},{"k":"single-set","d":6,"e":"Paused Bench Press","s":1,"x":"powerlifting: AMRAP and top singles are the mechanic"}],"dec":{"batch":9,"summary":"Review only. Two findings the variety passes could not reach, both about volume that does not exist rather than volume in the wrong place.","cards":[],"engine":[],"open":["ZERO direct back, biceps and triceps volume. Weighted Pull-ups prescribes 0 sets (the critical defect the audit opened with, BD-E12 votes the fix) AND the Tricep Giant Set is not a library id, so it resolves to nothing and its triceps work is invisible to every volume check in the app. Two separate causes producing the same hole.","The card declares frequency 4. The template materialises SIX training days (Mon-Sat). BD-E1 makes frequency an onboarding choice and adds an option to disable one leg day, but the portfolio entry still advertises a number the default plan does not run.","Chest at 28 direct sets is the single highest group dose in the catalogue, and glutes at 22 is over MAV on a bench specialisation. Both are the shape of the plan rather than errors, but nothing else in the week is inside a growth band except quads and shoulders.","The two leg days are identical apart from hip adduction on one and abduction on the other (BD-E19). Fine as designed; noted so it is not read as a copy-paste error."]},"shape":{"b":{"one":1,"deep":2,"avg":2.91,"slots":32},"a":{"one":1,"deep":2,"avg":2.91,"slots":32,"two":7,"three":19,"four":5}},"fit":{"spec":["chest"],"specV":"holds","rank":1,"exp":4,"req":3,"top":"chest","topSets":28,"share":0.301,"fd":3,"fm":2,"fV":"partial","xp":["intermediate","advanced"],"xpV":"holds","stab":1.36,"tech":0.753,"notes":["declares fatigue 3, measures 2 (137 systemic/wk, 22.83/session, 1.47/set)"]},"b":{"s":93,"ss":15.5,"v":16,"sy":137,"ax":28,"ps":1.47,"pa":0.3,"ln":1.85,"spf":1.2,"mav":4,"x2":7,"d":6,"pp":null,"qh":2.67},"a":{"s":93,"ss":15.5,"v":18,"sy":137,"ax":28,"ps":1.47,"pa":0.3,"ln":1.85,"spf":1.2,"mav":4,"x2":7,"d":6,"pp":null,"qh":2.67},"f":{"s":93,"ss":15.5,"v":18,"sy":137,"ax":28,"ps":1.47,"pa":0.3,"ln":1.85,"spf":1.2,"mav":4,"x2":7,"d":6,"pp":null,"qh":2.67}},{"id":"pencilneck-eradication","name":"Pencilneck Eradication Protocol","parked":false,"votes":5,"edits":0,"r2":2,"pick":1,"rationale":"Upper-emphasis hypertrophy, 35 distinct exercises already — the most varied plan in the catalogue. Only the calf rule and one delt angle apply.","nb":{"plan":"cathedral","score":0.273},"na":{"plan":"quadfather","score":0.25},"open":["machine-crunch library id does not exist yet (closeout §4)"],"shapeFix":[],"flags":[],"dec":{"batch":1,"summary":"Training content stays exactly as shipped. The plan is retagged intermediate — it was never a beginner plan at 22.8 sets a session.","cards":[{"field":"experience","from":"beginner + intermediate","to":"intermediate","why":"PN-RB-I, confirmed by measurement: 22.8 sets/session and 147 weekly systemic is the second-heaviest plan in the catalogue"}],"engine":[],"open":["The card still declares fatigue 2 against a measured band 4. Owner retagged experience only, so the fatigue rating is left as-is pending a separate call.","Shoulders 22 and back 21 sit over MAV while biceps 4 and triceps 5 sit under, on a plan that sells upper emphasis. Left alone by decision — the plan stays as shipped."]},"shape":{"b":{"one":0,"deep":0,"avg":2.53,"slots":36},"a":{"one":0,"deep":0,"avg":2.53,"slots":36,"two":17,"three":19,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"shoulders","topSets":22,"share":0,"fd":2,"fm":4,"fV":"misses","xp":["intermediate"],"xpV":"holds","stab":1.49,"tech":0.736,"notes":["retagged beginner + intermediate → intermediate by decision","declares fatigue 2, measures 4 (147 systemic/wk, 36.75/session, 1.62/set)"]},"b":{"s":91,"ss":22.8,"v":35,"sy":147,"ax":45,"ps":1.62,"pa":0.49,"ln":1.86,"spf":1.15,"mav":4,"x2":10,"d":4,"pp":1.84,"qh":1.1},"a":{"s":91,"ss":22.8,"v":35,"sy":147,"ax":45,"ps":1.62,"pa":0.49,"ln":1.86,"spf":1.15,"mav":4,"x2":10,"d":4,"pp":1.84,"qh":1.1},"f":{"s":91,"ss":22.8,"v":35,"sy":147,"ax":45,"ps":1.62,"pa":0.49,"ln":1.86,"spf":1.15,"mav":4,"x2":10,"d":4,"pp":1.84,"qh":1.1}},{"id":"skeleton-to-threat","name":"From Skeleton to Threat","parked":false,"votes":4,"edits":0,"r2":0,"pick":0,"rationale":"Beginner, 7 movements by design (SKEL-V-pec: do not complicate). No variety changes.","nb":{"plan":"pain-and-glory","score":0.125},"na":{"plan":"pain-and-glory","score":0.111},"open":[],"shapeFix":[],"flags":[],"dec":{"batch":10,"summary":"Review only. The plan is exactly what SKEL-RB-I and SKEL-V-pec describe: seven movements, three identical full-body sessions, nothing to complicate.","cards":[],"engine":[],"open":["Shoulders, biceps and triceps get ZERO direct sets. Not under-dosed, absent: no overhead press, no curl, no extension anywhere in the plan. Push-ups and pulldowns cover them as secondaries only. Three of ten major groups missing is unique in the catalogue, and SKEL-V-pec explicitly protected it. If a fourth movement is ever added, a seated machine press fills all three at once.","Every session is identical, which is the design rather than a template bug."]},"shape":{"b":{"one":0,"deep":0,"avg":2.71,"slots":21},"a":{"one":0,"deep":0,"avg":2.71,"slots":21,"two":6,"three":15,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"back","topSets":12,"share":0,"fd":2,"fm":2,"fV":"holds","xp":["beginner"],"xpV":"holds","stab":0.95,"tech":0.684,"notes":[]},"b":{"s":57,"ss":19,"v":7,"sy":90,"ax":9,"ps":1.58,"pa":0.16,"ln":1.74,"spf":1.1,"mav":3,"x2":7,"d":3,"pp":0.75,"qh":1},"a":{"s":57,"ss":19,"v":7,"sy":90,"ax":9,"ps":1.58,"pa":0.16,"ln":1.74,"spf":1.1,"mav":3,"x2":7,"d":3,"pp":0.75,"qh":1},"f":{"s":57,"ss":19,"v":7,"sy":90,"ax":9,"ps":1.58,"pa":0.16,"ln":1.74,"spf":1.1,"mav":3,"x2":7,"d":3,"pp":0.75,"qh":1}},{"id":"peachy-glute-plan","name":"Peachy","parked":false,"votes":4,"edits":2,"r2":2,"pick":0,"rationale":"Glute specialisation. Upper-body work is maintenance and already varied; only the delt slot needs the grip pass.","nb":{"plan":"athena","score":0.222},"na":{"plan":"athena","score":0.27},"open":["PEA-V-core movement never chosen — cable crunch modelled; machine crunch and ab wheel were equally live (closeout §5)"],"shapeFix":[],"flags":[],"dec":{"batch":10,"summary":"Review only. The specialisation holds cleanly and the round-1 core addition landed.","cards":[],"engine":[],"open":["Biceps and triceps get zero direct sets, but unlike Skeleton this is declared: the card leads with \"not for you if you want upper-body development in the same block\".","D1 stacks three axially loaded squat and hinge patterns back to back (sumo deadlift, front-foot-elevated Bulgarian, barbell squat) on a plan open to beginners with no prerequisite listed. The heaviest technical day of any beginner-facing plan except Athena."]},"shape":{"b":{"one":0,"deep":0,"avg":2.67,"slots":24},"a":{"one":0,"deep":0,"avg":2.62,"slots":26,"two":10,"three":16,"four":0}},"fit":{"spec":["glutes"],"specV":"holds","rank":1,"exp":4,"req":3,"top":"glutes","topSets":32,"share":0.471,"fd":2,"fm":2,"fV":"holds","xp":["beginner","intermediate"],"xpV":"holds","stab":1.18,"tech":0.588,"notes":[]},"b":{"s":64,"ss":16,"v":23,"sy":103,"ax":34,"ps":1.61,"pa":0.53,"ln":2,"spf":1.24,"mav":5,"x2":7,"d":4,"pp":1.7,"qh":0.92},"a":{"s":68,"ss":17,"v":24,"sy":107,"ax":34,"ps":1.57,"pa":0.5,"ln":1.94,"spf":1.23,"mav":5,"x2":8,"d":4,"pp":1.7,"qh":0.92},"f":{"s":68,"ss":17,"v":24,"sy":107,"ax":34,"ps":1.57,"pa":0.5,"ln":1.94,"spf":1.23,"mav":5,"x2":8,"d":4,"pp":1.7,"qh":0.92}},{"id":"pain-and-glory","name":"Pain & Glory","parked":false,"votes":5,"edits":2,"r2":0,"pick":0,"rationale":"","nb":{"plan":"athena","score":0.143},"na":{"plan":"neural-overload","score":0.179},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Deficit Snatch Grip Deadlift","s":10,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":1,"e":"Close Neutral Grip Lat Pulldown","s":4,"x":"owner: working as designed — the 10×6 deficit structure and its supporting slots are the plan"},{"k":"over-three","d":2,"e":"Paused Low Bar Squat","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Paused Bench Press","s":4,"x":"owner: working as designed — the 10×6 deficit structure and its supporting slots are the plan"},{"k":"over-three","d":3,"e":"Paused Low Bar Squat","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Incline DB Bench Press","s":4,"x":"owner: working as designed — the 10×6 deficit structure and its supporting slots are the plan"},{"k":"over-three","d":4,"e":"Deficit Snatch Grip Deadlift","s":10,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":4,"e":"Close Neutral Grip Lat Pulldown","s":4,"x":"owner: working as designed — the 10×6 deficit structure and its supporting slots are the plan"}],"dec":{"batch":9,"summary":"Review only. The plan is internally consistent and the round-1 push-day differentiation landed. The one thing it needs is already voted and unbuilt.","cards":[],"engine":[],"open":["Axial 90, at 1.22 per set, is the highest total spine load in the catalogue — two 10x6 deficit snatch-grip deadlift sessions a week. Entirely deliberate, and the card is honest: notForYouIf leads with \"your lower back is your limiting factor\".","Back 28, glutes 32 and hamstrings 24 are all over MAV while chest 8, biceps 4, calves 4 and core 4 sit under. PG-11 already votes an optional fifth day for the lowest-volume body parts — that is precisely the fix, and it is unimplemented.","PG-V-push worked: D2 and D3 now differ by two movements (paused bench + military vs incline DB + rear delt fly) where they used to be identical.","13 distinct exercises, second lowest in the catalogue after Trinary. Expected for a deadlift specialisation running the same two sessions twice."]},"shape":{"b":{"one":0,"deep":4,"avg":3.36,"slots":22},"a":{"one":0,"deep":4,"avg":3.36,"slots":22,"two":12,"three":2,"four":8}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":32,"share":0,"fd":4,"fm":4,"fV":"holds","xp":["intermediate","advanced"],"xpV":"holds","stab":1.43,"tech":0.797,"notes":["card sells this as a specialisation but PLAN_RULES declares no specialisation group, so nothing checks it"]},"b":{"s":74,"ss":18.5,"v":11,"sy":144,"ax":96,"ps":1.95,"pa":1.3,"ln":2.35,"spf":1.21,"mav":2,"x2":9,"d":4,"pp":0.69,"qh":0.5},"a":{"s":74,"ss":18.5,"v":13,"sy":141,"ax":90,"ps":1.91,"pa":1.22,"ln":2.3,"spf":1.21,"mav":2,"x2":9,"d":4,"pp":0.56,"qh":0.5},"f":{"s":74,"ss":18.5,"v":13,"sy":141,"ax":90,"ps":1.91,"pa":1.22,"ln":2.3,"spf":1.21,"mav":2,"x2":9,"d":4,"pp":0.56,"qh":0.5}},{"id":"trinary","name":"Trinary","parked":false,"votes":6,"edits":0,"r2":0,"pick":0,"rationale":"","nb":{"plan":"ritual-of-strength","score":0.375},"na":{"plan":"ritual-of-strength","score":0.3},"open":["Accessory volume is invisible to any template-based measurement — Trinary's real weekly load is 45 barbell sets plus up to one accessory day"],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Paused Low Bar Squat","s":8,"x":"conjugate ME/DE/RE: the 8-set dynamic-effort squat and 4-set ME bench are the mechanic"},{"k":"over-three","d":1,"e":"Paused Bench Press","s":4,"x":"conjugate ME/DE/RE: the 8-set dynamic-effort squat and 4-set ME bench are the mechanic"},{"k":"over-three","d":2,"e":"Paused Low Bar Squat","s":8,"x":"conjugate ME/DE/RE: the 8-set dynamic-effort squat and 4-set ME bench are the mechanic"},{"k":"over-three","d":2,"e":"Paused Bench Press","s":4,"x":"conjugate ME/DE/RE: the 8-set dynamic-effort squat and 4-set ME bench are the mechanic"},{"k":"over-three","d":3,"e":"Paused Low Bar Squat","s":8,"x":"conjugate ME/DE/RE: the 8-set dynamic-effort squat and 4-set ME bench are the mechanic"},{"k":"over-three","d":3,"e":"Paused Bench Press","s":4,"x":"conjugate ME/DE/RE: the 8-set dynamic-effort squat and 4-set ME bench are the mechanic"}],"dec":{"batch":9,"summary":"Review only. Nothing measurable is wrong; the plan is largely invisible to this kind of analysis and that is the finding.","cards":[],"engine":[],"open":["Axial 2.20 per set is the highest in the catalogue — more than five times the median. That is what conjugate ME and DE work costs, and the card is advanced-only at fatigue 4.","Only 3 distinct exercises materialise. Accessory work is generated per weak-point bundle and never appears in a template week, so the measured 45 sets are the barbell spine alone. No volume, variety or coverage figure for this plan can be trusted — including the \"1 group in a growth band\" reading.","The three days render identically because the generator branches on completedWorkouts and the preview user sits at zero. The real rotation differs day to day."]},"shape":{"b":{"one":0,"deep":6,"avg":5,"slots":9},"a":{"one":0,"deep":6,"avg":5,"slots":9,"two":0,"three":3,"four":6}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":33,"share":0,"fd":4,"fm":4,"fV":"holds","xp":["advanced"],"xpV":"holds","stab":2,"tech":1,"notes":[]},"b":{"s":45,"ss":15,"v":3,"sy":123,"ax":99,"ps":2.73,"pa":2.2,"ln":1.87,"spf":0.68,"mav":1,"x2":5,"d":3,"pp":1.33,"qh":2.67},"a":{"s":45,"ss":15,"v":3,"sy":123,"ax":99,"ps":2.73,"pa":2.2,"ln":1.87,"spf":0.68,"mav":1,"x2":5,"d":3,"pp":1.33,"qh":2.67},"f":{"s":45,"ss":15,"v":3,"sy":123,"ax":99,"ps":2.73,"pa":2.2,"ln":1.87,"spf":0.68,"mav":1,"x2":5,"d":3,"pp":1.33,"qh":2.67}},{"id":"ritual-of-strength","name":"Ritual of Strength","parked":false,"votes":6,"edits":2,"r2":0,"pick":5,"rationale":"","nb":{"plan":"trinary","score":0.375},"na":{"plan":"trinary","score":0.3},"open":[],"shapeFix":[],"flags":[{"k":"single-set","d":1,"e":"Paused Bench Press","s":1,"x":"powerlifting: ME singles are the mechanic"},{"k":"single-set","d":2,"e":"Conventional Deadlift","s":1,"x":"powerlifting: ME singles are the mechanic"},{"k":"single-set","d":3,"e":"Conventional Deadlift","s":1,"x":"powerlifting: ME singles are the mechanic"}],"dec":{"batch":9,"summary":"Review only. One genuine card defect: the advertised frequency contradicts a decision already taken.","cards":[],"engine":[],"open":["The card declares frequency 5/6. RIT-RB-F voted default 3-day with the fourth marketed as an add-on, and the plan materialises 3 days. The portfolio entry needs to read 3/4.","Sessions are very lopsided: 7 sets on D1 against 24 on D3. D1 is the ME day (one max-effort bench single plus squat and deadlift work) so a short session is the point, but a 3.4x spread between the lightest and heaviest day is worth a deliberate look.","Accessories are athlete-chosen (RIT-E4, up to 3x10-12 per day), so like Trinary the measured figures understate the plan. Shoulders 3, chest 7, quads 9 and hamstrings 5 all read under a growth dose and probably are not."]},"shape":{"b":{"one":3,"deep":0,"avg":2.6,"slots":15},"a":{"one":3,"deep":0,"avg":2.59,"slots":17,"two":1,"three":13,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"back","topSets":17,"share":0,"fd":4,"fm":3,"fV":"partial","xp":["intermediate","advanced"],"xpV":"holds","stab":1.95,"tech":0.932,"notes":["declares fatigue 4, measures 3 (97 systemic/wk, 32.33/session, 2.2/set)"]},"b":{"s":39,"ss":13,"v":8,"sy":92,"ax":60,"ps":2.36,"pa":1.54,"ln":1.56,"spf":0.66,"mav":4,"x2":6,"d":3,"pp":0.5,"qh":1.8},"a":{"s":44,"ss":14.7,"v":10,"sy":97,"ax":60,"ps":2.2,"pa":1.36,"ln":1.5,"spf":0.68,"mav":4,"x2":6,"d":3,"pp":0.43,"qh":1.8},"f":{"s":44,"ss":14.7,"v":10,"sy":97,"ax":60,"ps":2.2,"pa":1.36,"ln":1.5,"spf":0.68,"mav":4,"x2":6,"d":3,"pp":0.43,"qh":1.8}},{"id":"super-mutant","name":"Super Mutant","parked":false,"votes":7,"edits":0,"r2":3,"pick":0,"rationale":"Advanced high-frequency bodybuilding at fatigue 4 with a reactive ~20 sets/muscle engine. Hamstrings are exempt from the cap; the arm pool should show more of the library.","nb":{"plan":"monolith","score":0.129},"na":{"plan":"tenfold","score":0.24},"open":["Measured at 5 sessions/week — the plan floats 4–6, so weekly volume genuinely ranges 120–180 sets"],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Seated Ham Curl","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":1,"e":"Good Mornings","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":2,"e":"Seated Ham Curl","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":2,"e":"Good Mornings","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":3,"e":"Seated Ham Curl","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":3,"e":"Good Mornings","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":4,"e":"Seated Ham Curl","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":4,"e":"Good Mornings","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":5,"e":"Seated Ham Curl","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":5,"e":"Good Mornings","s":4,"x":"plan specialises in hamstrings"}],"dec":{"batch":3,"summary":"The single-leg machine hip thrust was 4 sets in every session — 20 weekly sets of one accessory on a plan running five days. Split into two unilateral movements at 2 sets each, per the owner’s replacements.","cards":[],"engine":[],"open":["Both replacements are lunge-pattern (quads + glutes) where the hip thrust was pure hip extension, so glute volume shifts toward quads. Deliberate per the owner’s choice, but worth watching against the reactive ~20 sets/muscle engine."]},"shape":{"b":{"one":0,"deep":15,"avg":2.5,"slots":60},"a":{"one":0,"deep":10,"avg":2.31,"slots":65,"two":55,"three":0,"four":10}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"hamstrings","topSets":40,"share":0,"fd":4,"fm":4,"fV":"holds","xp":["advanced"],"xpV":"holds","stab":1.33,"tech":0.467,"notes":[]},"b":{"s":150,"ss":30,"v":12,"sy":230,"ax":80,"ps":1.53,"pa":0.53,"ln":2.87,"spf":1.87,"mav":1,"x2":6,"d":5,"pp":2.33,"qh":0},"a":{"s":150,"ss":30,"v":12,"sy":230,"ax":80,"ps":1.53,"pa":0.53,"ln":2.87,"spf":1.87,"mav":1,"x2":6,"d":5,"pp":2.33,"qh":0},"f":{"s":150,"ss":30,"v":13,"sy":250,"ax":80,"ps":1.67,"pa":0.53,"ln":3,"spf":1.8,"mav":2,"x2":7,"d":5,"pp":2.33,"qh":0.5}},{"id":"30-minute-adventure","name":"30 Minute Adventure","parked":false,"votes":4,"edits":9,"r2":3,"pick":0,"rationale":"Free-choice generator — variety is already its mechanic at 65 reachable movements. Only the calf rule applies, which overrides the round-1 pair that added a single-leg cable calf raise.","nb":{"plan":"purgatorio","score":0.197},"na":{"plan":"purgatorio","score":0.211},"open":[],"shapeFix":[],"flags":[],"dec":{"batch":10,"summary":"Review only. On variety it outperforms everything else in the catalogue by a factor of two, and the round-2 calf rule cleaned up its one inconsistency.","cards":[],"engine":[],"open":["Sixty-three reachable movements, all ten major groups trained, ten of them twice or more. Nothing in the portfolio comes close.","Fatigue declares 1 and measures 2. At roughly 20 sets and 29 systemic per session it is a real training session — but sessions are half an hour and the athlete picks the load, so 1 is defensible positioning rather than a misstatement.","Round 2 removed the single-leg cable calf raise that round 1 had itself added via ADV-V-new-pairs, under the hack-or-standing-only rule."]},"shape":{"b":{"one":198,"deep":0,"avg":0.3,"slots":198},"a":{"one":197,"deep":0,"avg":0.3,"slots":197,"two":0,"three":0,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":14.6,"share":0,"fd":1,"fm":2,"fV":"partial","xp":["beginner","intermediate"],"xpV":"holds","stab":1.33,"tech":0.696,"notes":["declares fatigue 1, measures 2 (86.3 systemic/wk, 28.77/session, 1.45/set)"]},"b":{"s":60,"ss":20,"v":61,"sy":86.3,"ax":19,"ps":1.44,"pa":0.32,"ln":1.92,"spf":1.33,"mav":4,"x2":10,"d":3,"pp":1.4,"qh":1.76},"a":{"s":59.7,"ss":19.9,"v":65,"sy":86.3,"ax":19,"ps":1.45,"pa":0.32,"ln":1.91,"spf":1.32,"mav":4,"x2":10,"d":3,"pp":1.71,"qh":1.62},"f":{"s":59.7,"ss":19.9,"v":63,"sy":86.3,"ax":19,"ps":1.45,"pa":0.32,"ln":1.91,"spf":1.32,"mav":4,"x2":10,"d":3,"pp":1.71,"qh":1.62}},{"id":"king-of-the-squat","name":"King of the Squat","parked":false,"votes":10,"edits":8,"r2":1,"pick":10,"rationale":"Powerlifting squat specialisation — but NOT one of the four legacy plans, so the variety pass applies. Rolling extensions are the strength answer the owner named.","nb":{"plan":"neural-overload","score":0.286},"na":{"plan":"neural-overload","score":0.235},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Paused Low Bar Squat","s":6,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":1,"e":"Long Pause Bench Press","s":4,"x":"KOS-X9 job 1 — a bench job, not an accessory"},{"k":"over-three","d":1,"e":"Hammer Upper Row","s":4,"x":"squat-day back work at the level the plan shipped with"},{"k":"over-three","d":2,"e":"Wide-Grip Bench Press","s":5,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Paused Back Squat","s":5,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Pull-Up","s":4,"x":"the only vertical pull in the plan, once weekly"},{"k":"over-three","d":3,"e":"Heavy Rolling Tricep Extensions","s":4,"x":"raised deliberately in batch 1 — triceps were at 3 sets"},{"k":"over-three","d":4,"e":"Front Squats","s":5,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":4,"e":"Paused Bench Press","s":5,"x":"KOS-X9 job 3 — the heavy bench job"},{"k":"over-three","d":4,"e":"Hack Squat Calf Raises","s":4,"x":"raised deliberately in batch 1 — KOS-X13 keeps calves Friday-only, so one slot carries the dose"}],"dec":{"batch":1,"summary":"Implements KOS-X9 (three distinct bench jobs instead of three identical paused-bench slots), restores a pressing pattern the round-1 face-pull swap deleted, and reverses round 1's own back-volume addition in favour of the groups sitting under a growth dose.","cards":[],"engine":["KOS-X9 is a menu, not a fixed list: job 1 offers long-pause + CAT, job 2 offers wide bench / DB bench / heavy dips, job 3 offers Spoto / pin / board / floor alongside the paused max. The simulation scores the default of each."],"open":[]},"shape":{"b":{"one":0,"deep":4,"avg":3.67,"slots":21},"a":{"one":0,"deep":6,"avg":3.73,"slots":22,"two":0,"three":12,"four":10}},"fit":{"spec":["quads"],"specV":"partial","rank":2,"exp":3,"req":3,"top":"glutes","topSets":28,"share":0.268,"fd":4,"fm":4,"fV":"holds","xp":["intermediate","advanced"],"xpV":"holds","stab":1.33,"tech":0.683,"notes":["declared quads ranks #2 — glutes leads at 28 sets"]},"b":{"s":77,"ss":19.3,"v":17,"sy":148,"ax":72,"ps":1.92,"pa":0.94,"ln":1.7,"spf":0.89,"mav":3,"x2":6,"d":4,"pp":1.64,"qh":2.08},"a":{"s":81,"ss":20.3,"v":20,"sy":152,"ax":66,"ps":1.88,"pa":0.81,"ln":1.7,"spf":0.91,"mav":3,"x2":6,"d":4,"pp":1.28,"qh":1.83},"f":{"s":82,"ss":20.5,"v":22,"sy":156,"ax":72,"ps":1.9,"pa":0.88,"ln":1.72,"spf":0.9,"mav":3,"x2":6,"d":4,"pp":1.93,"qh":1.83}},{"id":"gravity-is-optional","name":"Gravity Is Optional","parked":false,"votes":4,"edits":1,"r2":2,"pick":7,"rationale":"Weighted calisthenics. Cable and machine substitutes would break the house — only the calf rule and a lengthened curl apply.","nb":{"plan":"workhorse","score":0.344},"na":{"plan":"workhorse","score":0.314},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Weighted Chin-Up","s":5,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":1,"e":"Weighted Dip","s":5,"x":"GIO-RB-I: the dip family is half the plan"},{"k":"over-three","d":2,"e":"Goblet Skater Squat","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Hip-Supported Dumbbell Deadlift","s":4,"x":"GIO-V-ham: the only hinge in the plan"},{"k":"over-three","d":3,"e":"Chin-Up","s":6,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Dip","s":6,"x":"GIO-RB-I: the dip family runs 3×/week and is half the plan"},{"k":"over-three","d":3,"e":"Heel-Elevated Goblet Squat","s":4,"x":"the only loaded squat pattern in the plan"}],"dec":{"batch":6,"summary":"Left as-is by owner decision. One of the best-balanced plans in the catalogue: eight groups in a growth band, everything trained twice weekly, and the lowest spine load anywhere.","cards":[],"engine":[],"open":["Axial 12 (0.15/set) is the lowest in the catalogue — correct for a calisthenics plan and worth stating as a selling point rather than leaving implicit.","Shoulders at 5 sets is the lowest group and the plan has no vertical press at all. Deliberate per GIO-V-pec-tri (bodyweight house, no cable or dumbbell mandate) — the card could say so.","Goblet skater squat (stability 3) sits on D2 while the more stable heel-elevated goblet squat sits on D3. Swapping them was proposed and declined."]},"shape":{"b":{"one":0,"deep":4,"avg":3.42,"slots":24},"a":{"one":0,"deep":4,"avg":3.42,"slots":24,"two":3,"three":14,"four":7}},"fit":{"spec":["back"],"specV":"holds","rank":1,"exp":4,"req":3,"top":"back","topSets":20,"share":0.244,"fd":3,"fm":3,"fV":"holds","xp":["intermediate"],"xpV":"holds","stab":1.21,"tech":0.768,"notes":[]},"b":{"s":82,"ss":20.5,"v":19,"sy":145,"ax":15,"ps":1.77,"pa":0.18,"ln":1.85,"spf":1.05,"mav":8,"x2":10,"d":4,"pp":1.06,"qh":2},"a":{"s":82,"ss":20.5,"v":20,"sy":139,"ax":12,"ps":1.7,"pa":0.15,"ln":1.85,"spf":1.09,"mav":8,"x2":10,"d":4,"pp":1.06,"qh":2},"f":{"s":82,"ss":20.5,"v":21,"sy":139,"ax":12,"ps":1.7,"pa":0.15,"ln":1.85,"spf":1.09,"mav":8,"x2":10,"d":4,"pp":1.06,"qh":2}},{"id":"purgatorio","name":"Purgatorio","parked":false,"votes":5,"edits":1,"r2":1,"pick":0,"rationale":"Antagonist-paired supersets. Hammer curls stay — a mobile implement beside a station is exactly the case the owner carved out. Set counts come down off the flat 4s the round-1 rebuild left.","nb":{"plan":"hamstring-foundry","score":0.548},"na":{"plan":"venus-rising","score":0.22},"open":[],"shapeFix":["Hack Squat Calf Raises 4→3 sets (accessory cap)","Lying Leg Curls 4→3 sets (accessory cap)","Hip Adduction 4→3 sets (accessory cap)","Machine Hip Abduction 4→3 sets (accessory cap)","Seated Ham Curl 4→3 sets (accessory cap)","Standing Dumbbell/KB Calf Raise 4→3 sets (accessory cap)"],"flags":[{"k":"over-three","d":1,"e":"Flat DB Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":1,"e":"Lat Pulldown (Neutral)","s":4,"x":"antagonist supersets: both halves of a pair carry the same set count by construction (PUR-V-map)"},{"k":"over-three","d":1,"e":"Seated DB Shoulder Press","s":4,"x":"antagonist supersets: both halves of a pair carry the same set count by construction (PUR-V-map)"},{"k":"over-three","d":2,"e":"Incline DB Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Seated Cable Row","s":4,"x":"antagonist supersets: both halves of a pair carry the same set count by construction (PUR-V-map)"},{"k":"over-three","d":3,"e":"Hack Squat","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":4,"e":"Heel-Elevated Goblet Squat","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":6,"summary":"Both Romanian deadlift blocks trimmed by a set. The pair structure and exercise selection stay as the voted map built them.","cards":[],"engine":[],"open":["The card declares fatigue 4 and the plan measures 3. PUR-RB-P deliberately ramped it off catalogue-max (systemic 151 to 125), so the rating and the plan now disagree by one band — either is defensible, neither has been chosen.","Chest 8, back 8 and quads 8 sit under a growth dose while glutes lead. Left alone by decision: the pair map is what the plan is, and rebalancing it would mean reopening PUR-V-map."]},"shape":{"b":{"one":0,"deep":15,"avg":3.79,"slots":24},"a":{"one":0,"deep":3,"avg":3.29,"slots":24,"two":0,"three":17,"four":7}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":20,"share":0,"fd":4,"fm":3,"fV":"partial","xp":["intermediate","advanced"],"xpV":"holds","stab":1.32,"tech":0.62,"notes":["declares fatigue 4, measures 3 (119 systemic/wk, 29.75/session, 1.51/set)"]},"b":{"s":91,"ss":22.8,"v":24,"sy":151,"ax":52,"ps":1.66,"pa":0.57,"ln":1.92,"spf":1.16,"mav":9,"x2":10,"d":4,"pp":1.14,"qh":1},"a":{"s":87,"ss":21.8,"v":23,"sy":131,"ax":32,"ps":1.51,"pa":0.37,"ln":1.92,"spf":1.27,"mav":6,"x2":10,"d":4,"pp":2.21,"qh":0.5},"f":{"s":79,"ss":19.8,"v":23,"sy":119,"ax":30,"ps":1.51,"pa":0.38,"ln":1.89,"spf":1.25,"mav":7,"x2":10,"d":4,"pp":2.21,"qh":0.67}},{"id":"immaculate-restructure","name":"Immaculate (Re)Structure","parked":false,"votes":4,"edits":0,"r2":1,"pick":0,"rationale":"Poliquin structural balance — exercise selection is dictated by the ratio table (IMM-V-pass). Only the calf rule applies.","nb":{"plan":"workhorse","score":0.382},"na":{"plan":"hamstring-foundry","score":0.278},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Close-Grip Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":1,"e":"Weighted Chin-Up","s":4,"x":"Poliquin ratio lift at 81% of the close-grip bench reference — a structural anchor"},{"k":"over-three","d":2,"e":"Front Squats","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Seated DB Shoulder Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Hammer Upper Row","s":4,"x":"IMM-V-pass: selection follows the Poliquin template"},{"k":"over-three","d":4,"e":"Heel-Elevated Goblet Squat","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":10,"summary":"Review only, per IMM-V-pass. The best-balanced plan in the catalogue: eight of ten groups in a growth band, every group trained twice weekly, none missing, and near-identical day lengths.","cards":[],"engine":[],"open":["Back at 8 sets is one of only two under-dosed groups, despite the weighted chin-up being the 81% ratio lift. The hammer upper row at 4 is the only other back slot.","single-arm-external-rotation runs on both upper days at 3 sets each. Six weekly sets of cuff work is the Poliquin 9%-ratio prescription, not an oversight.","IMM-RB-I remains the real dependency: fix the day-of-week bug so all six structural ratios can fire, and add the preacher strengthRef. Without it the plan headline mechanic does not run at all."]},"shape":{"b":{"one":0,"deep":2,"avg":3.12,"slots":25},"a":{"one":0,"deep":2,"avg":3.12,"slots":25,"two":3,"three":16,"four":6}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":20,"share":0,"fd":3,"fm":3,"fV":"holds","xp":["intermediate"],"xpV":"holds","stab":1.37,"tech":0.641,"notes":[]},"b":{"s":78,"ss":19.5,"v":23,"sy":127,"ax":31,"ps":1.63,"pa":0.4,"ln":1.88,"spf":1.16,"mav":8,"x2":10,"d":4,"pp":1.83,"qh":1.56},"a":{"s":78,"ss":19.5,"v":23,"sy":127,"ax":31,"ps":1.63,"pa":0.4,"ln":1.88,"spf":1.16,"mav":8,"x2":10,"d":4,"pp":1.83,"qh":1.56},"f":{"s":78,"ss":19.5,"v":22,"sy":127,"ax":31,"ps":1.63,"pa":0.4,"ln":1.88,"spf":1.16,"mav":8,"x2":10,"d":4,"pp":1.83,"qh":1.56}},{"id":"overhead-dominion","name":"Overhead Dominion","parked":false,"votes":5,"edits":3,"r2":5,"pick":0,"rationale":"Shoulder specialisation with split-delt tracking. Lateral raises are the plan's core work and should span the whole family, not repeat one movement.","nb":{"plan":"neural-overload","score":0.481},"na":{"plan":"workhorse","score":0.324},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Incline DB Bench Press","s":5,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":1,"e":"Weighted Chin-Up","s":5,"x":"the pull anchor balancing a shoulder specialisation"},{"k":"over-three","d":3,"e":"One-Arm Braced Dumbbell Press","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":3,"summary":"The D3 row block split. D1’s weighted chin-up stays the plan’s pull anchor; this was a second 4-set row sitting behind a 4-set braced press on the same day.","cards":[],"engine":[],"open":[]},"shape":{"b":{"one":0,"deep":2,"avg":2.89,"slots":28},"a":{"one":0,"deep":1,"avg":2.79,"slots":29,"two":11,"three":15,"four":3}},"fit":{"spec":["shoulders"],"specV":"holds","rank":1,"exp":4,"req":4,"top":"shoulders","topSets":40,"share":0.494,"fd":3,"fm":2,"fV":"partial","xp":["intermediate","advanced"],"xpV":"holds","stab":1.32,"tech":0.642,"notes":["declares fatigue 3, measures 2 (115 systemic/wk, 28.75/session, 1.42/set)"]},"b":{"s":81,"ss":20.3,"v":21,"sy":116,"ax":33,"ps":1.43,"pa":0.41,"ln":1.63,"spf":1.14,"mav":2,"x2":9,"d":4,"pp":3,"qh":1},"a":{"s":81,"ss":20.3,"v":21,"sy":120,"ax":23,"ps":1.48,"pa":0.28,"ln":1.75,"spf":1.18,"mav":3,"x2":9,"d":4,"pp":3.29,"qh":1},"f":{"s":81,"ss":20.3,"v":24,"sy":115,"ax":17,"ps":1.42,"pa":0.21,"ln":1.78,"spf":1.25,"mav":3,"x2":9,"d":4,"pp":3.29,"qh":1}},{"id":"hamstring-foundry","name":"Hamstring Foundry","parked":false,"votes":5,"edits":2,"r2":5,"pick":5,"rationale":"Hamstring specialisation. Everything above the waist is support work and should be cheap and varied.","nb":{"plan":"tenfold","score":0.63},"na":{"plan":"workhorse","score":0.441},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Barbell Romanian Deadlift","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":1,"e":"Seated Ham Curl","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":2,"e":"Seated Ham Curl","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Incline DB Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":4,"e":"Hip-Supported Dumbbell Deadlift","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":3,"summary":"The D3 row block split, same treatment as the clone-family plans. Hamstrings are the specialisation; the upper day is support work and should not stack a 4-set block behind a 4-set press.","cards":[],"engine":[],"open":[]},"shape":{"b":{"one":0,"deep":2,"avg":3.04,"slots":26},"a":{"one":0,"deep":1,"avg":2.93,"slots":27,"two":7,"three":15,"four":5}},"fit":{"spec":["hamstrings"],"specV":"holds","rank":1,"exp":3,"req":3,"top":"hamstrings","topSets":19,"share":0.241,"fd":3,"fm":3,"fV":"holds","xp":["intermediate"],"xpV":"holds","stab":1.14,"tech":0.544,"notes":[]},"b":{"s":79,"ss":19.8,"v":24,"sy":120,"ax":28,"ps":1.52,"pa":0.35,"ln":2.15,"spf":1.42,"mav":6,"x2":9,"d":4,"pp":1.71,"qh":0.47},"a":{"s":79,"ss":19.8,"v":24,"sy":120,"ax":28,"ps":1.52,"pa":0.35,"ln":2.15,"spf":1.42,"mav":6,"x2":9,"d":4,"pp":1.71,"qh":0.47},"f":{"s":79,"ss":19.8,"v":24,"sy":120,"ax":28,"ps":1.52,"pa":0.35,"ln":2.15,"spf":1.42,"mav":6,"x2":9,"d":4,"pp":1.71,"qh":0.47}},{"id":"arms-race","name":"Arms Race","parked":false,"votes":5,"edits":3,"r2":5,"pick":0,"rationale":"Arm specialisation at fatigue 2 — the one plan that should show the entire curl and extension library. Its 5-set straight-bar curl is the plan's driver and stays.","nb":{"plan":"tenfold","score":0.433},"na":{"plan":"tenfold","score":0.294},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Close-Grip Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":1,"e":"Rope Hammer Curl","s":4,"x":"plan specialises in biceps"},{"k":"over-three","d":2,"e":"Bayesian Cable Curl","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Rolling DB Tricep Extensions","s":4,"x":"plan specialises in triceps"},{"k":"over-three","d":3,"e":"Standing Straight-Bar Curl","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Lying Dumbbell Skullcrusher","s":4,"x":"plan specialises in triceps"}],"dec":{"batch":7,"summary":"Full overhaul. The plan becomes a three-session rotation run every other day rather than a fixed weekly split, with the old heavy day relocated to the end as an optional fourth \"go nuclear\" session. Set counts come off the flat 3-set template, and no biceps movement repeats inside the regular rotation.","cards":[{"field":"copy","from":"four days a week, fixed weekly split","to":"a three-session rotation run every other day, with an optional fourth go-nuclear session","why":"Owner decision. Supersedes AR-RB-F (\"4-day only\") because the rotation is no longer keyed to the calendar week"}],"engine":["Scheduling: D1-D3 run as a rolling every-other-day rotation rather than on fixed weekdays. Same free-attendance scheduler EH and Oracle use (EH-RB-F), with a three-card deck instead of four.","Go Nuclear is athlete-initiated, not scheduled. On starting it, show a required acknowledgement: take at least one or two full days off before the next session.","Tricep giant set is a verbatim copy of the Bench Domination one: 2 rounds of bodyweight dips x5, rolling DB tricep extensions x10, banded EZ-bar skullcrushers x15, last round to failure. Shared component, so build it once and reference it from both plans.","Biceps giant set: one extended myo-rep set of the 30-degree incline-lying DB curl targeting 30-40 total reps, finished with 3-4 cheat eccentric-only reps. Load is suggested as a percentage of what the athlete used for the same lift on the Lengthened day, so it needs to read that session logged weight."],"open":["Volume reads differently depending on whether the nuclear day runs: 65 sets across the regular three sessions, 81 with the fourth. The measured figures score the four-day case so they stay comparable with the previous 86-set measurement.","The two giant sets are modelled as their component movements at 2 sets each, which is what the athlete actually performs. Effective stimulus is lower than the raw count suggests, since the rounds run continuous to failure.","The incline-lying DB curl appears on both the Lengthened day and the nuclear day. That is deliberate, because the nuclear load is prescribed as a percentage of it, and is the one sanctioned exception to the no-repeated-biceps-movement rule."]},"shape":{"b":{"one":0,"deep":2,"avg":3.19,"slots":27},"a":{"one":0,"deep":3,"avg":2.79,"slots":29,"two":12,"three":11,"four":6}},"fit":{"spec":["biceps","triceps"],"specV":"holds","rank":1,"exp":4,"req":4,"top":"triceps","topSets":24,"share":0.58,"fd":2,"fm":1,"fV":"partial","xp":["intermediate"],"xpV":"holds","stab":1.27,"tech":0.654,"notes":["declares fatigue 2, measures 1 (106 systemic/wk, 26.5/session, 1.31/set)"]},"b":{"s":86,"ss":21.5,"v":23,"sy":115,"ax":15,"ps":1.34,"pa":0.17,"ln":2.37,"spf":1.77,"mav":2,"x2":9,"d":4,"pp":1.43,"qh":1},"a":{"s":86,"ss":21.5,"v":24,"sy":112,"ax":15,"ps":1.3,"pa":0.17,"ln":2.37,"spf":1.82,"mav":2,"x2":9,"d":4,"pp":1.43,"qh":1},"f":{"s":81,"ss":20.3,"v":26,"sy":106,"ax":14,"ps":1.31,"pa":0.17,"ln":2.37,"spf":1.81,"mav":2,"x2":9,"d":4,"pp":1.45,"qh":1.5}},{"id":"workhorse","name":"Workhorse","parked":false,"votes":5,"edits":3,"r2":4,"pick":2,"rationale":"Back specialisation — the pulldown family should show real grip variety, and the chin-up stays the job.","nb":{"plan":"hamstring-foundry","score":0.548},"na":{"plan":"hamstring-foundry","score":0.441},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Weighted Chin-Up","s":6,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Pull-Up","s":4,"x":"plan specialises in back"},{"k":"over-three","d":3,"e":"Dumbbell Seal Row","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":7,"summary":"A back specialisation had shoulders at 16 sets against back at 17, on a plan whose card says it is not for someone who wants a pressing-led block. D1 was also the shortest session with a single back movement.","cards":[],"engine":[],"open":[]},"shape":{"b":{"one":0,"deep":1,"avg":3.04,"slots":25},"a":{"one":0,"deep":1,"avg":3.04,"slots":26,"two":4,"three":19,"four":3}},"fit":{"spec":["back"],"specV":"holds","rank":1,"exp":3,"req":3,"top":"back","topSets":20,"share":0.253,"fd":3,"fm":2,"fV":"partial","xp":["intermediate"],"xpV":"holds","stab":1.29,"tech":0.633,"notes":["declares fatigue 3, measures 2 (117 systemic/wk, 29.25/session, 1.48/set)"]},"b":{"s":76,"ss":19,"v":24,"sy":113,"ax":15,"ps":1.49,"pa":0.2,"ln":1.86,"spf":1.25,"mav":5,"x2":10,"d":4,"pp":1.03,"qh":1.33},"a":{"s":76,"ss":19,"v":24,"sy":114,"ax":15,"ps":1.5,"pa":0.2,"ln":1.86,"spf":1.24,"mav":5,"x2":10,"d":4,"pp":1.03,"qh":1.33},"f":{"s":79,"ss":19.8,"v":25,"sy":117,"ax":15,"ps":1.48,"pa":0.19,"ln":1.86,"spf":1.26,"mav":5,"x2":10,"d":4,"pp":0.94,"qh":1.33}},{"id":"neural-overload","name":"Neural Overload","parked":false,"votes":5,"edits":5,"r2":4,"pick":2,"rationale":"Advanced 1-6 PAP powerbuilding at fatigue 4. Its singles are the mechanic and are exempt from the set floor; the accessory arms are not.","nb":{"plan":"tenfold","score":0.5},"na":{"plan":"overhead-dominion","score":0.294},"open":[],"shapeFix":[],"flags":[{"k":"single-set","d":1,"e":"Paused Bench Press","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"single-set","d":1,"e":"Paused Bench Press","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"single-set","d":1,"e":"Paused Bench Press","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"single-set","d":1,"e":"Paused Bench Press","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"over-three","d":1,"e":"Barbell Row","s":4,"x":"the PAP singles lead the day at 1 set each, so this is the session’s actual volume work"},{"k":"single-set","d":2,"e":"Paused Low Bar Squat","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"single-set","d":2,"e":"Paused Low Bar Squat","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"single-set","d":2,"e":"Paused Low Bar Squat","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"single-set","d":2,"e":"Paused Low Bar Squat","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"single-set","d":3,"e":"Weighted Chin-Up","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"single-set","d":3,"e":"Weighted Chin-Up","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"single-set","d":3,"e":"Weighted Chin-Up","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"single-set","d":3,"e":"Weighted Chin-Up","s":1,"x":"1-6 PAP singles are the plan's mechanic"},{"k":"over-three","d":3,"e":"Incline DB Bench Press","s":4,"x":"same: the volume work behind the 1-6 singles"},{"k":"over-three","d":4,"e":"Front Squats","s":5,"x":"leads the session — this is the day's driver"}],"dec":{"batch":8,"summary":"Removes round 1 orphan set, which had landed as a lone rear-delt fly on the lower day and survived only because this plan is exempt from the set floor for its PAP singles. It becomes a real back slot on the bench day, and the D4 anchor becomes a picker.","cards":[{"field":"copy","from":"D4 anchor is the front squat","to":"D4 anchor is a picker: front squat / hack squat / stripper squat / safety-bar squat","why":"Owner decision. Widens XR-front (front / SSB / stiletto) for this plan specifically, adding the hack and stripper squats so the powerbuilding day can be run without a front-rack position"}],"engine":["wide-grip-cable-row does not exist in the library yet. Modelled here as a proposed entry alongside the other new ids."],"open":["The D4 picker is scored on its front-squat default. Choosing hack or stripper squat would drop the plan axial load materially, since front squat is axial 3 and the stripper squat is axial 1."]},"shape":{"b":{"one":12,"deep":3,"avg":2.27,"slots":30},"a":{"one":12,"deep":2,"avg":2.26,"slots":31,"two":3,"three":13,"four":3}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"quads","topSets":15,"share":0,"fd":4,"fm":3,"fV":"partial","xp":["advanced"],"xpV":"holds","stab":1.3,"tech":0.714,"notes":["declares fatigue 4, measures 3 (117 systemic/wk, 29.25/session, 1.67/set)"]},"b":{"s":68,"ss":17,"v":19,"sy":109,"ax":31,"ps":1.6,"pa":0.46,"ln":2.01,"spf":1.26,"mav":6,"x2":9,"d":4,"pp":1.47,"qh":1.5},"a":{"s":68,"ss":17,"v":19,"sy":115,"ax":38,"ps":1.69,"pa":0.56,"ln":1.97,"spf":1.17,"mav":6,"x2":9,"d":4,"pp":1.53,"qh":1.67},"f":{"s":70,"ss":17.5,"v":20,"sy":117,"ax":38,"ps":1.67,"pa":0.54,"ln":1.94,"spf":1.16,"mav":6,"x2":9,"d":4,"pp":1.25,"qh":1.67}},{"id":"tenfold","name":"Tenfold","parked":false,"votes":5,"edits":1,"r2":5,"pick":2,"rationale":"German Volume Training. The 10×10 blocks are the plan and are exempt from the cap; the accessories around them should not also be 4-set blocks.","nb":{"plan":"hamstring-foundry","score":0.63},"na":{"plan":"hamstring-foundry","score":0.355},"open":[],"shapeFix":["Standing Calf Raises 4→3 sets (accessory cap)","Standing Calf Raises 4→3 sets (accessory cap)"],"flags":[{"k":"over-three","d":1,"e":"Hammer Chest Press","s":10,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Hack Squat","s":10,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Seated Ham Curl","s":4,"x":"plan specialises in hamstrings"},{"k":"over-three","d":3,"e":"Hammer Lower Row","s":10,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Incline DB Bench Press","s":4,"x":"plan specialises in chest"},{"k":"over-three","d":4,"e":"Seated Ham Curl","s":10,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":4,"e":"Heel-Elevated Goblet Squat","s":4,"x":"plan specialises in quads"}],"dec":{"batch":6,"summary":"D4 was the longest session in the plan at 29 sets, immediately after 100 reps of seated hamstring curl. Trimmed to 24 by cutting two accessories to two sets and dropping the hinge.","cards":[],"engine":[],"open":["Dropping the hip-supported deadlift removes the plan’s only hinge pattern. Hamstrings stay well covered by the 10x10 seated curl, but the plan now trains knee flexion without hip extension — deliberate given the day it sat on, worth knowing."]},"shape":{"b":{"one":0,"deep":5,"avg":4.32,"slots":22},"a":{"one":0,"deep":3,"avg":4.19,"slots":21,"two":6,"three":8,"four":7}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"chest","topSets":17,"share":0,"fd":4,"fm":3,"fV":"partial","xp":["intermediate"],"xpV":"holds","stab":0.6,"tech":0.273,"notes":["declares fatigue 4, measures 3 (123 systemic/wk, 30.75/session, 1.4/set)"]},"b":{"s":95,"ss":23.8,"v":20,"sy":136,"ax":31,"ps":1.43,"pa":0.33,"ln":1.85,"spf":1.29,"mav":8,"x2":10,"d":4,"pp":1.7,"qh":0.82},"a":{"s":95,"ss":23.8,"v":20,"sy":136,"ax":31,"ps":1.43,"pa":0.33,"ln":1.85,"spf":1.29,"mav":8,"x2":10,"d":4,"pp":1.7,"qh":0.82},"f":{"s":88,"ss":22,"v":18,"sy":123,"ax":28,"ps":1.4,"pa":0.32,"ln":1.82,"spf":1.3,"mav":7,"x2":10,"d":4,"pp":1.65,"qh":1}},{"id":"house-of-iron","name":"House of Iron","parked":false,"votes":4,"edits":5,"r2":1,"pick":4,"rationale":"Minimal home equipment. Cable and machine substitutes are unavailable by definition — hammer curls stay as the mobile-implement case, and only the DB families vary.","nb":{"plan":"redline","score":0.15},"na":{"plan":"apex-predator","score":0.132},"open":[],"shapeFix":["Close-Grip Push-Up 1→2 sets (floor)","Hammer Curls 1→2 sets (floor)"],"flags":[],"dec":{"batch":4,"summary":"Plan content stays exactly as it is. The card was understating what a one-implement plan asks of a beginner, and understating its cost.","cards":[{"field":"fatigue","from":"2","to":"3","why":"Measures band 3 at 118 weekly systemic and 1.79/set. The RDL, staggered RDL and single-leg RDL are all systemic 3, and the plan has no machine work to offset them"},{"field":"copy","from":"prerequisite: at least one adjustable or moderately heavy implement","to":"prerequisite: at least one adjustable or moderately heavy implement — and the ability to hold a solid position under load, because every movement here is unilateral or unsupported with no machine to fall back on","why":"Stability demand 2.32 is the highest in the catalogue and 97% of sets are on movements not rated safe to take to failure. Inherent to the format, so the card should name it rather than the plan change"}],"engine":[],"open":[]},"shape":{"b":{"one":4,"deep":0,"avg":2.21,"slots":24},"a":{"one":2,"deep":0,"avg":2.28,"slots":29,"two":17,"three":10,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":16,"share":0,"fd":3,"fm":3,"fV":"holds","xp":["beginner","intermediate"],"xpV":"partial","stab":2.32,"tech":0.97,"notes":["fatigue rating retagged 2 → 3 by decision","open to beginners but stability demand 2.32 / 97% of sets are not failure-safe"]},"b":{"s":53,"ss":13.3,"v":20,"sy":99,"ax":26,"ps":1.87,"pa":0.49,"ln":2.23,"spf":1.19,"mav":4,"x2":9,"d":4,"pp":1.69,"qh":1.25},"a":{"s":64,"ss":16,"v":24,"sy":115,"ax":26,"ps":1.8,"pa":0.41,"ln":2.06,"spf":1.15,"mav":5,"x2":10,"d":4,"pp":1.38,"qh":1.25},"f":{"s":66,"ss":16.5,"v":24,"sy":118,"ax":26,"ps":1.79,"pa":0.39,"ln":2.08,"spf":1.16,"mav":5,"x2":10,"d":4,"pp":1.35,"qh":1.25}},{"id":"apex-predator","name":"Apex Predator","parked":false,"votes":4,"edits":5,"r2":3,"pick":4,"rationale":"Assessment plan across all experience levels. Movements must be learnable and comparable between retests, which argues against exotic variations.","nb":{"plan":"venus-rising","score":0.448},"na":{"plan":"athena","score":0.273},"open":[],"shapeFix":[],"flags":[],"dec":{"batch":4,"summary":"Left as-is by owner decision. The under-dosed groups are the honest consequence of an assessment block and the card already says so.","cards":[],"engine":[],"open":["The single-arm landmine press added in round 2 carries failureSuitability \"avoid\" on a plan open to beginners. Left in place by decision; worth revisiting if the assessment slots ever get a technical-demand review."]},"shape":{"b":{"one":1,"deep":0,"avg":2.29,"slots":21},"a":{"one":1,"deep":0,"avg":2.27,"slots":22,"two":14,"three":7,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":10,"share":0,"fd":2,"fm":1,"fV":"partial","xp":["beginner","intermediate","advanced"],"xpV":"partial","stab":1.88,"tech":0.72,"notes":["declares fatigue 2, measures 1 (73 systemic/wk, 24.33/session, 1.46/set)","open to beginners but stability demand 1.88 / 72% of sets are not failure-safe"]},"b":{"s":48,"ss":16,"v":18,"sy":69,"ax":19,"ps":1.44,"pa":0.4,"ln":1.85,"spf":1.29,"mav":3,"x2":8,"d":3,"pp":1.22,"qh":2},"a":{"s":50,"ss":16.7,"v":19,"sy":73,"ax":19,"ps":1.46,"pa":0.38,"ln":2.04,"spf":1.4,"mav":3,"x2":9,"d":3,"pp":1.78,"qh":1.6},"f":{"s":50,"ss":16.7,"v":19,"sy":73,"ax":19,"ps":1.46,"pa":0.38,"ln":2.04,"spf":1.4,"mav":3,"x2":9,"d":3,"pp":1.78,"qh":1.6}},{"id":"venus-rising","name":"Venus Rising","parked":false,"votes":5,"edits":4,"r2":5,"pick":1,"rationale":"Physique: glutes, delts, back, quads. Its 4-set lateral raise blocks are spec work and stay; the 1-set arm slots are the problem.","nb":{"plan":"athena","score":0.607},"na":{"plan":"quadfather","score":0.405},"open":[],"shapeFix":["Hanging Knee Raise 1→2 sets (floor)","Behind-the-Back Cable Lateral Raise 4→3 sets (accessory cap)","EZ Preacher Curl 1→2 sets (floor)","Overhead Tricep Extensions 1→2 sets (floor)","Lying Cable Lat Raises 4→3 sets (accessory cap)","Machine Curl 1→2 sets (floor)","Cable Triceps Extension 1→2 sets (floor)"],"flags":[],"dec":{"batch":4,"summary":"Re-aimed as an entry-level plan rather than a physique specialisation. The lower-body emphasis stays — that is what the plan is for — but every slot is re-picked so technique is never the limiter: nothing above stability 2, machine and cable versions where a free-weight version was only harder rather than better, and the two holes (back, core) filled.","cards":[{"field":"goal","from":"hypertrophy + specialisation","to":"hypertrophy + general","why":"Owner: this is an entry-level plan, not a specialisation. It declared no specialisation group in PLAN_RULES anyway, so nothing was checking the claim"},{"field":"copy","from":"\"Physique priorities you choose once, held inside a hard weekly set cap.\"","to":"a first structured plan — lower-body led, machine and cable led, with the priorities you pick once held inside a weekly set cap","why":"The mechanic is unchanged; the framing should say who it is for"}],"engine":["VEN-RB-I still stands: the five priority ids must actually change the 4-day, not just the 3-day."],"open":["The RDL swap supersedes VEN-V-ham (\"Leave RDL\"). That vote was taken under the physique-specialisation framing; under an entry-level brief the barbell RDL is the most technical and most axially expensive movement in the plan. Say the word and it goes back."]},"shape":{"b":{"one":6,"deep":2,"avg":2.3,"slots":27},"a":{"one":0,"deep":0,"avg":2.41,"slots":29,"two":17,"three":12,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":16,"share":0,"fd":2,"fm":1,"fV":"partial","xp":["beginner","intermediate"],"xpV":"holds","stab":0.74,"tech":0.314,"notes":["card sells this as a specialisation but PLAN_RULES declares no specialisation group, so nothing checks it","declares fatigue 2, measures 1 (86 systemic/wk, 21.5/session, 1.23/set)"]},"b":{"s":62,"ss":15.5,"v":24,"sy":86,"ax":17,"ps":1.39,"pa":0.27,"ln":1.97,"spf":1.42,"mav":3,"x2":9,"d":4,"pp":2.18,"qh":1.86},"a":{"s":65,"ss":16.3,"v":24,"sy":89,"ax":19,"ps":1.37,"pa":0.29,"ln":1.92,"spf":1.4,"mav":3,"x2":9,"d":4,"pp":2.27,"qh":1.86},"f":{"s":70,"ss":17.5,"v":27,"sy":86,"ax":15,"ps":1.23,"pa":0.21,"ln":1.89,"spf":1.53,"mav":4,"x2":10,"d":4,"pp":1.38,"qh":1.43}},{"id":"athena","name":"Athena","parked":false,"votes":4,"edits":3,"r2":5,"pick":3,"rationale":"Strength bridge, beginner-to-intermediate. Barbell where it teaches something, machines where it does not — and six 1-set slots to fix.","nb":{"plan":"venus-rising","score":0.607},"na":{"plan":"oracle","score":0.485},"open":[],"shapeFix":["Rolling DB Tricep Extensions 1→2 sets (floor)","Standing Straight-Bar Curl 1→2 sets (floor)","Cable Crunch 1→2 sets (floor)","Leaning One-Arm Lateral Raise 1→2 sets (floor)","Standing Straight-Bar Curl 1→2 sets (floor)","Cable Triceps Extension 1→2 sets (floor)"],"flags":[{"k":"over-three","d":1,"e":"Barbell Squat","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Flat Barbell Bench Press","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":5,"summary":"Left as-is by owner decision. The strongest-built plan in the catalogue keeps its shape, including the axial stack on D1.","cards":[],"engine":[],"open":["Axial sits at 49 (0.71/set, third highest in the catalogue against a 0.38 median), driven by a 4-set barbell squat followed by a 3-set RDL on D1 and a second RDL plus paused squat on D3. Deliberate for a strength bridge; worth knowing the prerequisite is only \"basic barbell competence\".","Two leaning one-arm lateral raises at stability 3 are the most technical isolations in a plan whose other isolations are all machine or cable."]},"shape":{"b":{"one":6,"deep":0,"avg":2.18,"slots":28},"a":{"one":0,"deep":0,"avg":2.38,"slots":29,"two":20,"three":7,"four":2}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":17,"share":0,"fd":3,"fm":3,"fV":"holds","xp":["beginner","intermediate"],"xpV":"holds","stab":1.55,"tech":0.609,"notes":[]},"b":{"s":61,"ss":15.3,"v":21,"sy":103,"ax":49,"ps":1.69,"pa":0.8,"ln":1.92,"spf":1.14,"mav":5,"x2":10,"d":4,"pp":1.54,"qh":1.1},"a":{"s":63,"ss":15.8,"v":23,"sy":104,"ax":49,"ps":1.65,"pa":0.78,"ln":1.89,"spf":1.14,"mav":5,"x2":10,"d":4,"pp":1.69,"qh":1.1},"f":{"s":69,"ss":17.3,"v":23,"sy":110,"ax":49,"ps":1.59,"pa":0.71,"ln":1.93,"spf":1.21,"mav":5,"x2":10,"d":4,"pp":1.67,"qh":1.1}},{"id":"kali","name":"Kali","parked":false,"votes":6,"edits":4,"r2":6,"pick":0,"rationale":"Cutting / strength retention. Volume is fixed at ~59 sets (KALI-RB-X), so every slot must earn its place — this is the plan with seven 1-set slots, all of them arms and calves.","nb":{"plan":"event-horizon","score":0.643},"na":{"plan":"event-horizon","score":0.462},"open":[],"shapeFix":["Cable Triceps Extension 1→2 sets (floor)","Machine Curl 1→2 sets (floor)","Overhead Tricep Extensions 1→2 sets (floor)","Cable Crunch 1→2 sets (floor)","Hack Squat Calf Raises 1→2 sets (floor)","Lateral Raises 1→2 sets (floor)","Machine Curl 1→2 sets (floor)"],"flags":[],"dec":{"batch":2,"summary":"A cut plan should retain strength through intensity, not volume. Rather than inflating the anchors, each day gains one second movement worth pushing on — two sets, failure-safe, so it can be taken hard while dieting.","cards":[],"engine":["KALI-RB-X confines rest-pause and myo-reps to the Unleashed phase. These four slots are the natural home for them — they are chosen to be safe to push, which is the whole point."],"open":["Volume consequence: 66 → 74 sets. KALI-RB-X froze the plan at ~59, and the round-2 set floor had already taken it to 66. If the cut identity needs the total back down, the cheapest trim is the four 2-set lateral and curl slots, not these."]},"shape":{"b":{"one":7,"deep":0,"avg":2.11,"slots":28},"a":{"one":0,"deep":0,"avg":2.31,"slots":32,"two":22,"three":10,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":21,"share":0,"fd":3,"fm":2,"fV":"partial","xp":["intermediate"],"xpV":"holds","stab":1,"tech":0.405,"notes":["declares fatigue 3, measures 2 (101 systemic/wk, 25.25/session, 1.36/set)"]},"b":{"s":59,"ss":14.8,"v":22,"sy":77,"ax":15,"ps":1.31,"pa":0.25,"ln":1.86,"spf":1.43,"mav":2,"x2":9,"d":4,"pp":0.78,"qh":1},"a":{"s":59,"ss":14.8,"v":23,"sy":78,"ax":18,"ps":1.32,"pa":0.31,"ln":1.9,"spf":1.44,"mav":2,"x2":9,"d":4,"pp":0.89,"qh":1},"f":{"s":74,"ss":18.5,"v":29,"sy":101,"ax":26,"ps":1.36,"pa":0.35,"ln":1.88,"spf":1.38,"mav":4,"x2":9,"d":4,"pp":1.25,"qh":1.57}},{"id":"redline","name":"REDLINE","parked":false,"votes":5,"edits":4,"r2":5,"pick":0,"rationale":"Conditioning / mixed. Seventeen of thirty-nine slots are single sets — worse than any live plan. The set floor fixes the arms; variety keeps the fast circuit interesting.","nb":{"plan":"iron-clock","score":0.846},"na":{"plan":"iron-clock","score":0.515},"open":["REDLINE abs were never voted — it still ships two ab-wheel slots (closeout §5)"],"shapeFix":[],"flags":[],"dec":{"batch":8,"summary":"Every one-set slot goes to two. The timed finishers were exempt from the round-2 floor because a block has no second set to add, but the owner rule is that no exercise runs at one set, and three muscle groups were living on a single block a week.","cards":[],"engine":[],"open":["Triceps, calves and core each go from 2 sets a week to 4, exactly as asked. Raw cost is 65 to 82 sets and 16.3 to 20.5 per session, on a plan whose card promises forty-to-fifty minute sessions — the superset map above is what buys that time back. RL-RB-F still allows the optional twenty-minute express prune if sessions run long.","The heavy anchor on each day stays straight sets, and the kettlebell swings and farmer carries stay unpaired timed blocks. Every pair follows the rule set on Purgatorio: one machine or cable plus one free-weight or bodyweight, close enough to hold both stations — which the card already warns about.","Deficit push-up now appears five times across the week. RL-V-pec put it in both former hammer-chest slots and the finishers use it too. Not raised as a problem, but it is the most repeated movement in the plan."]},"shape":{"b":{"one":0,"deep":0,"avg":1.67,"slots":39},"a":{"one":0,"deep":0,"avg":2.1,"slots":39,"two":0,"three":0,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":20,"share":0,"fd":3,"fm":4,"fV":"partial","xp":["intermediate"],"xpV":"holds","stab":1.55,"tech":0.707,"notes":["declares fatigue 3, measures 4 (144 systemic/wk, 36/session, 1.76/set)"]},"b":{"s":65,"ss":16.3,"v":26,"sy":109,"ax":30,"ps":1.68,"pa":0.46,"ln":2.03,"spf":1.21,"mav":5,"x2":10,"d":4,"pp":1.1,"qh":1.44},"a":{"s":65,"ss":16.3,"v":26,"sy":110,"ax":30,"ps":1.69,"pa":0.46,"ln":2.03,"spf":1.2,"mav":5,"x2":10,"d":4,"pp":1.1,"qh":1.78},"f":{"s":82,"ss":20.5,"v":28,"sy":144,"ax":43,"ps":1.76,"pa":0.52,"ln":2.06,"spf":1.17,"mav":7,"x2":10,"d":4,"pp":0.93,"qh":1.64}},{"id":"iron-clock","name":"Iron Clock","parked":true,"votes":4,"edits":0,"r2":0,"pick":0,"rationale":"","nb":{"plan":"redline","score":0.846},"na":{"plan":"redline","score":0.515},"open":["Parked — measured for completeness but excluded from portfolio conclusions"],"shapeFix":[],"flags":[],"dec":{"batch":2,"summary":"Hidden from the catalogue. Parked was not enough — 24 of its 28 slots carry a single set because the density ladder that was meant to make them meaningful is unwired, so what ships is a thin plan wearing a conditioning label.","cards":[{"field":"copy","from":"listed in the catalogue","to":"hidden from the catalogue","why":"Owner decision, batch 2. Supersedes the IC-V-retire \"do not hide until PROC-1\" line: every week it stays visible is a week it can be selected"}],"engine":["Registry change: remove from the onboarding catalogue while leaving PLAN_REGISTRY intact so existing athletes are not stranded mid-plan.","If it returns, IC-RB-V already split the territory: Iron Clock owns lower-body density, REDLINE owns upper/mixed. That would also clear the last clone pair in the portfolio."],"open":[]},"shape":{"b":{"one":0,"deep":0,"avg":1.29,"slots":28},"a":{"one":0,"deep":0,"avg":1.29,"slots":28,"two":0,"three":0,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":11,"share":0,"fd":3,"fm":1,"fV":"misses","xp":["intermediate"],"xpV":"holds","stab":1.39,"tech":0.667,"notes":["declares fatigue 3, measures 1 (60 systemic/wk, 15/session, 1.67/set)"]},"b":{"s":36,"ss":9,"v":22,"sy":60,"ax":17,"ps":1.67,"pa":0.47,"ln":2.19,"spf":1.32,"mav":1,"x2":9,"d":4,"pp":1.33,"qh":1.17},"a":{"s":36,"ss":9,"v":22,"sy":60,"ax":17,"ps":1.67,"pa":0.47,"ln":2.19,"spf":1.32,"mav":1,"x2":9,"d":4,"pp":1.33,"qh":1.17},"f":{"s":36,"ss":9,"v":22,"sy":60,"ax":17,"ps":1.67,"pa":0.47,"ln":2.19,"spf":1.32,"mav":1,"x2":9,"d":4,"pp":1.33,"qh":1.17}},{"id":"the-minimum","name":"The Minimum","parked":false,"votes":5,"edits":3,"r2":6,"pick":0,"rationale":"2-day minimum effective dose. Nine of nineteen slots sit at one set — the set floor does most of the work here; variety is about making two sessions not feel like the same session.","nb":{"plan":"event-horizon","score":0.654},"na":{"plan":"event-horizon","score":0.343},"open":[],"shapeFix":["EZ Preacher Curl 1→2 sets (floor)","Cable Triceps Extension 1→2 sets (floor)","Hack Squat Calf Raises 1→2 sets (floor)","Ab Wheel 1→2 sets (floor)","Single Leg Machine Hip Thrust 1→2 sets (floor)","Bayesian Cable Curl 1→2 sets (floor)","Overhead Tricep Extensions 1→2 sets (floor)","Standing Calf Raises 1→2 sets (floor)","Hanging Knee Raise 1→2 sets (floor)"],"flags":[],"dec":{"batch":5,"summary":"Left as-is by owner decision. It stays a true minimum: every slot at two sets, no compound premium.","cards":[],"engine":[],"open":["Zero groups sit in a growth band and every one of the 19 slots carries exactly 2 sets. Both are honest for a declared 2-day MEV plan (MIN-RB-I) and the card says so — recorded so a later reader does not read it as an oversight."]},"shape":{"b":{"one":9,"deep":0,"avg":1.53,"slots":19},"a":{"one":0,"deep":0,"avg":2,"slots":19,"two":19,"three":0,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":8,"share":0,"fd":2,"fm":1,"fV":"partial","xp":["beginner","intermediate"],"xpV":"holds","stab":1.05,"tech":0.526,"notes":["declares fatigue 2, measures 1 (54 systemic/wk, 27/session, 1.42/set)"]},"b":{"s":29,"ss":14.5,"v":19,"sy":44,"ax":18,"ps":1.52,"pa":0.62,"ln":1.93,"spf":1.27,"mav":0,"x2":10,"d":2,"pp":2,"qh":1},"a":{"s":29,"ss":14.5,"v":19,"sy":46,"ax":14,"ps":1.59,"pa":0.48,"ln":2,"spf":1.26,"mav":0,"x2":10,"d":2,"pp":2.33,"qh":1},"f":{"s":38,"ss":19,"v":19,"sy":54,"ax":10,"ps":1.42,"pa":0.26,"ln":2,"spf":1.41,"mav":0,"x2":10,"d":2,"pp":2,"qh":1}},{"id":"lazarus","name":"Lazarus","parked":false,"votes":5,"edits":4,"r2":7,"pick":2,"rationale":"Return to training. Everything should be stable, forgiving and easy to load from a low base — this is the strongest case in the catalogue for fixed paths.","nb":{"plan":"blackout","score":0.762},"na":{"plan":"blackout","score":0.464},"open":[],"shapeFix":["Overhead Tricep Extensions 1→2 sets (floor)","Hack Squat Calf Raises 1→2 sets (floor)","Ab Wheel 1→2 sets (floor)","Machine Curl 1→2 sets (floor)","Machine Curl 1→2 sets (floor)","Cable Triceps Extension 1→2 sets (floor)"],"flags":[],"dec":{"batch":5,"summary":"A return plan should not have its most technical movement be its only core work, and D3 should not be six slots with no pressing. Both fixed; the exercise house round 2 built — machine and fixed-path throughout — is otherwise right for the job.","cards":[],"engine":[],"open":["reverse-nordic-curl on D2 is tagged knee-flexion in the library but is functionally a quad movement (attribution map section 25). It is the right movement for a return — lengthened quad work at low load — so the fix belongs in the library, not the plan. Until then the measured quad dose here reads lower than it really is."]},"shape":{"b":{"one":6,"deep":0,"avg":2.14,"slots":21},"a":{"one":0,"deep":0,"avg":2.43,"slots":23,"two":13,"three":10,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"shoulders","topSets":10,"share":0,"fd":2,"fm":1,"fV":"partial","xp":["intermediate","advanced"],"xpV":"holds","stab":0.7,"tech":0.464,"notes":["declares fatigue 2, measures 1 (77 systemic/wk, 25.67/session, 1.38/set)"]},"b":{"s":45,"ss":15,"v":18,"sy":67,"ax":27,"ps":1.49,"pa":0.6,"ln":1.89,"spf":1.27,"mav":1,"x2":9,"d":3,"pp":1.64,"qh":1.14},"a":{"s":45,"ss":15,"v":19,"sy":70,"ax":21,"ps":1.56,"pa":0.47,"ln":1.89,"spf":1.21,"mav":1,"x2":9,"d":3,"pp":1.91,"qh":1.14},"f":{"s":56,"ss":18.7,"v":21,"sy":77,"ax":15,"ps":1.38,"pa":0.27,"ln":2.02,"spf":1.47,"mav":2,"x2":10,"d":3,"pp":2,"qh":1.14}},{"id":"quadfather","name":"Quadfather","parked":false,"votes":4,"edits":3,"r2":5,"pick":4,"rationale":"Quad specialisation. The leg-extension family earns a real progression here rather than a swap, and the arm work stops being 1-set filler.","nb":{"plan":"lazarus","score":0.75},"na":{"plan":"lazarus","score":0.438},"open":[],"shapeFix":["EZ Preacher Curl 1→2 sets (floor)","Cable Triceps Extension 1→2 sets (floor)","Cable Crunch 1→2 sets (floor)"],"flags":[{"k":"over-three","d":1,"e":"Hack Squat","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":7,"summary":"Core moves off the burn day and onto two exposures. The plan is otherwise the best-executed specialisation in the catalogue: Load / Depth / Burn are genuinely three different sessions, and it carries the widest movement pool of any specialisation plan.","cards":[],"engine":["Library fixed in this pass: reverse-nordic-curl was classified knee-flexion with hamstrings primary. It is knee EXTENSION under a lengthened quad, so it is now pattern knee-extension with quads primary. This corrects the measured quad dose here and on Lazarus and Bench Domination."],"open":["stripper-squat carries shortenedBias 3 while being a lengthened-position quad movement. Not touched: a separate library review call."]},"shape":{"b":{"one":3,"deep":0,"avg":2.46,"slots":28},"a":{"one":0,"deep":0,"avg":2.59,"slots":29,"two":13,"three":15,"four":1}},"fit":{"spec":["quads"],"specV":"holds","rank":1,"exp":3,"req":3,"top":"quads","topSets":25,"share":0.333,"fd":3,"fm":2,"fV":"partial","xp":["intermediate"],"xpV":"holds","stab":1.08,"tech":0.52,"notes":["declares fatigue 3, measures 2 (108 systemic/wk, 27/session, 1.44/set)"]},"b":{"s":69,"ss":17.3,"v":24,"sy":103,"ax":38,"ps":1.49,"pa":0.55,"ln":2.01,"spf":1.35,"mav":3,"x2":9,"d":4,"pp":1.27,"qh":3.13},"a":{"s":69,"ss":17.3,"v":25,"sy":105,"ax":38,"ps":1.52,"pa":0.55,"ln":2.01,"spf":1.32,"mav":4,"x2":9,"d":4,"pp":1.47,"qh":3.13},"f":{"s":75,"ss":18.8,"v":25,"sy":108,"ax":32,"ps":1.44,"pa":0.43,"ln":1.99,"spf":1.38,"mav":4,"x2":10,"d":4,"pp":1.44,"qh":3.13}},{"id":"cathedral","name":"Cathedral","parked":false,"votes":5,"edits":3,"r2":6,"pick":0,"rationale":"Chest specialisation at fatigue 3 — it can afford the French press, and its non-chest work should be cheap.","nb":{"plan":"lazarus","score":0.625},"na":{"plan":"venus-rising","score":0.378},"open":[],"shapeFix":["French Press 1→2 sets (floor)","Cable Crunch 1→2 sets (floor)","Cable Triceps Extension 1→2 sets (floor)","EZ Preacher Curl 1→2 sets (floor)"],"flags":[{"k":"over-three","d":1,"e":"Incline DB Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"30° Smith Incline Bench Press","s":4,"x":"plan specialises in chest"}],"dec":{"batch":1,"summary":"A chest specialisation measuring in the catalogue's lightest quartile gets more chest work, but cheaply: a cable fly at a different angle on each of the three chest days, two sets each, plus the Smith incline promoted to a real heavy slot.","cards":[],"engine":["The second set of each cable fly takes a finishing technique in the later phases (drop-set or myo-reps), not from week 1 — CAT-RB-T already establishes the technique catalogue for this plan"],"open":[]},"shape":{"b":{"one":4,"deep":0,"avg":2.27,"slots":26},"a":{"one":0,"deep":1,"avg":2.43,"slots":28,"two":18,"three":8,"four":2}},"fit":{"spec":["chest"],"specV":"holds","rank":1,"exp":3,"req":3,"top":"chest","topSets":28,"share":0.412,"fd":3,"fm":1,"fV":"misses","xp":["intermediate"],"xpV":"holds","stab":0.9,"tech":0.515,"notes":["declares fatigue 3, measures 1 (91 systemic/wk, 22.75/session, 1.34/set)"]},"b":{"s":59,"ss":14.8,"v":21,"sy":89,"ax":19,"ps":1.51,"pa":0.32,"ln":2.03,"spf":1.35,"mav":2,"x2":6,"d":4,"pp":3.58,"qh":0.83},"a":{"s":59,"ss":14.8,"v":22,"sy":85,"ax":19,"ps":1.44,"pa":0.32,"ln":2.03,"spf":1.41,"mav":2,"x2":6,"d":4,"pp":3.58,"qh":0.83},"f":{"s":68,"ss":17,"v":24,"sy":91,"ax":15,"ps":1.34,"pa":0.22,"ln":2.16,"spf":1.62,"mav":2,"x2":6,"d":4,"pp":3.92,"qh":0.83}},{"id":"blackout","name":"Blackout","parked":false,"votes":6,"edits":7,"r2":7,"pick":0,"rationale":"One all-out work set per slot. Every movement must be safe and repeatable solo at maximum effort, which argues for fixed paths and against free-weight incline and hammer curls.","nb":{"plan":"lazarus","score":0.762},"na":{"plan":"lazarus","score":0.464},"open":[],"shapeFix":[],"flags":[{"k":"single-set","d":1,"e":"Leg Press","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":1,"e":"30° Smith Incline Bench Press","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":1,"e":"Single-Arm Hammer Strength Row","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":1,"e":"Cable Lateral Raise","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":1,"e":"Leg Extensions","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":1,"e":"Machine Curl","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":1,"e":"Seated Hamstring Curl","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":2,"e":"Hammer Chest Press","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":2,"e":"Hammer Pulldown (Underhand)","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":2,"e":"Hack Squat","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":2,"e":"Seated Hamstring Curl","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":2,"e":"Machine Rear Delt Fly","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":2,"e":"Rolling DB Tricep Extensions","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":2,"e":"Hack Squat Calf Raises","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":3,"e":"Front-Foot Elevated Bulgarian Split Squat","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":3,"e":"Shoulder Press","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":3,"e":"Overhand Mid-Grip Pulldown","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":3,"e":"Lying Leg Curls","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":3,"e":"Pec Deck","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":3,"e":"Machine Curl","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":3,"e":"Cable Triceps Extension","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":3,"e":"Hack Squat Calf Raises","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"},{"k":"single-set","d":3,"e":"Cable Crunch","s":1,"x":"identity is one all-out work set per movement (BLK-RB-I)"}],"dec":{"batch":2,"summary":"Card corrections only. The training content is coherent and stays untouched — the ratings were describing a different plan.","cards":[{"field":"fatigue","from":"3","to":"2","why":"Measures band 1 at 29 weekly systemic and 7.7 sets/session. Even executed perfectly, 23 weekly sets does not accumulate band-3 recovery cost — what it costs is effort, which the copy should say instead of the number"},{"field":"experience","from":"advanced","to":"intermediate","why":"One set to failure per movement is a low-volume, hard-to-overreach structure. The real gate is judging true failure, not training age"}],"engine":["BLK-RB-I and BLK-RB-X remain the real dependency: earned back-offs plus a mandatory stop-reason and quality prompt. Until they ship, nothing enforces that the single set is all-out, and no set-count change can substitute."],"open":[]},"shape":{"b":{"one":22,"deep":0,"avg":1,"slots":22},"a":{"one":23,"deep":0,"avg":1,"slots":23,"two":0,"three":0,"four":0}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"quads","topSets":4,"share":0,"fd":2,"fm":1,"fV":"partial","xp":["intermediate"],"xpV":"holds","stab":0.7,"tech":0.348,"notes":["fatigue rating retagged 3 → 2 by decision","retagged advanced → intermediate by decision","declares fatigue 2, measures 1 (29 systemic/wk, 9.67/session, 1.26/set)"]},"b":{"s":22,"ss":7.3,"v":19,"sy":31,"ax":9,"ps":1.41,"pa":0.41,"ln":2.05,"spf":1.45,"mav":0,"x2":9,"d":3,"pp":1.8,"qh":1.33},"a":{"s":23,"ss":7.7,"v":20,"sy":29,"ax":6,"ps":1.26,"pa":0.26,"ln":1.96,"spf":1.55,"mav":0,"x2":9,"d":3,"pp":1.8,"qh":1.33},"f":{"s":23,"ss":7.7,"v":20,"sy":29,"ax":6,"ps":1.26,"pa":0.26,"ln":1.96,"spf":1.55,"mav":0,"x2":9,"d":3,"pp":1.8,"qh":1.33}},{"id":"monolith","name":"Monolith","parked":false,"votes":14,"edits":1,"r2":3,"pick":0,"rationale":"Machine house (RB-V1b). Every replacement stays on a machine or cable: the hammer shoulder press MON-V-delt already voted, a machine curl as the voted primary, and rear-delt work that is not a third pec-deck station.","nb":{"plan":"event-horizon","score":0.88},"na":{"plan":"blackout","score":0.462},"open":[],"shapeFix":["Leg Extensions 4→3 sets (accessory cap)"],"flags":[{"k":"over-three","d":1,"e":"Hammer Chest Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Leg Press","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":3,"summary":"One set off the hammer pulldown, per owner decision. The machine house keeps its two 4-set openers on the lower day.","cards":[],"engine":[],"open":[]},"shape":{"b":{"one":0,"deep":1,"avg":3.04,"slots":26},"a":{"one":0,"deep":0,"avg":2.91,"slots":22,"two":4,"three":16,"four":2}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":13,"share":0,"fd":2,"fm":1,"fV":"partial","xp":["beginner","intermediate"],"xpV":"holds","stab":0.42,"tech":0.219,"notes":["declares fatigue 2, measures 1 (68 systemic/wk, 22.67/session, 1.06/set)"]},"b":{"s":79,"ss":19.8,"v":23,"sy":103,"ax":28,"ps":1.3,"pa":0.35,"ln":1.77,"spf":1.36,"mav":6,"x2":9,"d":4,"pp":1.93,"qh":3.33},"a":{"s":66,"ss":22,"v":18,"sy":73,"ax":14,"ps":1.11,"pa":0.21,"ln":1.74,"spf":1.58,"mav":3,"x2":8,"d":3,"pp":1.75,"qh":1.33},"f":{"s":64,"ss":21.3,"v":18,"sy":68,"ax":8,"ps":1.06,"pa":0.13,"ln":1.75,"spf":1.65,"mav":3,"x2":8,"d":3,"pp":1.91,"qh":1.17}},{"id":"atlas","name":"Atlas","parked":false,"votes":5,"edits":1,"r2":3,"pick":2,"rationale":"Full-body strength at fatigue 4 with carries. Rolling extensions are the strength-plan triceps answer; carries and the wheel stay untouched (ATL-V-core).","nb":{"plan":"athena","score":0.333},"na":{"plan":"project-chimera","score":0.306},"open":[],"shapeFix":["Heavy Rolling Tricep Extensions 1→2 sets (floor)","Cable Triceps Extension 1→2 sets (floor)","Hack Squat Calf Raises 1→2 sets (floor)"],"flags":[{"k":"over-three","d":1,"e":"Safety Bar Squat","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Trap-Bar Deadlift","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":8,"summary":"Left as-is by owner decision. Fatigue 4 is honest and the card already names the space requirement and the isolation trade-off.","cards":[],"engine":[],"open":["Axial 56 at 1.00 per set is the highest per-set spine load in the catalogue, nearly triple the 0.38 median. D1 alone stacks safety-bar squat, military press, single-leg RDL and farmer carry, all axially loaded. That is the plan identity rather than a defect, but the card does not say it: notForYouIf names gym space and isolation preference, not three spine-loading sessions a week.","Three stability-3 slots on D1 (single-leg RDL, ab wheel, farmer carry) all fall after a 4-set safety bar squat."]},"shape":{"b":{"one":3,"deep":0,"avg":2.41,"slots":22},"a":{"one":0,"deep":0,"avg":2.55,"slots":22,"two":12,"three":8,"four":2}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":15,"share":0,"fd":4,"fm":3,"fV":"partial","xp":["intermediate","advanced"],"xpV":"holds","stab":1.98,"tech":0.804,"notes":["declares fatigue 4, measures 3 (110 systemic/wk, 36.67/session, 1.96/set)"]},"b":{"s":53,"ss":17.7,"v":19,"sy":107,"ax":56,"ps":2.02,"pa":1.06,"ln":1.87,"spf":0.93,"mav":4,"x2":10,"d":3,"pp":0.94,"qh":1.63},"a":{"s":53,"ss":17.7,"v":20,"sy":107,"ax":56,"ps":2.02,"pa":1.06,"ln":1.87,"spf":0.93,"mav":4,"x2":10,"d":3,"pp":0.94,"qh":1.63},"f":{"s":56,"ss":18.7,"v":20,"sy":110,"ax":56,"ps":1.96,"pa":1,"ln":1.89,"spf":0.96,"mav":4,"x2":10,"d":3,"pp":1.06,"qh":1.63}},{"id":"event-horizon","name":"Event Horizon","parked":false,"votes":5,"edits":2,"r2":8,"pick":1,"rationale":"Joint-accommodating hypertrophy with a swap pool — the one plan where grip and angle variety IS the product. Smith incline gives the fixed-path option a joint-limited athlete needs, and the pulldown moves to a different grip than Oracle uses.","nb":{"plan":"monolith","score":0.88},"na":{"plan":"kali","score":0.462},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"30° Smith Incline Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Hack Squat","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Hammer Pulldown (Underhand)","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":4,"e":"Leg Press","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":3,"summary":"Both 4-set second compounds split into two movements. Keeps the volume, doubles the angles — which is what a joint-accommodating swap-pool plan should be doing anyway.","cards":[],"engine":[],"open":[]},"shape":{"b":{"one":0,"deep":2,"avg":2.89,"slots":27},"a":{"one":0,"deep":0,"avg":2.69,"slots":29,"two":13,"three":12,"four":4}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":20,"share":0,"fd":3,"fm":2,"fV":"partial","xp":["intermediate","advanced"],"xpV":"holds","stab":0.79,"tech":0.346,"notes":["declares fatigue 3, measures 2 (102 systemic/wk, 25.5/session, 1.31/set)"]},"b":{"s":78,"ss":19.5,"v":24,"sy":108,"ax":31,"ps":1.38,"pa":0.4,"ln":1.86,"spf":1.34,"mav":6,"x2":9,"d":4,"pp":1.8,"qh":1.89},"a":{"s":78,"ss":19.5,"v":24,"sy":106,"ax":31,"ps":1.36,"pa":0.4,"ln":1.86,"spf":1.37,"mav":6,"x2":9,"d":4,"pp":1.8,"qh":1.89},"f":{"s":78,"ss":19.5,"v":28,"sy":102,"ax":25,"ps":1.31,"pa":0.32,"ln":1.97,"spf":1.51,"mav":6,"x2":9,"d":4,"pp":1.8,"qh":1.89}},{"id":"project-chimera","name":"Project Chimera","parked":false,"votes":5,"edits":2,"r2":6,"pick":0,"rationale":"Trap-bar squat/hinge house with six quality tags (CH-RB-V). Upper work should be inventive and must stop mirroring Oracle — free-weight and unilateral where Oracle goes barbell-and-machine.","nb":{"plan":"oracle","score":0.741},"na":{"plan":"oracle","score":0.472},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Flat Barbell Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Barbell Squat","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Hammer Pulldown (Underhand)","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":4,"e":"Trap-Bar Deadlift","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":3,"summary":"Both 4-set second compounds split, using the trap-bar/free-weight house and the unilateral quality tag rather than adding more machine work.","cards":[],"engine":[],"open":[]},"shape":{"b":{"one":0,"deep":2,"avg":2.96,"slots":26},"a":{"one":0,"deep":0,"avg":2.72,"slots":29,"two":12,"three":13,"four":4}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":23,"share":0,"fd":3,"fm":4,"fV":"partial","xp":["intermediate","advanced"],"xpV":"holds","stab":1.41,"tech":0.62,"notes":["declares fatigue 3, measures 4 (132 systemic/wk, 33/session, 1.67/set)"]},"b":{"s":77,"ss":19.3,"v":23,"sy":125,"ax":51,"ps":1.62,"pa":0.66,"ln":2.12,"spf":1.3,"mav":6,"x2":9,"d":4,"pp":1.44,"qh":1.46},"a":{"s":79,"ss":19.8,"v":25,"sy":127,"ax":51,"ps":1.61,"pa":0.65,"ln":2.09,"spf":1.3,"mav":6,"x2":9,"d":4,"pp":1.44,"qh":1.46},"f":{"s":79,"ss":19.8,"v":27,"sy":132,"ax":51,"ps":1.67,"pa":0.65,"ln":2.09,"spf":1.25,"mav":6,"x2":9,"d":4,"pp":1.44,"qh":1.46}},{"id":"oracle","name":"Oracle","parked":false,"votes":5,"edits":3,"r2":8,"pick":1,"rationale":"Barbell anchors + machines to cut axial load (OR-RB-V), and every compound must be unique per day (OR-RB-P2). Its movements diverge from Chimera here, which is the point — they shared 85% after round 1.","nb":{"plan":"event-horizon","score":0.846},"na":{"plan":"athena","score":0.485},"open":[],"shapeFix":[],"flags":[{"k":"over-three","d":1,"e":"Flat Barbell Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":2,"e":"Barbell Squat","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":3,"e":"Incline DB Bench Press","s":4,"x":"leads the session — this is the day's driver"},{"k":"over-three","d":4,"e":"Leg Press","s":4,"x":"leads the session — this is the day's driver"}],"dec":{"batch":3,"summary":"Both 4-set second compounds split. OR-RB-P2 wants unique compounds per day, so the partners are movements the plan does not already use elsewhere.","cards":[],"engine":[],"open":[]},"shape":{"b":{"one":0,"deep":2,"avg":2.96,"slots":26},"a":{"one":0,"deep":0,"avg":2.75,"slots":28,"two":11,"three":13,"four":4}},"fit":{"spec":[],"specV":"n/a","rank":0,"exp":0,"req":3,"top":"glutes","topSets":20,"share":0,"fd":3,"fm":3,"fV":"holds","xp":["intermediate","advanced"],"xpV":"holds","stab":1.21,"tech":0.597,"notes":[]},"b":{"s":77,"ss":19.3,"v":24,"sy":118,"ax":41,"ps":1.53,"pa":0.53,"ln":1.88,"spf":1.23,"mav":6,"x2":9,"d":4,"pp":1.93,"qh":1.89},"a":{"s":77,"ss":19.3,"v":23,"sy":112,"ax":41,"ps":1.45,"pa":0.53,"ln":1.88,"spf":1.29,"mav":6,"x2":9,"d":4,"pp":1.93,"qh":1.89},"f":{"s":77,"ss":19.3,"v":26,"sy":112,"ax":41,"ps":1.45,"pa":0.53,"ln":1.88,"spf":1.29,"mav":6,"x2":9,"d":4,"pp":1.93,"qh":1.89}}]}</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const live = D.plans.filter(p => !p.parked);
+const fmt = n => (n === null || n === undefined) ? '—' : (Math.round(n * 100) / 100).toLocaleString();
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+document.getElementById('stamp').textContent = 'Simulated ' + D.generated;
+
+/* ---------- headline tiles ---------- */
+const movedPlans = live.filter(p => {
+  const d = Math.abs(p.f.sy - p.b.sy) / Math.max(1, p.b.sy);
+  const s = Math.abs(p.f.s - p.b.s) / Math.max(1, p.b.s);
+  return d > 0.08 || s > 0.08;
+});
+// Only plans the set floor actually applies to. Counting Blackout's 23
+// deliberate singles or Adventure's fractional model would make the fix look
+// bigger than it is.
+const FLOOR_EXEMPT = new Set(['blackout', 'neural-overload', 'iron-clock', '30-minute-adventure',
+  'pain-and-glory', 'bench-domination', 'trinary', 'ritual-of-strength']);
+const shaped = live.filter(p => !FLOOR_EXEMPT.has(p.id));
+const oneSetBefore = shaped.reduce((s, p) => s + p.shape.b.one, 0);
+const oneSetAfter = shaped.reduce((s, p) => s + p.shape.a.one, 0);
+const deepBefore = shaped.reduce((s, p) => s + p.shape.b.deep, 0);
+const deepAfter = shaped.reduce((s, p) => s + p.shape.a.deep, 0);
+const tiles = [
+  { label: 'Near-clone plan pairs', from: D.similarity.clonesBefore, to: D.similarity.clonesAfter,
+    note: 'Pairs sharing over half their movements. Mean overlap across the whole catalogue falls ' + D.similarity.meanBefore + ' → ' + D.similarity.meanAfter + '.' },
+  { label: '1-set filler slots', from: oneSetBefore, to: oneSetAfter,
+    note: 'Across the 28 plans the floor applies to. Almost every one was an arm or calf slot. The cap trims accessory isolation blocks separately, ' + deepBefore + ' → ' + deepAfter + '.' },
+  { label: 'Plans materially changed', value: movedPlans.length + ' of 35',
+    note: movedPlans.map(p => p.name).join(', ') + ' move more than 8% on volume or systemic load.' },
+  { label: 'Median weekly sets', from: D.aggregates.totalSets.beforeMedian, to: D.aggregates.totalSets.finalMedian,
+    note: 'The catalogue dose is deliberately held. Variety and set shape changed; total volume did not drift.' },
+];
+document.getElementById('tiles').innerHTML = tiles.map(t => `
+  <div class="tile">
+    <p class="tile-label">${t.label}</p>
+    <p class="tile-value">${t.from !== undefined
+      ? `<span class="from">${fmt(t.from)}</span><span class="arrow">→</span>${fmt(t.to)}`
+      : t.value}</p>
+    <p class="tile-note">${t.note}</p>
+  </div>`).join('');
+
+/* ---------- verdict ---------- */
+const findings = [
+  { tone: 'good', h: 'Two rebuilds did real work',
+    p: 'Monolith drops from 79 sets to 66 across 3 days and sheds 30 systemic and 14 axial points, becoming the machine house its clone-cluster brief called for. Purgatorio\'s pair rewrite cuts axial load from 52 to 32 while holding volume near its voted ~90 peak. These are the only two structural changes in the packet.' },
+  { tone: 'flat', h: 'Twenty-five of thirty-five barely move at all',
+    p: 'Twenty-five plans stay within 5% on both weekly sets and systemic load, and seven — Pencilneck, Skeleton, Trinary, Super Mutant, Immaculate, Hamstring Foundry and Tenfold — are identical on every axis measured. A one-for-one swap between two movements of the same pattern and equipment class moves nothing: same sets, same systemic cost, same axial cost, same muscle attribution. Most of the *-V-* votes are exactly that. If the goal was to change how these plans feel to run, the votes did not reach it.' },
+  { tone: 'bad', h: 'The catalogue-wide rules created a new uniformity',
+    p: 'XR-mix-tri put overhead triceps extension into 22 plans, up from 2. The core votes put cable crunch into 17, up from 6. Chimera and Oracle now share 85% of their movements, up from 74%; Blackout and Event Horizon 83%, up from 72%. Applying one correct rule to every plan makes every plan converge on it.' },
+  { tone: 'bad', h: 'Bench Domination still ships a hole where its back work should be',
+    p: 'Weighted Pull-ups remains at zero sets in the measured week — the fix is voted (BD-E12) but unimplemented, so the plan still has no direct back or biceps volume at all and its push:pull ratio is undefined. Nothing in the variety votes touches this.' },
+  { tone: 'flat', h: 'Coverage did not improve',
+    p: 'Groups sitting in a growth-dose band held at a median of 4 of 10, and groups trained twice or more weekly held at 9. House of Iron gained a real abs slot, calves and a vertical pull (+11 sets); Blackout gained its first core set. Everywhere else, the holes the audit found are still holes.' },
+];
+document.getElementById('verdict').innerHTML = findings.map(f => `
+  <div class="finding ${f.tone}"><h4>${f.h}</h4><p>${f.p}</p></div>`).join('');
+
+/* ---------- aggregates table ---------- */
+/* `dir` says which way is an improvement, so a +1 on variety is not painted
+   the same red as a +1 on axial load. 0 means the metric has no good direction. */
+const aggRows = [
+  ['Weekly sets', 'totalSets', 0, 0], ['Sets per session', 'setsPerSession', 1, 0],
+  ['Distinct exercises', 'distinctExercises', 0, 1], ['Variety density (per 10 sets)', 'varietyDensity', 2, 1],
+  ['Systemic load', 'systemic', 0, -1], ['Axial load', 'axial', 0, -1],
+  ['Systemic per set', 'perSetSystemic', 2, -1], ['Axial per set', 'perSetAxial', 2, -1],
+  ['Lengthened bias per set', 'avgLengthened', 2, 1], ['Stimulus per fatigue', 'stimulusPerFatigue', 2, 1],
+  ['Groups in growth band', 'groupsInMav', 1, 1], ['Groups trained 2×+', 'twicePlusGroups', 1, 1],
+  ['Failure-safe set share', 'failureSafeShare', 2, 0], ['Set-distribution evenness', 'evenness', 2, 0],
+];
+document.getElementById('agg').innerHTML = `
+  <thead><tr>
+    <th class="l">Metric</th><th>Shipped</th><th>Round 1</th><th>Round 2</th><th>Δ total</th>
+  </tr></thead><tbody>` + aggRows.map(([label, key, dp, dir]) => {
+    const a = D.aggregates[key];
+    const dm = a.finalMedian - a.beforeMedian;
+    const chip = d => {
+      const r = Math.round(d * 100) / 100;
+      if (Math.abs(r) < 0.005) return '<span class="delta same">—</span>';
+      const cls = dir === 0 ? 'same' : (r * dir > 0 ? 'up' : 'down');
+      return `<span class="delta ${cls}">${r > 0 ? '+' : ''}${r}</span>`;
+    };
+    return `<tr><td class="l" style="font-family:var(--serif);font-size:14.5px">${label}</td>
+      <td class="dim">${a.beforeMedian.toFixed(dp)}</td><td class="dim">${a.afterMedian.toFixed(dp)}</td>
+      <td>${a.finalMedian.toFixed(dp)}</td><td>${chip(dm)}</td></tr>`;
+  }).join('') + '</tbody>';
+
+/* ---------- matrix ---------- */
+const cols = [
+  { k: 'd', h: 'Days', dp: 0 },
+  { k: 's', h: 'Sets/wk', bar: true, dp: 0 },
+  { k: 'ss', h: 'Per session', bar: true, dp: 1 },
+  { k: 'v', h: 'Exercises', bar: true, dp: 0 },
+  { k: 'sy', h: 'Systemic', bar: true, dp: 0, lowerBetter: true },
+  { k: 'ax', h: 'Axial', bar: true, dp: 0, lowerBetter: true },
+  { k: 'ps', h: 'Sys/set', dp: 2, lowerBetter: true },
+  { k: 'pa', h: 'Ax/set', dp: 2, lowerBetter: true },
+  { k: 'ln', h: 'Lengthened', dp: 2 },
+  { k: 'spf', h: 'Stim/fatigue', dp: 2 },
+  { k: 'mav', h: 'In band', dp: 0 },
+  { k: 'x2', h: '2×+ groups', dp: 0 },
+  { k: 'pp', h: 'Push:pull', dp: 2 },
+  { k: 'qh', h: 'Quad:ham', dp: 2 },
+];
+const maxOf = k => Math.max(...D.plans.map(p => Math.max(p.f[k] ?? 0, p.b[k] ?? 0)));
+const maxes = Object.fromEntries(cols.filter(c => c.bar).map(c => [c.k, maxOf(c.k)]));
+
+const cell = (p, c) => {
+  const bv = p.b[c.k], av = p.f[c.k];
+  if (av === null || av === undefined) return '<td class="dim">—</td>';
+  const num = typeof av === 'number' ? av.toFixed(c.dp) : av;
+  if (!c.bar) {
+    const moved = typeof bv === 'number' && Math.abs(av - bv) > 0.004;
+    return `<td${moved ? '' : ' class="dim"'}>${num}</td>`;
+  }
+  const w = (av / maxes[c.k]) * 100, g = (bv / maxes[c.k]) * 100;
+  return `<td><div class="bar">
+      <span class="num">${num}</span>
+      <span class="track"><span class="fill" style="width:${w.toFixed(1)}%"></span><span class="ghost" style="left:calc(${g.toFixed(1)}% - 1px)"></span></span>
+    </div></td>`;
+};
+const deltaChip = p => {
+  const ds = p.f.s - p.b.s, dy = p.f.sy - p.b.sy, dx = p.f.ax - p.b.ax;
+  const parts = [];
+  const add = (label, v, lowerBetter) => {
+    if (Math.abs(v) < 0.5) return;
+    const good = lowerBetter ? v < 0 : v > 0;
+    parts.push(`<span class="delta ${good ? 'up' : 'down'}">${label} ${v > 0 ? '+' : ''}${Math.round(v)}</span>`);
+  };
+  add('sets', ds, false); add('sys', dy, true); add('ax', dx, true);
+  return parts.length ? parts.join(' ') : '<span class="delta same">unchanged</span>';
+};
+document.getElementById('matrix').innerHTML = `
+  <thead><tr><th class="l">Plan</th>${cols.map(c => `<th>${c.h}</th>`).join('')}<th class="l">Net change</th></tr></thead>
+  <tbody>` + D.plans.map(p => `
+    <tr${p.parked ? ' class="parked"' : ''}>
+      <td class="l plan">${p.name}<span class="pid">${p.edits}+${p.r2} edits${p.pick ? ' · +' + p.pick + ' picker opts' : ''}${p.parked ? ' · parked' : ''}</span></td>
+      ${cols.map(c => cell(p, c)).join('')}
+      <td class="l">${deltaChip(p)}</td>
+    </tr>`).join('') + '</tbody>';
+
+/* ---------- scatter ---------- */
+(() => {
+  const W = 1100, H = 520, m = { t: 20, r: 24, b: 52, l: 62 };
+  const pts = live;
+  const xs = pts.flatMap(p => [p.b.ss, p.f.ss]), ys = pts.flatMap(p => [p.b.ps, p.f.ps]);
+  const xMin = 0, xMax = Math.ceil(Math.max(...xs) / 5) * 5;
+  const yMin = 1, yMax = Math.ceil(Math.max(...ys) * 10) / 10;
+  const X = v => m.l + ((v - xMin) / (xMax - xMin)) * (W - m.l - m.r);
+  const Y = v => H - m.b - ((v - yMin) / (yMax - yMin)) * (H - m.t - m.b);
+  const xTicks = []; for (let v = 0; v <= xMax; v += 5) xTicks.push(v);
+  const yTicks = []; for (let v = 1; v <= yMax + .001; v += 0.25) yTicks.push(Math.round(v * 100) / 100);
+  // label only the plans worth naming: extremes and movers
+  const named = new Set();
+  const rank = (f, n) => [...pts].sort(f).slice(0, n).forEach(p => named.add(p.id));
+  rank((a, b) => b.f.ps - a.f.ps, 4); rank((a, b) => a.f.ps - b.f.ps, 3);
+  rank((a, b) => b.f.ss - a.f.ss, 3); rank((a, b) => a.f.ss - b.f.ss, 3);
+  rank((a, b) => Math.abs(b.f.sy - b.b.sy) - Math.abs(a.f.sy - a.b.sy), 3);
+
+  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Scatter of sets per session against systemic load per set">
+    ${yTicks.map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--hairline)" stroke-width="1"/>
+      <text x="${m.l - 12}" y="${Y(v) + 4}" text-anchor="end" font-family="var(--mono)" font-size="11" fill="var(--muted)">${v.toFixed(2)}</text>`).join('')}
+    ${xTicks.map(v => `<text x="${X(v)}" y="${H - m.b + 22}" text-anchor="middle" font-family="var(--mono)" font-size="11" fill="var(--muted)">${v}</text>`).join('')}
+    <line x1="${m.l}" x2="${W - m.r}" y1="${H - m.b}" y2="${H - m.b}" stroke="var(--hairline-strong)" stroke-width="1"/>
+    <text x="${(m.l + W - m.r) / 2}" y="${H - 8}" text-anchor="middle" font-family="var(--mono)" font-size="10.5" letter-spacing="1.6" fill="var(--muted)">SETS PER SESSION →</text>
+    <text x="14" y="${(H - m.b + m.t) / 2}" text-anchor="middle" font-family="var(--mono)" font-size="10.5" letter-spacing="1.6" fill="var(--muted)" transform="rotate(-90 14 ${(H - m.b + m.t) / 2})">SYSTEMIC COST PER SET →</text>
+    ${pts.map(p => {
+      const x1 = X(p.b.ss), y1 = Y(p.b.ps), x2 = X(p.f.ss), y2 = Y(p.f.ps);
+      const moved = Math.hypot(x2 - x1, y2 - y1) > 3;
+      return (moved ? `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--before)" stroke-width="1.4" opacity=".85"/>
+        <circle cx="${x1}" cy="${y1}" r="2.5" fill="var(--before)"/>` : '') +
+        `<circle cx="${x2}" cy="${y2}" r="${moved ? 6 : 5}" fill="var(--after)" fill-opacity="${moved ? '.95' : '.62'}" stroke="var(--surface)" stroke-width="1.2"/>`;
+    }).join('')}
+    ${pts.filter(p => named.has(p.id)).map(p => {
+      const x = X(p.f.ss), y = Y(p.f.ps);
+      const right = x < W - m.r - 150;
+      return `<text x="${right ? x + 11 : x - 11}" y="${y + 4}" text-anchor="${right ? 'start' : 'end'}" font-family="var(--mono)" font-size="11" fill="var(--ink-soft)">${p.name}</text>`;
+    }).join('')}
+  </svg>`;
+  document.getElementById('scatter').innerHTML = svg +
+    `<div class="legend"><span><i class="swatch" style="background:var(--after);border-radius:50%"></i>after state</span>
+     <span><i class="swatch" style="background:var(--before);border-radius:50%"></i>before state, joined by a tail</span></div>`;
+})();
+
+/* ---------- slopegraph ---------- */
+(() => {
+  const pairs = D.similarity.topBefore.slice(0, 12);
+  const nameOf = id => (D.plans.find(p => p.id === id) || {}).name || id;
+  const rows = pairs.map(p => ({ label: nameOf(p.a) + ' ~ ' + nameOf(p.b), before: p.score, after: p.after }));
+  const W = 1100, H = 40 + rows.length * 34, xL = 330, xR = 880;
+  const sMin = 0.3, sMax = 0.9;
+  const P = v => xL + ((v - sMin) / (sMax - sMin)) * (xR - xL);
+  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Slopegraph of plan-pair similarity before and after">
+    <line x1="${P(0.5)}" x2="${P(0.5)}" y1="14" y2="${H - 16}" stroke="var(--warn)" stroke-width="1" stroke-dasharray="3 4" opacity=".7"/>
+    <text x="${P(0.5)}" y="10" text-anchor="middle" font-family="var(--mono)" font-size="10" letter-spacing="1" fill="var(--warn)">CLONE LINE 0.50</text>
+    ${rows.map((r, i) => {
+      const y = 34 + i * 34;
+      const worse = r.after > r.before + 0.001;
+      const col = worse ? 'var(--loss)' : (r.after < r.before - 0.001 ? 'var(--gain)' : 'var(--muted)');
+      return `<text x="${xL - 18}" y="${y + 4}" text-anchor="end" font-family="var(--mono)" font-size="11.5" fill="var(--ink-soft)">${r.label}</text>
+        <line x1="${P(r.before)}" x2="${P(r.after)}" y1="${y}" y2="${y}" stroke="${col}" stroke-width="2.5" opacity=".55"/>
+        <circle cx="${P(r.before)}" cy="${y}" r="4" fill="var(--before)"/>
+        <circle cx="${P(r.after)}" cy="${y}" r="5" fill="${col}"/>
+        <text x="${P(r.after) + (r.after >= r.before ? 13 : -13)}" y="${y + 4}" text-anchor="${r.after >= r.before ? 'start' : 'end'}" font-family="var(--mono)" font-size="11" fill="${col}">${r.after.toFixed(2)}</text>
+        <text x="${P(r.before) + (r.after >= r.before ? -13 : 13)}" y="${y + 4}" text-anchor="${r.after >= r.before ? 'end' : 'start'}" font-family="var(--mono)" font-size="11" fill="var(--muted)">${r.before.toFixed(2)}</text>`;
+    }).join('')}
+  </svg>`;
+  document.getElementById('slope').innerHTML = svg +
+    `<div class="legend"><span><i class="swatch" style="background:var(--before);border-radius:50%"></i>overlap before</span>
+      <span><i class="swatch" style="background:var(--gain);border-radius:50%"></i>after — grew apart</span>
+      <span><i class="swatch" style="background:var(--loss);border-radius:50%"></i>after — converged further</span></div>`;
+})();
+
+/* ---------- concentration ---------- */
+(() => {
+  const rows = D.concentration.top.slice(0, 14);
+  const W = 1100, H = 30 + rows.length * 30, xL = 300, xMax = 36;
+  const P = v => xL + (v / xMax) * (W - xL - 70);
+  const label = id => id.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Bar chart of how many plans use each movement">
+    ${rows.map((r, i) => {
+      const y = 22 + i * 30;
+      const jumped = r.after - r.before >= 5;
+      return `<text x="${xL - 16}" y="${y + 11}" text-anchor="end" font-family="var(--mono)" font-size="11.5" fill="${jumped ? 'var(--loss)' : 'var(--ink-soft)'}">${label(r.id)}</text>
+        <rect x="${xL}" y="${y + 1}" width="${P(r.before) - xL}" height="14" fill="var(--before)" opacity=".45"/>
+        <rect x="${xL}" y="${y + 4}" width="${P(r.after) - xL}" height="8" fill="${jumped ? 'var(--loss)' : 'var(--after)'}"/>
+        <text x="${P(r.after) + 10}" y="${y + 12}" font-family="var(--mono)" font-size="11" fill="${jumped ? 'var(--loss)' : 'var(--muted)'}">${r.before} → ${r.after}</text>`;
+    }).join('')}
+  </svg>`;
+  document.getElementById('conc').innerHTML = svg +
+    `<div class="legend"><span><i class="swatch" style="background:var(--before);opacity:.45"></i>plans using it before</span>
+      <span><i class="swatch" style="background:var(--after)"></i>after</span>
+      <span><i class="swatch" style="background:var(--loss)"></i>gained 5+ plans</span></div>`;
+})();
+
+
+/* ---------- set shape ---------- */
+(() => {
+  const rows = D.plans.filter(p => p.id !== '30-minute-adventure');
+  const maxSlots = Math.max(...rows.map(p => p.shape.a.slots));
+  const seg = (n, total, color) => n ? `<span style="width:${(n / total * 100).toFixed(1)}%;background:${color}"></span>` : '';
+  document.getElementById('shape').innerHTML = `
+    <thead><tr>
+      <th class="l">Plan</th><th>Slots</th><th>Sets/slot</th><th>1-set</th><th>4+ non-lead</th><th>Flags</th>
+      <th class="l" style="width:230px">Slot mix after</th><th class="l">Corrections applied</th>
+    </tr></thead><tbody>` + rows.map(p => {
+      const b = p.shape.b, a = p.shape.a, t = a.slots || 1;
+      const fixed = n => n === 0 ? '<span class="delta same">0</span>' : `<span class="delta down">${n}</span>`;
+      const drop = (from, to) => from === to
+        ? (from === 0 ? '<span class="dim">0</span>' : `<span class="delta down">${from}</span>`)
+        : `<span class="dim">${from}</span> <span class="delta up">→ ${to}</span>`;
+      return `<tr${p.parked ? ' class="parked"' : ''}>
+        <td class="l plan">${p.name}<span class="pid">${p.shapeFix.length} corrections</span></td>
+        <td>${a.slots}</td>
+        <td>${b.avg.toFixed(2)} <span class="dim">→</span> ${a.avg.toFixed(2)}</td>
+        <td>${drop(b.one, a.one)}</td>
+        <td>${drop(b.deep, a.deep)}</td>
+        <td>${(() => { const u = (p.flags || []).filter(f => !f.x).length;
+          return u ? `<span class="delta down">${u}</span>` : '<span class="delta same">0</span>'; })()}</td>
+        <td class="l"><span class="stack">${seg(a.one, t, 'var(--loss)')}${seg(a.two, t, 'var(--after)')}${seg(a.three, t, 'color-mix(in srgb, var(--after) 60%, transparent)')}${seg(a.four, t, 'var(--warn)')}</span></td>
+        <td class="l"><div class="wrapcell">${p.shapeFix.slice(0, 3).join('; ') || '—'}${p.shapeFix.length > 3 ? `; +${p.shapeFix.length - 3} more` : ''}</div></td>
+      </tr>`;
+    }).join('') + '</tbody>';
+})();
+
+/* ---------- specialisation fit ---------- */
+(() => {
+  const mark = v => {
+    if (v === 'holds') return '<span class="delta up">holds</span>';
+    if (v === 'partial') return '<span class="delta warnchip">partial</span>';
+    if (v === 'misses') return '<span class="delta down">misses</span>';
+    return '<span class="delta same">—</span>';
+  };
+  document.getElementById('fit').innerHTML = `
+    <thead><tr>
+      <th class="l">Plan</th><th class="l">Declared focus</th><th>Rank</th><th>Exposures</th><th class="l">Focus</th>
+      <th>Fatigue d/m</th><th class="l">Fatigue</th><th class="l">Experience</th><th class="l">Level</th><th class="l">What is off</th>
+    </tr></thead><tbody>` + D.plans.filter(p => p.fit).map(p => {
+      const f = p.fit;
+      return `<tr${p.parked ? ' class="parked"' : ''}>
+        <td class="l plan">${p.name}</td>
+        <td class="l">${f.spec.join(' + ') || '<span class="dim">none declared</span>'}</td>
+        <td>${f.spec.length ? '#' + f.rank : '<span class="dim">—</span>'}</td>
+        <td>${f.spec.length ? `${f.exp}/${f.req}` : '<span class="dim">—</span>'}</td>
+        <td class="l">${mark(f.specV)}</td>
+        <td>${f.fd} / ${f.fm}</td>
+        <td class="l">${mark(f.fV)}</td>
+        <td class="l" style="font-size:11px">${f.xp.map(x => x.slice(0, 3)).join('/')}</td>
+        <td class="l">${mark(f.xpV)}</td>
+        <td class="l"><div class="wrapcell">${f.notes.join(' · ') || '—'}</div></td>
+      </tr>`;
+    }).join('') + '</tbody>';
+
+  const fits = D.plans.filter(p => p.fit).map(p => p.fit);
+  const findings = [
+    { tone: 'bad', h: 'Pencilneck is mis-sold on both axes at once',
+      p: 'It is offered to beginners at fatigue 2, and measures fatigue 4 with 22.8 sets a session — the heaviest weekly systemic load in the catalogue outside Super Mutant. PN-RB-I already votes to retag it intermediate; the fatigue rating needs the same correction, and the ramp from ~50 sets is what makes the opening weeks survivable.' },
+    { tone: 'bad', h: 'Two specialisation plans are led by a muscle they do not specialise in',
+      p: 'King of the Squat declares quads and ranks them #3 — back leads at 29 sets, partly because round 1 added back volume under KOS-X11. Hamstring Foundry declares hamstrings and ranks them #2 behind back at 20 sets. Both still clear their exposure requirement, so the frequency rule passes them; only the volume ranking catches it.' },
+    { tone: 'bad', h: 'Four plans claim more fatigue than they deliver',
+      p: 'Kali, Cathedral, Blackout and Iron Clock all declare fatigue 3 and measure 1. For Kali and Blackout that is arguably correct positioning — a cut plan and a one-set plan should feel hard without accumulating load — but the number on the card is a promise about recovery cost, and it is wrong by two bands. Cathedral is a chest specialisation sitting in the catalogue\'s lightest quartile.' },
+    { tone: 'flat', h: 'House of Iron asks beginners for the least forgiving movements in the catalogue',
+      p: 'Stability demand 2.32, the highest anywhere, and 97% of its sets are on movements not rated safe to take to failure. That is inherent to a dumbbell-and-bodyweight home plan with no machines to fall back on — but it is offered to beginners, and the card should say that free-weight competence is the prerequisite. Apex Predator has a milder version of the same shape.' },
+    { tone: 'flat', h: 'Two plans sell a specialisation nothing checks',
+      p: 'Pain & Glory and Venus Rising both carry the specialisation goal on their cards, but declare no specialisation group in PLAN_RULES — so verify:volume cannot test whether they deliver it. Venus names glutes, delts, back and quads in its own copy; Pain & Glory is a deadlift plan.' },
+  ];
+  document.getElementById('fitFindings').innerHTML = findings.map(f =>
+    `<div class="finding ${f.tone}"><h4>${f.h}</h4><p>${f.p}</p></div>`).join('');
+})();
+
+/* ---------- open items ---------- */
+(() => {
+  const items = D.plans.flatMap(p => (p.open || []).map(text => ({ plan: p.name, text })));
+  const extra = [
+    { plan: 'Peachy', text: 'The core movement was never chosen — two 2-set sessions are placed, but cable crunch, machine crunch and ab wheel were all still live. Cable crunch is modelled here.' },
+    { plan: 'Chimera', text: 'Logged as "add cable-crunch"; the owner never picked whether it rotates with the wheel like the other plans.' },
+    { plan: 'Library', text: 'Machine crunch, side hanging knee raise, feet-elevated push-up, a dedicated chest-supported cable row and a single-leg glute leg press are all voted but do not exist as ids yet.' },
+    { plan: 'Monolith', text: 'The early "standing calf only, never hack-calf" line contradicts the later XR-calf rule. XR-calf is the one to use.' },
+  ];
+  document.getElementById('open').innerHTML = [...items, ...extra].map(i => `
+    <div class="item"><div class="item-plan">${i.plan}</div><p>${i.text}</p></div>`).join('');
+})();
+</script>

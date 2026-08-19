@@ -367,7 +367,13 @@ service cloud.firestore {
 
     match /users/{userId} {
       allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid && validUserProfile(request.resource.data, userId) && validSelectedProgram(request.resource.data) && matchesIssuedAccess(userId);
+      // Missing docs used to fail these ownerUid checks (resource is null),
+      // so getDoc threw permission-denied for both "new keyword" and
+      // "owned by another device". Allow get on a missing document so the
+      // client can tell those apart at codeword entry. An existing doc with
+      // someone else's ownerUid still denies.
       allow get: if isAdmin() ||
+        (signedIn() && resource == null) ||
         (signedIn() && resource.data.ownerUid == request.auth.uid) ||
         (signedIn() && !('ownerUid' in resource.data));
       allow list: if isAdmin();

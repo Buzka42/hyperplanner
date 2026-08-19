@@ -64,6 +64,8 @@ export const Entry: React.FC = () => {
                 navigate('/app/dashboard');
             } else if (result.status === 'admin') {
                 navigate('/admin');
+            } else if (result.status === 'claimed') {
+                setError(t('entry.keywordClaimed'));
             } else if (result.status === 'onboarding') {
                 navigate('/onboarding', { state: { codeword: normalizeKeyword(codeword), allowedPlanIds: result.allowedPlanIds } });
             } else {
@@ -83,7 +85,9 @@ export const Entry: React.FC = () => {
         } catch (err: any) {
             console.error("Entry Error:", err);
             let msg = err.message;
-            if (err.code === 'auth/configuration-not-found' || err.message?.includes('configuration-not-found')) {
+            if (err.code === 'keyword-claimed') {
+                msg = t('entry.keywordClaimed');
+            } else if (err.code === 'auth/configuration-not-found' || err.message?.includes('configuration-not-found')) {
                 msg = "Firebase Auth not enabled. Go to Console -> Authentication -> Sign-in method -> Enable Anonymous.";
             } else if (err.code === 'auth/operation-not-allowed') {
                 msg = "Anonymous Auth disabled in Firebase. Enable it in Console.";

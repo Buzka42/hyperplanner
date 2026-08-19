@@ -1446,9 +1446,16 @@ const CORE_LIBRARY: LibraryExercise[] = [
         tip: { en: '1 weighted set, 1 weighted + drop set to bodyweight.', pl: '1 seria z obciążeniem, 1 z obciążeniem i zrzutem do masy ciała.' },
         name: { en: 'Reverse Nordic Curls', pl: 'Odwrócone Nordic Curls' },
         aliases: [],
-        pattern: 'knee-flexion',
-        primary: ['hamstrings'],
-        secondary: ['calves'],
+        /*
+         * Knee EXTENSION under a lengthened quad, not knee flexion — the athlete
+         * leans back from kneeling and the quads control the descent. It was
+         * classified as a hamstring movement, which credited its volume to the
+         * wrong group everywhere it appears (Quadfather, Lazarus, Bench
+         * Domination) and made those plans read as under-dosed on quads.
+         */
+        pattern: 'knee-extension',
+        primary: ['quads'],
+        secondary: [],
         equipment: ['bodyweight'],
         weightMode: 'bodyweight',
         status: 'active',

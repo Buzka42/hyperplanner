@@ -362,13 +362,28 @@ export const Onboarding: React.FC = () => {
                 await switchProgram(PAIN_GLORY_CONFIG.id);
             } else {
                 if (!codeword) throw new Error("No codeword found. Please restart.");
-                // @ts-ignore
-                await registerUser(codeword, painGloryStats, PAIN_GLORY_CONFIG.id, selectedDays.length === 4 ? selectedDays : [1, 2, 4, 5], {});
+                await registerUser(
+                    codeword,
+                    painGloryStats,
+                    PAIN_GLORY_CONFIG.id,
+                    selectedDays.length === 4 ? selectedDays : [1, 2, 4, 5],
+                    {},
+                    undefined,
+                    {
+                        painGloryStatus: {
+                            deficitSnatchGripWeight: initialDeficitWeight,
+                            squatProgress: 0
+                        }
+                    }
+                );
             }
             navigate('/app/dashboard');
         } catch (err: any) {
             console.error("Registration failed:", err);
-            alert("Failed to build program: " + (err.message || "Unknown error"));
+            const message = err?.code === 'keyword-claimed'
+                ? t('entry.keywordClaimed')
+                : "Failed to build program: " + (err.message || "Unknown error");
+            alert(message);
         }
     };
 

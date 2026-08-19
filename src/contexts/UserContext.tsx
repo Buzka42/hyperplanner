@@ -12,6 +12,18 @@ import { getPlanExerciseConfig } from '../data/exercises/planConfigs';
 import type { PlanExerciseDoc } from '../data/exercises/types';
 import type { UserProfile, LiftingStats, PlanConfig, BadgeId, WorkoutLog } from '../types';
 
+export const KEYWORD_CLAIMED_CODE = 'keyword-claimed';
+
+export class KeywordClaimedError extends Error {
+    readonly code = KEYWORD_CLAIMED_CODE;
+    constructor() {
+        super('This keyword is already in use on another device.');
+        this.name = 'KeywordClaimedError';
+    }
+}
+
+type CodewordCheck = { status: 'exists' | 'not-found' | 'admin' | 'onboarding' | 'claimed'; allowedPlanIds?: string[] };
+
 interface UserContextType {
     user: UserProfile | null;
     activePlanConfig: PlanConfig;
@@ -20,7 +32,7 @@ interface UserContextType {
     /** Admin exercise overrides for the user's active plan, if any. */
     planExerciseConfig: PlanExerciseDoc | undefined;
     loading: boolean;
-    checkCodeword: (codeword: string) => Promise<{ status: 'exists' | 'not-found' | 'admin' | 'onboarding'; allowedPlanIds?: string[] }>;
+    checkCodeword: (codeword: string) => Promise<CodewordCheck>;
     registerUser: (codeword: string, stats: LiftingStats, programId?: string, selectedDays?: number[], exercisePreferences?: Record<string, string>, benchDominationModules?: any, extra?: Partial<UserProfile>) => Promise<void>;
     logout: () => void;
     isAdmin: boolean;
@@ -199,7 +211,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return () => unsubscribe();
     }, [authReady, listeningId]);
 
-    const checkCodeword = async (codeword: string): Promise<{ status: 'exists' | 'not-found' | 'admin' | 'onboarding'; allowedPlanIds?: string[] }> => {
+    const checkCodeword = async (codeword: string): Promise<CodewordCheck> => {
         const trimmed = codeword.trim();
         const sanitized = normalizeKeyword(trimmed);
 
@@ -214,43 +226,53 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             return { status: 'not-found' };
         }
 
+        const readUserDoc = async (id: string) => {
+            try {
+                return { kind: 'ok' as const, snap: await getDoc(doc(db, 'users', id)) };
+            } catch (error: unknown) {
+                if ((error as { code?: string })?.code === 'permission-denied') {
+                    return { kind: 'claimed' as const };
+                }
+                throw error;
+            }
+        };
+
+        const adoptProfile = (id: string, profile: UserProfile) => {
+            if (!profile.programId) profile.programId = 'bench-domination';
+            setUser(profile);
+            setListeningId(id);
+        };
+
         const docRef = doc(db, 'users', sanitized);
-        let snap;
-        try {
-            snap = await getDoc(docRef);
-        } catch (error: any) {
-            // Secured Firestore intentionally hides unowned/nonexistent user
-            // documents. Treat that as a new keyword, not a login failure.
-            if (error?.code !== 'permission-denied') throw error;
+        const own = await readUserDoc(sanitized);
+
+        if (own.kind === 'claimed') {
+            return { status: 'claimed' };
         }
 
-        if (snap?.exists()) {
-            const profile = snap.data() as UserProfile;
+        if (own.snap.exists()) {
+            const profile = own.snap.data() as UserProfile;
             if (!profile.ownerUid && auth.currentUser) {
                 await updateDoc(docRef, { ownerUid: auth.currentUser.uid });
                 profile.ownerUid = auth.currentUser.uid;
             }
-            if (!profile.programId) profile.programId = 'bench-domination';
-            setUser(profile);
-            setListeningId(sanitized);
-            // No localStorage persistence
+            adoptProfile(sanitized, profile);
             return { status: 'exists' };
         }
 
         if (trimmed !== sanitized) {
-            const legacyRef = doc(db, 'users', trimmed);
-            const legacySnap = await getDoc(legacyRef);
-
-            if (legacySnap.exists()) {
-                const profile = legacySnap.data() as UserProfile;
+            const legacy = await readUserDoc(trimmed);
+            if (legacy.kind === 'claimed') {
+                return { status: 'claimed' };
+            }
+            if (legacy.snap.exists()) {
+                const profile = legacy.snap.data() as UserProfile;
+                const legacyRef = doc(db, 'users', trimmed);
                 if (!profile.ownerUid && auth.currentUser) {
                     await updateDoc(legacyRef, { ownerUid: auth.currentUser.uid });
                     profile.ownerUid = auth.currentUser.uid;
                 }
-                if (!profile.programId) profile.programId = 'bench-domination';
-                setUser(profile);
-                setListeningId(trimmed);
-                // No localStorage persistence
+                adoptProfile(trimmed, profile);
                 return { status: 'exists' };
             }
         }
@@ -301,8 +323,11 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             try {
                 const snap = await getDoc(userRef);
                 existingData = snap.exists() ? snap.data() as UserProfile : null;
-            } catch (error: any) {
-                if (error?.code !== 'permission-denied') throw error;
+            } catch (error: unknown) {
+                if ((error as { code?: string })?.code === 'permission-denied') {
+                    throw new KeywordClaimedError();
+                }
+                throw error;
             }
 
             const now = new Date().toISOString();
@@ -388,6 +413,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             // Clear any partial state
             setListeningId(null);
             // No localStorage persistence
+
+            if (error instanceof KeywordClaimedError) throw error;
+            if (error?.code === 'permission-denied') throw new KeywordClaimedError();
 
             // Re-throw with user-friendly message
             if (error.code === 'unavailable' || error.message?.includes('network')) {
