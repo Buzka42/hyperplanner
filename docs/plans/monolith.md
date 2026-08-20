@@ -22,7 +22,7 @@
 | **Calibration** | none |
 | **Hooks** | `calculateWeight`, `preprocessDay` |
 | **Techniques used** | `drop-set` |
-| **Card promise** | *"A 10-week machine-dominant upper/lower plan for accumulating volume you can recover from."* |
+| **Card promise** | *"A 10-week machine-dominant plan for accumulating volume you can recover from."* |
 
 ---
 
@@ -32,7 +32,7 @@
 
 The onboarding card claims:
 
-- 4 days, upper/lower
+- 3 days — upper, lower, full
 - Machine-dominant, not machine-only
 - Effort first, technique later
 - Low systemic cost

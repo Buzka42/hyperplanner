@@ -621,8 +621,8 @@ export const translations = {
                     features: ["3 full-body days", "One work set per exercise", "Back-off sets are earned, not scheduled", "Quality and stop reason are mandatory"]
                 },
                 monolith: {
-                    name: "Monolith", description: "A 10-week machine-dominant upper/lower plan for accumulating volume you can recover from.",
-                    features: ["4 days, upper/lower", "Machine-dominant, not machine-only", "Effort first, technique later", "Low systemic cost"]
+                    name: "Monolith", description: "A 10-week machine-dominant plan for accumulating volume you can recover from.",
+                    features: ["3 days — upper, lower, full", "Machine-dominant, not machine-only", "Effort first, technique later", "Low systemic cost"]
                 },
                 atlas: {
                     name: "Atlas", description: "A 10-week strength plan run as two five-week gauntlets, built on carries and hard basics.",
@@ -2114,8 +2114,8 @@ export const translations = {
                     features: ["3 dni całego ciała", "Jedna seria robocza na ćwiczenie", "Serie odciążające trzeba sobie wypracować", "Obowiązkowa jakość i powód zakończenia"]
                 },
                 monolith: {
-                    name: "Monolith", description: "10-tygodniowy plan góra/dół oparty na maszynach, żeby budować objętość, z której da się zregenerować.",
-                    features: ["4 dni, góra/dół", "Przewaga maszyn, ale nie tylko maszyny", "Najpierw wysiłek, później techniki", "Niski koszt systemowy"]
+                    name: "Monolith", description: "10-tygodniowy plan oparty na maszynach, żeby budować objętość, z której da się zregenerować.",
+                    features: ["3 dni — góra, dół, całe ciało", "Przewaga maszyn, ale nie tylko maszyny", "Najpierw wysiłek, później techniki", "Niski koszt systemowy"]
                 },
                 atlas: {
                     name: "Atlas", description: "10-tygodniowy plan siłowy w dwóch pięciotygodniowych blokach, oparty na spacerach z ciężarem i twardych podstawach.",

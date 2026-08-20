@@ -43,10 +43,10 @@ export interface PortfolioEntry {
 export const PORTFOLIO: PortfolioEntry[] = [
     {
         id: 'bench-domination', goal: ['strength', 'specialisation'], experience: ['intermediate', 'advanced'],
-        frequency: [4], weeks: 16, equipment: ['barbell', 'full-gym'], adaptability: 'responsive', fatigue: 3,
+        frequency: [6], weeks: 16, equipment: ['barbell', 'full-gym'], adaptability: 'responsive', fatigue: 3,
         signatureMechanic: 'Percentage bench work off five separate press maxes, with modules you switch off when life gets busy.',
         prerequisites: ['A tested or confident paused bench max'],
-        notForYouIf: ['You want balanced development — this is a bench plan first', 'You cannot train four days most weeks'],
+        notForYouIf: ['You want balanced development — this is a bench plan first', 'You cannot train six days most weeks — four benching plus two lower'],
         followUps: ['trinary', 'ritual-of-strength', 'neural-overload'],
     },
     {

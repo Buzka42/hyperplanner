@@ -27,7 +27,7 @@
         "advanced"
       ],
       "frequency": [
-        4
+        6
       ],
       "weeks": 16,
       "equipment": [
@@ -42,7 +42,7 @@
       ],
       "notForYouIf": [
         "You want balanced development — this is a bench plan first",
-        "You cannot train four days most weeks"
+        "You cannot train six days most weeks — four benching plus two lower"
       ],
       "followUps": [
         "trinary",
@@ -1136,33 +1136,33 @@
       }
     ],
     "week": {
-      "sampledWeek": 3,
+      "sampledWeek": 2,
       "trainingDays": 4,
       "perVisitGenerator": false,
       "notes": [
-        "sampled week 3 (week 1 is off-median at 55 sets)"
+        "sampled week 2 (week 1 is off-median at 55 sets)"
       ]
     },
     "metrics": {
       "planId": "pencilneck-eradication",
       "name": "Pencilneck Eradication Protocol",
-      "week": 3,
+      "week": 2,
       "days": 4,
-      "totalSets": 91,
-      "setsPerSession": 22.8,
+      "totalSets": 79,
+      "setsPerSession": 19.8,
       "slotsPerSession": 9,
       "distinctExercises": 35,
-      "varietyDensity": 3.85,
-      "topExerciseShare": 0.044,
-      "evenness": 0.994,
-      "systemic": 147,
-      "axial": 45,
-      "lowerBack": 40,
-      "perSetSystemic": 1.62,
-      "perSetAxial": 0.49,
-      "highSystemicSets": 12,
-      "compoundShare": 0.462,
-      "groupsCovered": 10,
+      "varietyDensity": 4.43,
+      "topExerciseShare": 0.051,
+      "evenness": 0.981,
+      "systemic": 125,
+      "axial": 34,
+      "lowerBack": 30,
+      "perSetSystemic": 1.58,
+      "perSetAxial": 0.43,
+      "highSystemicSets": 8,
+      "compoundShare": 0.468,
+      "groupsCovered": 8,
       "groupsMissing": [],
       "volume": {
         "chest": 19,
@@ -1170,23 +1170,23 @@
         "back": 21,
         "biceps": 4,
         "triceps": 5,
-        "quads": 11,
-        "hamstrings": 10,
-        "glutes": 15,
-        "calves": 4,
-        "core": 4
+        "quads": 7,
+        "hamstrings": 6,
+        "glutes": 10,
+        "calves": 2,
+        "core": 2
       },
       "twicePlusGroups": 10,
-      "avgLengthened": 1.86,
-      "avgStability": 1.49,
-      "stimulusPerFatigue": 1.15,
-      "failureSafeShare": 0.264,
+      "avgLengthened": 1.84,
+      "avgStability": 1.54,
+      "stimulusPerFatigue": 1.16,
+      "failureSafeShare": 0.241,
       "weeklyShoulderCost": 41,
-      "weeklyKneeCost": 26,
+      "weeklyKneeCost": 16,
       "weeklyElbowCost": 46,
       "pushPullRatio": 1.84,
-      "quadHamRatio": 1.1,
-      "groupsInMav": 4,
+      "quadHamRatio": 1.17,
+      "groupsInMav": 2,
       "groupsOverMav": [
         "shoulders",
         "back"
@@ -1194,43 +1194,74 @@
       "groupsUnderMev": [
         "biceps",
         "triceps",
+        "quads",
+        "hamstrings",
         "calves",
         "core"
       ],
       "unmapped": [],
       "notes": [
-        "sampled week 3 (week 1 is off-median at 55 sets)"
+        "sampled week 2 (week 1 is off-median at 55 sets)"
       ]
     },
     "setShape": {
       "slots": 36,
-      "singletons": 0,
-      "twos": 17,
-      "threes": 19,
+      "singletons": 7,
+      "twos": 15,
+      "threes": 14,
       "fourPlus": 0,
-      "avgSetsPerSlot": 2.53,
+      "avgSetsPerSlot": 2.19,
       "deepAccessorySlots": [],
-      "singletonSlots": [],
+      "singletonSlots": [
+        {
+          "day": "Day 1",
+          "name": "Leg Extensions"
+        },
+        {
+          "day": "Day 1",
+          "name": "Standing Calf Raises"
+        },
+        {
+          "day": "Day 2",
+          "name": "Lying Leg Curls"
+        },
+        {
+          "day": "Day 2",
+          "name": "Hanging Leg Raises"
+        },
+        {
+          "day": "Day 3",
+          "name": "Hack Calf Raises"
+        },
+        {
+          "day": "Day 4",
+          "name": "Seated Leg Curls"
+        },
+        {
+          "day": "Day 4",
+          "name": "Ab Wheel Rollouts"
+        }
+      ],
       "days": [
         {
           "name": "Day 1",
           "slots": 9,
-          "sets": 22
+          "sets": 19
         },
         {
           "name": "Day 2",
           "slots": 9,
-          "sets": 23
+          "sets": 20
         },
         {
           "name": "Day 3",
           "slots": 9,
-          "sets": 24
+          "sets": 21
         },
         {
           "name": "Day 4",
           "slots": 9,
-          "sets": 22
+          "sets": 19
         }
       ]
     },
@@ -1238,28 +1269,28 @@
       {
         "name": "Day 1",
         "slots": 9,
-        "sets": 22
+        "sets": 19
       },
       {
         "name": "Day 2",
         "slots": 9,
-        "sets": 23
+        "sets": 20
       },
       {
         "name": "Day 3",
         "slots": 9,
-        "sets": 24
+        "sets": 21
       },
       {
         "name": "Day 4",
         "slots": 9,
-        "sets": 22
+        "sets": 19
       }
     ],
     "dayDetail": [
       {
         "name": "Day 1",
-        "sets": 22,
+        "sets": 19,
         "slots": [
           {
             "name": "Flat Barbell Bench Press",
@@ -1294,23 +1325,23 @@
           {
             "name": "Hack Squat",
             "id": "hack-squat",
-            "sets": 3
+            "sets": 2
           },
           {
             "name": "Leg Extensions",
             "id": "leg-extension",
-            "sets": 2
+            "sets": 1
           },
           {
             "name": "Standing Calf Raises",
             "id": "standing-calf-raise",
-            "sets": 2
+            "sets": 1
           }
         ]
       },
       {
         "name": "Day 2",
-        "sets": 23,
+        "sets": 20,
         "slots": [
           {
             "name": "Hammer Pulldown (Underhand)",
@@ -1345,23 +1376,23 @@
           {
             "name": "Romanian Deadlift",
             "id": "romanian-deadlift",
-            "sets": 3
+            "sets": 2
           },
           {
             "name": "Lying Leg Curls",
             "id": "lying-leg-curl",
-            "sets": 2
+            "sets": 1
           },
           {
             "name": "Hanging Leg Raises",
             "id": "hanging-leg-raise",
-            "sets": 2
+            "sets": 1
           }
         ]
       },
       {
         "name": "Day 3",
-        "sets": 24,
+        "sets": 21,
         "slots": [
           {
             "name": "Incline Barbell Bench Press (45°)",
@@ -1396,23 +1427,23 @@
           {
             "name": "Front Squats",
             "id": "front-squat",
-            "sets": 3
+            "sets": 2
           },
           {
             "name": "Walking Lunges (DB)",
             "id": "walking-lunge",
-            "sets": 3
+            "sets": 2
           },
           {
             "name": "Hack Calf Raises",
             "id": "hack-calf-raise",
-            "sets": 2
+            "sets": 1
           }
         ]
       },
       {
         "name": "Day 4",
-        "sets": 22,
+        "sets": 19,
         "slots": [
           {
             "name": "Lat Pulldown (Neutral)",
@@ -1447,17 +1478,17 @@
           {
             "name": "Stiff-Legged Deadlift",
             "id": "stiff-legged-deadlift",
-            "sets": 3
+            "sets": 2
           },
           {
             "name": "Seated Leg Curls",
             "id": "seated-leg-curl",
-            "sets": 2
+            "sets": 1
           },
           {
             "name": "Ab Wheel Rollouts",
             "id": "ab-wheel-rollout",
-            "sets": 2
+            "sets": 1
           }
         ]
       }
@@ -18840,9 +18871,9 @@
     "alwaysFree": false,
     "card": {
       "name": "Monolith",
-      "description": "A 10-week machine-dominant upper/lower plan for accumulating volume you can recover from.",
+      "description": "A 10-week machine-dominant plan for accumulating volume you can recover from.",
       "features": [
-        "4 days, upper/lower",
+        "3 days — upper, lower, full",
         "Machine-dominant, not machine-only",
         "Effort first, technique later",
         "Low systemic cost"

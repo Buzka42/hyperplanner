@@ -84,6 +84,10 @@ const SINGLE_SET_EXEMPT: Record<string, string> = {
     'pain-and-glory': 'powerlifting: ME and top singles are the mechanic',
     'trinary': 'conjugate: ME singles are the mechanic',
     'ritual-of-strength': 'powerlifting: ME singles are the mechanic',
+    'pencilneck-eradication': 'regional ramp-in: isolation slots open at one set carrying last-set-failure, '
+        + 'upper reaches two in week 2 and lower in week 5, and week 8 deloads back. '
+        + 'The single is a starting dose on a working set, not a token slot — but it is week-dependent, '
+        + 'so re-check this if the ramp is ever flattened',
 };
 
 export type Flag = {

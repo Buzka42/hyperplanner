@@ -207,12 +207,38 @@ export const PENCILNECK_CONFIG: PlanConfig = {
                 return ex;
             });
 
+            /**
+             * Ramp-in, by region rather than all at once.
+             *
+             * Every day is six upper slots (e1-e6) then a three-slot lower and
+             * core block (e7-e9), so the block is identified positionally —
+             * that survives the exercise swaps above, which rename slots but
+             * never reorder them.
+             *
+             * Upper reaches full volume in week 2; lower holds at its opening
+             * dose until week 4, takes its compounds up first, and only reaches
+             * full volume in week 5. That spreads what used to be a single
+             * 55-to-91 set jump at week 3 across three smaller steps, and keeps
+             * the early weeks weighted toward the upper body the plan is named
+             * for. Week 8 deloads everything back to the opening dose.
+             */
+            const isLowerSlot = (ex: Exercise) => {
+                const slot = parseInt(ex.id.split('-e')[1] || '0', 10);
+                return slot >= 7;
+            };
+
             exercises = exercises.map(ex => {
                 const isCompound = COMPOUND_EXERCISES.has(ex.name);
-                const sets = weekNum <= 2 ? (isCompound ? 2 : 1)
-                    : weekNum <= 4 ? (isCompound ? 3 : 2)
-                    : weekNum <= 7 ? (isCompound ? 3 : 2)
-                    : (isCompound ? 2 : 1);
+                const full = isCompound ? 3 : 2;
+                const opening = isCompound ? 2 : 1;
+
+                let sets: number;
+                if (weekNum >= 8) sets = opening;                       // deload
+                else if (!isLowerSlot(ex)) sets = weekNum <= 1 ? opening : full;
+                else if (weekNum <= 3) sets = opening;
+                else if (weekNum === 4) sets = isCompound ? 3 : 1;      // compounds only
+                else sets = full;
+
                 if (isCompound) return { ...ex, sets };
                 return {
                     ...ex,

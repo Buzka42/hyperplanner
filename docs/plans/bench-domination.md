@@ -10,7 +10,7 @@
 |---|---|
 | **id** | `bench-domination` |
 | **Length** | 16 weeks |
-| **Frequency** | 4 days/week |
+| **Frequency** | 6 days/week |
 | **Weekly sets** | 112 across 6 training days (week 1 sample) |
 | **Sets/session** | 18.7 |
 | **Goal** | strength, specialisation |
@@ -42,7 +42,7 @@ The onboarding card claims:
 **Not for you if.**
 
 - You want balanced development — this is a bench plan first
-- You cannot train four days most weeks
+- You cannot train six days most weeks — four benching plus two lower
 
 **Follow-ups.** [trinary](trinary.md), [ritual-of-strength](ritual-of-strength.md), [neural-overload](neural-overload.md)
 
@@ -168,7 +168,7 @@ id: bench-domination
 version: 3
 generated_from: docs/analysis/plan-facts.json
 length_weeks: 16
-frequency: [4]
+frequency: [6]
 engine: calendar
 sampled_week: 1
 weekly: { sets: 112, days: 6, sets_per_session: 18.7, slots: 38 }

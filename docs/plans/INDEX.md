@@ -18,8 +18,8 @@ Pre-rebuild docs and the v2 audit notes are kept in
 
 | Plan | ID | Weeks | Days | Weekly sets | Fatigue | Signature mechanic |
 |---|---|---:|---:|---:|---:|---|
-| [Bench Domination](bench-domination.md) | `bench-domination` | 16 | 4 | 112 | 3 | Percentage bench work off five separate press maxes, with modules you switch off when life gets busy. |
-| [Pencilneck Eradication](pencilneck-eradication.md) | `pencilneck-eradication` | 8 | 4 | 91 | 2 | Classic bodybuilding split run in repeatable eight-week cycles. |
+| [Bench Domination](bench-domination.md) | `bench-domination` | 16 | 6 | 112 | 3 | Percentage bench work off five separate press maxes, with modules you switch off when life gets busy. |
+| [Pencilneck Eradication](pencilneck-eradication.md) | `pencilneck-eradication` | 8 | 4 | 79 | 2 | Classic bodybuilding split run in repeatable eight-week cycles. |
 | [From Skeleton to Threat](skeleton-to-threat.md) | `skeleton-to-threat` | 12 | 3 | 57 | 2 | Full-body beginner progression that adds load whenever the last session was clean. |
 | [Peachy](peachy.md) | `peachy-glute-plan` | 12 | 4 | 68 | 2 | Glute specialisation with a measurement widget and a hip-thrust progression that actually loads. |
 | [Pain & Glory](pain-and-glory.md) | `pain-and-glory` | 16 | 4 | 74 | 4 | Deadlift specialisation where the deficit work is dosed by how wrecked the last one left you. |
