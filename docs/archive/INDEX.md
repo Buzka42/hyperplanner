@@ -50,7 +50,8 @@ when the v2 rebuild landed:
   exercise lists and week tables transcribed by hand and never re-synced.
 - `v2-audit/` — the v2 audit packet: one findings note per plan plus the
   cross-plan decision, closeout, synthesis and implementation-review documents
-  that drove the rebuild. Useful for understanding *why* a plan changed; not a
+  that drove the rebuild. The implementation specs stay live in
+  `docs/plans/specs/`; only the audit notes are archived here. Useful for understanding *why* a plan changed; not a
   description of what any plan does now.
 
 Current plan documentation lives in [`docs/plans/`](../plans/INDEX.md) and is
