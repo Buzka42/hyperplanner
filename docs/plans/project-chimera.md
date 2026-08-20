@@ -1,136 +1,166 @@
 # Project Chimera
 
-**Program ID:** `project-chimera` · **Source:** [src/data/plans/projectChimera.ts](../../src/data/plans/projectChimera.ts) · **Mutation:** [src/features/projectChimera/mutation.ts](../../src/features/projectChimera/mutation.ts)
-**Duration:** 16 weeks (4×4-week blocks) · **Frequency:** 4 days/week upper/lower (Mon / Tue / Thu / Fri)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Balanced powerbuilding across six **qualities** — squat, hinge, push, pull, unilateral, hypertrophy. After each block the plan may propose a **mutation**: move volume (never invent it), keep floors, require evidence, and confirm each component separately. Phenotype labels are display-only. Default tempo `20X0`. Rest: systemic **150 s**, else **90 s**.
-
-## Onboarding
-
-- **seedStats:** `squat`, `flatBench`, `conventionalDeadlift` (optional first-exposure seeds).
-- **Schedule:** 4 UL days.
-- **Modules:** post-block mutation confirmations (`projectChimeraStatus.allocation`, `acceptedExerciseChanges`).
-- **Access:** paid. Portfolio: intermediate + advanced; needs 16-week commitment + consistent logging.
-
-### EN (`onboarding.programs.projectChimera`)
-
-- **Name:** Project Chimera
-- **Description:** 16 weeks in four blocks, reallocating a little volume toward whatever you actually respond to.
-- **Features:** 4 days, upper/lower · Balanced across six qualities · Small, confirmable changes each block · No data means no change
-
-### PL (`onboarding.programs.projectChimera`)
-
-- **Name:** Project Chimera
-- **Description:** 16 tygodni w czterech blokach: objętość powoli przesuwa się tam, gdzie faktycznie reagujesz.
-- **Features:** 4 dni, góra/dół · Równowaga sześciu cech · Małe, potwierdzane zmiany co blok · Brak danych oznacza brak zmian
-
-## Weekly structure
-
-### Chimera — Upper A (Mon)
-
-| Exercise | Sets × Reps | Quality |
-|---|---|---|
-| Flat BB Bench | 4×5-8 | push · primary |
-| SA Hammer Row | 4×8-12 | pull · uni |
-| Seated DB Press | 3×8-12 | push |
-| Lat Pulldown | 3×8-12 | pull |
-| Lateral Raise | 3×12-15 | hypertrophy |
-| Hammer Curl | 2×8-12 | hypertrophy |
-| Cable Tri Ext | 2×10-15 | hypertrophy |
-
-### Chimera — Lower A (Tue)
-
-| Exercise | Sets × Reps | Quality |
-|---|---|---|
-| Barbell Squat | 4×5-8 | squat · systemic · primary |
-| RDL | 3×6-10 | hinge |
-| FFE BSS | 3×8-12 | unilateral |
-| Seated Ham Curl | 3×10-15 | hinge |
-| Leg Extension | 3×12-15 | hypertrophy |
-| Hack Calf | 3×12-20 | hypertrophy |
-
-### Chimera — Upper B (Thu)
-
-| Exercise | Sets × Reps | Quality |
-|---|---|---|
-| Hammer Pulldown | 4×8-12 | pull · primary |
-| Incline DB Bench | 4×6-10 | push |
-| Barbell Row | 3×6-10 | pull |
-| Hammer Chest | 3×8-12 | push |
-| SA Reverse Pec Deck | 3×12-15 | hypertrophy |
-| Cable Tri Ext | 2×10-15 | hypertrophy |
-| Hammer Curl | 2×8-12 | hypertrophy |
-
-### Chimera — Lower B (Fri)
-
-| Exercise | Sets × Reps | Quality |
-|---|---|---|
-| Trap-Bar Deadlift | 4×4-6 | hinge · systemic · primary |
-| Leg Press | 3×8-12 | squat |
-| Weighted Step-Up | 3×8-10 | unilateral |
-| Lying Leg Curl | 3×10-15 | hinge |
-| SL Hip Thrust | 3×10-15 | unilateral |
-| Hack Calf | 3×12-20 | hypertrophy |
-
-Qualities tagged in slot `notes` / `SLOT_QUALITY`.
-
-## Phases & week-to-week progression
-
-| Block | Weeks | Change |
-|---|---|---|
-| I | 1–4 | Base |
-| II | 5–8 | Primary reps → **4-6** |
-| III | 9–12 | Non-primary → **RPE 9** |
-| IV | 13–16 | Primary → **3-5**; non-primary RPE 9 |
-
-### Mutation constraints (`proposeMutation`)
-
-| Rule | Value |
+| | |
 |---|---|
-| Max reallocation | **±2 weekly sets** per quality per block |
-| Floors (`MINIMUM_WEEKLY_SETS`) | squat **4**, hinge **4**, push **6**, pull **6**, unilateral **3**, hypertrophy **6** |
-| Evidence floor | **≥3** comparable exposures; &lt;2 usable qualities → no mutation |
-| Confirm | each component separately (reallocate vs exercise change) |
-| Phenotype | description only — never an input |
+| **id** | `project-chimera` |
+| **Length** | 16 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 79 across 4 training days (week 1 sample) |
+| **Sets/session** | 19.8 |
+| **Goal** | hypertrophy, strength |
+| **Experience** | intermediate, advanced |
+| **Equipment** | full-gym, barbell |
+| **Adaptability** | adaptive |
+| **Fatigue cost** | 3/4 — high |
+| **Session engine** | `rotation` |
+| **Calibration** | seeded: `squat`, `flatBench`, `conventionalDeadlift` |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `last-set-failure` |
+| **Card promise** | *"16 weeks in four blocks, reallocating a little volume toward whatever you actually respond to."* |
 
-`preprocessDay` applies confirmed allocation deltas (±1 set per matching slot, never below 1) and accepted exercise swaps; floors re-checked so stale status cannot strip a quality.
+---
 
-## Techniques, supersets, finishers
+## 1. What this plan is
 
-None authored. Volume moves between qualities instead.
+**Signature mechanic.** Four blocks that quietly reallocate a couple of sets toward whatever you respond to.
 
-## Dashboard & UI theme
+The onboarding card claims:
 
-| Meta | Value |
+- 4 days, upper/lower
+- Balanced across six qualities
+- Small, confirmable changes each block
+- No data means no change
+
+**Prerequisites.** Sixteen weeks you can actually commit to
+
+**Not for you if.**
+
+- You want a short block
+- You will not log consistently enough to produce evidence
+
+**Follow-ups.** [oracle](oracle.md), [event-horizon](event-horizon.md), [blackout](blackout.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Chimera — Upper A · Block I | 9 | 22 | Flat Barbell Bench Press 4, Single-Arm Hammer Strength Row 2, Bench-Supported One-Arm Dumbbell Row 2, Single-Arm Landmine Press 3, Pull-Up 3, Leaning One-Arm Lateral Raise 2, Standing Straight-Bar Curl 2, Heavy Rolling Tricep Extensions 2, Cable Crunch 2 |
+| Chimera — Lower A · Block I | 6 | 18 | Barbell Squat 4, Romanian Deadlift 3, Front-Foot Elevated Bulgarian Split Squat 3, Seated Hamstring Curl 3, Leg Extensions 2, Hack Squat Calf Raises 3 |
+| Chimera — Upper B · Block I | 8 | 20 | Hammer Pulldown (Underhand) 4, Incline DB Bench Press 2, 30° Smith Incline Bench Press 2, Barbell Row 3, Hammer Chest Press 3, Side-Lying Rear Delt Flyes 2, Cable Triceps Extension 2, Standing Straight-Bar Curl 2 |
+| Chimera — Lower B · Block I | 6 | 19 | Trap-Bar Deadlift 4, Leg Press 3, Weighted Step-Up 3, Lying Leg Curls 3, Single Leg Machine Hip Thrust 3, Hack Squat Calf Raises 3 |
+
+### Week-to-week shape
+
+The program runs 16 weeks falling into 4 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `themeClass` | `theme-project-chimera` |
-| `i18nKey` | `projectChimera` |
-| `logo` | `/projectchimera.png` |
-| `coverBg` | `bg-[#060a07]` |
-| `order` | 35 |
+| 1, 2, 3, 4 | Chimera — Upper A · Block I 22, Chimera — Lower A · Block I 18, Chimera — Upper B · Block I 20, Chimera — Lower B · Block I 19 |
+| 5, 6, 7, 8 | Chimera — Upper A · Block II 22, Chimera — Lower A · Block II 18, Chimera — Upper B · Block II 20, Chimera — Lower B · Block II 19 |
+| 9, 10, 11, 12 | Chimera — Upper A · Block III 22, Chimera — Lower A · Block III 18, Chimera — Upper B · Block III 20, Chimera — Lower B · Block III 19 |
+| 13, 14, 15, 16 | Chimera — Upper A · Block IV 22, Chimera — Lower A · Block IV 18, Chimera — Upper B · Block IV 20, Chimera — Lower B · Block IV 19 |
 
-**CSS:** `--background: 128 18% 4%`; `--primary: 35 74% 50%`; `--accent: 35 48% 20%`; `--signal-text: 37 84% 68%`.
+---
 
-**Widgets:** `program_status`, `workout_history`. Mutation proposal UI missing as dedicated surface.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 23 | above the 20-set ceiling |
+| quads | 19 | in band |
+| back | 14 | in band |
+| hamstrings | 13 | in band |
+| chest | 11 | in band |
+| shoulders | 11 | in band |
+| calves | 6 | in band |
+| biceps | 4 | below the 6-set growth dose |
+| triceps | 4 | below the 6-set growth dose |
+| core | 2 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** |
-| Mutation engine + preprocess | **complete** |
-| Dashboard / confirm UI | **missing** |
-| Onboarding | seedStats wired |
-| EN / PL | complete; “cech” abstract |
-| Tips | none |
-| Verify | `npm run verify:project-chimera` |
+| Push:pull (direct sets) | 1.44 |
+| Quad:hamstring | 1.46 |
+| Groups covered (4+ sets) | 9 of 10 |
+| Groups trained on two or more days | 9 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| `Równowaga sześciu cech` | “cech” vague for qualities | `Równowaga sześciu kategorii (przysiad, hinge, push…)` or `sześciu jakości ruchu` |
-| Description | Accurate | Keep |
-| Product name EN | Brand | Keep |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **132** |
+| Axial | **51** |
+| Lower back | 42 |
+| Per-set systemic | 1.67 |
+| High-systemic sets (cost 3+) | 14 |
+| Compound share | 49% |
+| Shoulder / knee / elbow cost | 21 / 36 / 37 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 2.09 |
+| Mean stability demand (0-4) | 1.41 |
+| Stimulus per unit fatigue | 1.25 |
+| Failure-safe share of sets | 38% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 29 |
+| At 1 set | 0 |
+| At 2 sets | 12 |
+| At 3 sets | 13 |
+| At 4+ sets | 4 |
+| Mean sets per slot | 2.72 |
+| Distinct exercises | 27 |
+| Variety density (exercises per 10 sets) | 3.42 |
+| Largest single-exercise share | 8% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (4):**
+
+- Chimera — Upper A · Block I — Flat Barbell Bench Press, 4 sets *(session opener)*
+- Chimera — Lower A · Block I — Barbell Squat, 4 sets *(session opener)*
+- Chimera — Upper B · Block I — Hammer Pulldown (Underhand), 4 sets *(session opener)*
+- Chimera — Lower B · Block I — Trap-Bar Deadlift, 4 sets *(session opener)*
+
+---
+
+## 6. Export block
+
+```yaml
+id: project-chimera
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 16
+frequency: [4]
+engine: rotation
+sampled_week: 1
+weekly: { sets: 79, days: 4, sets_per_session: 19.8, slots: 29 }
+load: { systemic: 132, axial: 51, lower_back: 42, per_set_systemic: 1.67 }
+volume: { glutes: 23, quads: 19, back: 14, hamstrings: 13, chest: 11, shoulders: 11, calves: 6, biceps: 4, triceps: 4, core: 2 }
+coverage: { covered: 9, missing: [], in_band: 6, over: ['glutes'], under: ['biceps', 'triceps', 'core'] }
+set_shape: { slots: 29, ones: 0, twos: 12, threes: 13, four_plus: 4, mean: 2.72 }
+variety: { distinct: 27, density: 3.42, top_share: 0.076, evenness: 0.985 }
+```

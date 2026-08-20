@@ -1,268 +1,162 @@
 # Athena
 
-**Program ID:** `athena` · **Source:** [src/data/plans/athena.ts](../../src/data/plans/athena.ts)
-**Duration:** 12 weeks · **Frequency:** 3- or 4-day mode
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Barbell strength bridge. Primary lifts (squat, bench, RDL, OHP) marked `primary`. From Discipline onward they use **top-set + backoff** progression. `preprocessDay` applies 3-day tree and user lift-family swaps. Loads can persist in `user.athenaStatus.exerciseLoads`. Dedicated AthenaDashboard + `progression/athena.ts`.
-
-## Onboarding
-
-- **Stats:** none required at definePlan (double / top-set-backoff).
-- **Lift families:** `planPreferences.athena.exerciseSelections` keys `squat`, `bench`, `hinge`, `verticalPress`.
-- **Schedule mode:** 3day/4day with pending change (same pattern as Venus).
-- **Access:** paid.
-- **Dashboard / progression:** `src/features/athena/`, `src/features/workout/progression/athena.ts`.
-- **Schedule:** selectable=true; suggested splits (dow): 1-2-4-5; 1-3-5-6; 2-4-6-7.
-- **Irregular templates:** 2on-1off, 3on-1off, every-other-day.
-
-### EN (`onboarding.programs.athena`)
-
-- **Name:** Athena
-- **Description:** A 12-week bridge into intelligent heavy training and reusable performance data.
-- **Features:**
-  - 3-day or 4-day mode
-  - User-selected lift families
-  - Top sets with editable back-offs
-  - No mandatory max test
-
-### PL (`onboarding.programs.athena`)
-
-- **Name:** Athena
-- **Description:** 12-tygodniowe przejście do inteligentnego ciężkiego treningu i wspólnego profilu wyników.
-- **Features:**
-  - Tryb 3- lub 4-dniowy
-  - Rodziny bojów wybierane przez użytkownika
-  - Serie główne i edytowalne back-offy
-  - Bez obowiązkowego testu maksa
-
-## Weekly structure
-
-### Weeks 1–4 (4 weeks)
-
-#### Lower A — Squat · Wisdom (dow 1)
-
-- Barbell Squat · 4×6-8 · tempo 20X0 · rest 150s
-- Romanian Deadlift · 3×6-10 · tempo 20X0 · rest 120s
-- Front-Foot Elevated Bulgarian Split Squat · 2×6-10 · tempo 20X0 · rest 90s
-- Seated Hamstring Curl · 2×6-10 · tempo 20X0 · rest 90s
-- Hack Squat Calf Raises · 2×6-10 · tempo 20X0 · rest 90s
-- Ab Wheel · 2×6-10 · tempo 20X0 · rest 90s
-
-#### Upper A — Bench · Wisdom (dow 2)
-
-- Flat Barbell Bench Press · 4×6-8 · tempo 20X0 · rest 150s
-- Single-Arm Hammer Strength Row · 3×6-10 · tempo 20X0 · rest 90s
-- Assisted Pull-ups · 3×6-10 · tempo 20X0 · rest 90s
-- Seated DB Shoulder Press · 2×6-10 · tempo 20X0 · rest 90s
-- Single Arm Reverse Pec Deck · 2×6-10 · tempo 20X0 · rest 90s
-- Cable Triceps Extension · 1×6-10 · tempo 20X0 · rest 90s
-- Hammer Curls · 1×6-10 · tempo 20X0 · rest 90s
-
-#### Lower B — Hinge · Wisdom (dow 4)
-
-- Romanian Deadlift · 3×5-8 · tempo 20X0 · rest 150s
-- Paused Squat · 3×6-10 · tempo 20X0 · rest 90s
-- Hip Thrusts · 2×6-10 · tempo 20X0 · rest 90s
-- Leg Extensions · 2×6-10 · tempo 20X0 · rest 90s
-- Lying Leg Curls · 2×6-10 · tempo 20X0 · rest 90s
-- Hack Squat Calf Raises · 2×6-10 · tempo 20X0 · rest 90s
-- Ab Wheel · 1×6-10 · tempo 20X0 · rest 90s
-
-#### Upper B — Press/Pull · Wisdom (dow 5)
-
-- Standing Military Press · 3×6-8 · tempo 20X0 · rest 150s
-- Assisted Pull-ups · 3×6-10 · tempo 20X0 · rest 90s
-- Incline DB Bench Press · 2×6-10 · tempo 20X0 · rest 90s
-- Single-Arm Hammer Strength Row · 3×6-10 · tempo 20X0 · rest 90s
-- Lateral Raises · 2×6-10 · tempo 20X0 · rest 90s
-- Hammer Curls · 1×6-10 · tempo 20X0 · rest 90s
-- Cable Triceps Extension · 1×6-10 · tempo 20X0 · rest 90s
-
-### Weeks 5–8 (4 weeks)
-
-#### Lower A — Squat · Discipline (dow 1)
-
-- Barbell Squat · 4×4-6 · tempo 20X0 · rest 150s
-- Romanian Deadlift · 3×4-6 · tempo 20X0 · rest 120s
-- Front-Foot Elevated Bulgarian Split Squat · 2×6-10 · tempo 20X0 · rest 90s
-- Seated Hamstring Curl · 2×6-10 · tempo 20X0 · rest 90s
-- Hack Squat Calf Raises · 2×6-10 · tempo 20X0 · rest 90s
-- Ab Wheel · 2×6-10 · tempo 20X0 · rest 90s
-
-#### Upper A — Bench · Discipline (dow 2)
-
-- Flat Barbell Bench Press · 4×4-6 · tempo 20X0 · rest 150s
-- Single-Arm Hammer Strength Row · 3×6-10 · tempo 20X0 · rest 90s
-- Assisted Pull-ups · 3×6-10 · tempo 20X0 · rest 90s
-- Seated DB Shoulder Press · 2×6-10 · tempo 20X0 · rest 90s
-- Single Arm Reverse Pec Deck · 2×6-10 · tempo 20X0 · rest 90s
-- Cable Triceps Extension · 1×6-10 · tempo 20X0 · rest 90s
-- Hammer Curls · 1×6-10 · tempo 20X0 · rest 90s
-
-#### Lower B — Hinge · Discipline (dow 4)
-
-- Romanian Deadlift · 3×4-6 · tempo 20X0 · rest 150s
-- Paused Squat · 3×6-10 · tempo 20X0 · rest 90s
-- Hip Thrusts · 2×6-10 · tempo 20X0 · rest 90s
-- Leg Extensions · 2×6-10 · tempo 20X0 · rest 90s
-- Lying Leg Curls · 2×6-10 · tempo 20X0 · rest 90s
-- Hack Squat Calf Raises · 2×6-10 · tempo 20X0 · rest 90s
-- Ab Wheel · 1×6-10 · tempo 20X0 · rest 90s
-
-#### Upper B — Press/Pull · Discipline (dow 5)
-
-- Standing Military Press · 3×4-6 · tempo 20X0 · rest 150s
-- Assisted Pull-ups · 3×6-10 · tempo 20X0 · rest 90s
-- Incline DB Bench Press · 2×6-10 · tempo 20X0 · rest 90s
-- Single-Arm Hammer Strength Row · 3×6-10 · tempo 20X0 · rest 90s
-- Lateral Raises · 2×6-10 · tempo 20X0 · rest 90s
-- Hammer Curls · 1×6-10 · tempo 20X0 · rest 90s
-- Cable Triceps Extension · 1×6-10 · tempo 20X0 · rest 90s
-
-### Weeks 9–11 (3 weeks)
-
-#### Lower A — Squat · Command (dow 1)
-
-- Barbell Squat · 4×3-5 · tempo 20X0 · rest 150s
-- Romanian Deadlift · 3×3-5 · tempo 20X0 · rest 120s
-- Front-Foot Elevated Bulgarian Split Squat · 2×6-10 · tempo 20X0 · rest 90s
-- Seated Hamstring Curl · 2×6-10 · tempo 20X0 · rest 90s
-- Hack Squat Calf Raises · 2×6-10 · tempo 20X0 · rest 90s
-- Ab Wheel · 2×6-10 · tempo 20X0 · rest 90s
-
-#### Upper A — Bench · Command (dow 2)
-
-- Flat Barbell Bench Press · 4×3-5 · tempo 20X0 · rest 150s
-- Single-Arm Hammer Strength Row · 3×6-10 · tempo 20X0 · rest 90s
-- Assisted Pull-ups · 3×6-10 · tempo 20X0 · rest 90s
-- Seated DB Shoulder Press · 2×6-10 · tempo 20X0 · rest 90s
-- Single Arm Reverse Pec Deck · 2×6-10 · tempo 20X0 · rest 90s
-- Cable Triceps Extension · 1×6-10 · tempo 20X0 · rest 90s
-- Hammer Curls · 1×6-10 · tempo 20X0 · rest 90s
-
-#### Lower B — Hinge · Command (dow 4)
-
-- Romanian Deadlift · 3×3-5 · tempo 20X0 · rest 150s
-- Paused Squat · 3×6-10 · tempo 20X0 · rest 90s
-- Hip Thrusts · 2×6-10 · tempo 20X0 · rest 90s
-- Leg Extensions · 2×6-10 · tempo 20X0 · rest 90s
-- Lying Leg Curls · 2×6-10 · tempo 20X0 · rest 90s
-- Hack Squat Calf Raises · 2×6-10 · tempo 20X0 · rest 90s
-- Ab Wheel · 1×6-10 · tempo 20X0 · rest 90s
-
-#### Upper B — Press/Pull · Command (dow 5)
-
-- Standing Military Press · 3×3-5 · tempo 20X0 · rest 150s
-- Assisted Pull-ups · 3×6-10 · tempo 20X0 · rest 90s
-- Incline DB Bench Press · 2×6-10 · tempo 20X0 · rest 90s
-- Single-Arm Hammer Strength Row · 3×6-10 · tempo 20X0 · rest 90s
-- Lateral Raises · 2×6-10 · tempo 20X0 · rest 90s
-- Hammer Curls · 1×6-10 · tempo 20X0 · rest 90s
-- Cable Triceps Extension · 1×6-10 · tempo 20X0 · rest 90s
-
-### Weeks 12 (single week)
-
-#### Lower A — Squat · Judgment (dow 1)
-
-- Barbell Squat · 3×3-5 · tempo 20X0 · rest 150s
-- Romanian Deadlift · 3×3-5 · tempo 20X0 · rest 120s
-- Front-Foot Elevated Bulgarian Split Squat · 1×6-10 · tempo 20X0 · rest 90s
-- Seated Hamstring Curl · 1×6-10 · tempo 20X0 · rest 90s
-- Hack Squat Calf Raises · 1×6-10 · tempo 20X0 · rest 90s
-- Ab Wheel · 1×6-10 · tempo 20X0 · rest 90s
-
-#### Upper A — Bench · Judgment (dow 2)
-
-- Flat Barbell Bench Press · 3×3-5 · tempo 20X0 · rest 150s
-- Single-Arm Hammer Strength Row · 2×6-10 · tempo 20X0 · rest 90s
-- Assisted Pull-ups · 2×6-10 · tempo 20X0 · rest 90s
-- Seated DB Shoulder Press · 1×6-10 · tempo 20X0 · rest 90s
-- Single Arm Reverse Pec Deck · 1×6-10 · tempo 20X0 · rest 90s
-- Cable Triceps Extension · 1×6-10 · tempo 20X0 · rest 90s
-- Hammer Curls · 1×6-10 · tempo 20X0 · rest 90s
-
-#### Lower B — Hinge · Judgment (dow 4)
-
-- Romanian Deadlift · 3×3-5 · tempo 20X0 · rest 150s
-- Paused Squat · 2×6-10 · tempo 20X0 · rest 90s
-- Hip Thrusts · 1×6-10 · tempo 20X0 · rest 90s
-- Leg Extensions · 1×6-10 · tempo 20X0 · rest 90s
-- Lying Leg Curls · 1×6-10 · tempo 20X0 · rest 90s
-- Hack Squat Calf Raises · 1×6-10 · tempo 20X0 · rest 90s
-- Ab Wheel · 1×6-10 · tempo 20X0 · rest 90s
-
-#### Upper B — Press/Pull · Judgment (dow 5)
-
-- Standing Military Press · 3×3-5 · tempo 20X0 · rest 150s
-- Assisted Pull-ups · 2×6-10 · tempo 20X0 · rest 90s
-- Incline DB Bench Press · 1×6-10 · tempo 20X0 · rest 90s
-- Single-Arm Hammer Strength Row · 2×6-10 · tempo 20X0 · rest 90s
-- Lateral Raises · 1×6-10 · tempo 20X0 · rest 90s
-- Hammer Curls · 1×6-10 · tempo 20X0 · rest 90s
-- Cable Triceps Extension · 1×6-10 · tempo 20X0 · rest 90s
-
-
-## Phases & week-to-week progression
-
-### Wisdom (1–4)
-Straight double progression on all slots.
-
-### Discipline (5–8)
-Primary → top-set-backoff: top **4–6**, backoff −10%, backoff sets = sets−1, backoff reps **6–8**, +2.5 kg.
-
-### Command (9–11)
-Top **3–5**, backoff reps **5–7**.
-
-### Judgment (12)
-Primary capped ≤3 sets; accessories −1 set.
-
-## Techniques, supersets, finishers
-
-- `top-set-backoff` technique/progression on primaries from week 5.
-- Default tempo `20X0`.
-- No supersets.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-athena` |
-| `i18nKey` | `athena` |
-| `logo` | `/athena.png` |
-| `coverBg` | `bg-[#080d14]` |
-| `order` | 23 |
-| `alwaysFree` | no |
+| **id** | `athena` |
+| **Length** | 12 weeks |
+| **Frequency** | 3/4 days/week |
+| **Weekly sets** | 67 across 4 training days (week 1 sample) |
+| **Sets/session** | 16.8 |
+| **Goal** | strength, hypertrophy |
+| **Experience** | beginner, intermediate |
+| **Equipment** | barbell, full-gym |
+| **Adaptability** | responsive |
+| **Fatigue cost** | 3/4 — high |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Card promise** | *"A 12-week bridge into intelligent heavy training and reusable performance data."* |
 
-**CSS tokens** (`.theme-athena`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** A bridge into heavy training: top sets with editable back-offs and no mandatory max test.
+
+The onboarding card claims:
+
+- 3-day or 4-day mode
+- User-selected lift families
+- Top sets with editable back-offs
+- No mandatory max test
+
+**Prerequisites.** Basic barbell competence
+
+**Not for you if.**
+
+- You already train with percentages and know your maxes
+
+**Follow-ups.** [kali](kali.md), [oracle](oracle.md), [project-chimera](project-chimera.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Lower A — Squat · Wisdom | 6 | 15 | Barbell Squat 4, Romanian Deadlift 3, Front-Foot Elevated Bulgarian Split Squat 2, Seated Hamstring Curl 2, Hack Squat Calf Raises 2, Ab Wheel 2 |
+| Upper A — Bench · Wisdom | 7 | 18 | Flat Barbell Bench Press 4, Single-Arm Hammer Strength Row 3, Assisted Pull-ups 3, Shoulder Press 2, Bench-Supported DB Rear Delt Fly 2, Rolling DB Tricep Extensions 2, Standing Straight-Bar Curl 2 |
+| Lower B — Hinge · Wisdom | 7 | 16 | Romanian Deadlift 3, Paused Squat 3, Hip Thrusts 2, Leg Extensions 2, Lying Leg Curls 2, Hack Squat Calf Raises 2, Cable Crunch 2 |
+| Upper B — Press/Pull · Wisdom | 8 | 18 | Standing Military Press 3, Assisted Pull-ups 3, Incline DB Bench Press 2, Pec Deck 2, Single-Arm Hammer Strength Row 2, Leaning One-Arm Lateral Raise 2, Standing Straight-Bar Curl 2, Cable Triceps Extension 2 |
+
+### Week-to-week shape
+
+The program runs 12 weeks falling into 4 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `214 42% 5%` |
-| `--primary` | `42 70% 53%` |
-| `--accent` | `42 42% 19%` |
-| `--card` | `214 34% 8%` |
-| `--ring` | `42 70% 53%` |
-| `--signal-text` | `42 78% 70%` |
+| 1, 2, 3, 4 | Lower A — Squat · Wisdom 15, Upper A — Bench · Wisdom 18, Lower B — Hinge · Wisdom 16, Upper B — Press/Pull · Wisdom 18 |
+| 5, 6, 7, 8 | Lower A — Squat · Discipline 15, Upper A — Bench · Discipline 18, Lower B — Hinge · Discipline 16, Upper B — Press/Pull · Discipline 18 |
+| 9, 10, 11 | Lower A — Squat · Command 15, Upper A — Bench · Command 18, Lower B — Hinge · Command 16, Upper B — Press/Pull · Command 18 |
+| 12 | Lower A — Squat · Judgment 10, Upper A — Bench · Judgment 11, Lower B — Hinge · Judgment 10, Upper B — Press/Pull · Judgment 11 |
 
-Palette note: gold on navy.
+---
 
-**Widgets:** `program_status`, `workout_history`.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 17 | in band |
+| shoulders | 11 | in band |
+| back | 11 | in band |
+| quads | 11 | in band |
+| hamstrings | 10 | in band |
+| chest | 8 | below the 10-set growth dose |
+| biceps | 4 | below the 6-set growth dose |
+| triceps | 4 | below the 6-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+| core | 4 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** |
-| Progression handler | **complete** |
-| Dashboard | **complete** |
-| Verify | `npm run verify:athena` |
-| PL “back-offy” | hybrid loanword |
+| Push:pull (direct sets) | 1.53 |
+| Quad:hamstring | 1.1 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| “edytowalne back-offy” | Hybrid EN | `edytowalne serie zbijające` / `serie odciążające` |
-| “Rodziny bojów” | OK gym jargon | keep |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **108** |
+| Axial | **49** |
+| Lower back | 36 |
+| Per-set systemic | 1.61 |
+| High-systemic sets (cost 3+) | 13 |
+| Compound share | 39% |
+| Shoulder / knee / elbow cost | 28 / 26 / 35 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.96 |
+| Mean stability demand (0-4) | 1.51 |
+| Stimulus per unit fatigue | 1.21 |
+| Failure-safe share of sets | 40% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 28 |
+| At 1 set | 0 |
+| At 2 sets | 19 |
+| At 3 sets | 7 |
+| At 4+ sets | 2 |
+| Mean sets per slot | 2.39 |
+| Distinct exercises | 23 |
+| Variety density (exercises per 10 sets) | 3.43 |
+| Largest single-exercise share | 9% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (2):**
+
+- Lower A — Squat · Wisdom — Barbell Squat, 4 sets *(session opener)*
+- Upper A — Bench · Wisdom — Flat Barbell Bench Press, 4 sets *(session opener)*
+
+---
+
+## 6. Export block
+
+```yaml
+id: athena
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 12
+frequency: [3, 4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 67, days: 4, sets_per_session: 16.8, slots: 28 }
+load: { systemic: 108, axial: 49, lower_back: 36, per_set_systemic: 1.61 }
+volume: { glutes: 17, shoulders: 11, back: 11, quads: 11, hamstrings: 10, chest: 8, biceps: 4, triceps: 4, calves: 4, core: 4 }
+coverage: { covered: 10, missing: [], in_band: 5, over: [], under: ['chest', 'biceps', 'triceps', 'calves', 'core'] }
+set_shape: { slots: 28, ones: 0, twos: 19, threes: 7, four_plus: 2, mean: 2.39 }
+variety: { distinct: 23, density: 3.43, top_share: 0.09, evenness: 0.971 }
+```

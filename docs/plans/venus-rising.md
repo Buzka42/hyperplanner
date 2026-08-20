@@ -1,266 +1,150 @@
 # Venus Rising
 
-**Program ID:** `venus-rising` · **Source:** [src/data/plans/venusRising.ts](../../src/data/plans/venusRising.ts)
-**Duration:** 12 weeks · **Frequency:** 3-day FBW or 4-day upper/lower (user preference)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Physique plan prioritising glutes, delts, back, quads. Default export is **4-day**; `effectiveVenusMode` + `preprocessDay` swap in the 3-day tree. Double progression +2.5 kg. Weeks 5–8 can add a set to up to two user-selected priority exercises (session cap 16 sets). Dedicated `VenusDashboard`.
-
-## Onboarding
-
-- **Stats:** none.
-- **Schedule mode:** `planPreferences['venus-rising'].scheduleMode` `3day`|`4day` with pending week-boundary switch.
-- **Exercise priorities:** up to 2 ids in `exerciseSelections` for Rising-phase set bump.
-- **Access:** paid.
-- **Dashboard:** `src/features/venusRising/VenusDashboard.tsx`.
-- **Schedule:** selectable=true; suggested splits (dow): 1-2-4-5; 1-3-5-6; 2-4-6-7.
-- **Irregular templates:** 2on-1off, 3on-1off, every-other-day.
-
-### EN (`onboarding.programs.venusRising`)
-
-- **Name:** Venus Rising
-- **Description:** A 12-week physique plan for glutes, delts, back and quads.
-- **Features:**
-  - 3-day full body or 4-day upper/lower
-  - 15–16 sets per session
-  - User-selected priorities
-  - Simple double progression
-
-### PL (`onboarding.programs.venusRising`)
-
-- **Name:** Venus Rising
-- **Description:** 12-tygodniowy plan sylwetkowy z naciskiem na pośladki, barki, plecy i czworogłowe.
-- **Features:**
-  - 3 dni całego ciała lub 4 dni góra/dół
-  - 15–16 serii na sesję
-  - Priorytety wybierane przez użytkownika
-  - Prosta podwójna progresja
-
-## Weekly structure
-
-### Weeks 1–4 (4 weeks)
-
-#### Lower A — Quads + Glutes · Foundation (dow 1)
-
-- Hack Squat · 3×8-12 · tempo 20X0 · rest 75s
-- Front-Foot Elevated Bulgarian Split Squat · 3×8-12 · tempo 20X0 · rest 75s
-- Seated Hamstring Curl · 2×8-12 · tempo 20X0 · rest 75s
-- Leg Extensions · 2×8-12 · tempo 20X0 · rest 75s
-- Machine Hip Abduction · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Ab Wheel · 1×8-12 · tempo 20X0 · rest 75s
-
-#### Upper A — Back + Delts · Foundation (dow 2)
-
-- Assisted Pull-ups · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Incline DB Bench Press · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Single Arm Reverse Pec Deck · 2×12-20 · tempo 20X0 · rest 60s
-- Bayesian Cable Curl · 1×10-15 · tempo 20X0 · rest 60s
-- Overhead Tricep Extensions · 1×10-15 · tempo 20X0 · rest 60s
-
-#### Lower B — Glutes + Posterior Chain · Foundation (dow 4)
-
-- Hip Thrusts · 3×8-12 · tempo 20X0 · rest 75s
-- Romanian Deadlift · 3×8-12 · tempo 20X0 · rest 75s
-- Deficit Reverse Lunge · 3×8-12 · tempo 20X0 · rest 75s
-- Supported Sissy Squat · 2×10-15 · tempo 20X0 · rest 75s
-- Lying Leg Curls · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-
-#### Upper B — Shape · Foundation (dow 5)
-
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Flat DB Press · 3×8-12 · tempo 20X0 · rest 75s
-- Dumbbell Pullover · 2×8-12 · tempo 20X0 · rest 75s
-- Seated DB Shoulder Press · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-### Weeks 5–8 (4 weeks)
-
-#### Lower A — Quads + Glutes · Rising (dow 1)
-
-- Hack Squat · 3×8-12 · tempo 20X0 · rest 75s
-- Front-Foot Elevated Bulgarian Split Squat · 3×8-12 · tempo 20X0 · rest 75s
-- Seated Hamstring Curl · 2×8-12 · tempo 20X0 · rest 75s
-- Leg Extensions · 2×8-12 · tempo 20X0 · rest 75s
-- Machine Hip Abduction · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Ab Wheel · 1×8-12 · tempo 20X0 · rest 75s
-
-#### Upper A — Back + Delts · Rising (dow 2)
-
-- Assisted Pull-ups · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Incline DB Bench Press · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Single Arm Reverse Pec Deck · 2×12-20 · tempo 20X0 · rest 60s
-- Bayesian Cable Curl · 1×10-15 · tempo 20X0 · rest 60s
-- Overhead Tricep Extensions · 1×10-15 · tempo 20X0 · rest 60s
-
-#### Lower B — Glutes + Posterior Chain · Rising (dow 4)
-
-- Hip Thrusts · 3×8-12 · tempo 20X0 · rest 75s
-- Romanian Deadlift · 3×8-12 · tempo 20X0 · rest 75s
-- Deficit Reverse Lunge · 3×8-12 · tempo 20X0 · rest 75s
-- Supported Sissy Squat · 2×10-15 · tempo 20X0 · rest 75s
-- Lying Leg Curls · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-
-#### Upper B — Shape · Rising (dow 5)
-
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Flat DB Press · 3×8-12 · tempo 20X0 · rest 75s
-- Dumbbell Pullover · 2×8-12 · tempo 20X0 · rest 75s
-- Seated DB Shoulder Press · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-### Weeks 9–11 (3 weeks)
-
-#### Lower A — Quads + Glutes · Ascension (dow 1)
-
-- Hack Squat · 3×8-12 · tempo 20X0 · rest 75s
-- Front-Foot Elevated Bulgarian Split Squat · 3×8-12 · tempo 20X0 · rest 75s
-- Seated Hamstring Curl · 2×8-12 · tempo 20X0 · rest 75s
-- Leg Extensions · 2×8-12 · tempo 20X0 · rest 75s
-- Machine Hip Abduction · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Ab Wheel · 1×8-12 · tempo 20X0 · rest 75s
-
-#### Upper A — Back + Delts · Ascension (dow 2)
-
-- Assisted Pull-ups · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Incline DB Bench Press · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Single Arm Reverse Pec Deck · 2×12-20 · tempo 20X0 · rest 60s
-- Bayesian Cable Curl · 1×10-15 · tempo 20X0 · rest 60s
-- Overhead Tricep Extensions · 1×10-15 · tempo 20X0 · rest 60s
-
-#### Lower B — Glutes + Posterior Chain · Ascension (dow 4)
-
-- Hip Thrusts · 3×8-12 · tempo 20X0 · rest 75s
-- Romanian Deadlift · 3×8-12 · tempo 20X0 · rest 75s
-- Deficit Reverse Lunge · 3×8-12 · tempo 20X0 · rest 75s
-- Supported Sissy Squat · 2×10-15 · tempo 20X0 · rest 75s
-- Lying Leg Curls · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-
-#### Upper B — Shape · Ascension (dow 5)
-
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Flat DB Press · 3×8-12 · tempo 20X0 · rest 75s
-- Dumbbell Pullover · 2×8-12 · tempo 20X0 · rest 75s
-- Seated DB Shoulder Press · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-### Weeks 12 (single week)
-
-#### Lower A — Quads + Glutes · Rebirth (dow 1)
-
-- Hack Squat · 2×8-12 · tempo 20X0 · rest 75s
-- Front-Foot Elevated Bulgarian Split Squat · 2×8-12 · tempo 20X0 · rest 75s
-- Seated Hamstring Curl · 1×8-12 · tempo 20X0 · rest 75s
-- Leg Extensions · 1×8-12 · tempo 20X0 · rest 75s
-- Machine Hip Abduction · 1×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 1×8-12 · tempo 20X0 · rest 75s
-- Ab Wheel · 1×8-12 · tempo 20X0 · rest 75s
-
-#### Upper A — Back + Delts · Rebirth (dow 2)
-
-- Assisted Pull-ups · 2×8-12 · tempo 20X0 · rest 75s
-- Single-Arm Hammer Strength Row · 2×8-12 · tempo 20X0 · rest 75s
-- Incline DB Bench Press · 1×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×12-20 · tempo 20X0 · rest 60s
-- Single Arm Reverse Pec Deck · 1×12-20 · tempo 20X0 · rest 60s
-- Bayesian Cable Curl · 1×10-15 · tempo 20X0 · rest 60s
-- Overhead Tricep Extensions · 1×10-15 · tempo 20X0 · rest 60s
-
-#### Lower B — Glutes + Posterior Chain · Rebirth (dow 4)
-
-- Hip Thrusts · 2×8-12 · tempo 20X0 · rest 75s
-- Romanian Deadlift · 2×8-12 · tempo 20X0 · rest 75s
-- Deficit Reverse Lunge · 2×8-12 · tempo 20X0 · rest 75s
-- Supported Sissy Squat · 1×10-15 · tempo 20X0 · rest 75s
-- Lying Leg Curls · 1×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 1×8-12 · tempo 20X0 · rest 75s
-
-#### Upper B — Shape · Rebirth (dow 5)
-
-- Single-Arm Hammer Strength Row · 2×8-12 · tempo 20X0 · rest 75s
-- Flat DB Press · 2×8-12 · tempo 20X0 · rest 75s
-- Dumbbell Pullover · 1×8-12 · tempo 20X0 · rest 75s
-- Seated DB Shoulder Press · 1×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×12-20 · tempo 20X0 · rest 60s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-
-## Phases & week-to-week progression
-
-### Foundation (1–4)
-RPE unset (default).
-
-### Rising (5–8)
-All slots `rpe: 8.5`; priority exercises may go 2→3 sets if total <16.
-
-### Ascension (9–11)
-Isolation (`lateral-raise`, `leg-extension`, `single-arm-reverse-pec-deck`) → RPE **9.5**; else 8.5.
-
-### Rebirth (12)
-Sets ≥3 → 2, else 1; RPE 8.
-
-## Techniques, supersets, finishers
-
-- Double progression only; default tempo `20X0`.
-- No supersets / intensifiers in source.
-- 3-day internal id `venus-rising-3day-internal` (not a separate catalog plan).
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-venus-rising` |
-| `i18nKey` | `venusRising` |
-| `logo` | `/venusrising.png` |
-| `coverBg` | `bg-[#12080e]` |
-| `order` | 22 |
-| `alwaysFree` | no |
+| **id** | `venus-rising` |
+| **Length** | 12 weeks |
+| **Frequency** | 3/4 days/week |
+| **Weekly sets** | 68 across 4 training days (week 1 sample) |
+| **Sets/session** | 17 |
+| **Goal** | hypertrophy, general |
+| **Experience** | beginner, intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 2/4 — moderate |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Card promise** | *"A 12-week first structured plan — lower-body led, machine and cable led, with the priorities you pick once held inside a weekly set cap."* |
 
-**CSS tokens** (`.theme-venus-rising`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** A first structured plan — lower-body led, machine and cable led, with the priorities you pick once held inside a weekly set cap.
+
+The onboarding card claims:
+
+- 3-day full body or 4-day upper/lower
+- 15–17 sets per session
+- User-selected priorities
+- Simple double progression
+
+**Not for you if.**
+
+- You want a strength-first block
+
+**Follow-ups.** [kali](kali.md), [peachy-glute-plan](peachy.md), [event-horizon](event-horizon.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Lower A — Quads + Glutes · Foundation | 7 | 16 | Heel-Elevated Goblet Squat 3, Leg Press 3, Seated Hamstring Curl 2, Leg Extensions 2, Machine Hip Abduction 2, Hack Squat Calf Raises 2, Cable Crunch 2 |
+| Upper A — Back + Delts · Foundation | 7 | 18 | Assisted Pull-ups 3, Single-Arm Hammer Strength Row 3, Incline DB Bench Press 3, Cable Lateral Raise 3, Side-Lying Rear Delt Flyes 2, EZ Preacher Curl 2, Rope Pressdown 2 |
+| Lower B — Glutes + Posterior Chain · Foundation | 6 | 15 | Hip Thrusts 3, Cable Romanian Deadlift 3, B-Stance Hip Thrust 3, Supported Sissy Squat 2, Lying Leg Curls 2, Hack Squat Calf Raises 2 |
+| Upper B — Shape · Foundation | 8 | 19 | Hammer Pulldown (Underhand) 3, Flat DB Press 3, Pec Deck 2, Seated Hammer Shoulder Press 2, Seated Cable Row 3, Machine Curl 2, Cable Triceps Extension 2, Planks 2 |
+
+### Week-to-week shape
+
+The program runs 12 weeks falling into 4 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `330 38% 5%` |
-| `--primary` | `337 68% 55%` |
-| `--accent` | `347 48% 22%` |
-| `--card` | `330 30% 8%` |
-| `--ring` | `337 68% 55%` |
-| `--signal-text` | `337 78% 72%` |
+| 1, 2, 3, 4 | Lower A — Quads + Glutes · Foundation 16, Upper A — Back + Delts · Foundation 18, Lower B — Glutes + Posterior Chain · Foundation 15, Upper B — Shape · Foundation 19 |
+| 5, 6, 7, 8 | Lower A — Quads + Glutes · Rising 16, Upper A — Back + Delts · Rising 18, Lower B — Glutes + Posterior Chain · Rising 15, Upper B — Shape · Rising 19 |
+| 9, 10, 11 | Lower A — Quads + Glutes · Ascension 16, Upper A — Back + Delts · Ascension 18, Lower B — Glutes + Posterior Chain · Ascension 15, Upper B — Shape · Ascension 19 |
+| 12 | Lower A — Quads + Glutes · Rebirth 9, Upper A — Back + Delts · Rebirth 11, Lower B — Glutes + Posterior Chain · Rebirth 9, Upper B — Shape · Rebirth 11 |
 
-Palette note: rose/magenta.
+---
 
-**Widgets:** `program_status`, `workout_history`.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 17 | in band |
+| back | 12 | in band |
+| shoulders | 10 | in band |
+| quads | 10 | in band |
+| chest | 8 | below the 10-set growth dose |
+| hamstrings | 7 | below the 10-set growth dose |
+| biceps | 4 | below the 6-set growth dose |
+| triceps | 4 | below the 6-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+| core | 4 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** (dual trees) |
-| Dashboard | **complete** — VenusDashboard |
-| Mode switching | **complete** — week-boundary pending change |
-| PL name | left EN |
+| Push:pull (direct sets) | 1.38 |
+| Quad:hamstring | 1.43 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| Name `Venus Rising` | Untranslated | keep brand or `Wenus Wschodząca` |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **84** |
+| Axial | **15** |
+| Lower back | 9 |
+| Per-set systemic | 1.24 |
+| High-systemic sets (cost 3+) | 3 |
+| Compound share | 18% |
+| Shoulder / knee / elbow cost | 20 / 26 / 32 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.91 |
+| Mean stability demand (0-4) | 0.76 |
+| Stimulus per unit fatigue | 1.55 |
+| Failure-safe share of sets | 68% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 28 |
+| At 1 set | 0 |
+| At 2 sets | 16 |
+| At 3 sets | 12 |
+| At 4+ sets | 0 |
+| Mean sets per slot | 2.43 |
+| Distinct exercises | 27 |
+| Variety density (exercises per 10 sets) | 3.97 |
+| Largest single-exercise share | 6% |
+
+No slot sits at one set and none carries more than three. Nothing to flag.
+
+---
+
+## 6. Export block
+
+```yaml
+id: venus-rising
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 12
+frequency: [3, 4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 68, days: 4, sets_per_session: 17, slots: 28 }
+load: { systemic: 84, axial: 15, lower_back: 9, per_set_systemic: 1.24 }
+volume: { glutes: 17, back: 12, shoulders: 10, quads: 10, chest: 8, hamstrings: 7, biceps: 4, triceps: 4, calves: 4, core: 4 }
+coverage: { covered: 10, missing: [], in_band: 4, over: [], under: ['chest', 'biceps', 'triceps', 'hamstrings', 'calves', 'core'] }
+set_shape: { slots: 28, ones: 0, twos: 16, threes: 12, four_plus: 0, mean: 2.43 }
+variety: { distinct: 27, density: 3.97, top_share: 0.059, evenness: 0.992 }
+```

@@ -1,134 +1,162 @@
 # Quadfather
 
-**Program ID:** `quadfather` · **Source:** [src/data/plans/quadfather.ts](../../src/data/plans/quadfather.ts) · **Roles:** [src/features/quadfather/roles.ts](../../src/features/quadfather/roles.ts)
-**Duration:** 10 weeks · **Frequency:** 4 days/week — quads **3×**, other muscles **2×** (one day with zero quad work)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Quad specialisation where each quad slot has a **role** — Load, Depth, or Burn — and each quad day carries at least two roles. Hack Squat is the default main load; free squat / Stiletto remain selectable by limb proportion. Knee feedback may propose same-role, lower-cost swaps (athlete must accept). Default tempo `20X0`. Systemic rest **180 s**, else **90 s**.
-
-## Onboarding
-
-- **Stats:** none required for %.
-- **Preferences:** `planPreferences.quadfather.exerciseSelections.mainLoad` (+ optional swaps); limb proportion drives `recommendMainLoad` advice.
-- **Schedule:** 4 days (Mon Load, Tue Maintain, Thu Depth, Fri Burn).
-- **Modules:** knee-feedback swaps; ROM confirmation (notes ask when unknown).
-- **Access:** paid. Portfolio: intermediate; fatigue 3; knees that tolerate loaded knee flexion.
-
-Limb-proportion / ROM collection is engine-ready; dedicated Onboarding UI steps are limited.
-
-### EN (`onboarding.programs.quadfather`)
-
-- **Name:** Quadfather
-- **Description:** A 10-week quad specialisation that trains legs three times while everything else is maintained.
-- **Features:** Quads 3×, other muscles 2× · Load, depth and burn roles · Confirmed range of motion · Knee-feedback swaps
-
-### PL (`onboarding.programs.quadfather`)
-
-- **Name:** Quadfather
-- **Description:** 10-tygodniowa specjalizacja na czworogłowe: nogi trzy razy, reszta podtrzymywana.
-- **Features:** Czworogłowe 3×, pozostałe partie 2× · Role: ciężar, zakres i pompa · Potwierdzany zakres ruchu · Zamiany przy dolegliwościach kolan
-
-## Weekly structure
-
-### The Offer — Load (Mon)
-
-| Exercise | Sets × Reps | Role |
-|---|---|---|
-| Hack Squat (or chosen main load) | 4×5-8 | load · primary · systemic |
-| Goblet Heel-Elevated Squat | 3×8-12 | depth |
-| Leg Extension | 2×12-15 | burn |
-| Incline DB Bench | 3×6-10 | maintain |
-| SA Hammer Row | 3×8-12 | maintain |
-| Lateral Raise | 2×12-15 | maintain |
-
-### The Family — Maintain (Tue) — **no quads**
-
-| Exercise | Sets × Reps |
+| | |
 |---|---|
-| RDL | 3×6-10 systemic |
-| Lat Pulldown | 3×8-12 |
-| Hammer Chest | 3×8-12 |
-| Seated Ham Curl | 3×10-15 |
-| SA Reverse Pec Deck | 2×12-15 |
-| Hammer Curl | 2×8-12 |
-| Cable Tri Ext | 2×8-15 |
-| Hack Calf | 2×12-20 |
+| **id** | `quadfather` |
+| **Length** | 10 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 75 across 4 training days (week 1 sample) |
+| **Sets/session** | 18.8 |
+| **Goal** | specialisation, hypertrophy |
+| **Experience** | intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | responsive |
+| **Fatigue cost** | 3/4 — high |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `last-set-failure`, `myo-reps` |
+| **Card promise** | *"A 10-week quad specialisation that trains legs three times while everything else is maintained."* |
 
-### The Debt — Depth (Thu)
+---
 
-| Exercise | Sets × Reps | Role |
-|---|---|---|
-| FFE Bulgarian Split Squat | 3×8-12 | depth |
-| Leg Press | 3×10-15 | load · systemic |
-| Supported Sissy Squat | 2×10-15 | burn |
-| Seated DB Press | 3×8-12 | |
-| Hammer Pulldown | 3×8-12 | |
-| Hack Calf | 2×12-20 | |
+## 1. What this plan is
 
-### The Reckoning — Burn (Fri)
+**Signature mechanic.** Three quad sessions doing three different jobs — load, depth and burn — never three of the same.
 
-| Exercise | Sets × Reps | Role |
-|---|---|---|
-| Knee-over-toe Split Squat | 3×8-12 | depth |
-| Stripper Squat | 3×10-15 | burn (always burn) |
-| Reverse Nordic | 2×8-12 | burn |
-| Lying Leg Curl | 2×10-15 | |
-| SA Hammer Row | 3×8-12 | |
-| Hammer Curl | 1×10-15 | |
-| Cable Tri Ext | 1×10-15 | |
-| Ab Wheel | 1×8-12 | |
+The onboarding card claims:
 
-**Load pool:** Hack Squat, Barbell Squat, Stiletto Squat, Leg Press.  
-**Depth pool:** split squats, knee-over-toe, step-ups, deficit reverse lunges, heel-elevated goblets.  
-**Burn pool:** Leg Ext, Supported Sissy, Reverse Nordic, Stripper Squat.
+- Quads 3×, other muscles 2×
+- Load, depth and burn roles
+- Confirmed range of motion
+- Knee-feedback swaps
 
-## Phases & week-to-week progression
+**Prerequisites.** Knees that tolerate loaded knee flexion
 
-| Phase | Weeks | Change |
-|---|---|---|
-| Introduction | 1–3 | Base |
-| Enforcement | 4–7 | Burn-role slots → **myo-reps** (3 mini × 4-5, 5 breaths) |
-| Succession | 8–9 | Load-role reps → **4-6** (Stripper stays burn) |
-| Settlement | 10 | −1 set per slot (min 1) |
+**Not for you if.**
 
-Double progression +2.5 kg on ranges. Knee: `normal` / `strained` / `impaired` → `proposeKneeSwap` same role, lower knee cost; applied only after accept. Unconfirmed depth → note “Confirm your depth after the first set.”
+- Your posterior chain is the weak link
 
-## Techniques, supersets, finishers
+**Follow-ups.** [king-of-the-squat](king-of-the-squat.md), [hamstring-foundry](hamstring-foundry.md), [event-horizon](event-horizon.md)
 
-- **Myo-reps** weeks 4–7 on burn-role movements only.
-- No supersets / finishers.
+---
 
-## Dashboard & UI theme
+## 2. The training week
 
-| Meta | Value |
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| The Offer — Load · Introduction | 7 | 19 | Hack Squat 4, Heel-Elevated Goblet Squat 3, Leg Extensions 2, Incline DB Bench Press 3, Single-Arm Hammer Strength Row 3, Cable Lateral Raise 2, Cable Crunch 2 |
+| The Family — Maintain · Introduction | 8 | 20 | Romanian Deadlift 3, Lat Prayer 3, Dip 3, Seated Hamstring Curl 3, Bench-Supported DB Rear Delt Fly 2, EZ Preacher Curl 2, Overhead Tricep Extensions 2, Hack Squat Calf Raises 2 |
+| The Debt — Depth · Introduction | 7 | 19 | Front-Foot Elevated Bulgarian Split Squat 3, Leg Press 3, Supported Sissy Squat 2, Seated Hammer Shoulder Press 3, Hammer Pulldown (Underhand) 3, Hack Squat Calf Raises 2, Cable Crunch 3 |
+| The Reckoning — Burn · Introduction | 7 | 17 | Knee-Over-Toe Split Squat 3, Stripper Squat 3, Reverse Nordic Curls 2, Lying Leg Curls 2, Single-Arm Hammer Strength Row 3, EZ Preacher Curl 2, Cable Triceps Extension 2 |
+
+### Week-to-week shape
+
+The program runs 10 weeks falling into 4 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `themeClass` | `theme-quadfather` |
-| `i18nKey` | `quadfather` |
-| `logo` | `/quadfather.png` |
-| `coverBg` | `bg-[#0f0a06]` |
-| `order` | 29 |
+| 1, 2, 3 | The Offer — Load · Introduction 19, The Family — Maintain · Introduction 20, The Debt — Depth · Introduction 19, The Reckoning — Burn · Introduction 17 |
+| 4, 5, 6, 7 | The Offer — Load · Enforcement 19, The Family — Maintain · Enforcement 20, The Debt — Depth · Enforcement 19, The Reckoning — Burn · Enforcement 17 |
+| 8, 9 | The Offer — Load · Succession 19, The Family — Maintain · Succession 20, The Debt — Depth · Succession 19, The Reckoning — Burn · Succession 17 |
+| 10 | The Offer — Load · Settlement 12, The Family — Maintain · Settlement 12, The Debt — Depth · Settlement 12, The Reckoning — Burn · Settlement 10 |
 
-**CSS:** `--background: 22 20% 5%`; `--primary: 22 62% 52%`; `--accent: 22 44% 20%`; `--signal-text: 24 78% 70%`.
+---
 
-**Widgets:** `program_status`, `workout_history`. Doc/engine intend role-balance + ROM reporting; **no** specialty React dashboard.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| quads | 25 | above the 20-set ceiling |
+| glutes | 16 | in band |
+| back | 12 | in band |
+| shoulders | 10 | in band |
+| hamstrings | 8 | below the 10-set growth dose |
+| triceps | 7 | in band |
+| chest | 6 | below the 10-set growth dose |
+| core | 5 | below the 6-set growth dose |
+| biceps | 4 | below the 6-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** |
-| Roles / knee / depth engine | **complete** |
-| Dashboard | **missing** role-balance UI |
-| Onboarding | **partial** — preferences/preprocess wired; limb UI incomplete |
-| EN / PL | **complete**; PL “pompa” good for burn |
-| Tips | none |
-| Verify | `npm run verify:quadfather` |
+| Push:pull (direct sets) | 1.44 |
+| Quad:hamstring | 3.13 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| `Role: ciężar, zakres i pompa` | Good paraphrase of load/depth/burn | Keep |
-| Product name EN | Brand | Keep |
-| Description “nogi trzy razy” | Slightly vague vs quads 3× | `czworogłowe trzy razy w tygodniu` |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **108** |
+| Axial | **32** |
+| Lower back | 9 |
+| Per-set systemic | 1.44 |
+| High-systemic sets (cost 3+) | 10 |
+| Compound share | 33% |
+| Shoulder / knee / elbow cost | 16 / 62 / 31 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 2.11 |
+| Mean stability demand (0-4) | 1.08 |
+| Stimulus per unit fatigue | 1.46 |
+| Failure-safe share of sets | 48% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 29 |
+| At 1 set | 0 |
+| At 2 sets | 13 |
+| At 3 sets | 15 |
+| At 4+ sets | 1 |
+| Mean sets per slot | 2.59 |
+| Distinct exercises | 25 |
+| Variety density (exercises per 10 sets) | 3.33 |
+| Largest single-exercise share | 8% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (1):**
+
+- The Offer — Load · Introduction — Hack Squat, 4 sets *(session opener)*
+
+---
+
+## 6. Export block
+
+```yaml
+id: quadfather
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 10
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 75, days: 4, sets_per_session: 18.8, slots: 29 }
+load: { systemic: 108, axial: 32, lower_back: 9, per_set_systemic: 1.44 }
+volume: { quads: 25, glutes: 16, back: 12, shoulders: 10, hamstrings: 8, triceps: 7, chest: 6, core: 5, biceps: 4, calves: 4 }
+coverage: { covered: 10, missing: [], in_band: 4, over: ['quads'], under: ['chest', 'biceps', 'hamstrings', 'calves', 'core'] }
+set_shape: { slots: 29, ones: 0, twos: 13, threes: 15, four_plus: 1, mean: 2.59 }
+variety: { distinct: 25, density: 3.33, top_share: 0.08, evenness: 0.985 }
+```

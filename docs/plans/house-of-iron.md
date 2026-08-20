@@ -1,164 +1,166 @@
 # House of Iron
 
-**Program ID:** `house-of-iron` · **Source:** [src/data/plans/houseOfIron.ts](../../src/data/plans/houseOfIron.ts) · **Progression:** [src/features/workout/progression/houseOfIron.ts](../../src/features/workout/progression/houseOfIron.ts) · **Prescription:** [src/features/houseOfIron/prescription.ts](../../src/features/houseOfIron/prescription.ts) · **Dashboard:** [src/features/houseOfIron/HouseDashboard.tsx](../../src/features/houseOfIron/HouseDashboard.tsx)
-**Duration:** 8 weeks / repeatable · **Frequency:** 2–4 free-order sessions weekly (3 recommended); session-select, no weekday lock
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-Full contract: [specs/house-of-iron.md](specs/house-of-iron.md).
-
-## Overview
-
-Minimal-equipment plan for one or more dumbbells or kettlebells. Athletes freely select Push A, Pull A, Push B or Pull B; the dashboard recommends (never forces) the session that best restores upper push/pull and knee/hip balance. Overload comes from **authored fixed-load ladders** (reps → ROM → pauses → eccentrics → variations → density → heavier equipment), not plate jumping.
-
-## Onboarding
-
-- **Stats / 1RMs:** none (`definePlan` double-progression slots do not pull percentage stats).
-- **Equipment:** list of implements `{ id, type: 'dumbbell'|'kettlebell', weightKg, count: 1|2 }` via House Dashboard; preferred implement type; at least one required before training productively.
-- **Schedule:** `session: { kind: 'session-select' }` — any of the four cards any day; advisory recommendation from balance + recency.
-- **Modules/toggles:** curl role selectable in plan preferences; Bulgarian has reverse-lunge fallback note.
-- **Access:** paid (not `alwaysFree`).
-
-### EN (`onboarding.programs.houseOfIron`)
-
-- **Name:** House of Iron
-- **Description:** An 8-week repeatable minimal-equipment plan that makes one dumbbell or kettlebell last.
-- **Features:** 2–4 free-order sessions weekly · Fixed-load mastery ladders · Push/pull and knee/hinge balance · Works with one implement
-
-### PL (`onboarding.programs.houseOfIron`)
-
-- **Name:** House of Iron
-- **Description:** Powtarzalny 8-tygodniowy plan na minimalnym sprzęcie, który pozwala długo rozwijać się z jednym hantlem lub kettlem.
-- **Features:** 2–4 dowolnie wybierane sesje tygodniowo · Drabinki progresji przy stałym ciężarze · Równowaga push/pull i kolano/biodro · Działa z jednym obciążeniem
-
-## Weekly structure
-
-Required sessions contain **12–15 working sets** (optional suitcase holds/carries excluded). Unilateral = weaker side first, equal reps; sides not logged separately.
-
-### Push A — Chest + Quads (`dayOfWeek: 1`)
-
-| Exercise | Sets × Reps | Rest | Notes |
-|---|---|---|---|
-| Goblet heel-elevated squat | 3×8-15 | 90s | |
-| Single-arm floor press | 3×8-15 | 90s | Weaker side first |
-| Bulgarian split squat | 2×8-15 | 90s | Reverse lunge fallback |
-| Push-up | 2×AMRAP | 75s | Stop ~1–2 RIR |
-| SA overhead triceps extension | 2×10-20 | 60s | |
-| Suitcase hold | 1×30-60s | 45s | **Optional** |
-
-### Pull A — Back + Hamstrings (`dayOfWeek: 2`)
-
-| Exercise | Sets × Reps | Rest | Notes |
-|---|---|---|---|
-| Single-arm DB row | 3×8-15 | 90s | |
-| Romanian deadlift | 3×8-15 | 120s | |
-| Dumbbell pullover | 2×10-20 | 75s | |
-| Single-leg RDL | 2×8-15 | 90s | |
-| Hammer curl | 2×10-20 | 60s | Curl role changeable |
-| Suitcase carry | 1×30-60s | 45s | **Optional** |
-
-### Push B — Shoulders + Quads/Glutes (`dayOfWeek: 3`)
-
-| Exercise | Sets × Reps | Rest | Notes |
-|---|---|---|---|
-| SA standing press | 3×6-12 | 90s | |
-| Goblet skater squat | 3×6-12 | 120s | |
-| SA floor press | 2×10-15 | 75s | |
-| Supported sissy squat | 2×10-20 | 75s | |
-| Lateral raise | 2×12-25 | 60s | Shorten lever if needed |
-| Close-grip push-up | 1×AMRAP | 75s | |
-
-### Pull B — Back + Glutes/Hamstrings (`dayOfWeek: 4`)
-
-| Exercise | Sets × Reps | Rest | Notes |
-|---|---|---|---|
-| Staggered-stance RDL | 3×8-15 | 120s | |
-| SA DB row | 3×10-20 | 90s | |
-| Glute bridge | 3×10-20 | 75s | Load `0` valid |
-| Dumbbell pullover | 2×12-20 | 75s | |
-| Bent-over rear-delt row | 2×12-20 | 60s | |
-| Hammer curl | 1×10-20 | 60s | |
-
-## Phases & week-to-week progression
-
-### Named phases (`definePlan`)
-
-| Phase | Weeks | Behavior |
-|---|---|---|
-| Foundation | 1–2 | Establish variants; standard tempo; ~2–3 RIR |
-| Build | 3–4 | 1–2 RIR; pause steps after rep mastery |
-| Harden | 5–6 | ROM/tempo on capped priority moves |
-| House on Fire | 7 | Hardest normal week; safe finals may hit 0–1 RIR |
-| Rebuild | 8 | Volume cut: slots with ≥3 sets → 2; many others → 1 (push-up / SL RDL stay 2) — ~30–40% less required work |
-
-Week 8 offers another cycle without erasing equipment or accepted ladder stages.
-
-### Fixed-load ladder (`HOUSE_LADDERS` + `houseOfIronProgression`)
-
-Two **consecutive** clean top-of-range exposures → **pending recommendation** (never auto-mutate). Athlete accepts or keeps current step on House Dashboard.
-
-Typical stage order (per exercise family; unsupported stages skipped):
-
-1. top-range reps  
-2. increased usable ROM  
-3. pause 1s → 2s  
-4. eccentric 3s → 4s  
-5. 1.5 reps (approved movements)  
-6. harder variation (e.g. skater squat, glute-bridge floor press, SL RDL)  
-7. density (rest ×0.9, min 30s)  
-8. heavier-equipment advice  
-
-`borderline` / invalid / pain-stopped work does not progress. `applyHouseProgressions` injects cues and may swap to variation IDs / tempos.
-
-Session history (last 64) feeds `recommendHouseSession` / `houseBalance` (upper push, upper pull, knee-dominant, hip-dominant).
-
-## Techniques, supersets, finishers
-
-- No supersets; straight sets only.
-- Ladder techniques: pauses, eccentrics, 1.5 reps, density, leverage/unilateral progressions.
-- Optional suitcase hold/carry never gates completion or balance.
-- No timed finisher blocks.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-house-of-iron` |
-| `i18nKey` | `houseOfIron` |
-| `logo` | `/houseofiron.png` |
-| `coverBg` / gradient | `bg-[#090805]` / `from-[#090805]` |
-| `order` | 20 |
-| `alwaysFree` | no |
+| **id** | `house-of-iron` |
+| **Length** | 8 weeks |
+| **Frequency** | 2/3/4 days/week |
+| **Weekly sets** | 55 across 4 training days (week 1 sample) |
+| **Sets/session** | 13.8 |
+| **Goal** | general, hypertrophy |
+| **Experience** | beginner, intermediate |
+| **Equipment** | minimal |
+| **Adaptability** | responsive |
+| **Fatigue cost** | 3/4 — high |
+| **Session engine** | `session-select` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `last-set-failure` |
+| **Card promise** | *"An 8-week repeatable minimal-equipment plan that makes one dumbbell or kettlebell last."* |
 
-**CSS tokens** (`.theme-house-of-iron`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** One dumbbell or kettlebell made to last through authored difficulty ladders instead of more load.
+
+The onboarding card claims:
+
+- 2–4 free-order sessions weekly
+- Fixed-load mastery ladders
+- Push/pull and knee/hinge balance
+- Works with one implement
+
+**Prerequisites.** At least one adjustable or moderately heavy implement — and the ability to hold a solid position under load, because every movement here is unilateral or unsupported with no machine to fall back on
+
+**Not for you if.**
+
+- You have a full gym and want to use it
+
+**Follow-ups.** [the-minimum](the-minimum.md), [30-minute-adventure](30-minute-adventure.md), [skeleton-to-threat](skeleton-to-threat.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Push A — Chest + Quads · Foundation | 6 | 13 | Goblet Heel-Elevated Squat (legacy id) 3, Single-Arm Floor Press 3, Bulgarian Split Squat 2, Push-Up 2, Single-Arm Overhead Triceps Extension 2, Suitcase Hold 1 |
+| Pull A — Back + Hamstrings · Foundation | 6 | 13 | Single-Arm DB Row 3, Romanian Deadlift 3, Dumbbell Pullover 2, Single-Leg Romanian Deadlift 2, Hammer Curls 2, Suitcase Carry 1 |
+| Push B — Shoulders + Quads/Glutes · Foundation | 6 | 14 | Single-Arm Standing Press 3, Goblet Skater Squat 3, Single-Arm Floor Press 2, Supported Sissy Squat 2, Leaning One-Arm Lateral Raise 2, Close-Grip Push-Up 2 |
+| Pull B — Back + Glutes/Hamstrings · Foundation | 6 | 15 | B-Stance Romanian Deadlift 3, Single-Arm DB Row 3, Glute Bridge 3, Dumbbell Pullover 2, Rear-Delt Row 2, Hammer Curls 2 |
+
+### Week-to-week shape
+
+The program runs 8 weeks falling into 5 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `42 28% 5%` |
-| `--primary` | `38 68% 48%` |
-| `--accent` | `17 63% 39%` |
-| `--card` | `39 22% 8%` |
-| `--ring` | `38 68% 48%` |
-| `--signal-text` | `40 75% 68%` |
+| 1, 2 | Push A — Chest + Quads · Foundation 13, Pull A — Back + Hamstrings · Foundation 13, Push B — Shoulders + Quads/Glutes · Foundation 14, Pull B — Back + Glutes/Hamstrings · Foundation 15 |
+| 3, 4 | Push A — Chest + Quads · Build 13, Pull A — Back + Hamstrings · Build 13, Push B — Shoulders + Quads/Glutes · Build 14, Pull B — Back + Glutes/Hamstrings · Build 15 |
+| 5, 6 | Push A — Chest + Quads · Harden 13, Pull A — Back + Hamstrings · Harden 13, Push B — Shoulders + Quads/Glutes · Harden 14, Pull B — Back + Glutes/Hamstrings · Harden 15 |
+| 7 | Push A — Chest + Quads · House on Fire 13, Pull A — Back + Hamstrings · House on Fire 13, Push B — Shoulders + Quads/Glutes · House on Fire 14, Pull B — Back + Glutes/Hamstrings · House on Fire 15 |
+| 8 | Push A — Chest + Quads · Rebuild 9, Pull A — Back + Hamstrings · Rebuild 9, Push B — Shoulders + Quads/Glutes · Rebuild 8, Pull B — Back + Glutes/Hamstrings · Rebuild 9 |
 
-**UI:** dedicated `HouseDashboard` — equipment editor, recommended session cards, balance warning, pending progression accept/decline, start-next-cycle. Registry widgets also list `program_status`, `workout_history` but custom dashboard replaces the generic shell for this plan.
+---
 
-## Implementation completion analysis
+## 3. Weekly volume by muscle group
 
-| Area | Status |
+Direct sets, counted once per exercise per major group.
+
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 16 | in band |
+| back | 10 | in band |
+| quads | 10 | in band |
+| chest | 9 | below the 10-set growth dose |
+| hamstrings | 8 | below the 10-set growth dose |
+| shoulders | 7 | below the 10-set growth dose |
+| triceps | 7 | in band |
+| biceps | 4 | below the 6-set growth dose |
+| core | 2 | below the 6-set growth dose |
+| calves | 0 | no direct sets |
+
+**Untrained groups:** `calves`.
+
+| Balance | Value |
 |---|---|
-| Plan generator / `definePlan` | **complete** |
-| Progression hooks | **complete** — `houseOfIronProgression` + preprocess `applyHouseProgressions` |
-| Dashboard | **complete** — `HouseDashboard` |
-| Onboarding wiring | **complete** via plan registry + equipment on dashboard (equipment is post-select, not a classic 1RM step) |
-| EN translations | **complete** |
-| PL translations | **natural** (brand name left EN) |
-| Exercise library / tips | **complete**; ladders authored per id |
-| Verify scripts | **`npm run verify:house-of-iron`**, **`verify:progression`** |
+| Push:pull (direct sets) | 1.64 |
+| Quad:hamstring | 1.25 |
+| Groups covered (4+ sets) | 8 of 10 |
+| Groups trained on two or more days | 9 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| Brand `House of Iron` | Left EN in PL card | Keep brand; optional `Dom Żelaza` subtitle |
-| `kolano/biodro` | Clear | Keep |
-| Dashboard stage labels | Already bilingual in `HouseDashboard` | Good reference quality |
-| No calques flagged in program features | — | — |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **102** |
+| Axial | **26** |
+| Lower back | 36 |
+| Per-set systemic | 1.85 |
+| High-systemic sets (cost 3+) | 11 |
+| Compound share | 69% |
+| Shoulder / knee / elbow cost | 19 / 22 / 28 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 2.24 |
+| Mean stability demand (0-4) | 2.44 |
+| Stimulus per unit fatigue | 1.21 |
+| Failure-safe share of sets | 4% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 24 |
+| At 1 set | 2 |
+| At 2 sets | 13 |
+| At 3 sets | 9 |
+| At 4+ sets | 0 |
+| Mean sets per slot | 2.29 |
+| Distinct exercises | 20 |
+| Variety density (exercises per 10 sets) | 3.64 |
+| Largest single-exercise share | 11% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**One set (2):**
+
+- Push A — Chest + Quads · Foundation — Suitcase Hold
+- Pull A — Back + Hamstrings · Foundation — Suitcase Carry
+
+---
+
+## 6. Export block
+
+```yaml
+id: house-of-iron
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 8
+frequency: [2, 3, 4]
+engine: session-select
+sampled_week: 1
+weekly: { sets: 55, days: 4, sets_per_session: 13.8, slots: 24 }
+load: { systemic: 102, axial: 26, lower_back: 36, per_set_systemic: 1.85 }
+volume: { glutes: 16, back: 10, quads: 10, chest: 9, hamstrings: 8, shoulders: 7, triceps: 7, biceps: 4, core: 2, calves: 0 }
+coverage: { covered: 8, missing: ['calves'], in_band: 4, over: [], under: ['chest', 'shoulders', 'biceps', 'hamstrings', 'core'] }
+set_shape: { slots: 24, ones: 2, twos: 13, threes: 9, four_plus: 0, mean: 2.29 }
+variety: { distinct: 20, density: 3.64, top_share: 0.109, evenness: 0.969 }
+```

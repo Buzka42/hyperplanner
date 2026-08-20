@@ -1,212 +1,168 @@
 # Gravity Is Optional
 
-**Program ID:** `gravity-is-optional` · **Source:** [src/data/plans/gravityIsOptional.ts](../../src/data/plans/gravityIsOptional.ts)
-**Duration:** 12 weeks · **Frequency:** 4 days/week — vertical pull + dip family 3×
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Weighted calisthenics. Heavy day: weighted chin + weighted dip **5×3-5**, double +2.5, 210s rest, total system weight. Volume day uses **total-rep** techniques: **40** chin-ups and **50** dips in as few sets as possible (maxSets 12). Control day uses `40X0` on hip-supported DB deadlift once load caps.
-
-## Onboarding
-
-- **Stats:** none.
-- **Access:** paid.
-- **Schedule:** selectable=true; suggested splits (dow): 1-2-4-5; 1-3-5-6; 2-4-6-7.
-- **Irregular templates:** 2on-1off, 3on-1off, every-other-day.
-
-### EN (`onboarding.programs.gravityIsOptional`)
-
-- **Name:** Gravity Is Optional
-- **Description:** 12-week weighted calisthenics. Pull-ups and dips as main lifts, tracked by total system weight.
-- **Features:**
-  - Focus: Weighted pulling and dipping
-  - 4 Days / Week
-  - Vertical pull and dip family 3x weekly
-  - Total system weight: bodyweight plus added load
-  - Total-rep targets - beat your set count, not your reps
-
-### PL (`onboarding.programs.gravityIsOptional`)
-
-- **Name:** Grawitacja Opcjonalna
-- **Description:** 12 tygodni kalisteniki z obciążeniem. Podciąganie i dipy jako główne boje, liczone masą całkowitą.
-- **Features:**
-  - Cel: Podciąganie i dipy z obciążeniem
-  - 4 dni / tydzień
-  - Ciąg pionowy i dipy 3x w tygodniu
-  - Masa całkowita: masa ciała plus obciążenie
-  - Cele na łączne powtórzenia - bij liczbę serii, nie powtórzeń
-
-## Weekly structure
-
-### Weeks 1–4 (4 weeks)
-
-#### Heavy Gravity · Ascent (dow 1)
-
-- Weighted Chin-Up · 5×3-5 · rest 210s · — All five sets at five clean reps earns +2.5 kg next exposure.
-- Weighted Dip · 5×3-5 · rest 210s
-- Hammer Upper Row · 3×8-12 · rest 120s
-- Sissy Squat · 3×10-15 · rest 90s
-- Hanging Leg Raises · 3×10-20 · rest 75s
-
-#### Single-Leg Gravity · Ascent (dow 2)
-
-- Goblet Skater Squat · 4×8-12 · rest 120s · — Per side.
-- Hip-Supported Dumbbell Deadlift · 4×8-12 · rest 120s
-- TRX Body Row · 3×10-15 · rest 90s
-- Deficit Pushups · 3×AMRAP · rest 90s
-- Standing Calf Raises · 3×12-20 · rest 60s
-- Ab Wheel · 3×6-15 · rest 75s
-
-#### Volume Gravity · Ascent (dow 4)
-
-- Chin-Up · 6×AMRAP · rest 120s · tech {"kind":"total-reps","targetReps":40,"maxSets":12} · — Accumulate 40 total reps in as few sets as you can. Beat last session on set count, not reps.
-- Dip · 6×AMRAP · rest 120s · tech {"kind":"total-reps","targetReps":50,"maxSets":12} · — Accumulate 50 total reps.
-- Heel-Elevated Goblet Squat · 4×10-15 · rest 90s
-- Cable Lateral Raise · 3×12-20 · rest 60s
-- Cable Curl · 3×10-15 · rest 60s
-- Cable Triceps Extension · 3×10-15 · rest 60s
-
-#### Control Gravity · Ascent (dow 5)
-
-- TRX Push-Up · 3×10-20 · rest 90s
-- TRX Body Row · 3×10-20 · rest 90s
-- Cable Lateral Raise · 3×15-25 · rest 60s
-- Sissy Squat · 3×12-20 · rest 90s
-- Hip-Supported Dumbbell Deadlift · 3×12-15 · tempo 40X0 · rest 90s · — Four-second lowering. Once 2x50 kg stops being hard, add time under tension before adding reps.
-- Standing Calf Raises · 3×15-25 · rest 60s
-- Hanging Knee Raise · 3×12-20 · rest 60s
-
-### Weeks 5–8 (4 weeks)
-
-#### Heavy Gravity · Escape Velocity (dow 1)
-
-- Weighted Chin-Up · 6×3-5 · rest 210s · — All five sets at five clean reps earns +2.5 kg next exposure.
-- Weighted Dip · 6×3-5 · rest 210s
-- Hammer Upper Row · 3×8-12 · rest 120s
-- Sissy Squat · 3×10-15 · rest 90s
-- Hanging Leg Raises · 3×10-20 · rest 75s
-
-#### Single-Leg Gravity · Escape Velocity (dow 2)
-
-- Goblet Skater Squat · 4×8-12 · rest 120s · — Per side.
-- Hip-Supported Dumbbell Deadlift · 4×8-12 · rest 120s
-- TRX Body Row · 3×10-15 · rest 90s
-- Deficit Pushups · 3×AMRAP · rest 90s
-- Standing Calf Raises · 3×12-20 · rest 60s
-- Ab Wheel · 3×6-15 · rest 75s
-
-#### Volume Gravity · Escape Velocity (dow 4)
-
-- Chin-Up · 6×AMRAP · rest 120s · tech {"kind":"total-reps","targetReps":40,"maxSets":12} · — Accumulate 40 total reps in as few sets as you can. Beat last session on set count, not reps.
-- Dip · 6×AMRAP · rest 120s · tech {"kind":"total-reps","targetReps":50,"maxSets":12} · — Accumulate 50 total reps.
-- Heel-Elevated Goblet Squat · 4×10-15 · rest 90s
-- Cable Lateral Raise · 3×12-20 · rest 60s
-- Cable Curl · 3×10-15 · rest 60s
-- Cable Triceps Extension · 3×10-15 · rest 60s
-
-#### Control Gravity · Escape Velocity (dow 5)
-
-- TRX Push-Up · 3×10-20 · rest 90s
-- TRX Body Row · 3×10-20 · rest 90s
-- Cable Lateral Raise · 3×15-25 · rest 60s
-- Sissy Squat · 3×12-20 · rest 90s
-- Hip-Supported Dumbbell Deadlift · 3×12-15 · tempo 40X0 · rest 90s · — Four-second lowering. Once 2x50 kg stops being hard, add time under tension before adding reps.
-- Standing Calf Raises · 3×15-25 · rest 60s
-- Hanging Knee Raise · 3×12-20 · rest 60s
-
-### Weeks 9–12 (4 weeks)
-
-#### Heavy Gravity · Orbit (dow 1)
-
-- Weighted Chin-Up · 5×3-5 · rest 210s · — All five sets at five clean reps earns +2.5 kg next exposure.
-- Weighted Dip · 5×3-5 · rest 210s
-- Hammer Upper Row · 3×8-12 · rest 120s
-- Sissy Squat · 3×10-15 · rest 90s
-- Hanging Leg Raises · 3×10-20 · rest 75s
-
-#### Single-Leg Gravity · Orbit (dow 2)
-
-- Goblet Skater Squat · 4×8-12 · rest 120s · — Per side.
-- Hip-Supported Dumbbell Deadlift · 4×8-12 · rest 120s
-- TRX Body Row · 3×10-15 · rest 90s
-- Deficit Pushups · 3×AMRAP · rest 90s
-- Standing Calf Raises · 3×12-20 · rest 60s
-- Ab Wheel · 3×6-15 · rest 75s
-
-#### Volume Gravity · Orbit (dow 4)
-
-- Chin-Up · 6×AMRAP · rest 120s · tech {"kind":"total-reps","targetReps":50,"maxSets":12} · — Accumulate 40 total reps in as few sets as you can. Beat last session on set count, not reps.
-- Dip · 6×AMRAP · rest 120s · tech {"kind":"total-reps","targetReps":63,"maxSets":12} · — Accumulate 50 total reps.
-- Heel-Elevated Goblet Squat · 4×10-15 · rest 90s
-- Cable Lateral Raise · 3×12-20 · rest 60s
-- Cable Curl · 3×10-15 · rest 60s
-- Cable Triceps Extension · 3×10-15 · rest 60s
-
-#### Control Gravity · Orbit (dow 5)
-
-- TRX Push-Up · 3×10-20 · rest 90s
-- TRX Body Row · 3×10-20 · rest 90s
-- Cable Lateral Raise · 3×15-25 · rest 60s
-- Sissy Squat · 3×12-20 · rest 90s
-- Hip-Supported Dumbbell Deadlift · 3×12-15 · tempo 40X0 · rest 90s · — Four-second lowering. Once 2x50 kg stops being hard, add time under tension before adding reps.
-- Standing Calf Raises · 3×15-25 · rest 60s
-- Hanging Knee Raise · 3×12-20 · rest 60s
-
-
-## Phases & week-to-week progression
-
-### Ascent (1–4)
-Base volumes.
-
-### Escape Velocity (5–8)
-Weighted chin + weighted dip gain **+1 set** (6×3-5); everything else holds.
-
-### Orbit (9–12)
-Total-rep targets × **1.25** → chin **50**, dip **≈63** (rounded).
-
-## Techniques, supersets, finishers
-
-- `total-reps` technique on volume chin/dip.
-- Double progression on weighted variants.
-- Tempo `40X0` on control hinge.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-gravity-is-optional` |
-| `i18nKey` | `gravityIsOptional` |
-| `logo` | `/gravityoptional.png` |
-| `coverBg` | `bg-[#0a0a0a]` |
-| `order` | 11 |
-| `alwaysFree` | no |
+| **id** | `gravity-is-optional` |
+| **Length** | 12 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 82 across 4 training days (week 1 sample) |
+| **Sets/session** | 20.5 |
+| **Goal** | hypertrophy, strength |
+| **Experience** | intermediate |
+| **Equipment** | minimal, full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 3/4 — high |
+| **Session engine** | `calendar` |
+| **Calibration** | `requireBodyweight: true` |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `last-set-failure`, `total-reps` |
+| **Card promise** | *"12-week weighted calisthenics. Pull-ups and dips as main lifts, tracked by total system weight."* |
 
-**CSS tokens** (`.theme-gravity-is-optional`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** Weighted calisthenics counted as total system weight, so bodyweight progress is visible.
+
+The onboarding card claims:
+
+- Focus: Weighted pulling and dipping
+- 4 Days / Week
+- Vertical pull and dip family 3x weekly
+- Total system weight: bodyweight plus added load
+- Total-rep targets - beat your set count, not your reps
+
+**Prerequisites.** Five strict pull-ups and ten strict dips
+
+**Not for you if.**
+
+- You cannot yet perform the entry movements
+
+**Follow-ups.** [workhorse](workhorse.md), [atlas](atlas.md), [monolith](monolith.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Heavy Gravity · Ascent | 5 | 19 | Weighted Chin-Up 5, Weighted Dip 5, Hammer Upper Row 3, Sissy Squat 3, Hanging Leg Raises 3 |
+| Single-Leg Gravity · Ascent | 6 | 20 | Goblet Skater Squat 4, Hip-Supported Dumbbell Deadlift 4, TRX Body Row 3, Deficit Pushups 3, Standing Calf Raises 3, Ab Wheel 3 |
+| Volume Gravity · Ascent | 6 | 22 | Chin-Up 6, Dip 6, Heel-Elevated Goblet Squat 4, Cable Lateral Raise 2, Cable Curl 2, Cable Triceps Extension 2 |
+| Control Gravity · Ascent | 7 | 21 | TRX Push-Up 3, TRX Body Row 3, Cable Lateral Raise 3, Sissy Squat 3, Hip-Supported Dumbbell Deadlift 3, Standing Calf Raises 3, Hanging Knee Raise 3 |
+
+### Week-to-week shape
+
+The program runs 12 weeks falling into 3 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `65 100% 51%` |
-| `--accent` | `336 100% 61%` |
-| `--card` | `0 0% 8%` |
-| `--ring` | `65 100% 51%` |
-| `--signal-text` | `(none)` |
+| 1, 2, 3, 4 | Heavy Gravity · Ascent 19, Single-Leg Gravity · Ascent 20, Volume Gravity · Ascent 22, Control Gravity · Ascent 21 |
+| 5, 6, 7, 8 | Heavy Gravity · Escape Velocity 21, Single-Leg Gravity · Escape Velocity 20, Volume Gravity · Escape Velocity 22, Control Gravity · Escape Velocity 21 |
+| 9, 10, 11, 12 | Heavy Gravity · Orbit 19, Single-Leg Gravity · Orbit 20, Volume Gravity · Orbit 22, Control Gravity · Orbit 21 |
 
-Palette note: lime primary + magenta accent.
+---
 
-**Widgets:** `program_status`, `strength_chart`, `workout_history`.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| back | 20 | in band |
+| chest | 17 | in band |
+| glutes | 15 | in band |
+| quads | 14 | in band |
+| biceps | 13 | in band |
+| triceps | 13 | in band |
+| core | 9 | in band |
+| hamstrings | 7 | below the 10-set growth dose |
+| calves | 6 | in band |
+| shoulders | 5 | below the 10-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** |
-| Total-system-weight | library-typed weighted-bodyweight |
-| PL “dipy” | accepted gym loanword |
+| Push:pull (direct sets) | 1.06 |
+| Quad:hamstring | 2 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| “dipy” | Loanword | OK in gym PL; alt `pompki na poręczach` |
-| “bij liczbę serii” | Telegraphic | `popraw liczbę serii (mniej serii = lepiej)` |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **145** |
+| Axial | **15** |
+| Lower back | 39 |
+| Per-set systemic | 1.77 |
+| High-systemic sets (cost 3+) | 11 |
+| Compound share | 60% |
+| Shoulder / knee / elbow cost | 32 / 28 / 44 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.89 |
+| Mean stability demand (0-4) | 1.11 |
+| Stimulus per unit fatigue | 1.07 |
+| Failure-safe share of sets | 29% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 24 |
+| At 1 set | 0 |
+| At 2 sets | 3 |
+| At 3 sets | 14 |
+| At 4+ sets | 7 |
+| Mean sets per slot | 3.42 |
+| Distinct exercises | 19 |
+| Variety density (exercises per 10 sets) | 2.32 |
+| Largest single-exercise share | 8% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (7):**
+
+- Heavy Gravity · Ascent — Weighted Chin-Up, 5 sets *(session opener)*
+- Heavy Gravity · Ascent — Weighted Dip, 5 sets
+- Single-Leg Gravity · Ascent — Goblet Skater Squat, 4 sets *(session opener)*
+- Single-Leg Gravity · Ascent — Hip-Supported Dumbbell Deadlift, 4 sets
+- Volume Gravity · Ascent — Chin-Up, 6 sets *(session opener)*
+- Volume Gravity · Ascent — Dip, 6 sets
+- Volume Gravity · Ascent — Heel-Elevated Goblet Squat, 4 sets
+
+---
+
+## 6. Export block
+
+```yaml
+id: gravity-is-optional
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 12
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 82, days: 4, sets_per_session: 20.5, slots: 24 }
+load: { systemic: 145, axial: 15, lower_back: 39, per_set_systemic: 1.77 }
+volume: { back: 20, chest: 17, glutes: 15, quads: 14, biceps: 13, triceps: 13, core: 9, hamstrings: 7, calves: 6, shoulders: 5 }
+coverage: { covered: 10, missing: [], in_band: 8, over: [], under: ['shoulders', 'hamstrings'] }
+set_shape: { slots: 24, ones: 0, twos: 3, threes: 14, four_plus: 7, mean: 3.42 }
+variety: { distinct: 19, density: 2.32, top_share: 0.085, evenness: 0.978 }
+```

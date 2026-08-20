@@ -1,129 +1,162 @@
 # Monolith
 
-**Program ID:** `monolith` · **Source:** [src/data/plans/monolith.ts](../../src/data/plans/monolith.ts)
-**Duration:** 10 weeks · **Frequency:** 4 days/week upper/lower (Mon / Tue / Thu / Fri)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Machine-dominant hypertrophy volume with low systemic cost — not machine-exclusive. Sessions ~**19–21** working sets; at most one systemic anchor per day; bilateral + unilateral mix. Effort progresses before technique. Machine Press/Fly Combo has its own history and must never share a superset with Pec Deck (distant floor stations). Default tempo `20X0`. Rest: systemic **150 s**, else **90 s**.
-
-## Onboarding
-
-- **Stats:** none.
-- **Schedule:** 4 UL days. Fixed gym inventory — no per-run machine picker.
-- **Modules:** none.
-- **Access:** paid. Portfolio: beginner + intermediate; equipment machines / full-gym; fatigue 2.
-
-### EN (`onboarding.programs.monolith`)
-
-- **Name:** Monolith
-- **Description:** A 10-week machine-dominant upper/lower plan for accumulating volume you can recover from.
-- **Features:** 4 days, upper/lower · Machine-dominant, not machine-only · Effort first, technique later · Low systemic cost
-
-### PL (`onboarding.programs.monolith`)
-
-- **Name:** Monolith
-- **Description:** 10-tygodniowy plan góra/dół oparty na maszynach, do budowania objętości, z której da się zregenerować.
-- **Features:** 4 dni, góra/dół · Przewaga maszyn, ale nie tylko maszyny · Najpierw wysiłek, później techniki · Niski koszt systemowy
-
-## Weekly structure
-
-### Upper A — Mon (21 sets)
-
-| Exercise | Sets × Reps |
+| | |
 |---|---|
-| Hammer Chest Press | 4×6-10 primary |
-| Hammer Pulldown | 4×8-12 |
-| Machine Press/Fly Combo | 3×10-15 |
-| SA Hammer Row | 3×8-12 uni |
-| Lateral Raise | 3×12-15 |
-| Cable Tri Ext | 2×10-15 |
-| Hammer Curl | 2×8-12 |
+| **id** | `monolith` |
+| **Length** | 10 weeks |
+| **Frequency** | 3 days/week |
+| **Weekly sets** | 68 across 3 training days (week 1 sample) |
+| **Sets/session** | 22.7 |
+| **Goal** | hypertrophy |
+| **Experience** | beginner, intermediate |
+| **Equipment** | machines, full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 2/4 — moderate |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `drop-set` |
+| **Card promise** | *"A 10-week machine-dominant upper/lower plan for accumulating volume you can recover from."* |
 
-### Lower A — Tue (19 sets)
+---
 
-| Exercise | Sets × Reps |
+## 1. What this plan is
+
+**Signature mechanic.** Three machine-house days — Upper, Lower, Full — that keep systemic cost low: effort first, techniques much later.
+
+The onboarding card claims:
+
+- 4 days, upper/lower
+- Machine-dominant, not machine-only
+- Effort first, technique later
+- Low systemic cost
+
+**Prerequisites.** A gym with a reasonable machine inventory
+
+**Not for you if.**
+
+- You want to get better at barbell lifts
+
+**Follow-ups.** [event-horizon](event-horizon.md), [project-chimera](project-chimera.md), [cathedral](cathedral.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Upper · Placement | 8 | 24 | Hammer Chest Press 4, Hammer Pulldown (Underhand) 3, Single-Arm Hammer Strength Row 3, Seated Hammer Shoulder Press 3, Machine Press/Fly Combo 3, Cable Triceps Extension 3, Machine Curl 3, Cable Crunch 2 |
+| Lower · Placement | 6 | 18 | Leg Press 4, Leg Extensions 3, Lying Leg Curls 3, Single Leg Machine Hip Thrust 3, Standing Dumbbell/KB Calf Raise 3, Cable Crunch 2 |
+| Full (light) · Placement | 10 | 26 | Pec Deck 3, Hammer Pulldown (Underhand) 2, Machine Rear Delt Fly 3, Seated Hamstring Curl 3, Leg Extensions 2, Standing Dumbbell/KB Calf Raise 3, Machine Hip Abduction 3, Hip Adduction 3, Cable Triceps Extension 2, Machine Curl 2 |
+
+### Week-to-week shape
+
+The program runs 10 weeks falling into 4 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| Hack Squat | 4×6-10 systemic · primary |
-| Lying Leg Curl | 3×10-15 |
-| Leg Press | 3×10-15 |
-| SL Machine Hip Thrust | 3×10-15 uni |
-| Leg Extension | 3×12-15 |
-| Hack Calf | 3×12-20 |
+| 1, 2, 3 | Upper · Placement 24, Lower · Placement 18, Full (light) · Placement 26 |
+| 4, 5, 6 | Upper · Pressure 24, Lower · Pressure 18, Full (light) · Pressure 26 |
+| 7, 8, 9 | Upper · Weight of It 24, Lower · Weight of It 18, Full (light) · Weight of It 26 |
+| 10 | Upper · Settling 16, Lower · Settling 12, Full (light) · Settling 16 |
 
-### Upper B — Thu (20 sets)
+---
 
-| Exercise | Sets × Reps |
+## 3. Weekly volume by muscle group
+
+Direct sets, counted once per exercise per major group.
+
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 13 | in band |
+| chest | 10 | in band |
+| quads | 9 | below the 10-set growth dose |
+| back | 8 | below the 10-set growth dose |
+| shoulders | 6 | below the 10-set growth dose |
+| hamstrings | 6 | below the 10-set growth dose |
+| calves | 6 | in band |
+| biceps | 5 | below the 6-set growth dose |
+| triceps | 5 | below the 6-set growth dose |
+| core | 4 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Lat Pulldown | 4×8-12 primary |
-| Incline DB Bench | 3×6-10 |
-| SA Reverse Pec Deck | 3×12-15 uni |
-| Pec Deck | 3×12-15 |
-| Seated DB Press | 3×8-12 |
-| Rope Pressdown | 2×10-15 |
-| Cable Curl | 2×10-15 |
+| Push:pull (direct sets) | 1.62 |
+| Quad:hamstring | 1.5 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-### Lower B — Fri (19 sets)
+---
 
-| Exercise | Sets × Reps |
+## 4. Systemic and joint load
+
+| Metric | Value |
 |---|---|
-| Leg Press | 4×8-12 systemic · primary |
-| Seated Ham Curl | 3×10-15 |
-| FFE Bulgarian Split Squat | 3×8-12 uni |
-| Machine Hip Abduction | 3×12-20 |
-| Leg Extension | 3×12-20 |
-| Hack Calf | 3×12-20 |
+| Systemic (weekly) | **72** |
+| Axial | **8** |
+| Lower back | 0 |
+| Per-set systemic | 1.06 |
+| High-systemic sets (cost 3+) | 0 |
+| Compound share | 6% |
+| Shoulder / knee / elbow cost | 19 / 24 / 38 |
 
-**Distant pairs stripped at build:** `[machine-press-fly-combo, pec-deck]`, `[hack-squat, lat-prayer]`.
-
-## Phases & week-to-week progression
-
-| Phase | Weeks | Change |
-|---|---|---|
-| Placement | 1–3 | Base |
-| Pressure | 4–6 | Non-systemic → **RPE 9** |
-| Weight of It | 7–9 | `TECHNIQUE_SAFE` machines → RPE 9 + **drop-set** 1× **−20%** on last set |
-| Settling | 10 | −1 set / slot |
-
-**TECHNIQUE_SAFE:** leg-extension, lying/seated ham curl, pec-deck, hip abduction, hammer chest/pulldown, SA reverse pec deck, press/fly combo, hack calf.
-
-Double progression +2.5 kg throughout.
-
-## Techniques, supersets, finishers
-
-- Drop-sets weeks 7–9 on safe machines only (`drops: 1`, `dropPercent: 20`, `applyTo: 'last'`).
-- No authored supersets; distant pair labels stripped if introduced.
-- No finishers.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| Stimulus quality | Value |
 |---|---|
-| `themeClass` | `theme-monolith` |
-| `i18nKey` | `monolith` |
-| `logo` | `/monolith.png` |
-| `coverBg` | `bg-[#080a0b]` |
-| `order` | 32 |
+| Mean lengthened bias (0-4) | 1.74 |
+| Mean stability demand (0-4) | 0.4 |
+| Stimulus per unit fatigue | 1.64 |
+| Failure-safe share of sets | 79% |
 
-**CSS:** `--background: 210 10% 5%`; `--primary: 40 40% 78%`; `--accent: 40 24% 20%`; `--signal-text: 40 52% 82%`.
+---
 
-**Widgets:** `program_status`, `workout_history`.
+## 5. Set shape
 
-## Implementation completion analysis
+| | |
+|---|---:|
+| Slots | 24 |
+| At 1 set | 0 |
+| At 2 sets | 6 |
+| At 3 sets | 16 |
+| At 4+ sets | 2 |
+| Mean sets per slot | 2.83 |
+| Distinct exercises | 18 |
+| Variety density (exercises per 10 sets) | 2.65 |
+| Largest single-exercise share | 9% |
 
-| Area | Status |
-|---|---|
-| Plan generator | **complete** (logic in-plan; no separate feature folder) |
-| Progression | **phase transforms complete**; generic double |
-| Dashboard | shared widgets only |
-| Onboarding | complete for card |
-| EN / PL | complete; PL description slightly heavy |
-| Tips | none |
-| Verify | `npm run verify:monolith` |
+### Flagged slots
 
-## Translation notes
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| `…do budowania objętości, z której da się zregenerować` | Awkward relative clause | `…żeby budować objętość, z której da się zregenerować` |
-| Features | Accurate match to effort→technique order | Keep |
+**Four or more sets (2):**
+
+- Upper · Placement — Hammer Chest Press, 4 sets *(session opener)*
+- Lower · Placement — Leg Press, 4 sets *(session opener)*
+
+---
+
+## 6. Export block
+
+```yaml
+id: monolith
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 10
+frequency: [3]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 68, days: 3, sets_per_session: 22.7, slots: 24 }
+load: { systemic: 72, axial: 8, lower_back: 0, per_set_systemic: 1.06 }
+volume: { glutes: 13, chest: 10, quads: 9, back: 8, shoulders: 6, hamstrings: 6, calves: 6, biceps: 5, triceps: 5, core: 4 }
+coverage: { covered: 10, missing: [], in_band: 3, over: [], under: ['shoulders', 'back', 'biceps', 'triceps', 'quads', 'hamstrings', 'core'] }
+set_shape: { slots: 24, ones: 0, twos: 6, threes: 16, four_plus: 2, mean: 2.83 }
+variety: { distinct: 18, density: 2.65, top_share: 0.088, evenness: 0.989 }
+```

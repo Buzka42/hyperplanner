@@ -1,138 +1,154 @@
 # Lazarus
 
-**Program ID:** `lazarus` · **Source:** [src/data/plans/lazarus.ts](../../src/data/plans/lazarus.ts) · **Engine:** [src/features/lazarus/memoryCurve.ts](../../src/features/lazarus/memoryCurve.ts)
-**Duration:** 8 weeks · **Frequency:** 3 full-body days/week (Mon / Wed / Fri)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Return plan for a previously trained athlete after **≥3 months** away. Movements are ordinary; the Memory Curve drives opening loads from the last *stable* pre-break performance (never the lifetime best), discounted for time off. Weeks 1–2 hard-cap volume at **≤2 sets per slot** in the tree *and* in `preprocessDay`. Default tempo `20X0`. Rest: systemic **150 s**, else **90 s**.
-
-## Onboarding
-
-- **Intended status fields:** `breakMonths`, prior experience / memory points, injury-caused-break flag (`lazarusStatus`) — types + `calculateWeight` / guidance exist.
-- **Stats:** Memory Curve points per exercise (`lifetimeBestKg`, `preBreakKg`, source `profile` | `self-reported`).
-- **Schedule:** 3 fixed FB days.
-- **Modules:** none.
-- **Access:** paid. Portfolio: intermediate + advanced; prerequisites previous structured training + ≥3 months away; not for active injury limits.
-
-Dedicated Onboarding.tsx fields for break duration / injury are **not** wired as a plan-specific step (status must be populated elsewhere or manually).
-
-### EN (`onboarding.programs.lazarus`)
-
-- **Name:** Lazarus
-- **Description:** An 8-week return plan for trained athletes coming back after three months or more away.
-- **Features:** 3 full-body days · Memory Curve against your old bests · Hard caps in weeks 1–2 · Accelerates once you prove it
-
-### PL (`onboarding.programs.lazarus`)
-
-- **Name:** Lazarus
-- **Description:** 8-tygodniowy powrót dla trenujących wcześniej po co najmniej trzech miesiącach przerwy.
-- **Features:** 3 dni całego ciała · Krzywa Pamięci względem dawnych rekordów · Twarde limity w tygodniach 1–2 · Przyspiesza, gdy to udowodnisz
-
-## Weekly structure
-
-### Return I — Mon
-
-| Exercise | Sets × Reps |
+| | |
 |---|---|
-| Hack Squat | 3×8-12 (systemic) |
-| Incline DB Bench | 3×8-12 |
-| SA Hammer Row | 3×8-12 uni |
-| Seated Ham Curl | 2×10-15 |
-| Lateral Raise | 2×12-15 |
-| Cable Tri Ext | 1×8-15 |
-| Hack Calf | 1×12-20 |
-| Ab Wheel | 1×8-12 |
+| **id** | `lazarus` |
+| **Length** | 8 weeks |
+| **Frequency** | 3 days/week |
+| **Weekly sets** | 56 across 3 training days (week 3 sample) |
+| **Sets/session** | 18.7 |
+| **Goal** | return, general |
+| **Experience** | intermediate, advanced |
+| **Equipment** | full-gym |
+| **Adaptability** | responsive |
+| **Fatigue cost** | 2/4 — moderate |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `last-set-failure` |
+| **Card promise** | *"An 8-week return plan for trained athletes coming back after three months or more away."* |
 
-### Return II — Wed
+---
 
-| Exercise | Sets × Reps |
+## 1. What this plan is
+
+**Signature mechanic.** The Memory Curve: loads open from your last stable pre-break performance, not your best ever.
+
+The onboarding card claims:
+
+- 3 full-body days
+- Memory Curve against your old bests
+- Hard caps in weeks 1–2
+- Accelerates once you prove it
+
+**Prerequisites.** Previous structured training; At least three months away
+
+**Not for you if.**
+
+- You never stopped training
+- You are returning from an injury that still limits you
+
+**Follow-ups.** [athena](athena.md), [pencilneck-eradication](pencilneck-eradication.md), [project-chimera](project-chimera.md)
+
+---
+
+## 2. The training week
+
+> **Measurement note.** sampled week 3 (week 1 is off-median at 46 sets)
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Return I · Remembering | 8 | 19 | Heel-Elevated Goblet Squat 3, 30° Smith Incline Bench Press 3, Single-Arm Hammer Strength Row 3, Seated Hamstring Curl 2, Cable Lateral Raise 2, Overhead Tricep Extensions 2, Hack Squat Calf Raises 2, Cable Crunch 2 |
+| Return II · Remembering | 7 | 17 | Hip-Supported Dumbbell Deadlift 3, Overhand Mid-Grip Pulldown 3, Dip 3, Reverse Nordic Curls 2, Machine Rear Delt Fly 2, Hack Squat Calf Raises 2, Machine Curl 2 |
+| Return III · Remembering | 8 | 20 | Leg Press 3, Seated Hammer Shoulder Press 3, Hammer Pulldown (Underhand) 3, Machine Press/Fly Combo 3, Lying Leg Curls 2, Machine Curl 2, Cable Triceps Extension 2, Planks 2 |
+
+### Week-to-week shape
+
+The program runs 8 weeks falling into 3 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| RDL | 3×8-12 (systemic) |
-| Lat Pulldown | 3×8-12 |
-| Hammer Chest Press | 3×8-12 |
-| Leg Extension | 2×10-15 |
-| SA Reverse Pec Deck | 2×12-15 uni |
-| Hack Calf | 2×12-20 |
-| Hammer Curl | 1×8-12 |
+| 1, 2 | Return I · Waking 16, Return II · Waking 14, Return III · Waking 16 |
+| 3, 4, 5 | Return I · Remembering 19, Return II · Remembering 17, Return III · Remembering 20 |
+| 6, 7, 8 | Return I · Returned 19, Return II · Returned 17, Return III · Returned 20 |
 
-### Return III — Fri
+---
 
-| Exercise | Sets × Reps |
+## 3. Weekly volume by muscle group
+
+Direct sets, counted once per exercise per major group.
+
+| Group | Sets | Read |
+|---|---:|---|
+| shoulders | 10 | in band |
+| chest | 9 | below the 10-set growth dose |
+| back | 9 | below the 10-set growth dose |
+| glutes | 9 | below the 10-set growth dose |
+| quads | 8 | below the 10-set growth dose |
+| triceps | 7 | in band |
+| hamstrings | 7 | below the 10-set growth dose |
+| biceps | 4 | below the 6-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+| core | 4 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Leg Press | 3×10-15 (systemic) |
-| Seated DB Press | 3×8-12 |
-| Hammer Pulldown | 3×8-12 |
-| Lying Leg Curl | 2×10-15 |
-| Hammer Curl | 1×8-12 |
-| Cable Tri Ext | 1×8-15 |
+| Push:pull (direct sets) | 2 |
+| Quad:hamstring | 1.14 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-Weeks 1–2: every slot capped to **min(authored, 2)** sets, **RPE 7**.
+---
 
-## Phases & week-to-week progression
+## 4. Systemic and joint load
 
-| Phase | Weeks | Change |
-|---|---|---|
-| Waking | 1–2 | Cap ≤2 sets, RPE 7 |
-| Remembering | 3–5 | Full authored sets |
-| Returned | 6–8 | Systemic compounds → reps **6-10** |
-
-### Memory Curve (`detrainingFactor` / `openingLoad`)
-
-| Break length | % of pre-break stable load |
+| Metric | Value |
 |---|---|
-| &lt; 3 months | 90% |
-| &lt; 6 months | 80% |
-| &lt; 12 months | 70% |
-| ≥ 12 months | 60% (flat — no further extrapolation) |
+| Systemic (weekly) | **77** |
+| Axial | **15** |
+| Lower back | 9 |
+| Per-set systemic | 1.38 |
+| High-systemic sets (cost 3+) | 6 |
+| Compound share | 27% |
+| Shoulder / knee / elbow cost | 19 / 22 / 34 |
 
-- Exact / close variation → prescribe discounted kg (rounded to 2.5).
-- Same-pattern / same-muscle / expired → further ×0.85 + calibration required.
-- Self-reported source → requires calibration.
-- No usable memory → first working set is calibration.
-
-### Acceleration (`shouldAccelerate`)
-
-From week 3: **≥2** underestimated sessions in a rolling window (`week - 3` … current) → accelerate (notes reason). One session is noise. Weeks 1–2 never accelerate.
-
-### Injury guidance (`injuryReturnGuidance`)
-
-Not rehab. Points to trainer/physio. If break ≥12 months, suggests **Apex Predator**.
-
-## Techniques, supersets, finishers
-
-None.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| Stimulus quality | Value |
 |---|---|
-| `themeClass` | `theme-lazarus` |
-| `i18nKey` | `lazarus` |
-| `logo` | `/lazarus.png` |
-| `coverBg` | `bg-[#080b0d]` |
-| `order` | 28 |
+| Mean lengthened bias (0-4) | 2.02 |
+| Mean stability demand (0-4) | 0.7 |
+| Stimulus per unit fatigue | 1.47 |
+| Failure-safe share of sets | 54% |
 
-**CSS tokens** (`.theme-lazarus`): `--background: 200 14% 5%`; `--primary: 36 44% 67%`; `--accent: 36 28% 20%`; `--signal-text: 36 56% 76%`.
+---
 
-**Widgets:** `program_status`, `workout_history`. No Memory Curve chart UI.
+## 5. Set shape
 
-## Implementation completion analysis
+| | |
+|---|---:|
+| Slots | 23 |
+| At 1 set | 0 |
+| At 2 sets | 13 |
+| At 3 sets | 10 |
+| At 4+ sets | 0 |
+| Mean sets per slot | 2.43 |
+| Distinct exercises | 21 |
+| Variety density (exercises per 10 sets) | 3.75 |
+| Largest single-exercise share | 7% |
 
-| Area | Status |
-|---|---|
-| Plan generator | **complete** |
-| Progression / Memory Curve | **engine + calculateWeight complete** |
-| Dashboard | **missing** specialty Memory Curve view |
-| Onboarding UI | **incomplete** — status fields typed, no dedicated break/injury step in Onboarding.tsx |
-| EN / PL | EN complete; PL description slightly awkward |
-| Tips | none |
-| Verify | `npm run verify:lazarus` |
+No slot sits at one set and none carries more than three. Nothing to flag.
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| `…dla trenujących wcześniej po co najmniej trzech miesiącach przerwy` | Clunky word order | `…dla osób wracających po co najmniej trzech miesiącach przerwy` |
-| `Krzywa Pamięci` | Good calque | Keep |
-| `Twarde limity` | Clear | Keep |
+## 6. Export block
+
+```yaml
+id: lazarus
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 8
+frequency: [3]
+engine: calendar
+sampled_week: 3
+weekly: { sets: 56, days: 3, sets_per_session: 18.7, slots: 23 }
+load: { systemic: 77, axial: 15, lower_back: 9, per_set_systemic: 1.38 }
+volume: { shoulders: 10, chest: 9, back: 9, glutes: 9, quads: 8, triceps: 7, hamstrings: 7, biceps: 4, calves: 4, core: 4 }
+coverage: { covered: 10, missing: [], in_band: 2, over: [], under: ['chest', 'back', 'biceps', 'quads', 'hamstrings', 'glutes', 'calves', 'core'] }
+set_shape: { slots: 23, ones: 0, twos: 13, threes: 10, four_plus: 0, mean: 2.43 }
+variety: { distinct: 21, density: 3.75, top_share: 0.071, evenness: 0.991 }
+```

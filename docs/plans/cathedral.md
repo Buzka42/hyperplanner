@@ -1,128 +1,163 @@
 # Cathedral
 
-**Program ID:** `cathedral` · **Source:** [src/data/plans/cathedral.ts](../../src/data/plans/cathedral.ts) · **Arches:** [src/features/cathedral/arches.ts](../../src/features/cathedral/arches.ts)
-**Duration:** 10 weeks · **Frequency:** 4 days/week — chest **3×** (Press / Stretch / Adduction lead) + 1 lower day
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Chest specialisation on the **Three Arches**. No barbell bench anywhere; Smith incline is the approved bar alternative. Arch balance is a ratio (no arch &lt; half of the largest). Machine Press/Fly Combo is opt-in with its own history and assigned arch. Default tempo `20X0`. Systemic rest **150 s**, else **90 s**.
-
-## Onboarding
-
-- **Stats:** none required.
-- **Preferences:** `useComboMachine`, `comboMachineRole` (press | adduction), `acceptedArchShift`.
-- **Schedule:** Mon Nave, Tue Crypt, Thu Transept, Fri Spire.
-- **Access:** paid. Portfolio: intermediate; needs dips + cables; not for competition bench focus.
-
-### EN (`onboarding.programs.cathedral`)
-
-- **Name:** Cathedral
-- **Description:** A 10-week chest specialisation built on three arches: press, stretch and adduction.
-- **Features:** Chest 3× weekly · Incline dumbbell press as the heavy arch · Dips and flyes for stretch · No barbell bench
-
-### PL (`onboarding.programs.cathedral`)
-
-- **Name:** Cathedral
-- **Description:** 10-tygodniowa specjalizacja na klatkę oparta na trzech łukach: wyciskanie, rozciągnięcie, addukcja.
-- **Features:** Klatka 3× w tygodniu · Wyciskanie hantli na skosie jako ciężki łuk · Dipy i rozpiętki na rozciągnięcie · Bez wyciskania sztangi leżąc
-
-## Weekly structure
-
-### Nave — Press (Mon)
-
-| Exercise | Sets × Reps | Arch |
-|---|---|---|
-| Incline DB Bench | 4×6-10 | press · primary · systemic |
-| Dip | 3×8-12 | stretch |
-| Pec Deck | 3×12-15 | adduction |
-| SA Hammer Row | 3×8-12 | |
-| Lateral Raise | 2×12-15 | |
-| Cable Tri Ext | 1×10-15 | |
-
-### Crypt — Lower (Tue)
-
-| Exercise | Sets × Reps |
+| | |
 |---|---|
-| Hack Squat | 3×6-10 systemic |
-| RDL | 3×8-12 |
-| Seated Ham Curl | 3×10-15 |
-| Leg Extension | 2×12-15 |
-| Hack Calf | 2×12-20 |
-| Ab Wheel | 1×8-12 |
+| **id** | `cathedral` |
+| **Length** | 10 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 68 across 4 training days (week 1 sample) |
+| **Sets/session** | 17 |
+| **Goal** | specialisation, hypertrophy |
+| **Experience** | intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | responsive |
+| **Fatigue cost** | 3/4 — high |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `drop-set`, `last-set-failure`, `myo-reps`, `partials` |
+| **Card promise** | *"A 10-week chest specialisation built on three arches: press, stretch and adduction."* |
 
-### Transept — Stretch (Thu)
+---
 
-| Exercise | Sets × Reps | Arch |
-|---|---|---|
-| Cable Fly | 3×10-15 | stretch |
-| 30° Smith Incline | 3×8-12 | press |
-| Cable Crossover | 3×12-20 | adduction |
-| Hammer Pulldown | 3×8-12 | |
-| SA Reverse Pec Deck | 2×12-15 | |
-| Hammer Curl | 2×8-12 | |
+## 1. What this plan is
 
-### Spire — Adduction (Fri)
+**Signature mechanic.** Three balanced arches — press, stretch and adduction — and no barbell bench anywhere.
 
-| Exercise | Sets × Reps | Arch |
-|---|---|---|
-| Pec Deck | 3×12-20 | adduction |
-| Flat DB Press | 3×8-12 | press |
-| Dip | 2×8-12 | stretch |
-| Lat Pulldown | 3×8-12 | |
-| Seated DB Press | 2×8-12 | |
-| Hack Calf | 2×12-20 | |
-| Cable Tri Ext | 1×10-15 | |
-| Hammer Curl | 1×10-15 | |
+The onboarding card claims:
 
-## Phases & week-to-week progression
+- Chest 3× weekly
+- Incline dumbbell press as the heavy arch
+- Dips and flyes for stretch
+- No barbell bench
 
-| Phase | Weeks | Change |
-|---|---|---|
-| Foundation | 1–3 | Base |
-| Vaulting | 4–7 | Adduction slots → **myo-reps** (3 mini × 4-5, 5 breaths) |
-| Consecration | 8–9 | Press-arch reps → **5-8** |
-| Rest of the Stone | 10 | −1 set / slot |
+**Prerequisites.** Access to dips and cable stations
 
-### Limiting fatigue
+**Not for you if.**
 
-If something other than pecs limits pressing **twice within three weeks**, plan offers to move **2 press sets → adduction** (sets moved, not deleted). Applied only when `acceptedArchShift === 'yes'`.
+- You want to train the competition bench press
 
-## Techniques, supersets, finishers
+**Follow-ups.** [bench-domination](bench-domination.md), [monolith](monolith.md), [arms-race](arms-race.md)
 
-- Myo-reps on adduction weeks 4–7.
-- No supersets / finishers.
-- Combo machine substitutes into assigned arch only when opted in.
+---
 
-## Dashboard & UI theme
+## 2. The training week
 
-| Meta | Value |
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Nave — Press · Foundation | 7 | 18 | Incline DB Bench Press 4, Dip 3, Low-to-High Cable Flyes 2, Pec Deck 2, Single-Arm Hammer Strength Row 3, Lying Cable Lat Raises 2, French Press 2 |
+| Crypt — Lower · Foundation | 6 | 15 | Leg Press 3, Romanian Deadlift 3, Seated Hamstring Curl 3, Supported Sissy Squat 2, Hack Squat Calf Raises 2, Cable Crunch 2 |
+| Transept — Stretch · Foundation | 6 | 15 | Mid Cable Flyes (Seated) 2, 30° Smith Incline Bench Press 4, Cable Crossover 2, Hammer Pulldown (Underhand) 3, Side-Lying Rear Delt Flyes 2, EZ Preacher Curl 2 |
+| Spire — Adduction · Foundation | 9 | 20 | Pec Deck 2, Flat DB Press 3, Dip 2, Cable Flyes (mid height) 2, Lat Pulldown (Neutral) 3, Seated Hammer Shoulder Press 2, Hack Squat Calf Raises 2, Cable Triceps Extension 2, EZ Preacher Curl 2 |
+
+### Week-to-week shape
+
+The program runs 10 weeks falling into 4 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `themeClass` | `theme-cathedral` |
-| `i18nKey` | `cathedral` |
-| `logo` | `/cathedral.png` |
-| `coverBg` | `bg-[#0a0810]` |
-| `order` | 30 |
+| 1, 2, 3 | Nave — Press · Foundation 18, Crypt — Lower · Foundation 15, Transept — Stretch · Foundation 15, Spire — Adduction · Foundation 20 |
+| 4, 5, 6, 7 | Nave — Press · Vaulting 18, Crypt — Lower · Vaulting 15, Transept — Stretch · Vaulting 15, Spire — Adduction · Vaulting 20 |
+| 8, 9 | Nave — Press · Consecration 18, Crypt — Lower · Consecration 15, Transept — Stretch · Consecration 15, Spire — Adduction · Consecration 20 |
+| 10 | Nave — Press · Rest of the Stone 11, Crypt — Lower · Rest of the Stone 9, Transept — Stretch · Rest of the Stone 9, Spire — Adduction · Rest of the Stone 11 |
 
-**CSS:** `--background: 264 22% 5%`; `--primary: 40 48% 71%`; `--accent: 40 30% 21%`; `--signal-text: 40 62% 78%`.
+---
 
-**Widgets:** `program_status`, `workout_history`. Chest-profile / arch dashboard **not** implemented as specialty UI.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| chest | 28 | above the 20-set ceiling |
+| shoulders | 14 | in band |
+| back | 9 | below the 10-set growth dose |
+| triceps | 9 | in band |
+| hamstrings | 6 | below the 10-set growth dose |
+| glutes | 6 | below the 10-set growth dose |
+| quads | 5 | below the 10-set growth dose |
+| biceps | 4 | below the 6-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+| core | 2 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** |
-| Arch / fatigue / combo preprocess | **complete** |
-| Dashboard | **missing** arch profile UI |
-| Onboarding | **partial** — preferences in preprocess; limited dedicated steps |
-| EN / PL | **complete** |
-| Tips | none |
-| Verify | `npm run verify:cathedral` |
+| Push:pull (direct sets) | 3.92 |
+| Quad:hamstring | 0.83 |
+| Groups covered (4+ sets) | 9 of 10 |
+| Groups trained on two or more days | 6 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| `addukcja` | Latinate gym jargon | Keep for consistency, or `przywodzenie` for lay clarity |
-| `Dipy i rozpiętki` | Natural | Keep |
-| `Bez wyciskania sztangi leżąc` | Accurate vs code | Keep |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **91** |
+| Axial | **15** |
+| Lower back | 9 |
+| Per-set systemic | 1.34 |
+| High-systemic sets (cost 3+) | 3 |
+| Compound share | 32% |
+| Shoulder / knee / elbow cost | 36 / 15 / 52 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 2.16 |
+| Mean stability demand (0-4) | 0.9 |
+| Stimulus per unit fatigue | 1.62 |
+| Failure-safe share of sets | 48% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 28 |
+| At 1 set | 0 |
+| At 2 sets | 18 |
+| At 3 sets | 8 |
+| At 4+ sets | 2 |
+| Mean sets per slot | 2.43 |
+| Distinct exercises | 24 |
+| Variety density (exercises per 10 sets) | 3.53 |
+| Largest single-exercise share | 7% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (2):**
+
+- Nave — Press · Foundation — Incline DB Bench Press, 4 sets *(session opener)*
+- Transept — Stretch · Foundation — 30° Smith Incline Bench Press, 4 sets
+
+---
+
+## 6. Export block
+
+```yaml
+id: cathedral
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 10
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 68, days: 4, sets_per_session: 17, slots: 28 }
+load: { systemic: 91, axial: 15, lower_back: 9, per_set_systemic: 1.34 }
+volume: { chest: 28, shoulders: 14, back: 9, triceps: 9, hamstrings: 6, glutes: 6, quads: 5, biceps: 4, calves: 4, core: 2 }
+coverage: { covered: 9, missing: [], in_band: 2, over: ['chest'], under: ['back', 'biceps', 'quads', 'hamstrings', 'glutes', 'calves', 'core'] }
+set_shape: { slots: 28, ones: 0, twos: 18, threes: 8, four_plus: 2, mean: 2.43 }
+variety: { distinct: 24, density: 3.53, top_share: 0.074, evenness: 0.985 }
+```

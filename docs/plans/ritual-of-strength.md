@@ -1,124 +1,168 @@
 # Ritual of Strength
 
-**Program ID:** `ritual-of-strength` · **Source:** [src/data/ritual.ts](../../src/data/ritual.ts) · **Progression:** [src/features/workout/progression/ritual.ts](../../src/features/workout/progression/ritual.ts)
-**Duration:** 16 weeks (4-week ramp-in + 12-week main phase; purge weeks insert into the calendar) · **Frequency:** 3 days/week (Mon / Wed / Fri pattern)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Cult-themed powerlifting frequency program: every session touches all three lifts — one at max effort, the other two light — plus user-chosen accessories. Optional ramp-in for first-timers.
-
-## Onboarding
-
-- **First-program question:** `isFirstProgram` true → weeks 1–4 ramp-in; false → `preprocessDay` jumps to week-5 content.
-- **Stats / 1RMs:** ritual bench, squat, deadlift 1RMs → `ritualStatus`.
-- **Schedule:** 3 days/week ideal Mon/Wed/Fri.
-- **Modules:** up to 3 **user-selected accessories** per day type in Settings → Ritual Accessories (`ritualStatus.ritualAccessories`).
-- **Access:** paid (not `alwaysFree`).
-
-### EN (`onboarding.programs.ritualOfStrength`)
-
-- **Name:** Ritual of Strength
-- **Description:** 3 day/week minimum effective dose powerlifting program.
-- **Features:** Focus: Bench / Deadlift / Squat · 3 Days / Week (Mon/Wed/Fri ideal) · 16 Week Program (with optional 4-week ramp-in) · ME singles + RPE based progression
-
-### PL (`onboarding.programs.ritualOfStrength`)
-
-- **Name:** Rytuał Siły
-- **Description:** 3 dni/tydzień **prograu** trójboju siłowego z minimalną efektywną dawką. ← **typo**
-- **Features:** Cel: Wycisk / Martwy / Przysiad · 3 dni/tydzień (Pon/Śr/Pt idealnie) · 16 tyg. (z opcjonalną 4-tyg. rozgrzewką) · ME single + progresja na podstawie oceny RPE
-
-## Weekly structure
-
-### Phase 1: Ramp-In (Weeks 1–4, first-timers)
-
-Each week: Day 1 bench focus, Day 2 squat focus, Day 3 deadlift focus, each with 2 accessories (rows/face pulls, ham curls/leg extensions, farmer holds/ab wheel).
-
-| Week | Prescription |
+| | |
 |---|---|
-| 1 | 3×9 @ **70%** of 1RM |
-| 2 | 3×6 @ **80%** |
-| 3 | 3×3 @ **90%** |
-| 4 | **Ascension Test** — 1 AMRAP @ **85%** + 3×5 back-down @ 80% of AMRAP weight (= 68% of 1RM). Epley replaces stored 1RM |
+| **id** | `ritual-of-strength` |
+| **Length** | 19 weeks |
+| **Frequency** | 3/4 days/week |
+| **Weekly sets** | 42 across 3 training days (week 5 sample) |
+| **Sets/session** | 14 |
+| **Goal** | strength |
+| **Experience** | intermediate, advanced |
+| **Equipment** | barbell, full-gym |
+| **Adaptability** | responsive |
+| **Fatigue cost** | 4/4 — very high |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `preprocessDay`, `calculateWeight`, `getExerciseAdvice` |
+| **Card promise** | *"3 day/week minimum effective dose powerlifting program."* |
 
-### Phase 2: Main Phase (Weeks 5–16)
+---
 
-Every session (rotating which lift is ME):
+## 1. What this plan is
 
-- **ME lift:** 1 heavy single @ ~**95%** of current 1RM (+ accumulated ME progression)
-- **Other two lifts (Light):** 3×5 @ **70%** — velocity work
-- Day 3 adds Farmer Holds 3×20-30 s
-- Up to 3 accessories per day type at 3×10-12 (bench: rows/rear delts/tricep ext/face pulls; squat: ham curls/leg ext/hip thrusts/calves; deadlift: shrugs/pull-aparts/ab wheel/planks)
+**Signature mechanic.** High-frequency powerlifting: the competition lifts most days, autoregulated by feel.
 
-**Ascension Tests** every 4 weeks (8, 12, 16): AMRAP @ 85% + back-downs, Epley 1RM update. Day names for weeks 8/16 are normal Bench/Squat/Deadlift (not “Purge Day”).
+The onboarding card claims:
 
-Purge/deload weeks insert as schedule weeks **9, 14, and 19**, with underlying training-week mapping preserved.
+- Focus: Bench / Deadlift / Squat
+- 3 Days / Week (Mon/Wed/Fri ideal)
+- 16 Week Program (with optional 4-week ramp-in)
+- ME singles + RPE based progression
 
-## Phases & week-to-week progression
+**Prerequisites.** Solid technique under fatigue; Time for three sessions a week — four if you add the optional day
 
-Applied in `ritualProgression` / save path:
+**Not for you if.**
 
-- **Ascension Test 1RM update:** gated by exercise name containing “Ascension Test” (weeks 4/8/12/16). Also **resets that lift’s ME checkbox bonus to 0**.
-- **ME singles auto-PR:** successful single heavier than stored 1RM (floored 2.5) overwrites it.
-- **Checkbox progression:** “RPE ≤9 with perfect form?” → **+2.5 kg** next ME; “exceptionally easy” upgrades to **+5 kg**. Per-lift: `benchMEProgression / squatMEProgression / deadliftMEProgression` added on top of 95%.
-- **Velocity check on Light work:** slow bar speed persists per-lift reduction → next light **65%** instead of 70%; successful work clears it.
+- You train two days a week
+- You need long recovery between heavy sessions
 
-### State
+**Follow-ups.** [trinary](trinary.md), [blackout](blackout.md), [oracle](oracle.md)
 
-`ritualStatus`: three 1RMs, `currentWeek`, `completedWorkouts`, `isFirstProgram`/`rampInComplete`, weak points, accessory picks, ME progressions, `lastAscensionWeek`, `lastDeloadWeek`.
+---
 
-### Badges
+## 2. The training week
 
-Initiate of Iron · Disciple of Pain · Acolyte of Strength · High Priest of Power · Eternal Worshipper.
+> **Measurement note.** sampled week 5 (week 1 is off-median at 26 sets)
 
-## Techniques, supersets, finishers
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Day 1 - Bench ME | 3 | 7 | Paused Bench Press (ME) 1, Low Bar Squat (Light) 3, Conventional Deadlift (Light) 3 |
+| Day 2 - Squat ME | 4 | 10 | Conventional Deadlift (ME) 1, Paused Bench Press (Light) 3, Low Bar Squat (Light) 3, Farmer Holds 3 |
+| Day 3 - Deadlift ME | 9 | 25 | Conventional Deadlift (ME) 1, Paused Bench Press (Light) 3, Low Bar Squat (Light) 3, Farmer Holds 3, Shrugs 3, Band Pull-Aparts 3, Ab Wheel 3, Planks 3, Cable Crunch 3 |
 
-- ME singles + light velocity work triad.
-- Farmer Holds timed holds on Day 3.
-- Ascension AMRAP + back-downs.
-- No supersets in the core template; accessories are straight sets.
+### Week-to-week shape
 
-## Dashboard & UI theme
+The program runs 19 weeks falling into 5 distinct set-count shapes:
 
-| Meta | Value |
+| Weeks | Sets per training day |
 |---|---|
-| `themeClass` | `theme-ritual` |
-| `i18nKey` | `ritualOfStrength` |
-| `logo` | `/ritual.png` |
-| `coverBg` / gradient | `bg-black` / `from-black/90` |
-| `order` | 7 |
-| `alwaysFree` | no |
+| 1, 2, 3 | Day 1 - Bench (Ramp-In) 9, Day 2 - Squat (Ramp-In) 9, Day 3 - Deadlift (Ramp-In) 9 |
+| 4 | Day 1 - Bench (Ramp-In) 10, Day 2 - Squat (Ramp-In) 10, Day 3 - Deadlift (Ramp-In) 10 |
+| 5, 6, 7, 10, 11, 12, 15, 16, 17 | Day 1 - Bench ME 7, Day 2 - Squat ME 7, Day 3 - Deadlift ME 10 |
+| 8, 13, 18 | Day 1 - Bench ME 10, Day 2 - Squat ME 10, Day 3 - Deadlift ME 13 |
+| 9, 14, 19 | Purge Week - Day 1 7, Purge Week - Day 2 7, Purge Week - Day 3 7 |
 
-**CSS tokens** (`.theme-ritual` — candlelit black, deep red):
+---
 
-| Token | HSL |
+## 3. Weekly volume by muscle group
+
+Direct sets, counted once per exercise per major group.
+
+| Group | Sets | Read |
+|---|---:|---|
+| back | 14 | in band |
+| glutes | 14 | in band |
+| quads | 9 | below the 10-set growth dose |
+| core | 9 | in band |
+| chest | 7 | below the 10-set growth dose |
+| biceps | 6 | in band |
+| hamstrings | 5 | below the 10-set growth dose |
+| shoulders | 3 | below the 10-set growth dose |
+| triceps | 0 | no direct sets |
+| calves | 0 | no direct sets |
+
+**Untrained groups:** `triceps`, `calves`.
+
+| Balance | Value |
 |---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `0 80% 42%` |
-| `--accent` | `20 70% 45%` |
-| `--card` | `0 8% 8%` |
-| `--ring` | `0 80% 42%` |
-| `--signal-text` | global fallback |
+| Push:pull (direct sets) | 0.5 |
+| Quad:hamstring | 1.8 |
+| Groups covered (4+ sets) | 7 of 10 |
+| Groups trained on two or more days | 6 |
 
-**Widgets:** `strength_altar`, `program_status`, `workout_history`. **Strength Altar** — three candles for bench/squat/deadlift 1RMs. Tagline via `tips.ritualDashboardTagline`.
+---
 
-## Implementation completion analysis
+## 4. Systemic and joint load
 
-| Area | Status |
+| Metric | Value |
 |---|---|
-| Plan generator | **complete** — `RITUAL_CONFIG` |
-| Progression hooks | **complete** — `ritualProgression` |
-| Dashboard | **complete** — Strength Altar |
-| Onboarding wiring | **complete** — first-program gate + 1RMs + accessories |
-| EN translations | **complete** |
-| PL translations | **typo** in description (`prograu`); otherwise natural |
-| Exercise library / tips | **complete** |
-| Verify script | **shared** — `verify:progression` |
+| Systemic (weekly) | **95** |
+| Axial | **60** |
+| Lower back | 57 |
+| Per-set systemic | 2.26 |
+| High-systemic sets (cost 3+) | 20 |
+| Compound share | 71% |
+| Shoulder / knee / elbow cost | 10 / 18 / 7 |
 
-## Translation notes
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.52 |
+| Mean stability demand (0-4) | 2 |
+| Stimulus per unit fatigue | 0.67 |
+| Failure-safe share of sets | 7% |
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| `3 dni/tydzień prograu trójboju…` | Typo **prograu** | `3 dni/tydzień programu trójboju siłowego z minimalną efektywną dawką.` |
-| `4-tyg. rozgrzewką` for ramp-in | “Warm-up” undersells ramp-in | `4-tyg. fazą wprowadzającą` |
-| `ME single` | Gym jargon OK | Optional `seria maksymalna (ME)` |
-| Dashboard PL tagline `ofiara dla bogów żelaza` | Dramatic; OK for theme | Keep |
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 16 |
+| At 1 set | 3 |
+| At 2 sets | 0 |
+| At 3 sets | 13 |
+| At 4+ sets | 0 |
+| Mean sets per slot | 2.63 |
+| Distinct exercises | 9 |
+| Variety density (exercises per 10 sets) | 2.14 |
+| Largest single-exercise share | 21% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**One set (3):**
+
+- Day 1 - Bench ME — Paused Bench Press (ME)
+- Day 2 - Squat ME — Conventional Deadlift (ME)
+- Day 3 - Deadlift ME — Conventional Deadlift (ME)
+
+---
+
+## 6. Export block
+
+```yaml
+id: ritual-of-strength
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 19
+frequency: [3, 4]
+engine: calendar
+sampled_week: 5
+weekly: { sets: 42, days: 3, sets_per_session: 14, slots: 16 }
+load: { systemic: 95, axial: 60, lower_back: 57, per_set_systemic: 2.26 }
+volume: { back: 14, glutes: 14, quads: 9, core: 9, chest: 7, biceps: 6, hamstrings: 5, shoulders: 3, triceps: 0, calves: 0 }
+coverage: { covered: 7, missing: ['triceps', 'calves'], in_band: 4, over: [], under: ['chest', 'shoulders', 'quads', 'hamstrings'] }
+set_shape: { slots: 16, ones: 3, twos: 0, threes: 13, four_plus: 0, mean: 2.63 }
+variety: { distinct: 9, density: 2.14, top_share: 0.214, evenness: 0.957 }
+```

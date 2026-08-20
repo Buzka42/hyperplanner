@@ -1,313 +1,155 @@
 # Kali
 
-**Program ID:** `kali` · **Source:** [src/data/plans/kali.ts](../../src/data/plans/kali.ts)
-**Duration:** 8 weeks · **Frequency:** Fixed 4 days/week
-
-## Overview
-
-Cutting plan protecting strength: **one systemic compound anchor** per session (hack squat / assisted pull-up / RDL / paused bench) at low reps with 150s rest. Glute and lat intensifiers only in final Unleashed weeks. Pull anchor swappable; week-8 intensifier choice persisted. KaliDashboard.
-
-## Onboarding
-
-- **Stats:** none.
-- **Preferences:** `pullAnchor`, `week8Intensifier` (`myo`|`rest-pause`).
-- **Access:** paid.
-- **Dashboard:** `src/features/kali/KaliDashboard.tsx`.
-- **Verify:** `npm run verify:kali`.
-- **Schedule:** selectable=true; suggested splits (dow): 1-2-4-5; 1-3-5-6; 2-4-6-7.
-- **Irregular templates:** 2on-1off, 3on-1off, every-other-day.
-
-### EN (`onboarding.programs.kali`)
-
-- **Name:** Kali
-- **Description:** An 8-week cutting plan that protects strength while controlling systemic fatigue.
-- **Features:**
-  - Fixed four-day structure
-  - One systemic anchor per session
-  - Glute and lat intensification
-  - Performance-retention dashboard
-
-### PL (`onboarding.programs.kali`)
-
-- **Name:** Kali
-- **Description:** 8-tygodniowy plan redukcyjny chroniący siłę przy kontroli zmęczenia systemowego.
-- **Features:**
-  - Stała struktura 4-dniowa
-  - Jedna systemowa kotwica na sesję
-  - Intensyfikacja pośladków i najszerszych
-  - Panel zachowania wyników
-
-## Weekly structure
-
-### Weeks 1–2 (2 weeks)
-
-#### I — Earth · Severance (dow 1)
-
-- Hack Squat · 3×3-6 · tempo 20X0 · rest 150s
-- Front-Foot Elevated Bulgarian Split Squat · 2×8-12 · tempo 20X0 · rest 75s
-- Seated Hamstring Curl · 2×8-12 · tempo 20X0 · rest 75s
-- Hammer Pulldown (Underhand) · 3×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-#### II — Hunt · Severance (dow 2)
-
-- Assisted Pull-ups · 3×4-6 · tempo 20X0 · rest 150s
-- Hammer Chest Press · 2×8-12 · tempo 20X0 · rest 75s
-- Single Leg Machine Hip Thrust · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Arm Hammer Strength Row · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-#### III — Death · Severance (dow 4)
-
-- Romanian Deadlift · 3×4-6 · tempo 20X0 · rest 150s
-- Leg Extensions · 2×8-12 · tempo 20X0 · rest 75s
-- Lat Prayer · 3×8-12 · tempo 20X0 · rest 75s
-- Machine Hip Abduction · 3×8-12 · tempo 20X0 · rest 75s
-- Single Arm Reverse Pec Deck · 2×12-20 · tempo 20X0 · rest 75s
-- Ab Wheel · 1×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 1×8-12 · tempo 20X0 · rest 75s
-
-#### IV — Rebirth · Severance (dow 5)
-
-- Paused Bench Press · 3×3-6 · tempo 20X0 · rest 150s
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Leg Hip Thrust · 3×8-12 · tempo 20X0 · rest 75s
-- Lat Pulldown (Neutral) · 2×8-12 · tempo 20X0 · rest 75s
-- Lying Leg Curls · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 1×8-12 · tempo 20X0 · rest 75s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-
-### Weeks 3–5 (3 weeks)
-
-#### I — Earth · Preservation (dow 1)
-
-- Hack Squat · 3×3-6 · tempo 20X0 · rest 150s
-- Front-Foot Elevated Bulgarian Split Squat · 2×8-12 · tempo 20X0 · rest 75s
-- Seated Hamstring Curl · 2×8-12 · tempo 20X0 · rest 75s
-- Hammer Pulldown (Underhand) · 3×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-#### II — Hunt · Preservation (dow 2)
-
-- Assisted Pull-ups · 3×4-6 · tempo 20X0 · rest 150s
-- Hammer Chest Press · 2×8-12 · tempo 20X0 · rest 75s
-- Single Leg Machine Hip Thrust · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Arm Hammer Strength Row · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-#### III — Death · Preservation (dow 4)
-
-- Romanian Deadlift · 3×4-6 · tempo 20X0 · rest 150s
-- Leg Extensions · 2×8-12 · tempo 20X0 · rest 75s
-- Lat Prayer · 3×8-12 · tempo 20X0 · rest 75s
-- Machine Hip Abduction · 3×8-12 · tempo 20X0 · rest 75s
-- Single Arm Reverse Pec Deck · 2×12-20 · tempo 20X0 · rest 75s
-- Ab Wheel · 1×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 1×8-12 · tempo 20X0 · rest 75s
-
-#### IV — Rebirth · Preservation (dow 5)
-
-- Paused Bench Press · 3×3-6 · tempo 20X0 · rest 150s
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Leg Hip Thrust · 3×8-12 · tempo 20X0 · rest 75s
-- Lat Pulldown (Neutral) · 2×8-12 · tempo 20X0 · rest 75s
-- Lying Leg Curls · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 1×8-12 · tempo 20X0 · rest 75s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-
-### Weeks 6 (single week)
-
-#### I — Earth · Unleashed I (dow 1)
-
-- Hack Squat · 3×3-6 · tempo 20X0 · rest 150s
-- Front-Foot Elevated Bulgarian Split Squat · 2×8-12 · tempo 20X0 · rest 75s
-- Seated Hamstring Curl · 2×8-12 · tempo 20X0 · rest 75s
-- Hammer Pulldown (Underhand) · 3×8-12 · tempo 20X0 · rest 75s · tech {"kind":"rest-pause","bursts":2,"restSeconds":20,"applyTo":"last"}
-- Lateral Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-#### II — Hunt · Unleashed I (dow 2)
-
-- Assisted Pull-ups · 3×4-6 · tempo 20X0 · rest 150s
-- Hammer Chest Press · 2×8-12 · tempo 20X0 · rest 75s
-- Single Leg Machine Hip Thrust · 3×8-12 · tempo 20X0 · rest 75s · tech {"kind":"rest-pause","bursts":2,"restSeconds":20,"applyTo":"last"}
-- Single-Arm Hammer Strength Row · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-#### III — Death · Unleashed I (dow 4)
-
-- Romanian Deadlift · 3×4-6 · tempo 20X0 · rest 150s
-- Leg Extensions · 2×8-12 · tempo 20X0 · rest 75s
-- Lat Prayer · 3×8-12 · tempo 20X0 · rest 75s
-- Machine Hip Abduction · 3×8-12 · tempo 20X0 · rest 75s
-- Single Arm Reverse Pec Deck · 2×12-20 · tempo 20X0 · rest 75s
-- Ab Wheel · 1×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 1×8-12 · tempo 20X0 · rest 75s
-
-#### IV — Rebirth · Unleashed I (dow 5)
-
-- Paused Bench Press · 3×3-6 · tempo 20X0 · rest 150s
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Leg Hip Thrust · 3×8-12 · tempo 20X0 · rest 75s
-- Lat Pulldown (Neutral) · 2×8-12 · tempo 20X0 · rest 75s
-- Lying Leg Curls · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 1×8-12 · tempo 20X0 · rest 75s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-
-### Weeks 7 (single week)
-
-#### I — Earth · Unleashed II (dow 1)
-
-- Hack Squat · 3×3-6 · tempo 20X0 · rest 150s
-- Front-Foot Elevated Bulgarian Split Squat · 2×8-12 · tempo 20X0 · rest 75s
-- Seated Hamstring Curl · 2×8-12 · tempo 20X0 · rest 75s
-- Hammer Pulldown (Underhand) · 3×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-#### II — Hunt · Unleashed II (dow 2)
-
-- Assisted Pull-ups · 3×4-6 · tempo 20X0 · rest 150s
-- Hammer Chest Press · 2×8-12 · tempo 20X0 · rest 75s
-- Single Leg Machine Hip Thrust · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Arm Hammer Strength Row · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-#### III — Death · Unleashed II (dow 4)
-
-- Romanian Deadlift · 3×4-6 · tempo 20X0 · rest 150s
-- Leg Extensions · 2×8-12 · tempo 20X0 · rest 75s
-- Lat Prayer · 3×8-12 · tempo 20X0 · rest 75s · tech {"kind":"myo-reps","activationReps":"12-20","miniSets":3,"miniReps":"4-5","restBreaths":5,"applyTo":"last"}
-- Machine Hip Abduction · 3×8-12 · tempo 20X0 · rest 75s · tech {"kind":"myo-reps","activationReps":"12-20","miniSets":3,"miniReps":"4-5","restBreaths":5,"applyTo":"last"}
-- Single Arm Reverse Pec Deck · 2×12-20 · tempo 20X0 · rest 75s
-- Ab Wheel · 1×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 1×8-12 · tempo 20X0 · rest 75s
-
-#### IV — Rebirth · Unleashed II (dow 5)
-
-- Paused Bench Press · 3×3-6 · tempo 20X0 · rest 150s
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Leg Hip Thrust · 3×8-12 · tempo 20X0 · rest 75s
-- Lat Pulldown (Neutral) · 2×8-12 · tempo 20X0 · rest 75s
-- Lying Leg Curls · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 1×8-12 · tempo 20X0 · rest 75s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-
-### Weeks 8 (single week)
-
-#### I — Earth · Unleashed III (dow 1)
-
-- Hack Squat · 3×3-6 · tempo 20X0 · rest 150s
-- Front-Foot Elevated Bulgarian Split Squat · 2×8-12 · tempo 20X0 · rest 75s
-- Seated Hamstring Curl · 2×8-12 · tempo 20X0 · rest 75s
-- Hammer Pulldown (Underhand) · 3×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-#### II — Hunt · Unleashed III (dow 2)
-
-- Assisted Pull-ups · 3×4-6 · tempo 20X0 · rest 150s
-- Hammer Chest Press · 2×8-12 · tempo 20X0 · rest 75s
-- Single Leg Machine Hip Thrust · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Arm Hammer Strength Row · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 2×8-12 · tempo 20X0 · rest 75s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 1×8-12 · tempo 20X0 · rest 75s
-
-#### III — Death · Unleashed III (dow 4)
-
-- Romanian Deadlift · 3×4-6 · tempo 20X0 · rest 150s
-- Leg Extensions · 2×8-12 · tempo 20X0 · rest 75s
-- Lat Prayer · 3×8-12 · tempo 20X0 · rest 75s
-- Machine Hip Abduction · 3×8-12 · tempo 20X0 · rest 75s
-- Single Arm Reverse Pec Deck · 2×12-20 · tempo 20X0 · rest 75s
-- Ab Wheel · 1×8-12 · tempo 20X0 · rest 75s
-- Hack Squat Calf Raises · 1×8-12 · tempo 20X0 · rest 75s
-
-#### IV — Rebirth · Unleashed III (dow 5)
-
-- Paused Bench Press · 3×3-6 · tempo 20X0 · rest 150s
-- Single-Arm Hammer Strength Row · 3×8-12 · tempo 20X0 · rest 75s
-- Single-Leg Hip Thrust · 3×8-12 · tempo 20X0 · rest 75s
-- Lat Pulldown (Neutral) · 2×8-12 · tempo 20X0 · rest 75s
-- Lying Leg Curls · 2×8-12 · tempo 20X0 · rest 75s
-- Lateral Raises · 1×8-12 · tempo 20X0 · rest 75s
-- Hammer Curls · 1×8-12 · tempo 20X0 · rest 75s
-
-
-## Phases & week-to-week progression
-
-### Severance (1–2) / Preservation (3–5)
-Base programming.
-
-### Unleashed I (week 6)
-`single-leg-machine-hip-thrust` + `hammer-pulldown` → rest-pause (2 bursts, 20s, last set).
-
-### Unleashed II (week 7)
-`machine-hip-abduction` + `lat-prayer` → myo-reps (activation 12–20, 3 mini-sets of 4–5, 5 breaths).
-
-### Unleashed III (week 8)
-User may repeat myo or rest-pause targets via preferences; otherwise clean week.
-
-## Techniques, supersets, finishers
-
-- Rest-pause and myo-reps only in final block.
-- Systemic compounds flagged `systemicCompound: true`.
-- Several unilateral slots flagged.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
+
+| | |
 |---|---|
-| `themeClass` | `theme-kali` |
-| `i18nKey` | `kali` |
-| `logo` | `/kali.png` |
-| `coverBg` | `bg-[#100405]` |
-| `order` | 24 |
-| `alwaysFree` | no |
+| **id** | `kali` |
+| **Length** | 8 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 74 across 4 training days (week 1 sample) |
+| **Sets/session** | 18.5 |
+| **Goal** | strength, conditioning |
+| **Experience** | intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | responsive |
+| **Fatigue cost** | 3/4 — high |
+| **Session engine** | `calendar` |
+| **Calibration** | `requireBodyweight: true` |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `myo-reps`, `rest-pause` |
+| **Card promise** | *"An 8-week cutting plan that protects strength while controlling systemic fatigue."* |
 
-**CSS tokens** (`.theme-kali`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** A cutting plan that protects strength: one systemic anchor a session and preservation bands.
+
+The onboarding card claims:
+
+- Fixed four-day structure
+- One systemic anchor per session
+- Glute and lat intensification
+- Performance-retention dashboard
+
+**Prerequisites.** An established strength baseline to protect
+
+**Not for you if.**
+
+- You are gaining weight
+- You cannot commit to four days
+
+**Follow-ups.** [athena](athena.md), [venus-rising](venus-rising.md), [oracle](oracle.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| I — Earth · Severance | 8 | 18 | High Bar Squat 3, Leg Press 2, Front-Foot Elevated Bulgarian Split Squat 2, Seated Hamstring Curl 2, Hammer Pulldown (Underhand) 3, Cable Lateral Raise 2, Hack Squat Calf Raises 2, Cable Triceps Extension 2 |
+| II — Hunt · Severance | 8 | 18 | Assisted Pull-ups 3, 30° Smith Incline Bench Press 2, Pec Deck 2, Single Leg Machine Hip Thrust 3, Single-Arm Hammer Strength Row 2, Lying Cable Lat Raises 2, Machine Curl 2, Overhead Tricep Extensions 2 |
+| III — Death · Severance | 8 | 19 | Romanian Deadlift 3, Hack Squat 2, Leg Extensions 2, Lat Prayer 3, Machine Hip Abduction 3, Side-Lying Rear Delt Flyes 2, Cable Crunch 2, Hack Squat Calf Raises 2 |
+| IV — Rebirth · Severance | 8 | 19 | Paused Bench Press 3, Dip 2, Single-Arm Hammer Strength Row 3, Single-Leg Hip Thrust 3, Bench-Supported Single-Arm Cable Pulldown 2, Lying Leg Curls 2, Lateral Raises 2, Machine Curl 2 |
+
+### Week-to-week shape
+
+The program runs 8 weeks falling into 5 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `357 50% 4%` |
-| `--primary` | `5 72% 50%` |
-| `--accent` | `5 48% 20%` |
-| `--card` | `357 38% 7%` |
-| `--ring` | `5 72% 50%` |
-| `--signal-text` | `7 82% 70%` |
+| 1, 2 | I — Earth · Severance 18, II — Hunt · Severance 18, III — Death · Severance 19, IV — Rebirth · Severance 19 |
+| 3, 4, 5 | I — Earth · Preservation 18, II — Hunt · Preservation 18, III — Death · Preservation 19, IV — Rebirth · Preservation 19 |
+| 6 | I — Earth · Unleashed I 18, II — Hunt · Unleashed I 18, III — Death · Unleashed I 19, IV — Rebirth · Unleashed I 19 |
+| 7 | I — Earth · Unleashed II 18, II — Hunt · Unleashed II 18, III — Death · Unleashed II 19, IV — Rebirth · Unleashed II 19 |
+| 8 | I — Earth · Unleashed III 18, II — Hunt · Unleashed III 18, III — Death · Unleashed III 19, IV — Rebirth · Unleashed III 19 |
 
-Palette note: blood red.
+---
 
-**Widgets:** `program_status`, `workout_history`.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 21 | above the 20-set ceiling |
+| back | 16 | in band |
+| quads | 11 | in band |
+| shoulders | 10 | in band |
+| chest | 9 | below the 10-set growth dose |
+| hamstrings | 7 | below the 10-set growth dose |
+| triceps | 6 | in band |
+| biceps | 4 | below the 6-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+| core | 2 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** |
-| Dashboard | **complete** |
-| Intensifiers gated to end | **complete** |
-| PL | solid |
+| Push:pull (direct sets) | 1.25 |
+| Quad:hamstring | 1.57 |
+| Groups covered (4+ sets) | 9 of 10 |
+| Groups trained on two or more days | 9 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| “systemowa kotwica” | Calque of systemic anchor | `jedna ciężka kotwica systemowa` / `jeden główny bój systemowy` |
-| “Panel zachowania wyników” | OK but stiff | `Panel utrzymania wyników` |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **101** |
+| Axial | **26** |
+| Lower back | 15 |
+| Per-set systemic | 1.36 |
+| High-systemic sets (cost 3+) | 8 |
+| Compound share | 26% |
+| Shoulder / knee / elbow cost | 20 / 26 / 36 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.88 |
+| Mean stability demand (0-4) | 1 |
+| Stimulus per unit fatigue | 1.38 |
+| Failure-safe share of sets | 60% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 32 |
+| At 1 set | 0 |
+| At 2 sets | 22 |
+| At 3 sets | 10 |
+| At 4+ sets | 0 |
+| Mean sets per slot | 2.31 |
+| Distinct exercises | 29 |
+| Variety density (exercises per 10 sets) | 3.92 |
+| Largest single-exercise share | 7% |
+
+No slot sits at one set and none carries more than three. Nothing to flag.
+
+---
+
+## 6. Export block
+
+```yaml
+id: kali
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 8
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 74, days: 4, sets_per_session: 18.5, slots: 32 }
+load: { systemic: 101, axial: 26, lower_back: 15, per_set_systemic: 1.36 }
+volume: { glutes: 21, back: 16, quads: 11, shoulders: 10, chest: 9, hamstrings: 7, triceps: 6, biceps: 4, calves: 4, core: 2 }
+coverage: { covered: 9, missing: [], in_band: 4, over: ['glutes'], under: ['chest', 'biceps', 'hamstrings', 'calves', 'core'] }
+set_shape: { slots: 32, ones: 0, twos: 22, threes: 10, four_plus: 0, mean: 2.31 }
+variety: { distinct: 29, density: 3.92, top_share: 0.068, evenness: 0.988 }
+```

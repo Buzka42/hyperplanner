@@ -1,163 +1,143 @@
-# Pencilneck Eradication Protocol
+# Pencilneck Eradication
 
-**Program ID:** `pencilneck-eradication` · **Source:** [src/data/pencilneck.ts](../../src/data/pencilneck.ts) · **Progression:** [src/features/workout/progression/historyEntries.ts](../../src/features/workout/progression/historyEntries.ts) (`pencilneckProgression`)
-**Duration:** 8 weeks per cycle, repeatable (Cycle 2+ changes the rules) · **Frequency:** 4 days/week (Push A / Pull A / rest / Push B / Pull B)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Classic hypertrophy push/pull split with legs folded into each day. All loading is **user-driven double progression** — the app never calculates working weights; it only advises when to add.
-
-## Onboarding
-
-- **Stats / 1RMs:** none required (zeroed lifting stats at registration).
-- **Schedule:** fixed 4-day pattern (days 1, 2, 4, 5); day selection via onboarding days step where applicable.
-- **Modules/toggles:** exercise preference swaps in Settings (Hack Squat ↔ High-Foot Leg Press; Pec Deck ↔ Low-to-High Cable Flyes; Front Squats ↔ Narrow-Stance Leg Press ↔ Stiletto Squats).
-- **Access:** paid (not `alwaysFree`).
-
-### EN (`onboarding.programs.pencilneck`)
-
-- **Name:** Pencilneck Eradication
-- **Description:** 8-week upper body hypertrophy split. For those who look like a lollipop.
-- **Features:** Focus: Upper Body Mass · 4 Days / Week · Push / Pull Split
-
-### PL (`onboarding.programs.pencilneck`)
-
-- **Name:** Protokół Pencilneck
-- **Description:** 8-tygodniowy split na górę ciała. Dla tych, których szyja wygląda jak ołówek.
-- **Features:** Cel: Hipertrofia upper body · 4 dni/tydzień · Split Push / Pull
-
-## Weekly structure
-
-Identical every week within a cycle:
-
-### Day 1 – Push A
-
-| Exercise | Sets × Reps |
+| | |
 |---|---|
-| Flat BB Bench | 3×8-12 |
-| Incline DB Press | 3×10-14 |
-| Cable Flyes | 3×12-15 |
-| Seated DB Shoulder Press | 3×8-12 |
-| Leaning Lateral Raises | 3×15-20 |
-| Overhead Tricep Ext | 3×12-15 |
-| Hack Squat | 3×10-15 |
-| Leg Extensions | 3×15-20 |
-| Leg Press Calves | 3×12-18 |
+| **id** | `pencilneck-eradication` |
+| **Length** | 8 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 91 across 4 training days (week 3 sample) |
+| **Sets/session** | 22.8 |
+| **Goal** | hypertrophy |
+| **Experience** | intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 2/4 — moderate |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `preprocessDay`, `calculateWeight`, `getExerciseAdvice` |
+| **Card promise** | *"8-week upper body hypertrophy split. For those who look like a lollipop."* |
 
-### Day 2 – Pull A
+---
 
-| Exercise | Sets × Reps |
+## 1. What this plan is
+
+**Signature mechanic.** Classic bodybuilding split run in repeatable eight-week cycles.
+
+The onboarding card claims:
+
+- Focus: Upper Body Mass
+- 4 Days / Week
+- Push / Pull Split
+
+**Not for you if.**
+
+- You want your squat and deadlift to go up — legs are maintained, not pushed
+
+**Follow-ups.** [super-mutant](super-mutant.md), [tenfold](tenfold.md), [event-horizon](event-horizon.md)
+
+---
+
+## 2. The training week
+
+> **Measurement note.** sampled week 3 (week 1 is off-median at 55 sets)
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Push A (Chest/Delts/Tri/Quads) | 9 | 22 | Flat Barbell Bench Press 3, Incline DB Press (45°) 3, Cable Flyes (mid height) 2, Seated DB Shoulder Press 3, Leaning Single Arm DB Lateral Raises 2, Overhead Tricep Extensions 2, Hack Squat 3, Leg Extensions 2, Standing Calf Raises 2 |
+| Pull A (Back/Rear Delt/Bi/Hams) | 9 | 23 | Hammer Pulldown (Underhand) 3, Seated Cable Row 3, Lat Prayer 3, Wide Grip BB Row 3, Side-Lying Rear Delt Flyes 2, Preacher EZ-Bar Curls 2, Romanian Deadlift 3, Lying Leg Curls 2, Hanging Leg Raises 2 |
+| Push B (Chest/Delts/Tri/Quads) | 9 | 24 | Incline Barbell Bench Press (45°) 3, Flat DB Press 3, Pec Deck 2, Standing Barbell Military Press 3, Leaning Single Arm DB Lateral Raises 2, Close-Grip Bench Press 3, Front Squats 3, Walking Lunges (DB) 3, Hack Calf Raises 2 |
+| Pull B (Back/Rear Delt/Bi/Hams) | 9 | 22 | Lat Pulldown (Neutral) 3, Single-Arm Hammer Strength Row 3, Single-Arm DB Row 3, Rear-Delt Rope Pulls to Face 2, Bench-Supported DB Rear Delt Fly 2, Incline DB Curls 2, Stiff-Legged Deadlift 3, Seated Leg Curls 2, Ab Wheel Rollouts 2 |
+
+All 8 weeks carry the same set-count shape; what varies week to
+week is load, reps and technique rather than volume.
+
+---
+
+## 3. Weekly volume by muscle group
+
+Direct sets, counted once per exercise per major group.
+
+| Group | Sets | Read |
+|---|---:|---|
+| shoulders | 22 | above the 20-set ceiling |
+| back | 21 | above the 20-set ceiling |
+| chest | 19 | in band |
+| glutes | 15 | in band |
+| quads | 11 | in band |
+| hamstrings | 10 | in band |
+| triceps | 5 | below the 6-set growth dose |
+| biceps | 4 | below the 6-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+| core | 4 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Hammer Pulldown | 3×8-12 |
-| Seated Cable Row | 3×10-14 |
-| Lat Prayer | 3×12-15 |
-| Wide Grip BB Row | 3×10-15 |
-| Side-Lying Rear Delt Flyes | 3×15-20 |
-| Preacher Curls | 3×10-15 |
-| RDL | 3×8-12 |
-| Lying Leg Curls | 3×12-16 |
-| Hanging Leg Raises | 3×12-20 |
+| Push:pull (direct sets) | 1.84 |
+| Quad:hamstring | 1.1 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-### Day 4 – Push B
+---
 
-| Exercise | Sets × Reps |
+## 4. Systemic and joint load
+
+| Metric | Value |
 |---|---|
-| Incline BB Bench | 3×8-12 |
-| Flat DB Press | 3×10-14 |
-| Pec Deck | 3×12-15 |
-| Standing Military Press | 3×8-12 |
-| Laterals | 3×15-20 |
-| Close-Grip Bench | 3×10-14 |
-| Front Squats | 3×10-15 |
-| Walking Lunges | 3×12-16 |
-| Hack Calf Raises | 3×15-20 |
+| Systemic (weekly) | **147** |
+| Axial | **45** |
+| Lower back | 40 |
+| Per-set systemic | 1.62 |
+| High-systemic sets (cost 3+) | 12 |
+| Compound share | 46% |
+| Shoulder / knee / elbow cost | 41 / 26 / 46 |
 
-### Day 5 – Pull B
-
-| Exercise | Sets × Reps |
+| Stimulus quality | Value |
 |---|---|
-| Lat Pulldown (neutral) | 3×10-14 |
-| SA Hammer Row | 3×10-14 |
-| SA DB Row | 3×12-15 |
-| Rear-Delt Rope Pulls | 3×20-30 |
-| Machine Rear Delt Fly | 3×15-20 |
-| Incline DB Curls | 3×12-15 |
-| Stiff-Legged DL | 3×10-14 |
-| Seated Leg Curls | 3×12-16 |
-| Ab Wheel | 3×failure |
+| Mean lengthened bias (0-4) | 1.86 |
+| Mean stability demand (0-4) | 1.49 |
+| Stimulus per unit fatigue | 1.15 |
+| Failure-safe share of sets | 26% |
 
-Rest / tempo / RPE: user-entered loads; no percentage prescriptions. Compounds use standard rest; isolation shorter as typical BB practice (not hard-coded per slot in all cases).
+---
 
-## Phases & week-to-week progression
+## 5. Set shape
 
-`preprocessDay` phase logic:
+| | |
+|---|---:|
+| Slots | 36 |
+| At 1 set | 0 |
+| At 2 sets | 17 |
+| At 3 sets | 19 |
+| At 4+ sets | 0 |
+| Mean sets per slot | 2.53 |
+| Distinct exercises | 35 |
+| Variety density (exercises per 10 sets) | 3.85 |
+| Largest single-exercise share | 4% |
 
-- **Weeks 1–4 (Volume):** rep ranges as above.
-- **Weeks 5–8 (Heavy):** every exercise in `COMPOUND_EXERCISES` → **6–10 reps** (isolation untouched). Swapped-in exercises not in the set keep high reps.
-- **Intensity techniques:** last set of each compound gets “Drop Set or Rest-Pause to Failure”:
-  - Cycle 1: weeks 7–8 only
-  - Cycle 2+: all 8 weeks
-- **Week 8 Day 4 Final Exam:** bonus Leaning Lateral failure + drop set; 100-rep Rear Delt Burnout.
+No slot sits at one set and none carries more than three. Nothing to flag.
 
-### Progression (`getExerciseAdvice` + `pencilneckProgression`)
+---
 
-- **Double progression:** all sets at **top of rep range** → “Increase weight!” next session. Weights always user-entered.
-- **Week 5 heavy-phase seeding:** scan last ~5 logs for best completed weight → suggest **max × 1.15**, floored to 2.5 kg.
-- **Cycle 2 Week 1 reload:** Cycle 1 Week 8 max × **0.87 (compounds) / 0.92 (isolation)**, never below Cycle 1 Week 1 × **1.10**; floored to 2.5 kg.
-- Cycle context smuggled into exercise IDs as `-c{n}` so advice can tell cycles apart.
-- **Bench e1RM:** every Flat BB Bench session stores best Epley e1RM in `pencilneckBenchHistory` (20/30 kg jump badges).
+## 6. Export block
 
-### Completion
-
-Finishing Week 8 Pull B → `pencilneckStatus.completed`, victory screen, **Certified Boulder**. Cycle 1 offers “Start Cycle 2”; Cycle 2 points at trainer contact.
-
-## Techniques, supersets, finishers
-
-- Drop set / rest-pause on last compound set (phase-gated).
-- Week 8 Final Exam: lateral failure + drop; **100-rep Rear Delt Burnout**.
-- No fixed supersets in the static template.
-
-## Dashboard & UI theme
-
-| Meta | Value |
-|---|---|
-| `themeClass` | `theme-pencilneck` |
-| `i18nKey` | `pencilneck` |
-| `logo` | `/pencilneck.png` |
-| `coverBg` / gradient | `bg-black` / `from-black/90` |
-| `order` | 2 |
-| `alwaysFree` | no |
-
-**CSS tokens** (`.theme-pencilneck` — blood red on black):
-
-| Token | HSL |
-|---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `0 72% 51%` |
-| `--accent` | `0 0% 88%` |
-| `--card` | `0 14% 9%` |
-| `--ring` | `0 72% 51%` |
-| `--signal-text` | global fallback (no plan override) |
-
-**Widgets:** `pencilneck_commandments`, `program_status`, `trap_barometer`, `workout_history`. Dashboard: Commandments list, Trap Barometer (week/8), weekly status quotes.
-
-## Implementation completion analysis
-
-| Area | Status |
-|---|---|
-| Plan generator | **complete** — bespoke `PENCILNECK_CONFIG` |
-| Progression hooks | **complete** — `pencilneckProgression` |
-| Dashboard | **complete** — commandments + trap barometer |
-| Onboarding wiring | **complete** — no 1RMs; preference swaps |
-| EN translations | **complete** |
-| PL translations | **calqued** — “Hipertrofia upper body” mixes EN |
-| Exercise library / tips | **complete**; swaps use preference keys |
-| Verify script | **shared** — `verify:progression` (no plan-specific script) |
-
-## Translation notes
-
-| String | Issue | Suggested PL |
-|---|---|---|
-| `Cel: Hipertrofia upper body` | English fragment | `Cel: hipertrofia górnej części ciała` |
-| `Split Push / Pull` | Fine as gym jargon; optional | `Split push/pull` or `Dzień pchania / ciągnięcia` |
-| Name `Protokół Pencilneck` | Brand OK | Keep; optional full `Protokół Eradykacji Pencilneck` |
+```yaml
+id: pencilneck-eradication
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 8
+frequency: [4]
+engine: calendar
+sampled_week: 3
+weekly: { sets: 91, days: 4, sets_per_session: 22.8, slots: 36 }
+load: { systemic: 147, axial: 45, lower_back: 40, per_set_systemic: 1.62 }
+volume: { shoulders: 22, back: 21, chest: 19, glutes: 15, quads: 11, hamstrings: 10, triceps: 5, biceps: 4, calves: 4, core: 4 }
+coverage: { covered: 10, missing: [], in_band: 4, over: ['shoulders', 'back'], under: ['biceps', 'triceps', 'calves', 'core'] }
+set_shape: { slots: 36, ones: 0, twos: 17, threes: 19, four_plus: 0, mean: 2.53 }
+variety: { distinct: 35, density: 3.85, top_share: 0.044, evenness: 0.994 }
+```

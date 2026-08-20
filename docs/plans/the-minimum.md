@@ -1,134 +1,148 @@
 # The Minimum
 
-**Program ID:** `the-minimum` · **Source:** [src/data/plans/theMinimum.ts](../../src/data/plans/theMinimum.ts) · **Bonus:** [src/features/theMinimum/bonus.ts](../../src/features/theMinimum/bonus.ts)
-**Duration:** 10 weeks · **Frequency:** 2 required full-body days/week (Mon Session A, Thu Session B)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Two mandatory sessions cover every major muscle with **different** movements — the second exposure is a variation, never a repeat. Volume is fixed at **14 sets (A)** and **16 sets (B)**. Weeks 8–9 raise effort (RPE 9 on non-systemic work) instead of adding sets. Default tempo `20X0`. Rest: systemic **150 s**, else **90 s**. Double progression **+2.5 kg**.
-
-Bonus modules live outside the program tree so they cannot become a third required session.
-
-## Onboarding
-
-- **Stats / 1RMs:** none.
-- **Schedule:** 2 fixed days (authored Mon/Thu).
-- **Modules:** optional bonus templates only (see below) — not onboarding toggles.
-- **Access:** paid. Portfolio: beginner + intermediate; frequency `[2]`; fatigue 2; full-gym.
-
-### EN (`onboarding.programs.theMinimum`)
-
-- **Name:** The Minimum
-- **Description:** A 10-week plan of two mandatory full-body sessions, with optional bonus work when you have time.
-- **Features:** 2 required sessions weekly · 14–16 sets each · Optional underexposure-driven bonuses · Bonus work never gates progress
-
-### PL (`onboarding.programs.theMinimum`)
-
-- **Name:** The Minimum
-- **Description:** 10 tygodni: dwie obowiązkowe sesje całego ciała i opcjonalna praca dodatkowa, gdy masz czas.
-- **Features:** 2 obowiązkowe sesje tygodniowo · Po 14–16 serii · Opcjonalne bonusy z niedoborów objętości · Bonus nigdy nie warunkuje progresji
-
-## Weekly structure
-
-### Session A — Mon (14 sets)
-
-| Exercise | Sets × Reps | Notes |
-|---|---|---|
-| Hack Squat | 2×6-10 | systemic |
-| Romanian Deadlift | 2×6-10 | systemic |
-| Incline DB Bench | 2×6-10 | |
-| SA Hammer Row | 2×8-12 | unilateral |
-| Lateral Raise | 2×12-15 | |
-| Hammer Curl | 1×8-12 | |
-| Cable Triceps Extension | 1×8-15 | |
-| Hack Calf Raise | 1×12-20 | |
-| Ab Wheel | 1×8-12 | |
-
-### Session B — Thu (16 sets)
-
-| Exercise | Sets × Reps | Notes |
-|---|---|---|
-| Leg Press | 2×8-12 | systemic |
-| Seated Hamstring Curl | 2×10-15 | |
-| Hammer Chest Press | 2×8-12 | |
-| Lat Pulldown | 2×8-12 | |
-| Seated DB Shoulder Press | 2×8-12 | |
-| SL Machine Hip Thrust | 1×10-15 | unilateral |
-| Cable Curl | 1×10-15 | |
-| Rope Pressdown | 1×10-15 | |
-| Leg Press Calf Raise | 1×12-20 | |
-| Hanging Knee Raise | 1×10-15 | |
-
-No slot ID repeats across A and B.
-
-## Phases & week-to-week progression
-
-| Phase | Weeks | Change |
-|---|---|---|
-| Establish | 1–3 | Base prescription |
-| Build | 4–7 | Base (load via double progression) |
-| Press | 8–9 | Non-systemic slots → **RPE 9** (no set increase) |
-| Confirm | 10 | Base |
-
-**Volume never grows.** Progression is double (+2.5 kg when all sets hit top of range).
-
-### Bonus modules (`BONUS_MODULES`)
-
-| id | Muscles | Exercises | Sets | Systemic cost |
-|---|---|---|---|---|
-| `upper-pull` | lats, biceps, rearDelt | Hammer Pulldown, SA Rev Pec Deck, Hammer Curl | 6 | 1 |
-| `upper-push` | chest, frontDelt, triceps | Hammer Chest, Lateral Raise, Cable Tri | 6 | 1 |
-| `posterior` | hamstrings, glutes | Seated Ham Curl, SL Hip Thrust | 6 | 2 |
-| `quads-calves` | quads, calves | Leg Ext, Hack Calf | 6 | 1 |
-| `trunk-delts` | abs, sideDelt | Ab Wheel, Lateral Raise | 5 | 0 |
-
-- Recommended **1 bonus/week** (not a hard cap).
-- Offered by underexposure over the trailing fortnight.
-- If last required session declined this week → discouraged in copy, **never blocked**.
-- Counts toward volume/history/profile; **never** gates required-session progression.
-- `preprocessDay` only annotates; it must not edit required sets.
-
-## Techniques, supersets, finishers
-
-None. Straight sets only.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-the-minimum` |
-| `i18nKey` | `theMinimum` |
-| `logo` | `/minimum.png` |
-| `coverBg` / gradient | `bg-[#0a0d0d]` / `from-[#0a0d0d]` |
-| `order` | 27 |
+| **id** | `the-minimum` |
+| **Length** | 10 weeks |
+| **Frequency** | 2 days/week |
+| **Weekly sets** | 38 across 2 training days (week 1 sample) |
+| **Sets/session** | 19 |
+| **Goal** | general, hypertrophy |
+| **Experience** | beginner, intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 2/4 — moderate |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Card promise** | *"A 10-week plan of two mandatory full-body sessions, with optional bonus work when you have time."* |
 
-**CSS tokens** (`.theme-the-minimum`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** Two required sessions that cover everything, with bonus work that never becomes required.
+
+The onboarding card claims:
+
+- 2 required sessions weekly
+- 14–16 sets each
+- Optional underexposure-driven bonuses
+- Bonus work never gates progress
+
+**Not for you if.**
+
+- You have four days a week and want to use them
+
+**Follow-ups.** [pencilneck-eradication](pencilneck-eradication.md), [athena](athena.md), [monolith](monolith.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Session A · Establish | 9 | 18 | Hack Squat 2, Hip-Supported Dumbbell Deadlift 2, Incline DB Bench Press 2, Single-Arm Hammer Strength Row 2, Cable Lateral Raise 2, EZ Preacher Curl 2, Cable Triceps Extension 2, Hack Squat Calf Raises 2, Ab Wheel 2 |
+| Session B · Establish | 10 | 20 | Leg Press 2, Seated Hamstring Curl 2, 30° Smith Incline Bench Press 2, Close Neutral Grip Lat Pulldown 2, Seated Hammer Shoulder Press 2, Single Leg Machine Hip Thrust 2, Bayesian Cable Curl 2, Overhead Tricep Extensions 2, Standing Calf Raises 2, Hanging Knee Raise 2 |
+
+### Week-to-week shape
+
+The program runs 10 weeks falling into 4 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `180 10% 5%` |
-| `--primary` | `6 74% 55%` |
-| `--accent` | `6 48% 20%` |
-| `--signal-text` | `6 84% 71%` |
+| 1, 2, 3 | Session A · Establish 18, Session B · Establish 20 |
+| 4, 5, 6, 7 | Session A · Build 18, Session B · Build 20 |
+| 8, 9 | Session A · Press 18, Session B · Press 20 |
+| 10 | Session A · Confirm 18, Session B · Confirm 20 |
 
-**Widgets:** `program_status`, `workout_history`. No specialty bonus dashboard.
+---
 
-## Implementation completion analysis
+## 3. Weekly volume by muscle group
 
-| Area | Status |
+Direct sets, counted once per exercise per major group.
+
+| Group | Sets | Read |
+|---|---:|---|
+| shoulders | 8 | below the 10-set growth dose |
+| glutes | 8 | below the 10-set growth dose |
+| chest | 4 | below the 10-set growth dose |
+| back | 4 | below the 10-set growth dose |
+| biceps | 4 | below the 6-set growth dose |
+| triceps | 4 | below the 6-set growth dose |
+| quads | 4 | below the 10-set growth dose |
+| hamstrings | 4 | below the 10-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+| core | 4 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** — fixed 2-day tree, phase RPE |
-| Progression | **generic double** — no dedicated handler; bonus engine complete |
-| Dashboard | **minimal** — shared widgets only |
-| Onboarding | **complete** for card; no seed stats / bonus UI step |
-| EN / PL | **complete**; PL “Po 14–16 serii” slightly terse |
-| Tips | none |
-| Verify | `npm run verify:minimum` |
+| Push:pull (direct sets) | 2 |
+| Quad:hamstring | 1 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| `Po 14–16 serii` | Ambiguous (per session vs total) | `Po 14–16 serii na sesję` |
-| Product name EN | Intentional brand | Keep |
-| Rest of features | Clear and accurate | — |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **54** |
+| Axial | **10** |
+| Lower back | 10 |
+| Per-set systemic | 1.42 |
+| High-systemic sets (cost 3+) | 4 |
+| Compound share | 26% |
+| Shoulder / knee / elbow cost | 10 / 10 / 24 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 2 |
+| Mean stability demand (0-4) | 1.05 |
+| Stimulus per unit fatigue | 1.41 |
+| Failure-safe share of sets | 47% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 19 |
+| At 1 set | 0 |
+| At 2 sets | 19 |
+| At 3 sets | 0 |
+| At 4+ sets | 0 |
+| Mean sets per slot | 2 |
+| Distinct exercises | 19 |
+| Variety density (exercises per 10 sets) | 5 |
+| Largest single-exercise share | 5% |
+
+No slot sits at one set and none carries more than three. Nothing to flag.
+
+---
+
+## 6. Export block
+
+```yaml
+id: the-minimum
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 10
+frequency: [2]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 38, days: 2, sets_per_session: 19, slots: 19 }
+load: { systemic: 54, axial: 10, lower_back: 10, per_set_systemic: 1.42 }
+volume: { shoulders: 8, glutes: 8, chest: 4, back: 4, biceps: 4, triceps: 4, quads: 4, hamstrings: 4, calves: 4, core: 4 }
+coverage: { covered: 10, missing: [], in_band: 0, over: [], under: ['chest', 'shoulders', 'back', 'biceps', 'triceps', 'quads', 'hamstrings', 'glutes', 'calves', 'core'] }
+set_shape: { slots: 19, ones: 0, twos: 19, threes: 0, four_plus: 0, mean: 2 }
+variety: { distinct: 19, density: 5, top_share: 0.053, evenness: 1 }
+```

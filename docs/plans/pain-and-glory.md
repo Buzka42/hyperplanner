@@ -1,122 +1,172 @@
 # Pain & Glory
 
-**Program ID:** `pain-and-glory` · **Source:** [src/data/painglory.ts](../../src/data/painglory.ts) · **Progression:** [src/features/workout/progression/painGlory.ts](../../src/features/workout/progression/painGlory.ts)
-**Duration:** 16 weeks · **Frequency:** 4 days/week (Pull Mon / Push Tue / Push Thu / Pull Fri)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Intermediate **deadlift specialization** built on brutal submaximal volume: 8 weeks of 10×6 deficit snatch-grip pulls, 4 weeks of E2MOM conventional work, then a 4-week peak to a max single.
-
-## Onboarding
-
-- **Stats / 1RMs:** required **conventional deadlift 1RM** and **low-bar squat 1RM** (dedicated Pain & Glory calibration screen).
-- **Schedule:** fixed Pull/Push/Push/Pull; onboarding shows schedule note (localized).
-- **Modules/toggles:** none.
-- **Access:** paid (not `alwaysFree`).
-
-### EN (`onboarding.programs.painGlory`)
-
-- **Name:** Pain & Glory
-- **Description:** Pain today, glory tomorrow.
-- **Features:** Focus: Heavy Deadlifting · 4 Days / Week - Pull/Push · 16 Week Program with Peaking · Self-regulating via RPE feedback
-
-### PL (`onboarding.programs.painGlory`)
-
-- **Name:** Pain & Glory
-- **Description:** 16-tygodniowy program specjalizacyjny na martwy ciąg. Dziś ból, jutro chwała.
-- **Features:** Cel: Siła w martwym ciągu · 4 dni/tydzień - Pull/Push · 16 tyg. z peakingiem · Autoregulacja przez uproszczony system RPE
-
-PL description is richer than EN (EN card is tagline-only).
-
-## Weekly structure
-
-### Phase map (main pull)
-
-| Weeks | Pull Day 1 (Mon) | Pull Day 2 (Fri) |
-|---|---|---|
-| 1–8 | Deficit Snatch Grip DL 10×6 | Deficit Snatch Grip DL 10×6 |
-| 9–12 | Deficit Snatch Grip DL 10×6 | Conventional DL **E2MOM 6×3-5** |
-| 13 | **AMRAP test** + 3×5 back-down | Conventional DL (CAT) 4×6 |
-| 14 | Heavy Triple @ RPE 9 + 3×3 back-down | CAT 4×6 |
-| 15 | Heavy Double @ RPE 9.5 + 3×2 back-down | CAT 4×6 |
-| 16 | **Heavy Single @ RPE 10** (+ optional 2nd single) | CAT 4×6 |
-
-**Fixed accessories every pull day:** Close Neutral Lat Pulldown 4×6-10, Slow-Eccentric Cheat Nordics 2×failure, SL Machine Hip Thrust 3×8-12, Dead Hang + Planks 3×failure.
-
-**Push days (identical Tue/Thu, all 16 weeks):** Paused Low Bar Squat 4×4-6 @ ~70%, Leg Extensions 3×6-10, Hack Squat Calves 3×15-20, Incline DB Bench 4×6-10, Standing Military Press 3×6-10.
-
-## Phases & week-to-week progression
-
-- **Deficit Snatch Grip:** starts at **45% of `conventionalDeadlift` 1RM**, floored to 2.5 kg. After every session (weeks 1–11) RPE modal:
-  - Ready For More → **+5 kg**
-  - Good, Maintain → same
-  - Wrecked → **−5 kg** (floor 20 kg)
-  Running value: `painGloryStatus.deficitSnatchGripWeight`.
-- **Paused Low Bar Squat:**
-  - W1–4: base = `lowBarSquat × 0.70`; all sets 4–6 → `squatProgress` +2.5 kg
-  - Week 5 reset: `(1RM × 1.075) × 0.70` + accumulated progress
-  - Week 8 weight saved as `week8SquatWeight`; W9–16 hold **85%** as maintenance
-- **Conventional E2MOM (W9–12):** start = **highest deficit × 1.35** (floored). All 6 sets ≥5 reps → `e2momWeightAdjustment` +2.5 kg
-- **Week 13 AMRAP:** target = **deficit × 2.22 × 0.85** (floored). Stores `amrapWeight`/`amrapReps`; Epley e1RM (`estimatedE1RM`, floored 2.5) drives peak:
-  - W13 back-down: 85% of AMRAP weight
-  - W14 triple: **e1RM × 0.90** (back-down ×0.85)
-  - W15 double: **e1RM × 0.93** (back-down ×0.875)
-  - W16 single: **e1RM × 0.97**
-  - CAT (W13–16): **70% of AMRAP weight**
-- **Accessories:** double progression advice (top of range → increase). Main lifts excluded from advice (auto-progress).
-
-## Techniques, supersets, finishers
-
-- E2MOM conventional triples (weeks 9–12).
-- CAT (compensatory acceleration training) singles/back-offs in peaking.
-- Slow-eccentric cheat Nordics to failure; Dead Hang + Planks finisher pair on pull days.
-- No A1/A2 supersets in the static push/pull templates.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-pain-glory` |
-| `i18nKey` | `painGlory` |
-| `logo` | `/painglory.png` |
-| `coverBg` / gradient | `bg-black` / `from-black/90` |
-| `order` | 5 |
-| `alwaysFree` | no |
+| **id** | `pain-and-glory` |
+| **Length** | 16 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 74 across 4 training days (week 1 sample) |
+| **Sets/session** | 18.5 |
+| **Goal** | strength, specialisation |
+| **Experience** | intermediate, advanced |
+| **Equipment** | barbell, full-gym |
+| **Adaptability** | responsive |
+| **Fatigue cost** | 4/4 — very high |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `preprocessDay`, `calculateWeight`, `getExerciseAdvice` |
+| **Techniques used** | `last-set-failure` |
+| **Card promise** | *"Pain today, glory tomorrow."* |
 
-**CSS tokens** (`.theme-pain-glory`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** Deadlift specialisation where the deficit work is dosed by how wrecked the last one left you.
+
+The onboarding card claims:
+
+- Focus: Heavy Deadlifting
+- 4 Days / Week - Pull/Push
+- 16 Week Program with Peaking
+- Self-regulating via RPE feedback
+
+**Prerequisites.** A conventional deadlift max you trust; Tolerance for heavy pulling
+
+**Not for you if.**
+
+- Your lower back is your limiting factor
+- You want a plan that goes easy on you
+
+**Follow-ups.** [trinary](trinary.md), [atlas](atlas.md), [ritual-of-strength](ritual-of-strength.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Pull Day | 6 | 22 | Deficit Snatch Grip Deadlift 10, Close Neutral Grip Lat Pulldown 4, Slow Eccentric Cheat Nordic Curls 2, Single-Leg Machine Hip Thrust 2, Dead Hang 2, Planks 2 |
+| Push Day | 5 | 15 | Paused Low Bar Squat 4, Leg Extensions 2, Hack Squat Calf Raises 2, Incline DB Bench Press 4, Standing Military Press 3 |
+| Push Day | 5 | 15 | Paused Low Bar Squat 4, Leg Extensions 2, Hack Squat Calf Raises 2, Paused Bench Press 4, Machine Rear Delt Fly 3 |
+| Pull Day | 6 | 22 | Deficit Snatch Grip Deadlift 10, Close Neutral Grip Lat Pulldown 4, Slow Eccentric Cheat Nordic Curls 2, Single-Leg Machine Hip Thrust 2, Dead Hang 2, Planks 2 |
+
+### Week-to-week shape
+
+The program runs 16 weeks falling into 4 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `0 68% 48%` |
-| `--accent` | `40 65% 55%` (amber/gold) |
-| `--card` | `35 26% 13%` |
-| `--ring` | `0 68% 48%` |
-| `--signal-text` | global fallback |
+| 1, 2, 3, 4, 5, 6, 7, 8 | Pull Day 22, Push Day 15, Push Day 15, Pull Day 22 |
+| 9, 10, 11, 12 | Pull Day 22, Push Day 15, Push Day 15, Pull Day 18 |
+| 13, 14, 15 | Pull Day 16, Push Day 15, Push Day 15, Pull Day 16 |
+| 16 | Pull Day 14, Push Day 15, Push Day 15, Pull Day 16 |
 
-**Widgets:** `deficit_snatch_tracker`, `workout_history`. **Glory Counter** (total kg across deadlift variations, bar to 50 t) computed on Dashboard.
+---
 
-### Badges
+## 3. Weekly volume by muscle group
 
-Void Gazer · EMOM Executioner · Deficit Demon · Glory Achieved · Single Supreme · 50 Tonne Club (see prior doc detail / badge definitions in `badges.ts`).
+Direct sets, counted once per exercise per major group.
 
-## Implementation completion analysis
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 32 | above the 20-set ceiling |
+| back | 28 | above the 20-set ceiling |
+| hamstrings | 24 | above the 20-set ceiling |
+| quads | 12 | in band |
+| shoulders | 10 | in band |
+| chest | 8 | below the 10-set growth dose |
+| biceps | 4 | below the 6-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+| core | 4 | below the 6-set growth dose |
+| triceps | 0 | no direct sets |
 
-| Area | Status |
+**Untrained groups:** `triceps`.
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** — `PAIN_GLORY_CONFIG` |
-| Progression hooks | **complete** — `painGloryProgression` |
-| Dashboard | **complete** — deficit tracker + glory counter |
-| Onboarding wiring | **complete** — DL + squat 1RMs |
-| EN translations | **partial** — card description is tagline-only |
-| PL translations | **natural** (richer than EN); `peakingiem` is a mild loan |
-| Exercise library / tips | **complete** for deficit / CAT paths |
-| Verify script | **shared** — `verify:progression` |
+| Push:pull (direct sets) | 0.56 |
+| Quad:hamstring | 0.5 |
+| Groups covered (4+ sets) | 9 of 10 |
+| Groups trained on two or more days | 9 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| EN description “Pain today, glory tomorrow.” | Too thin vs PL | Mirror PL: “16-week deadlift specialization…” |
-| `16 tyg. z peakingiem` | Loanword | `16 tyg. ze szczytowaniem` |
-| Brand name left EN | Intentional | Keep `Pain & Glory` |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **141** |
+| Axial | **90** |
+| Lower back | 76 |
+| Per-set systemic | 1.91 |
+| High-systemic sets (cost 3+) | 28 |
+| Compound share | 53% |
+| Shoulder / knee / elbow cost | 25 / 32 / 23 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 2.3 |
+| Mean stability demand (0-4) | 1.43 |
+| Stimulus per unit fatigue | 1.21 |
+| Failure-safe share of sets | 20% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 22 |
+| At 1 set | 0 |
+| At 2 sets | 12 |
+| At 3 sets | 2 |
+| At 4+ sets | 8 |
+| Mean sets per slot | 3.36 |
+| Distinct exercises | 13 |
+| Variety density (exercises per 10 sets) | 1.76 |
+| Largest single-exercise share | 27% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (8):**
+
+- Pull Day — Deficit Snatch Grip Deadlift, 10 sets *(session opener)*
+- Pull Day — Close Neutral Grip Lat Pulldown, 4 sets
+- Push Day — Paused Low Bar Squat, 4 sets *(session opener)*
+- Push Day — Incline DB Bench Press, 4 sets
+- Push Day — Paused Low Bar Squat, 4 sets *(session opener)*
+- Push Day — Paused Bench Press, 4 sets
+- Pull Day — Deficit Snatch Grip Deadlift, 10 sets *(session opener)*
+- Pull Day — Close Neutral Grip Lat Pulldown, 4 sets
+
+---
+
+## 6. Export block
+
+```yaml
+id: pain-and-glory
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 16
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 74, days: 4, sets_per_session: 18.5, slots: 22 }
+load: { systemic: 141, axial: 90, lower_back: 76, per_set_systemic: 1.91 }
+volume: { glutes: 32, back: 28, hamstrings: 24, quads: 12, shoulders: 10, chest: 8, biceps: 4, calves: 4, core: 4, triceps: 0 }
+coverage: { covered: 9, missing: ['triceps'], in_band: 2, over: ['back', 'hamstrings', 'glutes'], under: ['chest', 'biceps', 'calves', 'core'] }
+set_shape: { slots: 22, ones: 0, twos: 12, threes: 2, four_plus: 8, mean: 3.36 }
+variety: { distinct: 13, density: 1.76, top_share: 0.27, evenness: 0.919 }
+```

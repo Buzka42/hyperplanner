@@ -1,131 +1,182 @@
 # Blackout
 
-**Program ID:** `blackout` · **Source:** [src/data/plans/blackout.ts](../../src/data/plans/blackout.ts) · **Engine:** [src/features/blackout/singleSet.ts](../../src/features/blackout/singleSet.ts)
-**Duration:** 8 weeks · **Frequency:** 3 full-body days/week (Mon / Wed / Fri)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Advanced-only austerity: **exactly one work set per movement**. Warm-up is calibration; the work set is the prescription. Sessions are short but wide (7–8 slots) so the body is still covered twice weekly without stacking sets. Cap enforced in the tree and again in `preprocessDay` (`sets: 1`). Default tempo `20X0`. Rest: systemic **240 s**, else **150 s**.
-
-## Onboarding
-
-- **Stats:** none required.
-- **Schedule:** 3 FB days.
-- **Modules:** none. Quality + completion reason are mandatory at set log time.
-- **Access:** paid. Portfolio: **advanced** only; prerequisites years of training + honest quality assessment.
-
-### EN (`onboarding.programs.blackout`)
-
-- **Name:** Blackout
-- **Description:** An advanced 8-week plan of one work set per movement, and nothing wasted.
-- **Features:** 3 full-body days · One work set per exercise · Back-off sets are earned, not scheduled · Quality and stop reason are mandatory
-
-### PL (`onboarding.programs.blackout`)
-
-- **Name:** Blackout
-- **Description:** Zaawansowany 8-tygodniowy plan: jedna seria robocza na bój i nic ponadto.
-- **Features:** 3 dni całego ciała · Jedna seria robocza na ćwiczenie · Serie back-off trzeba zasłużyć · Obowiązkowa jakość i powód zakończenia
-
-## Weekly structure
-
-Every exercise: **1 set**. Quality `clean` / `borderline` / `invalid` and completion reason are mandatory (`isEvaluable`).
-
-### Blackout I — Mon
-
-| Exercise | Reps | Notes |
-|---|---|---|
-| Hack Squat | 5-8 | systemic · primary |
-| Incline DB Bench | 6-10 | primary |
-| SA Hammer Row | 8-12 | unilateral |
-| RDL | 6-10 | |
-| Lateral Raise | 12-15 | failure-approved |
-| Leg Extension | 12-15 | failure-approved |
-| Hammer Curl | 8-12 | failure-approved |
-
-### Blackout II — Wed
-
-| Exercise | Reps | Notes |
-|---|---|---|
-| Paused Bench | 4-6 | systemic · primary |
-| Hammer Pulldown | 8-12 | primary · failure-approved |
-| Leg Press | 8-12 | |
-| Seated Ham Curl | 10-15 | failure-approved |
-| SA Reverse Pec Deck | 12-15 | failure-approved |
-| Cable Tri Ext | 10-15 | failure-approved |
-| Hack Calf | 12-20 | failure-approved |
-
-### Blackout III — Fri
-
-| Exercise | Reps | Notes |
-|---|---|---|
-| FFE Bulgarian Split Squat | 6-10 | uni · primary |
-| Seated DB Press | 6-10 | primary |
-| Lat Pulldown | 8-12 | |
-| Lying Leg Curl | 10-15 | failure-approved |
-| Pec Deck | 12-15 | failure-approved |
-| Hammer Curl | 10-15 | failure-approved |
-| Cable Tri Ext | 10-15 | failure-approved |
-| Hack Calf | 12-20 | failure-approved |
-
-## Phases & week-to-week progression
-
-| Phase | Weeks | Change |
-|---|---|---|
-| Adjustment | 1–2 | Base |
-| Blackout | 3–6 | Base |
-| Deep | 7–8 | Primary slots → **RPE 10** (never adds a set) |
-
-### Earned back-off (`earnedBackoff`)
-
-Offered only when: evaluable + quality `clean` + met target floor + completion not pain/technical-failure + recovery action `continue`. Then **1 set @ −10%**. Otherwise session ends.
-
-### Stall ladder (`BLACKOUT_STALL_LADDER`)
-
-Fixed order: **recovery-check → repeat → rep-target → exercise-change → add-set**. Last two require confirmation (add-set changes what the plan is).
-
-### Recovery
-
-Recommends next exposure in **1 / 2 / 3 days** — never blocks training; warns of cost if sooner.
-
-### Failure
-
-Allowed only on `FAILURE_APPROVED` (machines / isolation). Loaded squat/hinge patterns: stop at target. Notes state which.
-
-## Techniques, supersets, finishers
-
-- No scheduled techniques / supersets / finishers.
-- Back-off is earned, never authored into the day tree.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-blackout` |
-| `i18nKey` | `blackout` |
-| `logo` | `/blackout.png` |
-| `coverBg` | `bg-[#070707]` |
-| `order` | 31 |
+| **id** | `blackout` |
+| **Length** | 8 weeks |
+| **Frequency** | 3 days/week |
+| **Weekly sets** | 23 across 3 training days (week 1 sample) |
+| **Sets/session** | 7.7 |
+| **Goal** | strength, hypertrophy |
+| **Experience** | intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | responsive |
+| **Fatigue cost** | 2/4 — moderate |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Card promise** | *"An advanced 8-week plan of one work set per movement, and nothing wasted."* |
 
-**CSS:** near-mono — `--background: 0 0% 3%`; `--primary: 60 24% 88%`; `--accent: 60 12% 18%`; `--signal-text: 60 24% 88%`.
+---
 
-**Widgets:** `program_status`, `workout_history`. Engine-only for backoff/stall; generic quality select helps if wired in workout UI.
+## 1. What this plan is
 
-## Implementation completion analysis
+**Signature mechanic.** One work set per movement, and a back-off you have to earn with a clean one.
 
-| Area | Status |
+The onboarding card claims:
+
+- 3 full-body days
+- One work set per exercise
+- Back-off sets are earned, not scheduled
+- Quality and stop reason are mandatory
+
+**Prerequisites.** Years of training; Honest self-assessment of set quality
+
+**Not for you if.**
+
+- You are still learning what a hard set feels like
+- You need volume to feel like you trained
+
+**Follow-ups.** [trinary](trinary.md), [oracle](oracle.md), [project-chimera](project-chimera.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Blackout I · Adjustment | 7 | 7 | Leg Press 1, 30° Smith Incline Bench Press 1, Single-Arm Hammer Strength Row 1, Seated Hamstring Curl 1, Cable Lateral Raise 1, Leg Extensions 1, Machine Curl 1 |
+| Blackout II · Adjustment | 7 | 7 | Hammer Chest Press 1, Hammer Pulldown (Underhand) 1, Hack Squat 1, Seated Hamstring Curl 1, Machine Rear Delt Fly 1, Rolling DB Tricep Extensions 1, Hack Squat Calf Raises 1 |
+| Blackout III · Adjustment | 9 | 9 | Front-Foot Elevated Bulgarian Split Squat 1, Shoulder Press 1, Overhand Mid-Grip Pulldown 1, Lying Leg Curls 1, Pec Deck 1, Machine Curl 1, Cable Triceps Extension 1, Hack Squat Calf Raises 1, Cable Crunch 1 |
+
+### Week-to-week shape
+
+The program runs 8 weeks falling into 3 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| Plan generator | **complete** — single-set enforcement |
-| Engine | **complete** — backoff, stall, failure, recovery |
-| Dashboard | **missing** specialty UI |
-| Onboarding | card complete; no extra modules |
-| EN / PL | EN complete; PL keeps English “back-off” |
-| Tips | none |
-| Verify | `npm run verify:blackout` |
+| 1, 2 | Blackout I · Adjustment 7, Blackout II · Adjustment 7, Blackout III · Adjustment 9 |
+| 3, 4, 5, 6 | Blackout I · Blackout 7, Blackout II · Blackout 7, Blackout III · Blackout 9 |
+| 7, 8 | Blackout I · Deep 7, Blackout II · Deep 7, Blackout III · Deep 9 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| `Serie back-off trzeba zasłużyć` | English loan + stiff | `Serie obniżone (back-off) trzeba sobie wypracować` |
-| `jedna seria robocza na bój` | “bój” OK for lift | Keep or `na ćwiczenie` for consistency with feature 2 |
-| Description | Clear | — |
+## 3. Weekly volume by muscle group
+
+Direct sets, counted once per exercise per major group.
+
+| Group | Sets | Read |
+|---|---:|---|
+| shoulders | 4 | below the 10-set growth dose |
+| quads | 4 | below the 10-set growth dose |
+| chest | 3 | below the 10-set growth dose |
+| back | 3 | below the 10-set growth dose |
+| hamstrings | 3 | below the 10-set growth dose |
+| glutes | 3 | below the 10-set growth dose |
+| biceps | 2 | below the 6-set growth dose |
+| triceps | 2 | below the 6-set growth dose |
+| calves | 2 | below the 6-set growth dose |
+| core | 1 | below the 6-set growth dose |
+
+| Balance | Value |
+|---|---|
+| Push:pull (direct sets) | 1.8 |
+| Quad:hamstring | 1.33 |
+| Groups covered (4+ sets) | 2 of 10 |
+| Groups trained on two or more days | 9 |
+
+---
+
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **29** |
+| Axial | **6** |
+| Lower back | 0 |
+| Per-set systemic | 1.26 |
+| High-systemic sets (cost 3+) | 1 |
+| Compound share | 22% |
+| Shoulder / knee / elbow cost | 7 / 11 / 14 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.96 |
+| Mean stability demand (0-4) | 0.7 |
+| Stimulus per unit fatigue | 1.55 |
+| Failure-safe share of sets | 65% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 23 |
+| At 1 set | 23 |
+| At 2 sets | 0 |
+| At 3 sets | 0 |
+| At 4+ sets | 0 |
+| Mean sets per slot | 1 |
+| Distinct exercises | 20 |
+| Variety density (exercises per 10 sets) | 8.7 |
+| Largest single-exercise share | 9% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**One set (23):**
+
+- Blackout I · Adjustment — Leg Press
+- Blackout I · Adjustment — 30° Smith Incline Bench Press
+- Blackout I · Adjustment — Single-Arm Hammer Strength Row
+- Blackout I · Adjustment — Seated Hamstring Curl
+- Blackout I · Adjustment — Cable Lateral Raise
+- Blackout I · Adjustment — Leg Extensions
+- Blackout I · Adjustment — Machine Curl
+- Blackout II · Adjustment — Hammer Chest Press
+- Blackout II · Adjustment — Hammer Pulldown (Underhand)
+- Blackout II · Adjustment — Hack Squat
+- Blackout II · Adjustment — Seated Hamstring Curl
+- Blackout II · Adjustment — Machine Rear Delt Fly
+- Blackout II · Adjustment — Rolling DB Tricep Extensions
+- Blackout II · Adjustment — Hack Squat Calf Raises
+- Blackout III · Adjustment — Front-Foot Elevated Bulgarian Split Squat
+- Blackout III · Adjustment — Shoulder Press
+- Blackout III · Adjustment — Overhand Mid-Grip Pulldown
+- Blackout III · Adjustment — Lying Leg Curls
+- Blackout III · Adjustment — Pec Deck
+- Blackout III · Adjustment — Machine Curl
+- Blackout III · Adjustment — Cable Triceps Extension
+- Blackout III · Adjustment — Hack Squat Calf Raises
+- Blackout III · Adjustment — Cable Crunch
+
+---
+
+## 6. Export block
+
+```yaml
+id: blackout
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 8
+frequency: [3]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 23, days: 3, sets_per_session: 7.7, slots: 23 }
+load: { systemic: 29, axial: 6, lower_back: 0, per_set_systemic: 1.26 }
+volume: { shoulders: 4, quads: 4, chest: 3, back: 3, hamstrings: 3, glutes: 3, biceps: 2, triceps: 2, calves: 2, core: 1 }
+coverage: { covered: 2, missing: [], in_band: 0, over: [], under: ['chest', 'shoulders', 'back', 'biceps', 'triceps', 'quads', 'hamstrings', 'glutes', 'calves', 'core'] }
+set_shape: { slots: 23, ones: 23, twos: 0, threes: 0, four_plus: 0, mean: 1 }
+variety: { distinct: 20, density: 8.7, top_share: 0.087, evenness: 0.986 }
+```

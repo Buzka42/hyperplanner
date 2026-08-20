@@ -1,287 +1,175 @@
 # King of the Squat
 
-**Program ID:** `king-of-the-squat` · **Source:** [src/data/plans/kingOfTheSquat.ts](../../src/data/plans/kingOfTheSquat.ts)
-**Duration:** 12 weeks · **Frequency:** 4 days/week (dow 1, 2, 4, 5)
-
-## Overview
-
-Squat-specialisation powerlifting. Squat three times weekly (heavy wave, paused volume, front-squat structural), bench twice, deadlift once. The deadlift is fixed at **57.5%** of conventional 1RM for **3×3** and is never progressed — it exists for setup and bar speed while spinal fatigue stays budgeted for squatting.
-
-Heavy day runs **two waves** per session. Weeks 1–3 wave **5/4/3**, 4–6 **4/3/2**, 7–9 **3/2/1**, each wave heavier than the last, stepping **+2.5% of squat 1RM per week** off a **75%** base. Support lifts are percentage-anchored: paused bench **85%** (volume day) / **87.5%** (structural day), paused volume squats **67.5%**, front squats **60%** with reps **3–6**. Safety-bar squat is the sanctioned front-squat alternate.
-
-## Onboarding
-
-- **Stats / 1RMs:** `squat`, `pausedBench`, `conventionalDeadlift` (derived by `requiredStatsFor` from percentage/wave progressions).
-- **Modules:** none.
-- **Access:** paid (not `alwaysFree`).
-- **Calibration map:** Paused Low Bar Squat, Paused Bench Press, Conventional Deadlift, Paused Back Squat, Front Squats.
-- **Schedule:** selectable=true; suggested splits (dow): 1-2-4-5; 1-3-5-6; 2-4-6-7.
-- **Irregular templates:** 2on-1off, 3on-1off, every-other-day.
-
-### EN (`onboarding.programs.kingOfTheSquat`)
-
-- **Name:** King of the Squat
-- **Description:** 12-week squat specialisation. Squat three times a week and let everything else serve it.
-- **Features:**
-  - Focus: Squat strength
-  - 4 Days / Week - squat 3x, bench 2x, deadlift 1x
-  - Wave loading: 5/4/3 to 4/3/2 to 3/2/1
-  - Deadlift kept deliberately light to protect recovery
-  - Front squat and paused work for positional strength
-
-### PL (`onboarding.programs.kingOfTheSquat`)
-
-- **Name:** Król Przysiadu
-- **Description:** 12-tygodniowa specjalizacja przysiadowa. Przysiad trzy razy w tygodniu, reszta mu służy.
-- **Features:**
-  - Cel: Siła w przysiadzie
-  - 4 dni / tydzień - przysiad 3x, wyciskanie 2x, martwy ciąg 1x
-  - Fale obciążeń: 5/4/3, potem 4/3/2, potem 3/2/1
-  - Martwy ciąg celowo lekki, by chronić regenerację
-  - Przysiad przedni i pauzy dla siły w pozycjach
-
-## Weekly structure
-
-### Weeks 1–3 (3 weeks)
-
-#### Heavy Squat · Volume Waves (dow 1)
-
-- Paused Low Bar Squat · 6×5 · tempo 10X0 · rest 240s · tech {"kind":"wave","ladder":[5,4,3],"waves":2} · — Two waves of 5/4/3. Each wave heavier than the last.
-- Leg Extensions · 3×8-12 · rest 90s
-- Seated Ham Curl · 3×8-12 · rest 90s
-- Paused Bench Press · 4×6-8 · tempo 11X0 · rest 180s
-- Hammer Upper Row · 4×8-12 · rest 120s
-
-#### Bench + Deadlift Maintenance · Volume Waves (dow 2)
-
-- Paused Bench Press · 5×3-5 · 85.0% of pausedBench · tempo 11X0 · rest 210s
-- Conventional Deadlift · 3×3 · 57.5% of conventionalDeadlift · tempo 10X0 · rest 180s · — Deliberately easy. Perfect setup, fast bar speed, no grinding. Do not add weight chasing a PR.
-- Hammer Lower Row · 3×8-12 · rest 120s
-- Seated Ham Curl · 3×10-15 · rest 90s
-- Standing Military Press · 3×6-10 · rest 150s
-- Hanging Knee Raise · 3×10-20 · rest 90s
-
-#### Squat Volume · Volume Waves (dow 4)
-
-- Paused Back Squat · 5×5-8 · 67.5% of squat · tempo 12X0 · rest 210s · — Two seconds motionless in the hole. Positional strength, not a max.
-- Heel-Elevated Goblet Squat · 3×10-15 · rest 90s
-- Leg Extensions · 3×12-15 · rest 75s
-- Pull-Up · 4×6-10 · rest 120s
-- Tricep Extensions · 3×10-15 · rest 75s
-
-#### Structural Squat + Heavy Bench · Volume Waves (dow 5)
-
-- Front Squats · 5×3-6 · 60.0% of squat · tempo 10X0 · rest 210s · — Keep the reps low. If the upper back folds before the legs, the load is doing the wrong job.
-- Paused Bench Press · 5×3 · 87.5% of pausedBench · tempo 11X0 · rest 240s
-- Hip-Supported Dumbbell Deadlift · 3×8-12 · rest 120s
-- Calf Raises · 3×10-20 · rest 75s
-- Machine Rear Delt Fly · 3×15-20 · rest 60s
-
-### Weeks 4–6 (3 weeks)
-
-#### Heavy Squat · Intensity Waves (dow 1)
-
-- Paused Low Bar Squat · 6×4 · tempo 10X0 · rest 240s · tech {"kind":"wave","ladder":[4,3,2],"waves":2} · — Two waves of 5/4/3. Each wave heavier than the last.
-- Leg Extensions · 3×8-12 · rest 90s
-- Seated Ham Curl · 3×8-12 · rest 90s
-- Paused Bench Press · 4×6-8 · tempo 11X0 · rest 180s
-- Hammer Upper Row · 4×8-12 · rest 120s
-
-#### Bench + Deadlift Maintenance · Intensity Waves (dow 2)
-
-- Paused Bench Press · 5×3-5 · 85.0% of pausedBench · tempo 11X0 · rest 210s
-- Conventional Deadlift · 3×3 · 57.5% of conventionalDeadlift · tempo 10X0 · rest 180s · — Deliberately easy. Perfect setup, fast bar speed, no grinding. Do not add weight chasing a PR.
-- Hammer Lower Row · 3×8-12 · rest 120s
-- Seated Ham Curl · 3×10-15 · rest 90s
-- Standing Military Press · 3×6-10 · rest 150s
-- Hanging Knee Raise · 3×10-20 · rest 90s
-
-#### Squat Volume · Intensity Waves (dow 4)
-
-- Paused Back Squat · 5×5-8 · 67.5% of squat · tempo 12X0 · rest 210s · — Two seconds motionless in the hole. Positional strength, not a max.
-- Heel-Elevated Goblet Squat · 3×10-15 · rest 90s
-- Leg Extensions · 3×12-15 · rest 75s
-- Pull-Up · 4×6-10 · rest 120s
-- Tricep Extensions · 3×10-15 · rest 75s
-
-#### Structural Squat + Heavy Bench · Intensity Waves (dow 5)
-
-- Front Squats · 5×3-6 · 60.0% of squat · tempo 10X0 · rest 210s · — Keep the reps low. If the upper back folds before the legs, the load is doing the wrong job.
-- Paused Bench Press · 5×3 · 87.5% of pausedBench · tempo 11X0 · rest 240s
-- Hip-Supported Dumbbell Deadlift · 3×8-12 · rest 120s
-- Calf Raises · 3×10-20 · rest 75s
-- Machine Rear Delt Fly · 3×15-20 · rest 60s
-
-### Weeks 7–9 (3 weeks)
-
-#### Heavy Squat · Peak Waves (dow 1)
-
-- Paused Low Bar Squat · 6×3 · tempo 10X0 · rest 240s · tech {"kind":"wave","ladder":[3,2,1],"waves":2} · — Two waves of 5/4/3. Each wave heavier than the last.
-- Leg Extensions · 3×8-12 · rest 90s
-- Seated Ham Curl · 3×8-12 · rest 90s
-- Paused Bench Press · 4×6-8 · tempo 11X0 · rest 180s
-- Hammer Upper Row · 4×8-12 · rest 120s
-
-#### Bench + Deadlift Maintenance · Peak Waves (dow 2)
-
-- Paused Bench Press · 5×3-5 · 85.0% of pausedBench · tempo 11X0 · rest 210s
-- Conventional Deadlift · 3×3 · 57.5% of conventionalDeadlift · tempo 10X0 · rest 180s · — Deliberately easy. Perfect setup, fast bar speed, no grinding. Do not add weight chasing a PR.
-- Hammer Lower Row · 3×8-12 · rest 120s
-- Seated Ham Curl · 3×10-15 · rest 90s
-- Standing Military Press · 3×6-10 · rest 150s
-- Hanging Knee Raise · 3×10-20 · rest 90s
-
-#### Squat Volume · Peak Waves (dow 4)
-
-- Paused Back Squat · 5×5-8 · 67.5% of squat · tempo 12X0 · rest 210s · — Two seconds motionless in the hole. Positional strength, not a max.
-- Heel-Elevated Goblet Squat · 3×10-15 · rest 90s
-- Leg Extensions · 3×12-15 · rest 75s
-- Pull-Up · 4×6-10 · rest 120s
-- Tricep Extensions · 3×10-15 · rest 75s
-
-#### Structural Squat + Heavy Bench · Peak Waves (dow 5)
-
-- Front Squats · 5×3-6 · 60.0% of squat · tempo 10X0 · rest 210s · — Keep the reps low. If the upper back folds before the legs, the load is doing the wrong job.
-- Paused Bench Press · 5×3 · 87.5% of pausedBench · tempo 11X0 · rest 240s
-- Hip-Supported Dumbbell Deadlift · 3×8-12 · rest 120s
-- Calf Raises · 3×10-20 · rest 75s
-- Machine Rear Delt Fly · 3×15-20 · rest 60s
-
-### Weeks 10–11 (2 weeks)
-
-#### Heavy Squat · Realisation (dow 1)
-
-- Paused Low Bar Squat · 4×2 · tempo 10X0 · rest 240s · tech {"kind":"wave","ladder":[5,4,3],"waves":2} · — Two waves of 5/4/3. Each wave heavier than the last.
-- Leg Extensions · 2×8-12 · rest 90s
-- Seated Ham Curl · 2×8-12 · rest 90s
-- Paused Bench Press · 3×6-8 · tempo 11X0 · rest 180s
-- Hammer Upper Row · 3×8-12 · rest 120s
-
-#### Bench + Deadlift Maintenance · Realisation (dow 2)
-
-- Paused Bench Press · 4×3-5 · 85.0% of pausedBench · tempo 11X0 · rest 210s
-- Conventional Deadlift · 2×3 · 57.5% of conventionalDeadlift · tempo 10X0 · rest 180s · — Deliberately easy. Perfect setup, fast bar speed, no grinding. Do not add weight chasing a PR.
-- Hammer Lower Row · 2×8-12 · rest 120s
-- Seated Ham Curl · 2×10-15 · rest 90s
-- Standing Military Press · 2×6-10 · rest 150s
-- Hanging Knee Raise · 2×10-20 · rest 90s
-
-#### Squat Volume · Realisation (dow 4)
-
-- Paused Back Squat · 4×5-8 · 67.5% of squat · tempo 12X0 · rest 210s · — Two seconds motionless in the hole. Positional strength, not a max.
-- Heel-Elevated Goblet Squat · 2×10-15 · rest 90s
-- Leg Extensions · 2×12-15 · rest 75s
-- Pull-Up · 3×6-10 · rest 120s
-- Tricep Extensions · 2×10-15 · rest 75s
-
-#### Structural Squat + Heavy Bench · Realisation (dow 5)
-
-- Front Squats · 4×3-6 · 60.0% of squat · tempo 10X0 · rest 210s · — Keep the reps low. If the upper back folds before the legs, the load is doing the wrong job.
-- Paused Bench Press · 4×3 · 87.5% of pausedBench · tempo 11X0 · rest 240s
-- Hip-Supported Dumbbell Deadlift · 2×8-12 · rest 120s
-- Calf Raises · 2×10-20 · rest 75s
-- Machine Rear Delt Fly · 2×15-20 · rest 60s
-
-### Weeks 12 (single week)
-
-#### Heavy Squat · Test Week (dow 1)
-
-- Paused Low Bar Squat · 3×1 · tempo 10X0 · rest 240s · tech {"kind":"wave","ladder":[5,4,3],"waves":2} · — Squat test. Work up to a single you are certain of.
-- Leg Extensions · 1×8-12 · rest 90s
-- Seated Ham Curl · 1×8-12 · rest 90s
-- Paused Bench Press · 2×6-8 · tempo 11X0 · rest 180s
-- Hammer Upper Row · 2×8-12 · rest 120s
-
-#### Bench + Deadlift Maintenance · Test Week (dow 2)
-
-- Paused Bench Press · 3×3-5 · 85.0% of pausedBench · tempo 11X0 · rest 210s
-- Conventional Deadlift · 1×3 · 57.5% of conventionalDeadlift · tempo 10X0 · rest 180s · — Deliberately easy. Perfect setup, fast bar speed, no grinding. Do not add weight chasing a PR.
-- Hammer Lower Row · 1×8-12 · rest 120s
-- Seated Ham Curl · 1×10-15 · rest 90s
-- Standing Military Press · 1×6-10 · rest 150s
-- Hanging Knee Raise · 1×10-20 · rest 90s
-
-#### Squat Volume · Test Week (dow 4)
-
-- Paused Back Squat · 3×5-8 · 67.5% of squat · tempo 12X0 · rest 210s · — Two seconds motionless in the hole. Positional strength, not a max.
-- Heel-Elevated Goblet Squat · 1×10-15 · rest 90s
-- Leg Extensions · 1×12-15 · rest 75s
-- Pull-Up · 2×6-10 · rest 120s
-- Tricep Extensions · 1×10-15 · rest 75s
-
-#### Structural Squat + Heavy Bench · Test Week (dow 5)
-
-- Front Squats · 3×3-6 · 60.0% of squat · tempo 10X0 · rest 210s · — Keep the reps low. If the upper back folds before the legs, the load is doing the wrong job.
-- Paused Bench Press · 3×3 · 87.5% of pausedBench · tempo 11X0 · rest 240s
-- Hip-Supported Dumbbell Deadlift · 1×8-12 · rest 120s
-- Calf Raises · 1×10-20 · rest 75s
-- Machine Rear Delt Fly · 1×15-20 · rest 60s
-
-
-## Phases & week-to-week progression
-
-### Volume Waves (weeks 1–3)
-Low-bar squat: **6 sets × 5** with technique wave ladder **[5,4,3] × 2 waves**. Wave load = `0.75 + 0.025 × (weekInPhase − 1)` of squat 1RM.
-
-### Intensity Waves (weeks 4–6)
-Heavy squat transform → ladder **[4,3,2]**, reps display `4`, still 6 sets / 2 waves.
-
-### Peak Waves (weeks 7–9)
-Ladder **[3,2,1]**, reps `3`.
-
-### Realisation (weeks 10–11)
-Heavy squat → **4×2**; every other slot loses **1 set** (floor 2).
-
-### Test Week (week 12)
-Heavy squat → **3×1** with note “work up to a single you are certain of”; other slots lose **2 sets** (floor 1). No built-in deadlift or bench test.
-
-## Techniques, supersets, finishers
-
-- **Wave loading** on low-bar squat (heavy day only).
-- Tempos: heavy squat `10X0`, paused bench `11X0`, paused back squat `12X0`, front squat `10X0`, deadlift `10X0`.
-- No A1/A2 supersets; no finishers.
-- Deadlift notes explicitly forbid chasing PRs.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
+
+| | |
 |---|---|
-| `themeClass` | `theme-king-of-the-squat` |
-| `i18nKey` | `kingOfTheSquat` |
-| `logo` | `/squatking.png` |
-| `coverBg` | `bg-[#0a0705]` |
-| `order` | 10 |
-| `alwaysFree` | no |
+| **id** | `king-of-the-squat` |
+| **Length** | 12 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 82 across 4 training days (week 1 sample) |
+| **Sets/session** | 20.5 |
+| **Goal** | strength, specialisation |
+| **Experience** | intermediate, advanced |
+| **Equipment** | barbell, full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 4/4 — very high |
+| **Session engine** | `calendar` |
+| **Calibration** | required: `squat`, `pausedBench`, `conventionalDeadlift` |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `wave` |
+| **Card promise** | *"12-week squat specialisation. Squat three times a week and let everything else serve it."* |
 
-**CSS tokens** (`.theme-king-of-the-squat`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** Squat three times a week with the accessories chosen to hold the position, not to add volume.
+
+The onboarding card claims:
+
+- Focus: Squat strength
+- 4 Days / Week - squat 3x, bench 2x, deadlift 1x
+- Wave loading: 5/4/3 to 4/3/2 to 3/2/1
+- Deadlift kept deliberately light to protect recovery
+- Front squat and paused work for positional strength
+
+**Prerequisites.** A squat you can load without technical breakdown
+
+**Not for you if.**
+
+- Your knees or hips are the reason you are reading this
+
+**Follow-ups.** [quadfather](quadfather.md), [atlas](atlas.md), [trinary](trinary.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Heavy Squat · Volume Waves | 5 | 20 | Paused Low Bar Squat 6, Leg Extensions 3, Seated Ham Curl 3, Long Pause Bench Press 4, Hammer Upper Row 4 |
+| Bench + Deadlift Maintenance · Volume Waves | 6 | 20 | Wide-Grip Bench Press 5, Conventional Deadlift 3, Hammer Lower Row 3, Glute-Ham Raise 3, Rear-Delt Rope Pulls to Face 3, Ab Wheel 3 |
+| Squat Volume · Volume Waves | 6 | 22 | Paused Back Squat 5, Heel-Elevated Goblet Squat 3, Hip Adduction 3, Pull-Up 4, Heavy Rolling Tricep Extensions 4, Seated DB Shoulder Press 3 |
+| Structural Squat + Heavy Bench · Volume Waves | 5 | 20 | Front Squats 5, Paused Bench Press 5, Hip-Supported Dumbbell Deadlift 3, Hack Squat Calf Raises 4, Machine Rear Delt Fly 3 |
+
+### Week-to-week shape
+
+The program runs 12 weeks falling into 5 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `26 100% 40%` |
-| `--accent` | `27 98% 32%` |
-| `--card` | `0 0% 8%` |
-| `--ring` | `26 100% 40%` |
-| `--signal-text` | `(none — uses primary)` |
+| 1, 2, 3 | Heavy Squat · Volume Waves 20, Bench + Deadlift Maintenance · Volume Waves 20, Squat Volume · Volume Waves 22, Structural Squat + Heavy Bench · Volume Waves 20 |
+| 4, 5, 6 | Heavy Squat · Intensity Waves 20, Bench + Deadlift Maintenance · Intensity Waves 20, Squat Volume · Intensity Waves 22, Structural Squat + Heavy Bench · Intensity Waves 20 |
+| 7, 8, 9 | Heavy Squat · Peak Waves 20, Bench + Deadlift Maintenance · Peak Waves 20, Squat Volume · Peak Waves 22, Structural Squat + Heavy Bench · Peak Waves 20 |
+| 10, 11 | Heavy Squat · Realisation 14, Bench + Deadlift Maintenance · Realisation 14, Squat Volume · Realisation 16, Structural Squat + Heavy Bench · Realisation 15 |
+| 12 | Heavy Squat · Test Week 9, Bench + Deadlift Maintenance · Test Week 8, Squat Volume · Test Week 10, Structural Squat + Heavy Bench · Test Week 10 |
 
-Palette note: warm brown from squatking.png.
+---
 
-**Widgets:** `1rm`, `program_status`, `strength_chart`, `workout_history`.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 28 | above the 20-set ceiling |
+| quads | 22 | above the 20-set ceiling |
+| chest | 14 | in band |
+| back | 14 | in band |
+| hamstrings | 12 | in band |
+| shoulders | 9 | below the 10-set growth dose |
+| triceps | 4 | below the 6-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+| core | 3 | below the 6-set growth dose |
+| biceps | 0 | no direct sets |
+
+**Untrained groups:** `biceps`.
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** — `definePlan` + phase transforms |
-| Progression | **complete** — wave + percentage via `calculateWeight` |
-| Dedicated dashboard | **shared widgets only** |
-| Onboarding | **complete** — three required stats |
-| EN / PL copy | **complete** — natural PL name `Król Przysiadu` |
-| Verify | shared `verify:plans` / `verify:registry` (no `verify:king`) |
+| Push:pull (direct sets) | 1.93 |
+| Quad:hamstring | 1.83 |
+| Groups covered (4+ sets) | 8 of 10 |
+| Groups trained on two or more days | 6 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| — | PL card copy is solid | keep |
-| Feature “wyciskanie 2x” | Ambiguous (bench vs OHP) | `wyciskanie leżąc 2x` |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **156** |
+| Axial | **72** |
+| Lower back | 56 |
+| Per-set systemic | 1.9 |
+| High-systemic sets (cost 3+) | 25 |
+| Compound share | 56% |
+| Shoulder / knee / elbow cost | 26 / 50 / 33 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.77 |
+| Mean stability demand (0-4) | 1.33 |
+| Stimulus per unit fatigue | 0.93 |
+| Failure-safe share of sets | 32% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 22 |
+| At 1 set | 0 |
+| At 2 sets | 0 |
+| At 3 sets | 12 |
+| At 4+ sets | 10 |
+| Mean sets per slot | 3.73 |
+| Distinct exercises | 22 |
+| Variety density (exercises per 10 sets) | 2.68 |
+| Largest single-exercise share | 7% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (10):**
+
+- Heavy Squat · Volume Waves — Paused Low Bar Squat, 6 sets *(session opener)*
+- Heavy Squat · Volume Waves — Long Pause Bench Press, 4 sets
+- Heavy Squat · Volume Waves — Hammer Upper Row, 4 sets
+- Bench + Deadlift Maintenance · Volume Waves — Wide-Grip Bench Press, 5 sets *(session opener)*
+- Squat Volume · Volume Waves — Paused Back Squat, 5 sets *(session opener)*
+- Squat Volume · Volume Waves — Pull-Up, 4 sets
+- Squat Volume · Volume Waves — Heavy Rolling Tricep Extensions, 4 sets
+- Structural Squat + Heavy Bench · Volume Waves — Front Squats, 5 sets *(session opener)*
+- Structural Squat + Heavy Bench · Volume Waves — Paused Bench Press, 5 sets
+- Structural Squat + Heavy Bench · Volume Waves — Hack Squat Calf Raises, 4 sets
+
+---
+
+## 6. Export block
+
+```yaml
+id: king-of-the-squat
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 12
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 82, days: 4, sets_per_session: 20.5, slots: 22 }
+load: { systemic: 156, axial: 72, lower_back: 56, per_set_systemic: 1.9 }
+volume: { glutes: 28, quads: 22, chest: 14, back: 14, hamstrings: 12, shoulders: 9, triceps: 4, calves: 4, core: 3, biceps: 0 }
+coverage: { covered: 8, missing: ['biceps'], in_band: 3, over: ['quads', 'glutes'], under: ['shoulders', 'triceps', 'calves', 'core'] }
+set_shape: { slots: 22, ones: 0, twos: 0, threes: 12, four_plus: 10, mean: 3.73 }
+variety: { distinct: 22, density: 2.68, top_share: 0.073, evenness: 0.991 }
+```

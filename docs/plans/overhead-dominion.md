@@ -1,176 +1,163 @@
 # Overhead Dominion
 
-**Program ID:** `overhead-dominion` · **Source:** [src/data/plans/overheadDominion.ts](../../src/data/plans/overheadDominion.ts)
-**Duration:** 10 weeks · **Frequency:** 4 days/week — delts 4×, upper back 3×
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Shoulder specialisation with four *different* delt exposures: heavy standing press, high-volume laterals/rears, braced unilateral press, structural ER + rear delts. Default tempo `20X0`. Standing military press uses **double progression +2.5 kg**.
-
-Artillery block (weeks 6–10) converts the standing press to **wave 5/3/2 × 2 waves**, 5 sets, display reps `3`.
-
-## Onboarding
-
-- **Stats:** none.
-- **Access:** paid.
-- **Schedule:** selectable=true; suggested splits (dow): 1-2-4-5; 1-3-5-6; 2-4-6-7.
-- **Irregular templates:** 2on-1off, 3on-1off, every-other-day.
-
-### EN (`onboarding.programs.overheadDominion`)
-
-- **Name:** Overhead Dominion
-- **Description:** 10 weeks of shoulder specialisation. Delts four times a week, and never the same way twice.
-- **Features:**
-  - Focus: Shoulders
-  - 4 Days / Week - delts 4x, upper back 3x
-  - Heavy press, volume laterals, braced unilateral, structural
-  - Front, side and rear delt volume tracked separately
-  - Later block moves the press onto 5/3/2 waves
-
-### PL (`onboarding.programs.overheadDominion`)
-
-- **Name:** Dominium Barków
-- **Description:** 10 tygodni specjalizacji barkowej. Naramienne cztery razy w tygodniu i nigdy tak samo.
-- **Features:**
-  - Cel: Barki
-  - 4 dni / tydzień - naramienne 4x, górny grzbiet 3x
-  - Ciężkie wyciskanie, objętość na bokach, jednorącz z podparciem, praca strukturalna
-  - Objętość przedniego, bocznego i tylnego aktonu liczona osobno
-  - W drugim bloku wyciskanie przechodzi na fale 5/3/2
-
-## Weekly structure
-
-### Weeks 1–5 (5 weeks)
-
-#### Overhead Strength · Bombardment (dow 1)
-
-- Standing Military Press · 5×5-8 · tempo 20X0 · rest 210s · — Strict. If the knees bend, the set is over.
-- Weighted Chin-Up · 5×5-8 · tempo 20X0 · rest 180s
-- Cable Lateral Raise · 3×12-20 · tempo 20X0 · rest 60s
-- Rope Pressdown · 3×10-15 · tempo 20X0 · rest 60s
-- Machine Rear Delt Fly · 3×15-20 · tempo 20X0 · rest 60s
-
-#### Delts + Legs · Bombardment (dow 2)
-
-- Cable Lateral Raise · 4×12-20 · tempo 20X0 · rest 60s
-- Single Arm Reverse Pec Deck · 4×12-20 · tempo 20X0 · rest 60s · — Per side.
-- Hack Squat · 3×8-12 · tempo 20X0 · rest 150s
-- Seated Ham Curl · 3×8-12 · tempo 20X0 · rest 90s
-- Hammer Chest Press · 3×8-12 · tempo 20X0 · rest 105s
-- Standing Calf Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Cable Crunch · 3×12-20 · tempo 20X0 · rest 60s
-
-#### Shoulder Hypertrophy · Bombardment (dow 4)
-
-- One-Arm Braced Dumbbell Press · 4×8-12 · tempo 20X0 · rest 120s · — Weaker side first; the stronger side matches its reps.
-- Hammer Upper Row · 4×8-12 · tempo 20X0 · rest 120s
-- Seated Dumbbell Lateral Raise · 3×12-20 · tempo 20X0 · rest 60s
-- Machine Rear Delt Fly · 3×15-25 · tempo 20X0 · rest 60s
-- Incline DB Bench Press · 3×8-12 · tempo 20X0 · rest 120s
-- Cable Curl · 3×10-15 · tempo 20X0 · rest 60s
-
-#### Structural Shoulders + Legs · Bombardment (dow 5)
-
-- Seated DB Shoulder Press · 3×8-12 · tempo 20X0 · rest 150s
-- Single-Arm External Rotation · 3×12-20 · tempo 20X0 · rest 60s
-- Machine Rear Delt Fly · 3×15-20 · tempo 20X0 · rest 60s
-- Goblet Skater Squat · 3×8-12 · tempo 20X0 · rest 105s · — Per side.
-- Hip-Supported Dumbbell Deadlift · 3×10-15 · tempo 20X0 · rest 120s
-- Standing Calf Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Rope Pressdown · 3×12-20 · tempo 20X0 · rest 60s
-
-### Weeks 6–10 (5 weeks)
-
-#### Overhead Strength · Artillery (dow 1)
-
-- Standing Military Press · 5×3 · tempo 20X0 · rest 210s · tech {"kind":"wave","ladder":[5,3,2],"waves":2} · — Strict. If the knees bend, the set is over.
-- Weighted Chin-Up · 5×5-8 · tempo 20X0 · rest 180s
-- Cable Lateral Raise · 3×12-20 · tempo 20X0 · rest 60s
-- Rope Pressdown · 3×10-15 · tempo 20X0 · rest 60s
-- Machine Rear Delt Fly · 3×15-20 · tempo 20X0 · rest 60s
-
-#### Delts + Legs · Artillery (dow 2)
-
-- Cable Lateral Raise · 4×12-20 · tempo 20X0 · rest 60s
-- Single Arm Reverse Pec Deck · 4×12-20 · tempo 20X0 · rest 60s · — Per side.
-- Hack Squat · 3×8-12 · tempo 20X0 · rest 150s
-- Seated Ham Curl · 3×8-12 · tempo 20X0 · rest 90s
-- Hammer Chest Press · 3×8-12 · tempo 20X0 · rest 105s
-- Standing Calf Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Cable Crunch · 3×12-20 · tempo 20X0 · rest 60s
-
-#### Shoulder Hypertrophy · Artillery (dow 4)
-
-- One-Arm Braced Dumbbell Press · 4×8-12 · tempo 20X0 · rest 120s · — Weaker side first; the stronger side matches its reps.
-- Hammer Upper Row · 4×8-12 · tempo 20X0 · rest 120s
-- Seated Dumbbell Lateral Raise · 3×12-20 · tempo 20X0 · rest 60s
-- Machine Rear Delt Fly · 3×15-25 · tempo 20X0 · rest 60s
-- Incline DB Bench Press · 3×8-12 · tempo 20X0 · rest 120s
-- Cable Curl · 3×10-15 · tempo 20X0 · rest 60s
-
-#### Structural Shoulders + Legs · Artillery (dow 5)
-
-- Seated DB Shoulder Press · 3×8-12 · tempo 20X0 · rest 150s
-- Single-Arm External Rotation · 3×12-20 · tempo 20X0 · rest 60s
-- Machine Rear Delt Fly · 3×15-20 · tempo 20X0 · rest 60s
-- Goblet Skater Squat · 3×8-12 · tempo 20X0 · rest 105s · — Per side.
-- Hip-Supported Dumbbell Deadlift · 3×10-15 · tempo 20X0 · rest 120s
-- Standing Calf Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Rope Pressdown · 3×12-20 · tempo 20X0 · rest 60s
-
-
-## Phases & week-to-week progression
-
-### Bombardment (weeks 1–5)
-Standing OHP 5×5-8, double +2.5.
-
-### Artillery (weeks 6–10)
-Standing OHP → technique `{ kind: 'wave', ladder: [5, 3, 2], waves: 2 }`, sets 5, reps `3`.
-
-## Techniques, supersets, finishers
-
-- Wave loading on OHP in Artillery only.
-- No A1/A2 pairs.
-- Notes enforce strict press (knees bend = set over) and weaker-side-first unilateral.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-overhead-dominion` |
-| `i18nKey` | `overheadDominion` |
-| `logo` | `/dominion.png` |
-| `coverBg` | `bg-[#070705]` |
-| `order` | 14 |
-| `alwaysFree` | no |
+| **id** | `overhead-dominion` |
+| **Length** | 10 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 81 across 4 training days (week 1 sample) |
+| **Sets/session** | 20.3 |
+| **Goal** | specialisation, strength |
+| **Experience** | intermediate, advanced |
+| **Equipment** | barbell, full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 3/4 — high |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight` |
+| **Techniques used** | `last-set-failure`, `wave` |
+| **Card promise** | *"10 weeks of shoulder specialisation. Delts four times a week, and never the same way twice."* |
 
-**CSS tokens** (`.theme-overhead-dominion`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** Shoulder specialisation built on the standing press four times a week.
+
+The onboarding card claims:
+
+- Focus: Shoulders
+- 4 Days / Week - delts 4x, upper back 3x
+- Heavy press, volume laterals, braced unilateral, structural
+- Front, side and rear delt volume tracked separately
+- Later block moves the press onto 5/3/2 waves
+
+**Prerequisites.** Comfortable overhead position
+
+**Not for you if.**
+
+- Overhead pressing is where your shoulder complains
+
+**Follow-ups.** [atlas](atlas.md), [monolith](monolith.md), [cathedral](cathedral.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Overhead Strength · Bombardment | 6 | 18 | Standing Military Press 5, Weighted Chin-Up 5, Cable Lateral Raise 2, Leaning One-Arm Lateral Raise 2, Rope Pressdown 2, Machine Rear Delt Fly 2 |
+| Delts + Legs · Bombardment | 8 | 21 | Cable Lateral Raise 2, Seated Dumbbell Lateral Raise 2, Single Arm Reverse Pec Deck 2, Hack Squat 3, Seated Ham Curl 3, Hammer Chest Press 3, Standing Calf Raises 3, Cable Crunch 3 |
+| Shoulder Hypertrophy · Bombardment | 8 | 21 | One-Arm Braced Dumbbell Press 4, Single-Arm DB Row 2, Lat Prayer 2, Seated Dumbbell Lateral Raise 2, Leaning One-Arm Lateral Raise 2, Machine Rear Delt Fly 3, Incline DB Bench Press 3, Cable Curl 3 |
+| Structural Shoulders + Legs · Bombardment | 7 | 21 | Seated DB Shoulder Press 3, Single-Arm External Rotation 3, Machine Rear Delt Fly 3, Goblet Skater Squat 3, Hip-Supported Dumbbell Deadlift 3, Standing Calf Raises 3, Rope Pressdown 3 |
+
+### Week-to-week shape
+
+The program runs 10 weeks falling into 2 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `30 86% 42%` |
-| `--accent` | `30 80% 34%` |
-| `--card` | `0 0% 8%` |
-| `--ring` | `30 86% 42%` |
-| `--signal-text` | `(none)` |
+| 1, 2, 3, 4, 5 | Overhead Strength · Bombardment 18, Delts + Legs · Bombardment 21, Shoulder Hypertrophy · Bombardment 21, Structural Shoulders + Legs · Bombardment 21 |
+| 6, 7, 8, 9, 10 | Overhead Strength · Artillery 18, Delts + Legs · Artillery 21, Shoulder Hypertrophy · Artillery 21, Structural Shoulders + Legs · Artillery 21 |
 
-Palette note: burnt orange.
+---
 
-**Widgets:** `program_status`, `strength_chart`, `workout_history`.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| shoulders | 40 | above the 20-set ceiling |
+| back | 9 | below the 10-set growth dose |
+| glutes | 9 | below the 10-set growth dose |
+| biceps | 8 | in band |
+| chest | 6 | below the 10-set growth dose |
+| quads | 6 | below the 10-set growth dose |
+| hamstrings | 6 | below the 10-set growth dose |
+| calves | 6 | in band |
+| triceps | 5 | below the 6-set growth dose |
+| core | 3 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** |
-| “Front/side/rear volume tracked separately” (marketing) | **aspirational** — no dedicated widget; shared strength chart only |
-| EN / PL | good; `Dominium Barków` works |
-| Verify | shared |
+| Push:pull (direct sets) | 3 |
+| Quad:hamstring | 1 |
+| Groups covered (4+ sets) | 9 of 10 |
+| Groups trained on two or more days | 9 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| “aktonu” | Niche anatomy loan | `głowy naramiennego` / `części naramiennego` |
-| “Dominium Barków” | Slightly odd (Dominion→Dominium) | `Dominacja Barków` or keep brand EN |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **118** |
+| Axial | **33** |
+| Lower back | 13 |
+| Per-set systemic | 1.46 |
+| High-systemic sets (cost 3+) | 6 |
+| Compound share | 38% |
+| Shoulder / knee / elbow cost | 52 / 15 / 41 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.65 |
+| Mean stability demand (0-4) | 1.3 |
+| Stimulus per unit fatigue | 1.14 |
+| Failure-safe share of sets | 42% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 29 |
+| At 1 set | 0 |
+| At 2 sets | 11 |
+| At 3 sets | 15 |
+| At 4+ sets | 3 |
+| Mean sets per slot | 2.79 |
+| Distinct exercises | 22 |
+| Variety density (exercises per 10 sets) | 2.72 |
+| Largest single-exercise share | 10% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (3):**
+
+- Overhead Strength · Bombardment — Standing Military Press, 5 sets *(session opener)*
+- Overhead Strength · Bombardment — Weighted Chin-Up, 5 sets
+- Shoulder Hypertrophy · Bombardment — One-Arm Braced Dumbbell Press, 4 sets *(session opener)*
+
+---
+
+## 6. Export block
+
+```yaml
+id: overhead-dominion
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 10
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 81, days: 4, sets_per_session: 20.3, slots: 29 }
+load: { systemic: 118, axial: 33, lower_back: 13, per_set_systemic: 1.46 }
+volume: { shoulders: 40, back: 9, glutes: 9, biceps: 8, chest: 6, quads: 6, hamstrings: 6, calves: 6, triceps: 5, core: 3 }
+coverage: { covered: 9, missing: [], in_band: 2, over: ['shoulders'], under: ['chest', 'back', 'triceps', 'quads', 'hamstrings', 'glutes', 'core'] }
+set_shape: { slots: 29, ones: 0, twos: 11, threes: 15, four_plus: 3, mean: 2.79 }
+variety: { distinct: 22, density: 2.72, top_share: 0.099, evenness: 0.979 }
+```

@@ -1,124 +1,142 @@
 # From Skeleton to Threat
 
-**Program ID:** `skeleton-to-threat` · **Source:** [src/data/skeleton.ts](../../src/data/skeleton.ts) · **Progression:** [src/features/workout/progression/skeleton.ts](../../src/features/workout/progression/skeleton.ts)
-**Duration:** 12 weeks · **Frequency:** user-selected days (every selected day is the same full-body session; onboarding targets **3** days)
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Beginner full-body program. The week grid is generated empty; `preprocessDay` injects the same six-exercise (+ plank) session into every day the user selected during onboarding, and marks everything else Rest & Recovery.
-
-## Onboarding
-
-- **Stats / 1RMs:** none (blank lifting stats).
-- **Schedule:** selectable days; target count **3** (`selectedProgramId === SKELETON` uses `targetCount = 3`). Every selected weekday gets the identical session.
-- **Modules/toggles:** none.
-- **Access:** paid (not `alwaysFree`).
-
-### EN (`onboarding.programs.skeleton`)
-
-- **Name:** From Skeleton to Threat
-- **Description:** 12-week beginner program. For those who have never touched a weight.
-- **Features:** Focus: Full Body · 3 Days / Week · Flexible Schedule
-
-### PL (`onboarding.programs.skeleton`)
-
-- **Name:** Od Szkieleta do Zagrożenia
-- **Description:** 12-tygodniowy program dla początkujących. Dla tych, którzy nigdy nie ruszyli żelastwa.
-- **Features:** Cel: Hipertrofia całego ciała · 3 dni/tydzień · Elastyczny grafik
-
-## Weekly structure
-
-Same session every training day:
-
-| # | Exercise | Sets | Reps / notes |
-|---|---|---|---|
-| 1 | Deficit Push-ups | 3 | AMRAP |
-| 2 | Leg Extensions | 3 (+1 from W9) | 12–20 |
-| 3 | Supported Stiff-Legged DB Deadlift | 3 (+1 from W9) | 10–15 |
-| 4 | Standing Calf Raises | 3 (+1 from W9) | 15–20 |
-| 5 | Inverted Rows | 2 (+1 from W9) | 8–15 |
-| 6 | Overhand Mid-Grip Pulldown | 2 (+1 from W9) | 10–15 |
-| 7 | Planks | 3 | time target (starts 30s) — weight input disabled |
-
-**Late-phase volume:** from **Week 9**, every exercise except push-ups and Planks gets +1 set (`getSets`).
-
-Tempo / rest / RPE: not percentage-based; beat-your-log advice drives load. Planks are time-only.
-
-## Phases & week-to-week progression
-
-### Planks (time-based)
-
-- Target starts at **30 seconds**, stored in `skeletonStatus.plankTargetSeconds`.
-- Rendered into `target.reps` (e.g. `"30sec"`).
-- On save, if **all sets** hit the current target → `plankTargetSeconds` **+10** (`skeletonProgression` / save path).
-- Advice: “Add 10 seconds from last session!” when all sets meet target.
-
-### Other exercises (`getExerciseAdvice`)
-
-No calculated weights:
-
-| Exercise | Progression cue |
+| | |
 |---|---|
-| Deficit Push-ups | “Try to beat: {last max reps}” |
-| Leg Extensions | all sets ≥20 → “+7 kg” |
-| Supported SLDL | all sets ≥15 → “+2.5 kg” if already ≥10 kg/hand, else “+1 kg each dumbbell” |
-| Standing Calf Raises | all sets ≥20 → “switch to single-leg”; Single-Leg at 20s → “+5 kg dumbbell” |
-| Inverted Rows | all sets ≥15 → “go deeper — decrease body angle” |
-| Pulldown | all sets ≥15 → “+7 kg” |
+| **id** | `skeleton-to-threat` |
+| **Length** | 12 weeks |
+| **Frequency** | 3 days/week |
+| **Weekly sets** | 57 across 3 training days (week 1 sample) |
+| **Sets/session** | 19 |
+| **Goal** | general, hypertrophy |
+| **Experience** | beginner |
+| **Equipment** | full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 2/4 — moderate |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `preprocessDay`, `calculateWeight`, `getExerciseAdvice` |
+| **Card promise** | *"12-week beginner program. For those who have never touched a weight."* |
 
-Both modern (`exercises[].setsData`) and legacy (`setResults`) log formats are handled.
+---
 
-### Completion
+## 1. What this plan is
 
-Saving on the **highest selected day of Week 12** → `skeletonStatus.completed`, victory screen, **Certified Threat**, trainer-contact follow-up.
+**Signature mechanic.** Full-body beginner progression that adds load whenever the last session was clean.
 
-## Techniques, supersets, finishers
+The onboarding card claims:
 
-- N/A — straight sets only; no supersets, drop sets, or timed finishers beyond plank holds.
+- Focus: Full Body
+- 3 Days / Week
+- Flexible Schedule
 
-## Dashboard & UI theme
+**Not for you if.**
 
-| Meta | Value |
+- You already train and progress — you will outgrow the jumps in a fortnight
+
+**Follow-ups.** [pencilneck-eradication](pencilneck-eradication.md), [the-minimum](the-minimum.md), [athena](athena.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Day 1 | 7 | 19 | Deficit Push-ups 3, Leg Extensions 3, Supported Stiff Legged DB Deadlift 3, Standing Calf Raises 3, Inverted Rows 2, Overhand Mid-Grip Pulldown 2, Planks 3 |
+| Day 2 | 7 | 19 | Deficit Push-ups 3, Leg Extensions 3, Supported Stiff Legged DB Deadlift 3, Standing Calf Raises 3, Inverted Rows 2, Overhand Mid-Grip Pulldown 2, Planks 3 |
+| Day 3 | 7 | 19 | Deficit Push-ups 3, Leg Extensions 3, Supported Stiff Legged DB Deadlift 3, Standing Calf Raises 3, Inverted Rows 2, Overhand Mid-Grip Pulldown 2, Planks 3 |
+
+All 12 weeks carry the same set-count shape; what varies week to
+week is load, reps and technique rather than volume.
+
+---
+
+## 3. Weekly volume by muscle group
+
+Direct sets, counted once per exercise per major group.
+
+| Group | Sets | Read |
+|---|---:|---|
+| back | 12 | in band |
+| chest | 9 | below the 10-set growth dose |
+| quads | 9 | below the 10-set growth dose |
+| hamstrings | 9 | below the 10-set growth dose |
+| glutes | 9 | below the 10-set growth dose |
+| calves | 9 | in band |
+| core | 9 | in band |
+| shoulders | 0 | no direct sets |
+| biceps | 0 | no direct sets |
+| triceps | 0 | no direct sets |
+
+**Untrained groups:** `shoulders`, `biceps`, `triceps`.
+
+| Balance | Value |
 |---|---|
-| `themeClass` | `theme-skeleton` |
-| `i18nKey` | `skeleton` |
-| `logo` | `/SKELETON.png` |
-| `coverBg` / gradient | `bg-black` / `from-black/90` |
-| `order` | 3 |
-| `alwaysFree` | no |
+| Push:pull (direct sets) | 0.75 |
+| Quad:hamstring | 1 |
+| Groups covered (4+ sets) | 7 of 10 |
+| Groups trained on two or more days | 7 |
 
-**CSS tokens** (`.theme-skeleton` — toxic green over dark rot):
+---
 
-| Token | HSL |
+## 4. Systemic and joint load
+
+| Metric | Value |
 |---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `110 90% 45%` |
-| `--accent` | `0 70% 42%` (blood red contrast) |
-| `--secondary` | `0 55% 14%` |
-| `--ring` | `110 90% 45%` |
-| `--signal-text` | global fallback |
+| Systemic (weekly) | **90** |
+| Axial | **9** |
+| Lower back | 39 |
+| Per-set systemic | 1.58 |
+| High-systemic sets (cost 3+) | 9 |
+| Compound share | 42% |
+| Shoulder / knee / elbow cost | 9 / 18 / 15 |
 
-**Widgets:** `skeleton_countdown`, `skeleton_pushup_max`, `skeleton_quotes`, `workout_history`. Metamorphosis countdown (weeks remaining), Deficit Push-up PR (max reps any set), rest-day quotes.
-
-## Implementation completion analysis
-
-| Area | Status |
+| Stimulus quality | Value |
 |---|---|
-| Plan generator | **complete** — `SKELETON_CONFIG` + `preprocessDay` injection |
-| Progression hooks | **complete** — `skeletonProgression` |
-| Dashboard | **complete** — countdown / PR / quotes |
-| Onboarding wiring | **complete** — 3-day selectable schedule |
-| EN translations | **complete** |
-| PL translations | **natural** for card copy |
-| Exercise library / tips | **complete** for beginner stack |
-| Verify script | **shared** — `verify:progression` |
+| Mean lengthened bias (0-4) | 1.74 |
+| Mean stability demand (0-4) | 0.79 |
+| Stimulus per unit fatigue | 1.1 |
+| Failure-safe share of sets | 32% |
 
-## Translation notes
+---
 
-PL onboarding card reads naturally. Minor optional polish:
+## 5. Set shape
 
-| String | Note |
-|---|---|
-| `nigdy nie ruszyli żelastwa` | Idiomatic; OK |
-| Feature `Cel: Hipertrofia całego ciała` | EN says “Full Body” (broader than hypertrophy) — acceptable |
-| No calques flagged in program card | — |
+| | |
+|---|---:|
+| Slots | 21 |
+| At 1 set | 0 |
+| At 2 sets | 6 |
+| At 3 sets | 15 |
+| At 4+ sets | 0 |
+| Mean sets per slot | 2.71 |
+| Distinct exercises | 7 |
+| Variety density (exercises per 10 sets) | 1.23 |
+| Largest single-exercise share | 16% |
+
+No slot sits at one set and none carries more than three. Nothing to flag.
+
+---
+
+## 6. Export block
+
+```yaml
+id: skeleton-to-threat
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 12
+frequency: [3]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 57, days: 3, sets_per_session: 19, slots: 21 }
+load: { systemic: 90, axial: 9, lower_back: 39, per_set_systemic: 1.58 }
+volume: { back: 12, chest: 9, quads: 9, hamstrings: 9, glutes: 9, calves: 9, core: 9, shoulders: 0, biceps: 0, triceps: 0 }
+coverage: { covered: 7, missing: ['shoulders', 'biceps', 'triceps'], in_band: 3, over: [], under: ['chest', 'quads', 'hamstrings', 'glutes'] }
+set_shape: { slots: 21, ones: 0, twos: 6, threes: 15, four_plus: 0, mean: 2.71 }
+variety: { distinct: 7, density: 1.23, top_share: 0.158, evenness: 0.992 }
+```

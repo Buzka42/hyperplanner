@@ -1,167 +1,168 @@
 # Tenfold
 
-**Program ID:** `tenfold` · **Source:** [src/data/plans/tenfold.ts](../../src/data/plans/tenfold.ts)
-**Duration:** 8 weeks · **Frequency:** 4 days/week — exactly one 10×10 lift per session
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-German Volume Training derivative. **Exactly one** priority exercise per session is **10×10** @ 90s rest, tempo `40X0`, with note: hold load until all ten sets hit ten. Accessories stay normal so the split remains survivable and still hits ~2×/week exposures.
-
-## Onboarding
-
-- **Stats:** none.
-- **Access:** paid.
-- **Schedule:** selectable=true; suggested splits (dow): 1-2-4-5; 1-3-5-6; 2-4-6-7.
-- **Irregular templates:** 2on-1off, 3on-1off, every-other-day.
-
-### EN (`onboarding.programs.tenfold`)
-
-- **Name:** Tenfold
-- **Description:** 8 weeks of German Volume Training. Ten sets of ten on exactly one lift per session.
-- **Features:**
-  - Focus: Hypertrophy through volume
-  - 4 Days / Week
-  - One ten-set lift per session, never two
-  - Hold the load until all ten sets hit ten
-  - Back half trades a set for load
-
-### PL (`onboarding.programs.tenfold`)
-
-- **Name:** Dziesięciokrotność
-- **Description:** 8 tygodni German Volume Training. Dziesięć serii po dziesięć na dokładnie jednym boju w sesji.
-- **Features:**
-  - Cel: Hipertrofia przez objętość
-  - 4 dni / tydzień
-  - Jeden bój na 10 serii w sesji, nigdy dwa
-  - Trzymaj ciężar, aż wszystkie dziesięć serii da dziesiątkę
-  - Druga połowa zamienia serię na ciężar
-
-## Weekly structure
-
-### Weeks 1–5 (5 weeks)
-
-#### Chest Tenfold · Ten Sets (dow 1)
-
-- Hammer Chest Press · 10×10 · tempo 40X0 · rest 90s · — Hold the load until all ten sets reach ten reps. Only then add weight.
-- Hammer Upper Row · 4×8-12 · rest 120s
-- Cable Lateral Raise · 3×12-20 · rest 60s
-- Cable Triceps Extension · 3×10-15 · rest 60s
-- Cable Curl · 3×10-15 · rest 60s
-
-#### Quad Tenfold · Ten Sets (dow 2)
-
-- Hack Squat · 10×10 · tempo 40X0 · rest 90s · — Hold the load until all ten sets reach ten reps. Only then add weight.
-- Seated Ham Curl · 4×8-12 · rest 105s
-- Standing Calf Raises · 4×12-20 · rest 60s
-- Cable Crunch · 3×12-20 · rest 60s
-- Pec Deck · 3×10-15 · rest 75s
-
-#### Back Tenfold · Ten Sets (dow 4)
-
-- Hammer Lower Row · 10×10 · tempo 40X0 · rest 90s · — Hold the load until all ten sets reach ten reps. Only then add weight.
-- Incline DB Bench Press · 4×8-12 · rest 120s
-- Machine Rear Delt Fly · 3×15-20 · rest 60s
-- Dumbbell Hammer Curl · 3×10-15 · rest 60s
-- Rope Pressdown · 3×10-15 · rest 60s
-
-#### Hamstring Tenfold · Ten Sets (dow 5)
-
-- Seated Ham Curl · 10×10 · tempo 40X0 · rest 90s · — Hold the load until all ten sets reach ten reps. Only then add weight.
-- Heel-Elevated Goblet Squat · 4×10-15 · rest 90s
-- Hip-Supported Dumbbell Deadlift · 3×10-15 · rest 120s
-- Standing Calf Raises · 4×12-20 · rest 60s
-- Ab Wheel · 3×8-15 · rest 60s
-- Lat Pulldown (Neutral) · 3×8-12 · rest 105s
-- Seated Dumbbell Lateral Raise · 3×12-20 · rest 60s
-
-### Weeks 6–8 (3 weeks)
-
-#### Chest Tenfold · Consolidation (dow 1)
-
-- Hammer Chest Press · 8×8-10 · tempo 40X0 · rest 90s · — Eight sets now. Push the load rather than the count.
-- Hammer Upper Row · 4×8-12 · rest 120s
-- Cable Lateral Raise · 3×12-20 · rest 60s
-- Cable Triceps Extension · 3×10-15 · rest 60s
-- Cable Curl · 3×10-15 · rest 60s
-
-#### Quad Tenfold · Consolidation (dow 2)
-
-- Hack Squat · 8×8-10 · tempo 40X0 · rest 90s · — Eight sets now. Push the load rather than the count.
-- Seated Ham Curl · 4×8-12 · rest 105s
-- Standing Calf Raises · 4×12-20 · rest 60s
-- Cable Crunch · 3×12-20 · rest 60s
-- Pec Deck · 3×10-15 · rest 75s
-
-#### Back Tenfold · Consolidation (dow 4)
-
-- Hammer Lower Row · 8×8-10 · tempo 40X0 · rest 90s · — Eight sets now. Push the load rather than the count.
-- Incline DB Bench Press · 4×8-12 · rest 120s
-- Machine Rear Delt Fly · 3×15-20 · rest 60s
-- Dumbbell Hammer Curl · 3×10-15 · rest 60s
-- Rope Pressdown · 3×10-15 · rest 60s
-
-#### Hamstring Tenfold · Consolidation (dow 5)
-
-- Seated Ham Curl · 8×8-10 · tempo 40X0 · rest 90s · — Eight sets now. Push the load rather than the count.
-- Heel-Elevated Goblet Squat · 4×10-15 · rest 90s
-- Hip-Supported Dumbbell Deadlift · 3×10-15 · rest 120s
-- Standing Calf Raises · 4×12-20 · rest 60s
-- Ab Wheel · 3×8-15 · rest 60s
-- Lat Pulldown (Neutral) · 3×8-12 · rest 105s
-- Seated Dumbbell Lateral Raise · 3×12-20 · rest 60s
-
-
-## Phases & week-to-week progression
-
-### Ten Sets (weeks 1–5)
-Priority lifts: Hammer Chest Press, Hack Squat, Hammer Lower Row, Seated Ham Curl — each **10×10**.
-
-### Consolidation (weeks 6–8)
-Any 10-set slot → **8×8-10** with note to push load rather than count.
-
-## Techniques, supersets, finishers
-
-- GVT ten-set block; tempo `40X0`.
-- No supersets.
-- Hold-until-complete progression is instructional (notes), not a separate save-time handler file.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-tenfold` |
-| `i18nKey` | `tenfold` |
-| `logo` | `/tenfold.png` |
-| `coverBg` | `bg-[#0a0808]` |
-| `order` | 19 |
-| `alwaysFree` | no |
+| **id** | `tenfold` |
+| **Length** | 8 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 88 across 4 training days (week 1 sample) |
+| **Sets/session** | 22 |
+| **Goal** | hypertrophy |
+| **Experience** | intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 4/4 — very high |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight` |
+| **Techniques used** | `last-set-failure` |
+| **Card promise** | *"8 weeks of German Volume Training. Ten sets of ten on exactly one lift per session."* |
 
-**CSS tokens** (`.theme-tenfold`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** German volume training: ten sets of ten on exactly one lift per session.
+
+The onboarding card claims:
+
+- Focus: Hypertrophy through volume
+- 4 Days / Week
+- One ten-set lift per session, never two
+- Hold the load until all ten sets hit ten
+- Back half trades a set for load
+
+**Prerequisites.** Tolerance for repetitive high-volume work
+
+**Not for you if.**
+
+- You bore easily
+- Your joints object to volume before your muscles do
+
+**Follow-ups.** [purgatorio](purgatorio.md), [event-horizon](event-horizon.md), [monolith](monolith.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Chest Tenfold · Ten Sets | 5 | 18 | Hammer Chest Press 10, Hammer Upper Row 2, Cable Lateral Raise 2, Cable Triceps Extension 2, Machine Curl 2 |
+| Quad Tenfold · Ten Sets | 5 | 23 | Hack Squat 10, Seated Ham Curl 4, Hack Squat Calf Raises 3, Cable Crunch 3, Pec Deck 3 |
+| Back Tenfold · Ten Sets | 5 | 23 | Hammer Lower Row 10, Incline DB Bench Press 4, Machine Rear Delt Fly 3, EZ Preacher Curl 3, French Press 3 |
+| Hamstring Tenfold · Ten Sets | 6 | 24 | Seated Ham Curl 10, Heel-Elevated Goblet Squat 4, Hack Squat Calf Raises 2, Ab Wheel 3, Assisted Pull-ups 3, Cable Lateral Raise 2 |
+
+### Week-to-week shape
+
+The program runs 8 weeks falling into 2 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `0 32% 90%` |
-| `--accent` | `60 28% 90%` |
-| `--card` | `0 0% 8%` |
-| `--ring` | `0 32% 90%` |
-| `--signal-text` | `(none)` |
+| 1, 2, 3, 4, 5 | Chest Tenfold · Ten Sets 18, Quad Tenfold · Ten Sets 23, Back Tenfold · Ten Sets 23, Hamstring Tenfold · Ten Sets 24 |
+| 6, 7, 8 | Chest Tenfold · Consolidation 13, Quad Tenfold · Consolidation 13, Back Tenfold · Consolidation 13, Hamstring Tenfold · Consolidation 15 |
 
-Palette note: near-white primary on dark.
+---
 
-**Widgets:** `program_status`, `strength_chart`, `workout_history`.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| chest | 17 | in band |
+| back | 15 | in band |
+| quads | 14 | in band |
+| hamstrings | 14 | in band |
+| glutes | 14 | in band |
+| shoulders | 11 | in band |
+| core | 6 | in band |
+| biceps | 5 | below the 6-set growth dose |
+| triceps | 5 | below the 6-set growth dose |
+| calves | 5 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** |
-| Hold-until-complete automation | **notes-only** (no dedicated progression handler) |
-| PL “German Volume Training” | left EN inside PL description |
+| Push:pull (direct sets) | 1.65 |
+| Quad:hamstring | 1 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| “German Volume Training” in PL desc | Untranslated jargon | `niemieckiego treningu objętościowego (GVT)` |
-| “Dziesięciokrotność” | Literal; a bit stiff | keep brand `Tenfold` or `Dziesiątka` |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **123** |
+| Axial | **28** |
+| Lower back | 6 |
+| Per-set systemic | 1.4 |
+| High-systemic sets (cost 3+) | 14 |
+| Compound share | 20% |
+| Shoulder / knee / elbow cost | 27 / 42 / 42 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.84 |
+| Mean stability demand (0-4) | 0.66 |
+| Stimulus per unit fatigue | 1.32 |
+| Failure-safe share of sets | 73% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 21 |
+| At 1 set | 0 |
+| At 2 sets | 6 |
+| At 3 sets | 8 |
+| At 4+ sets | 7 |
+| Mean sets per slot | 4.19 |
+| Distinct exercises | 18 |
+| Variety density (exercises per 10 sets) | 2.05 |
+| Largest single-exercise share | 16% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (7):**
+
+- Chest Tenfold · Ten Sets — Hammer Chest Press, 10 sets *(session opener)*
+- Quad Tenfold · Ten Sets — Hack Squat, 10 sets *(session opener)*
+- Quad Tenfold · Ten Sets — Seated Ham Curl, 4 sets
+- Back Tenfold · Ten Sets — Hammer Lower Row, 10 sets *(session opener)*
+- Back Tenfold · Ten Sets — Incline DB Bench Press, 4 sets
+- Hamstring Tenfold · Ten Sets — Seated Ham Curl, 10 sets *(session opener)*
+- Hamstring Tenfold · Ten Sets — Heel-Elevated Goblet Squat, 4 sets
+
+---
+
+## 6. Export block
+
+```yaml
+id: tenfold
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 8
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 88, days: 4, sets_per_session: 22, slots: 21 }
+load: { systemic: 123, axial: 28, lower_back: 6, per_set_systemic: 1.4 }
+volume: { chest: 17, back: 15, quads: 14, hamstrings: 14, glutes: 14, shoulders: 11, core: 6, biceps: 5, triceps: 5, calves: 5 }
+coverage: { covered: 10, missing: [], in_band: 7, over: [], under: ['biceps', 'triceps', 'calves'] }
+set_shape: { slots: 21, ones: 0, twos: 6, threes: 8, four_plus: 7, mean: 4.19 }
+variety: { distinct: 18, density: 2.05, top_share: 0.159, evenness: 0.928 }
+```

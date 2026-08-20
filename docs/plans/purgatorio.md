@@ -1,255 +1,170 @@
 # Purgatorio
 
-**Program ID:** `purgatorio` · **Source:** [src/data/plans/purgatorio.ts](../../src/data/plans/purgatorio.ts)
-**Duration:** 12 weeks (two 6-week Acc→Int blocks) · **Frequency:** 4 days/week upper/lower antagonist
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Repeating **6-week blocks**: three weeks **Accumulation** then three weeks **Intensification**, twice. One day-list; phase transforms change character. Every major group ≥2×/week in both states. Antagonist pairs **A1/A2, B1/B2, C1/C2** throughout.
-
-**Accumulation transform:** sets+1, reps forced to `10-15` (unless AMRAP/Failure), rest ×0.75 rounded to 15s (min 45), default tempo `30X0`.
-**Intensification:** reps `5-8`, rest ×1.4, tempo cleared.
-
-## Onboarding
-
-- **Stats / 1RMs:** none (`requiredStats: []`) — double progression / RPE-free accessories.
-- **Modules:** none.
-- **Access:** paid.
-- **Schedule:** selectable=true; suggested splits (dow): 1-2-4-5; 1-3-5-6; 2-4-6-7.
-- **Irregular templates:** 2on-1off, 3on-1off, every-other-day.
-
-### EN (`onboarding.programs.purgatorio`)
-
-- **Name:** Purgatorio
-- **Description:** Repeating 6-week blocks: three weeks of volume, three weeks of load. Every muscle twice a week in both.
-- **Features:**
-  - Focus: Size and strength together
-  - 4 Days / Week - antagonist paired A1/A2
-  - Accumulation: 10-15 reps, more sets, short rest
-  - Intensification: 5-8 reps, heavier, long rest
-  - Exercise variations rotate between blocks
-
-### PL (`onboarding.programs.purgatorio`)
-
-- **Name:** Purgatorio
-- **Description:** Powtarzalne 6-tygodniowe bloki: trzy tygodnie objętości, trzy tygodnie ciężaru. Każda partia 2x w tygodniu w obu.
-- **Features:**
-  - Cel: Masa i siła jednocześnie
-  - 4 dni / tydzień - pary antagonistyczne A1/A2
-  - Akumulacja: 10-15 powtórzeń, więcej serii, krótkie przerwy
-  - Intensyfikacja: 5-8 powtórzeń, ciężej, długie przerwy
-  - Warianty ćwiczeń rotują między blokami
-
-## Weekly structure
-
-### Weeks 1–3 (3 weeks)
-
-#### Upper A · Accumulation (dow 1)
-
-- Flat DB Press · 4×10-15 · tempo 30X0 · rest 90s · pair A1
-- Hammer Upper Row · 4×10-15 · tempo 30X0 · rest 90s · pair A2
-- Seated DB Shoulder Press · 4×10-15 · tempo 30X0 · rest 75s · pair B1
-- Lat Pulldown (Neutral) · 4×10-15 · tempo 30X0 · rest 75s · pair B2
-- Standing Straight-Bar Curl · 4×10-15 · tempo 30X0 · rest 60s · pair C1
-- Rope Pressdown · 4×10-15 · tempo 30X0 · rest 60s · pair C2
-
-#### Lower A · Accumulation (dow 2)
-
-- Hack Squat · 4×10-15 · tempo 30X0 · rest 120s · pair A1
-- Seated Ham Curl · 4×10-15 · tempo 30X0 · rest 120s · pair A2
-- Leg Extensions · 4×10-15 · tempo 30X0 · rest 75s · pair B1
-- Barbell Romanian Deadlift · 4×10-15 · tempo 30X0 · rest 90s · pair B2
-- Standing Calf Raises · 4×10-15 · tempo 30X0 · rest 45s · pair C1
-- Cable Crunch · 4×10-15 · tempo 30X0 · rest 45s · pair C2
-
-#### Upper B · Accumulation (dow 4)
-
-- Incline DB Bench Press · 4×10-15 · tempo 30X0 · rest 90s · pair A1
-- Hammer Lower Row · 4×10-15 · tempo 30X0 · rest 90s · pair A2
-- Cable Lateral Raise · 4×10-15 · tempo 30X0 · rest 60s · pair B1
-- Pull-Up · 4×10-15 · tempo 30X0 · rest 90s · pair B2
-- Dumbbell Hammer Curl · 4×10-15 · tempo 30X0 · rest 60s · pair C1
-- Lying Dumbbell Skullcrusher · 4×10-15 · tempo 30X0 · rest 60s · pair C2
-
-#### Lower B · Accumulation (dow 5)
-
-- Front Squats · 4×10-15 · tempo 30X0 · rest 120s · pair A1
-- Single-Leg Hamstring Curl · 4×10-15 · tempo 30X0 · rest 90s · pair A2
-- Heel-Elevated Goblet Squat · 4×10-15 · tempo 30X0 · rest 75s · pair B1
-- Hip-Supported Dumbbell Deadlift · 4×10-15 · tempo 30X0 · rest 90s · pair B2
-- Hack Squat Calf Raises · 4×10-15 · tempo 30X0 · rest 45s · pair C1
-- Ab Wheel · 4×10-15 · tempo 30X0 · rest 45s · pair C2
-
-### Weeks 4–6 (3 weeks)
-
-#### Upper A · Intensification (dow 1)
-
-- Flat DB Press · 3×5-8 · rest 165s · pair A1
-- Hammer Upper Row · 3×5-8 · rest 165s · pair A2
-- Seated DB Shoulder Press · 3×5-8 · rest 150s · pair B1
-- Lat Pulldown (Neutral) · 3×5-8 · rest 150s · pair B2
-- Standing Straight-Bar Curl · 3×5-8 · rest 105s · pair C1
-- Rope Pressdown · 3×5-8 · rest 105s · pair C2
-
-#### Lower A · Intensification (dow 2)
-
-- Hack Squat · 3×5-8 · rest 210s · pair A1
-- Seated Ham Curl · 3×5-8 · rest 210s · pair A2
-- Leg Extensions · 3×5-8 · rest 120s · pair B1
-- Barbell Romanian Deadlift · 3×5-8 · rest 165s · pair B2
-- Standing Calf Raises · 3×5-8 · rest 90s · pair C1
-- Cable Crunch · 3×5-8 · rest 90s · pair C2
-
-#### Upper B · Intensification (dow 4)
-
-- Incline DB Bench Press · 3×5-8 · rest 165s · pair A1
-- Hammer Lower Row · 3×5-8 · rest 165s · pair A2
-- Cable Lateral Raise · 3×5-8 · rest 105s · pair B1
-- Pull-Up · 3×5-8 · rest 165s · pair B2
-- Dumbbell Hammer Curl · 3×5-8 · rest 105s · pair C1
-- Lying Dumbbell Skullcrusher · 3×5-8 · rest 105s · pair C2
-
-#### Lower B · Intensification (dow 5)
-
-- Front Squats · 3×5-8 · rest 210s · pair A1
-- Single-Leg Hamstring Curl · 3×5-8 · rest 165s · pair A2
-- Heel-Elevated Goblet Squat · 3×5-8 · rest 120s · pair B1
-- Hip-Supported Dumbbell Deadlift · 3×5-8 · rest 165s · pair B2
-- Hack Squat Calf Raises · 3×5-8 · rest 90s · pair C1
-- Ab Wheel · 3×5-8 · rest 90s · pair C2
-
-### Weeks 7–9 (3 weeks)
-
-#### Upper A · Accumulation II (dow 1)
-
-- Flat DB Press · 4×10-15 · tempo 30X0 · rest 90s · pair A1
-- Hammer Upper Row · 4×10-15 · tempo 30X0 · rest 90s · pair A2
-- Seated DB Shoulder Press · 4×10-15 · tempo 30X0 · rest 75s · pair B1
-- Lat Pulldown (Neutral) · 4×10-15 · tempo 30X0 · rest 75s · pair B2
-- Standing Straight-Bar Curl · 4×10-15 · tempo 30X0 · rest 60s · pair C1
-- Rope Pressdown · 4×10-15 · tempo 30X0 · rest 60s · pair C2
-
-#### Lower A · Accumulation II (dow 2)
-
-- Hack Squat · 4×10-15 · tempo 30X0 · rest 120s · pair A1
-- Seated Ham Curl · 4×10-15 · tempo 30X0 · rest 120s · pair A2
-- Leg Extensions · 4×10-15 · tempo 30X0 · rest 75s · pair B1
-- Barbell Romanian Deadlift · 4×10-15 · tempo 30X0 · rest 90s · pair B2
-- Standing Calf Raises · 4×10-15 · tempo 30X0 · rest 45s · pair C1
-- Cable Crunch · 4×10-15 · tempo 30X0 · rest 45s · pair C2
-
-#### Upper B · Accumulation II (dow 4)
-
-- Incline DB Bench Press · 4×10-15 · tempo 30X0 · rest 90s · pair A1
-- Hammer Lower Row · 4×10-15 · tempo 30X0 · rest 90s · pair A2
-- Cable Lateral Raise · 4×10-15 · tempo 30X0 · rest 60s · pair B1
-- Pull-Up · 4×10-15 · tempo 30X0 · rest 90s · pair B2
-- Dumbbell Hammer Curl · 4×10-15 · tempo 30X0 · rest 60s · pair C1
-- Lying Dumbbell Skullcrusher · 4×10-15 · tempo 30X0 · rest 60s · pair C2
-
-#### Lower B · Accumulation II (dow 5)
-
-- Front Squats · 4×10-15 · tempo 30X0 · rest 120s · pair A1
-- Single-Leg Hamstring Curl · 4×10-15 · tempo 30X0 · rest 90s · pair A2
-- Heel-Elevated Goblet Squat · 4×10-15 · tempo 30X0 · rest 75s · pair B1
-- Hip-Supported Dumbbell Deadlift · 4×10-15 · tempo 30X0 · rest 90s · pair B2
-- Hack Squat Calf Raises · 4×10-15 · tempo 30X0 · rest 45s · pair C1
-- Ab Wheel · 4×10-15 · tempo 30X0 · rest 45s · pair C2
-
-### Weeks 10–12 (3 weeks)
-
-#### Upper A · Intensification II (dow 1)
-
-- Flat DB Press · 3×5-8 · rest 165s · pair A1
-- Hammer Upper Row · 3×5-8 · rest 165s · pair A2
-- Seated DB Shoulder Press · 3×5-8 · rest 150s · pair B1
-- Lat Pulldown (Neutral) · 3×5-8 · rest 150s · pair B2
-- Standing Straight-Bar Curl · 3×5-8 · rest 105s · pair C1
-- Rope Pressdown · 3×5-8 · rest 105s · pair C2
-
-#### Lower A · Intensification II (dow 2)
-
-- Hack Squat · 3×5-8 · rest 210s · pair A1
-- Seated Ham Curl · 3×5-8 · rest 210s · pair A2
-- Leg Extensions · 3×5-8 · rest 120s · pair B1
-- Barbell Romanian Deadlift · 3×5-8 · rest 165s · pair B2
-- Standing Calf Raises · 3×5-8 · rest 90s · pair C1
-- Cable Crunch · 3×5-8 · rest 90s · pair C2
-
-#### Upper B · Intensification II (dow 4)
-
-- Incline DB Bench Press · 3×5-8 · rest 165s · pair A1
-- Hammer Lower Row · 3×5-8 · rest 165s · pair A2
-- Cable Lateral Raise · 3×5-8 · rest 105s · pair B1
-- Pull-Up · 3×5-8 · rest 165s · pair B2
-- Dumbbell Hammer Curl · 3×5-8 · rest 105s · pair C1
-- Lying Dumbbell Skullcrusher · 3×5-8 · rest 105s · pair C2
-
-#### Lower B · Intensification II (dow 5)
-
-- Front Squats · 3×5-8 · rest 210s · pair A1
-- Single-Leg Hamstring Curl · 3×5-8 · rest 165s · pair A2
-- Heel-Elevated Goblet Squat · 3×5-8 · rest 120s · pair B1
-- Hip-Supported Dumbbell Deadlift · 3×5-8 · rest 165s · pair B2
-- Hack Squat Calf Raises · 3×5-8 · rest 90s · pair C1
-- Ab Wheel · 3×5-8 · rest 90s · pair C2
-
-
-## Phases & week-to-week progression
-
-### Accumulation / Accumulation II (weeks 1–3, 7–9)
-Base slots start at 3 sets → **4 sets** after transform; rest shortened; tempo `30X0`.
-
-### Intensification / Intensification II (weeks 4–6, 10–12)
-Reps drop to **5–8**; rest lengthened; no tempo prescription.
-
-Day B variations (Upper B / Lower B) rotate movements vs A days (incline vs flat, front squat vs hack, etc.) — not a second program copy.
-
-## Techniques, supersets, finishers
-
-- Full-session **antagonist supersets** (A1/A2 … C1/C2).
-- No intensity techniques (drop sets / rest-pause) in source.
-- Front squat offers alternate `Safety Bar Squat`.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-purgatorio` |
-| `i18nKey` | `purgatorio` |
-| `logo` | `/purgatorio.png` |
-| `coverBg` | `bg-[#0a0806]` |
-| `order` | 12 |
-| `alwaysFree` | no |
+| **id** | `purgatorio` |
+| **Length** | 12 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 79 across 4 training days (week 1 sample) |
+| **Sets/session** | 19.8 |
+| **Goal** | hypertrophy, conditioning |
+| **Experience** | intermediate, advanced |
+| **Equipment** | full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 4/4 — very high |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight` |
+| **Techniques used** | `last-set-failure` |
+| **Card promise** | *"Repeating 6-week blocks: three weeks of volume, three weeks of load. Every muscle twice a week in both."* |
 
-**CSS tokens** (`.theme-purgatorio`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** Sustained high-rep suffering with the rest periods as the prescription.
+
+The onboarding card claims:
+
+- Focus: Size and strength together
+- 4 Days / Week - antagonist paired A1/A2
+- Accumulation: 10-15 reps, more sets, short rest
+- Intensification: 5-8 reps, heavier, long rest
+- Exercise variations rotate between blocks
+
+**Prerequisites.** A base of general fitness
+
+**Not for you if.**
+
+- You are trying to add maximal strength
+- You dislike training near failure
+
+**Follow-ups.** [redline](redline.md), [event-horizon](event-horizon.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Upper A · Accumulation | 6 | 21 | Flat DB Press 4, EZ Preacher Curl 3, Lat Pulldown (Neutral) 4, Rope Pressdown 3, Seated DB Shoulder Press 4, Leaning One-Arm Lateral Raise 3 |
+| Lower A · Accumulation | 6 | 19 | Hack Squat 4, Hack Squat Calf Raises 3, Lying Leg Curls 3, Single-Leg Dumbbell Romanian Deadlift 3, Hip Adduction 3, Planks 3 |
+| Upper B · Accumulation | 6 | 20 | Incline DB Bench Press 4, Dumbbell Hammer Curl (legacy id) 3, Seated Cable Row 4, French Press 3, Rear-Delt Rope Pulls to Face 3, Single Arm Reverse Pec Deck 3 |
+| Lower B · Accumulation | 6 | 19 | Heel-Elevated Goblet Squat 4, Machine Hip Abduction 3, Seated Ham Curl 3, Standing Dumbbell/KB Calf Raise 3, DB Romanian Deadlift 3, Planks 3 |
+
+### Week-to-week shape
+
+The program runs 12 weeks falling into 4 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `33 55% 59%` |
-| `--accent` | `33 50% 59%` |
-| `--card` | `0 0% 8%` |
-| `--ring` | `33 55% 59%` |
-| `--signal-text` | `(none)` |
+| 1, 2, 3 | Upper A · Accumulation 21, Lower A · Accumulation 19, Upper B · Accumulation 20, Lower B · Accumulation 19 |
+| 4, 5, 6 | Upper A · Intensification 15, Lower A · Intensification 13, Upper B · Intensification 14, Lower B · Intensification 13 |
+| 7, 8, 9 | Upper A · Accumulation II 21, Lower A · Accumulation II 19, Upper B · Accumulation II 20, Lower B · Accumulation II 19 |
+| 10, 11, 12 | Upper A · Intensification II 15, Lower A · Intensification II 13, Upper B · Intensification II 14, Lower B · Intensification II 13 |
 
-Palette note: dusty amber.
+---
 
-**Widgets:** `program_status`, `strength_chart`, `workout_history`.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 20 | in band |
+| shoulders | 17 | in band |
+| hamstrings | 12 | in band |
+| chest | 8 | below the 10-set growth dose |
+| back | 8 | below the 10-set growth dose |
+| quads | 8 | below the 10-set growth dose |
+| biceps | 6 | in band |
+| triceps | 6 | in band |
+| calves | 6 | in band |
+| core | 6 | in band |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** |
-| Progression | double progression default (no % 1RM hooks beyond `calculateWeight` passthrough) |
-| Dashboard | shared widgets |
-| EN / PL | **complete**; brand name kept EN in PL |
-| Verify | shared |
+| Push:pull (direct sets) | 2.21 |
+| Quad:hamstring | 0.67 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| Name `Purgatorio` | Brand kept EN | OK for product; optional `Czyściec` only if branding allows |
-| “trzy tygodnie ciężaru” | Slightly vague vs “intensification” | `trzy tygodnie intensyfikacji (ciężej, mniej powtórzeń)` |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **119** |
+| Axial | **30** |
+| Lower back | 18 |
+| Per-set systemic | 1.51 |
+| High-systemic sets (cost 3+) | 14 |
+| Compound share | 33% |
+| Shoulder / knee / elbow cost | 25 / 22 / 40 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.89 |
+| Mean stability demand (0-4) | 1.32 |
+| Stimulus per unit fatigue | 1.25 |
+| Failure-safe share of sets | 38% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 24 |
+| At 1 set | 0 |
+| At 2 sets | 0 |
+| At 3 sets | 17 |
+| At 4+ sets | 7 |
+| Mean sets per slot | 3.29 |
+| Distinct exercises | 23 |
+| Variety density (exercises per 10 sets) | 2.91 |
+| Largest single-exercise share | 8% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (7):**
+
+- Upper A · Accumulation — Flat DB Press, 4 sets *(session opener)*
+- Upper A · Accumulation — Lat Pulldown (Neutral), 4 sets
+- Upper A · Accumulation — Seated DB Shoulder Press, 4 sets
+- Lower A · Accumulation — Hack Squat, 4 sets *(session opener)*
+- Upper B · Accumulation — Incline DB Bench Press, 4 sets *(session opener)*
+- Upper B · Accumulation — Seated Cable Row, 4 sets
+- Lower B · Accumulation — Heel-Elevated Goblet Squat, 4 sets *(session opener)*
+
+---
+
+## 6. Export block
+
+```yaml
+id: purgatorio
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 12
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 79, days: 4, sets_per_session: 19.8, slots: 24 }
+load: { systemic: 119, axial: 30, lower_back: 18, per_set_systemic: 1.51 }
+volume: { glutes: 20, shoulders: 17, hamstrings: 12, chest: 8, back: 8, quads: 8, biceps: 6, triceps: 6, calves: 6, core: 6 }
+coverage: { covered: 10, missing: [], in_band: 7, over: [], under: ['chest', 'back', 'quads'] }
+set_shape: { slots: 24, ones: 0, twos: 0, threes: 17, four_plus: 7, mean: 3.29 }
+variety: { distinct: 23, density: 2.91, top_share: 0.076, evenness: 0.994 }
+```

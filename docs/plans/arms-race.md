@@ -1,176 +1,168 @@
 # Arms Race
 
-**Program ID:** `arms-race` · **Source:** [src/data/plans/armsRace.ts](../../src/data/plans/armsRace.ts)
-**Duration:** 8 weeks · **Frequency:** 4 days/week — arms 4× distinct exposures
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Arm specialisation: (1) heavy CG bench + straight-bar curl, (2) brachialis/reverse + overhead tri, (3) lengthened curl positions, (4) **density supersets**. Default tempo `20X0`. Close-grip and curl use double +2.5 kg.
-
-## Onboarding
-
-- **Stats:** none.
-- **Access:** paid.
-- **Schedule:** selectable=true; suggested splits (dow): 1-2-4-5; 1-3-5-6; 2-4-6-7.
-- **Irregular templates:** 2on-1off, 3on-1off, every-other-day.
-
-### EN (`onboarding.programs.armsRace`)
-
-- **Name:** Arms Race
-- **Description:** 8 weeks of arm specialisation. Biceps and triceps four times a week, never the same way twice.
-- **Features:**
-  - Focus: Biceps and triceps
-  - 4 Days / Week - arms 4x
-  - Heavy, brachialis, lengthened, and a density day
-  - Supersets on the density day
-  - Everything else held at twice weekly
-
-### PL (`onboarding.programs.armsRace`)
-
-- **Name:** Wyścig Zbrojeń
-- **Description:** 8 tygodni specjalizacji na ramiona. Biceps i triceps cztery razy w tygodniu, za każdym razem inaczej.
-- **Features:**
-  - Cel: Biceps i triceps
-  - 4 dni / tydzień - ramiona 4x
-  - Ciężko, ramienny, w rozciągnięciu i dzień gęstości
-  - Superserie w dniu gęstości
-  - Reszta partii utrzymana na 2x w tygodniu
-
-## Weekly structure
-
-### Weeks 1–4 (4 weeks)
-
-#### Arm Strength · Escalation (dow 1)
-
-- Close-Grip Bench Press · 5×4-6 · tempo 20X0 · rest 210s
-- Standing Straight-Bar Curl · 5×4-6 · tempo 20X0 · rest 180s · — Heavy elbow flexion. Strict enough that the load is doing the work, not the hips.
-- Flat DB Press · 3×8-12 · tempo 20X0 · rest 120s
-- Hammer Upper Row · 3×8-12 · tempo 20X0 · rest 120s
-- Machine Rear Delt Fly · 3×15-20 · tempo 20X0 · rest 60s
-
-#### Brachialis + Legs · Escalation (dow 2)
-
-- Reverse Curl · 3×8-12 · tempo 20X0 · rest 75s
-- Dumbbell Hammer Curl · 3×10-15 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 3×10-15 · tempo 20X0 · rest 75s · — Overhead. Long head under stretch.
-- Rope Pressdown · 3×12-20 · tempo 20X0 · rest 60s
-- Hack Squat · 3×8-12 · tempo 20X0 · rest 150s
-- Hip-Supported Dumbbell Deadlift · 3×8-12 · tempo 20X0 · rest 120s
-- Standing Calf Raises · 3×12-20 · tempo 20X0 · rest 60s
-
-#### Lengthened Arms + Torso · Escalation (dow 4)
-
-- 30° Incline-Lying Dumbbell Curl · 3×8-12 · tempo 20X0 · rest 75s · — Arm behind the torso — that stretch is the point.
-- Bayesian Cable Curl · 3×12-15 · tempo 20X0 · rest 60s
-- Cable Triceps Extension · 3×10-15 · tempo 20X0 · rest 60s
-- French Press · 3×10-15 · tempo 20X0 · rest 75s
-- Incline Barbell Bench Press · 3×8-12 · tempo 20X0 · rest 120s
-- Lat Pulldown (Neutral) · 3×8-12 · tempo 20X0 · rest 105s
-- Cable Lateral Raise · 3×15-20 · tempo 20X0 · rest 60s
-
-#### Arm Density + Legs · Escalation (dow 5)
-
-- Standing Straight-Bar Curl · 4×8-12 · tempo 20X0 · rest 30s · pair A1
-- Lying Dumbbell Skullcrusher · 4×12-15 · tempo 20X0 · rest 90s · pair A2
-- Rope Hammer Curl · 3×12-20 · tempo 20X0 · rest 30s · pair B1
-- Rope Pressdown · 3×12-20 · tempo 20X0 · rest 90s · pair B2
-- Heel-Elevated Goblet Squat · 3×10-15 · tempo 20X0 · rest 90s
-- Seated Ham Curl · 3×10-15 · tempo 20X0 · rest 90s
-- Standing Calf Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Cable Crunch · 3×12-20 · tempo 20X0 · rest 60s
-
-### Weeks 5–8 (4 weeks)
-
-#### Arm Strength · Proliferation (dow 1)
-
-- Close-Grip Bench Press · 5×4-6 · tempo 20X0 · rest 210s
-- Standing Straight-Bar Curl · 6×4-6 · tempo 20X0 · rest 180s · — Heavy elbow flexion. Strict enough that the load is doing the work, not the hips.
-- Flat DB Press · 3×8-12 · tempo 20X0 · rest 120s
-- Hammer Upper Row · 3×8-12 · tempo 20X0 · rest 120s
-- Machine Rear Delt Fly · 3×15-20 · tempo 20X0 · rest 60s
-
-#### Brachialis + Legs · Proliferation (dow 2)
-
-- Reverse Curl · 4×8-12 · tempo 20X0 · rest 75s
-- Dumbbell Hammer Curl · 4×10-15 · tempo 20X0 · rest 75s
-- Cable Triceps Extension · 3×10-15 · tempo 20X0 · rest 75s · — Overhead. Long head under stretch.
-- Rope Pressdown · 4×12-20 · tempo 20X0 · rest 60s
-- Hack Squat · 3×8-12 · tempo 20X0 · rest 150s
-- Hip-Supported Dumbbell Deadlift · 3×8-12 · tempo 20X0 · rest 120s
-- Standing Calf Raises · 3×12-20 · tempo 20X0 · rest 60s
-
-#### Lengthened Arms + Torso · Proliferation (dow 4)
-
-- 30° Incline-Lying Dumbbell Curl · 4×8-12 · tempo 20X0 · rest 75s · — Arm behind the torso — that stretch is the point.
-- Bayesian Cable Curl · 4×12-15 · tempo 20X0 · rest 60s
-- Cable Triceps Extension · 3×10-15 · tempo 20X0 · rest 60s
-- French Press · 3×10-15 · tempo 20X0 · rest 75s
-- Incline Barbell Bench Press · 3×8-12 · tempo 20X0 · rest 120s
-- Lat Pulldown (Neutral) · 3×8-12 · tempo 20X0 · rest 105s
-- Cable Lateral Raise · 3×15-20 · tempo 20X0 · rest 60s
-
-#### Arm Density + Legs · Proliferation (dow 5)
-
-- Standing Straight-Bar Curl · 5×8-12 · tempo 20X0 · rest 30s · pair A1
-- Lying Dumbbell Skullcrusher · 5×12-15 · tempo 20X0 · rest 90s · pair A2
-- Rope Hammer Curl · 4×12-20 · tempo 20X0 · rest 30s · pair B1
-- Rope Pressdown · 4×12-20 · tempo 20X0 · rest 90s · pair B2
-- Heel-Elevated Goblet Squat · 3×10-15 · tempo 20X0 · rest 90s
-- Seated Ham Curl · 4×10-15 · tempo 20X0 · rest 90s
-- Standing Calf Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Cable Crunch · 3×12-20 · tempo 20X0 · rest 60s
-
-
-## Phases & week-to-week progression
-
-### Escalation (weeks 1–4)
-Base volumes.
-
-### Proliferation (weeks 5–8)
-Any slot with `pair` **or** id containing `curl`/`pressdown` gains **+1 set**.
-
-## Techniques, supersets, finishers
-
-- Density day A1/A2 and B1/B2 supersets (30s rest on A1/B1, 90s on A2/B2).
-- Lengthened: 30° incline lying DB curl, Bayesian cable curl, French press.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-arms-race` |
-| `i18nKey` | `armsRace` |
-| `logo` | `/armsrace.png` |
-| `coverBg` | `bg-[#0a0705]` |
-| `order` | 16 |
-| `alwaysFree` | no |
+| **id** | `arms-race` |
+| **Length** | 8 weeks |
+| **Frequency** | 3/4 days/week |
+| **Weekly sets** | 80 across 4 training days (week 1 sample) |
+| **Sets/session** | 20 |
+| **Goal** | specialisation, hypertrophy |
+| **Experience** | intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 2/4 — moderate |
+| **Session engine** | `rotation` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `myo-reps` |
+| **Card promise** | *"8 weeks of arm specialisation. Biceps and triceps four times a week, never the same way twice."* |
 
-**CSS tokens** (`.theme-arms-race`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** A three-session rotation run every other day, with an optional fourth go-nuclear session of giant sets.
+
+The onboarding card claims:
+
+- Focus: Biceps and triceps
+- 4 Days / Week - arms 4x
+- Heavy, brachialis, lengthened, and a density day
+- Supersets on the density day
+- Everything else held at twice weekly
+
+**Not for you if.**
+
+- Your compounds are the thing that needs work
+
+**Follow-ups.** [pencilneck-eradication](pencilneck-eradication.md), [monolith](monolith.md), [cathedral](cathedral.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Volume + Legs · Escalation | 7 | 21 | Close-Grip Bench Press 4, Rope Hammer Curl 4, Reverse Curl 3, Rope Pressdown 2, Hack Squat 3, Hack Squat Calf Raises 3, Hip-Supported Dumbbell Deadlift 2 |
+| Lengthened · Escalation | 7 | 20 | Bayesian Cable Curl 4, Rolling DB Tricep Extensions 4, 30° Incline-Lying Dumbbell Curl 3, French Press 2, Bench-Supported Single-Arm Cable Pulldown 3, Pec Deck 2, Behind-the-Back Cable Lateral Raise 2 |
+| Pump · Escalation | 8 | 24 | Standing Straight-Bar Curl 4, Lying Dumbbell Skullcrusher 4, Machine Curl 3, Triangle Pushdown 2, Heel-Elevated Goblet Squat 3, Hack Squat Calf Raises 3, Cable Crunch 3, Seated Ham Curl 2 |
+| Go Nuclear (optional) · Escalation | 7 | 15 | Bodyweight Dips 2, Rolling DB Tricep Extensions 2, Banded EZ Bar Skullcrushers 2, 30° Incline-Lying Dumbbell Curl 1, 30° Smith Incline Bench Press 3, Hammer Upper Row 3, Machine Rear Delt Fly 2 |
+
+### Week-to-week shape
+
+The program runs 8 weeks falling into 2 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `30 49% 45%` |
-| `--accent` | `30 44% 34%` |
-| `--card` | `0 0% 8%` |
-| `--ring` | `30 49% 45%` |
-| `--signal-text` | `(none)` |
+| 1, 2, 3, 4 | Volume + Legs · Escalation 21, Lengthened · Escalation 20, Pump · Escalation 24, Go Nuclear (optional) · Escalation 16 |
+| 5, 6, 7, 8 | Volume + Legs · Proliferation 21, Lengthened · Proliferation 20, Pump · Proliferation 24, Go Nuclear (optional) · Proliferation 16 |
 
-Palette note: bronze.
+---
 
-**Widgets:** `program_status`, `strength_chart`, `workout_history`.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| triceps | 24 | above the 20-set ceiling |
+| biceps | 22 | above the 20-set ceiling |
+| chest | 11 | in band |
+| glutes | 8 | below the 10-set growth dose |
+| shoulders | 7 | below the 10-set growth dose |
+| back | 6 | below the 10-set growth dose |
+| quads | 6 | below the 10-set growth dose |
+| calves | 6 | in band |
+| hamstrings | 4 | below the 10-set growth dose |
+| core | 3 | below the 6-set growth dose |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** |
-| Dashboard | shared |
-| PL feature “Ciężko, ramienny…” | **awkward** — see Translation notes |
+| Push:pull (direct sets) | 1.5 |
+| Quad:hamstring | 1.5 |
+| Groups covered (4+ sets) | 9 of 10 |
+| Groups trained on two or more days | 9 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| “Ciężko, ramienny, w rozciągnięciu i dzień gęstości” | Broken telegram style | `Dzień ciężki, dzień ramiennego, dzień w rozciągnięciu, dzień gęstości` |
-| “Wyścig Zbrojeń” | Good idiom for Arms Race | keep |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **105** |
+| Axial | **14** |
+| Lower back | 6 |
+| Per-set systemic | 1.31 |
+| High-systemic sets (cost 3+) | 8 |
+| Compound share | 21% |
+| Shoulder / knee / elbow cost | 15 / 14 / 97 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 2.38 |
+| Mean stability demand (0-4) | 1.34 |
+| Stimulus per unit fatigue | 1.81 |
+| Failure-safe share of sets | 35% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 29 |
+| At 1 set | 1 |
+| At 2 sets | 11 |
+| At 3 sets | 11 |
+| At 4+ sets | 6 |
+| Mean sets per slot | 2.76 |
+| Distinct exercises | 26 |
+| Variety density (exercises per 10 sets) | 3.25 |
+| Largest single-exercise share | 8% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**One set (1):**
+
+- Go Nuclear (optional) · Escalation — 30° Incline-Lying Dumbbell Curl
+
+**Four or more sets (6):**
+
+- Volume + Legs · Escalation — Close-Grip Bench Press, 4 sets *(session opener)*
+- Volume + Legs · Escalation — Rope Hammer Curl, 4 sets
+- Lengthened · Escalation — Bayesian Cable Curl, 4 sets *(session opener)*
+- Lengthened · Escalation — Rolling DB Tricep Extensions, 4 sets
+- Pump · Escalation — Standing Straight-Bar Curl, 4 sets *(session opener)*
+- Pump · Escalation — Lying Dumbbell Skullcrusher, 4 sets
+
+---
+
+## 6. Export block
+
+```yaml
+id: arms-race
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 8
+frequency: [3, 4]
+engine: rotation
+sampled_week: 1
+weekly: { sets: 80, days: 4, sets_per_session: 20, slots: 29 }
+load: { systemic: 105, axial: 14, lower_back: 6, per_set_systemic: 1.31 }
+volume: { triceps: 24, biceps: 22, chest: 11, glutes: 8, shoulders: 7, back: 6, quads: 6, calves: 6, hamstrings: 4, core: 3 }
+coverage: { covered: 9, missing: [], in_band: 2, over: ['biceps', 'triceps'], under: ['shoulders', 'back', 'quads', 'hamstrings', 'glutes', 'core'] }
+set_shape: { slots: 29, ones: 1, twos: 11, threes: 11, four_plus: 6, mean: 2.76 }
+variety: { distinct: 26, density: 3.25, top_share: 0.075, evenness: 0.98 }
+```

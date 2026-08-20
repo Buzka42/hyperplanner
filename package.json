@@ -63,7 +63,8 @@
     "verify:oracle": "npx --yes tsx scripts/verify-oracle.ts",
     "verify:supermutant-pool": "npx --yes tsx scripts/verify-supermutant-pool.ts",
     "verify:group6": "npx --yes tsx scripts/verify-group6-workhorse-simulation.ts",
-    "migrate:plan-ids": "npx --yes tsx scripts/migrate-plan-ids.ts"
+    "migrate:plan-ids": "npx --yes tsx scripts/migrate-plan-ids.ts",
+    "docs:plans": "npx --yes tsx scripts/dump-plan-facts.ts && python scripts/gen-plan-docs.py"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.3.3",

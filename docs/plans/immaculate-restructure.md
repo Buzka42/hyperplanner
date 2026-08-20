@@ -1,222 +1,167 @@
 # Immaculate (Re)Structure
 
-**Program ID:** `immaculate-restructure` · **Source:** [src/data/plans/immaculateRestructure.ts](../../src/data/plans/immaculateRestructure.ts)
-**Duration:** 10 weeks · **Frequency:** 4 days/week
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Structural-balance + hypertrophy hybrid around **Poliquin ratios** relative to close-grip bench (=100%): incline barbell ~**83%**, weighted chin total system ~**81%**, preacher curl ~**46%**, reverse curl ~**30%**, single-arm external rotation ~**9%**. Ratios are programming references — never medical thresholds.
-
-Default tempo `20X0`. Weak-link work is meant as a small third exposure (dashboard/ratios live on library `strengthRef`; plan tree itself is fixed days).
-
-## Onboarding
-
-- **Stats:** none required at onboarding (`[]`).
-- **Modules:** none.
-- **Access:** paid.
-- **Logo path typo in meta:** `/imamculate.png` (missing ‘c’).
-- **Schedule:** selectable=true; suggested splits (dow): 1-2-4-5; 1-3-5-6; 2-4-6-7.
-- **Irregular templates:** 2on-1off, 3on-1off, every-other-day.
-
-### EN (`onboarding.programs.immaculateRestructure`)
-
-- **Name:** Immaculate (Re)Structure
-- **Description:** 10 weeks built on Poliquin structural-balance relationships. Find the lagging structure and feed it.
-- **Features:**
-  - Focus: Structural balance
-  - 4 Days / Week - every group at least 2x
-  - Close-grip bench as the reference lift
-  - Poliquin reference targets, not medical thresholds
-  - Weak-link work added as a small third exposure
-
-### PL (`onboarding.programs.immaculateRestructure`)
-
-- **Name:** Immaculate (Re)Structure
-- **Description:** 10 tygodni opartych na relacjach siłowych Poliquina. Znajdź zapóźnioną strukturę i nadrób ją.
-- **Features:**
-  - Cel: Równowaga strukturalna
-  - 4 dni / tydzień - każda partia min. 2x
-  - Wyciskanie wąsko jako bój referencyjny
-  - Wartości referencyjne Poliquina, nie normy medyczne
-  - Praca nad słabym ogniwem jako trzecia mała ekspozycja
-
-## Weekly structure
-
-### Weeks 1–2 (2 weeks)
-
-#### Upper Structural A · Assessment (dow 1)
-
-- Close-Grip Bench Press · 4×5-8 · tempo 20X0 · rest 180s · — The reference lift. Every other upper-body target is expressed relative to this.
-- Weighted Chin-Up · 4×5-8 · tempo 20X0 · rest 180s · — Poliquin target: ~81% of close-grip bench as total system weight.
-- Incline Barbell Bench Press · 3×6-10 · tempo 20X0 · rest 150s · — Poliquin target: ~83% of close-grip bench.
-- Single-Arm External Rotation · 3×12-20 · tempo 20X0 · rest 60s · — Poliquin target: ~9% of close-grip bench.
-- Reverse Curl · 3×8-12 · tempo 20X0 · rest 75s · — Poliquin target: ~30% of close-grip bench.
-- Machine Rear Delt Fly · 3×15-20 · tempo 20X0 · rest 60s
-
-#### Lower Structural A · Assessment (dow 2)
-
-- Front Squats · 4×3-6 · tempo 20X0 · rest 210s · — Keep the reps low — the torso should not be the limiter.
-- Single-Leg Hamstring Curl · 3×8-12 · tempo 20X0 · rest 90s
-- Goblet Skater Squat · 3×8-12 · tempo 20X0 · rest 105s · — Per side. Weaker leg first.
-- Hip-Supported Dumbbell Deadlift · 3×8-12 · tempo 20X0 · rest 120s
-- Calf Raises · 3×10-20 · tempo 20X0 · rest 60s
-- Ab Wheel · 3×6-15 · tempo 20X0 · rest 60s
-
-#### Upper Structural B · Assessment (dow 4)
-
-- Seated DB Shoulder Press · 4×6-10 · tempo 20X0 · rest 150s
-- Hammer Upper Row · 4×8-12 · tempo 20X0 · rest 120s
-- Flat DB Press · 3×8-12 · tempo 20X0 · rest 120s
-- Single-Arm External Rotation · 3×12-20 · tempo 20X0 · rest 60s
-- EZ Preacher Curl · 3×8-12 · tempo 20X0 · rest 75s · — Poliquin target: ~46% of close-grip bench.
-- Cable Triceps Extension · 3×10-15 · tempo 20X0 · rest 60s
-- Machine Rear Delt Fly · 3×15-20 · tempo 20X0 · rest 60s
-
-#### Lower Structural B · Assessment (dow 5)
-
-- Heel-Elevated Goblet Squat · 4×10-15 · tempo 20X0 · rest 105s
-- Seated Ham Curl · 3×8-12 · tempo 20X0 · rest 90s
-- Split Squat · 3×8-12 · tempo 20X0 · rest 105s · — Per side.
-- Hip Thrusts · 3×8-12 · tempo 20X0 · rest 105s
-- Standing Calf Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Hanging Leg Raises · 3×10-20 · tempo 20X0 · rest 60s
-
-### Weeks 3–7 (5 weeks)
-
-#### Upper Structural A · Correction (dow 1)
-
-- Close-Grip Bench Press · 4×5-8 · tempo 20X0 · rest 180s · — The reference lift. Every other upper-body target is expressed relative to this.
-- Weighted Chin-Up · 4×5-8 · tempo 20X0 · rest 180s · — Poliquin target: ~81% of close-grip bench as total system weight.
-- Incline Barbell Bench Press · 3×6-10 · tempo 20X0 · rest 150s · — Poliquin target: ~83% of close-grip bench.
-- Single-Arm External Rotation · 3×12-20 · tempo 20X0 · rest 60s · — Poliquin target: ~9% of close-grip bench.
-- Reverse Curl · 3×8-12 · tempo 20X0 · rest 75s · — Poliquin target: ~30% of close-grip bench.
-- Machine Rear Delt Fly · 3×15-20 · tempo 20X0 · rest 60s
-
-#### Lower Structural A · Correction (dow 2)
-
-- Front Squats · 4×3-6 · tempo 20X0 · rest 210s · — Keep the reps low — the torso should not be the limiter.
-- Single-Leg Hamstring Curl · 3×8-12 · tempo 20X0 · rest 90s
-- Goblet Skater Squat · 3×8-12 · tempo 20X0 · rest 105s · — Per side. Weaker leg first.
-- Hip-Supported Dumbbell Deadlift · 3×8-12 · tempo 20X0 · rest 120s
-- Calf Raises · 3×10-20 · tempo 20X0 · rest 60s
-- Ab Wheel · 3×6-15 · tempo 20X0 · rest 60s
-
-#### Upper Structural B · Correction (dow 4)
-
-- Seated DB Shoulder Press · 4×6-10 · tempo 20X0 · rest 150s
-- Hammer Upper Row · 4×8-12 · tempo 20X0 · rest 120s
-- Flat DB Press · 3×8-12 · tempo 20X0 · rest 120s
-- Single-Arm External Rotation · 3×12-20 · tempo 20X0 · rest 60s
-- EZ Preacher Curl · 3×8-12 · tempo 20X0 · rest 75s · — Poliquin target: ~46% of close-grip bench.
-- Cable Triceps Extension · 3×10-15 · tempo 20X0 · rest 60s
-- Machine Rear Delt Fly · 3×15-20 · tempo 20X0 · rest 60s
-
-#### Lower Structural B · Correction (dow 5)
-
-- Heel-Elevated Goblet Squat · 4×10-15 · tempo 20X0 · rest 105s
-- Seated Ham Curl · 3×8-12 · tempo 20X0 · rest 90s
-- Split Squat · 3×8-12 · tempo 20X0 · rest 105s · — Per side.
-- Hip Thrusts · 3×8-12 · tempo 20X0 · rest 105s
-- Standing Calf Raises · 3×12-20 · tempo 20X0 · rest 60s
-- Hanging Leg Raises · 3×10-20 · tempo 20X0 · rest 60s
-
-### Weeks 8–10 (3 weeks)
-
-#### Upper Structural A · Re-Test (dow 1)
-
-- Close-Grip Bench Press · 3×5-8 · tempo 20X0 · rest 180s · — The reference lift. Every other upper-body target is expressed relative to this.
-- Weighted Chin-Up · 3×5-8 · tempo 20X0 · rest 180s · — Poliquin target: ~81% of close-grip bench as total system weight.
-- Incline Barbell Bench Press · 2×6-10 · tempo 20X0 · rest 150s · — Poliquin target: ~83% of close-grip bench.
-- Single-Arm External Rotation · 2×12-20 · tempo 20X0 · rest 60s · — Poliquin target: ~9% of close-grip bench.
-- Reverse Curl · 2×8-12 · tempo 20X0 · rest 75s · — Poliquin target: ~30% of close-grip bench.
-- Machine Rear Delt Fly · 2×15-20 · tempo 20X0 · rest 60s
-
-#### Lower Structural A · Re-Test (dow 2)
-
-- Front Squats · 3×3-6 · tempo 20X0 · rest 210s · — Keep the reps low — the torso should not be the limiter.
-- Single-Leg Hamstring Curl · 2×8-12 · tempo 20X0 · rest 90s
-- Goblet Skater Squat · 2×8-12 · tempo 20X0 · rest 105s · — Per side. Weaker leg first.
-- Hip-Supported Dumbbell Deadlift · 2×8-12 · tempo 20X0 · rest 120s
-- Calf Raises · 2×10-20 · tempo 20X0 · rest 60s
-- Ab Wheel · 2×6-15 · tempo 20X0 · rest 60s
-
-#### Upper Structural B · Re-Test (dow 4)
-
-- Seated DB Shoulder Press · 3×6-10 · tempo 20X0 · rest 150s
-- Hammer Upper Row · 3×8-12 · tempo 20X0 · rest 120s
-- Flat DB Press · 2×8-12 · tempo 20X0 · rest 120s
-- Single-Arm External Rotation · 2×12-20 · tempo 20X0 · rest 60s
-- EZ Preacher Curl · 2×8-12 · tempo 20X0 · rest 75s · — Poliquin target: ~46% of close-grip bench.
-- Cable Triceps Extension · 2×10-15 · tempo 20X0 · rest 60s
-- Machine Rear Delt Fly · 2×15-20 · tempo 20X0 · rest 60s
-
-#### Lower Structural B · Re-Test (dow 5)
-
-- Heel-Elevated Goblet Squat · 3×10-15 · tempo 20X0 · rest 105s
-- Seated Ham Curl · 2×8-12 · tempo 20X0 · rest 90s
-- Split Squat · 2×8-12 · tempo 20X0 · rest 105s · — Per side.
-- Hip Thrusts · 2×8-12 · tempo 20X0 · rest 105s
-- Standing Calf Raises · 2×12-20 · tempo 20X0 · rest 60s
-- Hanging Leg Raises · 2×10-20 · tempo 20X0 · rest 60s
-
-
-## Phases & week-to-week progression
-
-### Assessment (weeks 1–2)
-Full volume; gather ratios vs close-grip bench.
-
-### Correction (weeks 3–7)
-Same slot tree (no transform) — intended weak-link dosing is conceptual / UI rather than a second generator path in this file.
-
-### Re-Test (weeks 8–10)
-Every slot: `sets = max(2, sets − 1)` so retest measures strength, not fatigue.
-
-## Techniques, supersets, finishers
-
-- No supersets / intensifiers in source.
-- Front squat alternate: Safety Bar Squat.
-- Explicit Poliquin target notes on chin, incline, ER, reverse curl, preacher.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| | |
 |---|---|
-| `themeClass` | `theme-immaculate-restructure` |
-| `i18nKey` | `immaculateRestructure` |
-| `logo` | `/imamculate.png` |
-| `coverBg` | `bg-[#0a0906]` |
-| `order` | 13 |
-| `alwaysFree` | no |
+| **id** | `immaculate-restructure` |
+| **Length** | 10 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 78 across 4 training days (week 1 sample) |
+| **Sets/session** | 19.5 |
+| **Goal** | hypertrophy |
+| **Experience** | intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | fixed |
+| **Fatigue cost** | 3/4 — high |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Techniques used** | `last-set-failure` |
+| **Card promise** | *"10 weeks built on Poliquin structural-balance relationships. Find the lagging structure and feed it."* |
 
-**CSS tokens** (`.theme-immaculate-restructure`):
+---
 
-| Token | HSL |
+## 1. What this plan is
+
+**Signature mechanic.** Proportion-led rebuild: the weakest region gets the frequency, everything else holds.
+
+The onboarding card claims:
+
+- Focus: Structural balance
+- 4 Days / Week - every group at least 2x
+- Close-grip bench as the reference lift
+- Poliquin reference targets, not medical thresholds
+- Weak-link work added as a small third exposure
+
+**Prerequisites.** A year or so of consistent training
+
+**Not for you if.**
+
+- You have no clear structural weak point yet
+
+**Follow-ups.** [event-horizon](event-horizon.md), [project-chimera](project-chimera.md), [monolith](monolith.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| Upper Structural A · Assessment | 6 | 19 | Close-Grip Bench Press 4, Weighted Chin-Up 4, Incline Barbell Bench Press 3, Single-Arm External Rotation 3, Reverse Curl 3, Machine Rear Delt Fly 2 |
+| Lower Structural A · Assessment | 6 | 19 | Front Squats 4, Single-Leg Hamstring Curl 3, Goblet Skater Squat 3, Hip-Supported Dumbbell Deadlift 3, Standing Calf Raises 3, Ab Wheel 3 |
+| Upper Structural B · Assessment | 7 | 21 | Seated DB Shoulder Press 4, Hammer Upper Row 4, Flat DB Press 3, Single-Arm External Rotation 3, EZ Preacher Curl 3, Cable Triceps Extension 2, Machine Rear Delt Fly 2 |
+| Lower Structural B · Assessment | 6 | 19 | Heel-Elevated Goblet Squat 4, Seated Ham Curl 3, Split Squat 3, Hip Thrusts 3, Standing Calf Raises 3, Hanging Leg Raises 3 |
+
+### Week-to-week shape
+
+The program runs 10 weeks falling into 3 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `--background` | `210 8% 4%` |
-| `--primary` | `40 42% 61%` |
-| `--accent` | `40 38% 61%` |
-| `--card` | `0 0% 8%` |
-| `--ring` | `40 42% 61%` |
-| `--signal-text` | `(none)` |
+| 1, 2 | Upper Structural A · Assessment 19, Lower Structural A · Assessment 19, Upper Structural B · Assessment 21, Lower Structural B · Assessment 19 |
+| 3, 4, 5, 6, 7 | Upper Structural A · Correction 19, Lower Structural A · Correction 19, Upper Structural B · Correction 21, Lower Structural B · Correction 19 |
+| 8, 9, 10 | Upper Structural A · Re-Test 14, Lower Structural A · Re-Test 13, Upper Structural B · Re-Test 16, Lower Structural B · Re-Test 13 |
 
-Palette note: muted gold.
+---
 
-**Widgets:** `1rm`, `program_status`, `strength_chart`, `workout_history`.
+## 3. Weekly volume by muscle group
 
-## Implementation completion analysis
+Direct sets, counted once per exercise per major group.
 
-| Area | Status |
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 20 | in band |
+| shoulders | 17 | in band |
+| quads | 14 | in band |
+| chest | 10 | in band |
+| biceps | 10 | in band |
+| hamstrings | 9 | below the 10-set growth dose |
+| back | 8 | below the 10-set growth dose |
+| triceps | 6 | in band |
+| calves | 6 | in band |
+| core | 6 | in band |
+
+| Balance | Value |
 |---|---|
-| Plan generator | **complete** day tree + re-test volume cut |
-| Weak-link auto-prescription | **partial** — copy promises third exposure; no dedicated handler under `src/features/` |
-| Dashboard | shared `1rm` + charts (no dedicated structural-balance widget) |
-| Logo filename | **typo** `imamculate.png` |
-| EN / PL | name left EN in PL; “zapóźnioną” is slightly awkward |
+| Push:pull (direct sets) | 1.83 |
+| Quad:hamstring | 1.56 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| Name kept EN | Brand OK | or `Nieskalana (Re)Struktura` if localising |
-| “zapóźnioną strukturę” | Unnatural | `zalegającą strukturę` / `słabe ogniwo` |
-| Feature weak-link line | Accurate | keep |
+## 4. Systemic and joint load
+
+| Metric | Value |
+|---|---|
+| Systemic (weekly) | **127** |
+| Axial | **31** |
+| Lower back | 23 |
+| Per-set systemic | 1.63 |
+| High-systemic sets (cost 3+) | 11 |
+| Compound share | 45% |
+| Shoulder / knee / elbow cost | 22 / 34 / 38 |
+
+| Stimulus quality | Value |
+|---|---|
+| Mean lengthened bias (0-4) | 1.94 |
+| Mean stability demand (0-4) | 1.37 |
+| Stimulus per unit fatigue | 1.19 |
+| Failure-safe share of sets | 36% |
+
+---
+
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 25 |
+| At 1 set | 0 |
+| At 2 sets | 3 |
+| At 3 sets | 16 |
+| At 4+ sets | 6 |
+| Mean sets per slot | 3.12 |
+| Distinct exercises | 22 |
+| Variety density (exercises per 10 sets) | 2.82 |
+| Largest single-exercise share | 8% |
+
+### Flagged slots
+
+Every slot at one set, and every slot at four or more. Both are review
+flags rather than automatic defects — a plan built on one all-out work
+set, a top-single mechanic, a density block, or specialisation volume
+on its own muscle earns them. The rest are worth a second look.
+
+**Four or more sets (6):**
+
+- Upper Structural A · Assessment — Close-Grip Bench Press, 4 sets *(session opener)*
+- Upper Structural A · Assessment — Weighted Chin-Up, 4 sets
+- Lower Structural A · Assessment — Front Squats, 4 sets *(session opener)*
+- Upper Structural B · Assessment — Seated DB Shoulder Press, 4 sets *(session opener)*
+- Upper Structural B · Assessment — Hammer Upper Row, 4 sets
+- Lower Structural B · Assessment — Heel-Elevated Goblet Squat, 4 sets *(session opener)*
+
+---
+
+## 6. Export block
+
+```yaml
+id: immaculate-restructure
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 10
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 78, days: 4, sets_per_session: 19.5, slots: 25 }
+load: { systemic: 127, axial: 31, lower_back: 23, per_set_systemic: 1.63 }
+volume: { glutes: 20, shoulders: 17, quads: 14, chest: 10, biceps: 10, hamstrings: 9, back: 8, triceps: 6, calves: 6, core: 6 }
+coverage: { covered: 10, missing: [], in_band: 8, over: [], under: ['back', 'hamstrings'] }
+set_shape: { slots: 25, ones: 0, twos: 3, threes: 16, four_plus: 6, mean: 3.12 }
+variety: { distinct: 22, density: 2.82, top_share: 0.077, evenness: 0.989 }
+```

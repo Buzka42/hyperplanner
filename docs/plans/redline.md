@@ -1,175 +1,153 @@
 # REDLINE
 
-**Program ID:** `redline` · **Source:** [src/data/plans/redline.ts](../../src/data/plans/redline.ts) · **UI timer:** [src/features/redline/BlockTimer.tsx](../../src/features/redline/BlockTimer.tsx)
-**Duration:** 8 weeks · **Frequency:** 4 days/week (Pressure / Redline / Furnace / Afterburn) · **Default tempo:** `20X0`
+> Plan reference, v3 format — regenerated from the shipped code by
+> `scripts/gen-plan-docs.py` off `docs/analysis/plan-facts.json`. Every
+> number below is measured from the week the app actually builds, not
+> transcribed from a spec. Supersedes the pre-rebuild doc and the v2
+> audit note, both kept in `docs/archive/plans-v2-2026-08/`.
 
-## Overview
-
-Four-day full-body plan built for **40–50 minute** sessions. Every session is one heavy **anchor** at full rest, then paired **burn** work, then optional **timed finishers**. Recovery check before each session can trim burn (and finishers) without touching the anchor.
-
-## Onboarding
-
-- **Stats / 1RMs:** none required for prescription math; loads use **double progression** (`increment: 2.5`) on slots.
-- **Schedule:** fixed four training days (`dayOfWeek` 1, 2, 4, 5) — Pressure, Redline, Furnace, Afterburn.
-- **Modules / preferences:** Furnace day anchor choice — **Paused Bench** (default) vs **Standing Overhead Press**, stored in `user.planPreferences.redline.exerciseSelections.furnaceAnchor`.
-- **Access:** paid (not `alwaysFree`).
-
-### EN (`onboarding.programs.redline`)
-
-- **Name:** REDLINE
-- **Description:** An 8-week four-day full-body plan built around 40–50 minute sessions and timed finishers.
-- **Features:** 4 sessions of 40–50 minutes · One heavy anchor, then paired burn work · Timed finisher blocks · Recovery check before every session
-
-### PL (`onboarding.programs.redline`)
-
-- **Name:** REDLINE
-- **Description:** 8-tygodniowy, czterodniowy plan całego ciała oparty na sesjach 40–50 minut i finiszerach na czas.
-- **Features:** 4 sesje po 40–50 minut · Jedna ciężka kotwica, potem praca w parach · Bloki finiszerów na czas · Pytanie o regenerację przed każdą sesją
-
-## Weekly structure
-
-Each day: **12–16 prescribed working sets** outside finishers. Burn slots always paired (`A1/A2`, `B1/B2`…). Anchor rest **180s**; burn/finisher rest **60s**.
-
-### PRESSURE (Day 1)
-
-| Role | Exercise | Sets × Reps | Pair / block |
-|---|---|---|---|
-| Anchor | Hack Squat | 3×4-6 | `anchor` |
-| Burn | Incline DB Bench | 2×6-10 | A1 `pressure-a` |
-| Burn | SA Hammer Row | 2×6-10 | A2 |
-| Burn | Seated Ham Curl | 2×8-12 | B1 `pressure-b` |
-| Burn | Lateral Raise | 2×12-15 | B2 |
-| Burn | Hammer Curl | 1×8-15 | C1 `pressure-c` |
-| Burn | Cable Triceps Ext | 1×8-15 | C2 |
-| Finisher (opt.) | KB Swing | 1×10-15 | timed |
-| Finisher (opt.) | Farmer Carry | 1×20-30 | timed |
-
-### REDLINE (Day 2)
-
-| Role | Exercise | Sets × Reps | Pair |
-|---|---|---|---|
-| Anchor | Lat Pulldown | 3×4-6 | |
-| Burn | FFE Bulgarian Split Squat | 2×8-10 | A1 |
-| Burn | Hammer Chest Press | 2×6-10 | A2 |
-| Burn | Hip-Supported DB Deadlift | 2×8-10 | B1 |
-| Burn | SA Reverse Pec Deck | 2×12-15 | B2 |
-| Burn | Hack Calf Raise | 1×12-20 | C1 |
-| Burn | Ab Wheel | 1×8-15 | C2 |
-| Finisher | Goblet Heel-Elevated Squat | 1×8 | |
-| Finisher | Push-up | 1×6-10 | |
-| Finisher | Farmer Carry | 1×20-30 | |
-
-### FURNACE (Day 4)
-
-| Role | Exercise | Sets × Reps | Pair |
-|---|---|---|---|
-| Anchor | Paused Bench *(or OH Press via prefs)* | 3×4-6 | |
-| Burn | Goblet Skater Squat | 2×8-12 | A1 |
-| Burn | SA Hammer Row | 2×6-10 | A2 |
-| Burn | Leg Extension | 2×10-15 | B1 |
-| Burn | Lat Prayer | 2×10-15 | B2 |
-| Burn | Lateral Raise | 2×12-20 | C1 |
-| Burn | Hammer Curl | 1×8-15 | C2 |
-| Finisher | KB Swing / Deficit Reverse Lunge / Deficit Push-up | timed | |
-
-### AFTERBURN (Day 5)
-
-| Role | Exercise | Sets × Reps | Pair |
-|---|---|---|---|
-| Anchor | Romanian Deadlift | 3×4-6 | |
-| Burn | Hammer Chest Press | 2×8-12 | A1 |
-| Burn | Hammer Pulldown | 2×8-12 | A2 |
-| Burn | Deficit Reverse Lunge | 2×8-12 | B1 |
-| Burn | SA Hammer Row | 2×8-12 | B2 |
-| Burn | Lateral Raise | 2×12-20 | C1 |
-| Burn | Cable Triceps Ext | 1×8-15 | C2 |
-| Burn | Hack Calf / Ab Wheel | 1×… | D1/D2 |
-| Finisher | Farmer Carry | 1×20-40 | |
-
-## Phases & week-to-week progression
-
-### Finisher window durations (`duration(week)`)
-
-| Weeks | Cap (seconds) |
+| | |
 |---|---|
-| 1–2 (Ignition) | 300 (5 min) |
-| 3–4 (Burn) | 360 (6 min) |
-| 5 (Burn) | 420 (7 min) |
-| 6–7 (Redline) | 480 (8 min) |
-| 8 (Ashes) | 300 (5 min) |
+| **id** | `redline` |
+| **Length** | 8 weeks |
+| **Frequency** | 4 days/week |
+| **Weekly sets** | 73 across 4 training days (week 1 sample) |
+| **Sets/session** | 18.3 |
+| **Goal** | conditioning, hypertrophy |
+| **Experience** | intermediate |
+| **Equipment** | full-gym |
+| **Adaptability** | responsive |
+| **Fatigue cost** | 3/4 — high |
+| **Session engine** | `calendar` |
+| **Calibration** | none |
+| **Hooks** | `calculateWeight`, `preprocessDay` |
+| **Card promise** | *"An 8-week four-day full-body plan built around 40–50 minute sessions and timed finishers."* |
 
-Work logged after the window expires counts as training but **never improves density** (`BlockTimer` expired flag).
+---
 
-### Week 8 Ashes
+## 1. What this plan is
 
-Burn sets → `Math.max(1, Math.round(sets * 0.65))` (~two thirds). Finishers reset to 300s. Intensity of remaining work is not reduced.
+**Signature mechanic.** Forty-to-fifty minute sessions: one heavy anchor, paired burn work, timed finishers.
 
-### Recovery preprocess
+The onboarding card claims:
 
-`redlineStatus.nextRecovery` must be **confirmed**. Effects:
+- 4 sessions of 40–50 minutes
+- One heavy anchor, then paired burn work
+- Timed finisher blocks
+- Recovery check before every session
 
-| Response | Effect |
+**Prerequisites.** A base of general fitness
+
+**Not for you if.**
+
+- You want long unhurried sessions
+- Your gym is too crowded to hold two stations
+
+**Follow-ups.** [kali](kali.md), [the-minimum](the-minimum.md)
+
+---
+
+## 2. The training week
+
+| Day | Slots | Sets | Work |
+|---|---:|---:|---|
+| PRESSURE · Ignition | 9 | 17 | Leg Press 3, Incline DB Bench Press 2, Single-Arm Hammer Strength Row 2, Seated Hamstring Curl 2, Cable Lateral Raise 2, Rope Hammer Curl 2, Overhead Tricep Extensions 2, Kettlebell Swing 1, Farmer Carry 1 |
+| REDLINE · Ignition | 10 | 18 | Lat Pulldown (Neutral) 3, Front-Foot Elevated Bulgarian Split Squat 2, Deficit Pushups 2, Hip-Supported Dumbbell Deadlift 2, Single Arm Reverse Pec Deck 2, Hack Squat Calf Raises 2, Ab Wheel 2, Heel-Elevated Goblet Squat 1, Push-Up 1, Farmer Carry 1 |
+| FURNACE · Ignition | 10 | 18 | Paused Bench Press 3, Goblet Skater Squat 2, Bench-Supported Single-Arm Cable Pulldown 2, Leg Extensions 2, Lat Prayer 2, Behind-the-Back Cable Lateral Raise 2, Rope Hammer Curl 2, Kettlebell Swing 1, Deficit Reverse Lunge 1, Deficit Pushups 1 |
+| AFTERBURN · Ignition | 10 | 20 | Trap-Bar Deadlift 3, Deficit Pushups 2, Hammer Pulldown (Underhand) 2, Deficit Reverse Lunge 2, Single-Arm Hammer Strength Row 2, Behind-the-Back Cable Lateral Raise 2, Cable Triceps Extension 2, Hack Squat Calf Raises 2, Ab Wheel 2, Farmer Carry 1 |
+
+### Week-to-week shape
+
+The program runs 8 weeks falling into 4 distinct set-count shapes:
+
+| Weeks | Sets per training day |
 |---|---|
-| `recovered` | no change |
-| `somewhat-fatigued` | burn volume × ~0.85 (sets trimmed, min 1 per burn slot) |
-| `performance-impaired` | burn × ~0.7 **and finishers dropped** |
-| — | **anchor always survives** |
+| 1, 2 | PRESSURE · Ignition 17, REDLINE · Ignition 18, FURNACE · Ignition 18, AFTERBURN · Ignition 20 |
+| 3, 4, 5 | PRESSURE · Burn 17, REDLINE · Burn 18, FURNACE · Burn 18, AFTERBURN · Burn 20 |
+| 6, 7 | PRESSURE · Redline 17, REDLINE · Redline 18, FURNACE · Redline 18, AFTERBURN · Redline 20 |
+| 8 | PRESSURE · Ashes 11, REDLINE · Ashes 12, FURNACE · Ashes 12, AFTERBURN · Ashes 12 |
 
-Reduction is visible and reversible (re-confirm another response).
+---
 
-### Load progression
+## 3. Weekly volume by muscle group
 
-Slot-level `progression: { type: 'double', increment: 2.5 }` via `definePlan` engine. **No** dedicated entry in `PROGRESSION_HANDLERS` (generic double progression / session engines handle it).
+Direct sets, counted once per exercise per major group.
 
-## Techniques, supersets, finishers
+| Group | Sets | Read |
+|---|---:|---|
+| glutes | 18 | in band |
+| back | 16 | in band |
+| quads | 16 | in band |
+| chest | 11 | in band |
+| shoulders | 10 | in band |
+| hamstrings | 9 | below the 10-set growth dose |
+| biceps | 7 | in band |
+| triceps | 4 | below the 6-set growth dose |
+| calves | 4 | below the 6-set growth dose |
+| core | 4 | below the 6-set growth dose |
 
-- **Paired burn supersets** mandatory for verification (`verify:redline` / supersets rules): every burn pair id must have both partners.
-- **Timed finishers** optional; `BlockTimer` Start/Pause/Finish with hard cap.
-- Default tempo `20X0` on the plan.
-- No drop-set / rest-pause prescriptions in the static template.
-
-## Dashboard & UI theme
-
-| Meta | Value |
+| Balance | Value |
 |---|---|
-| `themeClass` | `theme-redline` |
-| `i18nKey` | `redline` |
-| `logo` | `/redline.png` |
-| `coverBg` / gradient | `bg-[#0a0a0a]` / `from-[#0a0a0a]` |
-| `order` | 25 |
-| `alwaysFree` | no |
+| Push:pull (direct sets) | 1.09 |
+| Quad:hamstring | 1.78 |
+| Groups covered (4+ sets) | 10 of 10 |
+| Groups trained on two or more days | 10 |
 
-**CSS tokens** (`.theme-redline`):
+---
 
-| Token | HSL |
+## 4. Systemic and joint load
+
+| Metric | Value |
 |---|---|
-| `--background` | `0 0% 4%` |
-| `--primary` | `0 92% 54%` |
-| `--accent` | `0 60% 20%` |
-| `--accent-foreground` | `0 90% 78%` |
-| `--ring` | `0 92% 54%` |
-| `--signal-text` | `0 96% 70%` |
+| Systemic (weekly) | **120** |
+| Axial | **30** |
+| Lower back | 35 |
+| Per-set systemic | 1.64 |
+| High-systemic sets (cost 3+) | 11 |
+| Compound share | 44% |
+| Shoulder / knee / elbow cost | 19 / 28 / 36 |
 
-**Widgets:** `program_status`, `workout_history`. Specialty UI is in-session `BlockTimer` + recovery prompt rather than a custom dashboard shell.
-
-## Implementation completion analysis
-
-| Area | Status |
+| Stimulus quality | Value |
 |---|---|
-| Plan generator / `definePlan` | **complete** — `REDLINE_CONFIG` with custom `preprocessDay` |
-| Progression hooks | **partial** — double progression via plan builder; no plan-specific `PROGRESSION_HANDLERS` entry |
-| Dashboard | **partial** — generic widgets; timer lives in workout UI |
-| Onboarding wiring | **complete** for card + furnace preference path |
-| EN translations | **complete** |
-| PL translations | **natural** |
-| Exercise library / tips | **complete**; furnace swap uses library ids |
-| Verify script | **`npm run verify:redline`** (+ shared `verify:supersets`) |
+| Mean lengthened bias (0-4) | 2.05 |
+| Mean stability demand (0-4) | 1.48 |
+| Stimulus per unit fatigue | 1.25 |
+| Failure-safe share of sets | 33% |
 
-## Translation notes
+---
 
-| String | Issue | Suggested PL |
-|---|---|---|
-| Brand `REDLINE` | Left EN | Keep |
-| `Jedna ciężka kotwica, potem praca w parach` | Natural | Keep |
-| `BlockTimer` expired copy is EN-only in component | Hardcoded English | Add `t(...)` for “Time cap expired…” |
-| No calques in program card features | — | — |
+## 5. Set shape
+
+| | |
+|---|---:|
+| Slots | 39 |
+| At 1 set | 0 |
+| At 2 sets | 0 |
+| At 3 sets | 0 |
+| At 4+ sets | 0 |
+| Mean sets per slot | 1.87 |
+| Distinct exercises | 28 |
+| Variety density (exercises per 10 sets) | 3.84 |
+| Largest single-exercise share | 7% |
+
+No slot sits at one set and none carries more than three. Nothing to flag.
+
+---
+
+## 6. Export block
+
+```yaml
+id: redline
+version: 3
+generated_from: docs/analysis/plan-facts.json
+length_weeks: 8
+frequency: [4]
+engine: calendar
+sampled_week: 1
+weekly: { sets: 73, days: 4, sets_per_session: 18.3, slots: 39 }
+load: { systemic: 120, axial: 30, lower_back: 35, per_set_systemic: 1.64 }
+volume: { glutes: 18, back: 16, quads: 16, chest: 11, shoulders: 10, hamstrings: 9, biceps: 7, triceps: 4, calves: 4, core: 4 }
+coverage: { covered: 10, missing: [], in_band: 6, over: [], under: ['triceps', 'hamstrings', 'calves', 'core'] }
+set_shape: { slots: 39, ones: 0, twos: 0, threes: 0, four_plus: 0, mean: 1.87 }
+variety: { distinct: 28, density: 3.84, top_share: 0.068, evenness: 0.979 }
+```

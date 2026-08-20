@@ -38,3 +38,21 @@ latest focused plan spec.
 old Super Mutant development notes, the former accumulated root implementation
 guide and the replaced training-plan README. Runtime behavior is determined by
 code, verification scripts, `PLAN.md` and the concise plan documents.
+
+## Plan documentation superseded by the v2 rebuild — August 2026
+
+`plans-v2-2026-08/` holds the two generations of plan documentation replaced
+when the v2 rebuild landed:
+
+- `pre-rebuild/` — the hand-written per-plan documents that were canonical
+  before the rebuild. They were the source of the long-running doc-vs-code
+  drift `verify:plans` kept reporting as discrepancy notes: set counts,
+  exercise lists and week tables transcribed by hand and never re-synced.
+- `v2-audit/` — the v2 audit packet: one findings note per plan plus the
+  cross-plan decision, closeout, synthesis and implementation-review documents
+  that drove the rebuild. Useful for understanding *why* a plan changed; not a
+  description of what any plan does now.
+
+Current plan documentation lives in [`docs/plans/`](../plans/INDEX.md) and is
+generated from the shipped code rather than written by hand, so the drift these
+two directories record cannot recur silently.
