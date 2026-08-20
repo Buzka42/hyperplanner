@@ -691,9 +691,9 @@ export const Settings: React.FC = () => {
                         </CardTitle>
                         <CardDescription>
                             Manually update your contest maxes. These dictate all your percentage work.
-                            <div className="mt-2 text-yellow-600 dark:text-yellow-500 font-semibold bg-yellow-500/10 p-2 rounded border border-yellow-500/20">
+                            <span className="block mt-2 text-yellow-600 dark:text-yellow-500 font-semibold bg-yellow-500/10 p-2 rounded border border-yellow-500/20">
                                 Only update if you have tested a new true 1RM.
-                            </div>
+                            </span>
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
@@ -811,7 +811,13 @@ export const Settings: React.FC = () => {
                                 <div>
                                     <h4 className="font-medium mb-2 text-primary">Squat Variations</h4>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                        {Object.values(SQUAT_VARIATIONS).flat().map(variation => (
+                                        {/* Safety Bar Squat is listed under two
+                                            weak points, so the flattened list
+                                            repeats it — which collided on both
+                                            the React key and the checkbox id,
+                                            leaving two boxes that toggled as
+                                            one. */}
+                                        {[...new Set(Object.values(SQUAT_VARIATIONS).flat())].map(variation => (
                                             <div key={variation} className="flex items-center space-x-2">
                                                 <Checkbox
                                                     id={`exclude-${variation}`}

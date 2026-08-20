@@ -445,7 +445,13 @@ export const WorkoutView: React.FC = () => {
                 // C. Fetch History for previous stats
                 setPreviousStats(await fetchPreviousStats());
             } catch (err) {
+                // A failed read must not cost the athlete the session. The old
+                // single catch swallowed the throw before initializeEmptyState()
+                // ran, so a rules denial or a dropped connection rendered every
+                // exercise header with no set rows under it and said nothing —
+                // a screen that looks loaded and cannot be used.
                 console.error("Init Error", err);
+                initializeEmptyState();
             }
         };
 
