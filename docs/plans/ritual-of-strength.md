@@ -163,7 +163,25 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['ritual-of-strength']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | none — every movement is carried by the handler |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`ritual-of-strength` handler) | Ab Wheel, Conventional Deadlift (Ascension Test), Conventional Deadlift (Back-down), Conventional Deadlift (Light), Conventional Deadlift (ME), Face Pulls, Farmer Holds, Ham Curls, Leg Extensions, Low Bar Squat (Ascension Test), Low Bar Squat (Back-down), Low Bar Squat (Light), Low Bar Squat (ME), Paused Bench Press (Ascension Test), Paused Bench Press (Back-down), Paused Bench Press (Light), Paused Bench Press (ME), Rows |
+| carried working load; later 70% of a tracked max | the plan's own rule (`ritual-of-strength` handler); later the tracked max is re-estimated from what you log | Conventional Deadlift, Low Bar Squat, Paused Bench Press |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: ritual-of-strength
@@ -179,5 +197,6 @@ volume: { back: 14, glutes: 14, quads: 9, core: 9, chest: 7, biceps: 6, hamstrin
 coverage: { covered: 7, missing: ['triceps', 'calves'], in_band: 4, over: [], under: ['chest', 'shoulders', 'quads', 'hamstrings'] }
 set_shape: { slots: 16, ones: 3, twos: 0, threes: 13, four_plus: 0, mean: 2.63 }
 rep_ranges: ['1', '20-30sec', '5']
+progression: { handler: own, slot_rules: false, distinct_rules: 2 }
 variety: { distinct: 9, density: 2.14, top_share: 0.214, evenness: 0.957 }
 ```

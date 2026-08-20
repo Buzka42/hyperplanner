@@ -47,9 +47,9 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Day 1 | 7 | 19 | Deficit Push-ups 3, Leg Extensions 3, Supported Stiff Legged DB Deadlift 3, Standing Calf Raises 3, Inverted Rows 2, Overhand Mid-Grip Pulldown 2, Planks 3 |
-| Day 2 | 7 | 19 | Deficit Push-ups 3, Leg Extensions 3, Supported Stiff Legged DB Deadlift 3, Standing Calf Raises 3, Inverted Rows 2, Overhand Mid-Grip Pulldown 2, Planks 3 |
-| Day 3 | 7 | 19 | Deficit Push-ups 3, Leg Extensions 3, Supported Stiff Legged DB Deadlift 3, Standing Calf Raises 3, Inverted Rows 2, Overhand Mid-Grip Pulldown 2, Planks 3 |
+| Day 1 | 7 | 19 | Deficit Push-ups 3×AMRAP, Leg Extensions 3×12-20, Supported Stiff Legged DB Deadlift 3×10-15, Standing Calf Raises 3×15-20, Inverted Rows 2×8-15, Overhand Mid-Grip Pulldown 2×10-15, Planks 3×30sec |
+| Day 2 | 7 | 19 | Deficit Push-ups 3×AMRAP, Leg Extensions 3×12-20, Supported Stiff Legged DB Deadlift 3×10-15, Standing Calf Raises 3×15-20, Inverted Rows 2×8-15, Overhand Mid-Grip Pulldown 2×10-15, Planks 3×30sec |
+| Day 3 | 7 | 19 | Deficit Push-ups 3×AMRAP, Leg Extensions 3×12-20, Supported Stiff Legged DB Deadlift 3×10-15, Standing Calf Raises 3×15-20, Inverted Rows 2×8-15, Overhand Mid-Grip Pulldown 2×10-15, Planks 3×30sec |
 
 All 12 weeks carry the same set-count shape; what varies week to
 week is load, reps and technique rather than volume.
@@ -123,7 +123,41 @@ No slot sits at one set and none carries more than three. Nothing to flag.
 
 ---
 
-## 7. Export block
+## 6. Rep schemes
+
+6 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Overhand Mid-Grip Pulldown, Supported Stiff Legged DB Deadlift |
+| `12-20` | Leg Extensions |
+| `15-20` | Standing Calf Raises |
+| `30sec` | Planks |
+| `8-15` | Inverted Rows |
+| `AMRAP` | Deficit Push-ups |
+
+---
+
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['skeleton-to-threat']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | none — every movement is carried by the handler |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`skeleton-to-threat` handler) | Deficit Push-ups, Inverted Rows, Leg Extensions, Overhand Mid-Grip Pulldown, Planks, Standing Calf Raises, Supported Stiff Legged DB Deadlift |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: skeleton-to-threat
@@ -138,5 +172,7 @@ load: { systemic: 90, axial: 9, lower_back: 39, per_set_systemic: 1.58 }
 volume: { back: 12, chest: 9, quads: 9, hamstrings: 9, glutes: 9, calves: 9, core: 9, shoulders: 0, biceps: 0, triceps: 0 }
 coverage: { covered: 7, missing: ['shoulders', 'biceps', 'triceps'], in_band: 3, over: [], under: ['chest', 'quads', 'hamstrings', 'glutes'] }
 set_shape: { slots: 21, ones: 0, twos: 6, threes: 15, four_plus: 0, mean: 2.71 }
+rep_ranges: ['10-15', '12-20', '15-20', '30sec', '8-15', 'AMRAP']
+progression: { handler: own, slot_rules: false, distinct_rules: 1 }
 variety: { distinct: 7, density: 1.23, top_share: 0.158, evenness: 0.992 }
 ```

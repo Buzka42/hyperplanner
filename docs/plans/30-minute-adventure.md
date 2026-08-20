@@ -196,7 +196,7 @@ template here, so per-slot flags do not apply.
 
 ---
 
-## 7. Export block
+## 8. Export block
 
 ```yaml
 id: 30-minute-adventure

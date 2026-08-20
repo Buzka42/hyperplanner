@@ -161,7 +161,25 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['quadfather']` — composed on top of the shared double progression |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 58 of 58 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | Bench-Supported DB Rear Delt Fly, Cable Crunch, Cable Lateral Raise, Cable Triceps Extension, Dip, EZ Preacher Curl, Front-Foot Elevated Bulgarian Split Squat, Hack Squat, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Incline DB Bench Press, Knee-Over-Toe Split Squat, Lat Prayer, Leg Extensions, Leg Press, Lying Leg Curls, Overhead Tricep Extensions, Reverse Nordic Curls, Romanian Deadlift, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single-Arm Hammer Strength Row, Stripper Squat, Supported Sissy Squat |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: quadfather
@@ -177,5 +195,6 @@ volume: { quads: 25, glutes: 16, back: 12, shoulders: 10, hamstrings: 8, triceps
 coverage: { covered: 10, missing: [], in_band: 4, over: ['quads'], under: ['chest', 'biceps', 'hamstrings', 'calves', 'core'] }
 set_shape: { slots: 29, ones: 0, twos: 13, threes: 15, four_plus: 1, mean: 2.59 }
 rep_ranges: ['10-15', '12-15', '12-20', '5-8', '6-10', '8-12', '8-15']
+progression: { handler: own+double, slot_rules: true, distinct_rules: 1 }
 variety: { distinct: 25, density: 3.33, top_share: 0.08, evenness: 0.985 }
 ```

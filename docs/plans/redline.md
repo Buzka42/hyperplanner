@@ -155,7 +155,26 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['redline']` — composed on top of the shared double progression |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 78 of 78 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | Ab Wheel, Behind-the-Back Cable Lateral Raise, Bench-Supported Single-Arm Cable Pulldown, Cable Lateral Raise, Cable Triceps Extension, Deficit Pushups, Deficit Reverse Lunge, Farmer Carry, Front-Foot Elevated Bulgarian Split Squat, Goblet Skater Squat, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Kettlebell Swing, Lat Prayer, Lat Pulldown (Neutral), Leg Extensions, Leg Press, Overhead Tricep Extensions, Push-Up, Rope Hammer Curl, Seated Hamstring Curl, Single Arm Reverse Pec Deck, Single-Arm Hammer Strength Row |
+| computed by the plan each session | the plan recalculates it from your logged work | Paused Bench Press, Trap-Bar Deadlift |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: redline
@@ -171,5 +190,6 @@ volume: { glutes: 18, back: 16, quads: 16, chest: 11, shoulders: 10, hamstrings:
 coverage: { covered: 10, missing: [], in_band: 6, over: [], under: ['triceps', 'hamstrings', 'calves', 'core'] }
 set_shape: { slots: 39, ones: 0, twos: 0, threes: 0, four_plus: 0, mean: 1.87 }
 rep_ranges: ['10-15', '12-15', '12-20', '20-30', '4-6', '6-10', '8', '8-10', '8-12', '8-15']
+progression: { handler: own+double, slot_rules: true, distinct_rules: 2 }
 variety: { distinct: 28, density: 3.84, top_share: 0.068, evenness: 0.979 }
 ```

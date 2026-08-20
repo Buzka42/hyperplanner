@@ -166,7 +166,26 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | none of its own; the shared `genericDoubleProgression` runs |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 58 of 58 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Barbell Row, Bench-Supported One-Arm Dumbbell Row, Cable Crunch, Cable Triceps Extension, Flat Barbell Bench Press, Front-Foot Elevated Bulgarian Split Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Pulldown (Underhand), Heavy Rolling Tricep Extensions, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Leg Extensions, Leg Press, Lying Leg Curls, Pull-Up, Romanian Deadlift, Seated Hamstring Curl, Side-Lying Rear Delt Flyes, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Single-Arm Landmine Press, Standing Straight-Bar Curl, Weighted Step-Up |
+| computed by the plan each session | the plan recalculates it from your logged work | Barbell Squat, Trap-Bar Deadlift |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: project-chimera
@@ -182,5 +201,6 @@ volume: { glutes: 23, quads: 19, back: 14, hamstrings: 13, chest: 11, shoulders:
 coverage: { covered: 9, missing: [], in_band: 6, over: ['glutes'], under: ['biceps', 'triceps', 'core'] }
 set_shape: { slots: 29, ones: 0, twos: 12, threes: 13, four_plus: 4, mean: 2.72 }
 rep_ranges: ['10-15', '12-15', '12-20', '4-6', '5-8', '6-10', '8-10', '8-12']
+progression: { handler: shared, slot_rules: true, distinct_rules: 2 }
 variety: { distinct: 27, density: 3.42, top_share: 0.076, evenness: 0.985 }
 ```

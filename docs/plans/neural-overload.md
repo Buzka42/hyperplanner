@@ -179,7 +179,33 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['neural-overload']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 0 of 44 movements (0%) after a clean session |
+
+> **Coverage note.** 44 of this plan's 44 movements come back from a
+> fully-completed session with no next load recorded, so the athlete
+> carries those numbers themselves. A plan with its own save-time
+> handler never runs the shared double progression, so any movement
+> that handler does not cover is left unprogressed.
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`neural-overload` handler) | Barbell Row, Bayesian Cable Curl, Cable Crunch, Cable Triceps Extension, Goblet Skater Squat, Hack Squat Calf Raises, Heavy Rolling Tricep Extensions, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Leg Extensions, Low-to-High Cable Flyes, Machine Rear Delt Fly, Seated Ham Curl, Standing Straight-Bar Curl, Weighted Chin-Up, Wide-Grip Cable Row |
+| computed by the plan each session | the plan recalculates it from your logged work | Paused Bench Press, Paused Low Bar Squat |
+| 65% of squat | the tracked max is re-estimated from what you log | Front Squats |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: neural-overload
@@ -195,5 +221,6 @@ volume: { quads: 15, glutes: 15, chest: 11, back: 11, shoulders: 9, biceps: 9, h
 coverage: { covered: 9, missing: [], in_band: 6, over: [], under: ['shoulders', 'triceps', 'hamstrings', 'core'] }
 set_shape: { slots: 31, ones: 12, twos: 3, threes: 13, four_plus: 3, mean: 2.26 }
 rep_ranges: ['1', '1-2', '10-12', '10-15', '12-20', '15-20', '3-5', '8-12']
+progression: { handler: own, slot_rules: true, distinct_rules: 3 }
 variety: { distinct: 20, density: 2.86, top_share: 0.086, evenness: 0.984 }
 ```

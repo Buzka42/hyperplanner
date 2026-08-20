@@ -161,7 +161,24 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['pencilneck-eradication']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | none — every movement is carried by the handler |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`pencilneck-eradication` handler) | Ab Wheel Rollouts, Bench-Supported DB Rear Delt Fly, Cable Flyes (mid height), Close-Grip Bench Press, Flat Barbell Bench Press, Flat DB Press, Front Squats, Hack Calf Raises, Hack Squat, Hammer Pulldown (Underhand), Hanging Leg Raises, Incline Barbell Bench Press (45°), Incline DB Curls, Incline DB Press (45°), Lat Prayer, Lat Pulldown (Neutral), Leaning Single Arm DB Lateral Raises, Leaning Single Arm DB Lateral Raises (FINAL EXAM), Leg Extensions, Lying Leg Curls, Overhead Tricep Extensions, Pec Deck, Preacher EZ-Bar Curls, Rear Delt Burnout, Rear-Delt Rope Pulls to Face, Romanian Deadlift, Seated Cable Row, Seated DB Shoulder Press, Seated Leg Curls, Side-Lying Rear Delt Flyes, Single-Arm DB Row, Single-Arm Hammer Strength Row, Standing Barbell Military Press, Standing Calf Raises, Stiff-Legged Deadlift, Walking Lunges (DB), Wide Grip BB Row |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: pencilneck-eradication
@@ -177,5 +194,6 @@ volume: { shoulders: 22, back: 21, chest: 19, glutes: 10, quads: 7, hamstrings: 
 coverage: { covered: 8, missing: [], in_band: 2, over: ['shoulders', 'back'], under: ['biceps', 'triceps', 'quads', 'hamstrings', 'calves', 'core'] }
 set_shape: { slots: 36, ones: 7, twos: 15, threes: 14, four_plus: 0, mean: 2.19 }
 rep_ranges: ['10-14', '10-15', '12-15', '12-16', '12-18', '12-20', '15-20', '20-30', '6-10', '8-12', 'Failure']
+progression: { handler: own, slot_rules: false, distinct_rules: 1 }
 variety: { distinct: 35, density: 4.43, top_share: 0.051, evenness: 0.981 }
 ```

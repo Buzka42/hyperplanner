@@ -161,7 +161,26 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | none of its own; the shared `genericDoubleProgression` runs |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 59 of 59 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | Ab Wheel, Assisted Pull-ups, Bench-Supported DB Rear Delt Fly, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Hammer Chest Press, Heel-Elevated Goblet Squat, Hip Thrusts, Loaded Ankle Rock, Open-Book Rotation, Romanian Deadlift, Rope Pressdown, Seated Hamstring Curl, Single-Arm Hammer Strength Row, Single-Arm Landmine Press, Single-Arm Overhead Triceps Extension, Suitcase Carry |
+| carried working load | double progression +2kg | Bench-Supported One-Arm Dumbbell Row, Incline DB Bench Press |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: apex-predator
@@ -177,5 +196,6 @@ volume: { glutes: 13, back: 9, quads: 8, shoulders: 7, core: 7, calves: 6, chest
 coverage: { covered: 9, missing: ['biceps'], in_band: 3, over: [], under: ['chest', 'shoulders', 'back', 'triceps', 'quads', 'hamstrings'] }
 set_shape: { slots: 22, ones: 1, twos: 14, threes: 7, four_plus: 0, mean: 2.27 }
 rep_ranges: ['10-15', '12-20', '30-60', '6-10', '8-12', '8-15']
+progression: { handler: shared, slot_rules: true, distinct_rules: 2 }
 variety: { distinct: 19, density: 3.8, top_share: 0.12, evenness: 0.976 }
 ```

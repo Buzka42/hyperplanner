@@ -155,7 +155,24 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['trinary']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | none — every movement is carried by the handler |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`trinary` handler) | Conventional Deadlift (DE), Conventional Deadlift (ME), Conventional Deadlift (RE), Low Bar Squat (DE), Low Bar Squat (ME), Low Bar Squat (RE), Paused Bench Press (DE), Paused Bench Press (ME), Paused Bench Press (RE) |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: trinary
@@ -171,5 +188,6 @@ volume: { glutes: 33, quads: 24, chest: 12, back: 9, hamstrings: 9, shoulders: 0
 coverage: { covered: 5, missing: ['shoulders', 'biceps', 'triceps', 'calves', 'core'], in_band: 1, over: ['quads', 'glutes'], under: ['back', 'hamstrings'] }
 set_shape: { slots: 9, ones: 0, twos: 0, threes: 3, four_plus: 6, mean: 5 }
 rep_ranges: ['1-3', '2-3', '8-12']
+progression: { handler: own, slot_rules: false, distinct_rules: 1 }
 variety: { distinct: 3, density: 0.67, top_share: 0.533, evenness: 0.919 }
 ```

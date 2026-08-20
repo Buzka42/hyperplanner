@@ -152,7 +152,25 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['lazarus']` — composed on top of the shared double progression |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 61 of 61 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Cable Crunch, Cable Lateral Raise, Cable Triceps Extension, Dip, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Leg Press, Lying Leg Curls, Machine Curl, Machine Press/Fly Combo, Machine Rear Delt Fly, Overhand Mid-Grip Pulldown, Overhead Tricep Extensions, Planks, Reverse Nordic Curls, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single-Arm Hammer Strength Row |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: lazarus
@@ -168,5 +186,6 @@ volume: { shoulders: 10, chest: 9, back: 9, glutes: 9, quads: 8, triceps: 7, ham
 coverage: { covered: 10, missing: [], in_band: 2, over: [], under: ['chest', 'back', 'biceps', 'quads', 'hamstrings', 'glutes', 'calves', 'core'] }
 set_shape: { slots: 23, ones: 0, twos: 13, threes: 10, four_plus: 0, mean: 2.43 }
 rep_ranges: ['10-15', '12-15', '12-20', '30-60sec', '8-12', '8-15']
+progression: { handler: own+double, slot_rules: true, distinct_rules: 1 }
 variety: { distinct: 21, density: 3.75, top_share: 0.071, evenness: 0.991 }
 ```

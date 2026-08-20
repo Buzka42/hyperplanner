@@ -163,7 +163,25 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['event-horizon']` — composed on top of the shared double progression |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 58 of 58 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Bayesian Cable Curl, Cable Crunch, Cable Curl, Cable Lateral Raise, Cable Triceps Extension, Close Neutral Grip Lat Pulldown, Dumbbell Seal Row, French Press, Front-Foot Elevated Bulgarian Split Squat, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Pulldown (Underhand), Leg Extensions, Leg Press, Lying Cable Lat Raises, Lying Leg Curls, Machine Hip Abduction, Machine Press/Fly Combo, Pec Deck, Romanian Deadlift, Seated Hammer Shoulder Press, Seated Hamstring Curl, Side-Lying Rear Delt Flyes, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Supported Sissy Squat |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: event-horizon
@@ -179,5 +197,6 @@ volume: { glutes: 20, quads: 17, shoulders: 13, back: 11, chest: 10, hamstrings:
 coverage: { covered: 9, missing: [], in_band: 6, over: [], under: ['biceps', 'triceps', 'hamstrings', 'core'] }
 set_shape: { slots: 29, ones: 0, twos: 13, threes: 12, four_plus: 4, mean: 2.69 }
 rep_ranges: ['10-15', '12-15', '12-20', '6-10', '8-12']
+progression: { handler: own+double, slot_rules: true, distinct_rules: 1 }
 variety: { distinct: 28, density: 3.59, top_share: 0.077, evenness: 0.985 }
 ```

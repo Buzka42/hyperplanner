@@ -165,7 +165,31 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['house-of-iron']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | none — every movement is carried by the handler |
+| **Next load written** | 0 of 48 movements (0%) after a clean session |
+
+> **Coverage note.** 48 of this plan's 48 movements come back from a
+> fully-completed session with no next load recorded, so the athlete
+> carries those numbers themselves. A plan with its own save-time
+> handler never runs the shared double progression, so any movement
+> that handler does not cover is left unprogressed.
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`house-of-iron` handler) | B-Stance Romanian Deadlift, Bulgarian Split Squat, Close-Grip Push-Up, Dumbbell Pullover, Glute Bridge, Goblet Heel-Elevated Squat (legacy id), Goblet Skater Squat, Hammer Curls, Leaning One-Arm Lateral Raise, Push-Up, Rear-Delt Row, Romanian Deadlift, Single-Arm DB Row, Single-Arm Floor Press, Single-Arm Overhead Triceps Extension, Single-Arm Standing Press, Single-Leg Romanian Deadlift, Suitcase Carry, Suitcase Hold, Supported Sissy Squat |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: house-of-iron
@@ -181,5 +205,6 @@ volume: { glutes: 16, back: 10, quads: 10, chest: 9, hamstrings: 8, shoulders: 7
 coverage: { covered: 8, missing: ['calves'], in_band: 4, over: [], under: ['chest', 'shoulders', 'biceps', 'hamstrings', 'core'] }
 set_shape: { slots: 24, ones: 2, twos: 13, threes: 9, four_plus: 0, mean: 2.29 }
 rep_ranges: ['10-20', '12-20', '12-25', '30-60', '6-12', '8-15', 'AMRAP']
+progression: { handler: own, slot_rules: false, distinct_rules: 1 }
 variety: { distinct: 20, density: 3.64, top_share: 0.109, evenness: 0.969 }
 ```

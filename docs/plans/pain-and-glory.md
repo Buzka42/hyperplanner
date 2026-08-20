@@ -173,7 +173,26 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['pain-and-glory']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | none — every movement is carried by the handler |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`pain-and-glory` handler) | Close Neutral Grip Lat Pulldown, Conventional Deadlift (AMRAP), Conventional Deadlift (Back-down), Conventional Deadlift (CAT), Conventional Deadlift (E2MOM), Conventional Deadlift (Heavy Double), Conventional Deadlift (Heavy Single), Conventional Deadlift (Heavy Triple), Conventional Deadlift (Optional 2nd Single), Dead Hang, Hack Squat Calf Raises, Incline DB Bench Press, Leg Extensions, Machine Rear Delt Fly, Paused Bench Press, Planks, Single-Leg Machine Hip Thrust, Slow Eccentric Cheat Nordic Curls, Standing Military Press |
+| 45% of conventionalDeadlift | the tracked max is re-estimated from what you log | Deficit Snatch Grip Deadlift |
+| 70% of lowBarSquat | the tracked max is re-estimated from what you log | Paused Low Bar Squat |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: pain-and-glory
@@ -189,5 +208,6 @@ volume: { glutes: 32, back: 28, hamstrings: 24, quads: 12, shoulders: 10, chest:
 coverage: { covered: 9, missing: ['triceps'], in_band: 2, over: ['back', 'hamstrings', 'glutes'], under: ['chest', 'biceps', 'calves', 'core'] }
 set_shape: { slots: 22, ones: 0, twos: 12, threes: 2, four_plus: 8, mean: 3.36 }
 rep_ranges: ['12-20', '15-20', '20-40', '4-6', '4-8', '5-8', '6', '6-10', '8-12']
+progression: { handler: own, slot_rules: false, distinct_rules: 3 }
 variety: { distinct: 13, density: 1.76, top_share: 0.27, evenness: 0.919 }
 ```

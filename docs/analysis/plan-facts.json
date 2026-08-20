@@ -543,6 +543,99 @@
       "Paused Bench Press (AMRAP)": "AMRAP",
       "Paused Bench Press (Back-off)": "5"
     },
+    "progressionByExercise": {
+      "Walking Lunges": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Heels-Off Narrow Leg Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Reverse Nordic Curls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Single-Leg Machine Hip Thrust": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Nordic Curls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Hip Adduction": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Paused Bench Press": {
+        "from": "73% of pausedBench",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Spoto Press": {
+        "from": "73% of spotoPress",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Weighted Pull-ups": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Y-Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Around-the-Worlds": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Low Pin Press": {
+        "from": "78% of lowPinPress",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Tricep Giant Set": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Machine Hip Abduction": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Wide-Grip Bench Press": {
+        "from": "68% of wideGripBench",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Dragon Flags": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Paused Bench Press (AMRAP)": {
+        "from": "68% of pausedBench",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Paused Bench Press (Back-off)": {
+        "from": "68% of pausedBench",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Rest / Mobility": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`bench-domination` handler)"
+      },
+      "Paused Bench Press (1RM TEST)": {
+        "from": "105% of pausedBench",
+        "advances": "the tracked max is re-estimated from what you log"
+      }
+    },
+    "progressionCoverage": null,
+    "progressionHandler": "own",
+    "declaresSlotRules": false,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -1209,6 +1302,159 @@
       "Seated Leg Curls": "12-16",
       "Ab Wheel Rollouts": "Failure"
     },
+    "progressionByExercise": {
+      "Flat Barbell Bench Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Incline DB Press (45°)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Cable Flyes (mid height)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Seated DB Shoulder Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Leaning Single Arm DB Lateral Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Overhead Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Standing Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Seated Cable Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Lat Prayer": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Wide Grip BB Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Side-Lying Rear Delt Flyes": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Preacher EZ-Bar Curls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Hanging Leg Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Incline Barbell Bench Press (45°)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Flat DB Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Standing Barbell Military Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Close-Grip Bench Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Front Squats": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Walking Lunges (DB)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Hack Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Lat Pulldown (Neutral)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Single-Arm DB Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Rear-Delt Rope Pulls to Face": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Bench-Supported DB Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Incline DB Curls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Stiff-Legged Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Seated Leg Curls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Ab Wheel Rollouts": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Leaning Single Arm DB Lateral Raises (FINAL EXAM)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      },
+      "Rear Delt Burnout": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pencilneck-eradication` handler)"
+      }
+    },
+    "progressionCoverage": null,
+    "progressionHandler": "own",
+    "declaresSlotRules": false,
     "distinctRepRanges": [
       "10-14",
       "10-15",
@@ -1684,8 +1930,56 @@
         "days": []
       }
     ],
-    "repsByExercise": {},
-    "distinctRepRanges": [],
+    "repsByExercise": {
+      "Deficit Push-ups": "AMRAP",
+      "Leg Extensions": "12-20",
+      "Supported Stiff Legged DB Deadlift": "10-15",
+      "Standing Calf Raises": "15-20",
+      "Inverted Rows": "8-15",
+      "Overhand Mid-Grip Pulldown": "10-15",
+      "Planks": "30sec"
+    },
+    "progressionByExercise": {
+      "Deficit Push-ups": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`skeleton-to-threat` handler)"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`skeleton-to-threat` handler)"
+      },
+      "Supported Stiff Legged DB Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`skeleton-to-threat` handler)"
+      },
+      "Standing Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`skeleton-to-threat` handler)"
+      },
+      "Inverted Rows": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`skeleton-to-threat` handler)"
+      },
+      "Overhand Mid-Grip Pulldown": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`skeleton-to-threat` handler)"
+      },
+      "Planks": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`skeleton-to-threat` handler)"
+      }
+    },
+    "progressionCoverage": null,
+    "progressionHandler": "own",
+    "declaresSlotRules": false,
+    "distinctRepRanges": [
+      "10-15",
+      "12-20",
+      "15-20",
+      "30sec",
+      "8-15",
+      "AMRAP"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 3,
@@ -2254,6 +2548,111 @@
       "Y-Raises": "12-15",
       "Lying Cable Lat Raises": "12-15"
     },
+    "progressionByExercise": {
+      "Sumo Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Squats": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Machine Hip Abduction": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Kas Glute Bridge": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "45-Degree Hyperextension": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Standing Military Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Incline DB Bench Press (45°)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Inverted Rows": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Side-Lying Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "DB Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Paused Squat": {
+        "from": "80% of squat",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Glute Ham Raise (eccentric only)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Hip Adduction": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Standing Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Deficit Reverse Lunge": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Single Leg Machine Hip Thrust": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Deficit Push-ups": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Assisted Pull-ups": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Y-Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Lying Cable Lat Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      },
+      "Glute Pump Finisher": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`peachy-glute-plan` handler)"
+      }
+    },
+    "progressionCoverage": null,
+    "progressionHandler": "own",
+    "declaresSlotRules": false,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -2954,6 +3353,95 @@
       "Paused Bench Press": "5-8",
       "Machine Rear Delt Fly": "12-20"
     },
+    "progressionByExercise": {
+      "Deficit Snatch Grip Deadlift": {
+        "from": "45% of conventionalDeadlift",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Close Neutral Grip Lat Pulldown": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Slow Eccentric Cheat Nordic Curls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Single-Leg Machine Hip Thrust": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Dead Hang": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Planks": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Paused Low Bar Squat": {
+        "from": "70% of lowBarSquat",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Standing Military Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Paused Bench Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Conventional Deadlift (E2MOM)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Conventional Deadlift (AMRAP)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Conventional Deadlift (Back-down)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Conventional Deadlift (CAT)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Conventional Deadlift (Heavy Triple)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Conventional Deadlift (Heavy Double)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Conventional Deadlift (Heavy Single)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      },
+      "Conventional Deadlift (Optional 2nd Single)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`pain-and-glory` handler)"
+      }
+    },
+    "progressionCoverage": null,
+    "progressionHandler": "own",
+    "declaresSlotRules": false,
     "distinctRepRanges": [
       "12-20",
       "15-20",
@@ -3468,6 +3956,47 @@
       "Conventional Deadlift (DE)": "2-3",
       "Low Bar Squat (RE)": "8-12"
     },
+    "progressionByExercise": {
+      "Conventional Deadlift (ME)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`trinary` handler)"
+      },
+      "Low Bar Squat (DE)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`trinary` handler)"
+      },
+      "Paused Bench Press (RE)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`trinary` handler)"
+      },
+      "Low Bar Squat (ME)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`trinary` handler)"
+      },
+      "Paused Bench Press (DE)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`trinary` handler)"
+      },
+      "Conventional Deadlift (RE)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`trinary` handler)"
+      },
+      "Paused Bench Press (ME)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`trinary` handler)"
+      },
+      "Conventional Deadlift (DE)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`trinary` handler)"
+      },
+      "Low Bar Squat (RE)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`trinary` handler)"
+      }
+    },
+    "progressionCoverage": null,
+    "progressionHandler": "own",
+    "declaresSlotRules": false,
     "distinctRepRanges": [
       "1-3",
       "2-3",
@@ -4079,6 +4608,95 @@
       "Conventional Deadlift (ME)": "1",
       "Farmer Holds": "20-30sec"
     },
+    "progressionByExercise": {
+      "Paused Bench Press": {
+        "from": "carried working load; later 70% of a tracked max",
+        "advances": "the plan's own rule (`ritual-of-strength` handler); later the tracked max is re-estimated from what you log"
+      },
+      "Rows": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Face Pulls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Low Bar Squat": {
+        "from": "carried working load; later 70% of a tracked max",
+        "advances": "the plan's own rule (`ritual-of-strength` handler); later the tracked max is re-estimated from what you log"
+      },
+      "Ham Curls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Conventional Deadlift": {
+        "from": "carried working load; later 70% of a tracked max",
+        "advances": "the plan's own rule (`ritual-of-strength` handler); later the tracked max is re-estimated from what you log"
+      },
+      "Farmer Holds": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Paused Bench Press (Ascension Test)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Paused Bench Press (Back-down)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Low Bar Squat (Ascension Test)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Low Bar Squat (Back-down)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Conventional Deadlift (Ascension Test)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Conventional Deadlift (Back-down)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Paused Bench Press (ME)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Low Bar Squat (Light)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Conventional Deadlift (Light)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Low Bar Squat (ME)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Paused Bench Press (Light)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      },
+      "Conventional Deadlift (ME)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`ritual-of-strength` handler)"
+      }
+    },
+    "progressionCoverage": null,
+    "progressionHandler": "own",
+    "declaresSlotRules": false,
     "distinctRepRanges": [
       "1",
       "20-30sec",
@@ -4425,6 +5043,10 @@
       }
     ],
     "repsByExercise": {},
+    "progressionByExercise": {},
+    "progressionCoverage": null,
+    "progressionHandler": "own",
+    "declaresSlotRules": false,
     "distinctRepRanges": [],
     "week": {
       "sampledWeek": 1,
@@ -5029,6 +5651,10 @@
       }
     ],
     "repsByExercise": {},
+    "progressionByExercise": {},
+    "progressionCoverage": null,
+    "progressionHandler": "shared",
+    "declaresSlotRules": false,
     "distinctRepRanges": [],
     "week": {
       "sampledWeek": 1,
@@ -7344,6 +7970,103 @@
       "Hack Squat Calf Raises": "10-20",
       "Machine Rear Delt Fly": "15-20"
     },
+    "progressionByExercise": {
+      "Paused Low Bar Squat": {
+        "from": "wave off squat",
+        "advances": "each wave steps the percentage up"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Seated Ham Curl": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Long Pause Bench Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Hammer Upper Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Wide-Grip Bench Press": {
+        "from": "85% of pausedBench",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Conventional Deadlift": {
+        "from": "57% of conventionalDeadlift",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Hammer Lower Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Glute-Ham Raise": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Rear-Delt Rope Pulls to Face": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Paused Back Squat": {
+        "from": "68% of squat",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Hip Adduction": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Pull-Up": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Heavy Rolling Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Seated DB Shoulder Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Front Squats": {
+        "from": "60% of squat",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Paused Bench Press": {
+        "from": "88% of pausedBench",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 44,
+      "written": 0,
+      "pct": 0
+    },
+    "progressionHandler": "own",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "10-20",
@@ -7984,6 +8707,91 @@
       "TRX Push-Up": "10-20",
       "Hanging Knee Raise": "12-20"
     },
+    "progressionByExercise": {
+      "Weighted Chin-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Weighted Dip": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Upper Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Sissy Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hanging Leg Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Goblet Skater Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "TRX Body Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Deficit Pushups": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Standing Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Chin-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Dip": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "TRX Push-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hanging Knee Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 48,
+      "written": 42,
+      "pct": 88
+    },
+    "progressionHandler": "own+double",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "10-20",
@@ -8612,6 +9420,107 @@
       "Standing Dumbbell/KB Calf Raise": "10-15",
       "DB Romanian Deadlift": "10-15"
     },
+    "progressionByExercise": {
+      "Flat DB Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "EZ Preacher Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Pulldown (Neutral)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rope Pressdown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated DB Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leaning One-Arm Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Leg Dumbbell Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip Adduction": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Planks": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Dumbbell Hammer Curl (legacy id)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Cable Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "French Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rear-Delt Rope Pulls to Face": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single Arm Reverse Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Hip Abduction": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Ham Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Standing Dumbbell/KB Calf Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "DB Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 48,
+      "written": 44,
+      "pct": 92
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": false,
     "distinctRepRanges": [
       "10-15",
       "Failure"
@@ -9187,6 +10096,103 @@
       "Hip Thrusts": "8-12",
       "Hanging Leg Raises": "10-20"
     },
+    "progressionByExercise": {
+      "Close-Grip Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Weighted Chin-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline Barbell Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm External Rotation": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Reverse Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front Squats": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Leg Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Goblet Skater Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Standing Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated DB Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Upper Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Flat DB Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "EZ Preacher Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Ham Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip Thrusts": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hanging Leg Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 50,
+      "written": 50,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": false,
     "distinctRepRanges": [
       "10-15",
       "10-20",
@@ -9771,6 +10777,103 @@
       "Goblet Skater Squat": "8-12",
       "Hip-Supported Dumbbell Deadlift": "10-15"
     },
+    "progressionByExercise": {
+      "Standing Military Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Weighted Chin-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leaning One-Arm Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rope Pressdown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Dumbbell Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single Arm Reverse Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Ham Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Standing Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "One-Arm Braced Dumbbell Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm DB Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Prayer": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated DB Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm External Rotation": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Goblet Skater Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 58,
+      "written": 58,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-20",
@@ -10370,6 +11473,111 @@
       "Ab Wheel": "8-15",
       "Pec Deck": "10-15"
     },
+    "progressionByExercise": {
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +5kg"
+      },
+      "Seated Ham Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Flat DB Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rope Cable Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Overhead Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Goblet Skater Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Sissy Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pull-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Lower Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Pulldown (Neutral)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated DB Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Dumbbell Hammer Curl (legacy id)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Leg Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 54,
+      "written": 54,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-20",
@@ -10916,6 +12124,115 @@
       "Hammer Upper Row": "8-12",
       "Machine Rear Delt Fly": "15-20"
     },
+    "progressionByExercise": {
+      "Close-Grip Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rope Hammer Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Reverse Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rope Pressdown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bayesian Cable Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rolling DB Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "30° Incline-Lying Dumbbell Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "French Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bench-Supported Single-Arm Cable Pulldown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Behind-the-Back Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Standing Straight-Bar Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Dumbbell Skullcrusher": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Triangle Pushdown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Ham Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Tricep Giant Set": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "30° Smith Incline Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Upper Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 52,
+      "written": 52,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -11536,6 +12853,111 @@
       "Hanging Leg Raises": "10-20",
       "Seated Dumbbell Lateral Raise": "12-20"
     },
+    "progressionByExercise": {
+      "Weighted Chin-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Lower Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Goblet Skater Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pull-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "30° Incline-Lying Dumbbell Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Dumbbell Seal Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Standing Military Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Reverse Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Overhead Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bench-Supported DB Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Sissy Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Ham Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hanging Leg Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Dumbbell Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 52,
+      "written": 52,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "10-20",
@@ -12102,6 +13524,95 @@
       "Goblet Skater Squat": "10-12",
       "Low-to-High Cable Flyes": "8-12"
     },
+    "progressionByExercise": {
+      "Paused Bench Press": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Barbell Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Wide-Grip Cable Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Leaning One-Arm Lateral Raise": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Bayesian Cable Curl": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Paused Low Bar Squat": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Seated Ham Curl": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Weighted Chin-Up": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Standing Straight-Bar Curl": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Heavy Rolling Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Front Squats": {
+        "from": "65% of squat",
+        "advances": "the tracked max is re-estimated from what you log"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Goblet Skater Squat": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      },
+      "Low-to-High Cable Flyes": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`neural-overload` handler)"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 44,
+      "written": 0,
+      "pct": 0
+    },
+    "progressionHandler": "own",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "1",
       "1-2",
@@ -12717,6 +14228,87 @@
       "Ab Wheel": "8-15",
       "Assisted Pull-ups": "8-12"
     },
+    "progressionByExercise": {
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Hammer Upper Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Machine Curl": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Seated Ham Curl": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Hammer Lower Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "EZ Preacher Curl": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "French Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      },
+      "Assisted Pull-ups": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`tenfold` handler)"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 42,
+      "written": 8,
+      "pct": 19
+    },
+    "progressionHandler": "own",
+    "declaresSlotRules": false,
     "distinctRepRanges": [
       "10",
       "10-15",
@@ -13240,6 +14832,95 @@
       "Glute Bridge": "10-20",
       "Rear-Delt Row": "12-20"
     },
+    "progressionByExercise": {
+      "Goblet Heel-Elevated Squat (legacy id)": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Single-Arm Floor Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Push-Up": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Single-Arm Overhead Triceps Extension": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Suitcase Hold": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Single-Arm DB Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Dumbbell Pullover": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Single-Leg Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Hammer Curls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Suitcase Carry": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Single-Arm Standing Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Goblet Skater Squat": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Supported Sissy Squat": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Leaning One-Arm Lateral Raise": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Close-Grip Push-Up": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "B-Stance Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Glute Bridge": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      },
+      "Rear-Delt Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`house-of-iron` handler)"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 48,
+      "written": 0,
+      "pct": 0
+    },
+    "progressionHandler": "own",
+    "declaresSlotRules": false,
     "distinctRepRanges": [
       "10-20",
       "12-20",
@@ -13806,6 +15487,91 @@
       "Hip Thrusts": "8-15",
       "Rope Pressdown": "12-20"
     },
+    "progressionByExercise": {
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2kg"
+      },
+      "Bench-Supported One-Arm Dumbbell Row": {
+        "from": "carried working load",
+        "advances": "double progression +2kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Overhead Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Loaded Ankle Rock": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Open-Book Rotation": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Assisted Pull-ups": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Landmine Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bench-Supported DB Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Suitcase Carry": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Deficit Reverse Lunge": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip Thrusts": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rope Pressdown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 59,
+      "written": 59,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-20",
@@ -14398,6 +16164,123 @@
       "Cable Triceps Extension": "10-15",
       "Planks": "30-60sec"
     },
+    "progressionByExercise": {
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Hip Abduction": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Assisted Pull-ups": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Side-Lying Rear Delt Flyes": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "EZ Preacher Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rope Pressdown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip Thrusts": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "B-Stance Hip Thrust": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Supported Sissy Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Flat DB Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hammer Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Cable Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Planks": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 56,
+      "written": 56,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-20",
@@ -15026,6 +16909,107 @@
       "Leaning One-Arm Lateral Raise": "12-20",
       "Cable Triceps Extension": "10-15"
     },
+    "progressionByExercise": {
+      "Barbell Squat": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler); later top set, then 2 back-off sets at 90% (+2.5kg)"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Flat Barbell Bench Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler); later top set, then 3 back-off sets at 90% (+2.5kg); later top set, then 2 back-off sets at 90% (+2.5kg)"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Assisted Pull-ups": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Shoulder Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Bench-Supported DB Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Rolling DB Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Standing Straight-Bar Curl": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Paused Squat": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Hip Thrusts": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Standing Military Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler); later top set, then 2 back-off sets at 90% (+2.5kg)"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Leaning One-Arm Lateral Raise": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "the plan's own rule (`athena` handler)"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 56,
+      "written": 56,
+      "pct": 100
+    },
+    "progressionHandler": "own",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-20",
@@ -15578,6 +17562,131 @@
       "Lying Leg Curls": "10-15",
       "Lateral Raises": "12-20"
     },
+    "progressionByExercise": {
+      "High Bar Squat": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Assisted Pull-ups": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "30° Smith Incline Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single Leg Machine Hip Thrust": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Cable Lat Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Overhead Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Prayer": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Hip Abduction": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Side-Lying Rear Delt Flyes": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Paused Bench Press": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Dip": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Leg Hip Thrust": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bench-Supported Single-Arm Cable Pulldown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lateral Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 64,
+      "written": 64,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-20",
@@ -16146,6 +18255,127 @@
       "Hammer Pulldown (Underhand)": "8-12",
       "Cable Triceps Extension": "8-15"
     },
+    "progressionByExercise": {
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rope Hammer Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Overhead Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Kettlebell Swing": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Farmer Carry": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Pulldown (Neutral)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Deficit Pushups": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single Arm Reverse Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Push-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Paused Bench Press": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Goblet Skater Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bench-Supported Single-Arm Cable Pulldown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Prayer": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Behind-the-Back Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Deficit Reverse Lunge": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Trap-Bar Deadlift": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 78,
+      "written": 78,
+      "pct": 100
+    },
+    "progressionHandler": "own+double",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -16787,6 +19017,103 @@
       "Romanian Deadlift": "5-8",
       "Deficit Reverse Lunge": "8-12"
     },
+    "progressionByExercise": {
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lateral Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Kettlebell Swing": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Pulldown (Neutral)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single Arm Reverse Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Paused Bench Press": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Goblet Skater Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Prayer": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Deficit Reverse Lunge": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 56,
+      "written": 56,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-12",
       "10-15",
@@ -17322,6 +19649,91 @@
       "Standing Calf Raises": "12-20",
       "Hanging Knee Raise": "10-15"
     },
+    "progressionByExercise": {
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "EZ Preacher Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "30° Smith Incline Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Close Neutral Grip Lat Pulldown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hammer Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single Leg Machine Hip Thrust": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bayesian Cable Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Overhead Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Standing Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hanging Knee Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 76,
+      "written": 76,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -17763,6 +20175,99 @@
       "Cable Triceps Extension": "8-15",
       "Planks": "30-60sec"
     },
+    "progressionByExercise": {
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "30° Smith Incline Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Overhead Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip-Supported Dumbbell Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Overhand Mid-Grip Pulldown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Dip": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Reverse Nordic Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hammer Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Press/Fly Combo": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Planks": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 61,
+      "written": 61,
+      "pct": 100
+    },
+    "progressionHandler": "own+double",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -18318,6 +20823,115 @@
       "Lying Leg Curls": "10-15",
       "Cable Triceps Extension": "10-15"
     },
+    "progressionByExercise": {
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Heel-Elevated Goblet Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Prayer": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Dip": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bench-Supported DB Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "EZ Preacher Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Overhead Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Supported Sissy Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hammer Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Knee-Over-Toe Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Stripper Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Reverse Nordic Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 58,
+      "written": 58,
+      "pct": 100
+    },
+    "progressionHandler": "own+double",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -18916,6 +21530,111 @@
       "Seated Hammer Shoulder Press": "8-12",
       "Cable Triceps Extension": "10-15"
     },
+    "progressionByExercise": {
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Dip": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Low-to-High Cable Flyes": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Cable Lat Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "French Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Supported Sissy Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Mid Cable Flyes (Seated)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "30° Smith Incline Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crossover": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Side-Lying Rear Delt Flyes": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "EZ Preacher Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Flat DB Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Flyes (mid height)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Pulldown (Neutral)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hammer Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 56,
+      "written": 56,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -19434,6 +22153,95 @@
       "Cable Triceps Extension": "10-15",
       "Cable Crunch": "10-15"
     },
+    "progressionByExercise": {
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "30° Smith Incline Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rolling DB Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Overhand Mid-Grip Pulldown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 60,
+      "written": 60,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -20034,6 +22842,87 @@
       "Machine Hip Abduction": "12-20",
       "Hip Adduction": "12-20"
     },
+    "progressionByExercise": {
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hammer Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Press/Fly Combo": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single Leg Machine Hip Thrust": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Standing Dumbbell/KB Calf Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Hip Abduction": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hip Adduction": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 62,
+      "written": 62,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -20548,6 +23437,127 @@
       "Cable Triceps Extension": "10-15",
       "Suitcase Hold": "30-45"
     },
+    "progressionByExercise": {
+      "Safety Bar Squat": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Standing Military Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Leg Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Ab Wheel": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Farmer Carry": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Trap-Bar Deadlift": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Weighted Pull-ups": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Heavy Rolling Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Suitcase Carry": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Flat DB Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Barbell Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leaning One-Arm Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Standing Straight-Bar Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Suitcase Hold": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front Squats": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Single-Arm Standing Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "B-Stance Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hanging Knee Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Half-Kneeling Rotational Cable Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Weighted Step-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Dip": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 57,
+      "written": 57,
+      "pct": 100
+    },
+    "progressionHandler": "own+double",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -21142,6 +24152,127 @@
       "Supported Sissy Squat": "12-20",
       "Cable Crunch": "8-12"
     },
+    "progressionByExercise": {
+      "30° Smith Incline Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Dumbbell Seal Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hammer Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Close Neutral Grip Lat Pulldown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bayesian Cable Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single Leg Machine Hip Thrust": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Press/Fly Combo": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Side-Lying Rear Delt Flyes": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pec Deck": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Cable Lat Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "French Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Machine Hip Abduction": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Supported Sissy Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 58,
+      "written": 58,
+      "pct": 100
+    },
+    "progressionHandler": "own+double",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -21869,6 +25000,123 @@
       "Lying Leg Curls": "10-15",
       "Single Leg Machine Hip Thrust": "10-15"
     },
+    "progressionByExercise": {
+      "Flat Barbell Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bench-Supported One-Arm Dumbbell Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Landmine Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Pull-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leaning One-Arm Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Standing Straight-Bar Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Heavy Rolling Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Barbell Squat": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "30° Smith Incline Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Barbell Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Side-Lying Rear Delt Flyes": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Trap-Bar Deadlift": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Weighted Step-Up": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single Leg Machine Hip Thrust": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 58,
+      "written": 58,
+      "pct": 100
+    },
+    "progressionHandler": "shared",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",
@@ -22472,6 +25720,119 @@
       "Single Leg Machine Hip Thrust": "10-15",
       "Cable Crunch": "8-12"
     },
+    "progressionByExercise": {
+      "Flat Barbell Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single-Arm Hammer Strength Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Cable Row": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Shoulder Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lat Prayer": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Behind-the-Back Cable Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Triceps Extension": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "EZ Preacher Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Barbell Squat": {
+        "from": "computed by the plan each session",
+        "advances": "the plan recalculates it from your logged work"
+      },
+      "Romanian Deadlift": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Seated Hamstring Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leg Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hack Squat Calf Raises": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Incline DB Bench Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Pulldown (Underhand)": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bench-Supported Single-Arm Cable Pulldown": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Hammer Chest Press": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Bench-Supported DB Rear Delt Fly": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Leaning One-Arm Lateral Raise": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Rolling DB Tricep Extensions": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Straight-Bar Cable Curl": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Lying Leg Curls": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Front-Foot Elevated Bulgarian Split Squat": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Single Leg Machine Hip Thrust": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Cable Crunch": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      }
+    },
+    "progressionCoverage": {
+      "movements": 56,
+      "written": 56,
+      "pct": 100
+    },
+    "progressionHandler": "own+double",
+    "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
       "12-15",

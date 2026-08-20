@@ -150,7 +150,25 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['peachy-glute-plan']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | none — every movement is carried by the handler |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`peachy-glute-plan` handler) | 45-Degree Hyperextension, Assisted Pull-ups, Cable Crunch, DB Romanian Deadlift, Deficit Push-ups, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Glute Ham Raise (eccentric only), Glute Pump Finisher, Hack Squat Calf Raises, Hip Adduction, Incline DB Bench Press (45°), Inverted Rows, Kas Glute Bridge, Lying Cable Lat Raises, Machine Hip Abduction, Seated Hamstring Curl, Side-Lying Rear Delt Fly, Single Leg Machine Hip Thrust, Squats, Standing Calf Raises, Standing Military Press, Sumo Deadlift, Y-Raises |
+| 80% of squat | the tracked max is re-estimated from what you log | Paused Squat |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: peachy-glute-plan
@@ -166,5 +184,6 @@ volume: { glutes: 32, back: 12, hamstrings: 12, quads: 11, shoulders: 10, calves
 coverage: { covered: 8, missing: ['biceps', 'triceps'], in_band: 5, over: ['glutes'], under: ['chest', 'core'] }
 set_shape: { slots: 26, ones: 0, twos: 10, threes: 16, four_plus: 0, mean: 2.62 }
 rep_ranges: ['10-15', '12-15', '12-20', '15-20', '5-10', '5-8', '8-12', 'Failure', 'Max']
+progression: { handler: own, slot_rules: false, distinct_rules: 2 }
 variety: { distinct: 24, density: 3.53, top_share: 0.059, evenness: 0.994 }
 ```

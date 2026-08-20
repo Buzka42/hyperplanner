@@ -141,7 +141,7 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 7. Export block
+## 8. Export block
 
 ```yaml
 id: super-mutant

@@ -168,7 +168,25 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | none of its own; the shared `genericDoubleProgression` runs |
+| **Slot-level rules** | none — every movement is carried by the handler |
+| **Next load written** | 50 of 50 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | Ab Wheel, Cable Triceps Extension, Close-Grip Bench Press, EZ Preacher Curl, Flat DB Press, Front Squats, Goblet Skater Squat, Hammer Upper Row, Hanging Leg Raises, Heel-Elevated Goblet Squat, Hip Thrusts, Hip-Supported Dumbbell Deadlift, Incline Barbell Bench Press, Machine Rear Delt Fly, Reverse Curl, Seated DB Shoulder Press, Seated Ham Curl, Single-Arm External Rotation, Single-Leg Hamstring Curl, Split Squat, Standing Calf Raises, Weighted Chin-Up |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: immaculate-restructure
@@ -184,5 +202,6 @@ volume: { glutes: 20, shoulders: 17, quads: 14, chest: 10, biceps: 10, hamstring
 coverage: { covered: 10, missing: [], in_band: 8, over: [], under: ['back', 'hamstrings'] }
 set_shape: { slots: 25, ones: 0, twos: 3, threes: 16, four_plus: 6, mean: 3.12 }
 rep_ranges: ['10-15', '10-20', '12-20', '15-20', '3-6', '5-8', '6-10', '6-15', '8-12']
+progression: { handler: shared, slot_rules: false, distinct_rules: 1 }
 variety: { distinct: 22, density: 2.82, top_share: 0.077, evenness: 0.989 }
 ```

@@ -360,7 +360,52 @@ def render(r):
         add('---')
         add('')
 
-    add('## 7. Export block')
+    prog = r.get('progressionByExercise') or {}
+    if prog:
+        add('## 7. Load progression')
+        add('')
+        add('How the weight on each movement is chosen, and what makes it go up.')
+        add('Two layers combine: the rule the plan declares on a slot, and the')
+        add('save-time handler that writes the next working load after a session.')
+        add('')
+        add('| | |')
+        add('|---|---|')
+        handler_desc = {
+            'own': 'its own rule — `PROGRESSION_HANDLERS[%r]`, which does **not** '
+                   'fall back to the shared double progression' % pid,
+            'own+double': 'its own rule — `PROGRESSION_HANDLERS[%r]` — composed on top '
+                          'of the shared double progression' % pid,
+            'shared': 'none of its own; the shared `genericDoubleProgression` runs',
+        }
+        add('| **Save-time handler** | %s |' % handler_desc.get(r.get('progressionHandler'), 'unknown'))
+        add('| **Slot-level rules** | %s |' % (
+            'declared on at least one movement' if r.get('declaresSlotRules')
+            else 'none — every movement is carried by the handler'))
+        cov = r.get('progressionCoverage')
+        if cov:
+            add('| **Next load written** | %d of %d movements (%d%%) after a clean session |' % (
+                cov['written'], cov['movements'], cov['pct']))
+        add('')
+        if cov and cov['pct'] < 100:
+            add("> **Coverage note.** %d of this plan's %d movements come back from a" % (
+                cov['movements'] - cov['written'], cov['movements']))
+            add('> fully-completed session with no next load recorded, so the athlete')
+            add('> carries those numbers themselves. A plan with its own save-time')
+            add('> handler never runs the shared double progression, so any movement')
+            add('> that handler does not cover is left unprogressed.')
+            add('')
+        grouped = {}
+        for nm, rule in prog.items():
+            grouped.setdefault((rule['from'], rule['advances']), []).append(nm)
+        add('| Prescribed from | Advances by | Movements |')
+        add('|---|---|---|')
+        for (frm, adv), names in sorted(grouped.items(), key=lambda kv: -len(kv[1])):
+            add('| %s | %s | %s |' % (esc(frm), esc(adv), ', '.join(esc(n) for n in sorted(names))))
+        add('')
+        add('---')
+        add('')
+
+    add('## 8. Export block')
     add('')
     add('```yaml')
     add('id: %s' % pid)
@@ -384,6 +429,10 @@ def render(r):
         ss.get('fourPlus'), ss.get('avgSetsPerSlot')))
     if ranges:
         add('rep_ranges: %s' % ranges)
+    if prog:
+        add('progression: { handler: %s, slot_rules: %s, distinct_rules: %d }' % (
+            r.get('progressionHandler'), str(bool(r.get('declaresSlotRules'))).lower(),
+            len({(v['from'], v['advances']) for v in prog.values()})))
     add('variety: { distinct: %s, density: %s, top_share: %s, evenness: %s }' % (
         m.get('distinctExercises'), m.get('varietyDensity'), m.get('topExerciseShare'), m.get('evenness')))
     if m.get('unmapped'):

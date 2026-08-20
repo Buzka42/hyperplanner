@@ -180,7 +180,37 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['king-of-the-squat']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 0 of 44 movements (0%) after a clean session |
+
+> **Coverage note.** 44 of this plan's 44 movements come back from a
+> fully-completed session with no next load recorded, so the athlete
+> carries those numbers themselves. A plan with its own save-time
+> handler never runs the shared double progression, so any movement
+> that handler does not cover is left unprogressed.
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`king-of-the-squat` handler) | Ab Wheel, Glute-Ham Raise, Hack Squat Calf Raises, Hammer Lower Row, Hammer Upper Row, Heavy Rolling Tricep Extensions, Heel-Elevated Goblet Squat, Hip Adduction, Hip-Supported Dumbbell Deadlift, Leg Extensions, Long Pause Bench Press, Machine Rear Delt Fly, Pull-Up, Rear-Delt Rope Pulls to Face, Seated DB Shoulder Press, Seated Ham Curl |
+| wave off squat | each wave steps the percentage up | Paused Low Bar Squat |
+| 85% of pausedBench | the tracked max is re-estimated from what you log | Wide-Grip Bench Press |
+| 57% of conventionalDeadlift | the tracked max is re-estimated from what you log | Conventional Deadlift |
+| 68% of squat | the tracked max is re-estimated from what you log | Paused Back Squat |
+| 60% of squat | the tracked max is re-estimated from what you log | Front Squats |
+| 88% of pausedBench | the tracked max is re-estimated from what you log | Paused Bench Press |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: king-of-the-squat
@@ -196,5 +226,6 @@ volume: { glutes: 28, quads: 22, chest: 14, back: 14, hamstrings: 12, shoulders:
 coverage: { covered: 8, missing: ['biceps'], in_band: 3, over: ['quads', 'glutes'], under: ['shoulders', 'triceps', 'calves', 'core'] }
 set_shape: { slots: 22, ones: 0, twos: 0, threes: 12, four_plus: 10, mean: 3.73 }
 rep_ranges: ['10-15', '10-20', '12-15', '12-20', '15-20', '3', '3-5', '3-6', '5', '5-8', '6-10', '6-8', '8-12']
+progression: { handler: own, slot_rules: true, distinct_rules: 7 }
 variety: { distinct: 22, density: 2.68, top_share: 0.073, evenness: 0.991 }
 ```

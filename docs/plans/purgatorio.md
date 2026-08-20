@@ -164,7 +164,31 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | none of its own; the shared `genericDoubleProgression` runs |
+| **Slot-level rules** | none — every movement is carried by the handler |
+| **Next load written** | 44 of 48 movements (92%) after a clean session |
+
+> **Coverage note.** 4 of this plan's 48 movements come back from a
+> fully-completed session with no next load recorded, so the athlete
+> carries those numbers themselves. A plan with its own save-time
+> handler never runs the shared double progression, so any movement
+> that handler does not cover is left unprogressed.
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | DB Romanian Deadlift, Dumbbell Hammer Curl (legacy id), EZ Preacher Curl, Flat DB Press, French Press, Hack Squat, Hack Squat Calf Raises, Heel-Elevated Goblet Squat, Hip Adduction, Incline DB Bench Press, Lat Pulldown (Neutral), Leaning One-Arm Lateral Raise, Lying Leg Curls, Machine Hip Abduction, Planks, Rear-Delt Rope Pulls to Face, Rope Pressdown, Seated Cable Row, Seated DB Shoulder Press, Seated Ham Curl, Single Arm Reverse Pec Deck, Single-Leg Dumbbell Romanian Deadlift, Standing Dumbbell/KB Calf Raise |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: purgatorio
@@ -180,5 +204,6 @@ volume: { glutes: 20, shoulders: 17, hamstrings: 12, chest: 8, back: 8, quads: 8
 coverage: { covered: 10, missing: [], in_band: 7, over: [], under: ['chest', 'back', 'quads'] }
 set_shape: { slots: 24, ones: 0, twos: 0, threes: 17, four_plus: 7, mean: 3.29 }
 rep_ranges: ['10-15', 'Failure']
+progression: { handler: shared, slot_rules: false, distinct_rules: 1 }
 variety: { distinct: 23, density: 2.91, top_share: 0.076, evenness: 0.994 }
 ```

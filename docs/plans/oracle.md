@@ -164,7 +164,26 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['oracle']` — composed on top of the shared double progression |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 56 of 56 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | Behind-the-Back Cable Lateral Raise, Bench-Supported DB Rear Delt Fly, Bench-Supported Single-Arm Cable Pulldown, Cable Crunch, Cable Triceps Extension, EZ Preacher Curl, Flat Barbell Bench Press, Front-Foot Elevated Bulgarian Split Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Pulldown (Underhand), Incline DB Bench Press, Lat Prayer, Leaning One-Arm Lateral Raise, Leg Extensions, Leg Press, Lying Leg Curls, Rolling DB Tricep Extensions, Romanian Deadlift, Seated Cable Row, Seated Hamstring Curl, Shoulder Press, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Straight-Bar Cable Curl |
+| computed by the plan each session | the plan recalculates it from your logged work | Barbell Squat |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: oracle
@@ -180,5 +199,6 @@ volume: { glutes: 20, quads: 17, shoulders: 14, chest: 11, back: 11, hamstrings:
 coverage: { covered: 9, missing: [], in_band: 6, over: [], under: ['biceps', 'triceps', 'hamstrings', 'core'] }
 set_shape: { slots: 28, ones: 0, twos: 11, threes: 13, four_plus: 4, mean: 2.75 }
 rep_ranges: ['10-15', '12-15', '12-20', '5-8', '6-10', '8-12']
+progression: { handler: own+double, slot_rules: true, distinct_rules: 2 }
 variety: { distinct: 26, density: 3.38, top_share: 0.091, evenness: 0.978 }
 ```

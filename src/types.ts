@@ -475,6 +475,16 @@ export type Exercise = {
         /** Superset role, e.g. 'A1'. Partners share the letter. */
         pair?: string;
         topSetBackoff?: { backoffPercent: number; backoffSets: number; backoffReps: string; incrementKg: number };
+        /**
+         * How the load on this slot is meant to move, as the plan declared it.
+         *
+         * The percentage-driven slots already showed their hand through
+         * `target.percentage`, but a double-progression slot looked identical
+         * to one with no rule at all — the increment lived only in the plan
+         * source. Carrying it here makes the rule inspectable by the app and
+         * by the docs generator.
+         */
+        progression?: { kind: string; increment?: number; of?: string; percent?: number };
         block?: { kind: 'anchor' | 'burn' | 'finisher' | 'density'; id: string; durationSeconds?: number };
     };
 };

@@ -164,7 +164,26 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['atlas']` — composed on top of the shared double progression |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 57 of 57 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | Ab Wheel, B-Stance Romanian Deadlift, Barbell Row, Cable Triceps Extension, Dip, Farmer Carry, Flat DB Press, Front-Foot Elevated Bulgarian Split Squat, Hack Squat Calf Raises, Half-Kneeling Rotational Cable Row, Hanging Knee Raise, Heavy Rolling Tricep Extensions, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Lying Leg Curls, Seated Hamstring Curl, Single-Arm Hammer Strength Row, Single-Arm Standing Press, Single-Leg Romanian Deadlift, Standing Military Press, Standing Straight-Bar Curl, Suitcase Carry, Suitcase Hold, Weighted Pull-ups, Weighted Step-Up |
+| computed by the plan each session | the plan recalculates it from your logged work | Front Squats, Safety Bar Squat, Trap-Bar Deadlift |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: atlas
@@ -180,5 +199,6 @@ volume: { glutes: 15, quads: 13, back: 12, shoulders: 8, hamstrings: 8, chest: 6
 coverage: { covered: 10, missing: [], in_band: 4, over: [], under: ['chest', 'shoulders', 'biceps', 'triceps', 'hamstrings', 'calves'] }
 set_shape: { slots: 22, ones: 0, twos: 12, threes: 8, four_plus: 2, mean: 2.55 }
 rep_ranges: ['10-15', '12-15', '12-20', '30-40', '30-45', '4-6', '4-8', '40-60', '5-8', '6-10', '8-10', '8-12']
+progression: { handler: own+double, slot_rules: true, distinct_rules: 2 }
 variety: { distinct: 20, density: 3.57, top_share: 0.125, evenness: 0.976 }
 ```

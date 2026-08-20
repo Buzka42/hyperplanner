@@ -152,7 +152,26 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | none of its own; the shared `genericDoubleProgression` runs |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 64 of 64 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Assisted Pull-ups, Bench-Supported Single-Arm Cable Pulldown, Cable Crunch, Cable Lateral Raise, Cable Triceps Extension, Dip, Front-Foot Elevated Bulgarian Split Squat, Hack Squat, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Lat Prayer, Lateral Raises, Leg Extensions, Leg Press, Lying Cable Lat Raises, Lying Leg Curls, Machine Curl, Machine Hip Abduction, Overhead Tricep Extensions, Pec Deck, Romanian Deadlift, Seated Hamstring Curl, Side-Lying Rear Delt Flyes, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Single-Leg Hip Thrust |
+| computed by the plan each session | the plan recalculates it from your logged work | High Bar Squat, Paused Bench Press |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: kali
@@ -168,5 +187,6 @@ volume: { glutes: 21, back: 16, quads: 11, shoulders: 10, chest: 9, hamstrings: 
 coverage: { covered: 9, missing: [], in_band: 4, over: ['glutes'], under: ['chest', 'biceps', 'hamstrings', 'calves', 'core'] }
 set_shape: { slots: 32, ones: 0, twos: 22, threes: 10, four_plus: 0, mean: 2.31 }
 rep_ranges: ['10-15', '12-20', '3-6', '4-6', '8-12']
+progression: { handler: shared, slot_rules: true, distinct_rules: 2 }
 variety: { distinct: 29, density: 3.92, top_share: 0.068, evenness: 0.988 }
 ```

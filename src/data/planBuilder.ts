@@ -275,6 +275,16 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
                                 backoffReps: slot.progression.backoffReps.join('-'),
                                 incrementKg: slot.progression.incrementKg ?? 2.5,
                             } }),
+                            ...(slot.progression && { progression: {
+                                kind: slot.progression.type,
+                                ...('increment' in slot.progression && typeof slot.progression.increment === 'number'
+                                    ? { increment: slot.progression.increment } : {}),
+                                ...('incrementKg' in slot.progression && typeof slot.progression.incrementKg === 'number'
+                                    ? { increment: slot.progression.incrementKg } : {}),
+                                ...('of' in slot.progression ? { of: String(slot.progression.of) } : {}),
+                                ...('percent' in slot.progression && typeof slot.progression.percent === 'number'
+                                    ? { percent: slot.progression.percent } : {}),
+                            } }),
                             ...(slot.block && { block: slot.block }),
                         },
                     };

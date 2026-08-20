@@ -159,7 +159,28 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['athena']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 56 of 56 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`athena` handler) | Ab Wheel, Assisted Pull-ups, Bench-Supported DB Rear Delt Fly, Cable Crunch, Cable Triceps Extension, Front-Foot Elevated Bulgarian Split Squat, Hack Squat Calf Raises, Hip Thrusts, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Leg Extensions, Lying Leg Curls, Pec Deck, Rolling DB Tricep Extensions, Seated Hamstring Curl, Shoulder Press, Single-Arm Hammer Strength Row, Standing Straight-Bar Curl |
+| computed by the plan each session | the plan recalculates it from your logged work | Barbell Squat, Paused Squat |
+| carried working load | the plan's own rule (`athena` handler); later top set, then 2 back-off sets at 90% (+2.5kg) | Romanian Deadlift, Standing Military Press |
+| carried working load | the plan's own rule (`athena` handler); later top set, then 3 back-off sets at 90% (+2.5kg); later top set, then 2 back-off sets at 90% (+2.5kg) | Flat Barbell Bench Press |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: athena
@@ -175,5 +196,6 @@ volume: { glutes: 17, shoulders: 11, back: 11, quads: 11, hamstrings: 10, chest:
 coverage: { covered: 10, missing: [], in_band: 5, over: [], under: ['chest', 'biceps', 'triceps', 'calves', 'core'] }
 set_shape: { slots: 28, ones: 0, twos: 19, threes: 7, four_plus: 2, mean: 2.39 }
 rep_ranges: ['10-15', '12-20', '4-6', '5-8', '8-12']
+progression: { handler: own, slot_rules: true, distinct_rules: 4 }
 variety: { distinct: 23, density: 3.43, top_share: 0.09, evenness: 0.971 }
 ```

@@ -185,7 +185,31 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['bench-domination']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | none — every movement is carried by the handler |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`bench-domination` handler) | Around-the-Worlds, Cable Crunch, Dragon Flags, Hack Squat Calf Raises, Heels-Off Narrow Leg Press, Hip Adduction, Machine Hip Abduction, Nordic Curls, Rest / Mobility, Reverse Nordic Curls, Single-Leg Machine Hip Thrust, Tricep Giant Set, Walking Lunges, Y-Raises |
+| 68% of pausedBench | the tracked max is re-estimated from what you log | Paused Bench Press (AMRAP), Paused Bench Press (Back-off) |
+| 73% of pausedBench | the tracked max is re-estimated from what you log | Paused Bench Press |
+| 73% of spotoPress | the tracked max is re-estimated from what you log | Spoto Press |
+| computed by the plan each session | the plan recalculates it from your logged work | Weighted Pull-ups |
+| 78% of lowPinPress | the tracked max is re-estimated from what you log | Low Pin Press |
+| 68% of wideGripBench | the tracked max is re-estimated from what you log | Wide-Grip Bench Press |
+| 105% of pausedBench | the tracked max is re-estimated from what you log | Paused Bench Press (1RM TEST) |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: bench-domination
@@ -201,5 +225,6 @@ volume: { chest: 35, glutes: 22, back: 17, quads: 16, triceps: 12, shoulders: 11
 coverage: { covered: 9, missing: ['biceps'], in_band: 6, over: ['chest', 'glutes'], under: ['hamstrings'] }
 set_shape: { slots: 38, ones: 1, twos: 11, threes: 20, four_plus: 6, mean: 2.95 }
 rep_ranges: ['10-15', '12-15', '15-20', '4', '4-16', '5', '5-10', '6-8', '8-12', 'AMRAP', 'Failure', 'Giant', 'Max']
+progression: { handler: own, slot_rules: false, distinct_rules: 8 }
 variety: { distinct: 21, density: 1.88, top_share: 0.152, evenness: 0.946 }
 ```

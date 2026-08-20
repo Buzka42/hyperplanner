@@ -159,7 +159,25 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | none of its own; the shared `genericDoubleProgression` runs |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 62 of 62 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | Cable Crunch, Cable Triceps Extension, Hammer Chest Press, Hammer Pulldown (Underhand), Hip Adduction, Leg Extensions, Leg Press, Lying Leg Curls, Machine Curl, Machine Hip Abduction, Machine Press/Fly Combo, Machine Rear Delt Fly, Pec Deck, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Standing Dumbbell/KB Calf Raise |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: monolith
@@ -175,5 +193,6 @@ volume: { glutes: 13, chest: 10, quads: 9, back: 8, shoulders: 6, hamstrings: 6,
 coverage: { covered: 10, missing: [], in_band: 3, over: [], under: ['shoulders', 'back', 'biceps', 'triceps', 'quads', 'hamstrings', 'core'] }
 set_shape: { slots: 24, ones: 0, twos: 6, threes: 16, four_plus: 2, mean: 2.83 }
 rep_ranges: ['10-15', '12-15', '12-20', '6-10', '8-12']
+progression: { handler: shared, slot_rules: true, distinct_rules: 1 }
 variety: { distinct: 18, density: 2.65, top_share: 0.088, evenness: 0.989 }
 ```

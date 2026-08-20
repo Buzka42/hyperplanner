@@ -166,7 +166,31 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | its own rule — `PROGRESSION_HANDLERS['tenfold']`, which does **not** fall back to the shared double progression |
+| **Slot-level rules** | none — every movement is carried by the handler |
+| **Next load written** | 8 of 42 movements (19%) after a clean session |
+
+> **Coverage note.** 34 of this plan's 42 movements come back from a
+> fully-completed session with no next load recorded, so the athlete
+> carries those numbers themselves. A plan with its own save-time
+> handler never runs the shared double progression, so any movement
+> that handler does not cover is left unprogressed.
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | the plan's own rule (`tenfold` handler) | Ab Wheel, Assisted Pull-ups, Cable Crunch, Cable Lateral Raise, Cable Triceps Extension, EZ Preacher Curl, French Press, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Lower Row, Hammer Upper Row, Heel-Elevated Goblet Squat, Incline DB Bench Press, Machine Curl, Machine Rear Delt Fly, Pec Deck, Seated Ham Curl |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: tenfold
@@ -182,5 +206,6 @@ volume: { chest: 17, back: 15, quads: 14, hamstrings: 14, glutes: 14, shoulders:
 coverage: { covered: 10, missing: [], in_band: 7, over: [], under: ['biceps', 'triceps', 'calves'] }
 set_shape: { slots: 21, ones: 0, twos: 6, threes: 8, four_plus: 7, mean: 4.19 }
 rep_ranges: ['10', '10-15', '12-20', '15-20', '8-12', '8-15']
+progression: { handler: own, slot_rules: false, distinct_rules: 1 }
 variety: { distinct: 18, density: 2.05, top_share: 0.159, evenness: 0.928 }
 ```

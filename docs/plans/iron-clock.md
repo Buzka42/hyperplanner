@@ -156,7 +156,26 @@ same question; a real spread is the sign that each slot was chosen.
 
 ---
 
-## 7. Export block
+## 7. Load progression
+
+How the weight on each movement is chosen, and what makes it go up.
+Two layers combine: the rule the plan declares on a slot, and the
+save-time handler that writes the next working load after a session.
+
+| | |
+|---|---|
+| **Save-time handler** | none of its own; the shared `genericDoubleProgression` runs |
+| **Slot-level rules** | declared on at least one movement |
+| **Next load written** | 56 of 56 movements (100%) after a clean session |
+
+| Prescribed from | Advances by | Movements |
+|---|---|---|
+| carried working load | double progression +2.5kg | Ab Wheel, Cable Triceps Extension, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Goblet Skater Squat, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Curls, Hammer Pulldown (Underhand), Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Kettlebell Swing, Lat Prayer, Lat Pulldown (Neutral), Lateral Raises, Leg Extensions, Romanian Deadlift, Seated Hamstring Curl, Single Arm Reverse Pec Deck, Single-Arm Hammer Strength Row |
+| computed by the plan each session | the plan recalculates it from your logged work | Paused Bench Press |
+
+---
+
+## 8. Export block
 
 ```yaml
 id: iron-clock
@@ -172,5 +191,6 @@ volume: { glutes: 11, back: 7, quads: 7, chest: 6, hamstrings: 6, shoulders: 4, 
 coverage: { covered: 6, missing: [], in_band: 1, over: [], under: ['chest', 'shoulders', 'back', 'biceps', 'triceps', 'quads', 'hamstrings', 'calves', 'core'] }
 set_shape: { slots: 28, ones: 0, twos: 0, threes: 0, four_plus: 0, mean: 1.29 }
 rep_ranges: ['10-12', '10-15', '12-15', '12-20', '4-6', '5-8', '6-8', '8-10', '8-12', '8-15']
+progression: { handler: shared, slot_rules: true, distinct_rules: 2 }
 variety: { distinct: 22, density: 6.11, top_share: 0.083, evenness: 0.966 }
 ```
