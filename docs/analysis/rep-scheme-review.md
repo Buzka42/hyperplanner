@@ -172,6 +172,30 @@ Verified as correct for their stated job — no change proposed:
 
 ---
 
+## 4a. What was implemented
+
+All of §3 was accepted and shipped on 2026-08-20 (`cac5b5c`), with two
+additions found during implementation:
+
+- **Lazarus was prescribing planks as `8-12` reps too.** Venus Rising was not
+  the only plan with the bug — the same slot-helper default had leaked into
+  Lazarus's plank slot. Both now read `30-60sec`.
+- **Purgatorio's plank-to-failure was left alone.** Holding until you drop is a
+  real prescription for a hold, and the goal logic falls back to beating the
+  athlete's own best when there is no numeric target.
+
+Timed exercises now have their own console: a time field in seconds, no weight
+field for unloaded holds, and the weight field kept for loaded carries, which
+are still weight × time. The app tracks the longest completed hold and suggests
+what to beat. `npm run verify:timed` asserts all of it, including that no plan
+prescribes a hold in a range too short to be one — the check that caught
+Lazarus.
+
+Athena now spans five rep ranges from 4-6 to 12-20 where it spanned three;
+Kali five; Venus Rising four including the timed plank.
+
+---
+
 ## 5. Recommended order
 
 1. **Venus Rising plank → `30-60sec`.** A defect, not a preference. One line.
