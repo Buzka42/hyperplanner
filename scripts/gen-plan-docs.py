@@ -386,7 +386,12 @@ def render(r):
             add('| **Next load written** | %d of %d movements (%d%%) after a clean session |' % (
                 cov['written'], cov['movements'], cov['pct']))
         add('')
-        if cov and cov['pct'] < 100:
+        if cov and cov['pct'] == 0 and not r.get('progressesByLoad', True):
+            add('> **This plan does not progress by load.** Its handler advances the')
+            add('> athlete through a difficulty ladder instead, so no next weight is')
+            add('> written and none should be.')
+            add('')
+        elif cov and cov['pct'] < 100:
             add("> **Coverage note.** %d of this plan's %d movements come back from a" % (
                 cov['movements'] - cov['written'], cov['movements']))
             add('> fully-completed session with no next load recorded, so the athlete')

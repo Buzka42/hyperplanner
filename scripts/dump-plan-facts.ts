@@ -227,7 +227,7 @@ for (const meta of ORDERED_PLAN_META) {
             const n = String(reps).split('-').map(Number).filter(Number.isFinite);
             return n.length ? Math.max(...n) : 10;
         };
-        let movements = 0, writtenLoads = 0;
+        let movements = 0, writtenLoads = 0, wroteSomething = false;
         for (const day of allDays.slice(0, 8)) {
             const sets: Record<string, unknown[]> = {};
             for (const ex of day.exercises ?? []) {
@@ -249,6 +249,7 @@ for (const meta of ORDERED_PLAN_META) {
                     if (typeof v === 'number' && Number.isFinite(v)) loaded.add(k);
                 }
             }
+            if (Object.keys(result?.updates ?? {}).length) wroteSomething = true;
             const ids = new Set((day.exercises ?? []).map((e: any) => e.exerciseId).filter(Boolean));
             movements += ids.size;
             writtenLoads += [...ids].filter(id => loaded.has(id as string)).length;
@@ -256,6 +257,9 @@ for (const meta of ORDERED_PLAN_META) {
         row.progressionCoverage = movements
             ? { movements, written: writtenLoads, pct: Math.round((writtenLoads / movements) * 100) }
             : null;
+        // House of Iron advances by difficulty ladder, not by load. Zero loads
+        // written is correct there, so it must not read as a coverage gap.
+        row.progressesByLoad = !(writtenLoads === 0 && wroteSomething);
         row.progressionHandler = ownHandler ? (usesDouble ? 'own+double' : 'own') : 'shared';
         // Whether the plan states any load rule at the slot level at all, as
         // opposed to leaving every movement to the save-time handler. Read off

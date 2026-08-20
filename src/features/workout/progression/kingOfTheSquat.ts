@@ -6,16 +6,21 @@
  * there is no extra modal). Stance/bar can also be swapped by hand.
  */
 
-import { empty } from './types';
+import { empty, merge } from './types';
+import { genericDoubleProgression } from './genericDouble';
 import type { ProgressionContext, ProgressionResult } from './types';
 
 export const kingOfTheSquatProgression = (ctx: ProgressionContext): ProgressionResult => {
-    if (ctx.isExistingLog) return empty();
+    // The handler below only manages the squat swap. Everything else in the
+    // session still has to get its next load from somewhere, and a plan with
+    // its own handler never falls back to the shared one — so compose it.
+    const double = genericDoubleProgression(ctx);
+    if (ctx.isExistingLog) return merge(double, empty());
 
     const squat = (ctx.workout?.exercises ?? []).find(ex =>
         ex.exerciseId === 'low-bar-squat' || ex.name.includes('Low Bar Squat') || ex.name === 'High Bar Squat' || ex.name === 'Safety Bar Squat',
     );
-    if (!squat) return empty();
+    if (!squat) return double;
 
     const flagged = Boolean(ctx.selections?.hipCapsule?.[squat.id]);
     const previous = (ctx.user as { kingOfTheSquatStatus?: { hipCapsuleStreak?: number } }).kingOfTheSquatStatus?.hipCapsuleStreak ?? 0;
@@ -29,5 +34,5 @@ export const kingOfTheSquatProgression = (ctx: ProgressionContext): ProgressionR
         updates['kingOfTheSquatStatus.hipCapsuleStreak'] = 0;
     }
 
-    return { updates, appends: [], effects: [] };
+    return merge(double, { updates, appends: [], effects: [] });
 };

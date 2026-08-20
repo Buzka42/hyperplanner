@@ -177,11 +177,9 @@ save-time handler that writes the next working load after a session.
 | **Slot-level rules** | none — every movement is carried by the handler |
 | **Next load written** | 0 of 48 movements (0%) after a clean session |
 
-> **Coverage note.** 48 of this plan's 48 movements come back from a
-> fully-completed session with no next load recorded, so the athlete
-> carries those numbers themselves. A plan with its own save-time
-> handler never runs the shared double progression, so any movement
-> that handler does not cover is left unprogressed.
+> **This plan does not progress by load.** Its handler advances the
+> athlete through a difficulty ladder instead, so no next weight is
+> written and none should be.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|

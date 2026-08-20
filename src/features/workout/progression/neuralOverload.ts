@@ -1,8 +1,13 @@
-import { empty, workSets } from './types';
+import { merge, empty, workSets } from './types';
+import { genericDoubleProgression } from './genericDouble';
 import type { ProgressionContext, ProgressionResult } from './types';
 
 export const neuralOverloadProgression = (ctx: ProgressionContext): ProgressionResult => {
-    if (ctx.isExistingLog || !ctx.workout) return empty();
+    // The rules below cover the 1-6 potentiation work only. The rest of the
+    // session is ordinary accessory work that still needs a next load, and a
+    // plan with its own handler never falls back to the shared one.
+    const double = genericDoubleProgression(ctx);
+    if (ctx.isExistingLog || !ctx.workout) return merge(double, empty());
 
     const holdWave2 = Boolean(ctx.user.neuralOverloadStatus?.holdWave2);
     const sixLoads = { ...(ctx.user.neuralOverloadStatus?.sixLoads ?? {}) };
@@ -26,7 +31,7 @@ export const neuralOverloadProgression = (ctx: ProgressionContext): ProgressionR
         if (couple && Number(b.weight) > 0) sixLoads[secondSix.exerciseId ?? secondSix.id] = Number(b.weight) + 2.5;
     }
 
-    return {
+    return merge(double, {
         updates: {
             'neuralOverloadStatus.holdWave2': grindSingle || holdWave2,
             'neuralOverloadStatus.sixLoads': sixLoads,
@@ -34,5 +39,5 @@ export const neuralOverloadProgression = (ctx: ProgressionContext): ProgressionR
         },
         appends: [],
         effects: [],
-    };
+    });
 };

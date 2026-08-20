@@ -634,6 +634,7 @@
       }
     },
     "progressionCoverage": null,
+    "progressesByLoad": false,
     "progressionHandler": "own",
     "declaresSlotRules": false,
     "distinctRepRanges": [
@@ -1453,6 +1454,7 @@
       }
     },
     "progressionCoverage": null,
+    "progressesByLoad": true,
     "progressionHandler": "own",
     "declaresSlotRules": false,
     "distinctRepRanges": [
@@ -1970,6 +1972,7 @@
       }
     },
     "progressionCoverage": null,
+    "progressesByLoad": true,
     "progressionHandler": "own",
     "declaresSlotRules": false,
     "distinctRepRanges": [
@@ -2651,6 +2654,7 @@
       }
     },
     "progressionCoverage": null,
+    "progressesByLoad": true,
     "progressionHandler": "own",
     "declaresSlotRules": false,
     "distinctRepRanges": [
@@ -3440,6 +3444,7 @@
       }
     },
     "progressionCoverage": null,
+    "progressesByLoad": false,
     "progressionHandler": "own",
     "declaresSlotRules": false,
     "distinctRepRanges": [
@@ -3995,6 +4000,7 @@
       }
     },
     "progressionCoverage": null,
+    "progressesByLoad": true,
     "progressionHandler": "own",
     "declaresSlotRules": false,
     "distinctRepRanges": [
@@ -4695,6 +4701,7 @@
       }
     },
     "progressionCoverage": null,
+    "progressesByLoad": true,
     "progressionHandler": "own",
     "declaresSlotRules": false,
     "distinctRepRanges": [
@@ -5045,6 +5052,7 @@
     "repsByExercise": {},
     "progressionByExercise": {},
     "progressionCoverage": null,
+    "progressesByLoad": true,
     "progressionHandler": "own",
     "declaresSlotRules": false,
     "distinctRepRanges": [],
@@ -5653,6 +5661,7 @@
     "repsByExercise": {},
     "progressionByExercise": {},
     "progressionCoverage": null,
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": false,
     "distinctRepRanges": [],
@@ -7977,19 +7986,19 @@
       },
       "Leg Extensions": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Seated Ham Curl": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Long Pause Bench Press": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Hammer Upper Row": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Wide-Grip Bench Press": {
         "from": "85% of pausedBench",
@@ -8001,19 +8010,19 @@
       },
       "Hammer Lower Row": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Glute-Ham Raise": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Rear-Delt Rope Pulls to Face": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Ab Wheel": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Paused Back Squat": {
         "from": "68% of squat",
@@ -8021,23 +8030,23 @@
       },
       "Heel-Elevated Goblet Squat": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Hip Adduction": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Pull-Up": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Heavy Rolling Tricep Extensions": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Seated DB Shoulder Press": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Front Squats": {
         "from": "60% of squat",
@@ -8049,23 +8058,24 @@
       },
       "Hip-Supported Dumbbell Deadlift": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Hack Squat Calf Raises": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Machine Rear Delt Fly": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`king-of-the-squat` handler)"
+        "advances": "double progression +2.5kg"
       }
     },
     "progressionCoverage": {
       "movements": 44,
-      "written": 0,
-      "pct": 0
+      "written": 44,
+      "pct": 100
     },
-    "progressionHandler": "own",
+    "progressesByLoad": true,
+    "progressionHandler": "own+double",
     "declaresSlotRules": true,
     "distinctRepRanges": [
       "10-15",
@@ -8790,6 +8800,7 @@
       "written": 42,
       "pct": 88
     },
+    "progressesByLoad": true,
     "progressionHandler": "own+double",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -9519,6 +9530,7 @@
       "written": 44,
       "pct": 92
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": false,
     "distinctRepRanges": [
@@ -10191,6 +10203,7 @@
       "written": 50,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": false,
     "distinctRepRanges": [
@@ -10872,6 +10885,7 @@
       "written": 58,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -11576,6 +11590,7 @@
       "written": 54,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -12231,6 +12246,7 @@
       "written": 52,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -12956,6 +12972,7 @@
       "written": 52,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -13531,23 +13548,23 @@
       },
       "Barbell Row": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Wide-Grip Cable Row": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Leaning One-Arm Lateral Raise": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Bayesian Cable Curl": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Cable Triceps Extension": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Paused Low Bar Squat": {
         "from": "computed by the plan each session",
@@ -13555,39 +13572,39 @@
       },
       "Seated Ham Curl": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Leg Extensions": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Hack Squat Calf Raises": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Cable Crunch": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Weighted Chin-Up": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Incline DB Bench Press": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Machine Rear Delt Fly": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Standing Straight-Bar Curl": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Heavy Rolling Tricep Extensions": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Front Squats": {
         "from": "65% of squat",
@@ -13595,23 +13612,24 @@
       },
       "Hip-Supported Dumbbell Deadlift": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Goblet Skater Squat": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Low-to-High Cable Flyes": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`neural-overload` handler)"
+        "advances": "double progression +2.5kg"
       }
     },
     "progressionCoverage": {
       "movements": 44,
-      "written": 0,
-      "pct": 0
+      "written": 44,
+      "pct": 100
     },
-    "progressionHandler": "own",
+    "progressesByLoad": true,
+    "progressionHandler": "own+double",
     "declaresSlotRules": true,
     "distinctRepRanges": [
       "1",
@@ -14231,83 +14249,84 @@
     "progressionByExercise": {
       "Hammer Chest Press": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Hammer Upper Row": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Cable Lateral Raise": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Cable Triceps Extension": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Machine Curl": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Hack Squat": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Seated Ham Curl": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Hack Squat Calf Raises": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Cable Crunch": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Pec Deck": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Hammer Lower Row": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Incline DB Bench Press": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Machine Rear Delt Fly": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "EZ Preacher Curl": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "French Press": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Heel-Elevated Goblet Squat": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Ab Wheel": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       },
       "Assisted Pull-ups": {
         "from": "carried working load",
-        "advances": "the plan's own rule (`tenfold` handler)"
+        "advances": "double progression +2.5kg"
       }
     },
     "progressionCoverage": {
       "movements": 42,
-      "written": 8,
-      "pct": 19
+      "written": 42,
+      "pct": 100
     },
-    "progressionHandler": "own",
+    "progressesByLoad": true,
+    "progressionHandler": "own+double",
     "declaresSlotRules": false,
     "distinctRepRanges": [
       "10",
@@ -14919,6 +14938,7 @@
       "written": 0,
       "pct": 0
     },
+    "progressesByLoad": false,
     "progressionHandler": "own",
     "declaresSlotRules": false,
     "distinctRepRanges": [
@@ -15570,6 +15590,7 @@
       "written": 59,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -16279,6 +16300,7 @@
       "written": 56,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -17008,6 +17030,7 @@
       "written": 56,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "own",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -17685,6 +17708,7 @@
       "written": 64,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -18374,6 +18398,7 @@
       "written": 78,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "own+double",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -19112,6 +19137,7 @@
       "written": 56,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -19732,6 +19758,7 @@
       "written": 76,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -20266,6 +20293,7 @@
       "written": 61,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "own+double",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -20930,6 +20958,7 @@
       "written": 58,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "own+double",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -21633,6 +21662,7 @@
       "written": 56,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -22240,6 +22270,7 @@
       "written": 60,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -22921,6 +22952,7 @@
       "written": 62,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -23556,6 +23588,7 @@
       "written": 57,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "own+double",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -24271,6 +24304,7 @@
       "written": 58,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "own+double",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -25115,6 +25149,7 @@
       "written": 58,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "shared",
     "declaresSlotRules": true,
     "distinctRepRanges": [
@@ -25831,6 +25866,7 @@
       "written": 56,
       "pct": 100
     },
+    "progressesByLoad": true,
     "progressionHandler": "own+double",
     "declaresSlotRules": true,
     "distinctRepRanges": [
