@@ -1,36 +1,36 @@
 /**
- * ACCUMULATE / INTENSIFY — general hypertrophy / powerbuilding.
+ * PURGATORIO — general hypertrophy, antagonist-paired supersets.
  *
- * From HYPERPLANNER_10_NEW_PLAN_CONCEPTS_POLIQUIN.md section 6.
- *
- * Repeating 6-week blocks: three weeks accumulating (9-15 reps, more sets,
- * machines and cables, moderate rest), then three intensifying (5-8 reps,
- * heavier, fewer exercises, longer rest, free weights). Every major muscle
- * group gets at least two weekly exposures in both states.
- *
- * The whole plan is expressed as one set of days plus two phase transforms —
- * the block character is a function of the phase, not a second copy of the
- * programme. Antagonist pairing (A1/A2) runs throughout, per section 2.3.
+ * Voted pair map (PUR-V-map): upper = compound + isolation on the same
+ * station; lower = one machine + one free-weight/BW partner where the map
+ * allowed it. Accumulation holds the listed set counts; intensification
+ * drops a set and the tempo.
  */
 
 import { definePlan } from '../planBuilder';
 import type { DaySpec, SlotSpec } from '../planBuilder';
 
-/** Rest reads as a gym instruction, so keep it on 15-second boundaries. */
 const roundRest = (seconds: number) => Math.max(45, Math.round(seconds / 15) * 15);
 
-/** Accumulation: more volume at moderate load, controlled eccentrics. */
+const pair = (
+    a: SlotSpec,
+    b: SlotSpec,
+    letter: 'A' | 'B' | 'C',
+): [SlotSpec, SlotSpec] => [
+    { ...a, pair: `${letter}1` },
+    { ...b, pair: `${letter}2` },
+];
+
 const accumulate = (slot: SlotSpec): SlotSpec => ({
     ...slot,
-    sets: slot.sets + 1,
     reps: slot.reps === 'AMRAP' || slot.reps === 'Failure' ? slot.reps : '10-15',
     restSeconds: roundRest((slot.restSeconds ?? 90) * 0.75),
     tempo: slot.tempo ?? '30X0',
 });
 
-/** Intensification: heavier, fewer reps, longer rest, no added tempo work. */
 const intensify = (slot: SlotSpec): SlotSpec => ({
     ...slot,
+    sets: Math.max(2, slot.sets - 1),
     reps: slot.reps === 'AMRAP' || slot.reps === 'Failure' ? slot.reps : '5-8',
     restSeconds: roundRest((slot.restSeconds ?? 90) * 1.4),
     tempo: undefined,
@@ -40,12 +40,43 @@ const UPPER_A: DaySpec = {
     name: 'Upper A',
     dayOfWeek: 1,
     slots: [
-        { ex: 'flat-dumbbell-press', sets: 3, reps: '8-12', restSeconds: 120, pair: 'A1' },
-        { ex: 'hammer-upper-row', sets: 3, reps: '8-12', restSeconds: 120, pair: 'A2' },
-        { ex: 'seated-dumbbell-shoulder-press', sets: 3, reps: '8-12', restSeconds: 105, pair: 'B1' },
-        { ex: 'lat-pulldown', sets: 3, reps: '8-12', restSeconds: 105, pair: 'B2' },
-        { ex: 'standing-straight-bar-curl', sets: 2, reps: '10-12', restSeconds: 75, pair: 'C1', technique: { kind: 'last-set-failure' } },
-        { ex: 'rope-pressdown', sets: 2, reps: '10-12', restSeconds: 75, pair: 'C2', technique: { kind: 'last-set-failure' } },
+        ...pair(
+            { ex: 'flat-dumbbell-press', sets: 4, reps: '8-12', restSeconds: 120 },
+            { ex: 'ezbar-preacher-curl', sets: 3, reps: '10-12', restSeconds: 75, technique: { kind: 'last-set-failure' } },
+            'A',
+        ),
+        ...pair(
+            { ex: 'lat-pulldown', sets: 4, reps: '8-12', restSeconds: 105 },
+            { ex: 'rope-pressdown', sets: 3, reps: '10-12', restSeconds: 75, technique: { kind: 'last-set-failure' } },
+            'B',
+        ),
+        ...pair(
+            { ex: 'seated-dumbbell-shoulder-press', sets: 4, reps: '8-12', restSeconds: 105 },
+            { ex: 'leaning-one-arm-lateral-raise', sets: 3, reps: '12-20', restSeconds: 75, technique: { kind: 'last-set-failure' } },
+            'C',
+        ),
+    ],
+};
+
+const UPPER_B: DaySpec = {
+    name: 'Upper B',
+    dayOfWeek: 4,
+    slots: [
+        ...pair(
+            { ex: 'incline-dumbbell-bench-press', sets: 4, reps: '8-12', restSeconds: 120 },
+            { ex: 'dumbbell-hammer-curl', sets: 3, reps: '10-12', restSeconds: 75, technique: { kind: 'last-set-failure' } },
+            'A',
+        ),
+        ...pair(
+            { ex: 'seated-cable-row', sets: 4, reps: '8-12', restSeconds: 120 },
+            { ex: 'french-press', sets: 3, reps: '10-12', restSeconds: 75, technique: { kind: 'last-set-failure' } },
+            'B',
+        ),
+        ...pair(
+            { ex: 'rear-delt-rope-pulls-to-face', sets: 3, reps: '12-20', restSeconds: 75 },
+            { ex: 'single-arm-reverse-pec-deck', sets: 3, reps: '12-20', restSeconds: 75 },
+            'C',
+        ),
     ],
 };
 
@@ -53,26 +84,21 @@ const LOWER_A: DaySpec = {
     name: 'Lower A',
     dayOfWeek: 2,
     slots: [
-        { ex: 'hack-squat', sets: 3, reps: '8-12', restSeconds: 150, pair: 'A1' },
-        { ex: 'seated-ham-curl', sets: 3, reps: '8-12', restSeconds: 150, pair: 'A2' },
-        { ex: 'leg-extension', sets: 3, reps: '10-15', restSeconds: 90, pair: 'B1' },
-        { ex: 'barbell-romanian-deadlift', sets: 3, reps: '8-12', restSeconds: 120, pair: 'B2' },
-        { ex: 'standing-calf-raise', sets: 3, reps: '12-20', restSeconds: 60, pair: 'C1' },
-        { ex: 'cable-crunch', sets: 3, reps: '12-20', restSeconds: 60, pair: 'C2' },
-    ],
-};
-
-/** Day 3 and 4 rotate the variations, per section 2.5 — recognisable, not identical. */
-const UPPER_B: DaySpec = {
-    name: 'Upper B',
-    dayOfWeek: 4,
-    slots: [
-        { ex: 'incline-dumbbell-bench-press', sets: 3, reps: '8-12', restSeconds: 120, pair: 'A1' },
-        { ex: 'hammer-lower-row', sets: 3, reps: '8-12', restSeconds: 120, pair: 'A2' },
-        { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 75, pair: 'B1', technique: { kind: 'last-set-failure' } },
-        { ex: 'pull-up', sets: 3, reps: '6-10', restSeconds: 120, pair: 'B2' },
-        { ex: 'dumbbell-hammer-curl', sets: 2, reps: '10-12', restSeconds: 75, pair: 'C1', technique: { kind: 'last-set-failure' } },
-        { ex: 'lying-dumbbell-skullcrusher', sets: 2, reps: '10-12', restSeconds: 75, pair: 'C2', technique: { kind: 'last-set-failure' } },
+        ...pair(
+            { ex: 'hack-squat', sets: 4, reps: '8-12', restSeconds: 150 },
+            { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+            'A',
+        ),
+        ...pair(
+            { ex: 'lying-leg-curl', sets: 3, reps: '8-12', restSeconds: 120 },
+            { ex: 'single-leg-dumbbell-romanian-deadlift', sets: 3, reps: '8-12', restSeconds: 120 },
+            'B',
+        ),
+        ...pair(
+            { ex: 'hip-adduction', sets: 3, reps: '10-15', restSeconds: 75 },
+            { ex: 'plank', sets: 3, reps: 'Failure', restSeconds: 60 },
+            'C',
+        ),
     ],
 };
 
@@ -80,12 +106,21 @@ const LOWER_B: DaySpec = {
     name: 'Lower B',
     dayOfWeek: 5,
     slots: [
-        { ex: 'front-squat', sets: 3, reps: '6-10', restSeconds: 150, pair: 'A1', alternates: ['Safety Bar Squat'] },
-        { ex: 'single-leg-hamstring-curl', sets: 3, reps: '10-12', restSeconds: 120, pair: 'A2' },
-        { ex: 'heel-elevated-goblet-squat', sets: 3, reps: '10-15', restSeconds: 90, pair: 'B1' },
-        { ex: 'hip-supported-db-deadlift', sets: 3, reps: '10-12', restSeconds: 120, pair: 'B2' },
-        { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60, pair: 'C1' },
-        { ex: 'ab-wheel', sets: 3, reps: '8-15', restSeconds: 60, pair: 'C2' },
+        ...pair(
+            { ex: 'heel-elevated-goblet-squat', sets: 4, reps: '10-15', restSeconds: 90 },
+            { ex: 'machine-hip-abduction', sets: 3, reps: '12-20', restSeconds: 75 },
+            'A',
+        ),
+        ...pair(
+            { ex: 'seated-ham-curl', sets: 3, reps: '8-12', restSeconds: 120 },
+            { ex: 'standing-dumbbell-kb-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+            'B',
+        ),
+        ...pair(
+            { ex: 'dumbbell-romanian-deadlift', sets: 3, reps: '8-12', restSeconds: 120 },
+            { ex: 'plank', sets: 3, reps: 'Failure', restSeconds: 60 },
+            'C',
+        ),
     ],
 };
 

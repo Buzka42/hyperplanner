@@ -22,6 +22,9 @@ import { trinaryProgression } from '../src/features/workout/progression/trinary'
 import { superMutantProgression } from '../src/features/workout/progression/superMutant';
 import { houseOfIronProgression } from '../src/features/workout/progression/houseOfIron';
 import { kingOfTheSquatProgression } from '../src/features/workout/progression/kingOfTheSquat';
+import { lazarusProgression } from '../src/features/workout/progression/lazarus';
+import { gravityProgression } from '../src/features/workout/progression/gravity';
+import { oracleProgression } from '../src/features/workout/progression/oracle';
 import type { LoggedSet, ProgressionContext } from '../src/features/workout/progression/types';
 import type { Exercise, UserProfile, WorkoutDay } from '../src/types';
 
@@ -665,6 +668,12 @@ const context = (over: Partial<ProgressionContext>): ProgressionContext => ({
     const reset = miss.updates['houseOfIronStatus.progression'] as Record<string, { cleanTopRangeExposures: number }>;
     check(reset['goblet-heel-elevated-squat'].cleanTopRangeExposures === 0, 'A missed exposure breaks the consecutive streak.');
     check(houseOfIronProgression(context({ planId: 'house-of-iron', isExistingLog: true, workout: day([squat]), sets: logged })).updates['houseOfIronStatus.progression'] === undefined, 'Re-saving a House workout must not earn progression twice.');
+
+    const pushup = { ...exercise('pu', 'Push-up'), exerciseId: 'push-up', sets: 2, target: { type: 'amrap' as const, reps: 'AMRAP' } };
+    const amrapLogged = { pu: [set('0', '12'), set('0', '10')] };
+    const amrapFirst = houseOfIronProgression(context({ planId: 'house-of-iron', workout: day([pushup]), sets: amrapLogged }));
+    const amrapProgression = amrapFirst.updates['houseOfIronStatus.progression'] as Record<string, { cleanTopRangeExposures: number }>;
+    check(amrapProgression['push-up']?.cleanTopRangeExposures === 1, 'AMRAP push-ups must enter the ladder, not be skipped as having no top-rep number.');
 }
 
 // ===========================================================================
@@ -686,6 +695,48 @@ const context = (over: Partial<ProgressionContext>): ProgressionContext => ({
     }));
     check(second.updates['exerciseSwaps.king-of-the-squat.low-bar-squat'] === 'safety-bar-squat',
         'Two consecutive hip flags should auto-swap to the safety bar.');
+}
+
+// ===========================================================================
+// Lazarus — two clean sessions that beat the prescription write underestimated
+// ===========================================================================
+{
+    const squat: Exercise = { id: 'sq', name: 'Goblet Squat', exerciseId: 'heel-elevated-goblet-squat', sets: 3, target: { type: 'range', reps: '8-12' }, predictedKg: 40 };
+    const clean = { sq: [set('40', '12'), set('40', '12'), set('40', '12')] };
+    const miss = { sq: [set('40', '12'), set('40', '10'), set('40', '12')] };
+    const hit = lazarusProgression(context({ planId: 'lazarus', workout: day([squat]), sets: clean, user: { lazarusStatus: {} } as UserProfile }));
+    check(Array.isArray(hit.updates['lazarusStatus.underestimated']), 'A clean top-range Lazarus session must write underestimated.');
+    const skipped = lazarusProgression(context({ planId: 'lazarus', workout: day([squat]), sets: miss, user: { lazarusStatus: {} } as UserProfile }));
+    check(skipped.updates['lazarusStatus.underestimated'] === undefined, 'A missed top-range set must not count as an underestimate.');
+}
+
+// ===========================================================================
+// Gravity — total-rep set count is stored once the target is hit
+// ===========================================================================
+{
+    const chin: Exercise = {
+        id: 'chin', name: 'Chin-up', exerciseId: 'chin-up', sets: 6, target: { type: 'amrap', reps: 'AMRAP' },
+        prescription: { technique: { kind: 'total-reps', targetReps: 40, maxSets: 12 } },
+    };
+    const logged = { chin: [set('0', '10'), set('0', '10'), set('0', '10'), set('0', '10')] };
+    const result = gravityProgression(context({ planId: 'gravity-is-optional', workout: day([chin]), sets: logged, user: {} as UserProfile }));
+    const prefs = result.updates['planPreferences.gravity-is-optional'] as { exerciseSelections?: Record<string, string> };
+    check(prefs?.exerciseSelections?.['totalRepSets:chin-up'] === '4', 'Gravity should store the set count once 40 reps are accumulated.');
+}
+
+// ===========================================================================
+// Oracle — prediction error is scored against the prescribed load
+// ===========================================================================
+{
+    const bench: Exercise = { id: 'bp', name: 'Bench', exerciseId: 'flat-barbell-bench-press', sets: 4, target: { type: 'range', reps: '5-8' }, predictedKg: 100 };
+    const result = oracleProgression(context({
+        planId: 'oracle', workout: day([bench]),
+        sets: { bp: [set('100', '8'), set('100', '8'), set('100', '7'), set('100', '6')] },
+        user: { oracleStatus: {} } as UserProfile,
+    }));
+    const errors = result.updates['oracleStatus.errors'] as { error: number }[];
+    check(Array.isArray(errors) && errors.length === 1, 'Oracle should score a prediction error when predictedKg is present.');
+    check((result.updates['oracleStatus.exposures'] as unknown[]).length === 1, 'Oracle still writes the exposure ledger.');
 }
 
 // ===========================================================================

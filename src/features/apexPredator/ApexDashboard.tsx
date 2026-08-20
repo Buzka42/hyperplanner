@@ -51,7 +51,10 @@ export const ApexDashboard = ({ user }: { user: UserProfile }) => {
         try {
             await updateUserProfile({ apexPredatorStatus: { ...(user.apexPredatorStatus ?? {}), assessments: nextAssessments, emphasis: { regions: nextEmphasis, sinceWeek: checkpoint } } });
             setEditing(false);
-        } catch { setError(pl ? 'Nie udało się zapisać oceny.' : 'The assessment could not be saved.'); }
+        } catch (err) {
+            console.error('[apex] assessment save failed', err);
+            setError(pl ? 'Nie udało się zapisać oceny.' : 'The assessment could not be saved.');
+        }
         finally { setSaving(false); }
     };
     const analyzeVideo = async (file?: File) => {

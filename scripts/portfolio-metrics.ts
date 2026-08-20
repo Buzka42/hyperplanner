@@ -66,6 +66,8 @@ export type Slot = {
      * "1-set slot" in the set-shape sense: there is no second set to add.
      */
     block?: boolean;
+    /** Set when this slot is one step of a giant set, named by its container. */
+    giantSetOf?: string;
 };
 
 export type PlanWeek = {
@@ -201,13 +203,42 @@ export const materialise = (planId: string): PlanWeek | undefined => {
         if (!exercises.length) continue;
         dayIndex += 1;
         for (const ex of exercises) {
+            const sets = workingSets(ex);
+            const block = (ex as any).prescription?.block ? { block: true } : {};
+
+            /*
+             * A giant set is a container, not a movement: its own name resolves
+             * to nothing, so counting it as one slot lost the work entirely.
+             * `src/lib/volumeAnalysis.ts` expands the steps and credits each at
+             * the container's set count — match that, or Bench Domination and
+             * Arms Race read as having no triceps volume.
+             */
+            const steps = (ex as any).giantSetConfig?.steps ?? [];
+            if (steps.length) {
+                for (const step of steps) {
+                    slots.push({
+                        day: dayIndex,
+                        dayName: day.name ?? `Day ${dayIndex}`,
+                        name: step.name,
+                        id: RESOLVER.resolveId(step.name),
+                        sets,
+                        giantSetOf: ex.name,
+                        ...block,
+                    });
+                }
+                continue;
+            }
+
+            // Plans now carry explicit ids on many slots; prefer them over the
+            // free-text name, exactly as the app's resolver does.
+            const explicit = (ex as any).exerciseId as string | undefined;
             slots.push({
                 day: dayIndex,
                 dayName: day.name ?? `Day ${dayIndex}`,
                 name: ex.name,
-                id: RESOLVER.resolveId(ex.name),
-                sets: workingSets(ex),
-                ...((ex as any).prescription?.block ? { block: true } : {}),
+                id: explicit && RESOLVER.byId(explicit as any) ? explicit : RESOLVER.resolveId(ex.name),
+                sets,
+                ...block,
             });
         }
     }

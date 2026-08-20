@@ -44,7 +44,7 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                         { id: `pn-w${w}-d1-e6`, name: "Overhead Tricep Extensions", sets: 3, target: { type: "range", reps: "12-15" } },
                         { id: `pn-w${w}-d1-e7`, name: "Hack Squat", sets: 3, target: { type: "range", reps: "10-15" }, alternates: ["Leg Press"] },
                         { id: `pn-w${w}-d1-e8`, name: "Leg Extensions", sets: 3, target: { type: "range", reps: "15-20" } },
-                        { id: `pn-w${w}-d1-e9`, name: "Leg Press Calf Raises", sets: 3, target: { type: "range", reps: "12-18" } }
+                        { id: `pn-w${w}-d1-e9`, name: "Standing Calf Raises", sets: 3, target: { type: "range", reps: "12-18" } }
                     ]
                 },
                 {
@@ -90,7 +90,7 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                         { id: `pn-w${w}-d5-e2`, name: "Single-Arm Hammer Strength Row", sets: 3, target: { type: "range", reps: "10-14" } },
                         { id: `pn-w${w}-d5-e3`, name: "Single-Arm DB Row", sets: 3, target: { type: "range", reps: "12-15" } },
                         { id: `pn-w${w}-d5-e4`, name: "Rear-Delt Rope Pulls to Face", sets: 3, target: { type: "range", reps: "20-30" } },
-                        { id: `pn-w${w}-d5-e5`, name: "Machine Rear Delt Fly", sets: 3, target: { type: "range", reps: "15-20" } },
+                        { id: `pn-w${w}-d5-e5`, name: "Bench-Supported DB Rear Delt Fly", sets: 3, target: { type: "range", reps: "15-20" } },
                         { id: `pn-w${w}-d5-e6`, name: "Incline DB Curls", sets: 3, target: { type: "range", reps: "12-15" } },
                         { id: `pn-w${w}-d5-e7`, name: "Stiff-Legged Deadlift", sets: 3, target: { type: "range", reps: "10-14" } },
                         { id: `pn-w${w}-d5-e8`, name: "Seated Leg Curls", sets: 3, target: { type: "range", reps: "12-16" } },
@@ -208,10 +208,15 @@ export const PENCILNECK_CONFIG: PlanConfig = {
             });
 
             exercises = exercises.map(ex => {
-                if (COMPOUND_EXERCISES.has(ex.name)) return ex;
+                const isCompound = COMPOUND_EXERCISES.has(ex.name);
+                const sets = weekNum <= 2 ? (isCompound ? 2 : 1)
+                    : weekNum <= 4 ? (isCompound ? 3 : 2)
+                    : weekNum <= 7 ? (isCompound ? 3 : 2)
+                    : (isCompound ? 2 : 1);
+                if (isCompound) return { ...ex, sets };
                 return {
                     ...ex,
-                    sets: Math.min(ex.sets, 2),
+                    sets,
                     prescription: { ...ex.prescription, technique: { kind: 'last-set-failure' as const } },
                 };
             });

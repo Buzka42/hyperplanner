@@ -21,6 +21,7 @@ const sessionId = (day?: number): 'push-a' | 'pull-a' | 'push-b' | 'pull-b' =>
     day === 2 ? 'pull-a' : day === 3 ? 'push-b' : day === 4 ? 'pull-b' : 'push-a';
 
 const topReps = (reps: string): number | null => {
+    if (/amrap/i.test(reps) || reps === 'Max' || reps === 'Failure') return 1;
     const matches = reps.match(/\d+/g);
     return matches?.length ? Number(matches.at(-1)) : null;
 };

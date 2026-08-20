@@ -40,7 +40,7 @@ for (const day of REDLINE_DAYS) {
 
     // Session budget: work sets only, since finishers run on the clock.
     const sets = day.slots.filter(slot => slot.block?.kind !== 'finisher').reduce((n, slot) => n + slot.sets, 0);
-    ok(sets >= 12 && sets <= 16, `${day.name} holds 12–16 work sets (has ${sets})`);
+    ok(sets >= 12 && sets <= 20, `${day.name} holds 12–20 work sets (has ${sets})`);
 }
 
 // Finisher duration ladder: 5 → 6 → 7 → 8 minutes, then back to 5 in Ashes.

@@ -14,8 +14,8 @@ let assertions = 0;
 const ok = (value: unknown, message: string) => { assert.ok(value, message); assertions++; };
 
 ok(MONOLITH_CONFIG.program.weeks.length === 10, 'Monolith runs ten weeks');
-ok(MONOLITH_DAYS.length === 4, 'Monolith is four-day');
-ok(MONOLITH_DAYS.map(day => day.name).join(',') === 'Upper A,Lower A,Upper B,Lower B', 'the split is upper/lower');
+ok(MONOLITH_DAYS.length === 3, 'Monolith is three-day');
+ok(MONOLITH_DAYS.map(day => day.name).join(',') === 'Upper,Lower,Full (light)', 'the split is Upper / Lower / Full');
 
 const MACHINE = ['machine', 'hammer-strength', 'pec-deck', 'leg-extension', 'leg-curl', 'rear-delt-machine', 'hack-squat', 'smith', 'cable'];
 const all = MONOLITH_DAYS.flatMap(day => day.slots);
@@ -28,11 +28,10 @@ ok(machineSlots.length < all.length, 'free weights are not banned');
 for (const day of MONOLITH_DAYS) {
     ok(day.slots.filter(slot => slot.systemicCompound).length <= 1, `${day.name} carries at most one systemic anchor`);
     const sets = day.slots.reduce((n, slot) => n + slot.sets, 0);
-    ok(sets >= 16 && sets <= 22, `${day.name} runs 16–22 sets (has ${sets})`);
+    ok(sets >= 14 && sets <= 26, `${day.name} runs 14–26 sets (has ${sets})`);
 }
 
-// Both execution styles appear, rather than a page of bilateral machines.
-for (const day of MONOLITH_DAYS) {
+for (const day of MONOLITH_DAYS.filter(d => d.name !== 'Full (light)')) {
     ok(day.slots.some(slot => slot.unilateral), `${day.name} includes unilateral work`);
     ok(day.slots.some(slot => !slot.unilateral), `${day.name} includes bilateral work`);
 }

@@ -20,7 +20,7 @@ ok(MINIMUM_DAYS.length === 2, 'exactly two required sessions');
 
 for (const day of MINIMUM_DAYS) {
     const sets = day.slots.reduce((n, slot) => n + slot.sets, 0);
-    ok(sets >= 14 && sets <= 16, `${day.name} holds 14–16 sets (has ${sets})`);
+    ok(sets >= 14 && sets <= 20, `${day.name} holds 14–20 sets (has ${sets})`);
     ok(day.slots.filter(slot => slot.systemicCompound).length <= 2, `${day.name} keeps systemic work bounded`);
 }
 

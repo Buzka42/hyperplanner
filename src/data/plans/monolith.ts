@@ -1,14 +1,9 @@
 /**
- * MONOLITH — 10 weeks, four-day upper/lower, machine-dominant.
+ * MONOLITH — 10 weeks, three-day Upper / Lower / Full, machines-only house.
  *
- * Machine-dominant is not machine-exclusive: the plan uses the known fixed gym
- * inventory and keeps free weights where they are the better tool, rather than
- * banning barbells to make a theme hold. What it does avoid is stacking
- * systemic cost, and it progresses effort before it progresses technique.
- *
- * Machine Press/Fly Combo carries its own history and is never paired
- * operationally with the Pec Deck — they sit at opposite ends of the floor, and
- * a superset across that distance is a rest period with extra walking.
+ * MON-RB-F/F2 plus the MON-V table: default is 3-day, machines and cables,
+ * effort before technique. The combo press/fly and the pec-deck still never
+ * share a session — they sit at opposite ends of the floor.
  */
 
 import { definePlan, type DaySpec, type SlotSpec } from '../planBuilder';
@@ -25,39 +20,35 @@ export const DISTANT_PAIRS: [string, string][] = [
 ];
 
 export const MONOLITH_DAYS: DaySpec[] = [
-    { name: 'Upper A', dayOfWeek: 1, slots: [
+    { name: 'Upper', dayOfWeek: 1, slots: [
         s('hammer-chest-press', 4, '6-10', { primary: true }),
-        s('hammer-pulldown', 4, '8-12'),
-        s('machine-press-fly-combo', 3, '10-15'),
+        s('hammer-pulldown', 3, '8-12'),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
-        s('lateral-raise', 3, '12-15'),
-        s('cable-triceps-extension', 2, '10-15'),
-        s('hammer-curl', 2, '8-12'),
+        s('seated-hammer-shoulder-press', 3, '8-12'),
+        s('machine-press-fly-combo', 3, '10-15'),
+        s('cable-triceps-extension', 3, '10-15'),
+        s('machine-curl', 3, '8-12'),
+        s('cable-crunch', 2, '12-20'),
     ] },
-    { name: 'Lower A', dayOfWeek: 2, slots: [
-        s('hack-squat', 4, '6-10', { systemicCompound: true, primary: true }),
-        s('lying-leg-curl', 3, '10-15'),
-        s('leg-press', 3, '10-15'),
-        s('single-leg-machine-hip-thrust', 3, '10-15', { unilateral: true }),
-        s('leg-extension', 3, '12-15'),
-        s('hack-calf-raise', 3, '12-20'),
-    ] },
-    { name: 'Upper B', dayOfWeek: 4, slots: [
-        s('lat-pulldown', 4, '8-12', { primary: true }),
-        s('incline-dumbbell-bench-press', 3, '6-10'),
-        s('single-arm-reverse-pec-deck', 3, '12-15', { unilateral: true }),
-        s('pec-deck', 3, '12-15'),
-        s('seated-dumbbell-shoulder-press', 3, '8-12'),
-        s('rope-pressdown', 2, '10-15'),
-        s('cable-curl', 2, '10-15'),
-    ] },
-    { name: 'Lower B', dayOfWeek: 5, slots: [
+    { name: 'Lower', dayOfWeek: 3, slots: [
         s('leg-press', 4, '8-12', { systemicCompound: true, primary: true }),
+        s('leg-extension', 3, '10-15'),
+        s('lying-leg-curl', 3, '10-15'),
+        s('single-leg-machine-hip-thrust', 3, '10-15', { unilateral: true }),
+        s('standing-dumbbell-kb-calf-raise', 3, '12-20'),
+        s('cable-crunch', 2, '12-20'),
+    ] },
+    { name: 'Full (light)', dayOfWeek: 5, slots: [
+        s('pec-deck', 3, '12-15'),
+        s('hammer-pulldown', 2, '10-15'),
+        s('rear-delt-fly', 3, '12-15'),
         s('seated-hamstring-curl', 3, '10-15'),
-        s('front-foot-elevated-bulgarian-split-squat', 3, '8-12', { unilateral: true }),
+        s('leg-extension', 2, '12-20'),
+        s('standing-dumbbell-kb-calf-raise', 3, '12-20'),
         s('machine-hip-abduction', 3, '12-20'),
-        s('leg-extension', 3, '12-20'),
-        s('hack-calf-raise', 3, '12-20'),
+        s('hip-adduction', 3, '12-20'),
+        s('cable-triceps-extension', 2, '10-15'),
+        s('machine-curl', 2, '8-12'),
     ] },
 ];
 
@@ -68,16 +59,15 @@ export const MONOLITH_DAYS: DaySpec[] = [
  */
 const TECHNIQUE_SAFE = new Set([
     'leg-extension', 'lying-leg-curl', 'seated-hamstring-curl', 'pec-deck',
-    'machine-hip-abduction', 'hammer-chest-press', 'hammer-pulldown',
-    'single-arm-reverse-pec-deck', 'machine-press-fly-combo', 'hack-calf-raise',
+    'machine-hip-abduction', 'hip-adduction', 'hammer-chest-press', 'hammer-pulldown',
+    'single-arm-hammer-row', 'machine-press-fly-combo', 'seated-hammer-shoulder-press',
+    'machine-curl', 'cable-triceps-extension', 'cable-crunch', 'rear-delt-fly',
 ]);
 
 const phases = [
     { name: 'Placement', weeks: [1, 2, 3] },
-    // Effort: the same work, taken closer to the limit.
     { name: 'Pressure', weeks: [4, 5, 6], transform: (slot: SlotSpec): SlotSpec =>
         slot.systemicCompound ? slot : { ...slot, rpe: 9 } },
-    // Only now, technique — and only where the machine makes it safe solo.
     { name: 'Weight of It', weeks: [7, 8, 9], transform: (slot: SlotSpec): SlotSpec =>
         TECHNIQUE_SAFE.has(slot.ex)
             ? { ...slot, rpe: 9, technique: { kind: 'drop-set', drops: 1, dropPercent: 20, applyTo: 'last' as const } }
@@ -89,8 +79,6 @@ const base = definePlan({ id: 'monolith', name: 'Monolith', weeks: 10, defaultTe
 
 const preprocess = (day: WorkoutDay, _user: UserProfile): WorkoutDay => ({
     ...day,
-    // Pair labels are stripped from any distant pairing that a future edit
-    // introduces, so the session never asks for a walk mid-superset.
     exercises: day.exercises.map(exercise => {
         const distant = DISTANT_PAIRS.some(([a, b]) =>
             (exercise.exerciseId === a || exercise.exerciseId === b)

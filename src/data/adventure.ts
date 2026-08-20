@@ -91,6 +91,10 @@ export const ADVENTURE_EXERCISES: Record<string, AdventureExercise> = Object.fro
         weightMode: 'timed', failureMode: 'preprogrammed', target: { min: 30, max: 45, unit: 'seconds' },
         cue: { en: 'Set two continues only while the pelvis and ribs stay stacked.', pl: 'Druga seria trwa tylko tak długo, jak utrzymujesz żebra i miednicę w jednej pozycji.' }
     } as Partial<Omit<AdventureExercise, 'key' | 'name' | 'target'>>),
+    exercise('seated-cable-row', 'Seated Cable Row', 'Wiosłowanie na wyciągu siedząc', 10, 12, technical),
+    exercise('kas-glute-bridge', 'Kas Glute Bridge', 'Kas glute bridge', 10, 15, technical),
+    exercise('y-raise', 'Y-Raise', 'Wznos Y', 12, 15),
+    exercise('lying-leg-curl', 'Lying Leg Curl', 'Uginanie nóg leżąc', 10, 15),
     exercise('cable-crunch', 'Cable Crunch', 'Spięcia brzucha na wyciągu', 12, 15),
     exercise('cable-pull-through', 'Cable Pull-Through', 'Pull-through na wyciągu', 10, 15, technical),
     exercise('reverse-crunch', 'Bench Reverse Crunch', 'Odwrotne spięcia na ławce', 12, 20, { ...bodyweight, failureMode: 'technical' }),
@@ -164,22 +168,24 @@ export const ADVENTURE_PAIRS: AdventurePair[] = [
     pair('upper-pec-reverse', 'upper', 'pec-deck', 'reverse-pec-deck', 60, 'fast', ['machines'], 'Best on a convertible pec-deck station.', 'Najlepiej na maszynie z funkcją odwrotnych rozpiętek.'),
     pair('upper-dual-cable', 'upper', 'dual-cable-chest-press', 'dual-cable-high-row', 60, 'fast', ['cable'], 'Keep both handles connected.', 'Pozostaw oba uchwyty podpięte.'),
     pair('upper-push-pull', 'upper', 'pull-up', 'push-up', 60, 'fast', ['bodyweight'], 'Choose a push-up level you can repeat cleanly.', 'Wybierz wariant pompki, który powtórzysz technicznie.'),
+    pair('upper-incline-db-cable-row', 'upper', 'incline-barbell-bench', 'seated-cable-row', 75, 'moderate', ['barbell', 'cable'], 'Bench and cable station side by side.', 'Ławka i wyciąg obok siebie.'),
     pair('upper-crossover-kneeling-row', 'upper', 'cable-crossover', 'kneeling-one-arm-cable-row', 60, 'moderate', ['cable'], 'Reserve one cable bay and change height once.', 'Zajmij jedną bramę i zmień wysokość tylko raz.'),
 
     pair('core-hanging-hip-thrust', 'core-glutes', 'bench-hip-thrust', 'hanging-leg-raise', 75, 'slow', ['barbell', 'bodyweight'], 'Complete the hip thrust first while fresh.', 'Najpierw wykonaj hip thrust, gdy jesteś wypoczęty.'),
     pair('core-machine-plank', 'core-glutes', 'machine-hip-thrust', 'plank', 60, 'fast', ['machines', 'bodyweight'], 'Set two plank ends at positional failure.', 'Druga deska kończy się przy utracie pozycji.'),
-    pair('core-cable-crunch-pull-through', 'core-glutes', 'cable-pull-through', 'cable-crunch', 60, 'fast', ['cable'], 'Use one stack; change the attachment height.', 'Użyj jednego stosu i zmień wysokość linki.'),
     pair('core-reverse-crunch-db-thrust', 'core-glutes', 'db-hip-thrust', 'reverse-crunch', 60, 'fast', ['dumbbells', 'bodyweight'], 'One bench and one dumbbell.', 'Jedna ławka i jeden hantel.'),
     pair('core-ab-wheel-frog-pump', 'core-glutes', 'ab-wheel', 'frog-pump', 60, 'fast', ['bodyweight'], 'Floor-only route with minimal setup.', 'Wariant na podłodze, bez zmiany stanowiska.'),
+    pair('core-kas-cable-crunch', 'core-glutes', 'kas-glute-bridge', 'cable-crunch', 60, 'moderate', ['barbell', 'cable'], 'Bridge on the bench, crunch on the stack.', 'Mostek na ławce, spięcia na wyciągu.'),
     pair('core-weighted-crunch-b-stance', 'core-glutes', 'b-stance-hip-thrust', 'weighted-crunch', 75, 'slow', ['dumbbells'], 'Unilateral hip thrusts make this a longer route.', 'Jednostronne hip thrusty wydłużają ten wariant.'),
 
     pair('calves-military-standing', 'calves-shoulders', 'military-press', 'standing-calf-raise', 90, 'moderate', ['dumbbells'], 'Press first; calf work must not fatigue your stance.', 'Najpierw wyciskanie; łydki nie mogą zmęczyć pozycji.'),
     pair('calves-hack-leaning-lateral', 'calves-shoulders', 'hack-calf-raise', 'leaning-lateral-raise', 60, 'moderate', ['machines', 'dumbbells'], 'Keep the dumbbell beside the hack station.', 'Trzymaj hantel obok hack-maszyny.'),
     pair('calves-seated-lateral', 'calves-shoulders', 'standing-calf-raise', 'seated-lateral-raise', 60, 'fast', ['dumbbells'], 'One bench and two manageable dumbbell loads.', 'Jedna ławka i dwa dobrane ciężary hantli.'),
-    pair('calves-cable-lateral', 'calves-shoulders', 'cable-lateral-raise', 'single-leg-cable-calf', 60, 'slow', ['cable'], 'Four unilateral bouts per round; expect extra time.', 'Cztery jednostronne odcinki w rundzie; dolicz czas.'),
+    pair('calves-cable-lateral', 'calves-shoulders', 'cable-lateral-raise', 'standing-calf-raise', 60, 'slow', ['cable', 'dumbbells'], 'Cable laterals then standing calves.', 'Unoszenia na wyciągu, potem wspięcia stojąc.'),
     pair('calves-arnold-seated', 'calves-shoulders', 'arnold-press', 'standing-calf-raise', 60, 'fast', ['dumbbells'], 'One bench, shoulder work first.', 'Jedna ławka, najpierw barki.'),
-    pair('calves-seated-press-step', 'calves-shoulders', 'seated-db-shoulder-press', 'step-calf-raise', 75, 'moderate', ['dumbbells'], 'Use the bench base as the calf step only if stable.', 'Użyj podstawy ławki jako stopnia tylko, gdy jest stabilna.'),
-    pair('calves-smith-route', 'calves-shoulders', 'smith-ohp', 'smith-calf-raise', 75, 'moderate', ['machines'], 'One Smith station; expect a load adjustment.', 'Jedna maszyna Smitha; potrzebna zmiana ciężaru.'),
+    pair('calves-seated-press-standing', 'calves-shoulders', 'seated-db-shoulder-press', 'standing-calf-raise', 75, 'moderate', ['dumbbells'], 'Press seated, then stand for the calves.', 'Wyciskaj siedząc, potem wstań do łydek.'),
+    pair('calves-y-raise-hack', 'calves-shoulders', 'y-raise', 'hack-calf-raise', 60, 'fast', ['dumbbells', 'machines'], 'Light dumbbells beside the hack station.', 'Lekkie hantle obok hack-maszyny.'),
+    pair('calves-smith-route', 'calves-shoulders', 'smith-ohp', 'standing-calf-raise', 75, 'moderate', ['machines', 'dumbbells'], 'Smith press then standing calves.', 'Wyciskanie w Smithie, potem wspięcia stojąc.'),
 
     pair('quads-extension-french', 'quads-triceps', 'leg-extension', 'french-press', 60, 'moderate', ['machines', 'dumbbells'], 'Keep the triceps implement beside the machine.', 'Trzymaj obciążenie na triceps obok maszyny.'),
     pair('quads-squat-skullcrusher', 'quads-triceps', 'barbell-squat', 'db-skullcrusher', 90, 'slow', ['barbell', 'dumbbells'], 'Heavy rack route. Use safeties and take clean reps only.', 'Ciężki wariant. Ustaw zabezpieczenia i kończ na ostatnim czystym powtórzeniu.', true),
@@ -190,11 +196,10 @@ export const ADVENTURE_PAIRS: AdventurePair[] = [
 
     pair('posterior-barbell-rdl-curl', 'arms-posterior', 'barbell-rdl', 'straight-bar-curl', 90, 'slow', ['barbell'], 'Hinge first. Two bars or a substantial load change may be needed.', 'Najpierw zawias biodrowy. Mogą być potrzebne dwie sztangi lub duża zmiana ciężaru.', true),
     pair('posterior-db-rdl-incline-curl', 'arms-posterior', 'db-rdl', 'incline-lying-db-curl', 90, 'slow', ['dumbbells'], 'Prepare separate dumbbell loads before starting.', 'Przygotuj dwa różne ciężary hantli przed startem.'),
-    pair('posterior-pull-through-rope-curl', 'arms-posterior', 'cable-pull-through', 'rope-hammer-curl', 60, 'fast', ['cable'], 'One rope attachment, two cable heights.', 'Jedna lina, dwie wysokości wyciągu.'),
     pair('posterior-cable-rdl-straight-curl', 'arms-posterior', 'cable-rdl', 'cable-straight-bar-curl', 75, 'fast', ['cable'], 'One straight bar, low cable throughout.', 'Jeden prosty drążek, dolny wyciąg przez cały czas.'),
     pair('posterior-single-leg-rdl-hammer', 'arms-posterior', 'single-leg-db-rdl', 'db-hammer-curl', 75, 'slow', ['dumbbells'], 'Complete both hinge sides before curls.', 'Wykonaj obie strony martwego ciągu przed uginaniem.'),
+    pair('posterior-hammer-curl-lying-curl', 'arms-posterior', 'db-hammer-curl', 'lying-leg-curl', 60, 'fast', ['dumbbells', 'machines'], 'Curl machine with dumbbells beside it — replaces the dropped pull-through routes.', 'Maszyna do uginania nóg z hantlami obok – zastępuje usunięte warianty z pull-through.'),
     pair('posterior-back-extension-hammer', 'arms-posterior', 'back-extension', 'db-hammer-curl', 60, 'moderate', ['dumbbells'], 'Keep dumbbells beside the back-extension bench.', 'Trzymaj hantle przy ławce do wyprostów.'),
-    pair('posterior-pull-through-low-curl', 'arms-posterior', 'cable-pull-through', 'low-pulley-curl', 60, 'fast', ['cable'], 'Low cable route with one quick stance change.', 'Dolny wyciąg i jedna szybka zmiana pozycji.')
 ];
 
 const portal = (id: AdventurePortalId, en: string, pl: string, shortEn: string, shortPl: string): AdventurePortal => ({

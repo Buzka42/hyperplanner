@@ -17,12 +17,13 @@ const s = (ex: string, sets: number, reps = '8-12', options: Partial<SlotSpec> =
 
 export const EVENT_HORIZON_DAYS: DaySpec[] = [
     { name: 'Horizon — Upper A', dayOfWeek: 1, slots: [
-        s('incline-dumbbell-bench-press', 4, '6-10', { primary: true }),
-        s('single-arm-hammer-row', 4, '8-12', { unilateral: true }),
-        s('seated-dumbbell-shoulder-press', 3, '8-12'),
-        s('lat-pulldown', 3, '8-12'),
-        s('lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
-        s('hammer-curl', 2, '8-12', { technique: { kind: 'last-set-failure' } }),
+        s('30-smith-incline-bench-press', 4, '6-10', { primary: true }),
+        s('single-arm-hammer-row', 2, '8-12', { unilateral: true }),
+        s('dumbbell-seal-row', 2, '8-12'),
+        s('seated-hammer-shoulder-press', 3, '8-12'),
+        s('close-neutral-grip-lat-pulldown', 3, '8-12'),
+        s('cable-lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
+        s('bayesian-cable-curl', 2, '8-12', { technique: { kind: 'last-set-failure' } }),
         s('cable-triceps-extension', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Horizon — Lower A', dayOfWeek: 2, slots: [
@@ -35,21 +36,22 @@ export const EVENT_HORIZON_DAYS: DaySpec[] = [
     ] },
     { name: 'Horizon — Upper B', dayOfWeek: 4, slots: [
         s('hammer-pulldown', 4, '8-12', { primary: true }),
-        s('hammer-chest-press', 4, '8-12'),
-        s('single-arm-reverse-pec-deck', 2, '12-15', { unilateral: true, technique: { kind: 'last-set-failure' } }),
+        s('hammer-chest-press', 2, '8-12'),
+        s('machine-press-fly-combo', 2, '8-12'),
+        s('side-lying-rear-delt-fly', 2, '12-15', { unilateral: true, technique: { kind: 'last-set-failure' } }),
         s('pec-deck', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
-        s('lateral-raise', 2, '12-20', { technique: { kind: 'last-set-failure' } }),
+        s('lying-cable-lat-raise', 2, '12-20', { technique: { kind: 'last-set-failure' } }),
         s('cable-curl', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
-        s('rope-pressdown', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
+        s('french-press', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Horizon — Lower B', dayOfWeek: 5, slots: [
         s('leg-press', 4, '8-12', { systemicCompound: true, primary: true }),
         s('lying-leg-curl', 3, '10-15'),
         s('front-foot-elevated-bulgarian-split-squat', 3, '8-12', { unilateral: true }),
         s('machine-hip-abduction', 3, '12-20'),
-        s('leg-extension', 3, '12-20'),
+        s('supported-sissy-squat', 3, '12-20'),
         s('hack-calf-raise', 3, '12-20'),
-        s('ab-wheel', 2, '8-12'),
+        s('cable-crunch', 2, '8-12'),
     ] },
 ];
 
@@ -99,6 +101,8 @@ const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
 
 export const EVENT_HORIZON_CONFIG: PlanConfig = {
     ...base,
+    session: { kind: 'rotation', rotation: { capPer7Days: 6 } },
+    schedule: { selectable: false },
     hooks: { ...base.hooks, preprocessDay: preprocess },
     ui: { themeClass: 'theme-event-horizon', coverImage: '/eventhorizon.png', navImage: '/eventhorizon.png', dashboardWidgets: ['program_status', 'workout_history'] },
 };

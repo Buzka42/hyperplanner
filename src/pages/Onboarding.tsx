@@ -18,7 +18,7 @@ import { TRINARY_CONFIG } from '../data/trinary';
 import { RITUAL_CONFIG } from '../data/ritual';
 import { SUPER_MUTANT_PROGRAM } from '../data/supermutant';
 import { ADVENTURE_PLAN_ID } from '../data/adventure';
-import { ORDERED_PLAN_META } from '../data/planMeta';
+import { ORDERED_PLAN_META, CATALOGUE_PLAN_META } from '../data/planMeta';
 import { PlanFinder } from '../features/portfolio/PlanFinder';
 import { getPlan } from '../data/plans';
 import { benchmarkLiftsFor } from '../data/benchmarkLifts';
@@ -28,7 +28,7 @@ import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { doc, updateDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { epley } from '../features/workout/progression/types';
-import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8, needsPlanSelections } from '../features/planSelections/options';
+import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8, NEURAL_D4_SQUATS, KOS_BENCH_JOB1, KOS_BENCH_JOB2, KOS_BENCH_JOB3, LAZARUS_SQUATS, LAZARUS_CHEST, QUADFATHER_LOAD, REDLINE_FURNACE, ATLAS_HINGES, ATLAS_FRONT, needsPlanSelections } from '../features/planSelections/options';
 
 type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules' | 'super-mutant-stats' | 'benchmark' | 'schedule' | 'plan-selections';
 
@@ -74,6 +74,19 @@ export const Onboarding: React.FC = () => {
     const [kaliPull, setKaliPull] = useState('assisted-pull-up');
     const [kaliWeek8, setKaliWeek8] = useState('none');
     const [coreRaise, setCoreRaise] = useState('hanging-leg-raise');
+    const [neuralD4, setNeuralD4] = useState('front-squat');
+    const [kosJob1, setKosJob1] = useState('long-pause-bench-press');
+    const [kosJob2, setKosJob2] = useState('wide-grip-bench-press');
+    const [kosJob3, setKosJob3] = useState('paused-bench-press');
+    const [lazarusSquat, setLazarusSquat] = useState('heel-elevated-goblet-squat');
+    const [lazarusChest, setLazarusChest] = useState('dip');
+    const [lazarusMonths, setLazarusMonths] = useState('6');
+    const [lazarusInjury, setLazarusInjury] = useState(false);
+    const [lazarusPreBreak, setLazarusPreBreak] = useState('');
+    const [quadfatherLoad, setQuadfatherLoad] = useState('hack-squat');
+    const [furnaceAnchor, setFurnaceAnchor] = useState('paused-bench-press');
+    const [atlasHinge, setAtlasHinge] = useState('trap-bar-deadlift');
+    const [atlasFront, setAtlasFront] = useState('front-squat');
 
     const [stats, setStats] = useState<LiftingStats>({
         pausedBench: 0,
@@ -508,7 +521,59 @@ export const Onboarding: React.FC = () => {
             };
             trainingPreferences.coreRaiseId = coreRaise;
         }
-        return { planPreferences, trainingPreferences };
+        if (planId === 'neural-overload') {
+            planPreferences['neural-overload'] = {
+                scheduleMode: '4day',
+                updatedAt: now,
+                exerciseSelections: { d4Squat: neuralD4 },
+            };
+        }
+        if (planId === 'king-of-the-squat') {
+            planPreferences['king-of-the-squat'] = {
+                scheduleMode: '4day',
+                updatedAt: now,
+                exerciseSelections: { benchJob1: kosJob1, benchJob2: kosJob2, benchJob3: kosJob3 },
+            };
+        }
+        if (planId === 'lazarus') {
+            planPreferences.lazarus = {
+                scheduleMode: '4day',
+                updatedAt: now,
+                exerciseSelections: { returnISquat: lazarusSquat, returnIIChest: lazarusChest },
+            };
+        }
+        if (planId === 'quadfather') {
+            planPreferences.quadfather = {
+                scheduleMode: '4day',
+                updatedAt: now,
+                exerciseSelections: { mainLoad: quadfatherLoad },
+            };
+        }
+        if (planId === 'redline') {
+            planPreferences.redline = {
+                scheduleMode: '4day',
+                updatedAt: now,
+                exerciseSelections: { furnaceAnchor },
+            };
+        }
+        if (planId === 'atlas') {
+            planPreferences.atlas = {
+                scheduleMode: '4day',
+                updatedAt: now,
+                exerciseSelections: { hinge: atlasHinge, g2FrontSquat: atlasFront },
+            };
+        }
+        const extra: Partial<UserProfile> = { planPreferences, trainingPreferences };
+        if (planId === 'lazarus') {
+            extra.lazarusStatus = {
+                breakMonths: Number(lazarusMonths) || 6,
+                injuryReturn: lazarusInjury,
+                memoryCurve: Number(lazarusPreBreak) > 0
+                    ? { [lazarusSquat]: { preBreakKg: Number(lazarusPreBreak), source: 'self-reported' } }
+                    : {},
+            };
+        }
+        return extra;
     };
 
     const enrolWithoutBenchmarks = async (planId: string) => {
@@ -606,7 +671,7 @@ export const Onboarding: React.FC = () => {
 
                     {showFinder && (
                         <PlanFinder
-                            availablePlanIds={ORDERED_PLAN_META.filter(meta => isPlanAllowed(meta.id)).map(meta => meta.id)}
+                            availablePlanIds={CATALOGUE_PLAN_META.filter(meta => isPlanAllowed(meta.id)).map(meta => meta.id)}
                             planName={planId => {
                                 const meta = ORDERED_PLAN_META.find(item => item.id === planId);
                                 const copy = meta ? tObject(`onboarding.programs.${meta.i18nKey}`) : undefined;
@@ -618,7 +683,7 @@ export const Onboarding: React.FC = () => {
                     )}
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {ORDERED_PLAN_META.filter(meta => isPlanAllowed(meta.id)).map(meta => {
+                        {CATALOGUE_PLAN_META.filter(meta => isPlanAllowed(meta.id)).map(meta => {
                             const copy = tObject(`onboarding.programs.${meta.i18nKey}`);
                             const plan = getPlan(meta.id);
                             const weeks = plan.program.weeks.length;
@@ -1513,6 +1578,146 @@ export const Onboarding: React.FC = () => {
                                     ))}
                                 </RadioGroup>
                             </div>
+                        )}
+                        {selectedProgramId === 'neural-overload' && (
+                            <div className="space-y-3">
+                                <Label className="text-base font-semibold">Day 4 squat</Label>
+                                <RadioGroup value={neuralD4} onValueChange={setNeuralD4}>
+                                    {NEURAL_D4_SQUATS.map(option => (
+                                        <div key={option.id} className="flex items-center space-x-2">
+                                            <RadioGroupItem value={option.id} id={`neural-${option.id}`} />
+                                            <Label htmlFor={`neural-${option.id}`} className="font-normal">{option.label}</Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            </div>
+                        )}
+                        {selectedProgramId === 'king-of-the-squat' && (
+                            <>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Bench job 1 — technique</Label>
+                                    <RadioGroup value={kosJob1} onValueChange={setKosJob1}>
+                                        {KOS_BENCH_JOB1.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`kos1-${option.id}`} />
+                                                <Label htmlFor={`kos1-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Bench job 2 — hypertrophy</Label>
+                                    <RadioGroup value={kosJob2} onValueChange={setKosJob2}>
+                                        {KOS_BENCH_JOB2.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`kos2-${option.id}`} />
+                                                <Label htmlFor={`kos2-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Bench job 3 — heavy</Label>
+                                    <RadioGroup value={kosJob3} onValueChange={setKosJob3}>
+                                        {KOS_BENCH_JOB3.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`kos3-${option.id}`} />
+                                                <Label htmlFor={`kos3-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                            </>
+                        )}
+                        {selectedProgramId === 'lazarus' && (
+                            <>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Months away</Label>
+                                    <Input type="number" min={3} value={lazarusMonths} onChange={event => setLazarusMonths(event.target.value)} />
+                                </div>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Last stable squat (kg)</Label>
+                                    <Input type="number" min={0} value={lazarusPreBreak} onChange={event => setLazarusPreBreak(event.target.value)} />
+                                </div>
+                                <label className="flex items-center gap-2 text-sm">
+                                    <Checkbox checked={lazarusInjury} onCheckedChange={checked => setLazarusInjury(checked === true)} />
+                                    The break was caused by injury — Lazarus is not rehabilitation.
+                                </label>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Return I squat</Label>
+                                    <RadioGroup value={lazarusSquat} onValueChange={setLazarusSquat}>
+                                        {LAZARUS_SQUATS.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`laz-sq-${option.id}`} />
+                                                <Label htmlFor={`laz-sq-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Return II chest</Label>
+                                    <RadioGroup value={lazarusChest} onValueChange={setLazarusChest}>
+                                        {LAZARUS_CHEST.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`laz-ch-${option.id}`} />
+                                                <Label htmlFor={`laz-ch-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                            </>
+                        )}
+                        {selectedProgramId === 'quadfather' && (
+                            <div className="space-y-3">
+                                <Label className="text-base font-semibold">Main load</Label>
+                                <RadioGroup value={quadfatherLoad} onValueChange={setQuadfatherLoad}>
+                                    {QUADFATHER_LOAD.map(option => (
+                                        <div key={option.id} className="flex items-center space-x-2">
+                                            <RadioGroupItem value={option.id} id={`qf-${option.id}`} />
+                                            <Label htmlFor={`qf-${option.id}`} className="font-normal">{option.label}</Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            </div>
+                        )}
+                        {selectedProgramId === 'redline' && (
+                            <div className="space-y-3">
+                                <Label className="text-base font-semibold">Furnace anchor</Label>
+                                <RadioGroup value={furnaceAnchor} onValueChange={setFurnaceAnchor}>
+                                    {REDLINE_FURNACE.map(option => (
+                                        <div key={option.id} className="flex items-center space-x-2">
+                                            <RadioGroupItem value={option.id} id={`rl-${option.id}`} />
+                                            <Label htmlFor={`rl-${option.id}`} className="font-normal">{option.label}</Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            </div>
+                        )}
+                        {selectedProgramId === 'atlas' && (
+                            <>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Hinge</Label>
+                                    <RadioGroup value={atlasHinge} onValueChange={setAtlasHinge}>
+                                        {ATLAS_HINGES.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`at-h-${option.id}`} />
+                                                <Label htmlFor={`at-h-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Gauntlet 2 squat</Label>
+                                    <RadioGroup value={atlasFront} onValueChange={setAtlasFront}>
+                                        {ATLAS_FRONT.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`at-f-${option.id}`} />
+                                                <Label htmlFor={`at-f-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                            </>
                         )}
                         <Button className="w-full" size="lg" onClick={continueFromSelections}>Continue</Button>
                     </CardContent>

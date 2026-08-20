@@ -151,21 +151,28 @@ export const GRAVITY_IS_OPTIONAL_CONFIG: PlanConfig = {
         preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {
             const chosen = user.planPreferences?.['gravity-is-optional']?.exerciseSelections?.abs
                 ?? user.trainingPreferences?.coreRaiseId;
+            const counts = user.planPreferences?.['gravity-is-optional']?.exerciseSelections ?? {};
             const entry = chosen ? EXERCISE_BY_ID[chosen] : undefined;
-            if (!entry) return day;
             return {
                 ...day,
-                exercises: day.exercises.map(exercise =>
-                    GRAVITY_ABS_SLOTS.has(exercise.exerciseId ?? '')
-                        ? {
-                            ...exercise,
+                exercises: day.exercises.map(exercise => {
+                    let next = exercise;
+                    if (entry && GRAVITY_ABS_SLOTS.has(exercise.exerciseId ?? '')) {
+                        next = {
+                            ...next,
                             exerciseId: entry.id,
                             name: entry.name.en,
                             notes: chosen === 'ab-wheel-rollout'
                                 ? 'Chest to the ground every rep.'
-                                : exercise.notes,
-                        }
-                        : exercise),
+                                : next.notes,
+                        };
+                    }
+                    const last = next.exerciseId ? counts[`totalRepSets:${next.exerciseId}`] : undefined;
+                    if (last && next.prescription?.technique?.kind === 'total-reps') {
+                        next = { ...next, notes: `${next.notes ?? ''} Last session: ${last} sets. Beat that.`.trim() };
+                    }
+                    return next;
+                }),
             };
         },
     },

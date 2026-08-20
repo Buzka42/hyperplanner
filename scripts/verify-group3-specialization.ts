@@ -256,8 +256,8 @@ console.log('--- 2. OVERHEAD DOMINION (overhead-dominion) ---');
     const chestSlots = allSlots.filter(e => ['hammer-chest-press', 'incline-dumbbell-bench-press'].includes(e.exerciseId!));
     ok(chestSlots.length === 2, 'Chest is maintained 2x/week (Day 2 & Day 4)');
 
-    const upperBackSlots = allSlots.filter(e => ['weighted-chin-up', 'hammer-upper-row'].includes(e.exerciseId!));
-    ok(upperBackSlots.length === 2, 'Upper back main compounds appear across the week');
+    const upperBackSlots = allSlots.filter(e => ['weighted-chin-up', 'hammer-upper-row', 'single-arm-dumbbell-row', 'lat-prayer'].includes(e.exerciseId!));
+    ok(upperBackSlots.length >= 2, 'Upper back main compounds appear across the week');
 
     // 2.4 Phases: Bombardment (W1-5) vs Artillery (W6-10) Wave Conversion
     const w1Mon = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 1)!;
@@ -303,7 +303,7 @@ console.log('--- 3. HAMSTRING FOUNDRY (hamstring-foundry) ---');
     ok(d5.dayName.includes('Lengthened Hamstrings'), 'Day 5 is Lengthened Hamstrings');
 
     // Function 1: Heavy Hip Extension (RDL)
-    const rdl = d1.exercises.find(e => e.exerciseId === 'barbell-romanian-deadlift');
+    const rdl = d1.exercises.find(e => e.exerciseId === 'romanian-deadlift');
     ok(rdl && rdl.sets === 4 && rdl.target.reps === '5-8', 'Day 1 leads with 4x5-8 Barbell RDL');
     ok(rdl?.notes?.includes('Hips back'), 'RDL has hinge cues in notes');
 
@@ -325,8 +325,8 @@ console.log('--- 3. HAMSTRING FOUNDRY (hamstring-foundry) ---');
     // 3.3 Phases: Forging (W1-5) vs Tempering (W6-10)
     const w1d1Curl = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'seated-ham-curl')!;
     const w6d1Curl = cfg.program.weeks[5].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'seated-ham-curl')!;
-    const w1Rdl = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'barbell-romanian-deadlift')!;
-    const w6Rdl = cfg.program.weeks[5].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'barbell-romanian-deadlift')!;
+    const w1Rdl = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'romanian-deadlift')!;
+    const w6Rdl = cfg.program.weeks[5].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'romanian-deadlift')!;
 
     ok(w1d1Curl.prescription?.tempo === '40X0' || (w1d1Curl as any).tempo === '40X0', 'Forging forces 40X0 tempo on all ham curls');
     ok(w6Rdl.sets === 5 && w6Rdl.target.reps === '4-6', 'Tempering converts RDL to 5x4-6');
@@ -351,63 +351,53 @@ console.log('--- 4. ARMS RACE (arms-race) ---');
         ok(week.days.length === 7, `Arms Race W${week.weekNumber} has 7 calendar days`);
     }
 
-    // 4.2 4 Distinct Arm Exposures
     const d1 = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 1)!;
-    const d2 = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 2)!;
-    const d4 = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 4)!;
+    const d3 = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 3)!;
     const d5 = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 5)!;
+    const d6 = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 6)!;
 
-    ok(d1.dayName.includes('Arm Strength'), 'Day 1 is Arm Strength');
-    ok(d2.dayName.includes('Brachialis + Legs'), 'Day 2 is Brachialis + Legs');
-    ok(d4.dayName.includes('Lengthened Arms + Torso'), 'Day 4 is Lengthened Arms + Torso');
-    ok(d5.dayName.includes('Arm Density + Legs'), 'Day 5 is Arm Density + Legs');
+    ok(d1.dayName.includes('Volume + Legs'), 'Day 1 is Volume + Legs');
+    ok(d3.dayName.includes('Lengthened'), 'Day 3 is Lengthened');
+    ok(d5.dayName.includes('Pump'), 'Day 5 is Pump');
+    ok(d6.dayName.includes('Go Nuclear'), 'Day 6 is the optional Go Nuclear session');
 
-    // Exposure 1: Heavy CG Bench & Straight Bar Curl
     const cgBench = d1.exercises.find(e => e.exerciseId === 'close-grip-bench-press');
-    const sbCurl = d1.exercises.find(e => e.exerciseId === 'standing-straight-bar-curl');
-    ok(cgBench && cgBench.sets === 5 && cgBench.target.reps === '4-6', 'Day 1 has 5x4-6 Close Grip Bench');
-    ok(sbCurl && sbCurl.sets === 5 && sbCurl.target.reps === '4-6', 'Day 1 has 5x4-6 Straight Bar Curl');
+    const ropeHammer = d1.exercises.find(e => e.exerciseId === 'rope-hammer-curl');
+    ok(cgBench && cgBench.sets === 4, 'Day 1 has 4-set Close Grip Bench');
+    ok(ropeHammer && ropeHammer.sets === 4, 'Day 1 has 4-set Rope Hammer Curl');
 
-    // Exposure 2: Brachialis + Overhead Tri
-    const revCurl = d2.exercises.find(e => e.exerciseId === 'reverse-curl');
-    const dbHammer = d2.exercises.find(e => e.exerciseId === 'dumbbell-hammer-curl');
-    const triExtD2 = d2.exercises.find(e => e.exerciseId === 'cable-triceps-extension');
-    const ropePressdownD2 = d2.exercises.find(e => e.exerciseId === 'rope-pressdown');
-    ok(revCurl && dbHammer && triExtD2 && ropePressdownD2, 'Day 2 has Reverse Curl, DB Hammer, Overhead Tri Ext, and Rope Pressdown');
+    const revCurl = d1.exercises.find(e => e.exerciseId === 'reverse-curl');
+    const ropePressdownD1 = d1.exercises.find(e => e.exerciseId === 'rope-pressdown');
+    ok(revCurl && ropePressdownD1, 'Day 1 has Reverse Curl and Rope Pressdown');
 
-    // Exposure 3: Lengthened Positions
-    const inclineCurl = d4.exercises.find(e => e.exerciseId === '30-incline-lying-dumbbell-curl');
-    const bayesianCurl = d4.exercises.find(e => e.exerciseId === 'bayesian-cable-curl');
-    const frenchPress = d4.exercises.find(e => e.exerciseId === 'french-press');
-    ok(inclineCurl && bayesianCurl && frenchPress, 'Day 4 has Incline Lying DB Curl, Bayesian Cable Curl, and French Press');
-    // The Bayesian curl now leads the lengthened day, so it carries the stretch cue.
+    const inclineCurl = d3.exercises.find(e => e.exerciseId === '30-incline-lying-dumbbell-curl');
+    const bayesianCurl = d3.exercises.find(e => e.exerciseId === 'bayesian-cable-curl');
+    const frenchPress = d3.exercises.find(e => e.exerciseId === 'french-press');
+    ok(inclineCurl && bayesianCurl && frenchPress, 'Lengthened day has Incline Lying DB Curl, Bayesian Cable Curl, and French Press');
     ok(bayesianCurl?.notes?.includes('behind the torso'), 'Lengthened lead notes the stretch behind the torso');
 
-    // Exposure 4: Density Supersets (A1/A2 and B1/B2)
-    const a1 = d5.exercises.find(e => e.prescription?.pair === 'A1' || e.exerciseId === 'standing-straight-bar-curl');
-    const a2 = d5.exercises.find(e => e.prescription?.pair === 'A2' || e.exerciseId === 'lying-dumbbell-skullcrusher');
-    const b1 = d5.exercises.find(e => e.prescription?.pair === 'B1' || e.exerciseId === 'rope-hammer-curl');
-    const b2 = d5.exercises.find(e => e.prescription?.pair === 'B2' || e.exerciseId === 'rope-pressdown');
-    ok(a1 && a2 && a1.prescription?.pair === 'A1' && a2.prescription?.pair === 'A2', 'Day 5 has A1 Straight Bar Curl + A2 DB Skullcrusher');
-    ok(b1 && b2 && b1.prescription?.pair === 'B1' && b2.prescription?.pair === 'B2', 'Day 5 has B1 Rope Hammer Curl + B2 Rope Pressdown');
+    const a1 = d5.exercises.find(e => e.exerciseId === 'standing-straight-bar-curl');
+    const a2 = d5.exercises.find(e => e.exerciseId === 'lying-dumbbell-skullcrusher');
+    const b1 = d5.exercises.find(e => e.exerciseId === 'machine-curl');
+    const b2 = d5.exercises.find(e => e.exerciseId === 'triangle-pushdown');
+    ok(a1 && a2 && a1.prescription?.pair === 'A1' && a2.prescription?.pair === 'A2', 'Pump has A1 Straight Bar Curl + A2 DB Skullcrusher');
+    ok(b1 && b2 && b1.prescription?.pair === 'B1' && b2.prescription?.pair === 'B2', 'Pump has B1 Machine Curl + B2 Triangle Pushdown');
     ok(a1?.prescription?.restSeconds === 30 && a2?.prescription?.restSeconds === 90, 'A1 rest is 30s, A2 rest is 90s');
+    const nuclear = cfg.hooks?.preprocessDay?.(d6, user) ?? d6;
+    ok(nuclear.exercises.some(e => e.name === 'Tricep Giant Set' && e.giantSetConfig), 'Go Nuclear opens with the shared tricep giant set');
 
-    // 4.3 Phases: Escalation (W1-4) vs Proliferation (W5-8)
-    const w1d1SbCurl = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'standing-straight-bar-curl')!;
-    const w5d1SbCurl = cfg.program.weeks[4].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'standing-straight-bar-curl')!;
-    // Proliferation now intensifies instead of adding raw volume: arm work keeps
-    // its set count and gains myo-reps (§9 Arms Race — "myo instead of +1 set").
-    ok(w1d1SbCurl.sets === 5 && w5d1SbCurl.sets === 5, 'Straight Bar Curl holds its sets in Proliferation');
-    ok(w5d1SbCurl.prescription?.technique?.kind === 'myo-reps', 'Straight Bar Curl gains myo-reps in Proliferation');
+    const w1d5SbCurl = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 5)!.exercises.find(e => e.exerciseId === 'standing-straight-bar-curl')!;
+    const w5d5SbCurl = cfg.program.weeks[4].days.find(d => d.dayOfWeek === 5)!.exercises.find(e => e.exerciseId === 'standing-straight-bar-curl')!;
+    ok(w1d5SbCurl.sets === 4 && w5d5SbCurl.sets === 4, 'Straight Bar Curl holds its sets in Proliferation');
+    ok(w5d5SbCurl.prescription?.technique?.kind === 'myo-reps', 'Straight Bar Curl gains myo-reps in Proliferation');
 
-    const w1d2RevCurl = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 2)!.exercises.find(e => e.exerciseId === 'reverse-curl')!;
-    const w5d2RevCurl = cfg.program.weeks[4].days.find(d => d.dayOfWeek === 2)!.exercises.find(e => e.exerciseId === 'reverse-curl')!;
-    ok(w1d2RevCurl.sets === 3 && w5d2RevCurl.sets === 3, 'Reverse Curl holds its sets in Proliferation');
-    ok(w5d2RevCurl.prescription?.technique?.kind === 'myo-reps', 'Reverse Curl gains myo-reps in Proliferation');
+    const w1d1RevCurl = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'reverse-curl')!;
+    const w5d1RevCurl = cfg.program.weeks[4].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'reverse-curl')!;
+    ok(w1d1RevCurl.sets === 3 && w5d1RevCurl.sets === 3, 'Reverse Curl holds its sets in Proliferation');
+    ok(w5d1RevCurl.prescription?.technique?.kind === 'myo-reps', 'Reverse Curl gains myo-reps in Proliferation');
 
-    // Non-arm exercises hold sets
-    const w1Hack = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 2)!.exercises.find(e => e.exerciseId === 'hack-squat')!;
-    const w5Hack = cfg.program.weeks[4].days.find(d => d.dayOfWeek === 2)!.exercises.find(e => e.exerciseId === 'hack-squat')!;
+    const w1Hack = cfg.program.weeks[0].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'hack-squat')!;
+    const w5Hack = cfg.program.weeks[4].days.find(d => d.dayOfWeek === 1)!.exercises.find(e => e.exerciseId === 'hack-squat')!;
     ok(w1Hack.sets === w5Hack.sets && w1Hack.sets === 3, 'Non-arm exercises (Hack Squat) maintain constant sets (3)');
 
     console.log('✓ Arms Race verification passed completely.\n');

@@ -66,6 +66,7 @@ export type WeekAnalysis = {
     volumes: MuscleVolume[];
     findings: VolumeFinding[];
     totalSets: number;
+    splitDelts?: { frontDelt: number; sideDelt: number; rearDelt: number };
 };
 
 const majorOf = (muscle: MuscleGroup): MajorMuscleGroup | undefined =>
@@ -81,6 +82,41 @@ const workingSets = (exercise: Exercise): number => {
     return Math.max(0, exercise.sets || 0);
 };
 
+/**
+ * Count each major group ONCE per exercise.
+ *
+ * `back` aggregates lats + upperBack + traps + lowerBack, and a row lists
+ * both `upperBack` and `lats` as primary — so iterating the primary list
+ * naively credited a 3-set row with 6 sets of back.
+ */
+const credit = (
+    entry: { primary?: MuscleGroup[]; secondary?: MuscleGroup[] },
+    sets: number,
+    dayOfWeek: number,
+    direct: Map<MajorMuscleGroup, number>,
+    secondary: Map<MajorMuscleGroup, number>,
+    dayHits: Map<MajorMuscleGroup, Set<number>>,
+) => {
+    const hitDirect = new Set<MajorMuscleGroup>();
+    for (const muscle of entry.primary ?? []) {
+        const group = majorOf(muscle);
+        if (group) hitDirect.add(group);
+    }
+    for (const group of hitDirect) {
+        direct.set(group, (direct.get(group) ?? 0) + sets);
+        if (!dayHits.has(group)) dayHits.set(group, new Set());
+        dayHits.get(group)!.add(dayOfWeek);
+    }
+    const hitSecondary = new Set<MajorMuscleGroup>();
+    for (const muscle of entry.secondary ?? []) {
+        const group = majorOf(muscle);
+        if (group && !hitDirect.has(group)) hitSecondary.add(group);
+    }
+    for (const group of hitSecondary) {
+        secondary.set(group, (secondary.get(group) ?? 0) + sets * SECONDARY_WEIGHT);
+    }
+};
+
 export const analyseWeek = (
     days: WorkoutDay[],
     week: number,
@@ -88,7 +124,7 @@ export const analyseWeek = (
     rules: VolumeRules
 ): WeekAnalysis => {
     const direct = new Map<MajorMuscleGroup, number>();
-    const secondary = new Map<MajorMuscleGroup, number>();
+    const secondaryVol = new Map<MajorMuscleGroup, number>();
     const dayHits = new Map<MajorMuscleGroup, Set<number>>();
 
     for (const day of days) {
@@ -96,21 +132,19 @@ export const analyseWeek = (
             const sets = workingSets(exercise);
             if (!sets) continue;
 
-            const entry = resolver.resolve(exercise.name);
-            if (!entry) continue;   // unmapped: verify:library is the gate for this
+            const steps = exercise.giantSetConfig?.steps ?? [];
+            if (steps.length) {
+                for (const step of steps) {
+                    const entry = resolver.resolve(step.name);
+                    if (entry) credit(entry, sets, day.dayOfWeek, direct, secondaryVol, dayHits);
+                }
+                continue;
+            }
 
-            for (const muscle of entry.primary ?? []) {
-                const group = majorOf(muscle);
-                if (!group) continue;
-                direct.set(group, (direct.get(group) ?? 0) + sets);
-                if (!dayHits.has(group)) dayHits.set(group, new Set());
-                dayHits.get(group)!.add(day.dayOfWeek);
-            }
-            for (const muscle of entry.secondary ?? []) {
-                const group = majorOf(muscle);
-                if (!group) continue;
-                secondary.set(group, (secondary.get(group) ?? 0) + sets * SECONDARY_WEIGHT);
-            }
+            const entry = (exercise.exerciseId ? resolver.byId(exercise.exerciseId) : undefined)
+                ?? resolver.resolve(exercise.name);
+            if (!entry) continue;   // unmapped: verify:library is the gate for this
+            credit(entry, sets, day.dayOfWeek, direct, secondaryVol, dayHits);
         }
     }
 
@@ -118,7 +152,7 @@ export const analyseWeek = (
     const volumes: MuscleVolume[] = groups.map(group => ({
         group,
         directSets: Math.round((direct.get(group) ?? 0) * 10) / 10,
-        totalSets: Math.round(((direct.get(group) ?? 0) + (secondary.get(group) ?? 0)) * 10) / 10,
+        totalSets: Math.round(((direct.get(group) ?? 0) + (secondaryVol.get(group) ?? 0)) * 10) / 10,
         exposures: dayHits.get(group)?.size ?? 0,
         days: [...(dayHits.get(group) ?? [])].sort((a, b) => a - b),
     }));
@@ -131,10 +165,15 @@ export const analyseWeek = (
             for (const exercise of day.exercises ?? []) {
                 const sets = workingSets(exercise);
                 if (!sets) continue;
-                const entry = resolver.resolve(exercise.name);
-                for (const muscle of entry?.primary ?? []) {
-                    if (muscle === 'frontDelt' || muscle === 'sideDelt' || muscle === 'rearDelt') {
-                        delt[muscle] += sets;
+                const names = exercise.giantSetConfig?.steps?.length
+                    ? exercise.giantSetConfig.steps.map(step => step.name)
+                    : [exercise.name];
+                for (const name of names) {
+                    const entry = resolver.resolve(name);
+                    for (const muscle of entry?.primary ?? []) {
+                        if (muscle === 'frontDelt' || muscle === 'sideDelt' || muscle === 'rearDelt') {
+                            delt[muscle] += sets;
+                        }
                     }
                 }
             }
@@ -146,6 +185,14 @@ export const analyseWeek = (
                 message: `Front delts (${delt.frontDelt}) outrun side delts (${delt.sideDelt}) — cut pressing isolation, keep laterals.`,
             });
         }
+
+        return {
+            week,
+            volumes,
+            findings,
+            totalSets: Math.round(volumes.reduce((n, v) => n + v.directSets, 0) * 10) / 10,
+            splitDelts: delt,
+        };
     }
 
     return {
@@ -266,7 +313,7 @@ export const PLAN_RULES: Record<string, VolumeRules> = {
     'pencilneck-eradication': { kind: 'hypertrophy', exempt: ['hamstrings', 'glutes', 'calves'] },
     'skeleton-to-threat': { kind: 'general', minWeeklyExposures: 2 },
     'peachy-glute-plan': { kind: 'specialisation', specialisation: ['glutes'] },
-    'pain-and-glory': { kind: 'powerlifting' },
+    'pain-and-glory': { kind: 'powerlifting', specialisation: ['back', 'hamstrings', 'glutes'] },
     'trinary': { kind: 'powerlifting' },
     'ritual-of-strength': { kind: 'powerlifting' },
     'super-mutant': { kind: 'hypertrophy' },

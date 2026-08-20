@@ -164,7 +164,7 @@ const OVERRIDES: Record<string, IntelligenceOverride> = {
     'single-leg-machine-hip-thrust': { stabilityDemand: 1, systemicCost: 1, shortenedBias: 4, failureSuitability: 'suitable' },
     'slow-eccentric-cheat-nordic-curl': { kneeCost: 2, lengthenedBias: 4, failureSuitability: 'advanced-only' },
     'stiletto-squat': { stabilityDemand: 2, systemicCost: 2, axialCost: 1, kneeCost: 2, lengthenedBias: 3 },
-    'stripper-squat': { stabilityDemand: 0, systemicCost: 1, axialCost: 1, kneeCost: 3, shortenedBias: 3, failureSuitability: 'suitable' },
+    'stripper-squat': { stabilityDemand: 0, systemicCost: 1, axialCost: 1, kneeCost: 3, lengthenedBias: 4, shortenedBias: 1, failureSuitability: 'suitable' },
     'supported-sissy-squat': { stabilityDemand: 1, systemicCost: 0, axialCost: 0, kneeCost: 3, lengthenedBias: 4, shortenedBias: 3, failureSuitability: 'suitable' },
     'weighted-dip': { shoulderCost: 3, elbowCost: 2, failureSuitability: 'advanced-only', lengthenedBias: 3 },
 };

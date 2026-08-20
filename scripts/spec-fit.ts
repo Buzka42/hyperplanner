@@ -16,12 +16,8 @@
 
 import { PORTFOLIO_BY_ID } from '../src/data/portfolio';
 import { PLAN_RULES } from '../src/lib/volumeAnalysis';
-import { RESOLVER, intelOf, majorOf, extendLibrary, type PlanWeek } from './portfolio-metrics';
-import { simulate } from './sim-v2-portfolio';
-import { PROPOSED_EXERCISES } from './v2-round2-map';
+import { RESOLVER, intelOf, majorOf, materialise, score, ALL_PLAN_IDS, type PlanWeek } from './portfolio-metrics';
 import { DECISIONS } from './v3-owner-decisions';
-
-extendLibrary(PROPOSED_EXERCISES);
 
 export type Verdict = 'holds' | 'partial' | 'misses' | 'n/a';
 
@@ -89,7 +85,17 @@ const groupVolume = (week: PlanWeek) => {
 };
 
 export const specFit = (): SpecFit[] => {
-    const sims = simulate().filter((r): r is Extract<typeof r, { finalWeek: PlanWeek }> => 'finalWeek' in r);
+    /*
+     * Reads the shipped plans. This was pointed at the simulation while the
+     * changes were still proposals; now that they are implemented, running the
+     * change maps again would apply every edit a second time.
+     */
+    const sims = ALL_PLAN_IDS
+        .map(planId => {
+            const week = materialise(planId);
+            return week ? { planId, finalWeek: week, final: score(week) } : undefined;
+        })
+        .filter((r): r is { planId: string; finalWeek: PlanWeek; final: ReturnType<typeof score> } => !!r);
 
     /*
      * Fatigue bands come from the catalogue's own spread — "fatigue 4" is a

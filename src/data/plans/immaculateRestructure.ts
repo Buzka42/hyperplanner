@@ -49,7 +49,7 @@ const LOWER_A: DaySpec = {
         { ex: 'single-leg-hamstring-curl', sets: 3, reps: '8-12', restSeconds: 90 },
         { ex: 'goblet-skater-squat', sets: 3, reps: '8-12', restSeconds: 105, notes: 'Per side. Weaker leg first.' },
         { ex: 'hip-supported-db-deadlift', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'calf-raise', sets: 3, reps: '10-20', restSeconds: 60 },
+        { ex: 'standing-calf-raise', sets: 3, reps: '10-20', restSeconds: 60 },
         { ex: 'ab-wheel', sets: 3, reps: '6-15', restSeconds: 60 },
     ],
 };
@@ -103,7 +103,7 @@ const base = definePlan({
 
 const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
     const week = Number(day.id?.match(/-w(\d+)-/)?.[1] ?? day.weekNumber ?? 1);
-    if (week < 3 || (day.dayOfWeek !== 2 && day.dayOfWeek !== 4)) return day;
+    if (week < 3) return day;
     const loads = user.workingLoads?.['immaculate-restructure'] ?? {};
     const closeGrip = loads['close-grip-bench-press'] ?? 0;
     if (!closeGrip) return day;

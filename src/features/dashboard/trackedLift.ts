@@ -24,6 +24,7 @@ export const trackedLiftFor = (planId: string, user: UserProfile): TrackedLift =
             return { title: 'Standing press', history: asHistory(user.liftHistory?.standingPress), startKg: user.stats.standingPress ?? loads['standing-barbell-military-press'] };
         case 'workhorse':
         case 'gravity-is-optional':
+        case 'neural-overload':
             return { title: 'Chin belt', history: asHistory(user.liftHistory?.chinBelt), startKg: loads['weighted-chin-up'] };
         case 'hamstring-foundry':
             return { title: 'RDL', history: asHistory(user.liftHistory?.rdl), startKg: loads['barbell-romanian-deadlift'] };

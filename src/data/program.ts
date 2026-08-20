@@ -1,4 +1,5 @@
 import type { Program, ProgramWeek, WorkoutDay, PlanConfig, UserProfile, SetTarget, Exercise, LiftingStats } from '../types';
+import { tricepGiantSet } from './tricepGiantSet';
 
 const createWeeks = (): ProgramWeek[] => {
     const weeks: ProgramWeek[] = [];
@@ -51,19 +52,7 @@ const createWeeks = (): ProgramWeek[] => {
 
             // Accessories (Reduced volume during taper)
             if (!isWeek15) {
-                d1Exercises.push({
-                    id: `w${w}-d1-e2`,
-                    name: "Tricep Giant Set",
-                    sets: 2,
-                    target: { type: "failure", reps: "Giant" },
-                    giantSetConfig: {
-                        steps: [
-                            { name: "Bodyweight Dips", targetReps: "5", inputPlaceholder: "-" },
-                            { name: "Rolling DB Tricep Extensions", targetReps: "10", inputPlaceholder: "-", editableWeight: true },
-                            { name: "Banded EZ Bar Skullcrushers", targetReps: "15", inputPlaceholder: "-", editableWeight: true }
-                        ]
-                    }
-                });
+                d1Exercises.push(tricepGiantSet(`w${w}-d1-e2`, 2, 'taper'));
             }
 
             days.push({ dayName: isWeek15 ? "t:dayNames.mondayPrimer" : "t:dayNames.mondayPeaking", dayOfWeek: 1, exercises: d1Exercises });
@@ -176,6 +165,35 @@ const createWeeks = (): ProgramWeek[] => {
             pullupReps = "2-3";
         }
 
+        /*
+         * The pull-up ladder, from the tips that describe it:
+         *
+         *   wk 1-3   max strict reps EMOM until form breaks
+         *   wk 4-6   3-5 reps EMOM for 12-15 minutes
+         *   wk 7-9   a max triple plus 4-6 back-off triples
+         *   wk 10+   max single test, then 3-5 sets at 92.5%
+         *
+         * Reps come down as the load goes up, so sets have to come up to match.
+         * The set count was a flat 1 for weeks 1-6 — the 0-set bug patched with
+         * a placeholder rather than the ladder — which left the plan with two
+         * sets of back work a week for its first six weeks. Sets now key off
+         * `displayWeek` like the reps do; using raw `w` desynced them either
+         * side of the week-9 deload.
+         *
+         * Wednesday runs the full ladder. Saturday is the AMRAP test day at ten
+         * sets, so it carries a fixed lighter dose — a twelve-set EMOM there
+         * would make the test day the largest session of the week, and the
+         * weeks 10-13 progression block already treats Wednesday as the pull-up
+         * day.
+         */
+        const pullupSets = displayWeek <= 3 ? 8 : displayWeek <= 6 ? 12 : displayWeek <= 9 ? 7 : 5;
+        const pullupSaturdaySets = displayWeek <= 6 ? 3 : displayWeek <= 9 ? 4 : 3;
+        const pullupNote = displayWeek <= 3 ? 't:tips.pullupWeeks1to3'
+            : displayWeek <= 6 ? 't:tips.pullupWeeks4to6'
+            : displayWeek <= 9 ? 't:tips.pullupWeeks7to9'
+            : displayWeek === 10 ? 't:tips.pullupWeek10'
+            : 't:tips.pullupWeeks11to12';
+
         // MONDAY
         days.push({
             dayName: "t:dayNames.mondayHeavyStrength",
@@ -201,20 +219,7 @@ const createWeeks = (): ProgramWeek[] => {
                     target: { type: "range", reps: "3-5" }, // Heavy Day logic
                     notes: "Heavy Strength"
                 },
-                {
-                    id: `w${w}-d1-e4`,
-                    name: "Tricep Giant Set",
-                    sets: giantSets,
-                    target: { type: "failure", reps: "Giant" },
-
-                    giantSetConfig: {
-                        steps: [
-                            { name: "Bodyweight Dips", targetReps: "5", inputPlaceholder: "-" },
-                            { name: "Rolling DB Tricep Extensions", targetReps: "12", inputPlaceholder: "-", editableWeight: true },
-                            { name: "Banded EZ Bar Skullcrushers", targetReps: "25", inputPlaceholder: "-", editableWeight: true }
-                        ]
-                    }
-                },
+                tricepGiantSet(`w${w}-d1-e4`, giantSets),
                 {
                     id: `w${w}-d1-e5`,
                     name: "Dragon Flags",
@@ -262,9 +267,9 @@ const createWeeks = (): ProgramWeek[] => {
                 {
                     id: `w${w}-d3-e3`,
                     name: "Weighted Pull-ups",
-                    sets: 0,
+                    sets: pullupSets,
                     target: { type: "range", reps: pullupReps },
-
+                    notes: pullupNote
                 },
                 {
                     id: `w${w}-d3-e4`,
@@ -311,22 +316,10 @@ const createWeeks = (): ProgramWeek[] => {
                     target: { type: "range", reps: "5-8" }, // Volume Day logic
                     notes: "Volume Work"
                 },
-                {
-                    id: `w${w}-d4-e4`,
-                    name: "Tricep Giant Set",
-                    sets: giantSets,
-                    target: { type: "failure", reps: "Giant" },
-                    giantSetConfig: {
-                        steps: [
-                            { name: "Bodyweight Dips", targetReps: "5", inputPlaceholder: "-" },
-                            { name: "Rolling DB Tricep Extensions", targetReps: "12", inputPlaceholder: "-", editableWeight: true },
-                            { name: "Banded EZ Bar Skullcrushers", targetReps: "25", inputPlaceholder: "-", editableWeight: true }
-                        ]
-                    }
-                },
+                tricepGiantSet(`w${w}-d4-e4`, giantSets),
                 {
                     id: `w${w}-d4-e5`,
-                    name: "Dragon Flags",
+                    name: "Cable Crunch",
                     sets: 3,
                     target: { type: "failure", reps: "Failure" }
                 }
@@ -334,10 +327,17 @@ const createWeeks = (): ProgramWeek[] => {
         });
 
         // FRIDAY (Legs Copy)
+        //
+        // BD-E19 rotates adduction and abduction rather than running the same
+        // 2-set slot on both leg days; everything else is a straight copy.
         days.push({
             dayName: "t:dayNames.fridayLegs",
             dayOfWeek: 5,
-            exercises: days[1].exercises.map(e => ({ ...e, id: e.id.replace('d2', 'd5') }))
+            exercises: days[1].exercises.map(e => ({
+                ...e,
+                id: e.id.replace('d2', 'd5'),
+                ...(e.name === "Hip Adduction" ? { name: "Machine Hip Abduction" } : {}),
+            }))
         });
 
         // SATURDAY (TEST)
@@ -369,9 +369,9 @@ const createWeeks = (): ProgramWeek[] => {
                 {
                     id: `w${w}-d6-e4`,
                     name: "Weighted Pull-ups",
-                    sets: 0,
+                    sets: pullupSaturdaySets,
                     target: { type: "range", reps: pullupReps },
-
+                    notes: pullupNote
                 },
                 {
                     id: `w${w}-d6-e5`,

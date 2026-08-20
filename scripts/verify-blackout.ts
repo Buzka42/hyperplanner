@@ -36,7 +36,7 @@ ok(late.every(e => e.sets === 1), 'the final phase adds effort, not sets');
 ok(late.some(e => e.target.rpe === 10), 'the final phase sharpens the primary sets');
 
 // --- mandatory metadata ------------------------------------------------------
-const clean: PrimarySetResult = { reps: 8, targetReps: [6, 10], loadKg: 100, quality: 'clean', completionReason: 'target-completed' };
+const clean: PrimarySetResult = { reps: 8, targetReps: [6, 10], loadKg: 100, quality: 'clean', completionReason: 'target-met' };
 ok(isEvaluable(clean), 'a fully labelled set is evaluable');
 ok(!isEvaluable({ ...clean, quality: undefined }), 'a set with no quality is not evaluable');
 ok(!isEvaluable({ ...clean, completionReason: undefined }), 'a set with no completion reason is not evaluable');
@@ -58,7 +58,7 @@ ok(failureAllowed('leg-extension'), 'isolation on a machine is approved for fail
 ok(!failureAllowed('hack-squat'), 'a loaded squat pattern is not approved for failure');
 ok(!failureAllowed('romanian-deadlift'), 'a hinge is not approved for failure');
 const day1 = BLACKOUT_CONFIG.hooks!.preprocessDay!(BLACKOUT_CONFIG.program.weeks[0].days.find(d => d.dayOfWeek === 1)!, {} as UserProfile);
-ok(day1.exercises.find(e => e.exerciseId === 'hack-squat')?.notes?.includes('not approved'), 'the squat slot says so on the session sheet');
+ok(day1.exercises.find(e => e.exerciseId === 'leg-press')?.notes?.includes('not approved'), 'the squat slot says so on the session sheet');
 ok(day1.exercises.find(e => e.exerciseId === 'leg-extension')?.notes?.includes('approved'), 'the approved slot says so too');
 
 // --- stall ladder ------------------------------------------------------------

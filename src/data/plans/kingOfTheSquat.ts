@@ -14,6 +14,8 @@
 
 import { definePlan } from '../planBuilder';
 import type { DaySpec } from '../planBuilder';
+import { EXERCISE_BY_ID } from '../exercises/library';
+import type { UserProfile, WorkoutDay } from '../../types';
 
 const HEAVY_SQUAT: DaySpec = {
     name: 'Heavy Squat',
@@ -32,7 +34,7 @@ const HEAVY_SQUAT: DaySpec = {
         },
         { ex: 'leg-extension', sets: 3, reps: '8-12', restSeconds: 90 },
         { ex: 'seated-ham-curl', sets: 3, reps: '8-12', restSeconds: 90 },
-        { ex: 'paused-bench-press', sets: 4, reps: '6-8', restSeconds: 180, tempo: '11X0' },
+        { ex: 'long-pause-bench-press', sets: 4, reps: '6-8', restSeconds: 180, tempo: '11X0' },
         { ex: 'hammer-upper-row', sets: 4, reps: '8-12', restSeconds: 120 },
     ],
 };
@@ -42,7 +44,7 @@ const BENCH_AND_DEADLIFT: DaySpec = {
     dayOfWeek: 2,
     slots: [
         {
-            ex: 'paused-bench-press',
+            ex: 'wide-grip-bench-press',
             sets: 5,
             reps: '3-5',
             restSeconds: 210,
@@ -59,9 +61,9 @@ const BENCH_AND_DEADLIFT: DaySpec = {
             notes: 'Deliberately easy. Perfect setup, fast bar speed, no grinding. Do not add weight chasing a PR.',
         },
         { ex: 'hammer-lower-row', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'seated-ham-curl', sets: 3, reps: '10-15', restSeconds: 90 },
-        { ex: 'standing-barbell-military-press', sets: 3, reps: '6-10', restSeconds: 150 },
-        { ex: 'hanging-knee-raise', sets: 3, reps: '10-20', restSeconds: 90 },
+        { ex: 'glute-ham-raise', sets: 3, reps: '10-15', restSeconds: 90 },
+        { ex: 'rear-delt-rope-pulls-to-face', sets: 3, reps: '12-20', restSeconds: 75 },
+        { ex: 'ab-wheel', sets: 3, reps: '10-20', restSeconds: 90 },
     ],
 };
 
@@ -79,9 +81,10 @@ const SQUAT_VOLUME: DaySpec = {
             notes: 'Two seconds motionless in the hole. Positional strength, not a max.',
         },
         { ex: 'heel-elevated-goblet-squat', sets: 3, reps: '10-15', restSeconds: 90 },
-        { ex: 'leg-extension', sets: 3, reps: '12-15', restSeconds: 75 },
+        { ex: 'hip-adduction', sets: 3, reps: '12-15', restSeconds: 75 },
         { ex: 'pull-up', sets: 4, reps: '6-10', restSeconds: 120 },
-        { ex: 'tricep-extension', sets: 3, reps: '10-15', restSeconds: 75 },
+        { ex: 'heavy-rolling-tricep-extension', sets: 4, reps: '10-15', restSeconds: 75 },
+        { ex: 'seated-dumbbell-shoulder-press', sets: 3, reps: '8-12', restSeconds: 90 },
     ],
 };
 
@@ -109,7 +112,7 @@ const STRUCTURAL_SQUAT: DaySpec = {
             tempo: '11X0',
         },
         { ex: 'hip-supported-db-deadlift', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'calf-raise', sets: 3, reps: '10-20', restSeconds: 75 },
+        { ex: 'hack-calf-raise', sets: 4, reps: '10-20', restSeconds: 75 },
         { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
     ],
 };
@@ -156,6 +159,27 @@ export const KING_OF_THE_SQUAT_CONFIG = definePlan({
                     : { ...slot, sets: Math.max(1, slot.sets - 2) },
         },
     ],
+    hooks: {
+        preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {
+            const choices = user.planPreferences?.['king-of-the-squat']?.exerciseSelections ?? {};
+            const jobs: Array<[string, string | undefined]> = [
+                ['long-pause-bench-press', choices.benchJob1],
+                ['wide-grip-bench-press', choices.benchJob2],
+                ['paused-bench-press', choices.benchJob3],
+            ];
+            return jobs.reduce((result, [from, to]) => {
+                if (!to || to === from) return result;
+                const entry = EXERCISE_BY_ID[to];
+                if (!entry) return result;
+                return {
+                    ...result,
+                    exercises: result.exercises.map(exercise =>
+                        exercise.exerciseId === from ? { ...exercise, exerciseId: entry.id, name: entry.name.en } : exercise
+                    ),
+                };
+            }, day);
+        },
+    },
     ui: {
         themeClass: 'theme-king-of-the-squat',
         coverImage: '/squatking.png',

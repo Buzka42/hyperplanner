@@ -14,12 +14,9 @@
  *   npx tsx scripts/review-flags.ts --json
  */
 
-import { RESOLVER, majorOf, extendLibrary, type PlanWeek } from './portfolio-metrics';
-import { simulate } from './sim-v2-portfolio';
-import { PROPOSED_EXERCISES, SET_SHAPE } from './v2-round2-map';
+import { RESOLVER, majorOf, materialise, ALL_PLAN_IDS, type PlanWeek } from './portfolio-metrics';
+import { SET_SHAPE } from './v2-round2-map';
 import { PLAN_RULES } from '../src/lib/volumeAnalysis';
-
-extendLibrary(PROPOSED_EXERCISES);
 
 /**
  * Plans allowed to carry 4+ sets on a slot that does not lead its session,
@@ -31,6 +28,7 @@ extendLibrary(PROPOSED_EXERCISES);
 const OVER_THREE_EXEMPT: Record<string, Record<string, string>> = {
     'bench-domination': {
         'behind-the-neck-press': 'BD-E7 module: BTN press is a prescribed second press on Mon and Thu',
+        'weighted-pull-up': 'the pull-up ladder is an EMOM block prescribed in minutes (8-12 rounds in weeks 1-6, a max triple plus back-offs in 7-9), not an accessory stack',
     },
     'pain-and-glory': {
         '*': 'owner: working as designed — the 10×6 deficit structure and its supporting slots are the plan',
@@ -66,6 +64,13 @@ const OVER_THREE_EXEMPT: Record<string, Record<string, string>> = {
     'neural-overload': {
         'barbell-row': 'the PAP singles lead the day at 1 set each, so this is the session’s actual volume work',
         'incline-dumbbell-bench-press': 'same: the volume work behind the 1-6 singles',
+    },
+};
+
+/** Single-set slots that are a mechanic on one movement, not a whole plan. */
+const SINGLE_SET_EXEMPT_SLOT: Record<string, Record<string, string>> = {
+    'arms-race': {
+        '30-incline-lying-dumbbell-curl': 'Go Nuclear biceps giant set: one extended myo-rep set of 30-40 reps plus cheat eccentrics — there is no second set to add',
     },
 };
 
@@ -123,7 +128,8 @@ export const reviewFlags = (planId: string, week: PlanWeek): Flag[] => {
                 flags.push({
                     planId, kind: 'single-set', day, dayName: slot.dayName,
                     exercise: entry.name.en, sets, isDayLead: index === 0,
-                    specialises, exempt: singleExempt,
+                    specialises,
+                    exempt: singleExempt ?? SINGLE_SET_EXEMPT_SLOT[planId]?.[slot.id] ?? null,
                 });
             } else if (sets > 3) {
                 flags.push({
@@ -146,10 +152,12 @@ const isEntry = process.argv[1]?.replace(/\\/g, '/').endsWith('review-flags.ts')
 if (isEntry) {
     const args = process.argv.slice(2).filter(a => !a.startsWith('--'));
     const all: Flag[] = [];
-    for (const r of simulate()) {
-        if (!('finalWeek' in r) || !r.finalWeek) continue;
-        if (args.length && !args.includes(r.planId)) continue;
-        all.push(...reviewFlags(r.planId, r.finalWeek));
+    // Reads the shipped plans, not the simulation: this is the standing gate.
+    for (const planId of ALL_PLAN_IDS) {
+        if (args.length && !args.includes(planId)) continue;
+        const week = materialise(planId);
+        if (!week) continue;
+        all.push(...reviewFlags(planId, week));
     }
 
     if (process.argv.includes('--json')) {
@@ -172,5 +180,6 @@ if (isEntry) {
         console.log(`\n  ${unexplained.length} unexplained flag${unexplained.length === 1 ? '' : 's'} across ${byPlan.size} plans` +
             `  (${all.filter(f => f.kind === 'single-set' && !f.exempt).length} single-set, ` +
             `${all.filter(f => f.kind === 'over-three' && !f.exempt).length} over-three)\n`);
+        if (process.argv.includes('--strict') && unexplained.length) process.exit(1);
     }
 }

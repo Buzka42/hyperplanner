@@ -27,8 +27,12 @@ import { createWorkoutWithPerformanceProfile, extractPerformanceObservations } f
 import { APEX_ACCESS } from '../data/apexAccess';
 import { nextRomLevel } from '../features/apexPredator/assessment';
 import { backoffPercentFor, deriveBackoffLoad } from '../features/workout/engines/topSetBackoff';
-import { EXERCISE_BY_ID } from '../data/exercises/library';
+import { totalSystemWeightKg } from '../features/workout/systemWeight';
 import { BlockTimer } from '../features/redline/BlockTimer';
+import { isEvaluable, type CompletionReason } from '../features/blackout/singleSet';
+import { roleOf } from '../features/quadfather/roles';
+import { refineWithModel } from '../features/oracle/prediction';
+import { REGION_COSTS } from '../features/eventHorizon/costAwareSwaps';
 
 interface SetLog {
     reps: string;
@@ -40,6 +44,7 @@ interface SetLog {
     label?: string;
     rir?: number;
     quality?: 'clean' | 'borderline' | 'invalid';
+    completionReason?: CompletionReason;
     totalSystemWeightKg?: number;
 }
 
@@ -48,7 +53,7 @@ interface SetLog {
 // remove-extra-set guard so they can never disagree.
 const getBaseSetsCount = (ex: { name: string; sets: number; baseSets?: number; giantSetConfig?: { steps: unknown[] } }, weekNum: number, programId: string): number => {
     const isGiantSet = !!ex.giantSetConfig;
-    const isPullup = ex.name.includes("Pull-ups") && ex.sets === 0;
+    const isPullup = programId === 'bench-domination' && ex.name.includes("Pull-ups") && weekNum <= 12;
     // A resolved exercise's `sets` already includes the athlete's configured
     // extra sets, so it cannot be the baseline. `baseSets` is what the plan
     // actually prescribed.
@@ -105,12 +110,16 @@ export const WorkoutView: React.FC = () => {
     const [slowVelocitySelected, setSlowVelocitySelected] = useState<Record<string, boolean>>({});
     const [hipCapsuleSelected, setHipCapsuleSelected] = useState<Record<string, boolean>>({});
     const [carryLimiterSelected, setCarryLimiterSelected] = useState<Record<string, string>>({});
+    const [romDepthSelected, setRomDepthSelected] = useState<Record<string, 'partial' | 'parallel' | 'below-parallel'>>({});
+    const [kneeSeveritySelected, setKneeSeveritySelected] = useState<Record<string, 'normal' | 'strained' | 'impaired'>>({});
+    const [regionReportSelected, setRegionReportSelected] = useState<Record<string, 'normal' | 'strained' | 'impaired'>>({});
     // Trinary: Modal states
     const [showWeakPointModal, setShowWeakPointModal] = useState(false);
     const [showVariationSwapModal, setShowVariationSwapModal] = useState(false);
     const [pendingWeakPoints, setPendingWeakPoints] = useState<{ bench: string, deadlift: string, squat: string } | null>(null);
     const [pendingVariations, setPendingVariations] = useState<{ bench: string, deadlift: string, squat: string } | null>(null);
     const [showTrinaryRerunModal, setShowTrinaryRerunModal] = useState(false);
+    const [nuclearAcked, setNuclearAcked] = useState(false);
     /**
      * Which set the console is editing.
      *
@@ -170,6 +179,58 @@ export const WorkoutView: React.FC = () => {
             localStorage.setItem("lastOpenedPath", `/app/workout/${weekNum}/${dayNum}`);
         }
     }, [weekNum, dayNum]);
+
+    useEffect(() => {
+        if (programData.id !== 'oracle' || !user?.oracleStatus?.modelRefinementEnabled || !dayData) return;
+        let cancelled = false;
+        void (async () => {
+            const updates: Record<string, string> = {};
+            for (const exercise of dayData.exercises.slice(0, 4)) {
+                if (!exercise.exerciseId || exercise.predictedKg == null) continue;
+                const targetReps = exercise.target.reps.split('-').map(Number) as [number, number];
+                const refined = await refineWithModel(
+                    {
+                        loadKg: exercise.predictedKg,
+                        reps: [targetReps[0] || 5, targetReps[1] || targetReps[0] || 8],
+                        sets: exercise.sets,
+                        confidence: 'high',
+                        rationale: '',
+                        source: 'priors',
+                        offersCalibration: false,
+                    },
+                    {
+                        exerciseId: exercise.exerciseId,
+                        targetReps: [targetReps[0] || 5, targetReps[1] || targetReps[0] || 8],
+                        sets: exercise.sets,
+                        exposures: (user.oracleStatus?.exposures ?? [])
+                            .filter(entry => entry.exerciseId === exercise.exerciseId)
+                            .map(entry => ({
+                                date: entry.date,
+                                loadKg: entry.loadKg,
+                                reps: entry.reps,
+                                rir: entry.rir,
+                                comparable: entry.comparable,
+                                externalFactor: entry.externalFactor,
+                            })),
+                    },
+                );
+                if (cancelled) return;
+                if (refined.loadKg && refined.loadKg !== exercise.predictedKg) {
+                    updates[exercise.id] = String(refined.loadKg);
+                }
+            }
+            if (cancelled || !Object.keys(updates).length) return;
+            setExerciseData(prev => {
+                const next = { ...prev };
+                for (const [id, weight] of Object.entries(updates)) {
+                    next[id] = (next[id] ?? []).map(set =>
+                        set.completed || (set.weight && set.weight !== '') ? set : { ...set, weight });
+                }
+                return next;
+            });
+        })();
+        return () => { cancelled = true; };
+    }, [programData.id, user?.oracleStatus?.modelRefinementEnabled, dayData, user?.oracleStatus?.exposures]);
 
     /**
      * The max this exercise is about to establish, if any.
@@ -717,6 +778,19 @@ export const WorkoutView: React.FC = () => {
 
     const handleSaveSession = async () => {
         if (!user) return;
+        if (programData.id === 'blackout' && dayData) {
+            const missing = dayData.exercises.some(exercise => {
+                const work = (exerciseData[exercise.id] || [])[0];
+                return !work?.completed || !isEvaluable({
+                    reps: Number(work.reps) || 0,
+                    targetReps: [0, 0],
+                    loadKg: Number(work.weight) || 0,
+                    quality: work.quality,
+                    completionReason: work.completionReason,
+                });
+            });
+            if (missing) return;
+        }
         setSubmitting(true);
         try {
             const userRef = doc(db, 'users', user.id);
@@ -729,11 +803,7 @@ export const WorkoutView: React.FC = () => {
 
             const isEphemeralTestUser = typeof sessionStorage !== 'undefined' && Boolean(sessionStorage.getItem('hyperplanner_test_user'));
             if (Object.keys(updatePayload).length > 0 && !isEphemeralTestUser) {
-                try {
-                    await updateDoc(userRef, updatePayload);
-                } catch (err) {
-                    console.warn("Firestore updateDoc skipped/failed for test user:", err);
-                }
+                await updateDoc(userRef, updatePayload);
             }
 
             // Set by progression effects below; consumed after the save.
@@ -756,7 +826,7 @@ export const WorkoutView: React.FC = () => {
                         user,
                         workout: dayData,
                         sets: exerciseData,
-                        selections: { meProgression: meRpeSelected, slowVelocity: slowVelocitySelected, hipCapsule: hipCapsuleSelected, carryLimiter: carryLimiterSelected },
+                        selections: { meProgression: meRpeSelected, slowVelocity: slowVelocitySelected, hipCapsule: hipCapsuleSelected, carryLimiter: carryLimiterSelected, romDepth: romDepthSelected, kneeSeverity: kneeSeveritySelected, regionReports: regionReportSelected },
                     });
 
                     const payload: Record<string, unknown> = { ...result.updates };
@@ -767,11 +837,7 @@ export const WorkoutView: React.FC = () => {
                         payload[field] = increment(by);
                     }
                     if (Object.keys(payload).length > 0 && !isEphemeralTestUser) {
-                        try {
-                            await updateDoc(userRef, payload);
-                        } catch (err) {
-                            console.warn("Firestore progression payload write skipped/failed for test user:", err);
-                        }
+                        await updateDoc(userRef, payload);
                     }
 
                     // Effects are performed after the write, so a failed save
@@ -809,11 +875,7 @@ export const WorkoutView: React.FC = () => {
                 const outcomes = calibrationOutcomes(ctx, map);
                 const result = calibrationProgression(ctx, map);
                 if (Object.keys(result.updates).length > 0 && !isEphemeralTestUser) {
-                    try {
-                        await updateDoc(userRef, result.updates);
-                    } catch (err) {
-                        console.warn("Calibration updateDoc skipped for test user:", err);
-                    }
+                    await updateDoc(userRef, result.updates);
                 }
                 if (outcomes.length) setCalibrationResults(outcomes);
             }
@@ -836,12 +898,11 @@ export const WorkoutView: React.FC = () => {
                             : {}),
                         setsData: sets.map(set => {
                             const exerciseId = (source as { exerciseId?: string })?.exerciseId;
-                            const mode = exerciseId ? EXERCISE_BY_ID[exerciseId]?.weightMode : undefined;
-                            const bodyweight = user.stats.bodyweightKg ?? user.kaliStatus?.bodyweightKg;
                             const external = Number(set.weight);
-                            return (programData.id === 'kali' || programData.id === 'workhorse' || programData.id === 'gravity-is-optional') && bodyweight && Number.isFinite(external) && (mode === 'bodyweight' || mode === 'weighted-bodyweight')
-                                ? { ...set, totalSystemWeightKg: Math.max(0, bodyweight + external) }
-                                : set;
+                            const tsw = Number.isFinite(external)
+                                ? totalSystemWeightKg(exerciseId, external, user)
+                                : undefined;
+                            return tsw != null ? { ...set, totalSystemWeightKg: tsw } : set;
                         }),
                         notes: exerciseNotes[id] || null
                     };
@@ -1220,6 +1281,21 @@ export const WorkoutView: React.FC = () => {
                 </div>
             )}
 
+            {dayData?.dayName.includes('Go Nuclear') && !nuclearAcked && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 p-6">
+                    <div className="max-w-md space-y-5">
+                        <h1 className="text-2xl font-semibold">{language === 'pl' ? 'Go Nuclear' : 'Go Nuclear'}</h1>
+                        <p className="text-muted-foreground">
+                            {language === 'pl'
+                                ? 'Ta sesja jest opcjonalna. Po niej weź jeden albo dwa pełne dni wolnego, zanim wrócisz do rotacji.'
+                                : 'This session is optional. Take one or two full days off afterwards before the next session in the rotation.'}
+                        </p>
+                        <Button size="lg" onClick={() => setNuclearAcked(true)}>{language === 'pl' ? 'Rozumiem — start' : 'I understand — start'}</Button>
+                        <Button variant="outline" onClick={() => navigate('/app/dashboard')}>{language === 'pl' ? 'Wróć' : 'Back'}</Button>
+                    </div>
+                </div>
+            )}
+
             <div className="flex items-center gap-2 mb-6">
                 <Button variant="ghost" size="icon" onClick={() => navigate('/app/dashboard')} className="-ml-2">
                     <ArrowLeft className="h-5 w-5" />
@@ -1289,9 +1365,10 @@ export const WorkoutView: React.FC = () => {
                         <label data-len={figureLength(activeSet.weight)} style={figureChars(activeSet.weight)}><span>{t('common.weight')}{isAutoLoad(activeExercise, activeSet.weight, activeSetIndex) && <em> · {t('workout.auto')}</em>}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
                         <label data-len={figureLength(activeSet.reps)} style={figureChars(activeSet.reps)}><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('workout.reps')} /></label>
                     </div>
-                    {((activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press') || programData.id === 'oracle') && <div className="live-set-telemetry">
-                        <label><span>RIR</span><select value={activeSet.rir ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, rir: event.target.value === '' ? undefined : Number(event.target.value) } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3+</option></select></label>
-                        {activeExercise.prescription?.topSetBackoff && activeSetIndex === 0 && <label><span>{language === 'pl' ? 'Jakość' : 'Quality'}</span><select value={activeSet.quality ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === 0 ? { ...set, quality: event.target.value as SetLog['quality'] } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="clean">{language === 'pl' ? 'Czysta' : 'Clean'}</option><option value="borderline">{language === 'pl' ? 'Graniczna' : 'Borderline'}</option><option value="invalid">{language === 'pl' ? 'Nieważna' : 'Invalid'}</option></select></label>}
+                    {((activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press') || programData.id === 'oracle' || programData.id === 'blackout') && <div className="live-set-telemetry">
+                        {(programData.id !== 'blackout' || activeSetIndex === 0) && (programData.id === 'oracle' || (activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press')) && <label><span>RIR</span><select value={activeSet.rir ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, rir: event.target.value === '' ? undefined : Number(event.target.value) } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3+</option></select></label>}
+                        {((activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'blackout' && activeSetIndex === 0)) && <label><span>{language === 'pl' ? 'Jakość' : 'Quality'}</span><select value={activeSet.quality ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, quality: event.target.value as SetLog['quality'] } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="clean">{language === 'pl' ? 'Czysta' : 'Clean'}</option><option value="borderline">{language === 'pl' ? 'Graniczna' : 'Borderline'}</option><option value="invalid">{language === 'pl' ? 'Nieważna' : 'Invalid'}</option></select></label>}
+                        {programData.id === 'blackout' && activeSetIndex === 0 && <label><span>{language === 'pl' ? 'Powód stopu' : 'Stop reason'}</span><select value={activeSet.completionReason ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, completionReason: (event.target.value || undefined) as SetLog['completionReason'] } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="target-met">{language === 'pl' ? 'Cel osiągnięty' : 'Target completed'}</option><option value="muscular-failure">{language === 'pl' ? 'Upadek mięśniowy' : 'Muscular failure'}</option><option value="technical-failure">{language === 'pl' ? 'Upadek techniczny' : 'Technical failure'}</option><option value="stopped-early">{language === 'pl' ? 'Świadomy stop' : 'Voluntary stop'}</option><option value="pain">{language === 'pl' ? 'Ból' : 'Pain'}</option></select></label>}
                     </div>}
                     {(activeExercise.target.rpe !== undefined || activeExercise.rest) && (
                         <div className="live-set-telemetry">
@@ -1301,7 +1378,7 @@ export const WorkoutView: React.FC = () => {
                     )}
                     {/* Saved looks saved: re-opening a logged set must not
                         offer a button that appears to do nothing. */}
-                    <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps || (programData.id === 'oracle' && activeSet.rir == null) || Boolean(activeExercise.prescription?.topSetBackoff && activeSetIndex === 0 && (activeSet.rir == null || !activeSet.quality))} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />{activeSet.completed ? t('workout.updateSet') : t('workout.logSet')}</Button>
+                    <Button size="lg" onClick={logActiveSet} disabled={!activeSet.reps || (programData.id === 'oracle' && activeSet.rir == null) || Boolean(activeExercise.prescription?.topSetBackoff && activeSetIndex === 0 && (activeSet.rir == null || !activeSet.quality)) || Boolean(programData.id === 'blackout' && activeSetIndex === 0 && (!activeSet.quality || !activeSet.completionReason))} className="log-set-command"><CheckCircle2 className="mr-2 h-5 w-5" />{activeSet.completed ? t('workout.updateSet') : t('workout.logSet')}</Button>
                 </section>
             )}
 
@@ -1617,6 +1694,36 @@ export const WorkoutView: React.FC = () => {
                                     ))}
                                 </div>
                             )}
+                            {programData.id === 'quadfather' && ex.exerciseId && roleOf(ex.exerciseId) && (
+                                <div className="space-y-2">
+                                    <div className="flex flex-wrap gap-2">
+                                        {(['partial', 'parallel', 'below-parallel'] as const).map(depth => (
+                                            <button
+                                                key={depth}
+                                                type="button"
+                                                aria-pressed={romDepthSelected[ex.id] === depth}
+                                                onClick={() => setRomDepthSelected(current => ({ ...current, [ex.id]: depth }))}
+                                                className={`min-h-11 border px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] ${romDepthSelected[ex.id] === depth ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
+                                            >
+                                                {depth}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {(['normal', 'strained', 'impaired'] as const).map(severity => (
+                                            <button
+                                                key={severity}
+                                                type="button"
+                                                aria-pressed={kneeSeveritySelected[ex.id] === severity}
+                                                onClick={() => setKneeSeveritySelected(current => ({ ...current, [ex.id]: severity }))}
+                                                className={`min-h-11 border px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] ${kneeSeveritySelected[ex.id] === severity ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
+                                            >
+                                                knee {severity}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Warm-ups are shown but never logged, so they are
                                 half-ink and not tappable — visible ramp, no
@@ -1789,6 +1896,24 @@ export const WorkoutView: React.FC = () => {
                                         })()}
                                     </div>
                                 )}
+
+                                {ex.prescription?.technique?.kind === 'total-reps' && (() => {
+                                    const logged = (exerciseData[ex.id] || []).filter(set => set.completed);
+                                    const totalReps = logged.reduce((sum, set) => sum + (parseInt(set.reps) || 0), 0);
+                                    const target = ex.prescription.technique.targetReps;
+                                    const last = user?.planPreferences?.['gravity-is-optional']?.exerciseSelections?.[`totalRepSets:${ex.exerciseId}`];
+                                    return (
+                                        <div className="mx-3 mt-3 p-3 bg-primary/10 border border-primary/30 rounded-lg text-sm">
+                                            <div className="flex justify-between font-bold">
+                                                <span>{totalReps} / {target} reps</span>
+                                                <span>{logged.length} sets{last ? ` · last ${last}` : ''}</span>
+                                            </div>
+                                            {totalReps >= target && last && logged.length < Number(last) && (
+                                                <p className="text-green-500 mt-1">Fewer sets than last time.</p>
+                                            )}
+                                        </div>
+                                    );
+                                })()}
 
                                 {/* Trinary: RPE Selector for ME exercises (appears once all sets hit the required top reps) */}
                                 {programData.id === 'trinary' && ex.name.includes('(ME)') && (() => {
@@ -1975,11 +2100,38 @@ export const WorkoutView: React.FC = () => {
                 })}
             </div>
 
+            {programData.id === 'event-horizon' && (
+                <div className="space-y-2 border border-border p-3">
+                    <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Region report</p>
+                    <div className="flex flex-wrap gap-2">
+                        {Object.keys(REGION_COSTS).map(region => (
+                            <div key={region} className="flex flex-wrap gap-1">
+                                <span className="text-xs self-center text-muted-foreground">{region}</span>
+                                {(['normal', 'strained', 'impaired'] as const).map(report => (
+                                    <button
+                                        key={report}
+                                        type="button"
+                                        aria-pressed={regionReportSelected[region] === report}
+                                        onClick={() => setRegionReportSelected(current => ({ ...current, [region]: report }))}
+                                        className={`min-h-11 border px-2 py-1 text-xs uppercase ${regionReportSelected[region] === report ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
+                                    >
+                                        {report}
+                                    </button>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
             <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border md:static md:bg-transparent md:border-0 md:p-0">
                 <Button
                     className="w-full h-14 text-lg font-bold shadow-lg"
                     onClick={handleSaveSession}
-                    disabled={submitting}
+                    disabled={submitting || (programData.id === 'blackout' && dayData.exercises.some(exercise => {
+                        const work = (exerciseData[exercise.id] || [])[0];
+                        return !work?.completed || !work.quality || !work.completionReason;
+                    }))}
                 >
                     {submitting ? t('workout.saving') : t('workout.completeWorkout')} <Save className="ml-2 h-5 w-5" />
                 </Button>

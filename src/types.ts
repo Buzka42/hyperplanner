@@ -492,7 +492,13 @@ export interface PlanConfig {
     id: string;
     program: Program;
     session?: {
-        kind: 'scheduled' | 'pair-select' | 'session-select';
+        kind: 'scheduled' | 'pair-select' | 'session-select' | 'rotation';
+        rotation?: {
+            capPer7Days: number;
+            minHoursBetween?: number;
+            /** First N training days form the automatic deck; later days are optional. */
+            trainingDays?: number;
+        };
     };
     ui?: {
         dashboardWidgets?: ('1rm' | 'program_status' | 'strength_chart' | 'pencilneck_commandments' | 'trap_barometer' | 'skeleton_countdown' | 'skeleton_pushup_max' | 'skeleton_quotes' | 'glute_tracker' | 'arm_tracker' | 'deficit_snatch_tracker' | 'strength_altar' | 'workout_history' | 'mutagen_exposure' | 'recovery_gauge' | 'mutant_mindset')[];
@@ -585,7 +591,7 @@ export type WorkoutLog = {
     day?: number;
     programId?: string;
     dayName?: string;
-    sessionKind?: 'scheduled' | 'pair-select' | 'session-select';
+    sessionKind?: 'scheduled' | 'pair-select' | 'session-select' | 'rotation';
     elapsedSeconds?: number;
     adventure?: {
         sessionToken: string;

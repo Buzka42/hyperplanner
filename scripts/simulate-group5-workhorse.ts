@@ -454,7 +454,7 @@ console.log('=== SIMULATING GROUP 5: TIME-CAPPED, DENSITY, MINIMALIST & MACHINE 
         targetReps: [6, 10],
         loadKg: 100,
         quality: 'clean',
-        completionReason: 'target-completed',
+        completionReason: 'target-met',
     };
     ok(isEvaluable(baseSet), 'Valid set is evaluable');
     ok(!isEvaluable({ ...baseSet, quality: undefined }), 'Missing quality is not evaluable');
@@ -518,7 +518,7 @@ console.log('=== SIMULATING GROUP 5: TIME-CAPPED, DENSITY, MINIMALIST & MACHINE 
     });
 
     ok(MONOLITH_CONFIG.program.weeks.length === 10, '10 weeks duration');
-    ok(MONOLITH_DAYS.length === 4, '4-day upper/lower split');
+    ok(MONOLITH_DAYS.length === 3, '3-day Upper / Lower / Full split');
 
     // Structure checks
     const allSlots = MONOLITH_DAYS.flatMap(d => d.slots);

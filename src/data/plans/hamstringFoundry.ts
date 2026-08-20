@@ -20,7 +20,7 @@ const HEAVY_HIP_EXTENSION: DaySpec = {
     dayOfWeek: 1,
     slots: [
         {
-            ex: 'barbell-romanian-deadlift',
+            ex: 'romanian-deadlift',
             sets: 4,
             reps: '5-8',
             restSeconds: 210,
@@ -29,10 +29,10 @@ const HEAVY_HIP_EXTENSION: DaySpec = {
         },
         { ex: 'seated-ham-curl', sets: 4, reps: '8-12', restSeconds: 105 },
         { ex: 'flat-dumbbell-press', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'hammer-upper-row', sets: 3, reps: '8-12', restSeconds: 120 },
+        { ex: 'rope-cable-row', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'cable-lateral-raise', sets: 3, reps: '12-20', restSeconds: 60 },
         { ex: 'cable-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
-        { ex: 'rope-pressdown', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'overhead-tricep-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -52,7 +52,7 @@ const KNEE_FLEXION_AND_QUADS: DaySpec = {
         { ex: 'sissy-squat', sets: 3, reps: '12-20', restSeconds: 90 },
         { ex: 'pull-up', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'hammer-chest-press', sets: 3, reps: '8-12', restSeconds: 105 },
-        { ex: 'standing-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
     ],
 };
 
@@ -61,7 +61,8 @@ const UPPER_DOMINANT: DaySpec = {
     dayOfWeek: 4,
     slots: [
         { ex: 'incline-dumbbell-bench-press', sets: 4, reps: '8-12', restSeconds: 120 },
-        { ex: 'hammer-lower-row', sets: 4, reps: '8-12', restSeconds: 120 },
+        { ex: 'hammer-lower-row', sets: 2, reps: '8-12', restSeconds: 120 },
+        { ex: 'rope-cable-row', sets: 2, reps: '8-12', restSeconds: 120 },
         { ex: 'lat-pulldown', sets: 3, reps: '8-12', restSeconds: 105 },
         { ex: 'seated-dumbbell-shoulder-press', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
@@ -85,7 +86,7 @@ const LENGTHENED_HAMSTRINGS: DaySpec = {
         },
         { ex: 'single-leg-hamstring-curl', sets: 3, reps: '10-15', restSeconds: 90, notes: 'Weaker leg first.' },
         { ex: 'heel-elevated-goblet-squat', sets: 3, reps: '10-15', restSeconds: 90 },
-        { ex: 'standing-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
         { ex: 'ab-wheel', sets: 3, reps: '8-15', restSeconds: 60 },
         // Second weekly chest and quad exposure so the upper day is not the only one.
         { ex: 'pec-deck', sets: 3, reps: '10-15', restSeconds: 75 },
@@ -108,7 +109,7 @@ export const HAMSTRING_FOUNDRY_CONFIG = definePlan({
             name: 'Tempering',
             weeks: [6, 7, 8, 9, 10],
             transform: slot =>
-                slot.ex === 'barbell-romanian-deadlift'
+                slot.ex === 'romanian-deadlift'
                     ? { ...slot, reps: '4-6', sets: 5 }
                     : slot.ex.includes('ham-curl')
                         ? { ...slot, tempo: undefined, reps: '6-10' }

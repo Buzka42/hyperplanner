@@ -43,6 +43,9 @@ export type ProgressionContext = {
         slowVelocity?: Record<string, boolean>;
         hipCapsule?: Record<string, boolean>;
         carryLimiter?: Record<string, string>;
+        romDepth?: Record<string, 'partial' | 'parallel' | 'below-parallel'>;
+        kneeSeverity?: Record<string, 'normal' | 'strained' | 'impaired'>;
+        regionReports?: Record<string, 'normal' | 'strained' | 'impaired'>;
     };
 };
 

@@ -1,9 +1,10 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { doc, getDoc, setDoc, onSnapshot, updateDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc, setDoc, onSnapshot, updateDoc, collection, getDocs, deleteField } from 'firebase/firestore';
 import { getIdTokenResult, signInAnonymously } from 'firebase/auth';
 import { db, auth } from '../firebase';
 import { getPlan } from '../data/plans';
+import { statusFieldFor } from '../data/planStatus';
 import { canonicalPlanId, normalizeLegacyPlanIds } from '../data/planIds';
 import { isAccessKeyUsable, normalizeKeyword, type AccessKey } from '../data/accessControl';
 import { SEED_RESOLVER, type ExerciseResolver } from '../data/exercises';
@@ -96,20 +97,32 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const activePlanConfig = React.useMemo(() => {
         const plan = getPlan(user?.programId);
 
-        // Rolling schedules (irregular templates like 2 on / 1 off) are
-        // completion-driven: sessions sit on sequential dayOfWeek slots and
-        // the dashboard simply offers the next unfinished one. No weekday
-        // remap applies.
-        if (user?.scheduleMode === 'rolling') {
+        // Rolling schedules and free-attendance rotation are completion-driven:
+        // sessions sit on sequential dayOfWeek slots and the dashboard offers
+        // the next unfinished one. No weekday remap applies.
+        const rotation = plan.session?.kind === 'rotation' ? plan.session.rotation : undefined;
+        if (user?.scheduleMode === 'rolling' || rotation) {
             const newWeeks = plan.program.weeks.map(week => {
                 const training = week.days.filter(d => d.exercises && d.exercises.length > 0);
                 // Skeleton (and similar) stores empty placeholders and fills
                 // from `day.id` in preprocessDay — do not strip those ids.
                 if (training.length === 0) return week;
-                const newDays = training.map((d, i) => ({ ...d, dayOfWeek: i + 1 }));
-                for (let dow = training.length + 1; dow <= 7; dow++) {
-                    newDays.push({ id: `${week.weekNumber}-rest-${dow}`, dayName: 'Rest', dayOfWeek: dow, exercises: [] });
+                const deckCount = rotation?.trainingDays
+                    ? Math.min(rotation.trainingDays, training.length)
+                    : training.length;
+                const deck = training.slice(0, deckCount);
+                const extra = training.slice(deckCount);
+                const newDays = deck.map((d, i) => ({ ...d, dayOfWeek: i + 1 }));
+                extra.forEach((d, i) => {
+                    newDays.push({ ...d, dayOfWeek: 7 - extra.length + 1 + i });
+                });
+                const used = new Set(newDays.map(d => d.dayOfWeek));
+                for (let dow = 1; dow <= 7; dow++) {
+                    if (!used.has(dow)) {
+                        newDays.push({ id: `${week.weekNumber}-rest-${dow}`, dayName: 'Rest', dayOfWeek: dow, exercises: [] });
+                    }
                 }
+                newDays.sort((a, b) => a.dayOfWeek - b.dayOfWeek);
                 return { ...week, days: newDays };
             });
             return { ...plan, program: { ...plan.program, weeks: newWeeks } };
@@ -457,17 +470,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const resetProgram = async () => {
         if (!user) return;
-        const currentId = user.programId;
+        const currentId = canonicalPlanId(user.programId) ?? user.programId;
         const updatedProgress = { ...(user.programProgress || {}) };
         updatedProgress[currentId] = {
             completedSessions: 0,
             startDate: new Date().toISOString()
         };
 
-        const statusUpdates: any = {};
-        if (currentId === 'bench-domination') statusUpdates.benchDominationStatus = null;
-        if (currentId === 'pencilneck-eradication') statusUpdates.pencilneckStatus = null;
-        if (currentId === 'skeleton-to-threat') statusUpdates.skeletonStatus = null;
+        const statusUpdates: Record<string, ReturnType<typeof deleteField>> = {};
+        const statusField = statusFieldFor(currentId);
+        if (statusField) statusUpdates[statusField] = deleteField();
+        statusUpdates[`planPreferences.${currentId}`] = deleteField();
 
         await updateDoc(doc(db, 'users', user.id), {
             completedSessions: 0,

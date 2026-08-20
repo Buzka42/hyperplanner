@@ -92,4 +92,11 @@ const profile = chestProfile(weekly, status([{ week: 6, region: 'triceps' }]));
 ok(profile.totalSets === weekly.press + weekly.stretch + weekly.adduction, 'the profile combines the arches');
 ok(profile.limitingFatigue === 'triceps', 'the limiting factor stays visible, not averaged away');
 
+const foundationFly = CATHEDRAL_CONFIG.program.weeks[0].days.flatMap(d => d.exercises).find(e => e.exerciseId === 'low-to-high-cable-fly');
+ok(foundationFly && foundationFly.prescription?.technique?.kind !== 'drop-set' && foundationFly.prescription?.technique?.kind !== 'myo-reps', 'Foundation flies have no later-phase finisher');
+const vaultFly = CATHEDRAL_CONFIG.program.weeks[4].days.flatMap(d => d.exercises).find(e => e.exerciseId === 'low-to-high-cable-fly');
+ok(vaultFly?.prescription?.technique?.kind === 'drop-set', 'Vaulting puts a drop-set on the second fly set');
+const consecrationFly = CATHEDRAL_CONFIG.program.weeks[7].days.flatMap(d => d.exercises).find(e => e.exerciseId === 'cable-fly');
+ok(consecrationFly?.prescription?.technique?.kind === 'drop-set', 'Consecration keeps the fly finisher');
+
 console.log(`Cathedral verification passed: ${assertions} assertions.`);

@@ -1,103 +1,138 @@
 /**
- * ARMS RACE — biceps/triceps specialisation, 8 weeks, 4 days.
+ * ARMS RACE — biceps/triceps specialisation, 8 weeks.
  *
- * From HYPERPLANNER_10_NEW_PLAN_CONCEPTS_POLIQUIN.md section 9.
- *
- * Arms four times weekly, and the doc is explicit that the four exposures must
- * differ in function and loading — so they are: heavy elbow flexion and
- * extension, brachialis and reverse-grip work, lengthened positions, then a
- * density day run as supersets. Everything else stays at twice weekly.
+ * Three-session rotation (Volume, Lengthened, Pump) plus an optional fourth
+ * Go Nuclear day. No biceps movement repeats inside the regular rotation;
+ * the incline-lying curl on Nuclear is the one sanctioned exception because
+ * its load is prescribed from the Lengthened day.
  */
 
 import { definePlan } from '../planBuilder';
-import type { DaySpec } from '../planBuilder';
+import type { DaySpec, SlotSpec } from '../planBuilder';
+import { tricepGiantSet } from '../tricepGiantSet';
+import type { UserProfile, WorkoutDay } from '../../types';
 
-const ARM_STRENGTH: DaySpec = {
-    name: 'Arm Strength',
+const isArm = (ex: string) =>
+    /curl|pressdown|extension|skull|french|tricep|bicep|close-grip-bench/.test(ex);
+
+const VOLUME: DaySpec = {
+    name: 'Volume + Legs',
     dayOfWeek: 1,
     slots: [
-        {
-            ex: 'close-grip-bench-press',
-            sets: 5,
-            reps: '4-6',
-            restSeconds: 210,
-            progression: { type: 'double', increment: 2.5 },
-        },
-        {
-            ex: 'standing-straight-bar-curl',
-            sets: 5,
-            reps: '4-6',
-            restSeconds: 180,
-            progression: { type: 'double', increment: 2.5 },
-            notes: 'Heavy elbow flexion. Strict enough that the load is doing the work, not the hips.',
-        },
-        { ex: 'flat-dumbbell-press', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'hammer-upper-row', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
-    ],
-};
-
-const BRACHIALIS_AND_LEGS: DaySpec = {
-    name: 'Brachialis + Legs',
-    dayOfWeek: 2,
-    slots: [
+        { ex: 'close-grip-bench-press', sets: 4, reps: '6-10', restSeconds: 180, progression: { type: 'double', increment: 2.5 } },
+        { ex: 'rope-hammer-curl', sets: 4, reps: '8-12', restSeconds: 75 },
         { ex: 'reverse-curl', sets: 3, reps: '8-12', restSeconds: 75 },
-        { ex: 'dumbbell-hammer-curl', sets: 3, reps: '10-15', restSeconds: 75 },
-        { ex: 'cable-triceps-extension', sets: 3, reps: '10-15', restSeconds: 75, notes: 'Overhead. Long head under stretch.' },
-        { ex: 'rope-pressdown', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'rope-pressdown', sets: 2, reps: '12-20', restSeconds: 60 },
         { ex: 'hack-squat', sets: 3, reps: '8-12', restSeconds: 150 },
-        { ex: 'hip-supported-db-deadlift', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'standing-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'hip-supported-db-deadlift', sets: 2, reps: '8-12', restSeconds: 120 },
     ],
 };
 
-const LENGTHENED_ARMS: DaySpec = {
-    name: 'Lengthened Arms + Torso',
-    dayOfWeek: 4,
+const LENGTHENED: DaySpec = {
+    name: 'Lengthened',
+    dayOfWeek: 3,
     slots: [
-        { ex: 'bayesian-cable-curl', sets: 3, reps: '8-12', restSeconds: 75, notes: 'Lengthened lead — arm behind the torso.' },
+        { ex: 'bayesian-cable-curl', sets: 4, reps: '8-12', restSeconds: 75, notes: 'Lengthened lead — arm behind the torso.' },
+        { ex: 'rolling-dumbbell-tricep-extension', sets: 4, reps: '10-15', restSeconds: 75 },
         { ex: '30-incline-lying-dumbbell-curl', sets: 3, reps: '12-15', restSeconds: 60 },
-        { ex: 'cable-triceps-extension', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'french-press', sets: 3, reps: '10-15', restSeconds: 75 },
-        { ex: 'incline-barbell-bench-press', sets: 3, reps: '8-12', restSeconds: 120 },
-        { ex: 'lat-pulldown', sets: 3, reps: '8-12', restSeconds: 105 },
-        { ex: 'cable-lateral-raise', sets: 3, reps: '15-20', restSeconds: 60 },
+        { ex: 'french-press', sets: 2, reps: '10-15', restSeconds: 75 },
+        { ex: 'bench-supported-single-arm-cable-pulldown', sets: 3, reps: '8-12', restSeconds: 105 },
+        { ex: 'pec-deck', sets: 2, reps: '12-15', restSeconds: 75 },
+        { ex: 'behind-the-back-cable-lateral-raise', sets: 2, reps: '15-20', restSeconds: 60 },
     ],
 };
 
-const ARM_DENSITY: DaySpec = {
-    name: 'Arm Density + Legs',
+const PUMP: DaySpec = {
+    name: 'Pump',
     dayOfWeek: 5,
     slots: [
-        { ex: 'standing-straight-bar-curl', sets: 4, reps: '8-12', restSeconds: 30, pair: 'A1' },
+        { ex: 'standing-straight-bar-curl', sets: 4, reps: '8-12', restSeconds: 30, pair: 'A1', progression: { type: 'double', increment: 2.5 } },
         { ex: 'lying-dumbbell-skullcrusher', sets: 4, reps: '12-15', restSeconds: 90, pair: 'A2' },
-        { ex: 'rope-hammer-curl', sets: 3, reps: '12-20', restSeconds: 30, pair: 'B1' },
-        { ex: 'rope-pressdown', sets: 3, reps: '12-20', restSeconds: 90, pair: 'B2' },
+        { ex: 'machine-curl', sets: 3, reps: '10-15', restSeconds: 30, pair: 'B1' },
+        { ex: 'triangle-pushdown', sets: 2, reps: '12-20', restSeconds: 90, pair: 'B2' },
         { ex: 'heel-elevated-goblet-squat', sets: 3, reps: '10-15', restSeconds: 90 },
-        { ex: 'seated-ham-curl', sets: 3, reps: '10-15', restSeconds: 90 },
-        { ex: 'standing-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
         { ex: 'cable-crunch', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'seated-ham-curl', sets: 2, reps: '10-15', restSeconds: 90 },
     ],
 };
+
+const NUCLEAR: DaySpec = {
+    name: 'Go Nuclear (optional)',
+    dayOfWeek: 6,
+    slots: [
+        { ex: 'dip', sets: 2, reps: '5', restSeconds: 0, optional: true },
+        { ex: 'rolling-dumbbell-tricep-extension', sets: 2, reps: '10', restSeconds: 0, optional: true },
+        { ex: 'banded-ezbar-bar-skullcrushers', sets: 2, reps: '15', restSeconds: 90, optional: true },
+        { ex: '30-incline-lying-dumbbell-curl', sets: 2, reps: '12-15', restSeconds: 75, optional: true },
+        { ex: '30-smith-incline-bench-press', sets: 3, reps: '8-12', restSeconds: 120, optional: true },
+        { ex: 'hammer-upper-row', sets: 3, reps: '8-12', restSeconds: 120, optional: true },
+        { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, optional: true },
+    ],
+};
+
+const nuclearGiantSet = (day: WorkoutDay): WorkoutDay => {
+    if (!day.dayName.includes('Go Nuclear')) return day;
+    const rest = day.exercises.filter(exercise =>
+        exercise.exerciseId !== 'dip'
+        && exercise.exerciseId !== 'rolling-dumbbell-tricep-extension'
+        && exercise.exerciseId !== 'banded-ezbar-bar-skullcrushers');
+    return {
+        ...day,
+        exercises: [
+            { ...tricepGiantSet('arms-race-nuclear-tri', 2, 'taper'), optional: true },
+            ...rest,
+        ],
+    };
+};
+
+/**
+ * Only the optional fourth session collapses the incline curl into one extended
+ * myo-rep set. The Lengthened day runs the same movement as three straight sets
+ * and is where the nuclear load is read from, so matching on exercise id alone
+ * flattened it to a single set too.
+ */
+const bicepsGiantSet = (day: WorkoutDay): WorkoutDay => ({
+    ...day,
+    exercises: day.exercises.map(exercise => {
+        if (!day.dayName?.startsWith('Go Nuclear')) return exercise;
+        if (exercise.exerciseId !== '30-incline-lying-dumbbell-curl') return exercise;
+        return {
+            ...exercise,
+            sets: 1,
+            target: { ...exercise.target, type: 'range' as const, reps: '30-40' },
+            notes: 'One extended myo-rep set. 30–40 total reps, then 3–4 cheat eccentrics. Load from the Lengthened-day incline curl.',
+            prescription: {
+                ...exercise.prescription,
+                technique: { kind: 'myo-reps', miniSets: 4, miniReps: '5-8', restBreaths: 5 },
+            },
+        };
+    }),
+});
 
 export const ARMS_RACE_CONFIG = definePlan({
     id: 'arms-race',
     name: 'Arms Race',
     weeks: 8,
     defaultTempo: '20X0',
-    days: [ARM_STRENGTH, BRACHIALIS_AND_LEGS, LENGTHENED_ARMS, ARM_DENSITY],
+    days: [VOLUME, LENGTHENED, PUMP, NUCLEAR],
+    session: { kind: 'rotation', rotation: { capPer7Days: 6, minHoursBetween: 36, trainingDays: 3 } },
+    schedule: { selectable: false },
     phases: [
         { name: 'Escalation', weeks: [1, 2, 3, 4] },
         {
             name: 'Proliferation',
             weeks: [5, 6, 7, 8],
-            // Density block: arm work gains a set, everything else holds.
-            transform: slot =>
-                slot.pair || slot.ex.includes('curl') || slot.ex.includes('pressdown')
+            transform: (slot: SlotSpec) =>
+                isArm(slot.ex)
                     ? { ...slot, technique: { kind: 'myo-reps', miniSets: 2, miniReps: '4-5', restBreaths: 5 } }
                     : slot,
         },
     ],
+    hooks: {
+        preprocessDay: (day, _user: UserProfile) => bicepsGiantSet(nuclearGiantSet(day)),
+    },
     ui: {
         themeClass: 'theme-arms-race',
         coverImage: '/armsrace.png',

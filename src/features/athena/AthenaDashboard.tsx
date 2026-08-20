@@ -9,7 +9,7 @@ import { effectiveAthenaMode } from '../../data/plans/athena';
 import { EXERCISE_BY_ID } from '../../data/exercises/library';
 
 const FAMILIES = {
-    squat: ['barbell-squat', 'hack-squat', 'safety-bar-squat'],
+    squat: ['barbell-squat', 'hack-squat', 'safety-bar-squat', 'leg-press'],
     hinge: ['romanian-deadlift', 'conventional-deadlift', 'sumo-deadlift'],
     bench: ['flat-barbell-bench-press', 'paused-bench-press', 'hammer-chest-press'],
     verticalPress: ['standing-barbell-military-press', 'seated-dumbbell-shoulder-press', 'shoulder-press-machine'],

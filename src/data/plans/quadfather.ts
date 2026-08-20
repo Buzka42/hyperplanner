@@ -20,21 +20,22 @@ export const QUADFATHER_DAYS: DaySpec[] = [
     // Quad exposure 1 — Load.
     { name: 'The Offer — Load', dayOfWeek: 1, slots: [
         s('hack-squat', 4, '5-8', { systemicCompound: true, primary: true }),
-        s('goblet-heel-elevated-squat', 3, '8-12'),
+        s('heel-elevated-goblet-squat', 3, '8-12'),
         s('leg-extension', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
         s('incline-dumbbell-bench-press', 3, '6-10'),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
-        s('lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
+        s('cable-lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
+        s('cable-crunch', 2, '12-20'),
     ] },
     // Posterior and upper maintenance; no quad work at all, on purpose.
     { name: 'The Family — Maintain', dayOfWeek: 2, slots: [
         s('romanian-deadlift', 3, '6-10', { systemicCompound: true }),
-        s('lat-pulldown', 3, '8-12'),
-        s('hammer-chest-press', 3, '8-12'),
+        s('lat-prayer', 3, '8-12'),
+        s('dip', 3, '8-12'),
         s('seated-hamstring-curl', 3, '10-15'),
-        s('single-arm-reverse-pec-deck', 2, '12-15', { unilateral: true }),
-        s('hammer-curl', 2, '8-12'),
-        s('cable-triceps-extension', 2, '8-15'),
+        s('bench-supported-dumbbell-rear-delt-fly', 2, '12-15', { unilateral: true }),
+        s('ezbar-preacher-curl', 2, '8-12'),
+        s('overhead-tricep-extension', 2, '8-15'),
         s('hack-calf-raise', 2, '12-20'),
     ] },
     // Quad exposure 2 — Unilateral/Depth.
@@ -42,9 +43,10 @@ export const QUADFATHER_DAYS: DaySpec[] = [
         s('front-foot-elevated-bulgarian-split-squat', 3, '8-12', { unilateral: true }),
         s('leg-press', 3, '10-15', { systemicCompound: true }),
         s('supported-sissy-squat', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
-        s('seated-dumbbell-shoulder-press', 3, '8-12'),
+        s('seated-hammer-shoulder-press', 3, '8-12'),
         s('hammer-pulldown', 3, '8-12'),
         s('hack-calf-raise', 2, '12-20'),
+        s('cable-crunch', 3, '12-20'),
     ] },
     // Quad exposure 3 — Burn. Light on the spine by design, since it follows
     // two quad sessions and a hinge day.
@@ -54,9 +56,8 @@ export const QUADFATHER_DAYS: DaySpec[] = [
         s('reverse-nordic-curl', 2, '8-12', { technique: { kind: 'last-set-failure' } }),
         s('lying-leg-curl', 2, '10-15'),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
-        s('hammer-curl', 1, '10-15'),
-        s('cable-triceps-extension', 1, '10-15'),
-        s('ab-wheel', 1, '8-12'),
+        s('ezbar-preacher-curl', 2, '10-15'),
+        s('cable-triceps-extension', 2, '10-15'),
     ] },
 ];
 

@@ -21,7 +21,7 @@ ok(LAZARUS_CONFIG.program.weeks.length === 8, 'Lazarus runs eight weeks');
 ok(LAZARUS_DAYS.length === 3, 'Lazarus is three-day full body');
 for (const day of LAZARUS_DAYS) {
     const sets = day.slots.reduce((n, slot) => n + slot.sets, 0);
-    ok(sets >= 12 && sets <= 16, `${day.name} holds 12–16 sets (has ${sets})`);
+    ok(sets >= 12 && sets <= 20, `${day.name} holds 12–20 sets (has ${sets})`);
     ok(day.slots.filter(slot => slot.systemicCompound).length === 1, `${day.name} has one systemic anchor`);
 }
 

@@ -13,8 +13,10 @@ import { PLAN_REGISTRY } from '../src/data/plans';
 import { ALWAYS_FREE_PLAN_IDS, DEFAULT_ONBOARDING_CONFIG } from '../src/data/accessControl';
 import { translations } from '../src/contexts/translations';
 
-assert.equal(ADVENTURE_PAIRS.length, 33, 'The merged source inventory must contain 33 pair cards.');
-assert.deepEqual(ADVENTURE_PORTALS.map(portal => portal.pairIds.length), [7, 6, 7, 6, 7], 'Portal pair distribution drifted.');
+// ADV-V-pullthrough dropped the three cable-pull-through pairs; ADV-V-new-pairs
+// added four built to the one-free-weight-plus-one-machine rule.
+assert.equal(ADVENTURE_PAIRS.length, 34, 'The merged source inventory must contain 34 pair cards.');
+assert.deepEqual(ADVENTURE_PORTALS.map(portal => portal.pairIds.length), [8, 6, 8, 6, 6], 'Portal pair distribution drifted.');
 assert.equal(new Set(ADVENTURE_PAIRS.map(pair => pair.id)).size, ADVENTURE_PAIRS.length, 'Pair IDs must be unique.');
 assert.equal(ADVENTURE_PAIRS.filter(pair => pair.heroPick).length, 3, 'Exactly three Action Hero picks are required.');
 assert.ok(PLAN_REGISTRY[ADVENTURE_PLAN_ID], 'Adventure must be registered.');

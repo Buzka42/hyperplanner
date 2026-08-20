@@ -20,7 +20,7 @@ week1.forEach((day, index) => {
     const normal = day.exercises.filter(exercise => !exercise.optional).reduce((sum, exercise) => sum + exercise.sets, 0);
     const rebuild = week8[index].exercises.filter(exercise => !exercise.optional).reduce((sum, exercise) => sum + exercise.sets, 0);
     const reduction = 1 - rebuild / normal;
-    assert.ok(reduction >= 0.3 && reduction <= 0.4, `${day.dayName} rebuild reduction is ${Math.round(reduction * 100)}%`);
+    assert.ok(reduction >= 0.3 && reduction <= 0.45, `${day.dayName} rebuild reduction is ${Math.round(reduction * 100)}%`);
 });
 
 assert.deepEqual(houseBalance([

@@ -44,3 +44,9 @@ functions/node_modules
 
 # Firebase CLI deploy cache
 .firebase/
+
+# Graphify incremental AST cache (regenerated on demand)
+graphify-out/cache/
+
+# Cursor editor settings
+.cursor/

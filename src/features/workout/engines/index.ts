@@ -6,3 +6,4 @@ export * from './stallLadder';
 export * from './density';
 export * from './confidence';
 export * from './swaps';
+export * from './rotation';

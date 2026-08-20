@@ -38,7 +38,7 @@ export const ATLAS_GAUNTLET_ONE: DaySpec[] = [
         s('incline-dumbbell-bench-press', 3, '6-10'),
         s('front-foot-elevated-bulgarian-split-squat', 2, '8-12', { unilateral: true }),
         s('hack-calf-raise', 2, '12-20'),
-        s('cable-triceps-extension', 1, '10-15'),
+        s('heavy-rolling-tricep-extension', 2, '10-15'),
         carry('suitcase-carry', 2, '30-40', { unilateral: true }),
     ] },
     { name: 'Atlas III — Carry the Rest', dayOfWeek: 5, slots: [
@@ -46,10 +46,10 @@ export const ATLAS_GAUNTLET_ONE: DaySpec[] = [
         s('flat-dumbbell-press', 3, '6-10'),
         s('barbell-row', 3, '6-10'),
         s('seated-hamstring-curl', 2, '10-15'),
-        s('lateral-raise', 2, '12-15'),
-        s('hammer-curl', 2, '8-12'),
-        s('cable-triceps-extension', 1, '10-15'),
-        s('hack-calf-raise', 1, '12-20'),
+        s('leaning-one-arm-lateral-raise', 2, '12-15'),
+        s('standing-straight-bar-curl', 2, '8-12'),
+        s('cable-triceps-extension', 2, '10-15'),
+        s('hack-calf-raise', 2, '12-20'),
         carry('suitcase-hold', 2, '30-45', { unilateral: true, optional: true }),
     ] },
 ];
@@ -73,7 +73,7 @@ export const ATLAS_GAUNTLET_TWO: DaySpec[] = [
         s('half-kneeling-rotational-row', 3, '8-12', { unilateral: true }),
         s('weighted-step-up', 2, '8-10', { unilateral: true }),
         s('hack-calf-raise', 2, '12-20'),
-        s('cable-triceps-extension', 1, '10-15'),
+        s('heavy-rolling-tricep-extension', 2, '10-15'),
         carry('suitcase-carry', 2, '40-50', { unilateral: true }),
     ] },
     { name: 'Atlas VI — Carry the Rest', dayOfWeek: 5, slots: [
@@ -81,10 +81,10 @@ export const ATLAS_GAUNTLET_TWO: DaySpec[] = [
         s('standing-barbell-military-press', 3, '6-10'),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
         s('lying-leg-curl', 2, '10-15'),
-        s('lateral-raise', 2, '12-15'),
-        s('hammer-curl', 2, '8-12'),
-        s('cable-triceps-extension', 1, '10-15'),
-        s('hack-calf-raise', 1, '12-20'),
+        s('leaning-one-arm-lateral-raise', 2, '12-15'),
+        s('standing-straight-bar-curl', 2, '8-12'),
+        s('cable-triceps-extension', 2, '10-15'),
+        s('hack-calf-raise', 2, '12-20'),
         s('dip', 2, '6-10'),
         carry('suitcase-hold', 2, '30-45', { unilateral: true, optional: true }),
     ] },
@@ -115,10 +115,15 @@ const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
         : undefined;
 
     const hinge = user.planPreferences?.atlas?.exerciseSelections?.hinge;
+    const front = user.planPreferences?.atlas?.exerciseSelections?.g2FrontSquat;
     return { ...source, exercises: source.exercises.map(exercise => {
         let next = exercise;
         if (hinge && APPROVED_HINGES.includes(hinge) && exercise.exerciseId === 'trap-bar-deadlift') {
             const entry = EXERCISE_BY_ID[hinge];
+            if (entry) next = { ...next, exerciseId: entry.id, name: entry.name.en };
+        }
+        if (front && exercise.exerciseId === 'front-squat') {
+            const entry = EXERCISE_BY_ID[front];
             if (entry) next = { ...next, exerciseId: entry.id, name: entry.name.en };
         }
         if (carrySwap && (exercise.exerciseId?.includes('carry') || exercise.exerciseId === 'suitcase-hold')) {

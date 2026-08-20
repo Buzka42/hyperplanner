@@ -10,6 +10,9 @@ import {
     calculateDensity,
     transferConfidence,
     rankExerciseSwaps,
+    canStartRotationSession,
+    nextDeckIndex,
+    sessionsInLastDays,
 } from '../src/features/workout/engines';
 import { EXERCISE_BY_ID } from '../src/data/exercises/library';
 
@@ -52,5 +55,12 @@ const swapCandidates = Object.values(EXERCISE_BY_ID).filter(exercise => exercise
 const swaps = rankExerciseSwaps({ source, candidates: swapCandidates, maximumSystemicCost: 3 });
 assert.ok(swaps.length > 0);
 assert.ok(swaps.every(item => item.exercise.pattern === source.pattern));
+
+assert.equal(nextDeckIndex(4, 4), 0);
+assert.equal(nextDeckIndex(5, 4), 1);
+assert.equal(sessionsInLastDays(['2026-08-18T10:00:00.000Z', '2026-08-12T10:00:00.000Z'], new Date('2026-08-19T10:00:00.000Z')), 1);
+assert.equal(canStartRotationSession({ capPer7Days: 4 }, ['2026-08-18', '2026-08-17', '2026-08-16', '2026-08-15'], new Date('2026-08-19')).allowed, false);
+assert.equal(canStartRotationSession({ capPer7Days: 6, minHoursBetween: 36 }, ['2026-08-18T10:00:00.000Z'], new Date('2026-08-19T08:00:00.000Z')).allowed, false);
+assert.equal(canStartRotationSession({ capPer7Days: 6, minHoursBetween: 36 }, ['2026-08-17T10:00:00.000Z'], new Date('2026-08-19T10:00:00.000Z')).allowed, true);
 
 console.log('Shared session engine verification passed.');

@@ -31,6 +31,7 @@ const WEIGHTED_CHIN_STRENGTH: DaySpec = {
             notes: 'Total system weight: bodyweight plus the belt. Full hang every rep.',
         },
         { ex: 'hammer-chest-press', sets: 3, reps: '8-12', restSeconds: 120 },
+        { ex: 'hammer-lower-row', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'rear-delt-fly', sets: 2, reps: '15-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
@@ -54,14 +55,14 @@ const HORIZONTAL_BACK: DaySpec = {
     name: 'Horizontal Back',
     dayOfWeek: 4,
     slots: [
-        { ex: 'hammer-upper-row', sets: 4, reps: '6-10', restSeconds: 150 },
+        { ex: 'dumbbell-seal-row', sets: 4, reps: '6-10', restSeconds: 150 },
         { ex: 'hammer-lower-row', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'incline-dumbbell-bench-press', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'standing-barbell-military-press', sets: 3, reps: '6-10', restSeconds: 150 },
         { ex: 'reverse-curl', sets: 3, reps: '10-15', restSeconds: 75 },
         // Second weekly tricep exposure; the doc's day 3 has none.
-        { ex: 'rope-pressdown', sets: 3, reps: '12-20', restSeconds: 60 },
-        { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
+        { ex: 'overhead-tricep-extension', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'bench-supported-dumbbell-rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
     ],
 };
 
@@ -72,11 +73,11 @@ const LEGS_AND_CHEST: DaySpec = {
         { ex: 'heel-elevated-goblet-squat', sets: 3, reps: '10-15', restSeconds: 90 },
         { ex: 'sissy-squat', sets: 2, reps: '12-20', restSeconds: 90, technique: { kind: 'last-set-failure' } },
         { ex: 'seated-ham-curl', sets: 3, reps: '10-15', restSeconds: 90 },
-        { ex: 'flat-dumbbell-press', sets: 3, reps: '8-12', restSeconds: 120 },
+        { ex: 'pec-deck', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'hanging-leg-raise', sets: 3, reps: '10-20', restSeconds: 60 },
         // Second weekly calf and shoulder exposure; the doc's day lists leave
         // both at one against its own two-exposure minimum.
-        { ex: 'standing-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
         { ex: 'seated-dumbbell-lateral-raise', sets: 3, reps: '12-20', restSeconds: 60 },
     ],
 };

@@ -18,9 +18,12 @@ export const calculateE1RM = (weight: number, reps: number): number => {
 
 // Accessory lists by day type
 export const RITUAL_ACCESSORIES = {
-    bench: ['Rows', 'Rear Delt Flyes', 'Tricep Extensions', 'Face Pulls'],
+    // RIT-V-row: the bench-day row defaults to chest-supported cable, with a
+    // single-arm dumbbell row as the alternative.
+    bench: ['Chest-Supported Cable Row', 'Single-Arm DB Row', 'Rear Delt Flyes', 'Tricep Extensions', 'Face Pulls'],
     squat: ['Ham Curls', 'Leg Extensions', 'Hip Thrusts', 'Calves'],
-    deadlift: ['Shrugs', 'Band Pull-Aparts', 'Ab Wheel', 'Planks']
+    // RIT-V-core: cable crunch joins the wheel and plank on the deadlift day.
+    deadlift: ['Shrugs', 'Band Pull-Aparts', 'Ab Wheel', 'Planks', 'Cable Crunch']
 };
 
 // Helper function to update 1RMs after Week 4 Ascension Test

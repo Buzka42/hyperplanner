@@ -24,22 +24,29 @@ const s = (ex: string, sets: number, reps = '8-12', quality?: Quality, options: 
 export const SLOT_QUALITY: Record<string, Quality> = {
     'barbell-squat': 'squat', 'hack-squat': 'squat', 'leg-press': 'squat',
     'romanian-deadlift': 'hinge', 'trap-bar-deadlift': 'hinge', 'seated-hamstring-curl': 'hinge', 'lying-leg-curl': 'hinge',
-    'flat-barbell-bench-press': 'push', 'incline-dumbbell-bench-press': 'push', 'seated-dumbbell-shoulder-press': 'push', 'hammer-chest-press': 'push',
+    'flat-barbell-bench-press': 'push', 'incline-dumbbell-bench-press': 'push', 'seated-dumbbell-shoulder-press': 'push',
+    'single-arm-landmine-press': 'push', 'hammer-chest-press': 'push', '30-smith-incline-bench-press': 'push',
     'lat-pulldown': 'pull', 'single-arm-hammer-row': 'pull', 'hammer-pulldown': 'pull', 'barbell-row': 'pull',
+    'pull-up': 'pull', 'bench-supported-one-arm-dumbbell-row': 'pull',
     'front-foot-elevated-bulgarian-split-squat': 'unilateral', 'single-leg-machine-hip-thrust': 'unilateral', 'weighted-step-up': 'unilateral',
-    'lateral-raise': 'hypertrophy', 'hammer-curl': 'hypertrophy', 'cable-triceps-extension': 'hypertrophy',
-    'single-arm-reverse-pec-deck': 'hypertrophy', 'leg-extension': 'hypertrophy', 'hack-calf-raise': 'hypertrophy',
+    'lateral-raise': 'hypertrophy', 'leaning-one-arm-lateral-raise': 'hypertrophy',
+    'hammer-curl': 'hypertrophy', 'standing-straight-bar-curl': 'hypertrophy',
+    'cable-triceps-extension': 'hypertrophy', 'overhead-tricep-extension': 'hypertrophy', 'heavy-rolling-tricep-extension': 'hypertrophy',
+    'single-arm-reverse-pec-deck': 'hypertrophy', 'side-lying-rear-delt-fly': 'hypertrophy',
+    'leg-extension': 'hypertrophy', 'hack-calf-raise': 'hypertrophy', 'cable-crunch': 'hypertrophy',
 };
 
 export const CHIMERA_DAYS: DaySpec[] = [
     { name: 'Chimera — Upper A', dayOfWeek: 1, slots: [
         s('flat-barbell-bench-press', 4, '5-8', 'push', { primary: true }),
-        s('single-arm-hammer-row', 4, '8-12', 'pull', { unilateral: true }),
-        s('seated-dumbbell-shoulder-press', 3, '8-12', 'push'),
-        s('lat-pulldown', 3, '8-12', 'pull'),
-        s('lateral-raise', 2, '12-15', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
-        s('hammer-curl', 2, '8-12', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
-        s('cable-triceps-extension', 2, '10-15', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
+        s('single-arm-hammer-row', 2, '8-12', 'pull', { unilateral: true }),
+        s('bench-supported-one-arm-dumbbell-row', 2, '8-12', 'pull', { unilateral: true }),
+        s('single-arm-landmine-press', 3, '8-12', 'push'),
+        s('pull-up', 3, '8-12', 'pull'),
+        s('leaning-one-arm-lateral-raise', 2, '12-15', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
+        s('standing-straight-bar-curl', 2, '8-12', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
+        s('heavy-rolling-tricep-extension', 2, '10-15', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
+        s('cable-crunch', 2, '8-12', 'hypertrophy'),
     ] },
     { name: 'Chimera — Lower A', dayOfWeek: 2, slots: [
         s('barbell-squat', 4, '5-8', 'squat', { systemicCompound: true, primary: true }),
@@ -51,12 +58,13 @@ export const CHIMERA_DAYS: DaySpec[] = [
     ] },
     { name: 'Chimera — Upper B', dayOfWeek: 4, slots: [
         s('hammer-pulldown', 4, '8-12', 'pull', { primary: true }),
-        s('incline-dumbbell-bench-press', 4, '6-10', 'push'),
+        s('incline-dumbbell-bench-press', 2, '6-10', 'push'),
+        s('30-smith-incline-bench-press', 2, '6-10', 'push'),
         s('barbell-row', 3, '6-10', 'pull'),
         s('hammer-chest-press', 3, '8-12', 'push'),
-        s('single-arm-reverse-pec-deck', 2, '12-15', 'hypertrophy', { unilateral: true, technique: { kind: 'last-set-failure' } }),
+        s('side-lying-rear-delt-fly', 2, '12-15', 'hypertrophy', { unilateral: true, technique: { kind: 'last-set-failure' } }),
         s('cable-triceps-extension', 2, '10-15', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
-        s('hammer-curl', 2, '8-12', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
+        s('standing-straight-bar-curl', 2, '8-12', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Chimera — Lower B', dayOfWeek: 5, slots: [
         s('trap-bar-deadlift', 4, '4-6', 'hinge', { systemicCompound: true, primary: true }),
@@ -154,6 +162,8 @@ const seededWeight = (base: PlanConfig): NonNullable<PlanConfig['hooks']>['calcu
 
 export const PROJECT_CHIMERA_CONFIG: PlanConfig = {
     ...base,
+    session: { kind: 'rotation', rotation: { capPer7Days: 4 } },
+    schedule: { selectable: false },
     onboarding: { ...base.onboarding, seedStats: ['squat', 'flatBench', 'conventionalDeadlift'] },
     hooks: { ...base.hooks, preprocessDay: preprocess, calculateWeight: seededWeight(base) },
     ui: { themeClass: 'theme-project-chimera', coverImage: '/projectchimera.png', navImage: '/projectchimera.png', dashboardWidgets: ['program_status', 'workout_history'] },

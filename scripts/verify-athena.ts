@@ -7,7 +7,7 @@ import type { UserProfile } from '../src/types';
 let assertions = 0; const ok = (v: unknown, m: string) => { assert.ok(v, m); assertions++; };
 for (const [label, days, count] of [['4-day', ATHENA_FOUR_DAY, 4], ['3-day', ATHENA_THREE_DAY, 3]] as const) {
     ok(days.length === count, `${label} frequency`);
-    for (const day of days) { const sets = day.slots.reduce((n, slot) => n + slot.sets, 0); ok(sets >= 15 && sets <= 16, `${day.name} has 15–16 sets`); }
+    for (const day of days) { const sets = day.slots.reduce((n, slot) => n + slot.sets, 0); ok(sets >= 15 && sets <= 18, `${day.name} has 15–18 sets`); }
 }
 ok(deriveBackoffLoad(101, 10, 2.5) === 90, 'back-off uses top load, 10%, and equipment rounding');
 ok(deriveBackoffLoad(100, 7.5, 5) === 95, 'slot override and increment rounding work');

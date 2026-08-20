@@ -12,7 +12,7 @@ import { Checkbox } from '../components/ui/checkbox';
 import { Save, CheckCircle2 } from 'lucide-react';
 import { doc, updateDoc } from 'firebase/firestore';
 import type { TrainingPreferences } from '../data/exercises/types';
-import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8 } from '../features/planSelections/options';
+import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8, NEURAL_D4_SQUATS, KOS_BENCH_JOB1, KOS_BENCH_JOB2, KOS_BENCH_JOB3, LAZARUS_SQUATS, LAZARUS_CHEST, QUADFATHER_LOAD, REDLINE_FURNACE, ATLAS_HINGES, ATLAS_FRONT } from '../features/planSelections/options';
 import { db } from '../firebase';
 import { PENCILNECK_PROGRAM } from '../data/pencilneck';
 import { BENCH_DOMINATION_PROGRAM } from '../data/program';
@@ -112,12 +112,32 @@ export const Settings: React.FC = () => {
     const [kaliPull, setKaliPull] = useState(user?.planPreferences?.kali?.exerciseSelections?.pullAnchor ?? 'assisted-pull-up');
     const [kaliWeek8, setKaliWeek8] = useState(user?.planPreferences?.kali?.exerciseSelections?.week8Intensifier ?? 'none');
     const [gravityAbs, setGravityAbs] = useState(user?.planPreferences?.['gravity-is-optional']?.exerciseSelections?.abs ?? user?.trainingPreferences?.coreRaiseId ?? 'hanging-leg-raise');
+    const [neuralD4, setNeuralD4] = useState(user?.planPreferences?.['neural-overload']?.exerciseSelections?.d4Squat ?? 'front-squat');
+    const [kosJob1, setKosJob1] = useState(user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob1 ?? 'long-pause-bench-press');
+    const [kosJob2, setKosJob2] = useState(user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob2 ?? 'wide-grip-bench-press');
+    const [kosJob3, setKosJob3] = useState(user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob3 ?? 'paused-bench-press');
+    const [lazarusSquat, setLazarusSquat] = useState(user?.planPreferences?.lazarus?.exerciseSelections?.returnISquat ?? 'heel-elevated-goblet-squat');
+    const [lazarusChest, setLazarusChest] = useState(user?.planPreferences?.lazarus?.exerciseSelections?.returnIIChest ?? 'dip');
+    const [quadfatherLoad, setQuadfatherLoad] = useState(user?.planPreferences?.quadfather?.exerciseSelections?.mainLoad ?? 'hack-squat');
+    const [furnaceAnchor, setFurnaceAnchor] = useState(user?.planPreferences?.redline?.exerciseSelections?.furnaceAnchor ?? 'paused-bench-press');
+    const [atlasHinge, setAtlasHinge] = useState(user?.planPreferences?.atlas?.exerciseSelections?.hinge ?? 'trap-bar-deadlift');
+    const [atlasFront, setAtlasFront] = useState(user?.planPreferences?.atlas?.exerciseSelections?.g2FrontSquat ?? 'front-squat');
     useEffect(() => {
         if (user?.trainingPreferences) setTrainingPrefs(user.trainingPreferences);
         if (user?.planPreferences?.kali?.exerciseSelections?.pullAnchor) setKaliPull(user.planPreferences.kali.exerciseSelections.pullAnchor);
         if (user?.planPreferences?.kali?.exerciseSelections?.week8Intensifier) setKaliWeek8(user.planPreferences.kali.exerciseSelections.week8Intensifier);
         const abs = user?.planPreferences?.['gravity-is-optional']?.exerciseSelections?.abs ?? user?.trainingPreferences?.coreRaiseId;
         if (abs) setGravityAbs(abs);
+        if (user?.planPreferences?.['neural-overload']?.exerciseSelections?.d4Squat) setNeuralD4(user.planPreferences['neural-overload'].exerciseSelections.d4Squat);
+        if (user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob1) setKosJob1(user.planPreferences['king-of-the-squat'].exerciseSelections.benchJob1);
+        if (user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob2) setKosJob2(user.planPreferences['king-of-the-squat'].exerciseSelections.benchJob2);
+        if (user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob3) setKosJob3(user.planPreferences['king-of-the-squat'].exerciseSelections.benchJob3);
+        if (user?.planPreferences?.lazarus?.exerciseSelections?.returnISquat) setLazarusSquat(user.planPreferences.lazarus.exerciseSelections.returnISquat);
+        if (user?.planPreferences?.lazarus?.exerciseSelections?.returnIIChest) setLazarusChest(user.planPreferences.lazarus.exerciseSelections.returnIIChest);
+        if (user?.planPreferences?.quadfather?.exerciseSelections?.mainLoad) setQuadfatherLoad(user.planPreferences.quadfather.exerciseSelections.mainLoad);
+        if (user?.planPreferences?.redline?.exerciseSelections?.furnaceAnchor) setFurnaceAnchor(user.planPreferences.redline.exerciseSelections.furnaceAnchor);
+        if (user?.planPreferences?.atlas?.exerciseSelections?.hinge) setAtlasHinge(user.planPreferences.atlas.exerciseSelections.hinge);
+        if (user?.planPreferences?.atlas?.exerciseSelections?.g2FrontSquat) setAtlasFront(user.planPreferences.atlas.exerciseSelections.g2FrontSquat);
     }, [user?.trainingPreferences, user?.planPreferences]);
 
     const handleSave = async () => {
@@ -180,6 +200,94 @@ export const Settings: React.FC = () => {
                         scheduleMode: user.planPreferences?.['gravity-is-optional']?.scheduleMode ?? '4day',
                         updatedAt: now,
                         exerciseSelections: { abs: gravityAbs },
+                    },
+                };
+            }
+            if (user.programId === 'neural-overload') {
+                const now = new Date().toISOString();
+                updates.planPreferences = {
+                    ...(user.planPreferences ?? {}),
+                    'neural-overload': {
+                        scheduleMode: user.planPreferences?.['neural-overload']?.scheduleMode ?? '4day',
+                        updatedAt: now,
+                        exerciseSelections: {
+                            ...(user.planPreferences?.['neural-overload']?.exerciseSelections ?? {}),
+                            d4Squat: neuralD4,
+                        },
+                    },
+                };
+            }
+            if (user.programId === 'king-of-the-squat') {
+                const now = new Date().toISOString();
+                updates.planPreferences = {
+                    ...(user.planPreferences ?? {}),
+                    'king-of-the-squat': {
+                        scheduleMode: user.planPreferences?.['king-of-the-squat']?.scheduleMode ?? '4day',
+                        updatedAt: now,
+                        exerciseSelections: {
+                            ...(user.planPreferences?.['king-of-the-squat']?.exerciseSelections ?? {}),
+                            benchJob1: kosJob1,
+                            benchJob2: kosJob2,
+                            benchJob3: kosJob3,
+                        },
+                    },
+                };
+            }
+            if (user.programId === 'lazarus') {
+                const now = new Date().toISOString();
+                updates.planPreferences = {
+                    ...(user.planPreferences ?? {}),
+                    lazarus: {
+                        scheduleMode: user.planPreferences?.lazarus?.scheduleMode ?? '4day',
+                        updatedAt: now,
+                        exerciseSelections: {
+                            ...(user.planPreferences?.lazarus?.exerciseSelections ?? {}),
+                            returnISquat: lazarusSquat,
+                            returnIIChest: lazarusChest,
+                        },
+                    },
+                };
+            }
+            if (user.programId === 'quadfather') {
+                const now = new Date().toISOString();
+                updates.planPreferences = {
+                    ...(user.planPreferences ?? {}),
+                    quadfather: {
+                        scheduleMode: user.planPreferences?.quadfather?.scheduleMode ?? '4day',
+                        updatedAt: now,
+                        exerciseSelections: {
+                            ...(user.planPreferences?.quadfather?.exerciseSelections ?? {}),
+                            mainLoad: quadfatherLoad,
+                        },
+                    },
+                };
+            }
+            if (user.programId === 'redline') {
+                const now = new Date().toISOString();
+                updates.planPreferences = {
+                    ...(user.planPreferences ?? {}),
+                    redline: {
+                        scheduleMode: user.planPreferences?.redline?.scheduleMode ?? '4day',
+                        updatedAt: now,
+                        exerciseSelections: {
+                            ...(user.planPreferences?.redline?.exerciseSelections ?? {}),
+                            furnaceAnchor,
+                        },
+                    },
+                };
+            }
+            if (user.programId === 'atlas') {
+                const now = new Date().toISOString();
+                updates.planPreferences = {
+                    ...(user.planPreferences ?? {}),
+                    atlas: {
+                        scheduleMode: user.planPreferences?.atlas?.scheduleMode ?? '4day',
+                        updatedAt: now,
+                        exerciseSelections: {
+                            ...(user.planPreferences?.atlas?.exerciseSelections ?? {}),
+                            hinge: atlasHinge,
+                            g2FrontSquat: atlasFront,
+                        },
                     },
                 };
             }
@@ -850,6 +958,134 @@ export const Settings: React.FC = () => {
                         <CardTitle>{t('settings.programSettings')}</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
+                        {user?.programId === 'neural-overload' && (
+                            <div className="space-y-2">
+                                <Label>Day 4 squat</Label>
+                                <RadioGroup value={neuralD4} onValueChange={v => { setNeuralD4(v); setSaved(false); }}>
+                                    {NEURAL_D4_SQUATS.map(option => (
+                                        <div key={option.id} className="flex items-center space-x-2">
+                                            <RadioGroupItem value={option.id} id={`set-neural-${option.id}`} />
+                                            <Label htmlFor={`set-neural-${option.id}`} className="font-normal">{option.label}</Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            </div>
+                        )}
+                        {user?.programId === 'king-of-the-squat' && (
+                            <>
+                                <div className="space-y-2">
+                                    <Label>Bench job 1 — technique</Label>
+                                    <RadioGroup value={kosJob1} onValueChange={v => { setKosJob1(v); setSaved(false); }}>
+                                        {KOS_BENCH_JOB1.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`set-kos1-${option.id}`} />
+                                                <Label htmlFor={`set-kos1-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Bench job 2 — hypertrophy</Label>
+                                    <RadioGroup value={kosJob2} onValueChange={v => { setKosJob2(v); setSaved(false); }}>
+                                        {KOS_BENCH_JOB2.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`set-kos2-${option.id}`} />
+                                                <Label htmlFor={`set-kos2-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Bench job 3 — heavy</Label>
+                                    <RadioGroup value={kosJob3} onValueChange={v => { setKosJob3(v); setSaved(false); }}>
+                                        {KOS_BENCH_JOB3.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`set-kos3-${option.id}`} />
+                                                <Label htmlFor={`set-kos3-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                            </>
+                        )}
+                        {user?.programId === 'lazarus' && (
+                            <>
+                                <div className="space-y-2">
+                                    <Label>Return I squat</Label>
+                                    <RadioGroup value={lazarusSquat} onValueChange={v => { setLazarusSquat(v); setSaved(false); }}>
+                                        {LAZARUS_SQUATS.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`set-laz-sq-${option.id}`} />
+                                                <Label htmlFor={`set-laz-sq-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Return II chest</Label>
+                                    <RadioGroup value={lazarusChest} onValueChange={v => { setLazarusChest(v); setSaved(false); }}>
+                                        {LAZARUS_CHEST.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`set-laz-ch-${option.id}`} />
+                                                <Label htmlFor={`set-laz-ch-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                            </>
+                        )}
+                        {user?.programId === 'quadfather' && (
+                            <div className="space-y-2">
+                                <Label>Main load</Label>
+                                <RadioGroup value={quadfatherLoad} onValueChange={v => { setQuadfatherLoad(v); setSaved(false); }}>
+                                    {QUADFATHER_LOAD.map(option => (
+                                        <div key={option.id} className="flex items-center space-x-2">
+                                            <RadioGroupItem value={option.id} id={`set-qf-${option.id}`} />
+                                            <Label htmlFor={`set-qf-${option.id}`} className="font-normal">{option.label}</Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            </div>
+                        )}
+                        {user?.programId === 'redline' && (
+                            <div className="space-y-2">
+                                <Label>Furnace anchor</Label>
+                                <RadioGroup value={furnaceAnchor} onValueChange={v => { setFurnaceAnchor(v); setSaved(false); }}>
+                                    {REDLINE_FURNACE.map(option => (
+                                        <div key={option.id} className="flex items-center space-x-2">
+                                            <RadioGroupItem value={option.id} id={`set-rl-${option.id}`} />
+                                            <Label htmlFor={`set-rl-${option.id}`} className="font-normal">{option.label}</Label>
+                                        </div>
+                                    ))}
+                                </RadioGroup>
+                            </div>
+                        )}
+                        {user?.programId === 'atlas' && (
+                            <>
+                                <div className="space-y-2">
+                                    <Label>Hinge</Label>
+                                    <RadioGroup value={atlasHinge} onValueChange={v => { setAtlasHinge(v); setSaved(false); }}>
+                                        {ATLAS_HINGES.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`set-at-h-${option.id}`} />
+                                                <Label htmlFor={`set-at-h-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Gauntlet 2 squat</Label>
+                                    <RadioGroup value={atlasFront} onValueChange={v => { setAtlasFront(v); setSaved(false); }}>
+                                        {ATLAS_FRONT.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`set-at-f-${option.id}`} />
+                                                <Label htmlFor={`set-at-f-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                            </>
+                        )}
                         {user?.programId === 'kali' && (
                             <>
                                 <div className="space-y-2">

@@ -36,6 +36,8 @@ export interface PortfolioEntry {
     notForYouIf: string[];
     /** Plans worth considering after finishing this one. */
     followUps: string[];
+    /** Omit from onboarding and the plan finder. The registry row stays. */
+    hiddenFromCatalogue?: boolean;
 }
 
 export const PORTFOLIO: PortfolioEntry[] = [
@@ -48,7 +50,7 @@ export const PORTFOLIO: PortfolioEntry[] = [
         followUps: ['trinary', 'ritual-of-strength', 'neural-overload'],
     },
     {
-        id: 'pencilneck-eradication', goal: ['hypertrophy'], experience: ['beginner', 'intermediate'],
+        id: 'pencilneck-eradication', goal: ['hypertrophy'], experience: ['intermediate'],
         frequency: [4], weeks: 8, equipment: ['full-gym'], adaptability: 'fixed', fatigue: 2,
         signatureMechanic: 'Classic bodybuilding split run in repeatable eight-week cycles.',
         prerequisites: [],
@@ -89,10 +91,10 @@ export const PORTFOLIO: PortfolioEntry[] = [
     },
     {
         id: 'ritual-of-strength', goal: ['strength'], experience: ['intermediate', 'advanced'],
-        frequency: [5, 6], weeks: 19, equipment: ['barbell', 'full-gym'], adaptability: 'responsive', fatigue: 4,
+        frequency: [3, 4], weeks: 19, equipment: ['barbell', 'full-gym'], adaptability: 'responsive', fatigue: 4,
         signatureMechanic: 'High-frequency powerlifting: the competition lifts most days, autoregulated by feel.',
-        prerequisites: ['Solid technique under fatigue', 'Time for five or six sessions a week'],
-        notForYouIf: ['You train three days a week', 'You need long recovery between heavy sessions'],
+        prerequisites: ['Solid technique under fatigue', 'Time for three sessions a week — four if you add the optional day'],
+        notForYouIf: ['You train two days a week', 'You need long recovery between heavy sessions'],
         followUps: ['trinary', 'blackout', 'oracle'],
     },
     {
@@ -133,7 +135,7 @@ export const PORTFOLIO: PortfolioEntry[] = [
         signatureMechanic: 'Sustained high-rep suffering with the rest periods as the prescription.',
         prerequisites: ['A base of general fitness'],
         notForYouIf: ['You are trying to add maximal strength', 'You dislike training near failure'],
-        followUps: ['redline', 'iron-clock', 'event-horizon'],
+        followUps: ['redline', 'event-horizon'],
     },
     {
         id: 'immaculate-restructure', goal: ['hypertrophy'], experience: ['intermediate'],
@@ -161,8 +163,8 @@ export const PORTFOLIO: PortfolioEntry[] = [
     },
     {
         id: 'arms-race', goal: ['specialisation', 'hypertrophy'], experience: ['intermediate'],
-        frequency: [4], weeks: 8, equipment: ['full-gym'], adaptability: 'fixed', fatigue: 2,
-        signatureMechanic: 'Arms four times a week at a volume the rest of the plan is built to allow.',
+        frequency: [3, 4], weeks: 8, equipment: ['full-gym'], adaptability: 'fixed', fatigue: 2,
+        signatureMechanic: 'A three-session rotation run every other day, with an optional fourth go-nuclear session of giant sets.',
         prerequisites: [],
         notForYouIf: ['Your compounds are the thing that needs work'],
         followUps: ['pencilneck-eradication', 'monolith', 'cathedral'],
@@ -178,7 +180,7 @@ export const PORTFOLIO: PortfolioEntry[] = [
     {
         id: 'neural-overload', goal: ['strength', 'hypertrophy'], experience: ['advanced'],
         frequency: [4], weeks: 9, equipment: ['barbell', 'full-gym'], adaptability: 'fixed', fatigue: 4,
-        signatureMechanic: 'The 1-6 method: a heavy single potentiating a set of six, twice over.',
+        signatureMechanic: 'The 1-6 method: a heavy single potentiating a set of six, twice over. Day 4’s squat is a picker — front, hack, stripper or safety-bar.',
         prerequisites: ['Confident singles', 'A training age past the beginner jumps'],
         notForYouIf: ['You are uncomfortable taking heavy singles alone'],
         followUps: ['trinary', 'blackout', 'oracle'],
@@ -193,9 +195,9 @@ export const PORTFOLIO: PortfolioEntry[] = [
     },
     {
         id: 'house-of-iron', goal: ['general', 'hypertrophy'], experience: ['beginner', 'intermediate'],
-        frequency: [2, 3, 4], weeks: 8, equipment: ['minimal'], adaptability: 'responsive', fatigue: 2,
+        frequency: [2, 3, 4], weeks: 8, equipment: ['minimal'], adaptability: 'responsive', fatigue: 3,
         signatureMechanic: 'One dumbbell or kettlebell made to last through authored difficulty ladders instead of more load.',
-        prerequisites: ['At least one adjustable or moderately heavy implement'],
+        prerequisites: ['At least one adjustable or moderately heavy implement — and the ability to hold a solid position under load, because every movement here is unilateral or unsupported with no machine to fall back on'],
         notForYouIf: ['You have a full gym and want to use it'],
         followUps: ['the-minimum', '30-minute-adventure', 'skeleton-to-threat'],
     },
@@ -208,9 +210,9 @@ export const PORTFOLIO: PortfolioEntry[] = [
         followUps: ['skeleton-to-threat', 'immaculate-restructure'],
     },
     {
-        id: 'venus-rising', goal: ['hypertrophy', 'specialisation'], experience: ['beginner', 'intermediate'],
+        id: 'venus-rising', goal: ['hypertrophy', 'general'], experience: ['beginner', 'intermediate'],
         frequency: [3, 4], weeks: 12, equipment: ['full-gym'], adaptability: 'fixed', fatigue: 2,
-        signatureMechanic: 'Physique priorities you choose once, held inside a hard weekly set cap.',
+        signatureMechanic: 'A first structured plan — lower-body led, machine and cable led, with the priorities you pick once held inside a weekly set cap.',
         prerequisites: [],
         notForYouIf: ['You want a strength-first block'],
         followUps: ['kali', 'peachy-glute-plan', 'event-horizon'],
@@ -237,7 +239,7 @@ export const PORTFOLIO: PortfolioEntry[] = [
         signatureMechanic: 'Forty-to-fifty minute sessions: one heavy anchor, paired burn work, timed finishers.',
         prerequisites: ['A base of general fitness'],
         notForYouIf: ['You want long unhurried sessions', 'Your gym is too crowded to hold two stations'],
-        followUps: ['iron-clock', 'kali', 'the-minimum'],
+        followUps: ['kali', 'the-minimum'],
     },
     {
         id: 'iron-clock', goal: ['conditioning', 'hypertrophy'], experience: ['intermediate'],
@@ -246,6 +248,7 @@ export const PORTFOLIO: PortfolioEntry[] = [
         prerequisites: ['Willingness to work against a clock'],
         notForYouIf: ['You want maximal strength this block', 'You cannot hold two stations at once'],
         followUps: ['redline', 'atlas', 'project-chimera'],
+        hiddenFromCatalogue: true,
     },
     {
         id: 'the-minimum', goal: ['general', 'hypertrophy'], experience: ['beginner', 'intermediate'],
@@ -280,8 +283,8 @@ export const PORTFOLIO: PortfolioEntry[] = [
         followUps: ['bench-domination', 'monolith', 'arms-race'],
     },
     {
-        id: 'blackout', goal: ['strength', 'hypertrophy'], experience: ['advanced'],
-        frequency: [3], weeks: 8, equipment: ['full-gym'], adaptability: 'responsive', fatigue: 3,
+        id: 'blackout', goal: ['strength', 'hypertrophy'], experience: ['intermediate'],
+        frequency: [3], weeks: 8, equipment: ['full-gym'], adaptability: 'responsive', fatigue: 2,
         signatureMechanic: 'One work set per movement, and a back-off you have to earn with a clean one.',
         prerequisites: ['Years of training', 'Honest self-assessment of set quality'],
         notForYouIf: ['You are still learning what a hard set feels like', 'You need volume to feel like you trained'],
@@ -289,8 +292,8 @@ export const PORTFOLIO: PortfolioEntry[] = [
     },
     {
         id: 'monolith', goal: ['hypertrophy'], experience: ['beginner', 'intermediate'],
-        frequency: [4], weeks: 10, equipment: ['machines', 'full-gym'], adaptability: 'fixed', fatigue: 2,
-        signatureMechanic: 'Machine-dominant volume that keeps systemic cost low: effort first, techniques much later.',
+        frequency: [3], weeks: 10, equipment: ['machines', 'full-gym'], adaptability: 'fixed', fatigue: 2,
+        signatureMechanic: 'Three machine-house days — Upper, Lower, Full — that keep systemic cost low: effort first, techniques much later.',
         prerequisites: ['A gym with a reasonable machine inventory'],
         notForYouIf: ['You want to get better at barbell lifts'],
         followUps: ['event-horizon', 'project-chimera', 'cathedral'],
@@ -301,7 +304,7 @@ export const PORTFOLIO: PortfolioEntry[] = [
         signatureMechanic: 'Two five-week gauntlets, with carries trained as a lift and scored as time × load.',
         prerequisites: ['Trap bar or a hinge you can load', 'Somewhere you can actually walk with weight'],
         notForYouIf: ['Your gym has no space for carries', 'You want isolation-led hypertrophy'],
-        followUps: ['trinary', 'iron-clock', 'pain-and-glory'],
+        followUps: ['trinary', 'pain-and-glory'],
     },
     {
         id: 'event-horizon', goal: ['hypertrophy'], experience: ['intermediate', 'advanced'],

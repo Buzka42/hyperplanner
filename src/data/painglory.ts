@@ -203,19 +203,22 @@ const createPainGloryWeeks = (): ProgramWeek[] => {
                 notes: "t:tips.hackCalfRaisesPG",
                 prescription: { technique: { kind: 'last-set-failure' } }
             },
+            // PG-V-push: chest variety comes from a paused bench on this day
+            // rather than a second incline, and Thursday's overhead press
+            // becomes rear-delt work — the two push days were identical.
             {
                 id: `pg-w${w}-d4-e4`,
-                name: "Incline DB Bench Press",
+                name: "Paused Bench Press",
                 sets: 4,
-                target: { type: "range", reps: "6-10" },
-                notes: "t:tips.inclineDBBenchPG"
+                target: { type: "range", reps: "5-8" },
+                notes: "t:tips.pausedBenchPG"
             },
             {
                 id: `pg-w${w}-d4-e5`,
-                name: "Standing Military Press",
+                name: "Machine Rear Delt Fly",
                 sets: 3,
-                target: { type: "range", reps: "6-10" },
-                notes: "t:tips.standingMilitaryPG"
+                target: { type: "range", reps: "12-20" },
+                notes: "t:tips.rearDeltPG"
             }
         ];
 
@@ -293,11 +296,11 @@ const createPainGloryWeeks = (): ProgramWeek[] => {
             }
         );
 
-        // Push Days to the week
         days.push({ dayName: "t:dayNames.pullDay", dayOfWeek: 1, exercises: pullDay1Exercises });
         days.push({ dayName: "t:dayNames.pushDay", dayOfWeek: 2, exercises: pushDay1Exercises });
         days.push({ dayName: "t:dayNames.pushDay", dayOfWeek: 4, exercises: pushDay2Exercises });
         days.push({ dayName: "t:dayNames.pullDay", dayOfWeek: 5, exercises: pullDay2Exercises });
+        days.push({ dayName: 'Volume fill (optional)', dayOfWeek: 6, exercises: [] });
 
         weeks.push({ weekNumber: w, days });
     }
@@ -338,6 +341,24 @@ export const PAIN_GLORY_CONFIG: PlanConfig = {
     },
     hooks: {
         preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {
+            if (day.dayOfWeek === 6) {
+                if (user.planPreferences?.['pain-and-glory']?.exerciseSelections?.fifthDay !== 'on') {
+                    return { ...day, exercises: [] };
+                }
+                const weekMatch = day.id?.match(/w(\d+)/) || day.exercises[0]?.id.match(/w(\d+)/);
+                const w = weekMatch ? parseInt(weekMatch[1]) : (day.weekNumber ?? 1);
+                return {
+                    ...day,
+                    exercises: [
+                        { id: `pg-w${w}-d6-e1`, name: 'Pec Deck', sets: 3, target: { type: 'range', reps: '10-15' }, optional: true },
+                        { id: `pg-w${w}-d6-e2`, name: 'Leaning Single Arm DB Lateral Raises', sets: 3, target: { type: 'range', reps: '12-20' }, optional: true },
+                        { id: `pg-w${w}-d6-e3`, name: 'Leg Extensions', sets: 3, target: { type: 'range', reps: '10-15' }, optional: true },
+                        { id: `pg-w${w}-d6-e4`, name: 'Preacher EZ-Bar Curls', sets: 2, target: { type: 'range', reps: '8-12' }, optional: true },
+                        { id: `pg-w${w}-d6-e5`, name: 'Cable Triceps Extension', sets: 2, target: { type: 'range', reps: '10-15' }, optional: true },
+                        { id: `pg-w${w}-d6-e6`, name: 'Hack Squat Calf Raises', sets: 3, target: { type: 'range', reps: '12-20' }, optional: true },
+                    ],
+                };
+            }
             const weekMatch = day.exercises[0]?.id.match(/w(\d+)/);
             const weekNum = weekMatch ? parseInt(weekMatch[1]) : 1;
 

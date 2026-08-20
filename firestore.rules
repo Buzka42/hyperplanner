@@ -19,7 +19,7 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return signedIn() && request.auth.token.admin == true;
+      return signedIn() && 'admin' in request.auth.token && request.auth.token.admin == true;
     }
 
     // The last three entries are pre-rename ids (accumulate-intensify,
@@ -29,6 +29,30 @@ service cloud.firestore {
     // once the migration has run everywhere and no old workout logs are written.
     function validPlanIds() {
       return ['bench-domination', 'pencilneck-eradication', 'skeleton-to-threat', 'peachy-glute-plan', 'pain-and-glory', 'trinary', 'ritual-of-strength', 'super-mutant', '30-minute-adventure', 'king-of-the-squat', 'gravity-is-optional', 'purgatorio', 'immaculate-restructure', 'overhead-dominion', 'hamstring-foundry', 'arms-race', 'workhorse', 'neural-overload', 'tenfold', 'house-of-iron', 'apex-predator', 'venus-rising', 'athena', 'kali', 'redline', 'iron-clock', 'the-minimum', 'lazarus', 'quadfather', 'cathedral', 'blackout', 'monolith', 'atlas', 'event-horizon', 'project-chimera', 'oracle', 'accumulate-intensify', 'the-weakest-link', 'upper-body-squat'];
+    }
+
+    // Keep in lockstep with validPlanIds().size(). Rebuilding that list just to
+    // read .size(), then running allowedPlanIds.hasOnly(validPlanIds()) against
+    // a 30+ entry inventory, exceeds Firestore's 1000-expression cap. The
+    // evaluator fails closed as permission-denied, which is T-54 / T-57 / T-64 /
+    // T-70 / T-75 / T-79: every authenticated user-doc write fails, workout
+    // logs (a cheaper rule) still save, and an Admin SDK write of the same
+    // payload succeeds because it bypasses rules. scripts/verify-profile-rules.ts
+    // checks this constant against the list length.
+    function planIdCount() {
+      return 39;
+    }
+
+    function profileKeys() {
+      return [
+        'id', 'ownerUid', 'codeword', 'stats', 'startDate', 'programId', 'allowedPlanIds', 'allowPlanSwitching',
+        'completedSessions', 'lastAmrapDate', 'benchHistory', 'squatHistory', 'selectedDays', 'exercisePreferences',
+        'benchDominationModules', 'benchDominationStatus', 'pencilneckStatus', 'skeletonStatus', 'painGloryStatus',
+        'trinaryStatus', 'ritualStatus', 'superMutantStatus', 'houseOfIronStatus', 'apexPredatorStatus', 'athenaStatus', 'kaliStatus', 'redlineStatus', 'ironClockStatus', 'minimumStatus', 'lazarusStatus', 'quadfatherStatus', 'cathedralStatus', 'blackoutStatus', 'atlasStatus', 'eventHorizonStatus', 'projectChimeraStatus', 'oracleStatus', 'programProgress', 'badges', 'gluteMeasurements',
+        'pencilneckBenchHistory', 'scheduleMode', 'kingOfTheSquatStatus',
+        'workingLoads', 'liftHistory', 'neuralOverloadStatus', 'tenfoldStatus', 'armMeasurements', 'adventureEquipment',
+        'trainingPreferences', 'exerciseSwaps', 'planPreferences', 'isTestAccount', 'pendingCalibration'
+      ];
     }
 
     function ownsUser(userId) {
@@ -144,21 +168,10 @@ service cloud.firestore {
 
     function validUserProfile(data, userId) {
       return data.keys().hasAll(['id', 'ownerUid', 'codeword', 'stats', 'startDate', 'programId', 'completedSessions', 'benchHistory', 'programProgress', 'badges']) &&
-        data.keys().hasOnly([
-          'id', 'ownerUid', 'codeword', 'stats', 'startDate', 'programId', 'allowedPlanIds', 'allowPlanSwitching',
-          'completedSessions', 'lastAmrapDate', 'benchHistory', 'squatHistory', 'selectedDays', 'exercisePreferences',
-          'benchDominationModules', 'benchDominationStatus', 'pencilneckStatus', 'skeletonStatus', 'painGloryStatus',
-          'trinaryStatus', 'ritualStatus', 'superMutantStatus', 'houseOfIronStatus', 'apexPredatorStatus', 'athenaStatus', 'kaliStatus', 'redlineStatus', 'ironClockStatus', 'minimumStatus', 'lazarusStatus', 'quadfatherStatus', 'cathedralStatus', 'blackoutStatus', 'atlasStatus', 'eventHorizonStatus', 'projectChimeraStatus', 'oracleStatus', 'programProgress', 'badges', 'gluteMeasurements',
-          'pencilneckBenchHistory', 'scheduleMode', 'kingOfTheSquatStatus',
-          // Plan-efficiency overhaul: shared load memory and the plan trees that grew their own state.
-          'workingLoads', 'liftHistory', 'neuralOverloadStatus', 'tenfoldStatus', 'armMeasurements', 'adventureEquipment',
-          // Exercise system
-          'trainingPreferences', 'exerciseSwaps', 'planPreferences', 'isTestAccount', 'pendingCalibration'
-        ]) &&
         (!('scheduleMode' in data) || data.scheduleMode in ['fixed', 'rolling']) &&
         (!('kingOfTheSquatStatus' in data) || (data.kingOfTheSquatStatus is map && data.kingOfTheSquatStatus.size() <= 4)) &&
         // One entry per plan, each a map of exerciseId -> working load.
-        (!('workingLoads' in data) || (data.workingLoads is map && data.workingLoads.size() <= validPlanIds().size())) &&
+        (!('workingLoads' in data) || (data.workingLoads is map && data.workingLoads.size() <= planIdCount())) &&
         (!('liftHistory' in data) || (data.liftHistory is map && data.liftHistory.size() <= 64)) &&
         (!('neuralOverloadStatus' in data) || (data.neuralOverloadStatus is map && data.neuralOverloadStatus.size() <= 6)) &&
         (!('tenfoldStatus' in data) || (data.tenfoldStatus is map && data.tenfoldStatus.size() <= 4)) &&
@@ -166,8 +179,8 @@ service cloud.firestore {
         (!('adventureEquipment' in data) || (data.adventureEquipment is list && data.adventureEquipment.size() <= 8)) &&
         (!('pendingCalibration' in data) || (data.pendingCalibration is list && data.pendingCalibration.size() <= 32)) &&
         (!('trainingPreferences' in data) || (data.trainingPreferences is map && data.trainingPreferences.size() <= 16)) &&
-        (!('exerciseSwaps' in data) || (data.exerciseSwaps is map && data.exerciseSwaps.size() <= validPlanIds().size())) &&
-        (!('planPreferences' in data) || (data.planPreferences is map && data.planPreferences.size() <= validPlanIds().size())) &&
+        (!('exerciseSwaps' in data) || (data.exerciseSwaps is map && data.exerciseSwaps.size() <= planIdCount())) &&
+        (!('planPreferences' in data) || (data.planPreferences is map && data.planPreferences.size() <= planIdCount())) &&
         (!('houseOfIronStatus' in data) || (data.houseOfIronStatus is map && data.houseOfIronStatus.size() <= 8)) &&
         (!('apexPredatorStatus' in data) || (data.apexPredatorStatus is map && data.apexPredatorStatus.size() <= 6)) &&
         (!('athenaStatus' in data) || (data.athenaStatus is map && data.athenaStatus.size() <= 4)) &&
@@ -194,12 +207,16 @@ service cloud.firestore {
         data.programId is string && data.programId in validPlanIds() &&
         data.completedSessions is int && data.completedSessions >= 0 && data.completedSessions <= 100000 &&
         data.benchHistory is list && data.benchHistory.size() <= 2000 &&
-        data.programProgress is map && data.programProgress.size() <= validPlanIds().size() &&
+        data.programProgress is map && data.programProgress.size() <= planIdCount() &&
         data.badges is list && data.badges.size() <= 100 &&
-        (!('allowedPlanIds' in data) || (data.allowedPlanIds is list && data.allowedPlanIds.size() <= validPlanIds().size() && data.allowedPlanIds.hasOnly(validPlanIds()))) &&
+        // Membership of allowedPlanIds in validPlanIds() is enforced on the
+        // access key, then copied through matchesIssuedAccess / userAuthorityUnchanged.
+        // Re-checking hasOnly(validPlanIds()) here is O(n×m) on a full inventory
+        // and is what blew the expression cap. programId in validPlanIds() still
+        // blocks an unknown plan from becoming the active program.
+        (!('allowedPlanIds' in data) || (data.allowedPlanIds is list && data.allowedPlanIds.size() > 0 && data.allowedPlanIds.size() <= planIdCount())) &&
         (!('allowPlanSwitching' in data) || data.allowPlanSwitching is bool) &&
         (!('selectedDays' in data) || (data.selectedDays is list && data.selectedDays.size() <= 7)) &&
-        (!('benchHistory' in data) || (data.benchHistory is list && data.benchHistory.size() <= 2000)) &&
         (!('squatHistory' in data) || (data.squatHistory is list && data.squatHistory.size() <= 2000)) &&
         (!('pencilneckBenchHistory' in data) || (data.pencilneckBenchHistory is list && data.pencilneckBenchHistory.size() <= 2000)) &&
         (!('gluteMeasurements' in data) || (data.gluteMeasurements is list && data.gluteMeasurements.size() <= 1000));
@@ -366,7 +383,9 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid && validUserProfile(request.resource.data, userId) && validSelectedProgram(request.resource.data) && matchesIssuedAccess(userId);
+      allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid &&
+        request.resource.data.keys().hasOnly(profileKeys()) &&
+        validUserProfile(request.resource.data, userId) && validSelectedProgram(request.resource.data) && matchesIssuedAccess(userId);
       // Missing docs used to fail these ownerUid checks (resource is null),
       // so getDoc threw permission-denied for both "new keyword" and
       // "owned by another device". Allow get on a missing document so the
@@ -377,10 +396,18 @@ service cloud.firestore {
         (signedIn() && resource.data.ownerUid == request.auth.uid) ||
         (signedIn() && !('ownerUid' in resource.data));
       allow list: if isAdmin();
-      allow update: if validUserProfile(request.resource.data, userId) && (
-        isAdmin() ||
-        (signedIn() && resource.data.ownerUid == request.auth.uid && userAuthorityUnchanged() && validSelectedProgram(request.resource.data)) ||
-        (signedIn() && !('ownerUid' in resource.data) && request.resource.data.ownerUid == request.auth.uid)
+      // Evaluate cheap ownership checks before validUserProfile so a stolen
+      // write never pays the full validator cost (and so a missing admin
+      // claim cannot error the whole OR). Self-claim is a single-field write
+      // and must not re-run validUserProfile — that document may predate
+      // required fields.
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(profileKeys()) && (
+        (signedIn() && !('ownerUid' in resource.data) && request.resource.data.ownerUid == request.auth.uid &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ownerUid'])) ||
+        (signedIn() && 'ownerUid' in resource.data && resource.data.ownerUid == request.auth.uid &&
+          userAuthorityUnchanged() && validSelectedProgram(request.resource.data) &&
+          validUserProfile(request.resource.data, userId)) ||
+        (isAdmin() && validUserProfile(request.resource.data, userId))
       );
       allow delete: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
 

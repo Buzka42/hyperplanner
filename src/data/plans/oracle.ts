@@ -24,12 +24,13 @@ const s = (ex: string, sets: number, reps = '6-10', options: Partial<SlotSpec> =
 export const ORACLE_DAYS: DaySpec[] = [
     { name: 'Oracle — Upper A', dayOfWeek: 1, slots: [
         s('flat-barbell-bench-press', 4, '5-8', { primary: true }),
-        s('single-arm-hammer-row', 4, '8-12', { unilateral: true }),
-        s('seated-dumbbell-shoulder-press', 3, '8-12'),
-        s('lat-pulldown', 3, '8-12'),
-        s('lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
+        s('single-arm-hammer-row', 2, '8-12', { unilateral: true }),
+        s('seated-cable-row', 2, '8-12'),
+        s('shoulder-press', 3, '8-12'),
+        s('lat-prayer', 3, '8-12'),
+        s('behind-the-back-cable-lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
         s('cable-triceps-extension', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
-        s('hammer-curl', 2, '8-12', { technique: { kind: 'last-set-failure' } }),
+        s('ezbar-preacher-curl', 2, '8-12', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Oracle — Lower A', dayOfWeek: 2, slots: [
         s('barbell-squat', 4, '5-8', { systemicCompound: true, primary: true }),
@@ -41,20 +42,21 @@ export const ORACLE_DAYS: DaySpec[] = [
     ] },
     { name: 'Oracle — Upper B', dayOfWeek: 4, slots: [
         s('incline-dumbbell-bench-press', 4, '6-10', { primary: true }),
-        s('hammer-pulldown', 4, '8-12'),
+        s('hammer-pulldown', 2, '8-12'),
+        s('bench-supported-single-arm-cable-pulldown', 2, '8-12', { unilateral: true }),
         s('hammer-chest-press', 3, '8-12'),
-        s('single-arm-reverse-pec-deck', 3, '12-15', { unilateral: true }),
-        s('lateral-raise', 2, '12-20', { technique: { kind: 'last-set-failure' } }),
-        s('rope-pressdown', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
-        s('cable-curl', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
+        s('bench-supported-dumbbell-rear-delt-fly', 3, '12-15', { unilateral: true }),
+        s('leaning-one-arm-lateral-raise', 2, '12-20', { technique: { kind: 'last-set-failure' } }),
+        s('rolling-dumbbell-tricep-extension', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
+        s('straight-bar-cable-curl', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Oracle — Lower B', dayOfWeek: 5, slots: [
-        s('hack-squat', 4, '6-10', { systemicCompound: true, primary: true }),
+        s('leg-press', 4, '6-10', { systemicCompound: true, primary: true }),
         s('lying-leg-curl', 3, '10-15'),
         s('front-foot-elevated-bulgarian-split-squat', 3, '8-12', { unilateral: true }),
         s('single-leg-machine-hip-thrust', 3, '10-15', { unilateral: true }),
         s('hack-calf-raise', 3, '12-20'),
-        s('ab-wheel', 2, '8-12'),
+        s('cable-crunch', 2, '8-12'),
     ] },
 ];
 
@@ -139,6 +141,8 @@ const seededWeight = (base: PlanConfig): NonNullable<PlanConfig['hooks']>['calcu
 
 export const ORACLE_CONFIG: PlanConfig = {
     ...base,
+    session: { kind: 'rotation', rotation: { capPer7Days: 6 } },
+    schedule: { selectable: false },
     // Oracle predicts from logged history, which it does not have in week one.
     // A max seeds the calibration weeks; the predictor takes over from there.
     onboarding: { ...base.onboarding, seedStats: ['squat', 'flatBench'] },

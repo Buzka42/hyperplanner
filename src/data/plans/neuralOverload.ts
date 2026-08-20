@@ -15,6 +15,8 @@
 
 import { definePlan } from '../planBuilder';
 import type { DaySpec, SlotSpec } from '../planBuilder';
+import { EXERCISE_BY_ID } from '../exercises/library';
+import type { UserProfile, WorkoutDay } from '../../types';
 
 /**
  * The 1-6 pattern as four slots. Expressed explicitly rather than as a
@@ -69,9 +71,10 @@ const BENCH_NEURAL: DaySpec = {
     dayOfWeek: 1,
     slots: [
         ...oneSixWave('paused-bench-press', 'pausedBench'),
-        { ex: 'hammer-upper-row', sets: 4, reps: '8-12', restSeconds: 120 },
-        { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
-        { ex: 'cable-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'barbell-row', sets: 4, reps: '8-12', restSeconds: 120 },
+        { ex: 'wide-grip-cable-row', sets: 3, reps: '8-12', restSeconds: 90 },
+        { ex: 'leaning-one-arm-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'bayesian-cable-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
@@ -83,7 +86,7 @@ const SQUAT_NEURAL: DaySpec = {
         ...oneSixWave('low-bar-squat', 'squat'),
         { ex: 'seated-ham-curl', sets: 3, reps: '8-12', restSeconds: 105 },
         { ex: 'leg-extension', sets: 3, reps: '10-15', restSeconds: 90 },
-        { ex: 'standing-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
         { ex: 'cable-crunch', sets: 3, reps: '12-20', restSeconds: 60 },
     ],
 };
@@ -104,8 +107,8 @@ const CHIN_NEURAL: DaySpec = {
         { ex: 'weighted-chin-up', sets: 1, reps: '6', restSeconds: 180, notes: 'Second back-off six — may be lighter if the single ground.' },
         { ex: 'incline-dumbbell-bench-press', sets: 4, reps: '8-12', restSeconds: 120 },
         { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
-        { ex: 'dumbbell-hammer-curl', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'rope-pressdown', sets: 3, reps: '10-15', restSeconds: 60 },
+        { ex: 'standing-straight-bar-curl', sets: 3, reps: '10-15', restSeconds: 60 },
+        { ex: 'heavy-rolling-tricep-extension', sets: 3, reps: '10-15', restSeconds: 60 },
     ],
 };
 
@@ -122,13 +125,13 @@ const LOWER_POWERBUILDING: DaySpec = {
             alternates: ['Safety Bar Squat'],
             // Section 8: use a lower-fatigue strength movement rather than
             // forcing literal 1-6 onto every lift.
-            notes: 'Straight sets, not 1-6. This day exists to build without adding neural cost.',
+            notes: 'Straight sets, not 1-6. This day exists to build without adding neural cost. Front squat is the default; hack, stripper and safety-bar are the other picker options.',
         },
-        { ex: 'hip-supported-db-deadlift', sets: 4, reps: '8-12', restSeconds: 120 },
+        { ex: 'hip-supported-db-deadlift', sets: 3, reps: '8-12', restSeconds: 120 },
         { ex: 'goblet-skater-squat', sets: 3, reps: '10-12', restSeconds: 105, notes: 'Per side.' },
         { ex: 'seated-ham-curl', sets: 3, reps: '10-15', restSeconds: 90 },
-        { ex: 'standing-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
-        { ex: 'hammer-chest-press', sets: 3, reps: '8-12', restSeconds: 105 },
+        { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'low-to-high-cable-fly', sets: 3, reps: '8-12', restSeconds: 105 },
     ],
 };
 
@@ -147,6 +150,22 @@ export const NEURAL_OVERLOAD_CONFIG = definePlan({
             transform: slot => (slot.sets >= 3 ? { ...slot, sets: slot.sets - 1 } : slot),
         },
     ],
+    hooks: {
+        preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {
+            const choice = user.planPreferences?.['neural-overload']?.exerciseSelections?.d4Squat;
+            if (!choice || choice === 'front-squat') return day;
+            const entry = EXERCISE_BY_ID[choice];
+            if (!entry) return day;
+            return {
+                ...day,
+                exercises: day.exercises.map(exercise =>
+                    exercise.exerciseId === 'front-squat'
+                        ? { ...exercise, exerciseId: entry.id, name: entry.name.en }
+                        : exercise
+                ),
+            };
+        },
+    },
     ui: {
         themeClass: 'theme-neural-overload',
         coverImage: '/neuraloverload.png',

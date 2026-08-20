@@ -23,7 +23,9 @@ const createPeachyWeeks = (): ProgramWeek[] => {
             { id: `py-w${w}-d3-e3`, name: "Standing Military Press", sets: 2, target: { type: "range", reps: "8-12" } },
             { id: `py-w${w}-d3-e4`, name: "Incline DB Bench Press (45°)", sets: 2, target: { type: "range", reps: "8-12" } },
             { id: `py-w${w}-d3-e5`, name: "Inverted Rows", sets: 3, target: { type: "range", reps: "8-12" } },
-            { id: `py-w${w}-d3-e6`, name: "Side-Lying Rear Delt Fly", sets: 3, target: { type: "range", reps: "12-15" } }
+            { id: `py-w${w}-d3-e6`, name: "Side-Lying Rear Delt Fly", sets: 3, target: { type: "range", reps: "12-15" } },
+            // PEA-V-core: two sessions x 2 sets, placed on the two upper days.
+            { id: `py-w${w}-d3-e7`, name: "Cable Crunch", sets: 2, target: { type: "range", reps: "10-15" } }
         ];
 
         // Friday
@@ -32,7 +34,7 @@ const createPeachyWeeks = (): ProgramWeek[] => {
             { id: `py-w${w}-d5-e2`, name: "Paused Squat", sets: 3, target: { type: "range", reps: "5-10", percentage: 0.8, percentageRef: 'squat' } },
             { id: `py-w${w}-d5-e3`, name: "Glute Ham Raise (eccentric only)", sets: 3, target: { type: "failure", reps: "Failure" } },
             { id: `py-w${w}-d5-e4`, name: "Hip Adduction", sets: 3, target: { type: "range", reps: "8-12" } },
-            { id: `py-w${w}-d5-e5`, name: "Leg Press Calf Raises", sets: 3, target: { type: "range", reps: "15-20" } },
+            { id: `py-w${w}-d5-e5`, name: "Standing Calf Raises", sets: 3, target: { type: "range", reps: "15-20" } },
             { id: `py-w${w}-d5-e6`, name: "Machine Hip Abduction", sets: 2, target: { type: "range", reps: "12-20" } }
         ];
 
@@ -43,12 +45,13 @@ const createPeachyWeeks = (): ProgramWeek[] => {
             { id: `py-w${w}-d6-e3`, name: "Deficit Push-ups", sets: 3, target: { type: "amrap", reps: "Max" } },
             { id: `py-w${w}-d6-e4`, name: "Assisted Pull-ups", sets: 2, target: { type: "amrap", reps: "Max" } },
             { id: `py-w${w}-d6-e5`, name: "Y-Raises", sets: 2, target: { type: "range", reps: "12-15" } },
-            { id: `py-w${w}-d6-e6`, name: "Lying Cable Lat Raises", sets: 3, target: { type: "range", reps: "12-15" } }
+            { id: `py-w${w}-d6-e6`, name: "Lying Cable Lat Raises", sets: 3, target: { type: "range", reps: "12-15" } },
+            { id: `py-w${w}-d6-e7`, name: "Cable Crunch", sets: 2, target: { type: "range", reps: "10-15" } }
         ];
 
         // Specific condition for Week 12 Glute Pump Finisher
         if (w === 12) {
-            d6.push({ id: `py-w${w}-d6-e7`, name: "Glute Pump Finisher", sets: 1, target: { type: "range", reps: "100" } });
+            d6.push({ id: `py-w${w}-d6-e8`, name: "Glute Pump Finisher", sets: 1, target: { type: "range", reps: "100" } });
         }
 
         days.push({ dayName: "t:dayNames.mondayGluteLegHeavy", dayOfWeek: 1, exercises: d1 });

@@ -17,11 +17,17 @@ import { houseOfIronProgression } from './houseOfIron';
 import { athenaProgression } from './athena';
 import { kingOfTheSquatProgression } from './kingOfTheSquat';
 import { genericDoubleProgression } from './genericDouble';
+import { liftHistoryProgression } from './liftHistory';
 import { neuralOverloadProgression } from './neuralOverload';
 import { tenfoldProgression } from './tenfold';
 import { atlasProgression } from './atlas';
 import { oracleProgression } from './oracle';
-import type { ProgressionHandler } from './types';
+import { lazarusProgression } from './lazarus';
+import { gravityProgression } from './gravity';
+import { quadfatherProgression } from './quadfather';
+import { redlineProgression } from './redline';
+import { eventHorizonProgression } from './eventHorizon';
+import { merge, type ProgressionHandler } from './types';
 
 export * from './types';
 export { calibrationProgression, calibrationOutcomes, type CalibrationOutcome } from './calibration';
@@ -42,7 +48,14 @@ export const PROGRESSION_HANDLERS: Record<string, ProgressionHandler> = {
     tenfold: tenfoldProgression,
     atlas: atlasProgression,
     oracle: oracleProgression,
+    lazarus: lazarusProgression,
+    'gravity-is-optional': gravityProgression,
+    quadfather: quadfatherProgression,
+    redline: redlineProgression,
+    'event-horizon': eventHorizonProgression,
 };
 
-export const progressionHandlerFor = (planId: string): ProgressionHandler | undefined =>
-    PROGRESSION_HANDLERS[planId] ?? genericDoubleProgression;
+export const progressionHandlerFor = (planId: string): ProgressionHandler => {
+    const handler = PROGRESSION_HANDLERS[planId] ?? genericDoubleProgression;
+    return ctx => merge(handler(ctx), liftHistoryProgression(ctx));
+};

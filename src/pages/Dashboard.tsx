@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { useLanguage, resolveTemplate } from '../contexts/useTranslation';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
@@ -16,6 +16,7 @@ import { AdventureDashboard } from './AdventureDashboard';
 import { ADVENTURE_PLAN_ID } from '../data/adventure';
 import { cn } from '../lib/utils';
 import { trackedLiftFor } from '../features/dashboard/trackedLift';
+import { canStartRotationSession } from '../features/workout/engines';
 import { HouseDashboard } from '../features/houseOfIron/HouseDashboard';
 import { ApexDashboard } from '../features/apexPredator/ApexDashboard';
 import { VenusDashboard } from '../features/venusRising/VenusDashboard';
@@ -23,17 +24,20 @@ import { AthenaDashboard } from '../features/athena/AthenaDashboard';
 import { FollowUps } from '../features/portfolio/FollowUps';
 import { ORDERED_PLAN_META } from '../data/planMeta';
 import { KaliDashboard } from '../features/kali/KaliDashboard';
+import { NeuralDashboard } from '../features/neuralOverload/NeuralDashboard';
+import { PlanMechanics } from '../features/dashboard/PlanMechanics';
 import { QUADFATHER_DAYS } from '../data/plans/quadfather';
 import { roleBalance } from '../features/quadfather/roles';
 import { CATHEDRAL_DAYS } from '../data/plans/cathedral';
 import { archBalance } from '../features/cathedral/arches';
 
 export const Dashboard: React.FC = () => {
-    const { user, activePlanConfig, updateUserProfile } = useUser();
+    const { user, activePlanConfig, updateUserProfile, exerciseResolver } = useUser();
     const { t, tArray, tObject } = useLanguage();
     const location = useLocation();
     const navigate = useNavigate();
     const [completedSet, setCompletedSet] = useState<Set<string>>(new Set());
+    const [sessionDates, setSessionDates] = useState<string[]>([]);
     const [lastW12Date, setLastW12Date] = useState<Date | null>(null);
     const [maxDeficitPushupReps, setMaxDeficitPushupReps] = useState<number>(0);
 
@@ -51,6 +55,7 @@ export const Dashboard: React.FC = () => {
     const isVenusRising = activePlanConfig.id === 'venus-rising';
     const isAthena = activePlanConfig.id === 'athena';
     const isKali = activePlanConfig.id === 'kali';
+    const isNeural = activePlanConfig.id === 'neural-overload';
     const [gloryCounter, setGloryCounter] = useState<number>(0);
     const [showAccessoryModal, setShowAccessoryModal] = useState(false);
 
@@ -73,10 +78,14 @@ export const Dashboard: React.FC = () => {
     const [viewWeek, setViewWeek] = useState<number>(1);
     const [display1RM, setDisplay1RM] = useState<string>("0");
 
+    const persistedPlanId = useRef(user?.programId);
+    const weekHydrated = useRef(false);
+    const weekStorageKey = user ? `dashboardViewWeek-${user.id}-${user.programId}` : '';
+
     useEffect(() => {
         if (!user) return;
 
-        const savedViewWeek = localStorage.getItem(`dashboardViewWeek-${user.id}`);
+        const savedViewWeek = localStorage.getItem(weekStorageKey);
 
         const fetchStatus = async () => {
             try {
@@ -85,6 +94,7 @@ export const Dashboard: React.FC = () => {
                 const snapshot = await getDocs(q);
 
                 const completedKeys = new Set<string>();
+                const dates: string[] = [];
                 let maxCompletedWeek = 0;
                 let logsForWeek: Record<number, number> = {};
                 let week12FinishDate: Date | null = null;
@@ -101,12 +111,13 @@ export const Dashboard: React.FC = () => {
 
                     const key = `${d.week}-${d.day}`;
                     completedKeys.add(key);
+                    if (typeof d.date === 'string') dates.push(d.date);
 
                     if (d.week > maxCompletedWeek) maxCompletedWeek = d.week;
                     logsForWeek[d.week] = (logsForWeek[d.week] || 0) + 1;
 
                     // Track Deficit Push-up PR for skeleton program
-                    if (user.programId === 'skeleton-' && d.exercises) {
+                    if (user.programId === 'skeleton-to-threat' && d.exercises) {
                         const deficitPushupExercise = d.exercises.find((ex: any) => ex.name === 'Deficit Push-ups');
                         if (deficitPushupExercise && deficitPushupExercise.setsData) {
                             deficitPushupExercise.setsData.forEach((set: any) => {
@@ -131,6 +142,7 @@ export const Dashboard: React.FC = () => {
                 }
 
                 setCompletedSet(completedKeys);
+                setSessionDates(dates);
                 setMaxDeficitPushupReps(localMaxDeficitPushupReps);
 
                 // Calculate Glory Counter for Pain & Glory (total kg lifted in deadlift variations)
@@ -175,6 +187,7 @@ export const Dashboard: React.FC = () => {
                 }
 
                 setViewWeek(targetWeek);
+                weekHydrated.current = true;
 
             } catch (e) {
                 console.error("Dashboard fetch error", e);
@@ -182,13 +195,18 @@ export const Dashboard: React.FC = () => {
         };
 
         fetchStatus();
-    }, [user, currentProgram, activePlanConfig.id]);
+    }, [user, currentProgram, activePlanConfig.id, weekStorageKey]);
 
     useEffect(() => {
-        if (user && viewWeek) {
-            localStorage.setItem(`dashboardViewWeek-${user.id}`, viewWeek.toString());
+        if (!user || !viewWeek || !weekStorageKey) return;
+        if (persistedPlanId.current !== user.programId) {
+            persistedPlanId.current = user.programId;
+            weekHydrated.current = false;
+            return;
         }
-    }, [viewWeek, user]);
+        if (!weekHydrated.current) return;
+        localStorage.setItem(weekStorageKey, viewWeek.toString());
+    }, [viewWeek, user, weekStorageKey]);
 
     useEffect(() => {
         if (!user || !activeWidgets.includes('1rm')) return;
@@ -207,6 +225,7 @@ export const Dashboard: React.FC = () => {
     if (isVenusRising) return <VenusDashboard user={user} />;
     if (isAthena) return <AthenaDashboard user={user} />;
     if (isKali) return <KaliDashboard user={user} />;
+    if (isNeural) return <NeuralDashboard user={user} />;
 
     const weekData = currentProgram.weeks.find(w => w.weekNumber === viewWeek);
 
@@ -246,13 +265,18 @@ export const Dashboard: React.FC = () => {
     }
 
     const dashboardDays = weekData?.days.map(day => activePlanConfig.hooks?.preprocessDay ? activePlanConfig.hooks.preprocessDay(day, user) : day) || [];
-    const nextTrainingDay = dashboardDays
-        .filter(day => day.exercises.length > 0)
+    const autoDeckDays = dashboardDays.filter(day => day.exercises.length > 0 && !day.exercises.every(exercise => exercise.optional));
+    const nextTrainingDay = autoDeckDays
         .sort((a, b) => a.dayOfWeek - b.dayOfWeek)
-        .find(day => !completedSet.has(`${viewWeek}-${day.dayOfWeek}`)) || dashboardDays.find(day => day.exercises.length > 0);
+        .find(day => !completedSet.has(`${viewWeek}-${day.dayOfWeek}`)) || autoDeckDays[0];
     const nextDayName = nextTrainingDay?.dayName.startsWith('t:')
         ? resolveTemplate(nextTrainingDay.dayName, t)
         : nextTrainingDay?.dayName;
+    const rotationGate = activePlanConfig.session?.kind === 'rotation' && activePlanConfig.session.rotation
+        ? canStartRotationSession(activePlanConfig.session.rotation, sessionDates)
+        : { allowed: true as const };
+    const nuclearDay = dashboardDays.find(day => day.dayName.includes('Go Nuclear'));
+    const redlineBlocked = activePlanConfig.id === 'redline' && !user.redlineStatus?.nextRecovery?.confirmed;
 
     /**
      * The greeting's copy varies by program; its structure and styling do not.
@@ -279,10 +303,10 @@ export const Dashboard: React.FC = () => {
         if (isSuperMutant) return { title: activePlanConfig.program.name, tagline: t('dashboard.superMutant.tagline') };
 
         const lead = activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.eradicateThe')
-            : activePlanConfig.id === 'skeleton-' ? t('dashboard.becomeA')
+            : activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.becomeA')
                 : t('dashboard.timeTo');
         const target = activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.weakness')
-            : activePlanConfig.id === 'skeleton-' ? t('dashboard.threat')
+            : activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.threat')
                 : t('dashboard.dominate');
         return { title: <>{lead} {target}</> };
     })();
@@ -428,11 +452,27 @@ export const Dashboard: React.FC = () => {
                             <dd>{nextTrainingDay.exercises.slice(0, 4).map(e => e.name).join(' · ')}</dd>
                         </div>
                     </dl>
-                    <Button size="lg" className="dashboard-start" onClick={() => navigate(`/app/workout/${viewWeek}/${nextTrainingDay.dayOfWeek}`)}>
+                    <Button size="lg" className="dashboard-start" disabled={!rotationGate.allowed || redlineBlocked} onClick={() => navigate(`/app/workout/${viewWeek}/${nextTrainingDay.dayOfWeek}`)}>
                         <Dumbbell className="h-5 w-5" />
                         <span>{t('dashboard.trinary.startWorkout')}</span>
                         <ChevronRight className="h-5 w-5" />
                     </Button>
+                    {!rotationGate.allowed && 'reason' in rotationGate && (
+                        <p className="text-sm text-muted-foreground">{rotationGate.reason}</p>
+                    )}
+                    {redlineBlocked && (
+                        <p className="text-sm text-muted-foreground">Confirm recovery below before starting.</p>
+                    )}
+                    {nuclearDay && (
+                        <Button
+                            variant="outline"
+                            className="mt-3"
+                            disabled={!rotationGate.allowed}
+                            onClick={() => navigate(`/app/workout/${viewWeek}/${nuclearDay.dayOfWeek}`, { state: { nuclearAckRequired: true } })}
+                        >
+                            Go Nuclear
+                        </Button>
+                    )}
                 </section>
             )}
 
@@ -640,16 +680,36 @@ export const Dashboard: React.FC = () => {
                         </Card>
                     )}
 
-                    {(activePlanConfig.id === 'workhorse' || activePlanConfig.id === 'gravity-is-optional') && (
+                    {(activePlanConfig.id === 'workhorse' || activePlanConfig.id === 'gravity-is-optional') && (() => {
+                        const bw = user.stats.bodyweightKg ?? 0;
+                        const belt = user.workingLoads?.[activePlanConfig.id]?.['weighted-chin-up']
+                            ?? user.workingLoads?.[activePlanConfig.id]?.['weighted-dip']
+                            ?? 0;
+                        const logged = user.liftHistory?.chinBelt?.at(-1)?.weight;
+                        const tsw = logged ?? (bw ? bw + belt : 0);
+                        return (
                         <Card className="col-span-2">
                             <CardHeader className="pb-2">
                                 <CardTitle className="text-sm font-medium">TSW</CardTitle>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{user.stats.bodyweightKg ? `${user.stats.bodyweightKg} kg BW` : 'Log bodyweight'}</div>
+                                <div className="text-2xl font-bold">{bw ? `${tsw} kg` : 'Log bodyweight'}</div>
                                 <p className="text-xs text-muted-foreground">Belt load + bodyweight on chins and dips.</p>
                             </CardContent>
                         </Card>
+                        );
+                    })()}
+
+                    {user && (
+                        <PlanMechanics
+                            user={user}
+                            planId={activePlanConfig.id}
+                            week={viewWeek}
+                            nextDay={nextTrainingDay}
+                            days={dashboardDays}
+                            exerciseResolver={exerciseResolver}
+                            updateUserProfile={updateUserProfile}
+                        />
                     )}
 
                     {activePlanConfig.id === 'quadfather' && (() => {

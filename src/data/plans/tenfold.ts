@@ -32,7 +32,7 @@ const CHEST_TENFOLD: DaySpec = {
         { ex: 'hammer-upper-row', sets: 2, reps: '8-12', restSeconds: 120, technique: { kind: 'last-set-failure' } },
         { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
-        { ex: 'cable-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'machine-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 
@@ -42,7 +42,7 @@ const QUAD_TENFOLD: DaySpec = {
     slots: [
         tenfold('hack-squat'),
         { ex: 'seated-ham-curl', sets: 4, reps: '8-12', restSeconds: 105 },
-        { ex: 'standing-calf-raise', sets: 4, reps: '12-20', restSeconds: 60 },
+        { ex: 'hack-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
         { ex: 'cable-crunch', sets: 3, reps: '12-20', restSeconds: 60 },
         // Second weekly chest and back exposure, so the split still satisfies
         // the two-exposure minimum around its single-muscle focus days.
@@ -57,8 +57,8 @@ const BACK_TENFOLD: DaySpec = {
         tenfold('hammer-lower-row'),
         { ex: 'incline-dumbbell-bench-press', sets: 4, reps: '8-12', restSeconds: 120 },
         { ex: 'rear-delt-fly', sets: 3, reps: '15-20', restSeconds: 60 },
-        { ex: 'dumbbell-hammer-curl', sets: 3, reps: '10-15', restSeconds: 60 },
-        { ex: 'rope-pressdown', sets: 3, reps: '10-15', restSeconds: 60 },
+        { ex: 'ezbar-preacher-curl', sets: 3, reps: '10-15', restSeconds: 60 },
+        { ex: 'french-press', sets: 3, reps: '10-15', restSeconds: 60 },
     ],
 };
 
@@ -68,12 +68,10 @@ const HAMSTRING_TENFOLD: DaySpec = {
     slots: [
         tenfold('seated-ham-curl'),
         { ex: 'heel-elevated-goblet-squat', sets: 4, reps: '10-15', restSeconds: 90 },
-        { ex: 'hip-supported-db-deadlift', sets: 3, reps: '10-15', restSeconds: 120 },
-        { ex: 'standing-calf-raise', sets: 4, reps: '12-20', restSeconds: 60 },
+        { ex: 'hack-calf-raise', sets: 2, reps: '12-20', restSeconds: 60 },
         { ex: 'ab-wheel', sets: 3, reps: '8-15', restSeconds: 60 },
-        // Second weekly back and shoulder exposure.
-        { ex: 'lat-pulldown', sets: 3, reps: '8-12', restSeconds: 105 },
-        { ex: 'seated-dumbbell-lateral-raise', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'assisted-pull-up', sets: 3, reps: '8-12', restSeconds: 105 },
+        { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60 },
     ],
 };
 

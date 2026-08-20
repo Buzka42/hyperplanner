@@ -28,8 +28,8 @@ const days: DaySpec[] = [
             { ex: 'goblet-skater-squat', sets: 3, reps: '6-12', restSeconds: 120 },
             { ex: 'single-arm-floor-press', sets: 2, reps: '10-15', restSeconds: 75 },
             { ex: 'supported-sissy-squat', sets: 2, reps: '10-20', restSeconds: 75, technique: { kind: 'last-set-failure' } },
-            { ex: 'lateral-raise', sets: 2, reps: '12-25', restSeconds: 60, notes: 'Shorten the lever if the available bell is too heavy.', technique: { kind: 'last-set-failure' } },
-            { ex: 'close-grip-push-up', sets: 1, reps: 'AMRAP', restSeconds: 75 },
+            { ex: 'leaning-one-arm-lateral-raise', sets: 2, reps: '12-25', restSeconds: 60, notes: 'Shorten the lever if the available bell is too heavy.', technique: { kind: 'last-set-failure' } },
+            { ex: 'close-grip-push-up', sets: 2, reps: 'AMRAP', restSeconds: 75 },
         ],
     },
     {
@@ -39,7 +39,7 @@ const days: DaySpec[] = [
             { ex: 'glute-bridge', sets: 3, reps: '10-20', restSeconds: 75 },
             { ex: 'dumbbell-pullover', sets: 2, reps: '12-20', restSeconds: 75 },
             { ex: 'bent-over-rear-delt-row', sets: 2, reps: '12-20', restSeconds: 60 },
-            { ex: 'hammer-curl', sets: 1, reps: '10-20', restSeconds: 60 },
+            { ex: 'hammer-curl', sets: 2, reps: '10-20', restSeconds: 60 },
         ],
     },
 ];

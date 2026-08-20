@@ -52,6 +52,7 @@ const EQUIPMENT_SATISFIES: Record<Equipment, Equipment[]> = {
  * mismatches lower the ranking; only access, schedule and equipment exclude.
  */
 export const eligible = (entry: PortfolioEntry, preferences: Preferences): boolean => {
+    if (entry.hiddenFromCatalogue) return false;
     if (preferences.availablePlanIds && !preferences.availablePlanIds.includes(entry.id)) return false;
 
     if (preferences.daysPerWeek != null) {

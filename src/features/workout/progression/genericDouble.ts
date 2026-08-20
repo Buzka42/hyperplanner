@@ -6,6 +6,8 @@
  * keyed by plan + library id when every prescribed set hits the top of the range.
  */
 
+import { EXERCISE_BY_ID } from '../../../data/exercises/library';
+import { bodyweightKgOf } from '../systemWeight';
 import { doubleProgression } from '../engines/progression';
 import { empty, workSets } from './types';
 import type { ProgressionContext, ProgressionResult } from './types';
@@ -27,8 +29,12 @@ export const genericDoubleProgression = (ctx: ProgressionContext): ProgressionRe
         const increment = exercise.prescription?.topSetBackoff?.incrementKg ?? 2.5;
         const sets = workSets(ctx.sets[exercise.id]);
         if (!sets.length) continue;
-        const current = parseFloat(sets[0]?.weight || '0');
-        if (!(current > 0)) continue;
+        const external = parseFloat(sets[0]?.weight || '0');
+        if (!(external > 0)) continue;
+        const mode = EXERCISE_BY_ID[id]?.weightMode;
+        const bodyweight = bodyweightKgOf(ctx.user) ?? 0;
+        const usesSystem = (mode === 'weighted-bodyweight' || mode === 'bodyweight') && bodyweight > 0;
+        const current = usesSystem ? bodyweight + external : external;
         const target = topOfRange(exercise.target.reps);
         if (!target) continue;
         const outcome = doubleProgression({
@@ -44,7 +50,7 @@ export const genericDoubleProgression = (ctx: ProgressionContext): ProgressionRe
                 quality: set.quality,
             })),
         });
-        planLoads[id] = outcome.nextLoadKg;
+        planLoads[id] = usesSystem ? Math.max(0, outcome.nextLoadKg - bodyweight) : outcome.nextLoadKg;
         wrote = true;
     }
 

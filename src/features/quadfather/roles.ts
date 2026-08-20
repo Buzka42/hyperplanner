@@ -19,6 +19,7 @@ export const QUAD_ROLES: Record<string, QuadRole> = {
     'barbell-squat': 'load',
     'stiletto-squat': 'load',
     'leg-press': 'load',
+    'high-bar-squat': 'load',
     'front-foot-elevated-bulgarian-split-squat': 'depth',
     'knee-over-toe-split-squat': 'depth',
     'goblet-heel-elevated-squat': 'depth',

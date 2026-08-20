@@ -212,8 +212,14 @@ const EXERCISES = {
         },
         {
             id: 'hamstrings-3',
-            name: 'Single Leg Machine Hip Thrust',
-            sets: 4,
+            name: 'Front-Foot Elevated Bulgarian Split Squat',
+            sets: 2,
+            target: { type: 'range' as const, reps: '8-12', rpe: 8 }
+        },
+        {
+            id: 'hamstrings-4',
+            name: 'Dumbbell Walking Lunge',
+            sets: 2,
             target: { type: 'range' as const, reps: '8-12', rpe: 8 }
         }
     ],
@@ -340,7 +346,12 @@ export function getMuscleContributions(exerciseId: string): Record<string, numbe
     if (id.startsWith('calves-')) return { calves: 1 };
     if (id === 'hamstrings-1') return { hamstrings: 1 };                            // seated ham curl
     if (id === 'hamstrings-2') return { hamstrings: 1, glutes: 0.5, lowerBack: 1 }; // good mornings / deficit RDLs
-    if (id === 'hamstrings-3') return { glutes: 1, hamstrings: 0.5 };               // SL machine hip thrust
+    // Both sit in the hip block, so they are attributed hip-dominant: glutes are
+    // the prime mover, quads a secondary. Attributing them quad-prime put quads
+    // on a 72h cooldown from every block C session, which permanently starved
+    // block D (quads/abductors/abs) out of the rotation.
+    if (id === 'hamstrings-3') return { glutes: 1, quads: 0.5 };                     // FFE Bulgarian
+    if (id === 'hamstrings-4') return { glutes: 1, quads: 0.5 };                     // walking lunge
     if (id === 'quads-1') return { quads: 1 };                                      // leg extensions
     if (id === 'quads-2') return { quads: 1, hamstrings: 0.5, glutes: 0.5, abductors: 0.5 }; // hack/front squat
     if (id === 'quads-3') return { abductors: 1 };                                  // hip adduction
@@ -689,7 +700,9 @@ export function generateNextWorkout(user: UserProfile): WorkoutDay | null {
             const hamstringNotes = isPastFailureWeek ? `${rirMessage}\n\n${getIntensificationTechnique('main')}` : rirMessage;
             exercises.push(...EXERCISES.hamstrings(status.hamstringExercise).map(e => ({
                 ...e,
-                sets: calculateReactiveSetsForMuscle(hamstringVolume, false, status, 'hamstrings'),
+                sets: e.id === 'hamstrings-3' || e.id === 'hamstrings-4'
+                    ? e.sets
+                    : calculateReactiveSetsForMuscle(hamstringVolume, false, status, 'hamstrings'),
                 notes: hamstringNotes,
                 target: { ...e.target, reps: mainReps }
             })));

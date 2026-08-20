@@ -8,7 +8,7 @@ import { clampProgramWeek, requestScheduleMode } from '../planLifecycle';
 import { effectiveVenusMode } from '../../data/plans/venusRising';
 import { EXERCISE_BY_ID } from '../../data/exercises/library';
 
-const PRIORITIES = ['side-glute-medius-hip-thrust', 'lateral-raise', 'assisted-pull-up', 'single-arm-hammer-row', 'leg-extension'];
+const PRIORITIES = ['machine-hip-abduction', 'leg-extension', 'pec-deck', 'side-lying-rear-delt-fly', 'hack-calf-raise'];
 
 export const VenusDashboard = ({ user }: { user: UserProfile }) => {
     const { updateUserProfile } = useUser();
@@ -19,8 +19,8 @@ export const VenusDashboard = ({ user }: { user: UserProfile }) => {
     const mode = effectiveVenusMode(user);
     const week = clampProgramWeek({ startDate: start, completedSessions: user.programProgress?.['venus-rising']?.completedSessions, sessionsPerWeek: mode === '3day' ? 3 : 4, maxWeeks: 12 });
     const current = user.planPreferences?.['venus-rising'];
-    const [first, setFirst] = useState(current?.exerciseSelections?.priority1 ?? 'lateral-raise');
-    const [second, setSecond] = useState(current?.exerciseSelections?.priority2 ?? 'side-glute-medius-hip-thrust');
+    const [first, setFirst] = useState(current?.exerciseSelections?.priority1 ?? 'leg-extension');
+    const [second, setSecond] = useState(current?.exerciseSelections?.priority2 ?? 'machine-hip-abduction');
     const [saving, setSaving] = useState(false);
     const days = mode === '3day' ? [1, 3, 5] : [1, 2, 4, 5];
 

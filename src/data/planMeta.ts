@@ -33,6 +33,8 @@ export type PlanMeta = {
     alwaysFree?: boolean;
     /** Display order in onboarding. */
     order: number;
+    /** Present in the registry but not offered to new athletes. */
+    hiddenFromCatalogue?: boolean;
 };
 
 export const PLAN_META: Record<string, PlanMeta> = {
@@ -242,7 +244,8 @@ export const PLAN_META: Record<string, PlanMeta> = {
     },
     'iron-clock': {
         id: 'iron-clock', i18nKey: 'ironClock', themeClass: 'theme-iron-clock', logo: '/ironclock.png',
-        coverBg: 'bg-[#0e0b07]', coverGradient: 'from-[#0e0b07]', order: 26
+        coverBg: 'bg-[#0e0b07]', coverGradient: 'from-[#0e0b07]', order: 26,
+        hiddenFromCatalogue: true,
     },
     'the-minimum': {
         id: 'the-minimum', i18nKey: 'theMinimum', themeClass: 'theme-the-minimum', logo: '/minimum.png',
@@ -293,6 +296,9 @@ export const PLAN_IDS = Object.values(PLAN_META)
 
 /** Plans in display order. */
 export const ORDERED_PLAN_META = Object.values(PLAN_META).sort((a, b) => a.order - b.order);
+
+/** Onboarding / finder surface — hidden plans stay in the registry for athletes already on them. */
+export const CATALOGUE_PLAN_META = ORDERED_PLAN_META.filter(meta => !meta.hiddenFromCatalogue);
 
 /**
  * Falls back to Bench Domination so a stale/unknown programId can't blank the

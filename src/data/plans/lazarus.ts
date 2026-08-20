@@ -19,31 +19,33 @@ const s = (ex: string, sets: number, reps = '8-12', options: Partial<SlotSpec> =
 
 export const LAZARUS_DAYS: DaySpec[] = [
     { name: 'Return I', dayOfWeek: 1, slots: [
-        s('hack-squat', 3, '8-12', { systemicCompound: true }),
-        s('incline-dumbbell-bench-press', 3, '8-12'),
+        s('heel-elevated-goblet-squat', 3, '8-12', { systemicCompound: true }),
+        s('30-smith-incline-bench-press', 3, '8-12'),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
         s('seated-hamstring-curl', 2, '10-15'),
-        s('lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
-        s('cable-triceps-extension', 1, '8-15'),
-        s('hack-calf-raise', 1, '12-20'),
-        s('ab-wheel', 1, '8-12'),
+        s('cable-lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
+        s('overhead-tricep-extension', 2, '8-15'),
+        s('hack-calf-raise', 2, '12-20'),
+        s('cable-crunch', 2, '8-12'),
     ] },
     { name: 'Return II', dayOfWeek: 3, slots: [
-        s('romanian-deadlift', 3, '8-12', { systemicCompound: true }),
-        s('lat-pulldown', 3, '8-12'),
-        s('hammer-chest-press', 3, '8-12'),
-        s('leg-extension', 2, '10-15'),
-        s('single-arm-reverse-pec-deck', 2, '12-15', { unilateral: true }),
+        s('hip-supported-db-deadlift', 3, '8-12', { systemicCompound: true }),
+        s('overhand-mid-grip-pulldown', 3, '8-12'),
+        s('dip', 3, '8-12'),
+        s('reverse-nordic-curl', 2, '10-15'),
+        s('rear-delt-fly', 2, '12-15'),
         s('hack-calf-raise', 2, '12-20'),
-        s('hammer-curl', 1, '8-12'),
+        s('machine-curl', 2, '8-12'),
     ] },
     { name: 'Return III', dayOfWeek: 5, slots: [
         s('leg-press', 3, '10-15', { systemicCompound: true }),
-        s('seated-dumbbell-shoulder-press', 3, '8-12'),
+        s('seated-hammer-shoulder-press', 3, '8-12'),
         s('hammer-pulldown', 3, '8-12'),
+        s('machine-press-fly-combo', 3, '8-12'),
         s('lying-leg-curl', 2, '10-15'),
-        s('hammer-curl', 1, '8-12'),
-        s('cable-triceps-extension', 1, '8-15'),
+        s('machine-curl', 2, '8-12'),
+        s('cable-triceps-extension', 2, '8-15'),
+        s('plank', 2),
     ] },
 ];
 
@@ -63,18 +65,28 @@ const weekOf = (day: WorkoutDay): number => Number(day.id?.match(/-w(\d+)-/)?.[1
 const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
     const week = weekOf(day);
     const acceleration = shouldAccelerate(user.lazarusStatus, week);
+    const choices = user.planPreferences?.lazarus?.exerciseSelections ?? {};
     return {
         ...day,
         exercises: day.exercises.map(exercise => {
-            const entry = exercise.exerciseId ? EXERCISE_BY_ID[exercise.exerciseId] : undefined;
+            let next = exercise;
+            if (exercise.exerciseId === 'heel-elevated-goblet-squat' && choices.returnISquat) {
+                const entry = EXERCISE_BY_ID[choices.returnISquat];
+                if (entry) next = { ...next, exerciseId: entry.id, name: entry.name.en };
+            }
+            if (exercise.exerciseId === 'dip' && choices.returnIIChest) {
+                const entry = EXERCISE_BY_ID[choices.returnIIChest];
+                if (entry) next = { ...next, exerciseId: entry.id, name: entry.name.en };
+            }
+            const entry = next.exerciseId ? EXERCISE_BY_ID[next.exerciseId] : undefined;
             const memory = entry && user.lazarusStatus?.memoryCurve?.[entry.id];
             const opening = memory && user.lazarusStatus?.breakMonths
                 ? openingLoad(memory, user.lazarusStatus.breakMonths)
                 : undefined;
             return {
-                ...exercise,
-                sets: weekSetCap(week, exercise.sets),
-                notes: exercise.notes ?? (acceleration.accelerate ? acceleration.reason : undefined),
+                ...next,
+                sets: weekSetCap(week, next.sets),
+                notes: next.notes ?? (acceleration.accelerate ? acceleration.reason : undefined),
                 predictedKg: opening?.openingKg,
             };
         }),

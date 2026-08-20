@@ -23,29 +23,30 @@ export const CATHEDRAL_DAYS: DaySpec[] = [
     { name: 'Nave — Press', dayOfWeek: 1, slots: [
         s('incline-dumbbell-bench-press', 4, '6-10', { systemicCompound: true, primary: true }),
         s('dip', 3, '8-12'),
+        s('low-to-high-cable-fly', 2, '12-15'),
         s('pec-deck', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
-        s('lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
-        s('cable-triceps-extension', 1, '10-15'),
+        s('lying-cable-lat-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
+        s('french-press', 2, '10-15'),
     ] },
     // Lower day: the chest gets a day off so the next exposure is not a
     // fatigue test of the triceps.
     { name: 'Crypt — Lower', dayOfWeek: 2, slots: [
-        s('hack-squat', 3, '6-10', { systemicCompound: true }),
+        s('leg-press', 3, '6-10', { systemicCompound: true }),
         s('romanian-deadlift', 3, '8-12'),
         s('seated-hamstring-curl', 3, '10-15'),
-        s('leg-extension', 2, '12-15'),
+        s('supported-sissy-squat', 2, '12-15'),
         s('hack-calf-raise', 2, '12-20'),
-        s('ab-wheel', 1, '8-12'),
+        s('cable-crunch', 2, '8-12'),
     ] },
     // Chest exposure 2 — stretch leads.
     { name: 'Transept — Stretch', dayOfWeek: 4, slots: [
-        s('cable-fly', 2, '10-15', { technique: { kind: 'partials', extraReps: '6', range: 'bottom', applyTo: 'last' } }),
-        s('30-smith-incline-bench-press', 3, '8-12'),
+        s('mid-cable-fly', 2, '10-15', { technique: { kind: 'partials', extraReps: '6', range: 'bottom', applyTo: 'last' } }),
+        s('30-smith-incline-bench-press', 4, '8-12'),
         s('cable-crossover', 2, '12-20', { technique: { kind: 'last-set-failure' } }),
         s('hammer-pulldown', 3, '8-12'),
-        s('single-arm-reverse-pec-deck', 2, '12-15', { unilateral: true }),
-        s('hammer-curl', 2, '8-12'),
+        s('side-lying-rear-delt-fly', 2, '12-15', { unilateral: true }),
+        s('ezbar-preacher-curl', 2, '8-12'),
     ] },
     // Chest exposure 3 — adduction leads; the lightest of the three on the
     // shoulder, so it can follow the other two without stacking front-delt cost.
@@ -53,22 +54,28 @@ export const CATHEDRAL_DAYS: DaySpec[] = [
         s('pec-deck', 2, '12-20', { technique: { kind: 'last-set-failure' } }),
         s('flat-dumbbell-press', 3, '8-12'),
         s('dip', 2, '8-12'),
+        s('cable-fly', 2, '12-15'),
         s('lat-pulldown', 3, '8-12'),
-        s('seated-dumbbell-shoulder-press', 2, '8-12'),
+        s('seated-hammer-shoulder-press', 2, '8-12'),
         s('hack-calf-raise', 2, '12-20'),
-        s('cable-triceps-extension', 1, '10-15'),
-        s('hammer-curl', 1, '10-15'),
+        s('cable-triceps-extension', 2, '10-15'),
+        s('ezbar-preacher-curl', 2, '10-15'),
     ] },
 ];
+
+const FLY = new Set(['low-to-high-cable-fly', 'mid-cable-fly', 'cable-fly']);
+const flyFinish = { kind: 'drop-set' as const, drops: 1, dropPercent: 20, applyTo: 'last' as const };
 
 const phases = [
     { name: 'Foundation', weeks: [1, 2, 3] },
     { name: 'Vaulting', weeks: [4, 5, 6, 7], transform: (slot: SlotSpec): SlotSpec =>
         archOf(slot.ex) === 'adduction'
             ? { ...slot, technique: { kind: 'myo-reps', miniSets: 3, miniReps: '4-5', restBreaths: 5 } }
-            : slot },
+            : FLY.has(slot.ex) ? { ...slot, technique: flyFinish } : slot },
     { name: 'Consecration', weeks: [8, 9], transform: (slot: SlotSpec): SlotSpec =>
-        archOf(slot.ex) === 'press' ? { ...slot, reps: '5-8' } : slot },
+        archOf(slot.ex) === 'press'
+            ? { ...slot, reps: '5-8' }
+            : FLY.has(slot.ex) ? { ...slot, technique: flyFinish } : slot },
     { name: 'Rest of the Stone', weeks: [10], transform: (slot: SlotSpec): SlotSpec => ({ ...slot, sets: Math.max(1, slot.sets - 1) }) },
 ];
 

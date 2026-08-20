@@ -583,8 +583,8 @@ export const translations = {
                     features: ["3 full-body days", "Six optional measured regions", "Retests in weeks 4, 8 and 12", "Optional AI video advice"]
                 },
                 venusRising: {
-                    name: "Venus Rising", description: "A 12-week physique plan for glutes, delts, back and quads.",
-                    features: ["3-day full body or 4-day upper/lower", "15–16 sets per session", "User-selected priorities", "Simple double progression"]
+                    name: "Venus Rising", description: "A 12-week first structured plan — lower-body led, machine and cable led, with the priorities you pick once held inside a weekly set cap.",
+                    features: ["3-day full body or 4-day upper/lower", "15–17 sets per session", "User-selected priorities", "Simple double progression"]
                 },
                 athena: {
                     name: "Athena", description: "A 12-week bridge into intelligent heavy training and reusable performance data.",
@@ -666,6 +666,7 @@ export const translations = {
                 howToFind: "How to find this number",
                 buildButton: "BUILD MY PROGRAM",
                 allUnknownNote: "You're calibrating every lift. Your first session of each will find your loads — expect the first week to be exploratory.",
+                bodyweightRequired: "This plan loads every lift against your bodyweight, so enter it before building your program.",
                 suggest: {
                     profile: "From your profile: {kg} kg — tap to use",
                     history: "Estimated from your logs: ~{kg} kg — tap to use"
@@ -1432,6 +1433,8 @@ export const translations = {
             hackCalfRaisesPG: "Full stretch, close to failure every set.",
             inclineDBBenchPG: "Touch biceps with inside DBs at bottom, 'reach up' with chest.",
             standingMilitaryPG: "No body english, strict full ROM.",
+            pausedBenchPG: "One-second pause on the chest, no bounce. Chest variety for the second push day.",
+            rearDeltPG: "Lead with the elbows and stop where the shoulder blades stop moving.",
             conventionalE2MOM: "E2MOM – every 2 minutes: perform 3-5 reps, rest remainder. Grip and form are priority. Aim for consistent 3-5 reps across all 6 sets.",
             conventionalDeadliftAMRAP: "AMRAP test. Go all out but maintain perfect form. This determines your peaking weights.",
             conventionalDeadliftTriple: "Heavy triple @ RPE 9.",
@@ -2073,8 +2076,8 @@ export const translations = {
                     features: ["3 dni całego ciała", "Sześć opcjonalnych mierzonych obszarów", "Ponowne testy w tygodniach 4, 8 i 12", "Opcjonalna analiza wideo AI"]
                 },
                 venusRising: {
-                    name: "Venus Rising", description: "12-tygodniowy plan sylwetkowy z naciskiem na pośladki, barki, plecy i czworogłowe.",
-                    features: ["3 dni całego ciała lub 4 dni góra/dół", "15–16 serii na sesję", "Priorytety wybierane przez użytkownika", "Prosta podwójna progresja"]
+                    name: "Venus Rising", description: "12-tygodniowy pierwszy plan strukturalny — prowadzony dolnymi partiami, maszynami i wyciągami, z priorytetami trzymanymi w tygodniowym limicie serii.",
+                    features: ["3 dni całego ciała lub 4 dni góra/dół", "15–17 serii na sesję", "Priorytety wybierane przez użytkownika", "Prosta podwójna progresja"]
                 },
                 athena: {
                     name: "Athena", description: "12-tygodniowe przejście do inteligentnego ciężkiego treningu i wspólnego profilu wyników.",
@@ -2156,6 +2159,7 @@ export const translations = {
                 howToFind: "Jak znaleźć tę liczbę",
                 buildButton: "ZBUDUJ MÓJ PROGRAM",
                 allUnknownNote: "Kalibrujesz każdy bój. Pierwszy trening każdego z nich wyznaczy ciężary — potraktuj pierwszy tydzień jako rozpoznanie.",
+                bodyweightRequired: "Ten plan liczy obciążenie względem twojej masy ciała, więc podaj ją przed zbudowaniem programu.",
                 suggest: {
                     profile: "Z twojego profilu: {kg} kg — dotknij, aby użyć",
                     history: "Oszacowane z twoich treningów: ~{kg} kg — dotknij, aby użyć"
@@ -2868,6 +2872,8 @@ export const translations = {
             hackCalfRaisesPG: "Pełne rozciągnięcie, zbliż się do upadku w każdej serii.",
             inclineDBBenchPG: "Dotknij hantlami bicepsów na dole, 'sięgaj w górę' klatką przy rozciągnięciu.",
             standingMilitaryPG: "Bez szarpania, ścisła technika, pełny ROM.",
+            pausedBenchPG: "Sekunda pauzy na klatce, bez odbicia. Urozmaicenie klatki na drugim dniu pchania.",
+            rearDeltPG: "Prowadź ruch łokciami i zatrzymaj się tam, gdzie łopatki przestają się ruszać.",
             conventionalE2MOM: "E2MOM – co 2 minuty: 3-5 powt., reszta to odp. Forma jest priorytetem. Celuj w stałe 3-5 powt. we wszystkich 6 seriach.",
             conventionalDeadliftAMRAP: "Test AMRAP. Daj z siebie wszystko zachowując perfekcyjną formę. To określa ciężary peakingowe.",
             conventionalDeadliftTriple: "Ciężka trójka @ RPE 9.",

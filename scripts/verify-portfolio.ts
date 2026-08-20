@@ -51,12 +51,12 @@ const house = PORTFOLIO_BY_ID['house-of-iron'];
 const ritual = PORTFOLIO_BY_ID['ritual-of-strength'];
 
 ok(eligible(minimum, { daysPerWeek: 2 }), 'a two-day plan fits a two-day week');
-ok(!eligible(ritual, { daysPerWeek: 3 }), 'a five-day plan does not fit a three-day week');
+ok(!eligible(ritual, { daysPerWeek: 2 }), 'a three-day plan does not fit a two-day week');
 ok(eligible(house, { equipment: 'minimal' }), 'a minimal-equipment plan fits a minimal gym');
 ok(!eligible(ritual, { equipment: 'minimal' }), 'a barbell plan does not fit a minimal gym');
 ok(eligible(ritual, { equipment: 'full-gym' }), 'a full gym covers everything');
 ok(!eligible(ritual, { availablePlanIds: ['the-minimum'] }), 'access keys are respected');
-ok(!eligible(ritual, { maximumFatigue: 2 }), 'a fatigue ceiling excludes the heaviest plans');
+ok(!eligible(PORTFOLIO_BY_ID['iron-clock']!, {}), 'Iron Clock is hidden from the catalogue');
 
 // --- recommendation -----------------------------------------------------------
 const busy = recommend({ goal: 'general', daysPerWeek: 2, experience: 'beginner' });

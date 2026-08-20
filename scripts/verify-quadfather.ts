@@ -26,11 +26,11 @@ const quadDays = QUADFATHER_DAYS.filter(day => day.slots.some(slot => roleOf(slo
 ok(quadDays.length === 3, 'quads are trained on exactly three days');
 
 const exposures = (exerciseIds: string[]) => QUADFATHER_DAYS.filter(day => day.slots.some(slot => exerciseIds.includes(slot.ex))).length;
-ok(exposures(['incline-dumbbell-bench-press', 'hammer-chest-press']) === 2, 'chest is maintained twice');
+ok(exposures(['incline-dumbbell-bench-press', 'hammer-chest-press', 'dip']) === 2, 'chest is maintained twice');
 ok(exposures(['lat-pulldown', 'hammer-pulldown', 'single-arm-hammer-row']) >= 2, 'back is maintained at least twice');
 ok(exposures(['romanian-deadlift', 'seated-hamstring-curl', 'lying-leg-curl']) === 2, 'hamstrings are maintained twice');
 ok(exposures(['hack-calf-raise']) === 2, 'calves are maintained twice');
-ok(exposures(['hammer-curl']) === 2 && exposures(['cable-triceps-extension']) === 2, 'arms are maintained twice');
+ok(exposures(['hammer-curl', 'ezbar-preacher-curl']) === 2 && exposures(['cable-triceps-extension', 'overhead-tricep-extension']) === 2, 'arms are maintained twice');
 
 // --- roles -------------------------------------------------------------------
 for (const day of quadDays) {

@@ -10,9 +10,9 @@
 
 import { recoveryRecommendation } from '../workout/engines';
 import type { RecoveryResponse } from '../workout/engines';
+import type { CompletionReason, SetQuality } from '../performanceProfile';
 
-export type SetQuality = 'clean' | 'borderline' | 'invalid';
-export type CompletionReason = 'target-completed' | 'muscular-failure' | 'technical-failure' | 'voluntary-stop' | 'pain';
+export type { CompletionReason, SetQuality };
 
 export interface PrimarySetResult {
     reps: number;
@@ -80,8 +80,9 @@ export const earnedBackoff = (
  */
 export const FAILURE_APPROVED = new Set([
     'leg-extension', 'seated-hamstring-curl', 'lying-leg-curl', 'lateral-raise',
-    'hammer-curl', 'cable-triceps-extension', 'single-arm-reverse-pec-deck',
-    'hack-calf-raise', 'pec-deck', 'hammer-chest-press', 'hammer-pulldown',
+    'cable-lateral-raise', 'hammer-curl', 'machine-curl', 'cable-triceps-extension',
+    'rolling-dumbbell-tricep-extension', 'single-arm-reverse-pec-deck', 'rear-delt-fly',
+    'hack-calf-raise', 'pec-deck', 'hammer-chest-press', 'hammer-pulldown', 'cable-crunch',
 ]);
 
 export const failureAllowed = (exerciseId: string): boolean => FAILURE_APPROVED.has(exerciseId);

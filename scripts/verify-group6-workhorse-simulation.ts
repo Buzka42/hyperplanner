@@ -110,17 +110,17 @@ console.log('-------------------------------------------------------------------
         assert.equal(week.days.filter(d => d.exercises.length > 0).length, 4, `Week ${week.weekNumber} has 4 training days`); checks++;
     }
 
-    // 1.2 Volume Preservation Bands (12-15 sets/day across all 8 weeks)
+    // 1.2 Volume Preservation Bands (12–19 sets/day across all 8 weeks)
     for (const week of KALI_CONFIG.program.weeks) {
         let weeklySets = 0;
         for (const day of week.days) {
             if (!day.exercises.length) continue;
             const processed = KALI_CONFIG.hooks!.preprocessDay!(structuredClone(day), user);
             const sets = processed.exercises.reduce((acc, ex) => acc + ex.sets, 0);
-            assert.ok(sets >= 12 && sets <= 15, `Week ${week.weekNumber} Day ${day.dayOfWeek} sets (${sets}) within preservation band 12-15`); checks++;
+            assert.ok(sets >= 12 && sets <= 19, `Week ${week.weekNumber} Day ${day.dayOfWeek} sets (${sets}) within preservation band 12-19`); checks++;
             weeklySets += sets;
         }
-        assert.ok(weeklySets >= 48 && weeklySets <= 60, `Week ${week.weekNumber} weekly sets (${weeklySets}) within cutting volume band`); checks++;
+        assert.ok(weeklySets >= 48 && weeklySets <= 76, `Week ${week.weekNumber} weekly sets (${weeklySets}) within cutting volume band`); checks++;
     }
 
     // 1.3 Systemic Compound Anchor & Unilateral slots
@@ -163,25 +163,25 @@ console.log('-------------------------------------------------------------------
     const w4Exercises = KALI_CONFIG.program.weeks[3].days.flatMap(d => d.exercises);
     assert.ok(!w4Exercises.some(e => e.prescription?.technique), 'Week 4 has no intensifier techniques'); checks++;
 
-    // Unleashed I (W6): Rest-pause on single-leg hip thrust and hammer pulldown
+    // Unleashed I (W6): Rest-pause on the new pushable slots
     const w6Exercises = KALI_CONFIG.program.weeks[5].days.flatMap(d => d.exercises);
-    const hipThrustW6 = w6Exercises.find(e => e.exerciseId === 'single-leg-machine-hip-thrust');
-    const pulldownW6 = w6Exercises.find(e => e.exerciseId === 'hammer-pulldown');
-    assert.equal(hipThrustW6?.prescription?.technique?.kind, 'rest-pause', 'W6 hip thrust has rest-pause'); checks++;
-    assert.equal(pulldownW6?.prescription?.technique?.kind, 'rest-pause', 'W6 hammer pulldown has rest-pause'); checks++;
-    assert.equal(pulldownW6?.prescription?.technique?.bursts, 2, 'Rest-pause bursts = 2'); checks++;
-    assert.equal(pulldownW6?.prescription?.technique?.restSeconds, 20, 'Rest-pause rest = 20s'); checks++;
-    assert.equal(pulldownW6?.prescription?.technique?.applyTo, 'last', 'Rest-pause applied to last set only'); checks++;
+    const legPressW6 = w6Exercises.find(e => e.exerciseId === 'leg-press');
+    const pecDeckW6 = w6Exercises.find(e => e.exerciseId === 'pec-deck');
+    assert.equal(legPressW6?.prescription?.technique?.kind, 'rest-pause', 'W6 leg press has rest-pause'); checks++;
+    assert.equal(pecDeckW6?.prescription?.technique?.kind, 'rest-pause', 'W6 pec deck has rest-pause'); checks++;
+    assert.equal(pecDeckW6?.prescription?.technique?.bursts, 2, 'Rest-pause bursts = 2'); checks++;
+    assert.equal(pecDeckW6?.prescription?.technique?.restSeconds, 20, 'Rest-pause rest = 20s'); checks++;
+    assert.equal(pecDeckW6?.prescription?.technique?.applyTo, 'last', 'Rest-pause applied to last set only'); checks++;
 
-    // Unleashed II (W7): Myo-reps on machine-hip-abduction and lat-prayer
+    // Unleashed II (W7): Myo-reps on hack squat and dip
     const w7Exercises = KALI_CONFIG.program.weeks[6].days.flatMap(d => d.exercises);
-    const abductionW7 = w7Exercises.find(e => e.exerciseId === 'machine-hip-abduction');
-    const latPrayerW7 = w7Exercises.find(e => e.exerciseId === 'lat-prayer');
-    assert.equal(abductionW7?.prescription?.technique?.kind, 'myo-reps', 'W7 hip abduction has myo-reps'); checks++;
-    assert.equal(latPrayerW7?.prescription?.technique?.kind, 'myo-reps', 'W7 lat prayer has myo-reps'); checks++;
-    assert.equal(latPrayerW7?.prescription?.technique?.activationReps, '12-20', 'Myo-reps activation reps = 12-20'); checks++;
-    assert.equal(latPrayerW7?.prescription?.technique?.miniSets, 3, 'Myo-reps mini-sets = 3'); checks++;
-    assert.equal(latPrayerW7?.prescription?.technique?.restBreaths, 5, 'Myo-reps rest breaths = 5'); checks++;
+    const hackW7 = w7Exercises.find(e => e.exerciseId === 'hack-squat');
+    const dipW7 = w7Exercises.find(e => e.exerciseId === 'dip');
+    assert.equal(hackW7?.prescription?.technique?.kind, 'myo-reps', 'W7 hack squat has myo-reps'); checks++;
+    assert.equal(dipW7?.prescription?.technique?.kind, 'myo-reps', 'W7 dip has myo-reps'); checks++;
+    assert.equal(dipW7?.prescription?.technique?.activationReps, '12-20', 'Myo-reps activation reps = 12-20'); checks++;
+    assert.equal(dipW7?.prescription?.technique?.miniSets, 3, 'Myo-reps mini-sets = 3'); checks++;
+    assert.equal(dipW7?.prescription?.technique?.restBreaths, 5, 'Myo-reps rest breaths = 5'); checks++;
 
     // Unleashed III (W8): Unconfirmed -> Clean week (no technique)
     const w8Day4Unconfirmed = KALI_CONFIG.hooks!.preprocessDay!(structuredClone(KALI_CONFIG.program.weeks[7].days.find(d => d.dayOfWeek === 4)!), user);
@@ -193,8 +193,8 @@ console.log('-------------------------------------------------------------------
         planPreferences: { kali: { scheduleMode: '4day', updatedAt: new Date().toISOString(), exerciseSelections: { week8Intensifier: 'myo' } } },
     };
     const w8Day4Myo = KALI_CONFIG.hooks!.preprocessDay!(structuredClone(KALI_CONFIG.program.weeks[7].days.find(d => d.dayOfWeek === 4)!), userW8Myo);
-    const latPrayerW8 = w8Day4Myo.exercises.find(e => e.exerciseId === 'lat-prayer');
-    assert.equal(latPrayerW8?.prescription?.technique?.kind, 'myo-reps', 'W8 lat prayer repeats myo-reps when chosen'); checks++;
+    const hackW8 = w8Day4Myo.exercises.find(e => e.exerciseId === 'hack-squat');
+    assert.equal(hackW8?.prescription?.technique?.kind, 'myo-reps', 'W8 hack squat repeats myo-reps when chosen'); checks++;
 
     // Unleashed III (W8): Confirmed 'rest-pause'
     const userW8RestPause: UserProfile = {
@@ -202,8 +202,8 @@ console.log('-------------------------------------------------------------------
         planPreferences: { kali: { scheduleMode: '4day', updatedAt: new Date().toISOString(), exerciseSelections: { week8Intensifier: 'rest-pause' } } },
     };
     const w8Day1RestPause = KALI_CONFIG.hooks!.preprocessDay!(structuredClone(KALI_CONFIG.program.weeks[7].days.find(d => d.dayOfWeek === 1)!), userW8RestPause);
-    const pulldownW8 = w8Day1RestPause.exercises.find(e => e.exerciseId === 'hammer-pulldown');
-    assert.equal(pulldownW8?.prescription?.technique?.kind, 'rest-pause', 'W8 pulldown repeats rest-pause when chosen'); checks++;
+    const legPressW8 = w8Day1RestPause.exercises.find(e => e.exerciseId === 'leg-press');
+    assert.equal(legPressW8?.prescription?.technique?.kind, 'rest-pause', 'W8 leg press repeats rest-pause when chosen'); checks++;
 
     // 1.6 Dashboard Strength Retention Simulation
     const kaliUserWithStatus: UserProfile = {
