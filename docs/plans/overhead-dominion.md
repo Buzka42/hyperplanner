@@ -50,12 +50,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Overhead Strength · Bombardment | 6 | 18 | Standing Military Press 5, Weighted Chin-Up 5, Cable Lateral Raise 2, Leaning One-Arm Lateral Raise 2, Rope Pressdown 2, Machine Rear Delt Fly 2 |
-| Delts + Legs · Bombardment | 8 | 21 | Cable Lateral Raise 2, Seated Dumbbell Lateral Raise 2, Single Arm Reverse Pec Deck 2, Hack Squat 3, Seated Ham Curl 3, Hammer Chest Press 3, Standing Calf Raises 3, Cable Crunch 3 |
-| Shoulder Hypertrophy · Bombardment | 8 | 21 | One-Arm Braced Dumbbell Press 4, Single-Arm DB Row 2, Lat Prayer 2, Seated Dumbbell Lateral Raise 2, Leaning One-Arm Lateral Raise 2, Machine Rear Delt Fly 3, Incline DB Bench Press 3, Cable Curl 3 |
-| Structural Shoulders + Legs · Bombardment | 7 | 21 | Seated DB Shoulder Press 3, Single-Arm External Rotation 3, Machine Rear Delt Fly 3, Goblet Skater Squat 3, Hip-Supported Dumbbell Deadlift 3, Standing Calf Raises 3, Rope Pressdown 3 |
+| Overhead Strength · Bombardment | 6 | 18 | Standing Military Press 5×5-8, Weighted Chin-Up 5×5-8, Cable Lateral Raise 2×12-20, Leaning One-Arm Lateral Raise 2×12-20, Rope Pressdown 2×10-15, Machine Rear Delt Fly 2×15-20 |
+| Delts + Legs · Bombardment | 8 | 21 | Cable Lateral Raise 2×12-20, Seated Dumbbell Lateral Raise 2×12-20, Single Arm Reverse Pec Deck 2×12-20, Hack Squat 3×8-12, Seated Ham Curl 3×8-12, Hammer Chest Press 3×8-12, Standing Calf Raises 3×12-20, Cable Crunch 3×12-20 |
+| Shoulder Hypertrophy · Bombardment | 8 | 21 | One-Arm Braced Dumbbell Press 4×8-12, Single-Arm DB Row 2×8-12, Lat Prayer 2×8-12, Seated Dumbbell Lateral Raise 2×12-20, Leaning One-Arm Lateral Raise 2×12-20, Machine Rear Delt Fly 3×15-20, Incline DB Bench Press 3×8-12, Cable Curl 3×10-15 |
+| Structural Shoulders + Legs · Bombardment | 7 | 21 | Seated DB Shoulder Press 3×8-12, Single-Arm External Rotation 3×12-20, Machine Rear Delt Fly 3×15-20, Goblet Skater Squat 3×8-12, Hip-Supported Dumbbell Deadlift 3×10-15, Standing Calf Raises 3×12-20, Rope Pressdown 3×10-15 |
 
 ### Week-to-week shape
 
@@ -144,7 +144,23 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+5 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Curl, Hip-Supported Dumbbell Deadlift, Rope Pressdown |
+| `12-20` | Cable Crunch, Cable Lateral Raise, Leaning One-Arm Lateral Raise, Seated Dumbbell Lateral Raise, Single Arm Reverse Pec Deck, Single-Arm External Rotation, Standing Calf Raises |
+| `15-20` | Machine Rear Delt Fly |
+| `5-8` | Standing Military Press, Weighted Chin-Up |
+| `8-12` | Goblet Skater Squat, Hack Squat, Hammer Chest Press, Incline DB Bench Press, Lat Prayer, One-Arm Braced Dumbbell Press, Seated DB Shoulder Press, Seated Ham Curl, Single-Arm DB Row |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: overhead-dominion
@@ -159,5 +175,6 @@ load: { systemic: 118, axial: 33, lower_back: 13, per_set_systemic: 1.46 }
 volume: { shoulders: 40, back: 9, glutes: 9, biceps: 8, chest: 6, quads: 6, hamstrings: 6, calves: 6, triceps: 5, core: 3 }
 coverage: { covered: 9, missing: [], in_band: 2, over: ['shoulders'], under: ['chest', 'back', 'triceps', 'quads', 'hamstrings', 'glutes', 'core'] }
 set_shape: { slots: 29, ones: 0, twos: 11, threes: 15, four_plus: 3, mean: 2.79 }
+rep_ranges: ['10-15', '12-20', '15-20', '5-8', '8-12']
 variety: { distinct: 22, density: 2.72, top_share: 0.099, evenness: 0.979 }
 ```

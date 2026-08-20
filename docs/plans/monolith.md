@@ -49,11 +49,11 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Upper · Placement | 8 | 24 | Hammer Chest Press 4, Hammer Pulldown (Underhand) 3, Single-Arm Hammer Strength Row 3, Seated Hammer Shoulder Press 3, Machine Press/Fly Combo 3, Cable Triceps Extension 3, Machine Curl 3, Cable Crunch 2 |
-| Lower · Placement | 6 | 18 | Leg Press 4, Leg Extensions 3, Lying Leg Curls 3, Single Leg Machine Hip Thrust 3, Standing Dumbbell/KB Calf Raise 3, Cable Crunch 2 |
-| Full (light) · Placement | 10 | 26 | Pec Deck 3, Hammer Pulldown (Underhand) 2, Machine Rear Delt Fly 3, Seated Hamstring Curl 3, Leg Extensions 2, Standing Dumbbell/KB Calf Raise 3, Machine Hip Abduction 3, Hip Adduction 3, Cable Triceps Extension 2, Machine Curl 2 |
+| Upper · Placement | 8 | 24 | Hammer Chest Press 4×6-10, Hammer Pulldown (Underhand) 3×8-12, Single-Arm Hammer Strength Row 3×8-12, Seated Hammer Shoulder Press 3×8-12, Machine Press/Fly Combo 3×10-15, Cable Triceps Extension 3×10-15, Machine Curl 3×8-12, Cable Crunch 2×12-20 |
+| Lower · Placement | 6 | 18 | Leg Press 4×8-12, Leg Extensions 3×10-15, Lying Leg Curls 3×10-15, Single Leg Machine Hip Thrust 3×10-15, Standing Dumbbell/KB Calf Raise 3×12-20, Cable Crunch 2×12-20 |
+| Full (light) · Placement | 10 | 26 | Pec Deck 3×12-15, Hammer Pulldown (Underhand) 2×8-12, Machine Rear Delt Fly 3×12-15, Seated Hamstring Curl 3×10-15, Leg Extensions 2×10-15, Standing Dumbbell/KB Calf Raise 3×12-20, Machine Hip Abduction 3×12-20, Hip Adduction 3×12-20, Cable Triceps Extension 2×10-15, Machine Curl 2×8-12 |
 
 ### Week-to-week shape
 
@@ -143,7 +143,23 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+5 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Triceps Extension, Leg Extensions, Lying Leg Curls, Machine Press/Fly Combo, Seated Hamstring Curl, Single Leg Machine Hip Thrust |
+| `12-15` | Machine Rear Delt Fly, Pec Deck |
+| `12-20` | Cable Crunch, Hip Adduction, Machine Hip Abduction, Standing Dumbbell/KB Calf Raise |
+| `6-10` | Hammer Chest Press |
+| `8-12` | Hammer Pulldown (Underhand), Leg Press, Machine Curl, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: monolith
@@ -158,5 +174,6 @@ load: { systemic: 72, axial: 8, lower_back: 0, per_set_systemic: 1.06 }
 volume: { glutes: 13, chest: 10, quads: 9, back: 8, shoulders: 6, hamstrings: 6, calves: 6, biceps: 5, triceps: 5, core: 4 }
 coverage: { covered: 10, missing: [], in_band: 3, over: [], under: ['shoulders', 'back', 'biceps', 'triceps', 'quads', 'hamstrings', 'core'] }
 set_shape: { slots: 24, ones: 0, twos: 6, threes: 16, four_plus: 2, mean: 2.83 }
+rep_ranges: ['10-15', '12-15', '12-20', '6-10', '8-12']
 variety: { distinct: 18, density: 2.65, top_share: 0.088, evenness: 0.989 }
 ```

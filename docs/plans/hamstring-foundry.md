@@ -48,12 +48,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Heavy Hip Extension · Forging | 7 | 21 | Romanian Deadlift 4, Seated Ham Curl 4, Flat DB Press 3, Rope Cable Row 3, Cable Lateral Raise 3, Cable Curl 2, Overhead Tricep Extensions 2 |
-| Knee Flexion + Quads · Forging | 6 | 19 | Seated Ham Curl 4, Goblet Skater Squat 3, Sissy Squat 3, Pull-Up 3, Hammer Chest Press 3, Hack Squat Calf Raises 3 |
-| Upper Dominant · Forging | 8 | 20 | Incline DB Bench Press 4, Hammer Lower Row 2, Rope Cable Row 2, Lat Pulldown (Neutral) 3, Seated DB Shoulder Press 3, Machine Rear Delt Fly 2, Dumbbell Hammer Curl (legacy id) 2, Cable Triceps Extension 2 |
-| Lengthened Hamstrings · Forging | 6 | 19 | Hip-Supported Dumbbell Deadlift 4, Single-Leg Hamstring Curl 3, Heel-Elevated Goblet Squat 3, Hack Squat Calf Raises 3, Ab Wheel 3, Pec Deck 3 |
+| Heavy Hip Extension · Forging | 7 | 21 | Romanian Deadlift 4×5-8, Seated Ham Curl 4×8-12, Flat DB Press 3×8-12, Rope Cable Row 3×8-12, Cable Lateral Raise 3×12-20, Cable Curl 2×10-15, Overhead Tricep Extensions 2×10-15 |
+| Knee Flexion + Quads · Forging | 6 | 19 | Seated Ham Curl 4×8-12, Goblet Skater Squat 3×8-12, Sissy Squat 3×12-20, Pull-Up 3×8-12, Hammer Chest Press 3×8-12, Hack Squat Calf Raises 3×12-20 |
+| Upper Dominant · Forging | 8 | 20 | Incline DB Bench Press 4×8-12, Hammer Lower Row 2×8-12, Rope Cable Row 2×8-12, Lat Pulldown (Neutral) 3×8-12, Seated DB Shoulder Press 3×8-12, Machine Rear Delt Fly 2×15-20, Dumbbell Hammer Curl (legacy id) 2×10-15, Cable Triceps Extension 2×10-15 |
+| Lengthened Hamstrings · Forging | 6 | 19 | Hip-Supported Dumbbell Deadlift 4×10-15, Single-Leg Hamstring Curl 3×10-15, Heel-Elevated Goblet Squat 3×10-15, Hack Squat Calf Raises 3×12-20, Ab Wheel 3×8-15, Pec Deck 3×10-15 |
 
 ### Week-to-week shape
 
@@ -144,7 +144,24 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+6 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Curl, Cable Triceps Extension, Dumbbell Hammer Curl (legacy id), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Overhead Tricep Extensions, Pec Deck, Single-Leg Hamstring Curl |
+| `12-20` | Cable Lateral Raise, Hack Squat Calf Raises, Sissy Squat |
+| `15-20` | Machine Rear Delt Fly |
+| `5-8` | Romanian Deadlift |
+| `8-12` | Flat DB Press, Goblet Skater Squat, Hammer Chest Press, Hammer Lower Row, Incline DB Bench Press, Lat Pulldown (Neutral), Pull-Up, Rope Cable Row, Seated DB Shoulder Press, Seated Ham Curl |
+| `8-15` | Ab Wheel |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: hamstring-foundry
@@ -159,5 +176,6 @@ load: { systemic: 120, axial: 28, lower_back: 30, per_set_systemic: 1.52 }
 volume: { hamstrings: 19, glutes: 14, chest: 13, back: 13, shoulders: 12, quads: 9, calves: 6, biceps: 4, triceps: 4, core: 3 }
 coverage: { covered: 9, missing: [], in_band: 6, over: [], under: ['biceps', 'triceps', 'quads', 'core'] }
 set_shape: { slots: 27, ones: 0, twos: 7, threes: 15, four_plus: 5, mean: 2.93 }
+rep_ranges: ['10-15', '12-20', '15-20', '5-8', '8-12', '8-15']
 variety: { distinct: 24, density: 3.04, top_share: 0.101, evenness: 0.977 }
 ```

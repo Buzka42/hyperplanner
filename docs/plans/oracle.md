@@ -50,12 +50,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Oracle — Upper A · Calibration | 8 | 20 | Flat Barbell Bench Press 4, Single-Arm Hammer Strength Row 2, Seated Cable Row 2, Shoulder Press 3, Lat Prayer 3, Behind-the-Back Cable Lateral Raise 2, Cable Triceps Extension 2, EZ Preacher Curl 2 |
-| Oracle — Lower A · Calibration | 6 | 19 | Barbell Squat 4, Romanian Deadlift 3, Leg Press 3, Seated Hamstring Curl 3, Leg Extensions 3, Hack Squat Calf Raises 3 |
-| Oracle — Upper B · Calibration | 8 | 20 | Incline DB Bench Press 4, Hammer Pulldown (Underhand) 2, Bench-Supported Single-Arm Cable Pulldown 2, Hammer Chest Press 3, Bench-Supported DB Rear Delt Fly 3, Leaning One-Arm Lateral Raise 2, Rolling DB Tricep Extensions 2, Straight-Bar Cable Curl 2 |
-| Oracle — Lower B · Calibration | 6 | 18 | Leg Press 4, Lying Leg Curls 3, Front-Foot Elevated Bulgarian Split Squat 3, Single Leg Machine Hip Thrust 3, Hack Squat Calf Raises 3, Cable Crunch 2 |
+| Oracle — Upper A · Calibration | 8 | 20 | Flat Barbell Bench Press 4×5-8, Single-Arm Hammer Strength Row 2×8-12, Seated Cable Row 2×8-12, Shoulder Press 3×8-12, Lat Prayer 3×8-12, Behind-the-Back Cable Lateral Raise 2×12-15, Cable Triceps Extension 2×10-15, EZ Preacher Curl 2×8-12 |
+| Oracle — Lower A · Calibration | 6 | 19 | Barbell Squat 4×5-8, Romanian Deadlift 3×6-10, Leg Press 3×8-12, Seated Hamstring Curl 3×10-15, Leg Extensions 3×12-15, Hack Squat Calf Raises 3×12-20 |
+| Oracle — Upper B · Calibration | 8 | 20 | Incline DB Bench Press 4×6-10, Hammer Pulldown (Underhand) 2×8-12, Bench-Supported Single-Arm Cable Pulldown 2×8-12, Hammer Chest Press 3×8-12, Bench-Supported DB Rear Delt Fly 3×12-15, Leaning One-Arm Lateral Raise 2×12-20, Rolling DB Tricep Extensions 2×10-15, Straight-Bar Cable Curl 2×10-15 |
+| Oracle — Lower B · Calibration | 6 | 18 | Leg Press 4×8-12, Lying Leg Curls 3×10-15, Front-Foot Elevated Bulgarian Split Squat 3×8-12, Single Leg Machine Hip Thrust 3×10-15, Hack Squat Calf Raises 3×12-20, Cable Crunch 2×8-12 |
 
 ### Week-to-week shape
 
@@ -147,7 +147,24 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+6 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Triceps Extension, Lying Leg Curls, Rolling DB Tricep Extensions, Seated Hamstring Curl, Single Leg Machine Hip Thrust, Straight-Bar Cable Curl |
+| `12-15` | Behind-the-Back Cable Lateral Raise, Bench-Supported DB Rear Delt Fly, Leg Extensions |
+| `12-20` | Hack Squat Calf Raises, Leaning One-Arm Lateral Raise |
+| `5-8` | Barbell Squat, Flat Barbell Bench Press |
+| `6-10` | Incline DB Bench Press, Romanian Deadlift |
+| `8-12` | Bench-Supported Single-Arm Cable Pulldown, Cable Crunch, EZ Preacher Curl, Front-Foot Elevated Bulgarian Split Squat, Hammer Chest Press, Hammer Pulldown (Underhand), Lat Prayer, Leg Press, Seated Cable Row, Shoulder Press, Single-Arm Hammer Strength Row |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: oracle
@@ -162,5 +179,6 @@ load: { systemic: 112, axial: 41, lower_back: 17, per_set_systemic: 1.45 }
 volume: { glutes: 20, quads: 17, shoulders: 14, chest: 11, back: 11, hamstrings: 9, calves: 6, biceps: 4, triceps: 4, core: 2 }
 coverage: { covered: 9, missing: [], in_band: 6, over: [], under: ['biceps', 'triceps', 'hamstrings', 'core'] }
 set_shape: { slots: 28, ones: 0, twos: 11, threes: 13, four_plus: 4, mean: 2.75 }
+rep_ranges: ['10-15', '12-15', '12-20', '5-8', '6-10', '8-12']
 variety: { distinct: 26, density: 3.38, top_share: 0.091, evenness: 0.978 }
 ```

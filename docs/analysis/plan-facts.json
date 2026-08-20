@@ -521,6 +521,43 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Walking Lunges": "10-15",
+      "Heels-Off Narrow Leg Press": "10-15",
+      "Reverse Nordic Curls": "Failure",
+      "Single-Leg Machine Hip Thrust": "10-15",
+      "Nordic Curls": "Failure",
+      "Hack Squat Calf Raises": "15-20",
+      "Hip Adduction": "8-12",
+      "Paused Bench Press": "5-10",
+      "Spoto Press": "5",
+      "Weighted Pull-ups": "Max",
+      "Y-Raises": "12-15",
+      "Around-the-Worlds": "4-16",
+      "Low Pin Press": "4",
+      "Tricep Giant Set": "Giant",
+      "Cable Crunch": "Failure",
+      "Machine Hip Abduction": "8-12",
+      "Wide-Grip Bench Press": "6-8",
+      "Dragon Flags": "Failure",
+      "Paused Bench Press (AMRAP)": "AMRAP",
+      "Paused Bench Press (Back-off)": "5"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "15-20",
+      "4",
+      "4-16",
+      "5",
+      "5-10",
+      "6-8",
+      "8-12",
+      "AMRAP",
+      "Failure",
+      "Giant",
+      "Max"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 6,
@@ -1135,6 +1172,56 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Flat Barbell Bench Press": "8-12",
+      "Incline DB Press (45°)": "10-14",
+      "Cable Flyes (mid height)": "12-15",
+      "Seated DB Shoulder Press": "8-12",
+      "Leaning Single Arm DB Lateral Raises": "15-20",
+      "Overhead Tricep Extensions": "12-15",
+      "Hack Squat": "10-15",
+      "Leg Extensions": "15-20",
+      "Standing Calf Raises": "12-18",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Seated Cable Row": "10-14",
+      "Lat Prayer": "12-15",
+      "Wide Grip BB Row": "10-15",
+      "Side-Lying Rear Delt Flyes": "15-20",
+      "Preacher EZ-Bar Curls": "10-15",
+      "Romanian Deadlift": "8-12",
+      "Lying Leg Curls": "12-16",
+      "Hanging Leg Raises": "12-20",
+      "Incline Barbell Bench Press (45°)": "8-12",
+      "Flat DB Press": "10-14",
+      "Pec Deck": "12-15",
+      "Standing Barbell Military Press": "8-12",
+      "Close-Grip Bench Press": "6-10",
+      "Front Squats": "6-10",
+      "Walking Lunges (DB)": "12-16",
+      "Hack Calf Raises": "15-20",
+      "Lat Pulldown (Neutral)": "10-14",
+      "Single-Arm Hammer Strength Row": "10-14",
+      "Single-Arm DB Row": "12-15",
+      "Rear-Delt Rope Pulls to Face": "20-30",
+      "Bench-Supported DB Rear Delt Fly": "15-20",
+      "Incline DB Curls": "12-15",
+      "Stiff-Legged Deadlift": "10-14",
+      "Seated Leg Curls": "12-16",
+      "Ab Wheel Rollouts": "Failure"
+    },
+    "distinctRepRanges": [
+      "10-14",
+      "10-15",
+      "12-15",
+      "12-16",
+      "12-18",
+      "12-20",
+      "15-20",
+      "20-30",
+      "6-10",
+      "8-12",
+      "Failure"
+    ],
     "week": {
       "sampledWeek": 2,
       "trainingDays": 4,
@@ -1597,6 +1684,8 @@
         "days": []
       }
     ],
+    "repsByExercise": {},
+    "distinctRepRanges": [],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 3,
@@ -2138,6 +2227,43 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Sumo Deadlift": "5-8",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-12",
+      "Squats": "5-10",
+      "Seated Hamstring Curl": "8-12",
+      "Hack Squat Calf Raises": "15-20",
+      "Machine Hip Abduction": "12-20",
+      "Kas Glute Bridge": "8-12",
+      "45-Degree Hyperextension": "15-20",
+      "Standing Military Press": "8-12",
+      "Incline DB Bench Press (45°)": "8-12",
+      "Inverted Rows": "8-12",
+      "Side-Lying Rear Delt Fly": "12-15",
+      "Cable Crunch": "10-15",
+      "DB Romanian Deadlift": "5-8",
+      "Paused Squat": "5-10",
+      "Glute Ham Raise (eccentric only)": "Failure",
+      "Hip Adduction": "8-12",
+      "Standing Calf Raises": "15-20",
+      "Deficit Reverse Lunge": "8-12",
+      "Single Leg Machine Hip Thrust": "12-15",
+      "Deficit Push-ups": "Max",
+      "Assisted Pull-ups": "Max",
+      "Y-Raises": "12-15",
+      "Lying Cable Lat Raises": "12-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "15-20",
+      "5-10",
+      "5-8",
+      "8-12",
+      "Failure",
+      "Max"
     ],
     "week": {
       "sampledWeek": 1,
@@ -2813,6 +2939,32 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Deficit Snatch Grip Deadlift": "6",
+      "Close Neutral Grip Lat Pulldown": "6-10",
+      "Slow Eccentric Cheat Nordic Curls": "4-8",
+      "Single-Leg Machine Hip Thrust": "8-12",
+      "Dead Hang": "20-40",
+      "Planks": "20-40",
+      "Paused Low Bar Squat": "4-6",
+      "Leg Extensions": "6-10",
+      "Hack Squat Calf Raises": "15-20",
+      "Incline DB Bench Press": "6-10",
+      "Standing Military Press": "6-10",
+      "Paused Bench Press": "5-8",
+      "Machine Rear Delt Fly": "12-20"
+    },
+    "distinctRepRanges": [
+      "12-20",
+      "15-20",
+      "20-40",
+      "4-6",
+      "4-8",
+      "5-8",
+      "6",
+      "6-10",
+      "8-12"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -3304,6 +3456,22 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Conventional Deadlift (ME)": "1-3",
+      "Low Bar Squat (DE)": "2-3",
+      "Paused Bench Press (RE)": "8-12",
+      "Low Bar Squat (ME)": "1-3",
+      "Paused Bench Press (DE)": "2-3",
+      "Conventional Deadlift (RE)": "8-12",
+      "Paused Bench Press (ME)": "1-3",
+      "Conventional Deadlift (DE)": "2-3",
+      "Low Bar Squat (RE)": "8-12"
+    },
+    "distinctRepRanges": [
+      "1-3",
+      "2-3",
+      "8-12"
     ],
     "week": {
       "sampledWeek": 1,
@@ -3902,6 +4070,20 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Paused Bench Press (ME)": "1",
+      "Low Bar Squat (Light)": "5",
+      "Conventional Deadlift (Light)": "5",
+      "Low Bar Squat (ME)": "1",
+      "Paused Bench Press (Light)": "5",
+      "Conventional Deadlift (ME)": "1",
+      "Farmer Holds": "20-30sec"
+    },
+    "distinctRepRanges": [
+      "1",
+      "20-30sec",
+      "5"
+    ],
     "week": {
       "sampledWeek": 5,
       "trainingDays": 3,
@@ -4242,6 +4424,8 @@
         "days": []
       }
     ],
+    "repsByExercise": {},
+    "distinctRepRanges": [],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 5,
@@ -4844,6 +5028,8 @@
         "days": []
       }
     ],
+    "repsByExercise": {},
+    "distinctRepRanges": [],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 3,
@@ -7134,6 +7320,45 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Paused Low Bar Squat": "5",
+      "Leg Extensions": "8-12",
+      "Seated Ham Curl": "8-12",
+      "Long Pause Bench Press": "6-8",
+      "Hammer Upper Row": "8-12",
+      "Wide-Grip Bench Press": "3-5",
+      "Conventional Deadlift": "3",
+      "Hammer Lower Row": "8-12",
+      "Glute-Ham Raise": "10-15",
+      "Rear-Delt Rope Pulls to Face": "12-20",
+      "Ab Wheel": "10-20",
+      "Paused Back Squat": "5-8",
+      "Heel-Elevated Goblet Squat": "10-15",
+      "Hip Adduction": "12-15",
+      "Pull-Up": "6-10",
+      "Heavy Rolling Tricep Extensions": "10-15",
+      "Seated DB Shoulder Press": "8-12",
+      "Front Squats": "3-6",
+      "Paused Bench Press": "3",
+      "Hip-Supported Dumbbell Deadlift": "8-12",
+      "Hack Squat Calf Raises": "10-20",
+      "Machine Rear Delt Fly": "15-20"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "10-20",
+      "12-15",
+      "12-20",
+      "15-20",
+      "3",
+      "3-5",
+      "3-6",
+      "5",
+      "5-8",
+      "6-10",
+      "6-8",
+      "8-12"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -7738,6 +7963,36 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Weighted Chin-Up": "3-5",
+      "Weighted Dip": "3-5",
+      "Hammer Upper Row": "8-12",
+      "Sissy Squat": "10-15",
+      "Hanging Leg Raises": "10-20",
+      "Goblet Skater Squat": "8-12",
+      "Hip-Supported Dumbbell Deadlift": "8-12",
+      "TRX Body Row": "10-15",
+      "Deficit Pushups": "AMRAP",
+      "Standing Calf Raises": "12-20",
+      "Ab Wheel": "6-15",
+      "Chin-Up": "AMRAP",
+      "Dip": "AMRAP",
+      "Heel-Elevated Goblet Squat": "10-15",
+      "Cable Lateral Raise": "12-20",
+      "Cable Curl": "10-15",
+      "Cable Triceps Extension": "10-15",
+      "TRX Push-Up": "10-20",
+      "Hanging Knee Raise": "12-20"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "10-20",
+      "12-20",
+      "3-5",
+      "6-15",
+      "8-12",
+      "AMRAP"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -8332,6 +8587,35 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Flat DB Press": "10-15",
+      "EZ Preacher Curl": "10-15",
+      "Lat Pulldown (Neutral)": "10-15",
+      "Rope Pressdown": "10-15",
+      "Seated DB Shoulder Press": "10-15",
+      "Leaning One-Arm Lateral Raise": "10-15",
+      "Hack Squat": "10-15",
+      "Hack Squat Calf Raises": "10-15",
+      "Lying Leg Curls": "10-15",
+      "Single-Leg Dumbbell Romanian Deadlift": "10-15",
+      "Hip Adduction": "10-15",
+      "Planks": "Failure",
+      "Incline DB Bench Press": "10-15",
+      "Dumbbell Hammer Curl (legacy id)": "10-15",
+      "Seated Cable Row": "10-15",
+      "French Press": "10-15",
+      "Rear-Delt Rope Pulls to Face": "10-15",
+      "Single Arm Reverse Pec Deck": "10-15",
+      "Heel-Elevated Goblet Squat": "10-15",
+      "Machine Hip Abduction": "10-15",
+      "Seated Ham Curl": "10-15",
+      "Standing Dumbbell/KB Calf Raise": "10-15",
+      "DB Romanian Deadlift": "10-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "Failure"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -8878,6 +9162,41 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Close-Grip Bench Press": "5-8",
+      "Weighted Chin-Up": "5-8",
+      "Incline Barbell Bench Press": "6-10",
+      "Single-Arm External Rotation": "12-20",
+      "Reverse Curl": "8-12",
+      "Machine Rear Delt Fly": "15-20",
+      "Front Squats": "3-6",
+      "Single-Leg Hamstring Curl": "8-12",
+      "Goblet Skater Squat": "8-12",
+      "Hip-Supported Dumbbell Deadlift": "8-12",
+      "Standing Calf Raises": "10-20",
+      "Ab Wheel": "6-15",
+      "Seated DB Shoulder Press": "6-10",
+      "Hammer Upper Row": "8-12",
+      "Flat DB Press": "8-12",
+      "EZ Preacher Curl": "8-12",
+      "Cable Triceps Extension": "10-15",
+      "Heel-Elevated Goblet Squat": "10-15",
+      "Seated Ham Curl": "8-12",
+      "Split Squat": "8-12",
+      "Hip Thrusts": "8-12",
+      "Hanging Leg Raises": "10-20"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "10-20",
+      "12-20",
+      "15-20",
+      "3-6",
+      "5-8",
+      "6-10",
+      "6-15",
+      "8-12"
     ],
     "week": {
       "sampledWeek": 1,
@@ -9427,6 +9746,37 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Standing Military Press": "5-8",
+      "Weighted Chin-Up": "5-8",
+      "Cable Lateral Raise": "12-20",
+      "Leaning One-Arm Lateral Raise": "12-20",
+      "Rope Pressdown": "10-15",
+      "Machine Rear Delt Fly": "15-20",
+      "Seated Dumbbell Lateral Raise": "12-20",
+      "Single Arm Reverse Pec Deck": "12-20",
+      "Hack Squat": "8-12",
+      "Seated Ham Curl": "8-12",
+      "Hammer Chest Press": "8-12",
+      "Standing Calf Raises": "12-20",
+      "Cable Crunch": "12-20",
+      "One-Arm Braced Dumbbell Press": "8-12",
+      "Single-Arm DB Row": "8-12",
+      "Lat Prayer": "8-12",
+      "Incline DB Bench Press": "8-12",
+      "Cable Curl": "10-15",
+      "Seated DB Shoulder Press": "8-12",
+      "Single-Arm External Rotation": "12-20",
+      "Goblet Skater Squat": "8-12",
+      "Hip-Supported Dumbbell Deadlift": "10-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-20",
+      "15-20",
+      "5-8",
+      "8-12"
     ],
     "week": {
       "sampledWeek": 1,
@@ -9994,6 +10344,40 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Romanian Deadlift": "5-8",
+      "Seated Ham Curl": "8-12",
+      "Flat DB Press": "8-12",
+      "Rope Cable Row": "8-12",
+      "Cable Lateral Raise": "12-20",
+      "Cable Curl": "10-15",
+      "Overhead Tricep Extensions": "10-15",
+      "Goblet Skater Squat": "8-12",
+      "Sissy Squat": "12-20",
+      "Pull-Up": "8-12",
+      "Hammer Chest Press": "8-12",
+      "Hack Squat Calf Raises": "12-20",
+      "Incline DB Bench Press": "8-12",
+      "Hammer Lower Row": "8-12",
+      "Lat Pulldown (Neutral)": "8-12",
+      "Seated DB Shoulder Press": "8-12",
+      "Machine Rear Delt Fly": "15-20",
+      "Dumbbell Hammer Curl (legacy id)": "10-15",
+      "Cable Triceps Extension": "10-15",
+      "Hip-Supported Dumbbell Deadlift": "10-15",
+      "Single-Leg Hamstring Curl": "10-15",
+      "Heel-Elevated Goblet Squat": "10-15",
+      "Ab Wheel": "8-15",
+      "Pec Deck": "10-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-20",
+      "15-20",
+      "5-8",
+      "8-12",
+      "8-15"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -10504,6 +10888,42 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Close-Grip Bench Press": "6-10",
+      "Rope Hammer Curl": "8-12",
+      "Reverse Curl": "8-12",
+      "Rope Pressdown": "12-20",
+      "Hack Squat": "8-12",
+      "Hack Squat Calf Raises": "12-20",
+      "Hip-Supported Dumbbell Deadlift": "8-12",
+      "Bayesian Cable Curl": "8-12",
+      "Rolling DB Tricep Extensions": "10-15",
+      "30° Incline-Lying Dumbbell Curl": "12-15",
+      "French Press": "10-15",
+      "Bench-Supported Single-Arm Cable Pulldown": "8-12",
+      "Pec Deck": "12-15",
+      "Behind-the-Back Cable Lateral Raise": "15-20",
+      "Standing Straight-Bar Curl": "8-12",
+      "Lying Dumbbell Skullcrusher": "12-15",
+      "Machine Curl": "10-15",
+      "Triangle Pushdown": "12-20",
+      "Heel-Elevated Goblet Squat": "10-15",
+      "Cable Crunch": "12-20",
+      "Seated Ham Curl": "10-15",
+      "Tricep Giant Set": "Giant",
+      "30° Smith Incline Bench Press": "8-12",
+      "Hammer Upper Row": "8-12",
+      "Machine Rear Delt Fly": "15-20"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "15-20",
+      "6-10",
+      "8-12",
+      "Giant"
     ],
     "week": {
       "sampledWeek": 1,
@@ -11090,6 +11510,42 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Weighted Chin-Up": "3-5",
+      "Hammer Chest Press": "8-12",
+      "Hammer Lower Row": "8-12",
+      "Machine Rear Delt Fly": "15-20",
+      "Cable Triceps Extension": "10-15",
+      "Cable Lateral Raise": "12-20",
+      "Goblet Skater Squat": "8-12",
+      "Hip-Supported Dumbbell Deadlift": "8-12",
+      "Hack Squat Calf Raises": "12-20",
+      "Pull-Up": "6-10",
+      "30° Incline-Lying Dumbbell Curl": "10-15",
+      "Ab Wheel": "8-15",
+      "Dumbbell Seal Row": "6-10",
+      "Incline DB Bench Press": "8-12",
+      "Standing Military Press": "6-10",
+      "Reverse Curl": "10-15",
+      "Overhead Tricep Extensions": "12-20",
+      "Bench-Supported DB Rear Delt Fly": "15-20",
+      "Heel-Elevated Goblet Squat": "10-15",
+      "Sissy Squat": "12-20",
+      "Seated Ham Curl": "10-15",
+      "Pec Deck": "8-12",
+      "Hanging Leg Raises": "10-20",
+      "Seated Dumbbell Lateral Raise": "12-20"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "10-20",
+      "12-20",
+      "15-20",
+      "3-5",
+      "6-10",
+      "8-12",
+      "8-15"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -11623,6 +12079,38 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Paused Bench Press": "1",
+      "Barbell Row": "8-12",
+      "Wide-Grip Cable Row": "8-12",
+      "Leaning One-Arm Lateral Raise": "12-20",
+      "Bayesian Cable Curl": "10-15",
+      "Cable Triceps Extension": "10-15",
+      "Paused Low Bar Squat": "1",
+      "Seated Ham Curl": "8-12",
+      "Leg Extensions": "10-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Cable Crunch": "12-20",
+      "Weighted Chin-Up": "1-2",
+      "Incline DB Bench Press": "8-12",
+      "Machine Rear Delt Fly": "15-20",
+      "Standing Straight-Bar Curl": "10-15",
+      "Heavy Rolling Tricep Extensions": "10-15",
+      "Front Squats": "3-5",
+      "Hip-Supported Dumbbell Deadlift": "8-12",
+      "Goblet Skater Squat": "10-12",
+      "Low-to-High Cable Flyes": "8-12"
+    },
+    "distinctRepRanges": [
+      "1",
+      "1-2",
+      "10-12",
+      "10-15",
+      "12-20",
+      "15-20",
+      "3-5",
+      "8-12"
     ],
     "week": {
       "sampledWeek": 1,
@@ -12209,6 +12697,34 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Hammer Chest Press": "10",
+      "Hammer Upper Row": "8-12",
+      "Cable Lateral Raise": "12-20",
+      "Cable Triceps Extension": "10-15",
+      "Machine Curl": "10-15",
+      "Hack Squat": "10",
+      "Seated Ham Curl": "8-12",
+      "Hack Squat Calf Raises": "12-20",
+      "Cable Crunch": "12-20",
+      "Pec Deck": "10-15",
+      "Hammer Lower Row": "10",
+      "Incline DB Bench Press": "8-12",
+      "Machine Rear Delt Fly": "15-20",
+      "EZ Preacher Curl": "10-15",
+      "French Press": "10-15",
+      "Heel-Elevated Goblet Squat": "10-15",
+      "Ab Wheel": "8-15",
+      "Assisted Pull-ups": "8-12"
+    },
+    "distinctRepRanges": [
+      "10",
+      "10-15",
+      "12-20",
+      "15-20",
+      "8-12",
+      "8-15"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -12701,6 +13217,37 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Goblet Heel-Elevated Squat (legacy id)": "8-15",
+      "Single-Arm Floor Press": "8-15",
+      "Bulgarian Split Squat": "8-15",
+      "Push-Up": "AMRAP",
+      "Single-Arm Overhead Triceps Extension": "10-20",
+      "Suitcase Hold": "30-60",
+      "Single-Arm DB Row": "8-15",
+      "Romanian Deadlift": "8-15",
+      "Dumbbell Pullover": "10-20",
+      "Single-Leg Romanian Deadlift": "8-15",
+      "Hammer Curls": "10-20",
+      "Suitcase Carry": "30-60",
+      "Single-Arm Standing Press": "6-12",
+      "Goblet Skater Squat": "6-12",
+      "Supported Sissy Squat": "10-20",
+      "Leaning One-Arm Lateral Raise": "12-25",
+      "Close-Grip Push-Up": "AMRAP",
+      "B-Stance Romanian Deadlift": "8-15",
+      "Glute Bridge": "10-20",
+      "Rear-Delt Row": "12-20"
+    },
+    "distinctRepRanges": [
+      "10-20",
+      "12-20",
+      "12-25",
+      "30-60",
+      "6-12",
+      "8-15",
+      "AMRAP"
     ],
     "week": {
       "sampledWeek": 1,
@@ -13237,6 +13784,35 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Heel-Elevated Goblet Squat": "8-12",
+      "Incline DB Bench Press": "8-12",
+      "Bench-Supported One-Arm Dumbbell Row": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "Single-Arm Overhead Triceps Extension": "12-20",
+      "Loaded Ankle Rock": "8-12",
+      "Open-Book Rotation": "8-12",
+      "Romanian Deadlift": "6-10",
+      "Assisted Pull-ups": "6-10",
+      "Single-Arm Landmine Press": "8-12",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-12",
+      "Bench-Supported DB Rear Delt Fly": "12-20",
+      "Ab Wheel": "8-12",
+      "Suitcase Carry": "30-60",
+      "Deficit Reverse Lunge": "8-12",
+      "Hammer Chest Press": "8-15",
+      "Single-Arm Hammer Strength Row": "8-15",
+      "Hip Thrusts": "8-15",
+      "Rope Pressdown": "12-20"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-20",
+      "30-60",
+      "6-10",
+      "8-12",
+      "8-15"
     ],
     "week": {
       "sampledWeek": 1,
@@ -13792,6 +14368,41 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Heel-Elevated Goblet Squat": "8-12",
+      "Leg Press": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "Leg Extensions": "10-15",
+      "Machine Hip Abduction": "12-20",
+      "Hack Squat Calf Raises": "12-20",
+      "Cable Crunch": "10-15",
+      "Assisted Pull-ups": "8-12",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Incline DB Bench Press": "8-12",
+      "Cable Lateral Raise": "12-20",
+      "Side-Lying Rear Delt Flyes": "12-20",
+      "EZ Preacher Curl": "10-15",
+      "Rope Pressdown": "10-15",
+      "Hip Thrusts": "8-12",
+      "Cable Romanian Deadlift": "8-12",
+      "B-Stance Hip Thrust": "8-12",
+      "Supported Sissy Squat": "10-15",
+      "Lying Leg Curls": "10-15",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Flat DB Press": "8-12",
+      "Pec Deck": "8-12",
+      "Seated Hammer Shoulder Press": "8-12",
+      "Seated Cable Row": "8-12",
+      "Machine Curl": "10-15",
+      "Cable Triceps Extension": "10-15",
+      "Planks": "30-60sec"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-20",
+      "30-60sec",
+      "8-12"
     ],
     "week": {
       "sampledWeek": 1,
@@ -14390,6 +15001,38 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Barbell Squat": "4-6",
+      "Romanian Deadlift": "5-8",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Ab Wheel": "10-15",
+      "Flat Barbell Bench Press": "4-6",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Assisted Pull-ups": "8-12",
+      "Shoulder Press": "8-12",
+      "Bench-Supported DB Rear Delt Fly": "12-20",
+      "Rolling DB Tricep Extensions": "10-15",
+      "Standing Straight-Bar Curl": "10-15",
+      "Paused Squat": "5-8",
+      "Hip Thrusts": "8-12",
+      "Leg Extensions": "10-15",
+      "Lying Leg Curls": "10-15",
+      "Cable Crunch": "10-15",
+      "Standing Military Press": "4-6",
+      "Incline DB Bench Press": "8-12",
+      "Pec Deck": "10-15",
+      "Leaning One-Arm Lateral Raise": "12-20",
+      "Cable Triceps Extension": "10-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-20",
+      "4-6",
+      "5-8",
+      "8-12"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -14903,6 +15546,44 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "High Bar Squat": "3-6",
+      "Leg Press": "8-12",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Cable Lateral Raise": "12-20",
+      "Hack Squat Calf Raises": "12-20",
+      "Cable Triceps Extension": "10-15",
+      "Assisted Pull-ups": "4-6",
+      "30° Smith Incline Bench Press": "8-12",
+      "Pec Deck": "8-12",
+      "Single Leg Machine Hip Thrust": "8-12",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Lying Cable Lat Raises": "8-12",
+      "Machine Curl": "10-15",
+      "Overhead Tricep Extensions": "10-15",
+      "Romanian Deadlift": "4-6",
+      "Hack Squat": "8-12",
+      "Leg Extensions": "10-15",
+      "Lat Prayer": "8-12",
+      "Machine Hip Abduction": "12-20",
+      "Side-Lying Rear Delt Flyes": "12-20",
+      "Cable Crunch": "10-15",
+      "Paused Bench Press": "3-6",
+      "Dip": "8-12",
+      "Single-Leg Hip Thrust": "8-12",
+      "Bench-Supported Single-Arm Cable Pulldown": "8-12",
+      "Lying Leg Curls": "10-15",
+      "Lateral Raises": "12-20"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-20",
+      "3-6",
+      "4-6",
+      "8-12"
     ],
     "week": {
       "sampledWeek": 1,
@@ -15434,6 +16115,48 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Leg Press": "4-6",
+      "Incline DB Bench Press": "6-10",
+      "Single-Arm Hammer Strength Row": "6-10",
+      "Seated Hamstring Curl": "8-12",
+      "Cable Lateral Raise": "12-15",
+      "Rope Hammer Curl": "8-15",
+      "Overhead Tricep Extensions": "8-15",
+      "Kettlebell Swing": "10-15",
+      "Farmer Carry": "20-30",
+      "Lat Pulldown (Neutral)": "4-6",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-10",
+      "Deficit Pushups": "6-10",
+      "Hip-Supported Dumbbell Deadlift": "8-10",
+      "Single Arm Reverse Pec Deck": "12-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Ab Wheel": "8-15",
+      "Heel-Elevated Goblet Squat": "8",
+      "Push-Up": "6-10",
+      "Paused Bench Press": "4-6",
+      "Goblet Skater Squat": "8-12",
+      "Bench-Supported Single-Arm Cable Pulldown": "6-10",
+      "Leg Extensions": "10-15",
+      "Lat Prayer": "10-15",
+      "Behind-the-Back Cable Lateral Raise": "12-20",
+      "Deficit Reverse Lunge": "8",
+      "Trap-Bar Deadlift": "4-6",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Cable Triceps Extension": "8-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "20-30",
+      "4-6",
+      "6-10",
+      "8",
+      "8-10",
+      "8-12",
+      "8-15"
     ],
     "week": {
       "sampledWeek": 1,
@@ -16040,6 +16763,42 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Hack Squat": "5-8",
+      "Incline DB Bench Press": "8-10",
+      "Single-Arm Hammer Strength Row": "8-10",
+      "Seated Hamstring Curl": "10-12",
+      "Lateral Raises": "12-15",
+      "Kettlebell Swing": "12-15",
+      "Ab Wheel": "8-12",
+      "Lat Pulldown (Neutral)": "6-8",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-10",
+      "Hammer Chest Press": "8-10",
+      "Hip-Supported Dumbbell Deadlift": "8-12",
+      "Single Arm Reverse Pec Deck": "12-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Hammer Curls": "8-15",
+      "Paused Bench Press": "4-6",
+      "Goblet Skater Squat": "8-12",
+      "Hammer Pulldown (Underhand)": "8-10",
+      "Leg Extensions": "10-15",
+      "Lat Prayer": "10-15",
+      "Cable Triceps Extension": "8-15",
+      "Romanian Deadlift": "5-8",
+      "Deficit Reverse Lunge": "8-12"
+    },
+    "distinctRepRanges": [
+      "10-12",
+      "10-15",
+      "12-15",
+      "12-20",
+      "4-6",
+      "5-8",
+      "6-8",
+      "8-10",
+      "8-12",
+      "8-15"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -16542,6 +17301,35 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Hack Squat": "6-10",
+      "Hip-Supported Dumbbell Deadlift": "6-10",
+      "Incline DB Bench Press": "6-10",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Cable Lateral Raise": "12-15",
+      "EZ Preacher Curl": "8-12",
+      "Cable Triceps Extension": "8-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Ab Wheel": "8-12",
+      "Leg Press": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "30° Smith Incline Bench Press": "8-12",
+      "Close Neutral Grip Lat Pulldown": "8-12",
+      "Seated Hammer Shoulder Press": "8-12",
+      "Single Leg Machine Hip Thrust": "10-15",
+      "Bayesian Cable Curl": "10-15",
+      "Overhead Tricep Extensions": "10-15",
+      "Standing Calf Raises": "12-20",
+      "Hanging Knee Raise": "10-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "6-10",
+      "8-12",
+      "8-15"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 2,
@@ -16951,6 +17739,37 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Heel-Elevated Goblet Squat": "8-12",
+      "30° Smith Incline Bench Press": "8-12",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "Cable Lateral Raise": "12-15",
+      "Overhead Tricep Extensions": "8-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Cable Crunch": "8-12",
+      "Hip-Supported Dumbbell Deadlift": "8-12",
+      "Overhand Mid-Grip Pulldown": "8-12",
+      "Dip": "8-12",
+      "Reverse Nordic Curls": "10-15",
+      "Machine Rear Delt Fly": "12-15",
+      "Machine Curl": "8-12",
+      "Leg Press": "10-15",
+      "Seated Hammer Shoulder Press": "8-12",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Machine Press/Fly Combo": "8-12",
+      "Lying Leg Curls": "10-15",
+      "Cable Triceps Extension": "8-15",
+      "Planks": "30-60sec"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "30-60sec",
+      "8-12",
+      "8-15"
     ],
     "week": {
       "sampledWeek": 3,
@@ -17471,6 +18290,42 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Hack Squat": "5-8",
+      "Heel-Elevated Goblet Squat": "8-12",
+      "Leg Extensions": "12-15",
+      "Incline DB Bench Press": "6-10",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Cable Lateral Raise": "12-15",
+      "Cable Crunch": "12-20",
+      "Romanian Deadlift": "6-10",
+      "Lat Prayer": "8-12",
+      "Dip": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "Bench-Supported DB Rear Delt Fly": "12-15",
+      "EZ Preacher Curl": "8-12",
+      "Overhead Tricep Extensions": "8-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-12",
+      "Leg Press": "10-15",
+      "Supported Sissy Squat": "10-15",
+      "Seated Hammer Shoulder Press": "8-12",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Knee-Over-Toe Split Squat": "8-12",
+      "Stripper Squat": "10-15",
+      "Reverse Nordic Curls": "8-12",
+      "Lying Leg Curls": "10-15",
+      "Cable Triceps Extension": "10-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "5-8",
+      "6-10",
+      "8-12",
+      "8-15"
     ],
     "week": {
       "sampledWeek": 1,
@@ -18035,6 +18890,39 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Incline DB Bench Press": "6-10",
+      "Dip": "8-12",
+      "Low-to-High Cable Flyes": "12-15",
+      "Pec Deck": "12-15",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Lying Cable Lat Raises": "12-15",
+      "French Press": "10-15",
+      "Leg Press": "10-15",
+      "Romanian Deadlift": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "Supported Sissy Squat": "12-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Cable Crunch": "8-12",
+      "Mid Cable Flyes (Seated)": "10-15",
+      "30° Smith Incline Bench Press": "8-12",
+      "Cable Crossover": "12-20",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Side-Lying Rear Delt Flyes": "12-15",
+      "EZ Preacher Curl": "8-12",
+      "Flat DB Press": "8-12",
+      "Cable Flyes (mid height)": "12-15",
+      "Lat Pulldown (Neutral)": "8-12",
+      "Seated Hammer Shoulder Press": "8-12",
+      "Cable Triceps Extension": "10-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "6-10",
+      "8-12"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -18523,6 +19411,37 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Leg Press": "5-8",
+      "30° Smith Incline Bench Press": "6-10",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "Cable Lateral Raise": "12-15",
+      "Leg Extensions": "12-15",
+      "Machine Curl": "8-12",
+      "Hammer Chest Press": "4-6",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Hack Squat": "8-12",
+      "Machine Rear Delt Fly": "12-15",
+      "Rolling DB Tricep Extensions": "10-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Front-Foot Elevated Bulgarian Split Squat": "6-10",
+      "Shoulder Press": "6-10",
+      "Overhand Mid-Grip Pulldown": "8-12",
+      "Lying Leg Curls": "10-15",
+      "Pec Deck": "12-15",
+      "Cable Triceps Extension": "10-15",
+      "Cable Crunch": "10-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "4-6",
+      "5-8",
+      "6-10",
+      "8-12"
     ],
     "week": {
       "sampledWeek": 1,
@@ -19095,6 +20014,33 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Hammer Chest Press": "6-10",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Seated Hammer Shoulder Press": "8-12",
+      "Machine Press/Fly Combo": "10-15",
+      "Cable Triceps Extension": "10-15",
+      "Machine Curl": "8-12",
+      "Cable Crunch": "12-20",
+      "Leg Press": "8-12",
+      "Leg Extensions": "10-15",
+      "Lying Leg Curls": "10-15",
+      "Single Leg Machine Hip Thrust": "10-15",
+      "Standing Dumbbell/KB Calf Raise": "12-20",
+      "Pec Deck": "12-15",
+      "Machine Rear Delt Fly": "12-15",
+      "Seated Hamstring Curl": "10-15",
+      "Machine Hip Abduction": "12-20",
+      "Hip Adduction": "12-20"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "6-10",
+      "8-12"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 3,
@@ -19579,6 +20525,42 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Safety Bar Squat": "5-8",
+      "Standing Military Press": "5-8",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Single-Leg Romanian Deadlift": "8-10",
+      "Ab Wheel": "8-12",
+      "Farmer Carry": "40-60",
+      "Trap-Bar Deadlift": "4-6",
+      "Weighted Pull-ups": "4-8",
+      "Incline DB Bench Press": "6-10",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-12",
+      "Hack Squat Calf Raises": "12-20",
+      "Heavy Rolling Tricep Extensions": "10-15",
+      "Suitcase Carry": "30-40",
+      "Flat DB Press": "6-10",
+      "Barbell Row": "6-10",
+      "Seated Hamstring Curl": "10-15",
+      "Leaning One-Arm Lateral Raise": "12-15",
+      "Standing Straight-Bar Curl": "8-12",
+      "Cable Triceps Extension": "10-15",
+      "Suitcase Hold": "30-45"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "30-40",
+      "30-45",
+      "4-6",
+      "4-8",
+      "40-60",
+      "5-8",
+      "6-10",
+      "8-10",
+      "8-12"
     ],
     "week": {
       "sampledWeek": 1,
@@ -20129,6 +21111,43 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "30° Smith Incline Bench Press": "6-10",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Dumbbell Seal Row": "8-12",
+      "Seated Hammer Shoulder Press": "8-12",
+      "Close Neutral Grip Lat Pulldown": "8-12",
+      "Cable Lateral Raise": "12-15",
+      "Bayesian Cable Curl": "8-12",
+      "Cable Triceps Extension": "10-15",
+      "Hack Squat": "6-10",
+      "Romanian Deadlift": "8-12",
+      "Leg Extensions": "12-15",
+      "Seated Hamstring Curl": "10-15",
+      "Single Leg Machine Hip Thrust": "10-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Hammer Chest Press": "8-12",
+      "Machine Press/Fly Combo": "8-12",
+      "Side-Lying Rear Delt Flyes": "12-15",
+      "Pec Deck": "12-15",
+      "Lying Cable Lat Raises": "12-20",
+      "Cable Curl": "10-15",
+      "French Press": "10-15",
+      "Leg Press": "8-12",
+      "Lying Leg Curls": "10-15",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-12",
+      "Machine Hip Abduction": "12-20",
+      "Supported Sissy Squat": "12-20",
+      "Cable Crunch": "8-12"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "6-10",
+      "8-12"
     ],
     "week": {
       "sampledWeek": 1,
@@ -20821,6 +21840,45 @@
         ]
       }
     ],
+    "repsByExercise": {
+      "Flat Barbell Bench Press": "5-8",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Bench-Supported One-Arm Dumbbell Row": "8-12",
+      "Single-Arm Landmine Press": "8-12",
+      "Pull-Up": "8-12",
+      "Leaning One-Arm Lateral Raise": "12-15",
+      "Standing Straight-Bar Curl": "8-12",
+      "Heavy Rolling Tricep Extensions": "10-15",
+      "Cable Crunch": "8-12",
+      "Barbell Squat": "5-8",
+      "Romanian Deadlift": "6-10",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "Leg Extensions": "12-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Incline DB Bench Press": "6-10",
+      "30° Smith Incline Bench Press": "6-10",
+      "Barbell Row": "6-10",
+      "Hammer Chest Press": "8-12",
+      "Side-Lying Rear Delt Flyes": "12-15",
+      "Cable Triceps Extension": "10-15",
+      "Trap-Bar Deadlift": "4-6",
+      "Leg Press": "8-12",
+      "Weighted Step-Up": "8-10",
+      "Lying Leg Curls": "10-15",
+      "Single Leg Machine Hip Thrust": "10-15"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "4-6",
+      "5-8",
+      "6-10",
+      "8-10",
+      "8-12"
+    ],
     "week": {
       "sampledWeek": 1,
       "trainingDays": 4,
@@ -21385,6 +22443,42 @@
           }
         ]
       }
+    ],
+    "repsByExercise": {
+      "Flat Barbell Bench Press": "5-8",
+      "Single-Arm Hammer Strength Row": "8-12",
+      "Seated Cable Row": "8-12",
+      "Shoulder Press": "8-12",
+      "Lat Prayer": "8-12",
+      "Behind-the-Back Cable Lateral Raise": "12-15",
+      "Cable Triceps Extension": "10-15",
+      "EZ Preacher Curl": "8-12",
+      "Barbell Squat": "5-8",
+      "Romanian Deadlift": "6-10",
+      "Leg Press": "8-12",
+      "Seated Hamstring Curl": "10-15",
+      "Leg Extensions": "12-15",
+      "Hack Squat Calf Raises": "12-20",
+      "Incline DB Bench Press": "6-10",
+      "Hammer Pulldown (Underhand)": "8-12",
+      "Bench-Supported Single-Arm Cable Pulldown": "8-12",
+      "Hammer Chest Press": "8-12",
+      "Bench-Supported DB Rear Delt Fly": "12-15",
+      "Leaning One-Arm Lateral Raise": "12-20",
+      "Rolling DB Tricep Extensions": "10-15",
+      "Straight-Bar Cable Curl": "10-15",
+      "Lying Leg Curls": "10-15",
+      "Front-Foot Elevated Bulgarian Split Squat": "8-12",
+      "Single Leg Machine Hip Thrust": "10-15",
+      "Cable Crunch": "8-12"
+    },
+    "distinctRepRanges": [
+      "10-15",
+      "12-15",
+      "12-20",
+      "5-8",
+      "6-10",
+      "8-12"
     ],
     "week": {
       "sampledWeek": 1,

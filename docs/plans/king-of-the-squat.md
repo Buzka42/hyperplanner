@@ -50,12 +50,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Heavy Squat · Volume Waves | 5 | 20 | Paused Low Bar Squat 6, Leg Extensions 3, Seated Ham Curl 3, Long Pause Bench Press 4, Hammer Upper Row 4 |
-| Bench + Deadlift Maintenance · Volume Waves | 6 | 20 | Wide-Grip Bench Press 5, Conventional Deadlift 3, Hammer Lower Row 3, Glute-Ham Raise 3, Rear-Delt Rope Pulls to Face 3, Ab Wheel 3 |
-| Squat Volume · Volume Waves | 6 | 22 | Paused Back Squat 5, Heel-Elevated Goblet Squat 3, Hip Adduction 3, Pull-Up 4, Heavy Rolling Tricep Extensions 4, Seated DB Shoulder Press 3 |
-| Structural Squat + Heavy Bench · Volume Waves | 5 | 20 | Front Squats 5, Paused Bench Press 5, Hip-Supported Dumbbell Deadlift 3, Hack Squat Calf Raises 4, Machine Rear Delt Fly 3 |
+| Heavy Squat · Volume Waves | 5 | 20 | Paused Low Bar Squat 6×5, Leg Extensions 3×8-12, Seated Ham Curl 3×8-12, Long Pause Bench Press 4×6-8, Hammer Upper Row 4×8-12 |
+| Bench + Deadlift Maintenance · Volume Waves | 6 | 20 | Wide-Grip Bench Press 5×3-5, Conventional Deadlift 3×3, Hammer Lower Row 3×8-12, Glute-Ham Raise 3×10-15, Rear-Delt Rope Pulls to Face 3×12-20, Ab Wheel 3×10-20 |
+| Squat Volume · Volume Waves | 6 | 22 | Paused Back Squat 5×5-8, Heel-Elevated Goblet Squat 3×10-15, Hip Adduction 3×12-15, Pull-Up 4×6-10, Heavy Rolling Tricep Extensions 4×10-15, Seated DB Shoulder Press 3×8-12 |
+| Structural Squat + Heavy Bench · Volume Waves | 5 | 20 | Front Squats 5×3-6, Paused Bench Press 5×3, Hip-Supported Dumbbell Deadlift 3×8-12, Hack Squat Calf Raises 4×10-20, Machine Rear Delt Fly 3×15-20 |
 
 ### Week-to-week shape
 
@@ -156,7 +156,31 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+13 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Glute-Ham Raise, Heavy Rolling Tricep Extensions, Heel-Elevated Goblet Squat |
+| `10-20` | Ab Wheel, Hack Squat Calf Raises |
+| `12-15` | Hip Adduction |
+| `12-20` | Rear-Delt Rope Pulls to Face |
+| `15-20` | Machine Rear Delt Fly |
+| `3` | Conventional Deadlift, Paused Bench Press |
+| `3-5` | Wide-Grip Bench Press |
+| `3-6` | Front Squats |
+| `5` | Paused Low Bar Squat |
+| `5-8` | Paused Back Squat |
+| `6-10` | Pull-Up |
+| `6-8` | Long Pause Bench Press |
+| `8-12` | Hammer Lower Row, Hammer Upper Row, Hip-Supported Dumbbell Deadlift, Leg Extensions, Seated DB Shoulder Press, Seated Ham Curl |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: king-of-the-squat
@@ -171,5 +195,6 @@ load: { systemic: 156, axial: 72, lower_back: 56, per_set_systemic: 1.9 }
 volume: { glutes: 28, quads: 22, chest: 14, back: 14, hamstrings: 12, shoulders: 9, triceps: 4, calves: 4, core: 3, biceps: 0 }
 coverage: { covered: 8, missing: ['biceps'], in_band: 3, over: ['quads', 'glutes'], under: ['shoulders', 'triceps', 'calves', 'core'] }
 set_shape: { slots: 22, ones: 0, twos: 0, threes: 12, four_plus: 10, mean: 3.73 }
+rep_ranges: ['10-15', '10-20', '12-15', '12-20', '15-20', '3', '3-5', '3-6', '5', '5-8', '6-10', '6-8', '8-12']
 variety: { distinct: 22, density: 2.68, top_share: 0.073, evenness: 0.991 }
 ```

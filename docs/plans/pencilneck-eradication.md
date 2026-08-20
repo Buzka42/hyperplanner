@@ -47,12 +47,12 @@ The onboarding card claims:
 
 > **Measurement note.** sampled week 2 (week 1 is off-median at 55 sets)
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Push A (Chest/Delts/Tri/Quads) | 9 | 19 | Flat Barbell Bench Press 3, Incline DB Press (45°) 3, Cable Flyes (mid height) 2, Seated DB Shoulder Press 3, Leaning Single Arm DB Lateral Raises 2, Overhead Tricep Extensions 2, Hack Squat 2, Leg Extensions 1, Standing Calf Raises 1 |
-| Pull A (Back/Rear Delt/Bi/Hams) | 9 | 20 | Hammer Pulldown (Underhand) 3, Seated Cable Row 3, Lat Prayer 3, Wide Grip BB Row 3, Side-Lying Rear Delt Flyes 2, Preacher EZ-Bar Curls 2, Romanian Deadlift 2, Lying Leg Curls 1, Hanging Leg Raises 1 |
-| Push B (Chest/Delts/Tri/Quads) | 9 | 21 | Incline Barbell Bench Press (45°) 3, Flat DB Press 3, Pec Deck 2, Standing Barbell Military Press 3, Leaning Single Arm DB Lateral Raises 2, Close-Grip Bench Press 3, Front Squats 2, Walking Lunges (DB) 2, Hack Calf Raises 1 |
-| Pull B (Back/Rear Delt/Bi/Hams) | 9 | 19 | Lat Pulldown (Neutral) 3, Single-Arm Hammer Strength Row 3, Single-Arm DB Row 3, Rear-Delt Rope Pulls to Face 2, Bench-Supported DB Rear Delt Fly 2, Incline DB Curls 2, Stiff-Legged Deadlift 2, Seated Leg Curls 1, Ab Wheel Rollouts 1 |
+| Push A (Chest/Delts/Tri/Quads) | 9 | 19 | Flat Barbell Bench Press 3×8-12, Incline DB Press (45°) 3×10-14, Cable Flyes (mid height) 2×12-15, Seated DB Shoulder Press 3×8-12, Leaning Single Arm DB Lateral Raises 2×15-20, Overhead Tricep Extensions 2×12-15, Hack Squat 2×10-15, Leg Extensions 1×15-20, Standing Calf Raises 1×12-18 |
+| Pull A (Back/Rear Delt/Bi/Hams) | 9 | 20 | Hammer Pulldown (Underhand) 3×8-12, Seated Cable Row 3×10-14, Lat Prayer 3×12-15, Wide Grip BB Row 3×10-15, Side-Lying Rear Delt Flyes 2×15-20, Preacher EZ-Bar Curls 2×10-15, Romanian Deadlift 2×8-12, Lying Leg Curls 1×12-16, Hanging Leg Raises 1×12-20 |
+| Push B (Chest/Delts/Tri/Quads) | 9 | 21 | Incline Barbell Bench Press (45°) 3×8-12, Flat DB Press 3×10-14, Pec Deck 2×12-15, Standing Barbell Military Press 3×8-12, Leaning Single Arm DB Lateral Raises 2×15-20, Close-Grip Bench Press 3×6-10, Front Squats 2×6-10, Walking Lunges (DB) 2×12-16, Hack Calf Raises 1×15-20 |
+| Pull B (Back/Rear Delt/Bi/Hams) | 9 | 19 | Lat Pulldown (Neutral) 3×10-14, Single-Arm Hammer Strength Row 3×10-14, Single-Arm DB Row 3×12-15, Rear-Delt Rope Pulls to Face 2×20-30, Bench-Supported DB Rear Delt Fly 2×15-20, Incline DB Curls 2×12-15, Stiff-Legged Deadlift 2×10-14, Seated Leg Curls 1×12-16, Ab Wheel Rollouts 1×Failure |
 
 All 8 weeks carry the same set-count shape; what varies week to
 week is load, reps and technique rather than volume.
@@ -139,7 +139,29 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+11 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-14` | Flat DB Press, Incline DB Press (45°), Lat Pulldown (Neutral), Seated Cable Row, Single-Arm Hammer Strength Row, Stiff-Legged Deadlift |
+| `10-15` | Hack Squat, Preacher EZ-Bar Curls, Wide Grip BB Row |
+| `12-15` | Cable Flyes (mid height), Incline DB Curls, Lat Prayer, Overhead Tricep Extensions, Pec Deck, Single-Arm DB Row |
+| `12-16` | Lying Leg Curls, Seated Leg Curls, Walking Lunges (DB) |
+| `12-18` | Standing Calf Raises |
+| `12-20` | Hanging Leg Raises |
+| `15-20` | Bench-Supported DB Rear Delt Fly, Hack Calf Raises, Leaning Single Arm DB Lateral Raises, Leg Extensions, Side-Lying Rear Delt Flyes |
+| `20-30` | Rear-Delt Rope Pulls to Face |
+| `6-10` | Close-Grip Bench Press, Front Squats |
+| `8-12` | Flat Barbell Bench Press, Hammer Pulldown (Underhand), Incline Barbell Bench Press (45°), Romanian Deadlift, Seated DB Shoulder Press, Standing Barbell Military Press |
+| `Failure` | Ab Wheel Rollouts |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: pencilneck-eradication
@@ -154,5 +176,6 @@ load: { systemic: 125, axial: 34, lower_back: 30, per_set_systemic: 1.58 }
 volume: { shoulders: 22, back: 21, chest: 19, glutes: 10, quads: 7, hamstrings: 6, triceps: 5, biceps: 4, calves: 2, core: 2 }
 coverage: { covered: 8, missing: [], in_band: 2, over: ['shoulders', 'back'], under: ['biceps', 'triceps', 'quads', 'hamstrings', 'calves', 'core'] }
 set_shape: { slots: 36, ones: 7, twos: 15, threes: 14, four_plus: 0, mean: 2.19 }
+rep_ranges: ['10-14', '10-15', '12-15', '12-16', '12-18', '12-20', '15-20', '20-30', '6-10', '8-12', 'Failure']
 variety: { distinct: 35, density: 4.43, top_share: 0.051, evenness: 0.981 }
 ```

@@ -49,12 +49,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Horizon — Upper A · Approach | 8 | 20 | 30° Smith Incline Bench Press 4, Single-Arm Hammer Strength Row 2, Dumbbell Seal Row 2, Seated Hammer Shoulder Press 3, Close Neutral Grip Lat Pulldown 3, Cable Lateral Raise 2, Bayesian Cable Curl 2, Cable Triceps Extension 2 |
-| Horizon — Lower A · Approach | 6 | 19 | Hack Squat 4, Romanian Deadlift 3, Leg Extensions 3, Seated Hamstring Curl 3, Single Leg Machine Hip Thrust 3, Hack Squat Calf Raises 3 |
-| Horizon — Upper B · Approach | 8 | 18 | Hammer Pulldown (Underhand) 4, Hammer Chest Press 2, Machine Press/Fly Combo 2, Side-Lying Rear Delt Flyes 2, Pec Deck 2, Lying Cable Lat Raises 2, Cable Curl 2, French Press 2 |
-| Horizon — Lower B · Approach | 7 | 21 | Leg Press 4, Lying Leg Curls 3, Front-Foot Elevated Bulgarian Split Squat 3, Machine Hip Abduction 3, Supported Sissy Squat 3, Hack Squat Calf Raises 3, Cable Crunch 2 |
+| Horizon — Upper A · Approach | 8 | 20 | 30° Smith Incline Bench Press 4×6-10, Single-Arm Hammer Strength Row 2×8-12, Dumbbell Seal Row 2×8-12, Seated Hammer Shoulder Press 3×8-12, Close Neutral Grip Lat Pulldown 3×8-12, Cable Lateral Raise 2×12-15, Bayesian Cable Curl 2×8-12, Cable Triceps Extension 2×10-15 |
+| Horizon — Lower A · Approach | 6 | 19 | Hack Squat 4×6-10, Romanian Deadlift 3×8-12, Leg Extensions 3×12-15, Seated Hamstring Curl 3×10-15, Single Leg Machine Hip Thrust 3×10-15, Hack Squat Calf Raises 3×12-20 |
+| Horizon — Upper B · Approach | 8 | 18 | Hammer Pulldown (Underhand) 4×8-12, Hammer Chest Press 2×8-12, Machine Press/Fly Combo 2×8-12, Side-Lying Rear Delt Flyes 2×12-15, Pec Deck 2×12-15, Lying Cable Lat Raises 2×12-20, Cable Curl 2×10-15, French Press 2×10-15 |
+| Horizon — Lower B · Approach | 7 | 21 | Leg Press 4×8-12, Lying Leg Curls 3×10-15, Front-Foot Elevated Bulgarian Split Squat 3×8-12, Machine Hip Abduction 3×12-20, Supported Sissy Squat 3×12-20, Hack Squat Calf Raises 3×12-20, Cable Crunch 2×8-12 |
 
 ### Week-to-week shape
 
@@ -147,7 +147,23 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+5 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Curl, Cable Triceps Extension, French Press, Lying Leg Curls, Seated Hamstring Curl, Single Leg Machine Hip Thrust |
+| `12-15` | Cable Lateral Raise, Leg Extensions, Pec Deck, Side-Lying Rear Delt Flyes |
+| `12-20` | Hack Squat Calf Raises, Lying Cable Lat Raises, Machine Hip Abduction, Supported Sissy Squat |
+| `6-10` | 30° Smith Incline Bench Press, Hack Squat |
+| `8-12` | Bayesian Cable Curl, Cable Crunch, Close Neutral Grip Lat Pulldown, Dumbbell Seal Row, Front-Foot Elevated Bulgarian Split Squat, Hammer Chest Press, Hammer Pulldown (Underhand), Leg Press, Machine Press/Fly Combo, Romanian Deadlift, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: event-horizon
@@ -162,5 +178,6 @@ load: { systemic: 102, axial: 25, lower_back: 13, per_set_systemic: 1.31 }
 volume: { glutes: 20, quads: 17, shoulders: 13, back: 11, chest: 10, hamstrings: 9, calves: 6, biceps: 4, triceps: 4, core: 2 }
 coverage: { covered: 9, missing: [], in_band: 6, over: [], under: ['biceps', 'triceps', 'hamstrings', 'core'] }
 set_shape: { slots: 29, ones: 0, twos: 13, threes: 12, four_plus: 4, mean: 2.69 }
+rep_ranges: ['10-15', '12-15', '12-20', '6-10', '8-12']
 variety: { distinct: 28, density: 3.59, top_share: 0.077, evenness: 0.985 }
 ```

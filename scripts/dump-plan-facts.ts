@@ -27,6 +27,17 @@ const label = (name: string) => {
     return [translated, ...rest].join(' ');
 };
 
+/** Enough profile for a preprocessDay hook to run without throwing. */
+const previewUser = (planId: string): any => ({
+    id: 'docs', codeword: 'docs', programId: planId,
+    startDate: '2026-01-05T00:00:00.000Z', completedSessions: 0,
+    selectedDays: [1, 2, 3, 4, 5, 6],
+    stats: { pausedBench: 100, wideGripBench: 90, spotoPress: 95, lowPinPress: 88, btnPress: 40,
+        squat: 140, lowBarSquat: 140, conventionalDeadlift: 180, bodyweightKg: 82 },
+    benchHistory: [], programProgress: {}, badges: [],
+    pencilneckStatus: { cycle: 1 }, skeletonStatus: { plankTargetSeconds: 30 },
+});
+
 const out: any[] = [];
 for (const meta of ORDERED_PLAN_META) {
     const week = materialise(meta.id);
@@ -61,6 +72,30 @@ for (const meta of ORDERED_PLAN_META) {
     if (week) {
         const m = score(week);
         const s = setShape(week);
+
+        /**
+         * Prescribed rep ranges, taken from the sampled week after the plan's
+         * own hooks have run. `materialise` keeps set counts but drops the
+         * target, and the docs need the range: whether a squat and a lateral
+         * raise are asked for at the same reps is exactly the thing a reader
+         * cannot otherwise check.
+         */
+        const repsByExercise: Record<string, string> = {};
+        const sampled = cfg?.program?.weeks?.find((w: any) => w.weekNumber === week.week);
+        for (const day of sampled?.days ?? []) {
+            if (!day.exercises?.length) continue;
+            let processed = day;
+            try {
+                if (cfg?.hooks?.preprocessDay) processed = cfg.hooks.preprocessDay(structuredClone(day), previewUser(meta.id));
+            } catch { /* a plan that needs richer state keeps its raw targets */ }
+            for (const ex of processed.exercises ?? []) {
+                if (ex?.name && ex?.target?.reps != null && !repsByExercise[ex.name]) {
+                    repsByExercise[ex.name] = String(ex.target.reps);
+                }
+            }
+        }
+        row.repsByExercise = repsByExercise;
+        row.distinctRepRanges = [...new Set(Object.values(repsByExercise))].sort();
         row.week = { sampledWeek: week.week, trainingDays: week.trainingDays, perVisitGenerator: week.perVisitGenerator, notes: week.notes };
         row.metrics = m;
         row.setShape = s;

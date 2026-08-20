@@ -50,12 +50,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Heavy Gravity · Ascent | 5 | 19 | Weighted Chin-Up 5, Weighted Dip 5, Hammer Upper Row 3, Sissy Squat 3, Hanging Leg Raises 3 |
-| Single-Leg Gravity · Ascent | 6 | 20 | Goblet Skater Squat 4, Hip-Supported Dumbbell Deadlift 4, TRX Body Row 3, Deficit Pushups 3, Standing Calf Raises 3, Ab Wheel 3 |
-| Volume Gravity · Ascent | 6 | 22 | Chin-Up 6, Dip 6, Heel-Elevated Goblet Squat 4, Cable Lateral Raise 2, Cable Curl 2, Cable Triceps Extension 2 |
-| Control Gravity · Ascent | 7 | 21 | TRX Push-Up 3, TRX Body Row 3, Cable Lateral Raise 3, Sissy Squat 3, Hip-Supported Dumbbell Deadlift 3, Standing Calf Raises 3, Hanging Knee Raise 3 |
+| Heavy Gravity · Ascent | 5 | 19 | Weighted Chin-Up 5×3-5, Weighted Dip 5×3-5, Hammer Upper Row 3×8-12, Sissy Squat 3×10-15, Hanging Leg Raises 3×10-20 |
+| Single-Leg Gravity · Ascent | 6 | 20 | Goblet Skater Squat 4×8-12, Hip-Supported Dumbbell Deadlift 4×8-12, TRX Body Row 3×10-15, Deficit Pushups 3×AMRAP, Standing Calf Raises 3×12-20, Ab Wheel 3×6-15 |
+| Volume Gravity · Ascent | 6 | 22 | Chin-Up 6×AMRAP, Dip 6×AMRAP, Heel-Elevated Goblet Squat 4×10-15, Cable Lateral Raise 2×12-20, Cable Curl 2×10-15, Cable Triceps Extension 2×10-15 |
+| Control Gravity · Ascent | 7 | 21 | TRX Push-Up 3×10-20, TRX Body Row 3×10-15, Cable Lateral Raise 3×12-20, Sissy Squat 3×10-15, Hip-Supported Dumbbell Deadlift 3×8-12, Standing Calf Raises 3×12-20, Hanging Knee Raise 3×12-20 |
 
 ### Week-to-week shape
 
@@ -149,7 +149,25 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+7 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Curl, Cable Triceps Extension, Heel-Elevated Goblet Squat, Sissy Squat, TRX Body Row |
+| `10-20` | Hanging Leg Raises, TRX Push-Up |
+| `12-20` | Cable Lateral Raise, Hanging Knee Raise, Standing Calf Raises |
+| `3-5` | Weighted Chin-Up, Weighted Dip |
+| `6-15` | Ab Wheel |
+| `8-12` | Goblet Skater Squat, Hammer Upper Row, Hip-Supported Dumbbell Deadlift |
+| `AMRAP` | Chin-Up, Deficit Pushups, Dip |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: gravity-is-optional
@@ -164,5 +182,6 @@ load: { systemic: 145, axial: 15, lower_back: 39, per_set_systemic: 1.77 }
 volume: { back: 20, chest: 17, glutes: 15, quads: 14, biceps: 13, triceps: 13, core: 9, hamstrings: 7, calves: 6, shoulders: 5 }
 coverage: { covered: 10, missing: [], in_band: 8, over: [], under: ['shoulders', 'hamstrings'] }
 set_shape: { slots: 24, ones: 0, twos: 3, threes: 14, four_plus: 7, mean: 3.42 }
+rep_ranges: ['10-15', '10-20', '12-20', '3-5', '6-15', '8-12', 'AMRAP']
 variety: { distinct: 19, density: 2.32, top_share: 0.085, evenness: 0.978 }
 ```

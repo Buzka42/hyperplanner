@@ -49,11 +49,11 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Atlas I — Carry the Bar · Gauntlet I | 6 | 17 | Safety Bar Squat 4, Standing Military Press 3, Single-Arm Hammer Strength Row 3, Single-Leg Romanian Deadlift 2, Ab Wheel 2, Farmer Carry 3 |
-| Atlas II — Carry the Weight · Gauntlet I | 7 | 18 | Trap-Bar Deadlift 4, Weighted Pull-ups 3, Incline DB Bench Press 3, Front-Foot Elevated Bulgarian Split Squat 2, Hack Squat Calf Raises 2, Heavy Rolling Tricep Extensions 2, Suitcase Carry 2 |
-| Atlas III — Carry the Rest · Gauntlet I | 9 | 21 | Safety Bar Squat 3, Flat DB Press 3, Barbell Row 3, Seated Hamstring Curl 2, Leaning One-Arm Lateral Raise 2, Standing Straight-Bar Curl 2, Cable Triceps Extension 2, Hack Squat Calf Raises 2, Suitcase Hold 2 |
+| Atlas I — Carry the Bar · Gauntlet I | 6 | 17 | Safety Bar Squat 4×5-8, Standing Military Press 3×5-8, Single-Arm Hammer Strength Row 3×8-12, Single-Leg Romanian Deadlift 2×8-10, Ab Wheel 2×8-12, Farmer Carry 3×40-60 |
+| Atlas II — Carry the Weight · Gauntlet I | 7 | 18 | Trap-Bar Deadlift 4×4-6, Weighted Pull-ups 3×4-8, Incline DB Bench Press 3×6-10, Front-Foot Elevated Bulgarian Split Squat 2×8-12, Hack Squat Calf Raises 2×12-20, Heavy Rolling Tricep Extensions 2×10-15, Suitcase Carry 2×30-40 |
+| Atlas III — Carry the Rest · Gauntlet I | 9 | 21 | Safety Bar Squat 3×5-8, Flat DB Press 3×6-10, Barbell Row 3×6-10, Seated Hamstring Curl 2×10-15, Leaning One-Arm Lateral Raise 2×12-15, Standing Straight-Bar Curl 2×8-12, Cable Triceps Extension 2×10-15, Hack Squat Calf Raises 2×12-20, Suitcase Hold 2×30-45 |
 
 ### Week-to-week shape
 
@@ -141,7 +141,30 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+12 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Triceps Extension, Heavy Rolling Tricep Extensions, Seated Hamstring Curl |
+| `12-15` | Leaning One-Arm Lateral Raise |
+| `12-20` | Hack Squat Calf Raises |
+| `30-40` | Suitcase Carry |
+| `30-45` | Suitcase Hold |
+| `4-6` | Trap-Bar Deadlift |
+| `4-8` | Weighted Pull-ups |
+| `40-60` | Farmer Carry |
+| `5-8` | Safety Bar Squat, Standing Military Press |
+| `6-10` | Barbell Row, Flat DB Press, Incline DB Bench Press |
+| `8-10` | Single-Leg Romanian Deadlift |
+| `8-12` | Ab Wheel, Front-Foot Elevated Bulgarian Split Squat, Single-Arm Hammer Strength Row, Standing Straight-Bar Curl |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: atlas
@@ -156,5 +179,6 @@ load: { systemic: 110, axial: 56, lower_back: 51, per_set_systemic: 1.96 }
 volume: { glutes: 15, quads: 13, back: 12, shoulders: 8, hamstrings: 8, chest: 6, core: 6, biceps: 5, triceps: 4, calves: 4 }
 coverage: { covered: 10, missing: [], in_band: 4, over: [], under: ['chest', 'shoulders', 'biceps', 'triceps', 'hamstrings', 'calves'] }
 set_shape: { slots: 22, ones: 0, twos: 12, threes: 8, four_plus: 2, mean: 2.55 }
+rep_ranges: ['10-15', '12-15', '12-20', '30-40', '30-45', '4-6', '4-8', '40-60', '5-8', '6-10', '8-10', '8-12']
 variety: { distinct: 20, density: 3.57, top_share: 0.125, evenness: 0.976 }
 ```

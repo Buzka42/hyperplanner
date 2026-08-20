@@ -49,12 +49,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Push A — Chest + Quads · Foundation | 6 | 13 | Goblet Heel-Elevated Squat (legacy id) 3, Single-Arm Floor Press 3, Bulgarian Split Squat 2, Push-Up 2, Single-Arm Overhead Triceps Extension 2, Suitcase Hold 1 |
-| Pull A — Back + Hamstrings · Foundation | 6 | 13 | Single-Arm DB Row 3, Romanian Deadlift 3, Dumbbell Pullover 2, Single-Leg Romanian Deadlift 2, Hammer Curls 2, Suitcase Carry 1 |
-| Push B — Shoulders + Quads/Glutes · Foundation | 6 | 14 | Single-Arm Standing Press 3, Goblet Skater Squat 3, Single-Arm Floor Press 2, Supported Sissy Squat 2, Leaning One-Arm Lateral Raise 2, Close-Grip Push-Up 2 |
-| Pull B — Back + Glutes/Hamstrings · Foundation | 6 | 15 | B-Stance Romanian Deadlift 3, Single-Arm DB Row 3, Glute Bridge 3, Dumbbell Pullover 2, Rear-Delt Row 2, Hammer Curls 2 |
+| Push A — Chest + Quads · Foundation | 6 | 13 | Goblet Heel-Elevated Squat (legacy id) 3×8-15, Single-Arm Floor Press 3×8-15, Bulgarian Split Squat 2×8-15, Push-Up 2×AMRAP, Single-Arm Overhead Triceps Extension 2×10-20, Suitcase Hold 1×30-60 |
+| Pull A — Back + Hamstrings · Foundation | 6 | 13 | Single-Arm DB Row 3×8-15, Romanian Deadlift 3×8-15, Dumbbell Pullover 2×10-20, Single-Leg Romanian Deadlift 2×8-15, Hammer Curls 2×10-20, Suitcase Carry 1×30-60 |
+| Push B — Shoulders + Quads/Glutes · Foundation | 6 | 14 | Single-Arm Standing Press 3×6-12, Goblet Skater Squat 3×6-12, Single-Arm Floor Press 2×8-15, Supported Sissy Squat 2×10-20, Leaning One-Arm Lateral Raise 2×12-25, Close-Grip Push-Up 2×AMRAP |
+| Pull B — Back + Glutes/Hamstrings · Foundation | 6 | 15 | B-Stance Romanian Deadlift 3×8-15, Single-Arm DB Row 3×8-15, Glute Bridge 3×10-20, Dumbbell Pullover 2×10-20, Rear-Delt Row 2×12-20, Hammer Curls 2×10-20 |
 
 ### Week-to-week shape
 
@@ -147,7 +147,25 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+7 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-20` | Dumbbell Pullover, Glute Bridge, Hammer Curls, Single-Arm Overhead Triceps Extension, Supported Sissy Squat |
+| `12-20` | Rear-Delt Row |
+| `12-25` | Leaning One-Arm Lateral Raise |
+| `30-60` | Suitcase Carry, Suitcase Hold |
+| `6-12` | Goblet Skater Squat, Single-Arm Standing Press |
+| `8-15` | B-Stance Romanian Deadlift, Bulgarian Split Squat, Goblet Heel-Elevated Squat (legacy id), Romanian Deadlift, Single-Arm DB Row, Single-Arm Floor Press, Single-Leg Romanian Deadlift |
+| `AMRAP` | Close-Grip Push-Up, Push-Up |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: house-of-iron
@@ -162,5 +180,6 @@ load: { systemic: 102, axial: 26, lower_back: 36, per_set_systemic: 1.85 }
 volume: { glutes: 16, back: 10, quads: 10, chest: 9, hamstrings: 8, shoulders: 7, triceps: 7, biceps: 4, core: 2, calves: 0 }
 coverage: { covered: 8, missing: ['calves'], in_band: 4, over: [], under: ['chest', 'shoulders', 'biceps', 'hamstrings', 'core'] }
 set_shape: { slots: 24, ones: 2, twos: 13, threes: 9, four_plus: 0, mean: 2.29 }
+rep_ranges: ['10-20', '12-20', '12-25', '30-60', '6-12', '8-15', 'AMRAP']
 variety: { distinct: 20, density: 3.64, top_share: 0.109, evenness: 0.969 }
 ```

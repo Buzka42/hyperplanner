@@ -50,12 +50,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Chimera — Upper A · Block I | 9 | 22 | Flat Barbell Bench Press 4, Single-Arm Hammer Strength Row 2, Bench-Supported One-Arm Dumbbell Row 2, Single-Arm Landmine Press 3, Pull-Up 3, Leaning One-Arm Lateral Raise 2, Standing Straight-Bar Curl 2, Heavy Rolling Tricep Extensions 2, Cable Crunch 2 |
-| Chimera — Lower A · Block I | 6 | 18 | Barbell Squat 4, Romanian Deadlift 3, Front-Foot Elevated Bulgarian Split Squat 3, Seated Hamstring Curl 3, Leg Extensions 2, Hack Squat Calf Raises 3 |
-| Chimera — Upper B · Block I | 8 | 20 | Hammer Pulldown (Underhand) 4, Incline DB Bench Press 2, 30° Smith Incline Bench Press 2, Barbell Row 3, Hammer Chest Press 3, Side-Lying Rear Delt Flyes 2, Cable Triceps Extension 2, Standing Straight-Bar Curl 2 |
-| Chimera — Lower B · Block I | 6 | 19 | Trap-Bar Deadlift 4, Leg Press 3, Weighted Step-Up 3, Lying Leg Curls 3, Single Leg Machine Hip Thrust 3, Hack Squat Calf Raises 3 |
+| Chimera — Upper A · Block I | 9 | 22 | Flat Barbell Bench Press 4×5-8, Single-Arm Hammer Strength Row 2×8-12, Bench-Supported One-Arm Dumbbell Row 2×8-12, Single-Arm Landmine Press 3×8-12, Pull-Up 3×8-12, Leaning One-Arm Lateral Raise 2×12-15, Standing Straight-Bar Curl 2×8-12, Heavy Rolling Tricep Extensions 2×10-15, Cable Crunch 2×8-12 |
+| Chimera — Lower A · Block I | 6 | 18 | Barbell Squat 4×5-8, Romanian Deadlift 3×6-10, Front-Foot Elevated Bulgarian Split Squat 3×8-12, Seated Hamstring Curl 3×10-15, Leg Extensions 2×12-15, Hack Squat Calf Raises 3×12-20 |
+| Chimera — Upper B · Block I | 8 | 20 | Hammer Pulldown (Underhand) 4×8-12, Incline DB Bench Press 2×6-10, 30° Smith Incline Bench Press 2×6-10, Barbell Row 3×6-10, Hammer Chest Press 3×8-12, Side-Lying Rear Delt Flyes 2×12-15, Cable Triceps Extension 2×10-15, Standing Straight-Bar Curl 2×8-12 |
+| Chimera — Lower B · Block I | 6 | 19 | Trap-Bar Deadlift 4×4-6, Leg Press 3×8-12, Weighted Step-Up 3×8-10, Lying Leg Curls 3×10-15, Single Leg Machine Hip Thrust 3×10-15, Hack Squat Calf Raises 3×12-20 |
 
 ### Week-to-week shape
 
@@ -147,7 +147,26 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+8 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Triceps Extension, Heavy Rolling Tricep Extensions, Lying Leg Curls, Seated Hamstring Curl, Single Leg Machine Hip Thrust |
+| `12-15` | Leaning One-Arm Lateral Raise, Leg Extensions, Side-Lying Rear Delt Flyes |
+| `12-20` | Hack Squat Calf Raises |
+| `4-6` | Trap-Bar Deadlift |
+| `5-8` | Barbell Squat, Flat Barbell Bench Press |
+| `6-10` | 30° Smith Incline Bench Press, Barbell Row, Incline DB Bench Press, Romanian Deadlift |
+| `8-10` | Weighted Step-Up |
+| `8-12` | Bench-Supported One-Arm Dumbbell Row, Cable Crunch, Front-Foot Elevated Bulgarian Split Squat, Hammer Chest Press, Hammer Pulldown (Underhand), Leg Press, Pull-Up, Single-Arm Hammer Strength Row, Single-Arm Landmine Press, Standing Straight-Bar Curl |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: project-chimera
@@ -162,5 +181,6 @@ load: { systemic: 132, axial: 51, lower_back: 42, per_set_systemic: 1.67 }
 volume: { glutes: 23, quads: 19, back: 14, hamstrings: 13, chest: 11, shoulders: 11, calves: 6, biceps: 4, triceps: 4, core: 2 }
 coverage: { covered: 9, missing: [], in_band: 6, over: ['glutes'], under: ['biceps', 'triceps', 'core'] }
 set_shape: { slots: 29, ones: 0, twos: 12, threes: 13, four_plus: 4, mean: 2.72 }
+rep_ranges: ['10-15', '12-15', '12-20', '4-6', '5-8', '6-10', '8-10', '8-12']
 variety: { distinct: 27, density: 3.42, top_share: 0.076, evenness: 0.985 }
 ```

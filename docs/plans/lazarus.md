@@ -52,11 +52,11 @@ The onboarding card claims:
 
 > **Measurement note.** sampled week 3 (week 1 is off-median at 46 sets)
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Return I · Remembering | 8 | 19 | Heel-Elevated Goblet Squat 3, 30° Smith Incline Bench Press 3, Single-Arm Hammer Strength Row 3, Seated Hamstring Curl 2, Cable Lateral Raise 2, Overhead Tricep Extensions 2, Hack Squat Calf Raises 2, Cable Crunch 2 |
-| Return II · Remembering | 7 | 17 | Hip-Supported Dumbbell Deadlift 3, Overhand Mid-Grip Pulldown 3, Dip 3, Reverse Nordic Curls 2, Machine Rear Delt Fly 2, Hack Squat Calf Raises 2, Machine Curl 2 |
-| Return III · Remembering | 8 | 20 | Leg Press 3, Seated Hammer Shoulder Press 3, Hammer Pulldown (Underhand) 3, Machine Press/Fly Combo 3, Lying Leg Curls 2, Machine Curl 2, Cable Triceps Extension 2, Planks 2 |
+| Return I · Remembering | 8 | 19 | Heel-Elevated Goblet Squat 3×8-12, 30° Smith Incline Bench Press 3×8-12, Single-Arm Hammer Strength Row 3×8-12, Seated Hamstring Curl 2×10-15, Cable Lateral Raise 2×12-15, Overhead Tricep Extensions 2×8-15, Hack Squat Calf Raises 2×12-20, Cable Crunch 2×8-12 |
+| Return II · Remembering | 7 | 17 | Hip-Supported Dumbbell Deadlift 3×8-12, Overhand Mid-Grip Pulldown 3×8-12, Dip 3×8-12, Reverse Nordic Curls 2×10-15, Machine Rear Delt Fly 2×12-15, Hack Squat Calf Raises 2×12-20, Machine Curl 2×8-12 |
+| Return III · Remembering | 8 | 20 | Leg Press 3×10-15, Seated Hammer Shoulder Press 3×8-12, Hammer Pulldown (Underhand) 3×8-12, Machine Press/Fly Combo 3×8-12, Lying Leg Curls 2×10-15, Machine Curl 2×8-12, Cable Triceps Extension 2×8-15, Planks 2×30-60sec |
 
 ### Week-to-week shape
 
@@ -135,7 +135,24 @@ No slot sits at one set and none carries more than three. Nothing to flag.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+6 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Leg Press, Lying Leg Curls, Reverse Nordic Curls, Seated Hamstring Curl |
+| `12-15` | Cable Lateral Raise, Machine Rear Delt Fly |
+| `12-20` | Hack Squat Calf Raises |
+| `30-60sec` | Planks |
+| `8-12` | 30° Smith Incline Bench Press, Cable Crunch, Dip, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Machine Curl, Machine Press/Fly Combo, Overhand Mid-Grip Pulldown, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
+| `8-15` | Cable Triceps Extension, Overhead Tricep Extensions |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: lazarus
@@ -150,5 +167,6 @@ load: { systemic: 77, axial: 15, lower_back: 9, per_set_systemic: 1.38 }
 volume: { shoulders: 10, chest: 9, back: 9, glutes: 9, quads: 8, triceps: 7, hamstrings: 7, biceps: 4, calves: 4, core: 4 }
 coverage: { covered: 10, missing: [], in_band: 2, over: [], under: ['chest', 'back', 'biceps', 'quads', 'hamstrings', 'glutes', 'calves', 'core'] }
 set_shape: { slots: 23, ones: 0, twos: 13, threes: 10, four_plus: 0, mean: 2.43 }
+rep_ranges: ['10-15', '12-15', '12-20', '30-60sec', '8-12', '8-15']
 variety: { distinct: 21, density: 3.75, top_share: 0.071, evenness: 0.991 }
 ```

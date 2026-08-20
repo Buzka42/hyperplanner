@@ -48,12 +48,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Weighted Chin Strength · Ascent | 6 | 18 | Weighted Chin-Up 6, Hammer Chest Press 3, Hammer Lower Row 3, Machine Rear Delt Fly 2, Cable Triceps Extension 2, Cable Lateral Raise 2 |
-| Legs + Vertical Pull Volume · Ascent | 6 | 19 | Goblet Skater Squat 3, Hip-Supported Dumbbell Deadlift 3, Hack Squat Calf Raises 3, Pull-Up 4, 30° Incline-Lying Dumbbell Curl 3, Ab Wheel 3 |
-| Horizontal Back · Ascent | 7 | 22 | Dumbbell Seal Row 4, Hammer Lower Row 3, Incline DB Bench Press 3, Standing Military Press 3, Reverse Curl 3, Overhead Tricep Extensions 3, Bench-Supported DB Rear Delt Fly 3 |
-| Legs + Chest · Ascent | 7 | 20 | Heel-Elevated Goblet Squat 3, Sissy Squat 2, Seated Ham Curl 3, Pec Deck 3, Hanging Leg Raises 3, Hack Squat Calf Raises 3, Seated Dumbbell Lateral Raise 3 |
+| Weighted Chin Strength · Ascent | 6 | 18 | Weighted Chin-Up 6×3-5, Hammer Chest Press 3×8-12, Hammer Lower Row 3×8-12, Machine Rear Delt Fly 2×15-20, Cable Triceps Extension 2×10-15, Cable Lateral Raise 2×12-20 |
+| Legs + Vertical Pull Volume · Ascent | 6 | 19 | Goblet Skater Squat 3×8-12, Hip-Supported Dumbbell Deadlift 3×8-12, Hack Squat Calf Raises 3×12-20, Pull-Up 4×6-10, 30° Incline-Lying Dumbbell Curl 3×10-15, Ab Wheel 3×8-15 |
+| Horizontal Back · Ascent | 7 | 22 | Dumbbell Seal Row 4×6-10, Hammer Lower Row 3×8-12, Incline DB Bench Press 3×8-12, Standing Military Press 3×6-10, Reverse Curl 3×10-15, Overhead Tricep Extensions 3×12-20, Bench-Supported DB Rear Delt Fly 3×15-20 |
+| Legs + Chest · Ascent | 7 | 20 | Heel-Elevated Goblet Squat 3×10-15, Sissy Squat 2×12-20, Seated Ham Curl 3×10-15, Pec Deck 3×8-12, Hanging Leg Raises 3×10-20, Hack Squat Calf Raises 3×12-20, Seated Dumbbell Lateral Raise 3×12-20 |
 
 ### Week-to-week shape
 
@@ -143,7 +143,26 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+8 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | 30° Incline-Lying Dumbbell Curl, Cable Triceps Extension, Heel-Elevated Goblet Squat, Reverse Curl, Seated Ham Curl |
+| `10-20` | Hanging Leg Raises |
+| `12-20` | Cable Lateral Raise, Hack Squat Calf Raises, Overhead Tricep Extensions, Seated Dumbbell Lateral Raise, Sissy Squat |
+| `15-20` | Bench-Supported DB Rear Delt Fly, Machine Rear Delt Fly |
+| `3-5` | Weighted Chin-Up |
+| `6-10` | Dumbbell Seal Row, Pull-Up, Standing Military Press |
+| `8-12` | Goblet Skater Squat, Hammer Chest Press, Hammer Lower Row, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Pec Deck |
+| `8-15` | Ab Wheel |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: workhorse
@@ -158,5 +177,6 @@ load: { systemic: 117, axial: 15, lower_back: 23, per_set_systemic: 1.48 }
 volume: { back: 20, shoulders: 16, biceps: 12, chest: 9, glutes: 9, quads: 8, hamstrings: 6, calves: 6, core: 6, triceps: 5 }
 coverage: { covered: 10, missing: [], in_band: 5, over: [], under: ['chest', 'triceps', 'quads', 'hamstrings', 'glutes'] }
 set_shape: { slots: 26, ones: 0, twos: 4, threes: 19, four_plus: 3, mean: 3.04 }
+rep_ranges: ['10-15', '10-20', '12-20', '15-20', '3-5', '6-10', '8-12', '8-15']
 variety: { distinct: 24, density: 3.04, top_share: 0.076, evenness: 0.983 }
 ```

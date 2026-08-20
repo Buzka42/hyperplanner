@@ -49,12 +49,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| PRESSURE · Ignition | 9 | 17 | Leg Press 3, Incline DB Bench Press 2, Single-Arm Hammer Strength Row 2, Seated Hamstring Curl 2, Cable Lateral Raise 2, Rope Hammer Curl 2, Overhead Tricep Extensions 2, Kettlebell Swing 1, Farmer Carry 1 |
-| REDLINE · Ignition | 10 | 18 | Lat Pulldown (Neutral) 3, Front-Foot Elevated Bulgarian Split Squat 2, Deficit Pushups 2, Hip-Supported Dumbbell Deadlift 2, Single Arm Reverse Pec Deck 2, Hack Squat Calf Raises 2, Ab Wheel 2, Heel-Elevated Goblet Squat 1, Push-Up 1, Farmer Carry 1 |
-| FURNACE · Ignition | 10 | 18 | Paused Bench Press 3, Goblet Skater Squat 2, Bench-Supported Single-Arm Cable Pulldown 2, Leg Extensions 2, Lat Prayer 2, Behind-the-Back Cable Lateral Raise 2, Rope Hammer Curl 2, Kettlebell Swing 1, Deficit Reverse Lunge 1, Deficit Pushups 1 |
-| AFTERBURN · Ignition | 10 | 20 | Trap-Bar Deadlift 3, Deficit Pushups 2, Hammer Pulldown (Underhand) 2, Deficit Reverse Lunge 2, Single-Arm Hammer Strength Row 2, Behind-the-Back Cable Lateral Raise 2, Cable Triceps Extension 2, Hack Squat Calf Raises 2, Ab Wheel 2, Farmer Carry 1 |
+| PRESSURE · Ignition | 9 | 17 | Leg Press 3×4-6, Incline DB Bench Press 2×6-10, Single-Arm Hammer Strength Row 2×6-10, Seated Hamstring Curl 2×8-12, Cable Lateral Raise 2×12-15, Rope Hammer Curl 2×8-15, Overhead Tricep Extensions 2×8-15, Kettlebell Swing 1×10-15, Farmer Carry 1×20-30 |
+| REDLINE · Ignition | 10 | 18 | Lat Pulldown (Neutral) 3×4-6, Front-Foot Elevated Bulgarian Split Squat 2×8-10, Deficit Pushups 2×6-10, Hip-Supported Dumbbell Deadlift 2×8-10, Single Arm Reverse Pec Deck 2×12-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 2×8-15, Heel-Elevated Goblet Squat 1×8, Push-Up 1×6-10, Farmer Carry 1×20-30 |
+| FURNACE · Ignition | 10 | 18 | Paused Bench Press 3×4-6, Goblet Skater Squat 2×8-12, Bench-Supported Single-Arm Cable Pulldown 2×6-10, Leg Extensions 2×10-15, Lat Prayer 2×10-15, Behind-the-Back Cable Lateral Raise 2×12-20, Rope Hammer Curl 2×8-15, Kettlebell Swing 1×10-15, Deficit Reverse Lunge 1×8, Deficit Pushups 1×6-10 |
+| AFTERBURN · Ignition | 10 | 20 | Trap-Bar Deadlift 3×4-6, Deficit Pushups 2×6-10, Hammer Pulldown (Underhand) 2×8-12, Deficit Reverse Lunge 2×8, Single-Arm Hammer Strength Row 2×6-10, Behind-the-Back Cable Lateral Raise 2×12-20, Cable Triceps Extension 2×8-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 2×8-15, Farmer Carry 1×20-30 |
 
 ### Week-to-week shape
 
@@ -134,7 +134,28 @@ No slot sits at one set and none carries more than three. Nothing to flag.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+10 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Kettlebell Swing, Lat Prayer, Leg Extensions |
+| `12-15` | Cable Lateral Raise, Single Arm Reverse Pec Deck |
+| `12-20` | Behind-the-Back Cable Lateral Raise, Hack Squat Calf Raises |
+| `20-30` | Farmer Carry |
+| `4-6` | Lat Pulldown (Neutral), Leg Press, Paused Bench Press, Trap-Bar Deadlift |
+| `6-10` | Bench-Supported Single-Arm Cable Pulldown, Deficit Pushups, Incline DB Bench Press, Push-Up, Single-Arm Hammer Strength Row |
+| `8` | Deficit Reverse Lunge, Heel-Elevated Goblet Squat |
+| `8-10` | Front-Foot Elevated Bulgarian Split Squat, Hip-Supported Dumbbell Deadlift |
+| `8-12` | Goblet Skater Squat, Hammer Pulldown (Underhand), Seated Hamstring Curl |
+| `8-15` | Ab Wheel, Cable Triceps Extension, Overhead Tricep Extensions, Rope Hammer Curl |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: redline
@@ -149,5 +170,6 @@ load: { systemic: 120, axial: 30, lower_back: 35, per_set_systemic: 1.64 }
 volume: { glutes: 18, back: 16, quads: 16, chest: 11, shoulders: 10, hamstrings: 9, biceps: 7, triceps: 4, calves: 4, core: 4 }
 coverage: { covered: 10, missing: [], in_band: 6, over: [], under: ['triceps', 'hamstrings', 'calves', 'core'] }
 set_shape: { slots: 39, ones: 0, twos: 0, threes: 0, four_plus: 0, mean: 1.87 }
+rep_ranges: ['10-15', '12-15', '12-20', '20-30', '4-6', '6-10', '8', '8-10', '8-12', '8-15']
 variety: { distinct: 28, density: 3.84, top_share: 0.068, evenness: 0.979 }
 ```

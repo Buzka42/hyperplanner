@@ -45,12 +45,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Monday - Glute/Legs Heavy | 6 | 17 | Sumo Deadlift 3, Front-Foot Elevated Bulgarian Split Squat 3, Squats 3, Seated Hamstring Curl 3, Hack Squat Calf Raises 3, Machine Hip Abduction 2 |
-| Wednesday - Glute/Upper Pump | 7 | 17 | Kas Glute Bridge 3, 45-Degree Hyperextension 2, Standing Military Press 2, Incline DB Bench Press (45°) 2, Inverted Rows 3, Side-Lying Rear Delt Fly 3, Cable Crunch 2 |
-| Friday - Posterior Chain | 6 | 17 | DB Romanian Deadlift 3, Paused Squat 3, Glute Ham Raise (eccentric only) 3, Hip Adduction 3, Standing Calf Raises 3, Machine Hip Abduction 2 |
-| Saturday - Unilateral & Pump | 7 | 17 | Deficit Reverse Lunge 2, Single Leg Machine Hip Thrust 3, Deficit Push-ups 3, Assisted Pull-ups 2, Y-Raises 2, Lying Cable Lat Raises 3, Cable Crunch 2 |
+| Monday - Glute/Legs Heavy | 6 | 17 | Sumo Deadlift 3×5-8, Front-Foot Elevated Bulgarian Split Squat 3×8-12, Squats 3×5-10, Seated Hamstring Curl 3×8-12, Hack Squat Calf Raises 3×15-20, Machine Hip Abduction 2×12-20 |
+| Wednesday - Glute/Upper Pump | 7 | 17 | Kas Glute Bridge 3×8-12, 45-Degree Hyperextension 2×15-20, Standing Military Press 2×8-12, Incline DB Bench Press (45°) 2×8-12, Inverted Rows 3×8-12, Side-Lying Rear Delt Fly 3×12-15, Cable Crunch 2×10-15 |
+| Friday - Posterior Chain | 6 | 17 | DB Romanian Deadlift 3×5-8, Paused Squat 3×5-10, Glute Ham Raise (eccentric only) 3×Failure, Hip Adduction 3×8-12, Standing Calf Raises 3×15-20, Machine Hip Abduction 2×12-20 |
+| Saturday - Unilateral & Pump | 7 | 17 | Deficit Reverse Lunge 2×8-12, Single Leg Machine Hip Thrust 3×12-15, Deficit Push-ups 3×Max, Assisted Pull-ups 2×Max, Y-Raises 2×12-15, Lying Cable Lat Raises 3×12-15, Cable Crunch 2×10-15 |
 
 ### Week-to-week shape
 
@@ -130,7 +130,27 @@ No slot sits at one set and none carries more than three. Nothing to flag.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+9 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Crunch |
+| `12-15` | Lying Cable Lat Raises, Side-Lying Rear Delt Fly, Single Leg Machine Hip Thrust, Y-Raises |
+| `12-20` | Machine Hip Abduction |
+| `15-20` | 45-Degree Hyperextension, Hack Squat Calf Raises, Standing Calf Raises |
+| `5-10` | Paused Squat, Squats |
+| `5-8` | DB Romanian Deadlift, Sumo Deadlift |
+| `8-12` | Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Hip Adduction, Incline DB Bench Press (45°), Inverted Rows, Kas Glute Bridge, Seated Hamstring Curl, Standing Military Press |
+| `Failure` | Glute Ham Raise (eccentric only) |
+| `Max` | Assisted Pull-ups, Deficit Push-ups |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: peachy-glute-plan
@@ -145,5 +165,6 @@ load: { systemic: 107, axial: 34, lower_back: 40, per_set_systemic: 1.57 }
 volume: { glutes: 32, back: 12, hamstrings: 12, quads: 11, shoulders: 10, calves: 6, chest: 5, core: 4, biceps: 0, triceps: 0 }
 coverage: { covered: 8, missing: ['biceps', 'triceps'], in_band: 5, over: ['glutes'], under: ['chest', 'core'] }
 set_shape: { slots: 26, ones: 0, twos: 10, threes: 16, four_plus: 0, mean: 2.62 }
+rep_ranges: ['10-15', '12-15', '12-20', '15-20', '5-10', '5-8', '8-12', 'Failure', 'Max']
 variety: { distinct: 24, density: 3.53, top_share: 0.059, evenness: 0.994 }
 ```

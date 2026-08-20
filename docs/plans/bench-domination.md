@@ -50,14 +50,14 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Monday - Heavy Strength | 7 | 19 | Walking Lunges 3, Heels-Off Narrow Leg Press 3, Reverse Nordic Curls 2, Single-Leg Machine Hip Thrust 3, Nordic Curls 3, Hack Squat Calf Raises 3, Hip Adduction 2 |
-| Tuesday - Legs | 5 | 21 | Paused Bench Press 4, Spoto Press 3, Weighted Pull-ups 8, Y-Raises 3, Around-the-Worlds 3 |
-| Wednesday - Volume Hypertrophy | 7 | 20 | Paused Bench Press 5, Low Pin Press 2, Behind-the-Neck Press 4, Bodyweight Dips 2, Rolling DB Tricep Extensions 2, Banded EZ Bar Skullcrushers 2, Cable Crunch 3 |
-| Thursday - Power / Speed | 7 | 19 | Walking Lunges 3, Heels-Off Narrow Leg Press 3, Reverse Nordic Curls 2, Single-Leg Machine Hip Thrust 3, Nordic Curls 3, Hack Squat Calf Raises 3, Machine Hip Abduction 2 |
-| Friday - Legs | 7 | 20 | Paused Bench Press 4, Wide-Grip Bench Press 3, Behind-the-Neck Press 4, Bodyweight Dips 2, Rolling DB Tricep Extensions 2, Banded EZ Bar Skullcrushers 2, Dragon Flags 3 |
-| Saturday - AMRAP Test | 5 | 13 | Paused Bench Press (AMRAP) 1, Paused Bench Press (Back-off) 3, Wide-Grip Bench Press 3, Weighted Pull-ups 3, Y-Raises 3 |
+| Monday - Heavy Strength | 7 | 19 | Walking Lunges 3×10-15, Heels-Off Narrow Leg Press 3×10-15, Reverse Nordic Curls 2×Failure, Single-Leg Machine Hip Thrust 3×10-15, Nordic Curls 3×Failure, Hack Squat Calf Raises 3×15-20, Hip Adduction 2×8-12 |
+| Tuesday - Legs | 5 | 21 | Paused Bench Press 4×5-10, Spoto Press 3×5, Weighted Pull-ups 8×Max, Y-Raises 3×12-15, Around-the-Worlds 3×4-16 |
+| Wednesday - Volume Hypertrophy | 7 | 20 | Paused Bench Press 5×5-10, Low Pin Press 2×4, Behind-the-Neck Press 4, Bodyweight Dips 2, Rolling DB Tricep Extensions 2, Banded EZ Bar Skullcrushers 2, Cable Crunch 3×Failure |
+| Thursday - Power / Speed | 7 | 19 | Walking Lunges 3×10-15, Heels-Off Narrow Leg Press 3×10-15, Reverse Nordic Curls 2×Failure, Single-Leg Machine Hip Thrust 3×10-15, Nordic Curls 3×Failure, Hack Squat Calf Raises 3×15-20, Machine Hip Abduction 2×8-12 |
+| Friday - Legs | 7 | 20 | Paused Bench Press 4×5-10, Wide-Grip Bench Press 3×6-8, Behind-the-Neck Press 4, Bodyweight Dips 2, Rolling DB Tricep Extensions 2, Banded EZ Bar Skullcrushers 2, Dragon Flags 3×Failure |
+| Saturday - AMRAP Test | 5 | 13 | Paused Bench Press (AMRAP) 1×AMRAP, Paused Bench Press (Back-off) 3×5, Wide-Grip Bench Press 3×6-8, Weighted Pull-ups 3×Max, Y-Raises 3×12-15 |
 
 ### Week-to-week shape
 
@@ -161,7 +161,31 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+13 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Heels-Off Narrow Leg Press, Single-Leg Machine Hip Thrust, Walking Lunges |
+| `12-15` | Y-Raises |
+| `15-20` | Hack Squat Calf Raises |
+| `4` | Low Pin Press |
+| `4-16` | Around-the-Worlds |
+| `5` | Paused Bench Press (Back-off), Spoto Press |
+| `5-10` | Paused Bench Press |
+| `6-8` | Wide-Grip Bench Press |
+| `8-12` | Hip Adduction, Machine Hip Abduction |
+| `AMRAP` | Paused Bench Press (AMRAP) |
+| `Failure` | Cable Crunch, Dragon Flags, Nordic Curls, Reverse Nordic Curls |
+| `Giant` | Tricep Giant Set |
+| `Max` | Weighted Pull-ups |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: bench-domination
@@ -176,5 +200,6 @@ load: { systemic: 175, axial: 28, lower_back: 0, per_set_systemic: 1.56 }
 volume: { chest: 35, glutes: 22, back: 17, quads: 16, triceps: 12, shoulders: 11, hamstrings: 6, calves: 6, core: 6, biceps: 0 }
 coverage: { covered: 9, missing: ['biceps'], in_band: 6, over: ['chest', 'glutes'], under: ['hamstrings'] }
 set_shape: { slots: 38, ones: 1, twos: 11, threes: 20, four_plus: 6, mean: 2.95 }
+rep_ranges: ['10-15', '12-15', '15-20', '4', '4-16', '5', '5-10', '6-8', '8-12', 'AMRAP', 'Failure', 'Giant', 'Max']
 variety: { distinct: 21, density: 1.88, top_share: 0.152, evenness: 0.946 }
 ```

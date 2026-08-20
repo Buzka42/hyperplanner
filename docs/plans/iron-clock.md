@@ -50,12 +50,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| First Bell · Winding | 7 | 9 | Hack Squat 3, Incline DB Bench Press 1, Single-Arm Hammer Strength Row 1, Seated Hamstring Curl 1, Lateral Raises 1, Kettlebell Swing 1, Ab Wheel 1 |
-| Second Bell · Winding | 7 | 9 | Lat Pulldown (Neutral) 3, Front-Foot Elevated Bulgarian Split Squat 1, Hammer Chest Press 1, Hip-Supported Dumbbell Deadlift 1, Single Arm Reverse Pec Deck 1, Hack Squat Calf Raises 1, Hammer Curls 1 |
-| Third Bell · Winding | 7 | 9 | Paused Bench Press 3, Goblet Skater Squat 1, Hammer Pulldown (Underhand) 1, Leg Extensions 1, Lat Prayer 1, Hammer Curls 1, Cable Triceps Extension 1 |
-| Final Bell · Winding | 7 | 9 | Romanian Deadlift 3, Hammer Chest Press 1, Single-Arm Hammer Strength Row 1, Deficit Reverse Lunge 1, Lateral Raises 1, Hack Squat Calf Raises 1, Cable Triceps Extension 1 |
+| First Bell · Winding | 7 | 9 | Hack Squat 3×5-8, Incline DB Bench Press 1×8-10, Single-Arm Hammer Strength Row 1×8-10, Seated Hamstring Curl 1×10-12, Lateral Raises 1×12-15, Kettlebell Swing 1×12-15, Ab Wheel 1×8-12 |
+| Second Bell · Winding | 7 | 9 | Lat Pulldown (Neutral) 3×6-8, Front-Foot Elevated Bulgarian Split Squat 1×8-10, Hammer Chest Press 1×8-10, Hip-Supported Dumbbell Deadlift 1×8-12, Single Arm Reverse Pec Deck 1×12-15, Hack Squat Calf Raises 1×12-20, Hammer Curls 1×8-15 |
+| Third Bell · Winding | 7 | 9 | Paused Bench Press 3×4-6, Goblet Skater Squat 1×8-12, Hammer Pulldown (Underhand) 1×8-10, Leg Extensions 1×10-15, Lat Prayer 1×10-15, Hammer Curls 1×8-15, Cable Triceps Extension 1×8-15 |
+| Final Bell · Winding | 7 | 9 | Romanian Deadlift 3×5-8, Hammer Chest Press 1×8-10, Single-Arm Hammer Strength Row 1×8-10, Deficit Reverse Lunge 1×8-12, Lateral Raises 1×12-15, Hack Squat Calf Raises 1×12-20, Cable Triceps Extension 1×8-15 |
 
 ### Week-to-week shape
 
@@ -135,7 +135,28 @@ No slot sits at one set and none carries more than three. Nothing to flag.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+10 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-12` | Seated Hamstring Curl |
+| `10-15` | Lat Prayer, Leg Extensions |
+| `12-15` | Kettlebell Swing, Lateral Raises, Single Arm Reverse Pec Deck |
+| `12-20` | Hack Squat Calf Raises |
+| `4-6` | Paused Bench Press |
+| `5-8` | Hack Squat, Romanian Deadlift |
+| `6-8` | Lat Pulldown (Neutral) |
+| `8-10` | Front-Foot Elevated Bulgarian Split Squat, Hammer Chest Press, Hammer Pulldown (Underhand), Incline DB Bench Press, Single-Arm Hammer Strength Row |
+| `8-12` | Ab Wheel, Deficit Reverse Lunge, Goblet Skater Squat, Hip-Supported Dumbbell Deadlift |
+| `8-15` | Cable Triceps Extension, Hammer Curls |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: iron-clock
@@ -150,5 +171,6 @@ load: { systemic: 60, axial: 17, lower_back: 17, per_set_systemic: 1.67 }
 volume: { glutes: 11, back: 7, quads: 7, chest: 6, hamstrings: 6, shoulders: 4, biceps: 2, triceps: 2, calves: 2, core: 1 }
 coverage: { covered: 6, missing: [], in_band: 1, over: [], under: ['chest', 'shoulders', 'back', 'biceps', 'triceps', 'quads', 'hamstrings', 'calves', 'core'] }
 set_shape: { slots: 28, ones: 0, twos: 0, threes: 0, four_plus: 0, mean: 1.29 }
+rep_ranges: ['10-12', '10-15', '12-15', '12-20', '4-6', '5-8', '6-8', '8-10', '8-12', '8-15']
 variety: { distinct: 22, density: 6.11, top_share: 0.083, evenness: 0.966 }
 ```

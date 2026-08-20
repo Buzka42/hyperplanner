@@ -46,10 +46,10 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Session A · Establish | 9 | 18 | Hack Squat 2, Hip-Supported Dumbbell Deadlift 2, Incline DB Bench Press 2, Single-Arm Hammer Strength Row 2, Cable Lateral Raise 2, EZ Preacher Curl 2, Cable Triceps Extension 2, Hack Squat Calf Raises 2, Ab Wheel 2 |
-| Session B · Establish | 10 | 20 | Leg Press 2, Seated Hamstring Curl 2, 30° Smith Incline Bench Press 2, Close Neutral Grip Lat Pulldown 2, Seated Hammer Shoulder Press 2, Single Leg Machine Hip Thrust 2, Bayesian Cable Curl 2, Overhead Tricep Extensions 2, Standing Calf Raises 2, Hanging Knee Raise 2 |
+| Session A · Establish | 9 | 18 | Hack Squat 2×6-10, Hip-Supported Dumbbell Deadlift 2×6-10, Incline DB Bench Press 2×6-10, Single-Arm Hammer Strength Row 2×8-12, Cable Lateral Raise 2×12-15, EZ Preacher Curl 2×8-12, Cable Triceps Extension 2×8-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 2×8-12 |
+| Session B · Establish | 10 | 20 | Leg Press 2×8-12, Seated Hamstring Curl 2×10-15, 30° Smith Incline Bench Press 2×8-12, Close Neutral Grip Lat Pulldown 2×8-12, Seated Hammer Shoulder Press 2×8-12, Single Leg Machine Hip Thrust 2×10-15, Bayesian Cable Curl 2×10-15, Overhead Tricep Extensions 2×10-15, Standing Calf Raises 2×12-20, Hanging Knee Raise 2×10-15 |
 
 ### Week-to-week shape
 
@@ -129,7 +129,24 @@ No slot sits at one set and none carries more than three. Nothing to flag.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+6 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Bayesian Cable Curl, Hanging Knee Raise, Overhead Tricep Extensions, Seated Hamstring Curl, Single Leg Machine Hip Thrust |
+| `12-15` | Cable Lateral Raise |
+| `12-20` | Hack Squat Calf Raises, Standing Calf Raises |
+| `6-10` | Hack Squat, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press |
+| `8-12` | 30° Smith Incline Bench Press, Ab Wheel, Close Neutral Grip Lat Pulldown, EZ Preacher Curl, Leg Press, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
+| `8-15` | Cable Triceps Extension |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: the-minimum
@@ -144,5 +161,6 @@ load: { systemic: 54, axial: 10, lower_back: 10, per_set_systemic: 1.42 }
 volume: { shoulders: 8, glutes: 8, chest: 4, back: 4, biceps: 4, triceps: 4, quads: 4, hamstrings: 4, calves: 4, core: 4 }
 coverage: { covered: 10, missing: [], in_band: 0, over: [], under: ['chest', 'shoulders', 'back', 'biceps', 'triceps', 'quads', 'hamstrings', 'glutes', 'calves', 'core'] }
 set_shape: { slots: 19, ones: 0, twos: 19, threes: 0, four_plus: 0, mean: 2 }
+rep_ranges: ['10-15', '12-15', '12-20', '6-10', '8-12', '8-15']
 variety: { distinct: 19, density: 5, top_share: 0.053, evenness: 1 }
 ```

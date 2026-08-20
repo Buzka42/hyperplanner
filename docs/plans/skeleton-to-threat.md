@@ -45,7 +45,7 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
 | Day 1 | 7 | 19 | Deficit Push-ups 3, Leg Extensions 3, Supported Stiff Legged DB Deadlift 3, Standing Calf Raises 3, Inverted Rows 2, Overhand Mid-Grip Pulldown 2, Planks 3 |
 | Day 2 | 7 | 19 | Deficit Push-ups 3, Leg Extensions 3, Supported Stiff Legged DB Deadlift 3, Standing Calf Raises 3, Inverted Rows 2, Overhand Mid-Grip Pulldown 2, Planks 3 |
@@ -123,7 +123,7 @@ No slot sits at one set and none carries more than three. Nothing to flag.
 
 ---
 
-## 6. Export block
+## 7. Export block
 
 ```yaml
 id: skeleton-to-threat

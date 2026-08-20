@@ -198,10 +198,16 @@ def render(r):
         add('</details>')
         add('')
     else:
-        add('| Day | Slots | Sets | Work |')
+        reps = r.get('repsByExercise') or {}
+
+        def slot_text(sl):
+            rng = reps.get(sl['name'])
+            return '%s %d%s' % (esc(sl['name']), sl['sets'], '×%s' % esc(rng) if rng else '')
+
+        add('| Day | Slots | Sets | Work (sets×reps) |')
         add('|---|---:|---:|---|')
         for label, d in zip(labels, rows):
-            work = ', '.join('%s %d' % (esc(s['name']), s['sets']) for s in d['slots'])
+            work = ', '.join(slot_text(sl) for sl in d['slots'])
             add('| %s | %d | %d | %s |' % (esc(label), len(d['slots']), d['sets'], work))
         add('')
         if per_visit:
@@ -335,7 +341,26 @@ def render(r):
     add('---')
     add('')
 
-    add('## 6. Export block')
+    ranges = r.get('distinctRepRanges') or []
+    if ranges:
+        add('## 6. Rep schemes')
+        add('')
+        add('%d distinct rep ranges across the plan. A plan that prescribes one' % len(ranges))
+        add('range for every movement is asking a lateral raise and a squat the')
+        add('same question; a real spread is the sign that each slot was chosen.')
+        add('')
+        add('| Range | Movements |')
+        add('|---|---|')
+        by_range = {}
+        for nm, rng in (r.get('repsByExercise') or {}).items():
+            by_range.setdefault(rng, []).append(nm)
+        for rng in ranges:
+            add('| `%s` | %s |' % (esc(rng), ', '.join(esc(n) for n in sorted(by_range[rng]))))
+        add('')
+        add('---')
+        add('')
+
+    add('## 7. Export block')
     add('')
     add('```yaml')
     add('id: %s' % pid)
@@ -357,6 +382,8 @@ def render(r):
     add('set_shape: { slots: %s, ones: %s, twos: %s, threes: %s, four_plus: %s, mean: %s }' % (
         ss.get('slots'), ss.get('singletons'), ss.get('twos'), ss.get('threes'),
         ss.get('fourPlus'), ss.get('avgSetsPerSlot')))
+    if ranges:
+        add('rep_ranges: %s' % ranges)
     add('variety: { distinct: %s, density: %s, top_share: %s, evenness: %s }' % (
         m.get('distinctExercises'), m.get('varietyDensity'), m.get('topExerciseShare'), m.get('evenness')))
     if m.get('unmapped'):

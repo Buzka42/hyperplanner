@@ -55,9 +55,9 @@ plan's own stated frequency, not a fixed template.
 
 > **Measurement note.** per-visit generator: one session × 3 sessions/week (declared frequency)
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Representative session | 3 | 15 | Conventional Deadlift (ME) 3, Low Bar Squat (DE) 8, Paused Bench Press (RE) 4 |
+| Representative session | 3 | 15 | Conventional Deadlift (ME) 3×1-3, Low Bar Squat (DE) 8×2-3, Paused Bench Press (RE) 4×8-12 |
 
 Weekly totals elsewhere in this doc are that session multiplied by the
 plan's declared 3 sessions per week.
@@ -141,7 +141,21 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+3 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `1-3` | Conventional Deadlift (ME), Low Bar Squat (ME), Paused Bench Press (ME) |
+| `2-3` | Conventional Deadlift (DE), Low Bar Squat (DE), Paused Bench Press (DE) |
+| `8-12` | Conventional Deadlift (RE), Low Bar Squat (RE), Paused Bench Press (RE) |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: trinary
@@ -156,5 +170,6 @@ load: { systemic: 123, axial: 99, lower_back: 75, per_set_systemic: 2.73 }
 volume: { glutes: 33, quads: 24, chest: 12, back: 9, hamstrings: 9, shoulders: 0, biceps: 0, triceps: 0, calves: 0, core: 0 }
 coverage: { covered: 5, missing: ['shoulders', 'biceps', 'triceps', 'calves', 'core'], in_band: 1, over: ['quads', 'glutes'], under: ['back', 'hamstrings'] }
 set_shape: { slots: 9, ones: 0, twos: 0, threes: 3, four_plus: 6, mean: 5 }
+rep_ranges: ['1-3', '2-3', '8-12']
 variety: { distinct: 3, density: 0.67, top_share: 0.533, evenness: 0.919 }
 ```

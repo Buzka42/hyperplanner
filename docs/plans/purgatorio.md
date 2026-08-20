@@ -51,12 +51,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Upper A · Accumulation | 6 | 21 | Flat DB Press 4, EZ Preacher Curl 3, Lat Pulldown (Neutral) 4, Rope Pressdown 3, Seated DB Shoulder Press 4, Leaning One-Arm Lateral Raise 3 |
-| Lower A · Accumulation | 6 | 19 | Hack Squat 4, Hack Squat Calf Raises 3, Lying Leg Curls 3, Single-Leg Dumbbell Romanian Deadlift 3, Hip Adduction 3, Planks 3 |
-| Upper B · Accumulation | 6 | 20 | Incline DB Bench Press 4, Dumbbell Hammer Curl (legacy id) 3, Seated Cable Row 4, French Press 3, Rear-Delt Rope Pulls to Face 3, Single Arm Reverse Pec Deck 3 |
-| Lower B · Accumulation | 6 | 19 | Heel-Elevated Goblet Squat 4, Machine Hip Abduction 3, Seated Ham Curl 3, Standing Dumbbell/KB Calf Raise 3, DB Romanian Deadlift 3, Planks 3 |
+| Upper A · Accumulation | 6 | 21 | Flat DB Press 4×10-15, EZ Preacher Curl 3×10-15, Lat Pulldown (Neutral) 4×10-15, Rope Pressdown 3×10-15, Seated DB Shoulder Press 4×10-15, Leaning One-Arm Lateral Raise 3×10-15 |
+| Lower A · Accumulation | 6 | 19 | Hack Squat 4×10-15, Hack Squat Calf Raises 3×10-15, Lying Leg Curls 3×10-15, Single-Leg Dumbbell Romanian Deadlift 3×10-15, Hip Adduction 3×10-15, Planks 3×Failure |
+| Upper B · Accumulation | 6 | 20 | Incline DB Bench Press 4×10-15, Dumbbell Hammer Curl (legacy id) 3×10-15, Seated Cable Row 4×10-15, French Press 3×10-15, Rear-Delt Rope Pulls to Face 3×10-15, Single Arm Reverse Pec Deck 3×10-15 |
+| Lower B · Accumulation | 6 | 19 | Heel-Elevated Goblet Squat 4×10-15, Machine Hip Abduction 3×10-15, Seated Ham Curl 3×10-15, Standing Dumbbell/KB Calf Raise 3×10-15, DB Romanian Deadlift 3×10-15, Planks 3×Failure |
 
 ### Week-to-week shape
 
@@ -151,7 +151,20 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+2 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | DB Romanian Deadlift, Dumbbell Hammer Curl (legacy id), EZ Preacher Curl, Flat DB Press, French Press, Hack Squat, Hack Squat Calf Raises, Heel-Elevated Goblet Squat, Hip Adduction, Incline DB Bench Press, Lat Pulldown (Neutral), Leaning One-Arm Lateral Raise, Lying Leg Curls, Machine Hip Abduction, Rear-Delt Rope Pulls to Face, Rope Pressdown, Seated Cable Row, Seated DB Shoulder Press, Seated Ham Curl, Single Arm Reverse Pec Deck, Single-Leg Dumbbell Romanian Deadlift, Standing Dumbbell/KB Calf Raise |
+| `Failure` | Planks |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: purgatorio
@@ -166,5 +179,6 @@ load: { systemic: 119, axial: 30, lower_back: 18, per_set_systemic: 1.51 }
 volume: { glutes: 20, shoulders: 17, hamstrings: 12, chest: 8, back: 8, quads: 8, biceps: 6, triceps: 6, calves: 6, core: 6 }
 coverage: { covered: 10, missing: [], in_band: 7, over: [], under: ['chest', 'back', 'quads'] }
 set_shape: { slots: 24, ones: 0, twos: 0, threes: 17, four_plus: 7, mean: 3.29 }
+rep_ranges: ['10-15', 'Failure']
 variety: { distinct: 23, density: 2.91, top_share: 0.076, evenness: 0.994 }
 ```

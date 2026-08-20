@@ -47,11 +47,11 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| A — Lower Access + Push/Pull · Stalk | 7 | 17 | Heel-Elevated Goblet Squat 3, Incline DB Bench Press 3, Bench-Supported One-Arm Dumbbell Row 3, Seated Hamstring Curl 2, Single-Arm Overhead Triceps Extension 2, Loaded Ankle Rock 2, Open-Book Rotation 2 |
-| B — Hinge + Vertical · Stalk | 8 | 17 | Romanian Deadlift 3, Assisted Pull-ups 3, Single-Arm Landmine Press 2, Front-Foot Elevated Bulgarian Split Squat 2, Bench-Supported DB Rear Delt Fly 2, Loaded Ankle Rock 2, Ab Wheel 2, Suitcase Carry 1 |
-| C — Unilateral + Shape · Stalk | 7 | 16 | Deficit Reverse Lunge 3, Hammer Chest Press 2, Single-Arm Hammer Strength Row 3, Hip Thrusts 2, Rope Pressdown 2, Loaded Ankle Rock 2, Open-Book Rotation 2 |
+| A — Lower Access + Push/Pull · Stalk | 7 | 17 | Heel-Elevated Goblet Squat 3×8-12, Incline DB Bench Press 3×8-12, Bench-Supported One-Arm Dumbbell Row 3×8-12, Seated Hamstring Curl 2×10-15, Single-Arm Overhead Triceps Extension 2×12-20, Loaded Ankle Rock 2×8-12, Open-Book Rotation 2×8-12 |
+| B — Hinge + Vertical · Stalk | 8 | 17 | Romanian Deadlift 3×6-10, Assisted Pull-ups 3×6-10, Single-Arm Landmine Press 2×8-12, Front-Foot Elevated Bulgarian Split Squat 2×8-12, Bench-Supported DB Rear Delt Fly 2×12-20, Loaded Ankle Rock 2×8-12, Ab Wheel 2×8-12, Suitcase Carry 1×30-60 |
+| C — Unilateral + Shape · Stalk | 7 | 16 | Deficit Reverse Lunge 3×8-12, Hammer Chest Press 2×8-15, Single-Arm Hammer Strength Row 3×8-15, Hip Thrusts 2×8-15, Rope Pressdown 2×12-20, Loaded Ankle Rock 2×8-12, Open-Book Rotation 2×8-12 |
 
 ### Week-to-week shape
 
@@ -144,7 +144,24 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+6 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Seated Hamstring Curl |
+| `12-20` | Bench-Supported DB Rear Delt Fly, Rope Pressdown, Single-Arm Overhead Triceps Extension |
+| `30-60` | Suitcase Carry |
+| `6-10` | Assisted Pull-ups, Romanian Deadlift |
+| `8-12` | Ab Wheel, Bench-Supported One-Arm Dumbbell Row, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Heel-Elevated Goblet Squat, Incline DB Bench Press, Loaded Ankle Rock, Open-Book Rotation, Single-Arm Landmine Press |
+| `8-15` | Hammer Chest Press, Hip Thrusts, Single-Arm Hammer Strength Row |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: apex-predator
@@ -159,5 +176,6 @@ load: { systemic: 73, axial: 19, lower_back: 19, per_set_systemic: 1.46 }
 volume: { glutes: 13, back: 9, quads: 8, shoulders: 7, core: 7, calves: 6, chest: 5, hamstrings: 5, triceps: 4, biceps: 0 }
 coverage: { covered: 9, missing: ['biceps'], in_band: 3, over: [], under: ['chest', 'shoulders', 'back', 'triceps', 'quads', 'hamstrings'] }
 set_shape: { slots: 22, ones: 1, twos: 14, threes: 7, four_plus: 0, mean: 2.27 }
+rep_ranges: ['10-15', '12-20', '30-60', '6-10', '8-12', '8-15']
 variety: { distinct: 19, density: 3.8, top_share: 0.12, evenness: 0.976 }
 ```

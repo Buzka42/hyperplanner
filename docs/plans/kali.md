@@ -50,12 +50,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| I — Earth · Severance | 8 | 18 | High Bar Squat 3, Leg Press 2, Front-Foot Elevated Bulgarian Split Squat 2, Seated Hamstring Curl 2, Hammer Pulldown (Underhand) 3, Cable Lateral Raise 2, Hack Squat Calf Raises 2, Cable Triceps Extension 2 |
-| II — Hunt · Severance | 8 | 18 | Assisted Pull-ups 3, 30° Smith Incline Bench Press 2, Pec Deck 2, Single Leg Machine Hip Thrust 3, Single-Arm Hammer Strength Row 2, Lying Cable Lat Raises 2, Machine Curl 2, Overhead Tricep Extensions 2 |
-| III — Death · Severance | 8 | 19 | Romanian Deadlift 3, Hack Squat 2, Leg Extensions 2, Lat Prayer 3, Machine Hip Abduction 3, Side-Lying Rear Delt Flyes 2, Cable Crunch 2, Hack Squat Calf Raises 2 |
-| IV — Rebirth · Severance | 8 | 19 | Paused Bench Press 3, Dip 2, Single-Arm Hammer Strength Row 3, Single-Leg Hip Thrust 3, Bench-Supported Single-Arm Cable Pulldown 2, Lying Leg Curls 2, Lateral Raises 2, Machine Curl 2 |
+| I — Earth · Severance | 8 | 18 | High Bar Squat 3×3-6, Leg Press 2×8-12, Front-Foot Elevated Bulgarian Split Squat 2×8-12, Seated Hamstring Curl 2×10-15, Hammer Pulldown (Underhand) 3×8-12, Cable Lateral Raise 2×12-20, Hack Squat Calf Raises 2×12-20, Cable Triceps Extension 2×10-15 |
+| II — Hunt · Severance | 8 | 18 | Assisted Pull-ups 3×4-6, 30° Smith Incline Bench Press 2×8-12, Pec Deck 2×8-12, Single Leg Machine Hip Thrust 3×8-12, Single-Arm Hammer Strength Row 2×8-12, Lying Cable Lat Raises 2×8-12, Machine Curl 2×10-15, Overhead Tricep Extensions 2×10-15 |
+| III — Death · Severance | 8 | 19 | Romanian Deadlift 3×4-6, Hack Squat 2×8-12, Leg Extensions 2×10-15, Lat Prayer 3×8-12, Machine Hip Abduction 3×12-20, Side-Lying Rear Delt Flyes 2×12-20, Cable Crunch 2×10-15, Hack Squat Calf Raises 2×12-20 |
+| IV — Rebirth · Severance | 8 | 19 | Paused Bench Press 3×3-6, Dip 2×8-12, Single-Arm Hammer Strength Row 3×8-12, Single-Leg Hip Thrust 3×8-12, Bench-Supported Single-Arm Cable Pulldown 2×8-12, Lying Leg Curls 2×10-15, Lateral Raises 2×12-20, Machine Curl 2×10-15 |
 
 ### Week-to-week shape
 
@@ -136,7 +136,23 @@ No slot sits at one set and none carries more than three. Nothing to flag.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+5 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Crunch, Cable Triceps Extension, Leg Extensions, Lying Leg Curls, Machine Curl, Overhead Tricep Extensions, Seated Hamstring Curl |
+| `12-20` | Cable Lateral Raise, Hack Squat Calf Raises, Lateral Raises, Machine Hip Abduction, Side-Lying Rear Delt Flyes |
+| `3-6` | High Bar Squat, Paused Bench Press |
+| `4-6` | Assisted Pull-ups, Romanian Deadlift |
+| `8-12` | 30° Smith Incline Bench Press, Bench-Supported Single-Arm Cable Pulldown, Dip, Front-Foot Elevated Bulgarian Split Squat, Hack Squat, Hammer Pulldown (Underhand), Lat Prayer, Leg Press, Lying Cable Lat Raises, Pec Deck, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Single-Leg Hip Thrust |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: kali
@@ -151,5 +167,6 @@ load: { systemic: 101, axial: 26, lower_back: 15, per_set_systemic: 1.36 }
 volume: { glutes: 21, back: 16, quads: 11, shoulders: 10, chest: 9, hamstrings: 7, triceps: 6, biceps: 4, calves: 4, core: 2 }
 coverage: { covered: 9, missing: [], in_band: 4, over: ['glutes'], under: ['chest', 'biceps', 'hamstrings', 'calves', 'core'] }
 set_shape: { slots: 32, ones: 0, twos: 22, threes: 10, four_plus: 0, mean: 2.31 }
+rep_ranges: ['10-15', '12-20', '3-6', '4-6', '8-12']
 variety: { distinct: 29, density: 3.92, top_share: 0.068, evenness: 0.988 }
 ```

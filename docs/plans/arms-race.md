@@ -48,12 +48,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Volume + Legs · Escalation | 7 | 21 | Close-Grip Bench Press 4, Rope Hammer Curl 4, Reverse Curl 3, Rope Pressdown 2, Hack Squat 3, Hack Squat Calf Raises 3, Hip-Supported Dumbbell Deadlift 2 |
-| Lengthened · Escalation | 7 | 20 | Bayesian Cable Curl 4, Rolling DB Tricep Extensions 4, 30° Incline-Lying Dumbbell Curl 3, French Press 2, Bench-Supported Single-Arm Cable Pulldown 3, Pec Deck 2, Behind-the-Back Cable Lateral Raise 2 |
-| Pump · Escalation | 8 | 24 | Standing Straight-Bar Curl 4, Lying Dumbbell Skullcrusher 4, Machine Curl 3, Triangle Pushdown 2, Heel-Elevated Goblet Squat 3, Hack Squat Calf Raises 3, Cable Crunch 3, Seated Ham Curl 2 |
-| Go Nuclear (optional) · Escalation | 7 | 15 | Bodyweight Dips 2, Rolling DB Tricep Extensions 2, Banded EZ Bar Skullcrushers 2, 30° Incline-Lying Dumbbell Curl 1, 30° Smith Incline Bench Press 3, Hammer Upper Row 3, Machine Rear Delt Fly 2 |
+| Volume + Legs · Escalation | 7 | 21 | Close-Grip Bench Press 4×6-10, Rope Hammer Curl 4×8-12, Reverse Curl 3×8-12, Rope Pressdown 2×12-20, Hack Squat 3×8-12, Hack Squat Calf Raises 3×12-20, Hip-Supported Dumbbell Deadlift 2×8-12 |
+| Lengthened · Escalation | 7 | 20 | Bayesian Cable Curl 4×8-12, Rolling DB Tricep Extensions 4×10-15, 30° Incline-Lying Dumbbell Curl 3×12-15, French Press 2×10-15, Bench-Supported Single-Arm Cable Pulldown 3×8-12, Pec Deck 2×12-15, Behind-the-Back Cable Lateral Raise 2×15-20 |
+| Pump · Escalation | 8 | 24 | Standing Straight-Bar Curl 4×8-12, Lying Dumbbell Skullcrusher 4×12-15, Machine Curl 3×10-15, Triangle Pushdown 2×12-20, Heel-Elevated Goblet Squat 3×10-15, Hack Squat Calf Raises 3×12-20, Cable Crunch 3×12-20, Seated Ham Curl 2×10-15 |
+| Go Nuclear (optional) · Escalation | 7 | 15 | Bodyweight Dips 2, Rolling DB Tricep Extensions 2×10-15, Banded EZ Bar Skullcrushers 2, 30° Incline-Lying Dumbbell Curl 1×12-15, 30° Smith Incline Bench Press 3×8-12, Hammer Upper Row 3×8-12, Machine Rear Delt Fly 2×15-20 |
 
 ### Week-to-week shape
 
@@ -149,7 +149,25 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+7 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | French Press, Heel-Elevated Goblet Squat, Machine Curl, Rolling DB Tricep Extensions, Seated Ham Curl |
+| `12-15` | 30° Incline-Lying Dumbbell Curl, Lying Dumbbell Skullcrusher, Pec Deck |
+| `12-20` | Cable Crunch, Hack Squat Calf Raises, Rope Pressdown, Triangle Pushdown |
+| `15-20` | Behind-the-Back Cable Lateral Raise, Machine Rear Delt Fly |
+| `6-10` | Close-Grip Bench Press |
+| `8-12` | 30° Smith Incline Bench Press, Bayesian Cable Curl, Bench-Supported Single-Arm Cable Pulldown, Hack Squat, Hammer Upper Row, Hip-Supported Dumbbell Deadlift, Reverse Curl, Rope Hammer Curl, Standing Straight-Bar Curl |
+| `Giant` | Tricep Giant Set |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: arms-race
@@ -164,5 +182,6 @@ load: { systemic: 105, axial: 14, lower_back: 6, per_set_systemic: 1.31 }
 volume: { triceps: 24, biceps: 22, chest: 11, glutes: 8, shoulders: 7, back: 6, quads: 6, calves: 6, hamstrings: 4, core: 3 }
 coverage: { covered: 9, missing: [], in_band: 2, over: ['biceps', 'triceps'], under: ['shoulders', 'back', 'quads', 'hamstrings', 'glutes', 'core'] }
 set_shape: { slots: 29, ones: 1, twos: 11, threes: 11, four_plus: 6, mean: 2.76 }
+rep_ranges: ['10-15', '12-15', '12-20', '15-20', '6-10', '8-12', 'Giant']
 variety: { distinct: 26, density: 3.25, top_share: 0.075, evenness: 0.98 }
 ```

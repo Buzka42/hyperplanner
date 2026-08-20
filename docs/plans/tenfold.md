@@ -51,12 +51,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Chest Tenfold · Ten Sets | 5 | 18 | Hammer Chest Press 10, Hammer Upper Row 2, Cable Lateral Raise 2, Cable Triceps Extension 2, Machine Curl 2 |
-| Quad Tenfold · Ten Sets | 5 | 23 | Hack Squat 10, Seated Ham Curl 4, Hack Squat Calf Raises 3, Cable Crunch 3, Pec Deck 3 |
-| Back Tenfold · Ten Sets | 5 | 23 | Hammer Lower Row 10, Incline DB Bench Press 4, Machine Rear Delt Fly 3, EZ Preacher Curl 3, French Press 3 |
-| Hamstring Tenfold · Ten Sets | 6 | 24 | Seated Ham Curl 10, Heel-Elevated Goblet Squat 4, Hack Squat Calf Raises 2, Ab Wheel 3, Assisted Pull-ups 3, Cable Lateral Raise 2 |
+| Chest Tenfold · Ten Sets | 5 | 18 | Hammer Chest Press 10×10, Hammer Upper Row 2×8-12, Cable Lateral Raise 2×12-20, Cable Triceps Extension 2×10-15, Machine Curl 2×10-15 |
+| Quad Tenfold · Ten Sets | 5 | 23 | Hack Squat 10×10, Seated Ham Curl 4×8-12, Hack Squat Calf Raises 3×12-20, Cable Crunch 3×12-20, Pec Deck 3×10-15 |
+| Back Tenfold · Ten Sets | 5 | 23 | Hammer Lower Row 10×10, Incline DB Bench Press 4×8-12, Machine Rear Delt Fly 3×15-20, EZ Preacher Curl 3×10-15, French Press 3×10-15 |
+| Hamstring Tenfold · Ten Sets | 6 | 24 | Seated Ham Curl 10×8-12, Heel-Elevated Goblet Squat 4×10-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 3×8-15, Assisted Pull-ups 3×8-12, Cable Lateral Raise 2×12-20 |
 
 ### Week-to-week shape
 
@@ -149,7 +149,24 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+6 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10` | Hack Squat, Hammer Chest Press, Hammer Lower Row |
+| `10-15` | Cable Triceps Extension, EZ Preacher Curl, French Press, Heel-Elevated Goblet Squat, Machine Curl, Pec Deck |
+| `12-20` | Cable Crunch, Cable Lateral Raise, Hack Squat Calf Raises |
+| `15-20` | Machine Rear Delt Fly |
+| `8-12` | Assisted Pull-ups, Hammer Upper Row, Incline DB Bench Press, Seated Ham Curl |
+| `8-15` | Ab Wheel |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: tenfold
@@ -164,5 +181,6 @@ load: { systemic: 123, axial: 28, lower_back: 6, per_set_systemic: 1.4 }
 volume: { chest: 17, back: 15, quads: 14, hamstrings: 14, glutes: 14, shoulders: 11, core: 6, biceps: 5, triceps: 5, calves: 5 }
 coverage: { covered: 10, missing: [], in_band: 7, over: [], under: ['biceps', 'triceps', 'calves'] }
 set_shape: { slots: 21, ones: 0, twos: 6, threes: 8, four_plus: 7, mean: 4.19 }
+rep_ranges: ['10', '10-15', '12-20', '15-20', '8-12', '8-15']
 variety: { distinct: 18, density: 2.05, top_share: 0.159, evenness: 0.928 }
 ```

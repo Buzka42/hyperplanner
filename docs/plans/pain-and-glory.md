@@ -50,12 +50,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Pull Day | 6 | 22 | Deficit Snatch Grip Deadlift 10, Close Neutral Grip Lat Pulldown 4, Slow Eccentric Cheat Nordic Curls 2, Single-Leg Machine Hip Thrust 2, Dead Hang 2, Planks 2 |
-| Push Day | 5 | 15 | Paused Low Bar Squat 4, Leg Extensions 2, Hack Squat Calf Raises 2, Incline DB Bench Press 4, Standing Military Press 3 |
-| Push Day | 5 | 15 | Paused Low Bar Squat 4, Leg Extensions 2, Hack Squat Calf Raises 2, Paused Bench Press 4, Machine Rear Delt Fly 3 |
-| Pull Day | 6 | 22 | Deficit Snatch Grip Deadlift 10, Close Neutral Grip Lat Pulldown 4, Slow Eccentric Cheat Nordic Curls 2, Single-Leg Machine Hip Thrust 2, Dead Hang 2, Planks 2 |
+| Pull Day | 6 | 22 | Deficit Snatch Grip Deadlift 10×6, Close Neutral Grip Lat Pulldown 4×6-10, Slow Eccentric Cheat Nordic Curls 2×4-8, Single-Leg Machine Hip Thrust 2×8-12, Dead Hang 2×20-40, Planks 2×20-40 |
+| Push Day | 5 | 15 | Paused Low Bar Squat 4×4-6, Leg Extensions 2×6-10, Hack Squat Calf Raises 2×15-20, Incline DB Bench Press 4×6-10, Standing Military Press 3×6-10 |
+| Push Day | 5 | 15 | Paused Low Bar Squat 4×4-6, Leg Extensions 2×6-10, Hack Squat Calf Raises 2×15-20, Paused Bench Press 4×5-8, Machine Rear Delt Fly 3×12-20 |
+| Pull Day | 6 | 22 | Deficit Snatch Grip Deadlift 10×6, Close Neutral Grip Lat Pulldown 4×6-10, Slow Eccentric Cheat Nordic Curls 2×4-8, Single-Leg Machine Hip Thrust 2×8-12, Dead Hang 2×20-40, Planks 2×20-40 |
 
 ### Week-to-week shape
 
@@ -153,7 +153,27 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+9 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `12-20` | Machine Rear Delt Fly |
+| `15-20` | Hack Squat Calf Raises |
+| `20-40` | Dead Hang, Planks |
+| `4-6` | Paused Low Bar Squat |
+| `4-8` | Slow Eccentric Cheat Nordic Curls |
+| `5-8` | Paused Bench Press |
+| `6` | Deficit Snatch Grip Deadlift |
+| `6-10` | Close Neutral Grip Lat Pulldown, Incline DB Bench Press, Leg Extensions, Standing Military Press |
+| `8-12` | Single-Leg Machine Hip Thrust |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: pain-and-glory
@@ -168,5 +188,6 @@ load: { systemic: 141, axial: 90, lower_back: 76, per_set_systemic: 1.91 }
 volume: { glutes: 32, back: 28, hamstrings: 24, quads: 12, shoulders: 10, chest: 8, biceps: 4, calves: 4, core: 4, triceps: 0 }
 coverage: { covered: 9, missing: ['triceps'], in_band: 2, over: ['back', 'hamstrings', 'glutes'], under: ['chest', 'biceps', 'calves', 'core'] }
 set_shape: { slots: 22, ones: 0, twos: 12, threes: 2, four_plus: 8, mean: 3.36 }
+rep_ranges: ['12-20', '15-20', '20-40', '4-6', '4-8', '5-8', '6', '6-10', '8-12']
 variety: { distinct: 13, density: 1.76, top_share: 0.27, evenness: 0.919 }
 ```

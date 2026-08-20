@@ -50,12 +50,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Bench Neural · Charge | 9 | 17 | Paused Bench Press 1, Paused Bench Press 1, Paused Bench Press 1, Paused Bench Press 1, Barbell Row 4, Wide-Grip Cable Row 3, Leaning One-Arm Lateral Raise 2, Bayesian Cable Curl 2, Cable Triceps Extension 2 |
-| Squat Neural · Charge | 8 | 16 | Paused Low Bar Squat 1, Paused Low Bar Squat 1, Paused Low Bar Squat 1, Paused Low Bar Squat 1, Seated Ham Curl 3, Leg Extensions 3, Hack Squat Calf Raises 3, Cable Crunch 3 |
-| Chin Neural · Charge | 8 | 17 | Weighted Chin-Up 1, Weighted Chin-Up 1, Weighted Chin-Up 1, Weighted Chin-Up 1, Incline DB Bench Press 4, Machine Rear Delt Fly 3, Standing Straight-Bar Curl 3, Heavy Rolling Tricep Extensions 3 |
-| Lower Powerbuilding · Charge | 6 | 20 | Front Squats 5, Hip-Supported Dumbbell Deadlift 3, Goblet Skater Squat 3, Seated Ham Curl 3, Hack Squat Calf Raises 3, Low-to-High Cable Flyes 3 |
+| Bench Neural · Charge | 9 | 17 | Paused Bench Press 1×1, Paused Bench Press 1×1, Paused Bench Press 1×1, Paused Bench Press 1×1, Barbell Row 4×8-12, Wide-Grip Cable Row 3×8-12, Leaning One-Arm Lateral Raise 2×12-20, Bayesian Cable Curl 2×10-15, Cable Triceps Extension 2×10-15 |
+| Squat Neural · Charge | 8 | 16 | Paused Low Bar Squat 1×1, Paused Low Bar Squat 1×1, Paused Low Bar Squat 1×1, Paused Low Bar Squat 1×1, Seated Ham Curl 3×8-12, Leg Extensions 3×10-15, Hack Squat Calf Raises 3×12-20, Cable Crunch 3×12-20 |
+| Chin Neural · Charge | 8 | 17 | Weighted Chin-Up 1×1-2, Weighted Chin-Up 1×1-2, Weighted Chin-Up 1×1-2, Weighted Chin-Up 1×1-2, Incline DB Bench Press 4×8-12, Machine Rear Delt Fly 3×15-20, Standing Straight-Bar Curl 3×10-15, Heavy Rolling Tricep Extensions 3×10-15 |
+| Lower Powerbuilding · Charge | 6 | 20 | Front Squats 5×3-5, Hip-Supported Dumbbell Deadlift 3×8-12, Goblet Skater Squat 3×10-12, Seated Ham Curl 3×8-12, Hack Squat Calf Raises 3×12-20, Low-to-High Cable Flyes 3×8-12 |
 
 ### Week-to-week shape
 
@@ -160,7 +160,26 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+8 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `1` | Paused Bench Press, Paused Low Bar Squat |
+| `1-2` | Weighted Chin-Up |
+| `10-12` | Goblet Skater Squat |
+| `10-15` | Bayesian Cable Curl, Cable Triceps Extension, Heavy Rolling Tricep Extensions, Leg Extensions, Standing Straight-Bar Curl |
+| `12-20` | Cable Crunch, Hack Squat Calf Raises, Leaning One-Arm Lateral Raise |
+| `15-20` | Machine Rear Delt Fly |
+| `3-5` | Front Squats |
+| `8-12` | Barbell Row, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Low-to-High Cable Flyes, Seated Ham Curl, Wide-Grip Cable Row |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: neural-overload
@@ -175,5 +194,6 @@ load: { systemic: 117, axial: 38, lower_back: 39, per_set_systemic: 1.67 }
 volume: { quads: 15, glutes: 15, chest: 11, back: 11, shoulders: 9, biceps: 9, hamstrings: 9, calves: 6, triceps: 5, core: 3 }
 coverage: { covered: 9, missing: [], in_band: 6, over: [], under: ['shoulders', 'triceps', 'hamstrings', 'core'] }
 set_shape: { slots: 31, ones: 12, twos: 3, threes: 13, four_plus: 3, mean: 2.26 }
+rep_ranges: ['1', '1-2', '10-12', '10-15', '12-20', '15-20', '3-5', '8-12']
 variety: { distinct: 20, density: 2.86, top_share: 0.086, evenness: 0.984 }
 ```

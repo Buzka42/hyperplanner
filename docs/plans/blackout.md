@@ -49,11 +49,11 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Blackout I · Adjustment | 7 | 7 | Leg Press 1, 30° Smith Incline Bench Press 1, Single-Arm Hammer Strength Row 1, Seated Hamstring Curl 1, Cable Lateral Raise 1, Leg Extensions 1, Machine Curl 1 |
-| Blackout II · Adjustment | 7 | 7 | Hammer Chest Press 1, Hammer Pulldown (Underhand) 1, Hack Squat 1, Seated Hamstring Curl 1, Machine Rear Delt Fly 1, Rolling DB Tricep Extensions 1, Hack Squat Calf Raises 1 |
-| Blackout III · Adjustment | 9 | 9 | Front-Foot Elevated Bulgarian Split Squat 1, Shoulder Press 1, Overhand Mid-Grip Pulldown 1, Lying Leg Curls 1, Pec Deck 1, Machine Curl 1, Cable Triceps Extension 1, Hack Squat Calf Raises 1, Cable Crunch 1 |
+| Blackout I · Adjustment | 7 | 7 | Leg Press 1×5-8, 30° Smith Incline Bench Press 1×6-10, Single-Arm Hammer Strength Row 1×8-12, Seated Hamstring Curl 1×10-15, Cable Lateral Raise 1×12-15, Leg Extensions 1×12-15, Machine Curl 1×8-12 |
+| Blackout II · Adjustment | 7 | 7 | Hammer Chest Press 1×4-6, Hammer Pulldown (Underhand) 1×8-12, Hack Squat 1×8-12, Seated Hamstring Curl 1×10-15, Machine Rear Delt Fly 1×12-15, Rolling DB Tricep Extensions 1×10-15, Hack Squat Calf Raises 1×12-20 |
+| Blackout III · Adjustment | 9 | 9 | Front-Foot Elevated Bulgarian Split Squat 1×6-10, Shoulder Press 1×6-10, Overhand Mid-Grip Pulldown 1×8-12, Lying Leg Curls 1×10-15, Pec Deck 1×12-15, Machine Curl 1×8-12, Cable Triceps Extension 1×10-15, Hack Squat Calf Raises 1×12-20, Cable Crunch 1×10-15 |
 
 ### Week-to-week shape
 
@@ -163,7 +163,25 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+7 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Crunch, Cable Triceps Extension, Lying Leg Curls, Rolling DB Tricep Extensions, Seated Hamstring Curl |
+| `12-15` | Cable Lateral Raise, Leg Extensions, Machine Rear Delt Fly, Pec Deck |
+| `12-20` | Hack Squat Calf Raises |
+| `4-6` | Hammer Chest Press |
+| `5-8` | Leg Press |
+| `6-10` | 30° Smith Incline Bench Press, Front-Foot Elevated Bulgarian Split Squat, Shoulder Press |
+| `8-12` | Hack Squat, Hammer Pulldown (Underhand), Machine Curl, Overhand Mid-Grip Pulldown, Single-Arm Hammer Strength Row |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: blackout
@@ -178,5 +196,6 @@ load: { systemic: 29, axial: 6, lower_back: 0, per_set_systemic: 1.26 }
 volume: { shoulders: 4, quads: 4, chest: 3, back: 3, hamstrings: 3, glutes: 3, biceps: 2, triceps: 2, calves: 2, core: 1 }
 coverage: { covered: 2, missing: [], in_band: 0, over: [], under: ['chest', 'shoulders', 'back', 'biceps', 'triceps', 'quads', 'hamstrings', 'glutes', 'calves', 'core'] }
 set_shape: { slots: 23, ones: 23, twos: 0, threes: 0, four_plus: 0, mean: 1 }
+rep_ranges: ['10-15', '12-15', '12-20', '4-6', '5-8', '6-10', '8-12']
 variety: { distinct: 20, density: 8.7, top_share: 0.087, evenness: 0.986 }
 ```

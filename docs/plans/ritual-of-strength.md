@@ -51,11 +51,11 @@ The onboarding card claims:
 
 > **Measurement note.** sampled week 5 (week 1 is off-median at 26 sets)
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Day 1 - Bench ME | 3 | 7 | Paused Bench Press (ME) 1, Low Bar Squat (Light) 3, Conventional Deadlift (Light) 3 |
-| Day 2 - Squat ME | 4 | 10 | Conventional Deadlift (ME) 1, Paused Bench Press (Light) 3, Low Bar Squat (Light) 3, Farmer Holds 3 |
-| Day 3 - Deadlift ME | 9 | 25 | Conventional Deadlift (ME) 1, Paused Bench Press (Light) 3, Low Bar Squat (Light) 3, Farmer Holds 3, Shrugs 3, Band Pull-Aparts 3, Ab Wheel 3, Planks 3, Cable Crunch 3 |
+| Day 1 - Bench ME | 3 | 7 | Paused Bench Press (ME) 1×1, Low Bar Squat (Light) 3×5, Conventional Deadlift (Light) 3×5 |
+| Day 2 - Squat ME | 4 | 10 | Conventional Deadlift (ME) 1×1, Paused Bench Press (Light) 3×5, Low Bar Squat (Light) 3×5, Farmer Holds 3×20-30sec |
+| Day 3 - Deadlift ME | 9 | 25 | Conventional Deadlift (ME) 1×1, Paused Bench Press (Light) 3×5, Low Bar Squat (Light) 3×5, Farmer Holds 3×20-30sec, Shrugs 3, Band Pull-Aparts 3, Ab Wheel 3, Planks 3, Cable Crunch 3 |
 
 ### Week-to-week shape
 
@@ -149,7 +149,21 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+3 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `1` | Conventional Deadlift (ME), Low Bar Squat (ME), Paused Bench Press (ME) |
+| `20-30sec` | Farmer Holds |
+| `5` | Conventional Deadlift (Light), Low Bar Squat (Light), Paused Bench Press (Light) |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: ritual-of-strength
@@ -164,5 +178,6 @@ load: { systemic: 95, axial: 60, lower_back: 57, per_set_systemic: 2.26 }
 volume: { back: 14, glutes: 14, quads: 9, core: 9, chest: 7, biceps: 6, hamstrings: 5, shoulders: 3, triceps: 0, calves: 0 }
 coverage: { covered: 7, missing: ['triceps', 'calves'], in_band: 4, over: [], under: ['chest', 'shoulders', 'quads', 'hamstrings'] }
 set_shape: { slots: 16, ones: 3, twos: 0, threes: 13, four_plus: 0, mean: 2.63 }
+rep_ranges: ['1', '20-30sec', '5']
 variety: { distinct: 9, density: 2.14, top_share: 0.214, evenness: 0.957 }
 ```

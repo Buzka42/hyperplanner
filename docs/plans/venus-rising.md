@@ -46,12 +46,12 @@ The onboarding card claims:
 
 ## 2. The training week
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Lower A — Quads + Glutes · Foundation | 7 | 16 | Heel-Elevated Goblet Squat 3, Leg Press 3, Seated Hamstring Curl 2, Leg Extensions 2, Machine Hip Abduction 2, Hack Squat Calf Raises 2, Cable Crunch 2 |
-| Upper A — Back + Delts · Foundation | 7 | 18 | Assisted Pull-ups 3, Single-Arm Hammer Strength Row 3, Incline DB Bench Press 3, Cable Lateral Raise 3, Side-Lying Rear Delt Flyes 2, EZ Preacher Curl 2, Rope Pressdown 2 |
-| Lower B — Glutes + Posterior Chain · Foundation | 6 | 15 | Hip Thrusts 3, Cable Romanian Deadlift 3, B-Stance Hip Thrust 3, Supported Sissy Squat 2, Lying Leg Curls 2, Hack Squat Calf Raises 2 |
-| Upper B — Shape · Foundation | 8 | 19 | Hammer Pulldown (Underhand) 3, Flat DB Press 3, Pec Deck 2, Seated Hammer Shoulder Press 2, Seated Cable Row 3, Machine Curl 2, Cable Triceps Extension 2, Planks 2 |
+| Lower A — Quads + Glutes · Foundation | 7 | 16 | Heel-Elevated Goblet Squat 3×8-12, Leg Press 3×8-12, Seated Hamstring Curl 2×10-15, Leg Extensions 2×10-15, Machine Hip Abduction 2×12-20, Hack Squat Calf Raises 2×12-20, Cable Crunch 2×10-15 |
+| Upper A — Back + Delts · Foundation | 7 | 18 | Assisted Pull-ups 3×8-12, Single-Arm Hammer Strength Row 3×8-12, Incline DB Bench Press 3×8-12, Cable Lateral Raise 3×12-20, Side-Lying Rear Delt Flyes 2×12-20, EZ Preacher Curl 2×10-15, Rope Pressdown 2×10-15 |
+| Lower B — Glutes + Posterior Chain · Foundation | 6 | 15 | Hip Thrusts 3×8-12, Cable Romanian Deadlift 3×8-12, B-Stance Hip Thrust 3×8-12, Supported Sissy Squat 2×10-15, Lying Leg Curls 2×10-15, Hack Squat Calf Raises 2×12-20 |
+| Upper B — Shape · Foundation | 8 | 19 | Hammer Pulldown (Underhand) 3×8-12, Flat DB Press 3×8-12, Pec Deck 2×8-12, Seated Hammer Shoulder Press 2×8-12, Seated Cable Row 3×8-12, Machine Curl 2×10-15, Cable Triceps Extension 2×10-15, Planks 2×30-60sec |
 
 ### Week-to-week shape
 
@@ -131,7 +131,22 @@ No slot sits at one set and none carries more than three. Nothing to flag.
 
 ---
 
-## 6. Export block
+## 6. Rep schemes
+
+4 distinct rep ranges across the plan. A plan that prescribes one
+range for every movement is asking a lateral raise and a squat the
+same question; a real spread is the sign that each slot was chosen.
+
+| Range | Movements |
+|---|---|
+| `10-15` | Cable Crunch, Cable Triceps Extension, EZ Preacher Curl, Leg Extensions, Lying Leg Curls, Machine Curl, Rope Pressdown, Seated Hamstring Curl, Supported Sissy Squat |
+| `12-20` | Cable Lateral Raise, Hack Squat Calf Raises, Machine Hip Abduction, Side-Lying Rear Delt Flyes |
+| `30-60sec` | Planks |
+| `8-12` | Assisted Pull-ups, B-Stance Hip Thrust, Cable Romanian Deadlift, Flat DB Press, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip Thrusts, Incline DB Bench Press, Leg Press, Pec Deck, Seated Cable Row, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
+
+---
+
+## 7. Export block
 
 ```yaml
 id: venus-rising
@@ -146,5 +161,6 @@ load: { systemic: 84, axial: 15, lower_back: 9, per_set_systemic: 1.24 }
 volume: { glutes: 17, back: 12, shoulders: 10, quads: 10, chest: 8, hamstrings: 7, biceps: 4, triceps: 4, calves: 4, core: 4 }
 coverage: { covered: 10, missing: [], in_band: 4, over: [], under: ['chest', 'biceps', 'triceps', 'hamstrings', 'calves', 'core'] }
 set_shape: { slots: 28, ones: 0, twos: 16, threes: 12, four_plus: 0, mean: 2.43 }
+rep_ranges: ['10-15', '12-20', '30-60sec', '8-12']
 variety: { distinct: 27, density: 3.97, top_share: 0.059, evenness: 0.992 }
 ```

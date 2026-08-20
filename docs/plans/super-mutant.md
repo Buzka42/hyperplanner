@@ -55,7 +55,7 @@ plan's own stated frequency, not a fixed template.
 
 > **Measurement note.** per-visit generator: one session × 5 sessions/week (declared frequency)
 
-| Day | Slots | Sets | Work |
+| Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
 | Representative session | 13 | 30 | Pec Deck 2, Incline DB Bench Press 2, Deficit Pushups 2, Triangle Pushdown 2, EZ Skullcrushers 2, Single Arm Overhead Extension 2, Incline DB Curls 2, EZ Preacher Curl 2, Hammer Curls 2, Seated Ham Curl 4, Good Mornings 4, Front-Foot Elevated Bulgarian Split Squat 2, Dumbbell Walking Lunge 2 |
 
@@ -141,7 +141,7 @@ on its own muscle earns them. The rest are worth a second look.
 
 ---
 
-## 6. Export block
+## 7. Export block
 
 ```yaml
 id: super-mutant
