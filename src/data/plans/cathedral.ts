@@ -32,7 +32,9 @@ export const CATHEDRAL_DAYS: DaySpec[] = [
     // Lower day: the chest gets a day off so the next exposure is not a
     // fatigue test of the triceps.
     { name: 'Crypt — Lower', dayOfWeek: 2, slots: [
-        s('leg-press', 3, '6-10', { systemicCompound: true }),
+        // Legs are maintenance here — the chest specialisation is what the
+        // systemic budget is for, so this runs at a cheaper rep range.
+        s('leg-press', 3, '10-15', { systemicCompound: true }),
         s('romanian-deadlift', 3, '8-12'),
         s('seated-hamstring-curl', 3, '10-15'),
         s('supported-sissy-squat', 2, '12-15'),

@@ -67,6 +67,13 @@ export const translations = {
         // WORKOUT VIEW
         // ========================================
         workout: {
+            time: "Time",
+            seconds: "sec",
+            timed: {
+                best: "Best hold",
+                goal: "Aim for",
+                addLoad: "You are past the prescribed hold. Add load rather than seconds — a longer hold at the same weight stops buying much here.",
+            },
             calibration: {
                 label: "Calibration set",
                 instruction: "You skipped this max at setup. Work up to a weight you can manage for 8-10 reps and stop about 2 reps short of failure — this session sets your working loads.",
@@ -1574,6 +1581,13 @@ export const translations = {
         },
 
         workout: {
+            time: "Czas",
+            seconds: "sek",
+            timed: {
+                best: "Najdłuższy",
+                goal: "Cel",
+                addLoad: "Przekroczyłeś zalecany czas. Dodaj obciążenie zamiast sekund — dłuższy zwis z tym samym ciężarem niewiele już daje.",
+            },
             calibration: {
                 label: "Seria kalibracyjna",
                 instruction: "Pominąłeś ten wynik przy konfiguracji. Dojdź do ciężaru, który zrobisz na 8-10 powtórzeń i skończ jakieś 2 powtórzenia przed upadkiem — ta seria ustawi twoje ciężary robocze.",

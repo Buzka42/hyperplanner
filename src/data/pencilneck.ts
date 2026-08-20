@@ -76,8 +76,8 @@ const generatePencilneckWeeks = (): ProgramWeek[] => {
                         { id: `pn-w${w}-d4-e3`, name: "Pec Deck", sets: 3, target: { type: "range", reps: "12-15" } },
                         { id: `pn-w${w}-d4-e4`, name: "Standing Barbell Military Press", sets: 3, target: { type: "range", reps: "8-12" } },
                         { id: `pn-w${w}-d4-e5`, name: "Leaning Single Arm DB Lateral Raises", sets: 3, target: { type: "range", reps: "15-20" } },
-                        { id: `pn-w${w}-d4-e6`, name: "Close-Grip Bench Press", sets: 3, target: { type: "range", reps: "10-14" } },
-                        { id: `pn-w${w}-d4-e7`, name: "Front Squats", sets: 3, target: { type: "range", reps: "10-15" }, alternates: ["Stiletto Squats", "Safety Bar Squat"] },
+                        { id: `pn-w${w}-d4-e6`, name: "Close-Grip Bench Press", sets: 3, target: { type: "range", reps: "6-10" } },
+                        { id: `pn-w${w}-d4-e7`, name: "Front Squats", sets: 3, target: { type: "range", reps: "6-10" }, alternates: ["Stiletto Squats", "Safety Bar Squat"] },
                         { id: `pn-w${w}-d4-e8`, name: "Walking Lunges (DB)", sets: 3, target: { type: "range", reps: "12-16" } },
                         { id: `pn-w${w}-d4-e9`, name: "Hack Calf Raises", sets: 3, target: { type: "range", reps: "15-20" } }
                     ]

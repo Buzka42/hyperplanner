@@ -34,6 +34,7 @@
     "verify:portfolio-shape": "npx --yes tsx scripts/verify-portfolio-shape.ts --strict",
     "verify:extra-sets": "npx --yes tsx scripts/verify-extra-sets.ts",
     "verify:techniques": "npx --yes tsx scripts/verify-techniques.ts",
+    "verify:timed": "npx --yes tsx scripts/verify-timed.ts",
     "verify:progression": "npx --yes tsx scripts/verify-progression.ts",
     "verify:onboarding": "npx --yes tsx scripts/verify-onboarding.ts",
     "verify:calibration": "npx --yes tsx scripts/verify-calibration.ts",

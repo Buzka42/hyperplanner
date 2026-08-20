@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { isTimed, isBodyweightTimed, parseTimeTarget, bestHoldSeconds, nextTimedGoal, formatSeconds } from '../features/workout/timedExercise';
 import { useUser } from '../contexts/UserContext';
 import { useLanguage, resolveTemplate } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
@@ -90,7 +91,7 @@ export const WorkoutView: React.FC = () => {
     const [exerciseNotes, setExerciseNotes] = useState<Record<string, string>>({});
 
     // Previous stats state mapping
-    const [previousStats, setPreviousStats] = useState<Record<string, { weight: string, reps: string, advice?: string }>>({});
+    const [previousStats, setPreviousStats] = useState<Record<string, { weight: string, reps: string, advice?: string, bestSeconds?: number }>>({});
 
     // UI States
     const [submitting, setSubmitting] = useState(false);
@@ -448,7 +449,7 @@ export const WorkoutView: React.FC = () => {
             }
         };
 
-        const fetchPreviousStats = async (): Promise<Record<string, { weight: string, reps: string, advice?: string }>> => {
+        const fetchPreviousStats = async (): Promise<Record<string, { weight: string, reps: string, advice?: string, bestSeconds?: number }>> => {
             const workoutsRef = collection(db, 'users', user.id, 'workouts');
             const allRecentQuery = query(workoutsRef);
             const allSnapshot = await getDocs(allRecentQuery);
@@ -458,7 +459,7 @@ export const WorkoutView: React.FC = () => {
                 .filter((d: any) => d.programId === programData.id || (!d.programId && programData.id === 'bench-domination'))
                 .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-            const stats: Record<string, { weight: string, reps: string, advice?: string }> = {};
+            const stats: Record<string, { weight: string, reps: string, advice?: string, bestSeconds?: number }> = {};
 
             if (dayData && dayData.exercises) {
                 dayData.exercises.forEach(currentEx => {
@@ -513,11 +514,15 @@ export const WorkoutView: React.FC = () => {
                         if (hookAdvice) advice = resolveTemplate(hookAdvice, t);
                     }
 
+                    // Holds and carries are scored by their longest set ever,
+                    // not by the last one — that is the number worth beating.
+                    const bestSeconds = bestHoldSeconds(exHistory, currentEx.name) || undefined;
+
                     if (lastLabel) {
-                        stats[currentEx.name] = { weight: lastLabel, reps: lastReps, advice };
-                    } else if (advice) {
+                        stats[currentEx.name] = { weight: lastLabel, reps: lastReps, advice, bestSeconds };
+                    } else if (advice || bestSeconds) {
                         // Even if no specific weight history (e.g. giant set), we might have advice
-                        stats[currentEx.name] = { weight: "-", reps: "-", advice };
+                        stats[currentEx.name] = { weight: "-", reps: "-", advice, bestSeconds };
                     }
                 });
             }
@@ -1133,6 +1138,25 @@ export const WorkoutView: React.FC = () => {
     const activeIsPullup = Boolean(activeExercise?.name.includes('Pull-ups'));
 
     /**
+     * Holds and carries are prescribed in seconds, so the console asks for
+     * seconds. Unloaded holds drop the weight field entirely — a plank has no
+     * weight to report, and an empty box the athlete cannot fill reads as a
+     * form they failed to complete.
+     */
+    const activeLibraryEntry = activeExercise
+        ? ((activeExercise as { library?: ReturnType<typeof exerciseResolver.resolve> }).library
+            ?? exerciseResolver.resolve(activeExercise.name))
+        : undefined;
+    const activeIsTimed = isTimed(activeLibraryEntry);
+    const activeHidesWeight = isBodyweightTimed(activeLibraryEntry);
+    const activeTimedGoal = useMemo(() => {
+        if (!activeIsTimed || !activeExercise) return undefined;
+        const best = previousStats[activeExercise.name]?.bestSeconds ?? 0;
+        const target = parseTimeTarget(activeExercise.target.reps);
+        return { best, ...nextTimedGoal(best, target, !activeHidesWeight) };
+    }, [activeIsTimed, activeExercise, activeHidesWeight, previousStats]);
+
+    /**
      * Tapping a ledger row hands that set to the console and brings the
      * console back into view — the rows do not edit in place, so a selection
      * the athlete cannot see would be a dead tap.
@@ -1333,9 +1357,14 @@ export const WorkoutView: React.FC = () => {
                         {activeExercise.target.reps && (
                             <div>
                                 <dt>{t('workout.prescription.target')}</dt>
+                                {/* A hold is prescribed in seconds, so the
+                                    target must not be suffixed with "reps" —
+                                    the seconds are already in the string. */}
                                 <dd>{activeExercise.target.reps === "Failure"
                                     ? t('common.failure')
-                                    : `${activeExercise.target.reps} ${t('workout.reps')}`}</dd>
+                                    : activeIsTimed
+                                        ? activeExercise.target.reps
+                                        : `${activeExercise.target.reps} ${t('workout.reps')}`}</dd>
                             </div>
                         )}
                         {activePreviousStat && activePreviousStat.weight !== "-" && (
@@ -1362,14 +1391,23 @@ export const WorkoutView: React.FC = () => {
                             plan computed; plain `WEIGHT` the moment the athlete
                             types their own. Principle 5, on the field it
                             describes rather than as a status line. */}
-                        <label data-len={figureLength(activeSet.weight)} style={figureChars(activeSet.weight)}><span>{t('common.weight')}{isAutoLoad(activeExercise, activeSet.weight, activeSetIndex) && <em> · {t('workout.auto')}</em>}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>
-                        <label data-len={figureLength(activeSet.reps)} style={figureChars(activeSet.reps)}><span>{t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('workout.reps')} /></label>
+                        {!activeHidesWeight && <label data-len={figureLength(activeSet.weight)} style={figureChars(activeSet.weight)}><span>{t('common.weight')}{isAutoLoad(activeExercise, activeSet.weight, activeSetIndex) && <em> · {t('workout.auto')}</em>}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>}
+                        <label data-len={figureLength(activeSet.reps)} style={figureChars(activeSet.reps)}><span>{activeIsTimed ? t('workout.time') : t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={activeIsTimed ? t('workout.time') : t('workout.reps')} />{activeIsTimed && <b>{t('workout.seconds')}</b>}</label>
                     </div>
                     {((activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press') || programData.id === 'oracle' || programData.id === 'blackout') && <div className="live-set-telemetry">
                         {(programData.id !== 'blackout' || activeSetIndex === 0) && (programData.id === 'oracle' || (activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press')) && <label><span>RIR</span><select value={activeSet.rir ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, rir: event.target.value === '' ? undefined : Number(event.target.value) } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3+</option></select></label>}
                         {((activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'blackout' && activeSetIndex === 0)) && <label><span>{language === 'pl' ? 'Jakość' : 'Quality'}</span><select value={activeSet.quality ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, quality: event.target.value as SetLog['quality'] } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="clean">{language === 'pl' ? 'Czysta' : 'Clean'}</option><option value="borderline">{language === 'pl' ? 'Graniczna' : 'Borderline'}</option><option value="invalid">{language === 'pl' ? 'Nieważna' : 'Invalid'}</option></select></label>}
                         {programData.id === 'blackout' && activeSetIndex === 0 && <label><span>{language === 'pl' ? 'Powód stopu' : 'Stop reason'}</span><select value={activeSet.completionReason ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, completionReason: (event.target.value || undefined) as SetLog['completionReason'] } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="target-met">{language === 'pl' ? 'Cel osiągnięty' : 'Target completed'}</option><option value="muscular-failure">{language === 'pl' ? 'Upadek mięśniowy' : 'Muscular failure'}</option><option value="technical-failure">{language === 'pl' ? 'Upadek techniczny' : 'Technical failure'}</option><option value="stopped-early">{language === 'pl' ? 'Świadomy stop' : 'Voluntary stop'}</option><option value="pain">{language === 'pl' ? 'Ból' : 'Pain'}</option></select></label>}
                     </div>}
+                    {activeTimedGoal && (
+                        <div className="live-set-telemetry">
+                            <div><span>{t('workout.timed.best')}</span><strong>{activeTimedGoal.best ? formatSeconds(activeTimedGoal.best) : '—'}</strong></div>
+                            <div><span>{t('workout.timed.goal')}</span><strong>{formatSeconds(activeTimedGoal.target)}</strong></div>
+                        </div>
+                    )}
+                    {activeTimedGoal?.reason === 'add-load' && (
+                        <p className="calibration-band-copy">{t('workout.timed.addLoad')}</p>
+                    )}
                     {(activeExercise.target.rpe !== undefined || activeExercise.rest) && (
                         <div className="live-set-telemetry">
                             {activeExercise.target.rpe !== undefined && <div><span>{t('workout.rpe')}</span><strong>{activeExercise.target.rpe}</strong></div>}
@@ -1577,7 +1615,7 @@ export const WorkoutView: React.FC = () => {
                                             <>{ex.sets} {t('workout.giantSets')} × {ex.giantSetConfig?.steps.map(s => `${s.targetReps} ${s.name}`).join(', ')}</>
                                         ) : ex.sets > 0 ? (
                                             <>
-                                                {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? t('common.failure') : `${ex.target.reps} ${t('workout.reps')}`}
+                                                {ex.sets} {t('workout.sets')} × {ex.target.reps === "Failure" ? t('common.failure') : isTimed(libraryEntry) ? ex.target.reps : `${ex.target.reps} ${t('workout.reps')}`}
                                                 {targetWeight && targetWeight !== "0" && <> · {targetWeight}{t('common.kg')}</>}
                                                 {ex.predictedKg != null && <> · pred {ex.predictedKg}{t('common.kg')}</>}
                                             </>

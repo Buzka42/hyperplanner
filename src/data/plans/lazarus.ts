@@ -45,7 +45,7 @@ export const LAZARUS_DAYS: DaySpec[] = [
         s('lying-leg-curl', 2, '10-15'),
         s('machine-curl', 2, '8-12'),
         s('cable-triceps-extension', 2, '8-15'),
-        s('plank', 2),
+        s('plank', 2, '30-60sec'),
     ] },
 ];
 

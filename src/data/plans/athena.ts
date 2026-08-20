@@ -5,19 +5,27 @@ import { EXERCISE_BY_ID } from '../exercises/library';
 
 const double = { type: 'double' as const, increment: 2.5 };
 const main = new Set(['barbell-squat', 'flat-barbell-bench-press', 'romanian-deadlift', 'standing-barbell-military-press']);
-const s = (ex: string, sets: number, reps = '6-10', restSeconds = 90): SlotSpec => ({ ex, sets, reps, restSeconds, progression: double, primary: main.has(ex) });
+/**
+ * The default is the accessory dose, not the main-lift dose.
+ *
+ * It used to be '6-10', which every unspecified slot inherited — so lateral
+ * raises, calves and the ab wheel were all prescribed at six reps, a range you
+ * cannot load those movements in. Main lifts now state their own low range and
+ * the small stuff states its own high one; 8-12 is what is left in the middle.
+ */
+const s = (ex: string, sets: number, reps = '8-12', restSeconds = 90): SlotSpec => ({ ex, sets, reps, restSeconds, progression: double, primary: main.has(ex) });
 
 export const ATHENA_FOUR_DAY: DaySpec[] = [
-    { name: 'Lower A — Squat', dayOfWeek: 1, slots: [s('barbell-squat', 4, '6-8', 150), s('romanian-deadlift', 3, '6-10', 120), s('front-foot-elevated-bulgarian-split-squat', 2), s('seated-hamstring-curl', 2), s('hack-calf-raise', 2), s('ab-wheel', 2)] },
-        { name: 'Upper A — Bench', dayOfWeek: 2, slots: [s('flat-barbell-bench-press', 4, '6-8', 150), s('single-arm-hammer-row', 3), s('assisted-pull-up', 3), s('shoulder-press', 2), s('bench-supported-dumbbell-rear-delt-fly', 2), s('rolling-dumbbell-tricep-extension', 2), s('standing-straight-bar-curl', 2)] },
-        { name: 'Lower B — Hinge', dayOfWeek: 4, slots: [s('romanian-deadlift', 3, '5-8', 150), s('paused-squat', 3), s('hip-thrust', 2), s('leg-extension', 2), s('lying-leg-curl', 2), s('hack-calf-raise', 2), s('cable-crunch', 2)] },
-        { name: 'Upper B — Press/Pull', dayOfWeek: 5, slots: [s('standing-barbell-military-press', 3, '6-8', 150), s('assisted-pull-up', 3), s('incline-dumbbell-bench-press', 2), s('pec-deck', 2), s('single-arm-hammer-row', 2), s('leaning-one-arm-lateral-raise', 2), s('standing-straight-bar-curl', 2), s('cable-triceps-extension', 2)] },
+    { name: 'Lower A — Squat', dayOfWeek: 1, slots: [s('barbell-squat', 4, '4-6', 150), s('romanian-deadlift', 3, '5-8', 120), s('front-foot-elevated-bulgarian-split-squat', 2), s('seated-hamstring-curl', 2, '10-15', 75), s('hack-calf-raise', 2, '12-20', 60), s('ab-wheel', 2, '10-15', 60)] },
+        { name: 'Upper A — Bench', dayOfWeek: 2, slots: [s('flat-barbell-bench-press', 4, '4-6', 150), s('single-arm-hammer-row', 3), s('assisted-pull-up', 3), s('shoulder-press', 2), s('bench-supported-dumbbell-rear-delt-fly', 2, '12-20', 60), s('rolling-dumbbell-tricep-extension', 2, '10-15', 60), s('standing-straight-bar-curl', 2, '10-15', 60)] },
+        { name: 'Lower B — Hinge', dayOfWeek: 4, slots: [s('romanian-deadlift', 3, '5-8', 150), s('paused-squat', 3, '5-8', 120), s('hip-thrust', 2), s('leg-extension', 2, '10-15', 75), s('lying-leg-curl', 2, '10-15', 75), s('hack-calf-raise', 2, '12-20', 60), s('cable-crunch', 2, '10-15', 60)] },
+        { name: 'Upper B — Press/Pull', dayOfWeek: 5, slots: [s('standing-barbell-military-press', 3, '4-6', 150), s('assisted-pull-up', 3), s('incline-dumbbell-bench-press', 2), s('pec-deck', 2, '10-15', 75), s('single-arm-hammer-row', 2), s('leaning-one-arm-lateral-raise', 2, '12-20', 60), s('standing-straight-bar-curl', 2, '10-15', 60), s('cable-triceps-extension', 2, '10-15', 60)] },
 ];
 
 export const ATHENA_THREE_DAY: DaySpec[] = [
-    { name: 'Athena I — Squat Emphasis', dayOfWeek: 1, slots: [s('barbell-squat', 4, '6-8', 150), s('flat-barbell-bench-press', 3, '6-8', 120), s('single-arm-hammer-row', 3), s('seated-hamstring-curl', 2), s('leaning-one-arm-lateral-raise', 2), s('heavy-rolling-tricep-extension', 1)] },
-    { name: 'Athena II — Hinge Emphasis', dayOfWeek: 3, slots: [s('romanian-deadlift', 3, '5-8', 150), s('standing-barbell-military-press', 3, '6-8', 120), s('assisted-pull-up', 3), s('front-foot-elevated-bulgarian-split-squat', 3), s('standing-straight-bar-curl', 1), s('cable-crunch', 2)] },
-    { name: 'Athena III — Press + Secondary Lower', dayOfWeek: 5, slots: [s('flat-barbell-bench-press', 4, '6-8', 150), s('paused-squat', 3), s('romanian-deadlift', 2), s('single-arm-hammer-row', 3), s('seated-dumbbell-shoulder-press', 2), s('hack-calf-raise', 1)] },
+    { name: 'Athena I — Squat Emphasis', dayOfWeek: 1, slots: [s('barbell-squat', 4, '4-6', 150), s('flat-barbell-bench-press', 3, '4-6', 120), s('single-arm-hammer-row', 3), s('seated-hamstring-curl', 2, '10-15', 75), s('leaning-one-arm-lateral-raise', 2, '12-20', 60), s('heavy-rolling-tricep-extension', 1, '10-15', 60)] },
+    { name: 'Athena II — Hinge Emphasis', dayOfWeek: 3, slots: [s('romanian-deadlift', 3, '5-8', 150), s('standing-barbell-military-press', 3, '4-6', 120), s('assisted-pull-up', 3), s('front-foot-elevated-bulgarian-split-squat', 3), s('standing-straight-bar-curl', 1, '10-15', 60), s('cable-crunch', 2, '10-15', 60)] },
+    { name: 'Athena III — Press + Secondary Lower', dayOfWeek: 5, slots: [s('flat-barbell-bench-press', 4, '4-6', 150), s('paused-squat', 3, '5-8', 120), s('romanian-deadlift', 2, '5-8', 120), s('single-arm-hammer-row', 3), s('seated-dumbbell-shoulder-press', 2), s('hack-calf-raise', 1, '12-20', 60)] },
 ];
 
 const phases = [
