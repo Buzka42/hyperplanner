@@ -12,6 +12,7 @@ material; they are not implementation authority.
 - [Documentation cleanup report](roadmap/documentation-cleanup-report.md)
 - [Training-plan index](plans/INDEX.md)
 - [Post-rebuild plan review](analysis/plan-review-post-rebuild.md)
+- [Rep-scheme and runtime review](analysis/rep-scheme-review.md)
 - [Master program record](../PLAN.md)
 
 ## Architecture
