@@ -11,6 +11,7 @@ material; they are not implementation authority.
 - [Master expansion roadmap](roadmap/master-expansion.md)
 - [Documentation cleanup report](roadmap/documentation-cleanup-report.md)
 - [Training-plan index](plans/INDEX.md)
+- [Post-rebuild plan review](analysis/plan-review-post-rebuild.md)
 - [Master program record](../PLAN.md)
 
 ## Architecture
