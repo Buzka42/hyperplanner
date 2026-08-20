@@ -97,6 +97,6 @@ export const TENFOLD_CONFIG = definePlan({
         themeClass: 'theme-tenfold',
         coverImage: '/tenfold.png',
         navImage: '/tenfold.png',
-        dashboardWidgets: ['program_status', 'strength_chart', 'workout_history'],
+        dashboardWidgets: ['program_status', 'weekly_sets', 'workout_history'],
     },
 });

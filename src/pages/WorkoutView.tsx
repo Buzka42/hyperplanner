@@ -1183,9 +1183,19 @@ export const WorkoutView: React.FC = () => {
             const topWeight = Number(activeSet.weight);
             const derived = config && activeSetIndex === 0 && Number.isFinite(topWeight) && topWeight > 0
                 ? String(deriveBackoffLoad(topWeight, backoffPercentFor(config.backoffPercent, activeSet), config.incrementKg)) : null;
+            // What the athlete just lifted is the best guess for what comes
+            // next. Dropping from 20kg to 15kg on set two used to leave set
+            // three still showing the plan's opening 20kg, which is a number
+            // they have already decided against.
+            const carried = activeSet.weight;
             return { ...prev, [activeExercise.id]: (prev[activeExercise.id] || []).map((set, index) => {
                 if (index === activeSetIndex) return { ...set, completed: true };
+                if (index < activeSetIndex || set.completed) return set;
                 if (derived && index > 0 && !set.weight) return { ...set, weight: derived };
+                // Only overwrite a value the athlete has not chosen: an empty
+                // field, or one still holding the load the plan computed.
+                const untouched = !set.weight || isAutoLoad(activeExercise, set.weight, index);
+                if (carried && untouched && set.weight !== carried) return { ...set, weight: carried };
                 return set;
             }) };
         });
@@ -1193,10 +1203,11 @@ export const WorkoutView: React.FC = () => {
         // unresolved set instead of sitting on the one just logged.
         setSelectedSet(null);
 
-        // Only where the plan actually prescribes a rest and the athlete
-        // opted in; an unrequested countdown is nagging, not help.
+        // On by default, and only where the plan actually prescribes a rest.
+        // An athlete who does not want it turns it off in settings; an athlete
+        // who does should not have to go looking for it first.
         const rest = (activeExercise as { restSeconds?: number }).restSeconds ?? activeExercise.prescription?.restSeconds;
-        if (rest && user?.trainingPreferences?.restTimer?.enabled) {
+        if (rest && (user?.trainingPreferences?.restTimer?.enabled ?? true)) {
             setRestTimer({ seconds: rest, label: activeExercise.name, key: Date.now() });
         }
     };

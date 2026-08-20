@@ -127,7 +127,8 @@ export const Entry: React.FC = () => {
                         to carry the identity yet; inside the app the wordmark
                         alone is enough and the plan artwork does that job. */}
                     <img src="/brand/hyperplanner-logo.png" alt="" aria-hidden="true" className="entry-mark" />
-                    <p className="brand-lockup">Hyperplanner</p>
+                    {/* The wordmark lives in the h1 below; a lockup above it
+                        just said the name twice. */}
                     <h1>
                         {t('entry.title')}
                         <span>{t('entry.subtitle')}</span>

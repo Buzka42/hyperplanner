@@ -9,7 +9,15 @@ export type TrackedLift = {
 const asHistory = (entries: { date?: string; weight?: number }[] | undefined) =>
     (entries ?? []).map(entry => ({ date: entry.date ?? '', weight: entry.weight ?? 0 }));
 
-export const trackedLiftFor = (planId: string, user: UserProfile): TrackedLift => {
+/**
+ * The lift a plan's strength chart follows, or undefined when it has none.
+ *
+ * This used to fall back to the paused bench for any plan not named below,
+ * which meant Purgatorio, Pencilneck and Tenfold all showed a Bench Domination
+ * widget on their dashboards. A plan without a single headline lift should show
+ * no chart rather than somebody else's.
+ */
+export const trackedLiftFor = (planId: string, user: UserProfile): TrackedLift | undefined => {
     const loads = user.workingLoads?.[planId] ?? {};
     const bench = asHistory(user.benchHistory);
     const squat = asHistory(user.squatHistory);
@@ -36,7 +44,9 @@ export const trackedLiftFor = (planId: string, user: UserProfile): TrackedLift =
             return { title: 'Curl / close-grip', history: asHistory(user.liftHistory?.curl), startKg: loads['standing-straight-bar-curl'] };
         case 'immaculate-restructure':
             return { title: 'Lagging lift', history: asHistory(user.liftHistory?.lagging), startKg: loads['close-grip-bench-press'] };
-        default:
+        case 'bench-domination':
             return { title: 'Paused bench', history: bench, startKg: user.stats.pausedBench };
+        default:
+            return undefined;
     }
 };

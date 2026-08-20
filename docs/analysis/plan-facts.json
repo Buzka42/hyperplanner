@@ -9424,7 +9424,7 @@
       "Seated Cable Row": "10-15",
       "French Press": "10-15",
       "Rear-Delt Rope Pulls to Face": "10-15",
-      "Single Arm Reverse Pec Deck": "10-15",
+      "Cable Lateral Raise": "10-15",
       "Heel-Elevated Goblet Squat": "10-15",
       "Machine Hip Abduction": "10-15",
       "Seated Ham Curl": "10-15",
@@ -9500,7 +9500,7 @@
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
-      "Single Arm Reverse Pec Deck": {
+      "Cable Lateral Raise": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
@@ -9769,8 +9769,8 @@
             "sets": 3
           },
           {
-            "name": "Single Arm Reverse Pec Deck",
-            "id": "single-arm-reverse-pec-deck",
+            "name": "Cable Lateral Raise",
+            "id": "cable-lateral-raise",
             "sets": 3
           }
         ]

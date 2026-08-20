@@ -40,6 +40,7 @@ export const Dashboard: React.FC = () => {
     const [sessionDates, setSessionDates] = useState<string[]>([]);
     const [lastW12Date, setLastW12Date] = useState<Date | null>(null);
     const [maxDeficitPushupReps, setMaxDeficitPushupReps] = useState<number>(0);
+    const [weeklySets, setWeeklySets] = useState<number>(0);
 
     const [completionType, setCompletionType] = useState<'skeleton' | 'pencilneck' | null>(null);
     const [showNextSteps, setShowNextSteps] = useState(false);
@@ -100,6 +101,11 @@ export const Dashboard: React.FC = () => {
                 let week12FinishDate: Date | null = null;
 
                 let localMaxDeficitPushupReps = 0;
+                // Plans with no single headline lift show the work they did
+                // instead. Completed sets only — a logged-but-unfinished set is
+                // not work done.
+                const weekAgo = Date.now() - 7 * 86400e3;
+                let setsThisWeek = 0;
 
                 snapshot.docs.forEach(doc => {
                     const d = doc.data();
@@ -129,6 +135,12 @@ export const Dashboard: React.FC = () => {
                         }
                     }
 
+                    if (typeof d.date === 'string' && new Date(d.date).getTime() >= weekAgo) {
+                        for (const ex of d.exercises ?? []) {
+                            for (const set of ex.setsData ?? []) if (set?.completed) setsThisWeek++;
+                        }
+                    }
+
                     if (d.week === 12) {
                         const dDate = new Date(d.date);
                         if (!week12FinishDate || dDate > week12FinishDate) {
@@ -144,6 +156,7 @@ export const Dashboard: React.FC = () => {
                 setCompletedSet(completedKeys);
                 setSessionDates(dates);
                 setMaxDeficitPushupReps(localMaxDeficitPushupReps);
+                setWeeklySets(setsThisWeek);
 
                 // Calculate Glory Counter for Pain & Glory (total kg lifted in deadlift variations)
                 if (activePlanConfig.id === 'pain-and-glory') {
@@ -230,15 +243,15 @@ export const Dashboard: React.FC = () => {
     const weekData = currentProgram.weeks.find(w => w.weekNumber === viewWeek);
 
     const tracked = trackedLiftFor(activePlanConfig.id, user);
-    const strengthHistory = tracked.history;
-    const strengthChartTitle = tracked.title;
-    const initialStat = tracked.startKg;
+    const strengthHistory = tracked?.history;
+    const strengthChartTitle = tracked?.title;
+    const initialStat = tracked?.startKg;
 
     const data = strengthHistory?.map((entry: any) => ({
         date: new Date(entry.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
         weight: entry.weight
     })) || [];
-    if (data.length === 0 && activeWidgets.includes('strength_chart') && initialStat) {
+    if (data.length === 0 && activeWidgets.includes('strength_chart') && tracked && initialStat) {
         data.push({ date: 'Start', weight: initialStat });
     }
 
@@ -503,7 +516,7 @@ export const Dashboard: React.FC = () => {
 
             {/* Dashboard Widgets (hide for Trinary) */}
             {!isTrinary && (
-                <div className={`dashboard-telemetry grid gap-3 ${activeWidgets.includes('strength_chart') ? 'md:grid-cols-7' : 'grid-cols-1'}`}>
+                <div className={`dashboard-telemetry grid gap-3 ${activeWidgets.includes('strength_chart') && tracked ? 'md:grid-cols-7' : 'grid-cols-1'}`}>
                     {activeWidgets.includes('1rm') && (
                         <Card className="col-span-2 bg-primary/5 border-primary/20">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -650,7 +663,20 @@ export const Dashboard: React.FC = () => {
                         </Card>
                     )}
 
-                    {activeWidgets.includes('strength_chart') && (
+                    {activeWidgets.includes('weekly_sets') && (
+                        <Card className="col-span-3">
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle className="text-sm font-medium">{t('dashboard.cards.weeklySets')}</CardTitle>
+                                <Activity className="h-4 w-4 text-muted-foreground" />
+                            </CardHeader>
+                            <CardContent>
+                                <div className="text-2xl font-bold">{weeklySets}</div>
+                                <p className="text-xs text-muted-foreground">{t('dashboard.cards.weeklySetsDesc')}</p>
+                            </CardContent>
+                        </Card>
+                    )}
+
+                    {activeWidgets.includes('strength_chart') && tracked && (
                         <Card className="col-span-3">
                             <CardHeader>
                                 <CardTitle>{strengthChartTitle}</CardTitle>

@@ -397,7 +397,7 @@ export const Settings: React.FC = () => {
                     <div className="space-y-3 border-t border-border pt-5">
                         <label className="flex items-start gap-3 cursor-pointer">
                             <Checkbox
-                                checked={trainingPrefs.restTimer?.enabled ?? false}
+                                checked={trainingPrefs.restTimer?.enabled ?? true}
                                 onCheckedChange={(checked) => {
                                     setTrainingPrefs(prev => ({
                                         ...prev,

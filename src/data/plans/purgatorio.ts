@@ -74,7 +74,7 @@ const UPPER_B: DaySpec = {
         ),
         ...pair(
             { ex: 'rear-delt-rope-pulls-to-face', sets: 3, reps: '12-20', restSeconds: 75 },
-            { ex: 'single-arm-reverse-pec-deck', sets: 3, reps: '12-20', restSeconds: 75 },
+            { ex: 'cable-lateral-raise', sets: 3, reps: '12-20', restSeconds: 75 },
             'C',
         ),
     ],
@@ -96,7 +96,7 @@ const LOWER_A: DaySpec = {
         ),
         ...pair(
             { ex: 'hip-adduction', sets: 3, reps: '10-15', restSeconds: 75 },
-            { ex: 'plank', sets: 3, reps: 'Failure', restSeconds: 60 },
+            { ex: 'plank', sets: 3, reps: 'Failure', restSeconds: 60, alternates: ['Ab Wheel'] },
             'C',
         ),
     ],
@@ -118,7 +118,7 @@ const LOWER_B: DaySpec = {
         ),
         ...pair(
             { ex: 'dumbbell-romanian-deadlift', sets: 3, reps: '8-12', restSeconds: 120 },
-            { ex: 'plank', sets: 3, reps: 'Failure', restSeconds: 60 },
+            { ex: 'plank', sets: 3, reps: 'Failure', restSeconds: 60, alternates: ['Ab Wheel'] },
             'C',
         ),
     ],
@@ -139,6 +139,6 @@ export const PURGATORIO_CONFIG = definePlan({
         themeClass: 'theme-purgatorio',
         coverImage: '/purgatorio.png',
         navImage: '/purgatorio.png',
-        dashboardWidgets: ['program_status', 'strength_chart', 'workout_history'],
+        dashboardWidgets: ['program_status', 'weekly_sets', 'workout_history'],
     },
 });

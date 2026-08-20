@@ -115,7 +115,7 @@ export const PENCILNECK_CONFIG: PlanConfig = {
     id: PENCILNECK_PROGRAM.id,
     program: PENCILNECK_PROGRAM,
     ui: {
-        dashboardWidgets: ['strength_chart', 'workout_history']
+        dashboardWidgets: ['weekly_sets', 'workout_history']
     },
     hooks: {
         preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {

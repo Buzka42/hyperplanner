@@ -266,7 +266,12 @@ export const definePlan = (spec: PlanSpec): PlanConfig => {
                         // invisible to the runtime.
                         prescription: {
                             restSeconds: slot.restSeconds,
-                            tempo: slot.tempo ?? spec.defaultTempo,
+                            // An isometric hold has no eccentric or concentric to
+                            // time. Unconditional, because a phase transform can
+                            // stamp a tempo onto every slot it touches
+                            // (Purgatorio's accumulation phase does exactly that)
+                            // and a hold must not inherit it from there either.
+                            tempo: entry.weightMode === 'timed' ? undefined : (slot.tempo ?? spec.defaultTempo),
                             technique: slot.technique,
                             pair: slot.pair,
                             ...(slot.progression?.type === 'top-set-backoff' && { topSetBackoff: {
