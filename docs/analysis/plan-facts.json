@@ -15487,13 +15487,13 @@
       }
     ],
     "repsByExercise": {
+      "Loaded Ankle Rock": "8-12",
+      "Open-Book Rotation": "8-12",
       "Heel-Elevated Goblet Squat": "8-12",
       "Incline DB Bench Press": "8-12",
       "Bench-Supported One-Arm Dumbbell Row": "8-12",
       "Seated Hamstring Curl": "10-15",
       "Single-Arm Overhead Triceps Extension": "12-20",
-      "Loaded Ankle Rock": "8-12",
-      "Open-Book Rotation": "8-12",
       "Romanian Deadlift": "6-10",
       "Assisted Pull-ups": "6-10",
       "Single-Arm Landmine Press": "8-12",
@@ -15508,6 +15508,14 @@
       "Rope Pressdown": "12-20"
     },
     "progressionByExercise": {
+      "Loaded Ankle Rock": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
+      "Open-Book Rotation": {
+        "from": "carried working load",
+        "advances": "double progression +2.5kg"
+      },
       "Heel-Elevated Goblet Squat": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
@@ -15525,14 +15533,6 @@
         "advances": "double progression +2.5kg"
       },
       "Single-Arm Overhead Triceps Extension": {
-        "from": "carried working load",
-        "advances": "double progression +2.5kg"
-      },
-      "Loaded Ankle Rock": {
-        "from": "carried working load",
-        "advances": "double progression +2.5kg"
-      },
-      "Open-Book Rotation": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
@@ -15720,6 +15720,16 @@
         "sets": 17,
         "slots": [
           {
+            "name": "Loaded Ankle Rock",
+            "id": "loaded-ankle-rock",
+            "sets": 2
+          },
+          {
+            "name": "Open-Book Rotation",
+            "id": "open-book-rotation",
+            "sets": 2
+          },
+          {
             "name": "Heel-Elevated Goblet Squat",
             "id": "heel-elevated-goblet-squat",
             "sets": 3
@@ -15743,16 +15753,6 @@
             "name": "Single-Arm Overhead Triceps Extension",
             "id": "single-arm-overhead-triceps-extension",
             "sets": 2
-          },
-          {
-            "name": "Loaded Ankle Rock",
-            "id": "loaded-ankle-rock",
-            "sets": 2
-          },
-          {
-            "name": "Open-Book Rotation",
-            "id": "open-book-rotation",
-            "sets": 2
           }
         ]
       },
@@ -15760,6 +15760,11 @@
         "name": "Day 2",
         "sets": 17,
         "slots": [
+          {
+            "name": "Loaded Ankle Rock",
+            "id": "loaded-ankle-rock",
+            "sets": 2
+          },
           {
             "name": "Romanian Deadlift",
             "id": "romanian-deadlift",
@@ -15786,11 +15791,6 @@
             "sets": 2
           },
           {
-            "name": "Loaded Ankle Rock",
-            "id": "loaded-ankle-rock",
-            "sets": 2
-          },
-          {
             "name": "Ab Wheel",
             "id": "ab-wheel",
             "sets": 2
@@ -15806,6 +15806,16 @@
         "name": "Day 3",
         "sets": 16,
         "slots": [
+          {
+            "name": "Loaded Ankle Rock",
+            "id": "loaded-ankle-rock",
+            "sets": 2
+          },
+          {
+            "name": "Open-Book Rotation",
+            "id": "open-book-rotation",
+            "sets": 2
+          },
           {
             "name": "Deficit Reverse Lunge",
             "id": "deficit-reverse-lunge",
@@ -15829,16 +15839,6 @@
           {
             "name": "Rope Pressdown",
             "id": "rope-pressdown",
-            "sets": 2
-          },
-          {
-            "name": "Loaded Ankle Rock",
-            "id": "loaded-ankle-rock",
-            "sets": 2
-          },
-          {
-            "name": "Open-Book Rotation",
-            "id": "open-book-rotation",
             "sets": 2
           }
         ]

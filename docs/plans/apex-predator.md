@@ -49,9 +49,9 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| A — Lower Access + Push/Pull · Stalk | 7 | 17 | Heel-Elevated Goblet Squat 3×8-12, Incline DB Bench Press 3×8-12, Bench-Supported One-Arm Dumbbell Row 3×8-12, Seated Hamstring Curl 2×10-15, Single-Arm Overhead Triceps Extension 2×12-20, Loaded Ankle Rock 2×8-12, Open-Book Rotation 2×8-12 |
-| B — Hinge + Vertical · Stalk | 8 | 17 | Romanian Deadlift 3×6-10, Assisted Pull-ups 3×6-10, Single-Arm Landmine Press 2×8-12, Front-Foot Elevated Bulgarian Split Squat 2×8-12, Bench-Supported DB Rear Delt Fly 2×12-20, Loaded Ankle Rock 2×8-12, Ab Wheel 2×8-12, Suitcase Carry 1×30-60 |
-| C — Unilateral + Shape · Stalk | 7 | 16 | Deficit Reverse Lunge 3×8-12, Hammer Chest Press 2×8-15, Single-Arm Hammer Strength Row 3×8-15, Hip Thrusts 2×8-15, Rope Pressdown 2×12-20, Loaded Ankle Rock 2×8-12, Open-Book Rotation 2×8-12 |
+| A — Lower Access + Push/Pull · Stalk | 7 | 17 | Loaded Ankle Rock 2×8-12, Open-Book Rotation 2×8-12, Heel-Elevated Goblet Squat 3×8-12, Incline DB Bench Press 3×8-12, Bench-Supported One-Arm Dumbbell Row 3×8-12, Seated Hamstring Curl 2×10-15, Single-Arm Overhead Triceps Extension 2×12-20 |
+| B — Hinge + Vertical · Stalk | 8 | 17 | Loaded Ankle Rock 2×8-12, Romanian Deadlift 3×6-10, Assisted Pull-ups 3×6-10, Single-Arm Landmine Press 2×8-12, Front-Foot Elevated Bulgarian Split Squat 2×8-12, Bench-Supported DB Rear Delt Fly 2×12-20, Ab Wheel 2×8-12, Suitcase Carry 1×30-60 |
+| C — Unilateral + Shape · Stalk | 7 | 16 | Loaded Ankle Rock 2×8-12, Open-Book Rotation 2×8-12, Deficit Reverse Lunge 3×8-12, Hammer Chest Press 2×8-15, Single-Arm Hammer Strength Row 3×8-15, Hip Thrusts 2×8-15, Rope Pressdown 2×12-20 |
 
 ### Week-to-week shape
 

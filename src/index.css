@@ -1343,7 +1343,7 @@ b { font-weight: 600; }
 .plan-finder-hint { font-size: .82rem; color: hsl(var(--muted-foreground)); }
 .plan-finder-results { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; }
 .plan-finder-results > li {
-  border-top: 1px solid hsl(var(--border)); padding-top: .8rem; display: grid; gap: .45rem; justify-items: start;
+  border-top: 1px solid var(--instrument-rule); padding-top: .8rem; display: grid; gap: .45rem; justify-items: start;
 }
 .plan-finder-result-head { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; }
 .plan-finder-result-head span { font-size: .76rem; color: hsl(var(--muted-foreground)); }
@@ -2177,7 +2177,7 @@ input[type=number] {
 .adventure-pair-rail>div.is-active { background: hsl(var(--primary) / .07); color: hsl(var(--foreground)); }
 .adventure-pair-rail>div>span { grid-row: 1 / 3; align-self: center; color: var(--signal-text); font-weight: 700; }
 .adventure-pair-rail>div>small { color: hsl(var(--muted-foreground)); }
-.adventure-pair-rail>p { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; margin: 0; padding: 10px 12px; border-top: 1px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); font-size: .75rem; }
+.adventure-pair-rail>p { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; margin: 0; padding: 10px 12px; border-top: 1px solid var(--instrument-rule); color: hsl(var(--muted-foreground)); font-size: .75rem; }
 .adventure-pair-rail>p svg { width: 15px; }
 .adventure-easy-panel,
 .adventure-summary { min-height: min(620px, 72vh); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; margin-top: 18px; padding: clamp(28px, 7vw, 76px); background: hsl(var(--card)); border: 1px solid hsl(var(--primary) / .42); border-radius: 0; box-shadow: 0 24px 60px hsl(83 96% 20% / .14); }
@@ -2215,7 +2215,7 @@ input[type=number] {
   .adventure-command-copy { padding: 26px 20px 30px; }
   .adventure-command-copy h1 { max-width: 9ch; font-size: clamp(3.1rem, 16vw, 4.7rem); }
   .adventure-briefing { grid-template-columns: 1fr; }
-  .adventure-briefing section+section { border-left: 0; border-top: 1px solid hsl(var(--border)); }
+  .adventure-briefing section+section { border-left: 0; border-top: 1px solid var(--instrument-rule); }
   .adventure-briefing section { min-height: 0; padding-inline: 6px; }
   .adventure-last-route { grid-template-columns: 1fr; }
   .adventure-selector-hero { min-height: 235px; grid-template-columns: 44px 1fr; padding: 16px; position: relative; }
@@ -2241,7 +2241,7 @@ input[type=number] {
   .adventure-live-set h1 { font-size: clamp(3rem, 15vw, 4.5rem); }
   .adventure-input-bank { grid-template-columns: 1fr; }
   .adventure-pair-rail { grid-template-columns: 1fr; }
-  .adventure-pair-rail>div+div { border-left: 0; border-top: 1px solid hsl(var(--border)); }
+  .adventure-pair-rail>div+div { border-left: 0; border-top: 1px solid var(--instrument-rule); }
   .adventure-easy-panel { min-height: 590px; padding: 28px 18px; }
   .adventure-easy-panel>div { grid-template-columns: 1fr; }
   .adventure-summary { min-height: 620px; padding-inline: 18px; }
@@ -2419,3 +2419,21 @@ input[type=number] {
 
 /* Technique and extra set rows must not read as prescribed work. */
 
+
+/* Apex assessment — instructional steps.
+   The image sits under its own step rather than in a gallery, so the athlete
+   reads a sentence and sees the position it describes without hunting. */
+.apex-steps { counter-reset: apex-step; margin-top: 0.75rem; }
+.apex-step { display: flex; gap: 0.75rem; padding: 0.75rem 0; border-top: 1px solid var(--instrument-rule); }
+.apex-step:first-child { border-top: none; }
+.apex-step-index {
+    flex: 0 0 1.75rem; height: 1.75rem; display: grid; place-items: center;
+    border: 1px solid var(--instrument-rule); font-size: 0.75rem; font-variant-numeric: tabular-nums;
+    color: hsl(var(--muted-foreground));
+}
+.apex-step-body { flex: 1 1 auto; min-width: 0; }
+.apex-step-body p { margin: 0; }
+.apex-step-image {
+    display: block; width: 100%; max-width: 26rem; margin-top: 0.6rem;
+    border: 1px solid var(--instrument-rule);
+}
