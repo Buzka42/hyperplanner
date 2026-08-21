@@ -336,9 +336,23 @@ export const resolveDay = (
             technique: config.technique
                 ?? exercise.prescription?.technique
                 ?? techniqueFromBanner(exercise.intensityTechnique),
-            tempo: config.tempo ?? exercise.prescription?.tempo,
+            // Four layers, and the order is the whole feature:
+            //   1. a forced library value — the owner overruling every plan,
+            //   2. the per-plan admin override,
+            //   3. the plan's own prescription,
+            //   4. the library default, which is a fallback and not a mandate.
+            //
+            // A hold is never given a tempo whatever the layers say: the
+            // prescription is already seconds, and "30X0" on a plank is noise.
+            tempo: effective?.weightMode === 'timed'
+                ? undefined
+                : (effective?.tempoForced ? effective.defaultTempo : undefined)
+                    ?? config.tempo
+                    ?? exercise.prescription?.tempo
+                    ?? effective?.defaultTempo,
             restSeconds:
-                config.restSeconds
+                (effective?.restForced ? effective.defaultRestSeconds : undefined)
+                ?? config.restSeconds
                 ?? exercise.prescription?.restSeconds
                 ?? effective?.defaultRestSeconds
                 ?? defaults.restSeconds,

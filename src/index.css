@@ -1953,8 +1953,8 @@ input[type=number] {
 .admin-search > button { position:absolute; right:8px; background:none; border:0; cursor:pointer; color:hsl(var(--muted-foreground)); }
 
 /* ---- Bilingual name editor ---- */
-.admin-name-head { display:grid; grid-template-columns:1fr 1fr 200px 88px; gap:14px; padding:10px 18px; border-bottom:1px solid hsl(var(--border)); font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.09em; color:hsl(var(--muted-foreground)); }
-.admin-name-row { display:grid; grid-template-columns:1fr 1fr 200px 88px; gap:14px; align-items:start; padding:12px 18px; border-bottom:1px solid hsl(var(--border)); }
+.admin-name-head { display:grid; grid-template-columns:1fr 1fr 260px 200px 88px; gap:14px; padding:10px 18px; border-bottom:1px solid hsl(var(--border)); font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.09em; color:hsl(var(--muted-foreground)); }
+.admin-name-row { display:grid; grid-template-columns:1fr 1fr 260px 200px 88px; gap:14px; align-items:start; padding:12px 18px; border-bottom:1px solid hsl(var(--border)); }
 .admin-name-row.is-dirty { background:hsl(var(--primary)/.06); box-shadow:inset 1px 0 0 hsl(var(--primary)); }
 .admin-name-field { display:grid; gap:4px; min-width:0; }
 .admin-name-field small { font-size:.68rem; color:hsl(var(--muted-foreground)); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -2515,3 +2515,22 @@ input[type=number] {
 @media (min-width: 768px) {
   .workout-save-bar { bottom: 0; padding: .75rem 1rem; }
 }
+
+/* Owner-set tempo and rest, edited beside the movement they belong to. FORCE
+   is a toggle rather than a third text field because it answers one question —
+   does this beat the plan — and only becomes available once there is a value
+   for it to beat the plan with. */
+.admin-prescription { display: grid; gap: 8px; }
+.admin-prescription-field { display: grid; grid-template-columns: 62px 1fr auto; gap: 6px; align-items: center; }
+.admin-prescription-field label { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; color: hsl(var(--muted-foreground)); }
+.admin-prescription-field input { min-height: 34px; }
+.admin-prescription-field input:disabled { opacity: .45; }
+.admin-force {
+  min-height: 34px; padding: 0 .55rem;
+  border: 1px solid hsl(var(--border));
+  background: transparent; color: hsl(var(--muted-foreground));
+  font-size: .66rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+}
+.admin-force:disabled { opacity: .35; }
+.admin-force.is-on { border-color: hsl(var(--primary)); background: hsl(var(--primary)/.14); color: hsl(var(--primary)); }
+@media (max-width: 900px) { .admin-prescription-field { grid-template-columns: 62px 1fr auto; } }

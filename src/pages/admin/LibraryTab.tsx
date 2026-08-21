@@ -14,13 +14,21 @@ const seedById = new Map(EXERCISE_LIBRARY.map(e => [e.id, e]));
 
 const isTranslated = (e: LibraryExercise) => Boolean(e.name.pl?.trim());
 
-/** Only name edits are compared here; this tab is the naming surface. */
+/** A hold is prescribed in seconds, so a tempo would be meaningless on it. */
+const isTimedHold = (e: LibraryExercise) => e.weightMode === 'timed';
+
+/** The fields this tab edits: the two names, and the prescription defaults. */
+const EDITED_KEYS = ['defaultTempo', 'defaultRestSeconds', 'tempoForced', 'restForced'] as const;
+
+const sameDefaults = (a: LibraryExercise, b: LibraryExercise) =>
+    EDITED_KEYS.every(key => (a[key] ?? null) === (b[key] ?? null));
+
 const isDirty = (e: LibraryExercise, original: LibraryExercise | undefined) =>
-    !original || e.name.en !== original.name.en || e.name.pl !== original.name.pl;
+    !original || e.name.en !== original.name.en || e.name.pl !== original.name.pl || !sameDefaults(e, original);
 
 const differsFromSeed = (e: LibraryExercise) => {
     const seed = seedById.get(e.id);
-    return !seed || seed.name.en !== e.name.en || seed.name.pl !== e.name.pl;
+    return !seed || seed.name.en !== e.name.en || seed.name.pl !== e.name.pl || !sameDefaults(e, seed);
 };
 
 export const LibraryTab: React.FC = () => {
@@ -91,6 +99,24 @@ export const LibraryTab: React.FC = () => {
     const setName = (id: string, lang: 'en' | 'pl', value: string) =>
         setEntries(prev => prev.map(e => (e.id === id ? { ...e, name: { ...e.name, [lang]: value } } : e)));
 
+    /**
+     * A blank field means "no opinion", stored as undefined rather than an
+     * empty string or a zero — both of which would read as a real prescription
+     * downstream and beat the library fallback they are meant to leave alone.
+     */
+    const setTempo = (id: string, value: string) =>
+        setEntries(prev => prev.map(e => (e.id === id ? { ...e, defaultTempo: value.trim() || undefined } : e)));
+
+    const setRest = (id: string, value: string) =>
+        setEntries(prev => prev.map(e => {
+            if (e.id !== id) return e;
+            const seconds = Number(value);
+            return { ...e, defaultRestSeconds: value.trim() && Number.isFinite(seconds) && seconds >= 0 ? seconds : undefined };
+        }));
+
+    const toggleForce = (id: string, key: 'tempoForced' | 'restForced') =>
+        setEntries(prev => prev.map(e => (e.id === id ? { ...e, [key]: e[key] ? undefined : true } : e)));
+
     const revert = (id: string) => {
         const before = original.get(id);
         if (before) setEntries(prev => prev.map(e => (e.id === id ? structuredClone(before) : e)));
@@ -98,7 +124,14 @@ export const LibraryTab: React.FC = () => {
 
     const revertToSeed = (id: string) => {
         const seed = seedById.get(id);
-        if (seed) setEntries(prev => prev.map(e => (e.id === id ? { ...e, name: { ...seed.name } } : e)));
+        if (seed) setEntries(prev => prev.map(e => (e.id === id ? {
+            ...e,
+            name: { ...seed.name },
+            defaultTempo: seed.defaultTempo,
+            defaultRestSeconds: seed.defaultRestSeconds,
+            tempoForced: seed.tempoForced,
+            restForced: seed.restForced,
+        } : e)));
     };
 
     /** Enter jumps to the next untranslated row — the fast path for bulk entry. */
@@ -228,6 +261,7 @@ export const LibraryTab: React.FC = () => {
                         <div className="admin-name-head" aria-hidden="true">
                             <span>English name</span>
                             <span>Polish name</span>
+                            <span>Tempo &amp; rest</span>
                             <span>Movement</span>
                             <span />
                         </div>
@@ -263,6 +297,49 @@ export const LibraryTab: React.FC = () => {
                                             }}
                                         />
                                         <small>{isTranslated(entry) ? 'Translated' : 'Shows the English name to Polish users'}</small>
+                                    </div>
+
+                                    {/* Blank means "no opinion" and the plan is
+                                        left alone. FORCE makes this value beat
+                                        the plan, which is the only way to
+                                        overrule a prescription from here. */}
+                                    <div className="admin-prescription">
+                                        <div className="admin-prescription-field">
+                                            <Label htmlFor={`tempo-${entry.id}`}>Tempo</Label>
+                                            <Input
+                                                id={`tempo-${entry.id}`}
+                                                value={entry.defaultTempo ?? ''}
+                                                placeholder={isTimedHold(entry) ? 'n/a — timed' : 'e.g. 30X0'}
+                                                disabled={isTimedHold(entry)}
+                                                onChange={e => setTempo(entry.id, e.target.value)}
+                                            />
+                                            <button
+                                                type="button"
+                                                className={entry.tempoForced ? 'admin-force is-on' : 'admin-force'}
+                                                aria-pressed={!!entry.tempoForced}
+                                                disabled={!entry.defaultTempo || isTimedHold(entry)}
+                                                title="Beat the plan's own tempo"
+                                                onClick={() => toggleForce(entry.id, 'tempoForced')}
+                                            >Force</button>
+                                        </div>
+                                        <div className="admin-prescription-field">
+                                            <Label htmlFor={`rest-${entry.id}`}>Rest (s)</Label>
+                                            <Input
+                                                id={`rest-${entry.id}`}
+                                                inputMode="numeric"
+                                                value={entry.defaultRestSeconds ?? ''}
+                                                placeholder="e.g. 90"
+                                                onChange={e => setRest(entry.id, e.target.value)}
+                                            />
+                                            <button
+                                                type="button"
+                                                className={entry.restForced ? 'admin-force is-on' : 'admin-force'}
+                                                aria-pressed={!!entry.restForced}
+                                                disabled={entry.defaultRestSeconds === undefined}
+                                                title="Beat the plan's own rest"
+                                                onClick={() => toggleForce(entry.id, 'restForced')}
+                                            >Force</button>
+                                        </div>
                                     </div>
 
                                     <div className="admin-name-meta">

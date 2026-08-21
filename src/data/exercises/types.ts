@@ -275,7 +275,22 @@ export type LibraryExercise = {
     media?: { image?: string; video?: string };
 
     defaultTarget?: SetTarget;
+
+    /**
+     * Owner-set defaults for the movement, edited in the admin Library tab.
+     *
+     * A plan's own prescription wins over these, because a plan that asks for
+     * a three-second eccentric or a four-minute rest is making a training
+     * argument the library should not quietly overrule.
+     *
+     * Setting the matching `Forced` flag inverts that for this one movement:
+     * the library value then beats the plan. That is the escape hatch for "I
+     * do not care what any plan says, I tempo this lift my way".
+     */
+    defaultTempo?: string;
+    tempoForced?: boolean;
     defaultRestSeconds?: number;
+    restForced?: boolean;
     /** Difficulty variants, e.g. push-up: knee → incline → standard → feet-elevated. */
     variants?: Record<Lang, string[]>;
 

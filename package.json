@@ -20,6 +20,7 @@
     "verify:library": "npx --yes tsx scripts/verify-library.ts",
     "migrate:tips": "npx --yes tsx scripts/migrate-tips.ts",
     "apply:tips": "npx --yes tsx scripts/apply-tips.ts",
+    "verify:admin-defaults": "npx --yes tsx scripts/verify-admin-defaults.ts",
     "verify:warmups": "npx --yes tsx scripts/verify-warmups.ts",
     "verify:supersets": "npx --yes tsx scripts/verify-supersets.ts",
     "verify:seed-loads": "npx --yes tsx scripts/verify-seed-loads.ts",

@@ -125,8 +125,12 @@ service cloud.firestore {
           'id', 'name', 'aliases', 'pattern', 'primary', 'secondary', 'equipment',
           'unilateral', 'weightMode', 'failureMode', 'tip', 'setupNotes', 'media',
           'defaultTarget', 'defaultRestSeconds', 'variants', 'swapGroup', 'strengthRef',
-          'tags', 'status', 'deprecatedFor', 'updatedAt', 'tipStatus'
+          'tags', 'status', 'deprecatedFor', 'updatedAt', 'tipStatus',
+          'defaultTempo', 'tempoForced', 'restForced'
         ]) &&
+        (!('defaultTempo' in data) || data.defaultTempo == null || (data.defaultTempo is string && data.defaultTempo.size() <= 16)) &&
+        (!('tempoForced' in data) || data.tempoForced == null || data.tempoForced is bool) &&
+        (!('restForced' in data) || data.restForced == null || data.restForced is bool) &&
         data.id is string && data.id == exerciseId && data.id.size() > 0 && data.id.size() <= 80 &&
         (!('name' in data) || (data.name is map && data.name.keys().hasOnly(['en', 'pl']) &&
           (!('en' in data.name) || (data.name.en is string && data.name.en.size() <= 120)) &&
@@ -142,7 +146,7 @@ service cloud.firestore {
         (!('tipStatus' in data) || data.tipStatus in ['draft', 'approved']) &&
         (!('tags' in data) || (data.tags is list && data.tags.size() <= 20)) &&
         (!('swapGroup' in data) || (data.swapGroup is string && data.swapGroup.size() <= 60)) &&
-        (!('defaultRestSeconds' in data) || (data.defaultRestSeconds is int && data.defaultRestSeconds >= 0 && data.defaultRestSeconds <= 1800)) &&
+        (!('defaultRestSeconds' in data) || data.defaultRestSeconds == null || (data.defaultRestSeconds is int && data.defaultRestSeconds >= 0 && data.defaultRestSeconds <= 1800)) &&
         (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 64));
     }
 

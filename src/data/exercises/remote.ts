@@ -114,6 +114,12 @@ export const diffAgainstSeed = (entry: LibraryExercise): LibraryOverlayEntry | n
         patch.tipStatus = entry.tipStatus ?? null;
         changed = true;
     }
+    // Owner-set tempo and rest, plus the flags that let them beat a plan.
+    // Compared with ?? null so clearing a field is stored as an explicit null
+    // rather than dropping out of the patch and silently keeping the old value.
+    for (const key of ['defaultTempo', 'defaultRestSeconds', 'tempoForced', 'restForced'] as const) {
+        if ((entry[key] ?? null) !== (seed[key] ?? null)) { patch[key] = entry[key] ?? null; changed = true; }
+    }
     for (const key of ['pattern', 'weightMode', 'status', 'swapGroup'] as const) {
         if (entry[key] !== seed[key]) { patch[key] = entry[key]; changed = true; }
     }
