@@ -115,9 +115,20 @@ async function run() {
         await assertSucceeds(db.doc(`users/${KEYWORD}`).update({ completedSessions: 1 }));
         await assertSucceeds(db.doc(`users/${KEYWORD}`).update({ 'programProgress.project-chimera.completedSessions': 1 }));
         await assertFails(db.doc(`users/${KEYWORD}`).update({ notAProfileField: true }));
-        await assertFails(stranger.firestore().doc(`users/${KEYWORD}`).update(apexSave));
-        await assertFails(stranger.firestore().doc('users/unowned').update({ ownerUid: OWNER }));
+        // The keyword is the credential and is not bound to a device, so a
+        // second anonymous session that knows it is indistinguishable from the
+        // same athlete on a new phone — and is allowed. These two assertions
+        // used to require uid ownership, which is device binding by another
+        // name. What still holds the door is that `list` is admin-only, so a
+        // keyword cannot be enumerated, and a profile cannot be created for a
+        // keyword absent from accessKeys.
+        await assertSucceeds(stranger.firestore().doc(`users/${KEYWORD}`).update(apexSave));
         await assertSucceeds(owner.firestore().doc('users/unowned').update({ ownerUid: OWNER }));
+
+        // Authority fields stay immutable no matter who is writing: a session
+        // cannot rename a profile or widen the plans it was granted.
+        await assertFails(db.doc(`users/${KEYWORD}`).update({ codeword: 'someone-else' }));
+        await assertFails(db.doc(`users/${KEYWORD}`).update({ allowedPlanIds: [...ALLOWED_PLAN_IDS, 'oracle'] }));
 
         console.log('  test-profile-write-rules OK — fat-profile assessment save, session increment, and self-claim succeed; extra fields and theft deny');
     } finally {

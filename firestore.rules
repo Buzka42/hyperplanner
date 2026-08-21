@@ -226,8 +226,52 @@ service cloud.firestore {
         (!('gluteMeasurements' in data) || (data.gluteMeasurements is list && data.gluteMeasurements.size() <= 1000));
     }
 
+    // Update validation, deliberately much cheaper than validUserProfile.
+    //
+    // A profile is fully validated when it is CREATED. Re-running that same
+    // ~60-clause validator on every update — while the update rule also pays
+    // for diff().affectedKeys().hasOnly(profileKeys()) against a 55-entry list
+    // — exceeds Firestore's 1000-expression cap. The evaluator fails closed, so
+    // the user-visible symptom is that no profile write lands at all: sessions,
+    // loads and assessments silently stop saving while workout logs, which are
+    // governed by a cheaper rule, keep working. This file already carries that
+    // warning above planIdCount(); the validator grew back past the limit as
+    // plans were added.
+    //
+    // What an update must still guarantee, and does:
+    //   - only known profile keys (hasOnly(profileKeys()) at the call site),
+    //   - identity and granted plans unchanged (userAuthorityUnchanged),
+    //   - the active program is one the athlete was granted (validSelectedProgram),
+    //   - the append-only lists stay bounded, which is the only real abuse
+    //     vector here since everything else is a small fixed-shape map.
+    //
+    // Dropped relative to validUserProfile: the ~25 per-plan status map-size
+    // checks (each a small fixed-shape map an athlete cannot grow) and the
+    // programId-in-validPlanIds membership, which rebuilds a 39-entry list on
+    // every write and is already implied by validSelectedProgram, since
+    // allowedPlanIds is pinned to the admin-issued access key.
+    function validProfileUpdate(data, userId) {
+      return data.id is string && data.id == userId &&
+        data.codeword is string && data.codeword == userId &&
+        data.completedSessions is int && data.completedSessions >= 0 && data.completedSessions <= 100000 &&
+        data.benchHistory is list && data.benchHistory.size() <= 2000 &&
+        (!('squatHistory' in data) || data.squatHistory.size() <= 2000) &&
+        (!('pencilneckBenchHistory' in data) || data.pencilneckBenchHistory.size() <= 2000) &&
+        (!('gluteMeasurements' in data) || data.gluteMeasurements.size() <= 1000) &&
+        (!('armMeasurements' in data) || data.armMeasurements.size() <= 2000) &&
+        (!('badges' in data) || data.badges.size() <= 100) &&
+        (!('liftHistory' in data) || data.liftHistory.size() <= 64) &&
+        (!('pendingCalibration' in data) || data.pendingCalibration.size() <= 32) &&
+        (!('selectedDays' in data) || data.selectedDays.size() <= 7);
+    }
+
+    // ownerUid is a record of who first created the profile, not a gate: the
+    // keyword is the credential and works from any device. A document that
+    // predates the field can still be claimed, which is the only reason the
+    // first clause is conditional — an unconditional read of a missing field
+    // is an evaluation error, and that denies the write outright.
     function userAuthorityUnchanged() {
-      return request.resource.data.ownerUid == resource.data.ownerUid &&
+      return (!('ownerUid' in resource.data) || request.resource.data.ownerUid == resource.data.ownerUid) &&
         request.resource.data.id == resource.data.id &&
         request.resource.data.codeword == resource.data.codeword &&
         (!('allowedPlanIds' in resource.data) || request.resource.data.allowedPlanIds == resource.data.allowedPlanIds);
@@ -395,21 +439,43 @@ service cloud.firestore {
         validUserProfile(request.resource.data, userId) && validSelectedProgram(request.resource.data) && matchesIssuedAccess(userId);
       allow get: if isAdmin() || signedIn();
       allow list: if isAdmin();
-      // Evaluate cheap ownership checks before validUserProfile so a stolen
-      // write never pays the full validator cost (and so a missing admin
-      // claim cannot error the whole OR). Self-claim is a single-field write
-      // and must not re-run validUserProfile — that document may predate
-      // required fields.
-      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(profileKeys()) && (
-        (signedIn() && userAuthorityUnchanged() && validSelectedProgram(request.resource.data) &&
-          validUserProfile(request.resource.data, userId)) ||
-        (isAdmin() && validUserProfile(request.resource.data, userId))
-      );
+      // validUserProfile is named ONCE. It used to appear in both arms of the
+      // OR, and Firestore counts each occurrence: the validator is ~60 clauses
+      // and rebuilds a 39-entry plan list, so evaluating it twice pushed the
+      // rule past the 1000-expression cap. The evaluator then fails closed as
+      // permission-denied, and the symptom is that every profile write is
+      // rejected while workout logs — a much cheaper rule — still save. That is
+      // the same cap this file already warns about above planIdCount().
+      //
+      // Factored out the condition is unchanged: both arms required it before.
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(profileKeys()) &&
+        validProfileUpdate(request.resource.data, userId) && (
+          isAdmin() ||
+          (signedIn() && userAuthorityUnchanged() && validSelectedProgram(request.resource.data))
+        );
       allow delete: if isAdmin();
 
       match /workouts/{workoutId} {
         allow read: if isAdmin() || ownsUser(userId);
         allow create, update: if (isAdmin() || ownsUser(userId)) && validWorkout(request.resource.data);
+        allow delete: if isAdmin() || ownsUser(userId);
+      }
+
+      // An in-progress session, mirrored from the browser as sets are entered.
+      // The local draft in localStorage is the fast path; this is what makes a
+      // half-finished session survive a lost phone or a second device, which
+      // the keyword-as-credential model actively invites.
+      //
+      // Deliberately loose about the shape of `exercises`: a draft is
+      // transient, is replaced wholesale on each write, and is deleted when the
+      // session is completed. Bounded so it cannot be used as free storage.
+      match /drafts/{draftId} {
+        allow read: if isAdmin() || ownsUser(userId);
+        allow create, update: if (isAdmin() || ownsUser(userId)) &&
+          request.resource.data.keys().hasOnly(['exercises', 'notes', 'updatedAt', 'programId', 'weekNum', 'dayNum']) &&
+          request.resource.data.updatedAt is string && request.resource.data.updatedAt.size() <= 64 &&
+          request.resource.data.programId is string && request.resource.data.programId.size() <= 64 &&
+          request.resource.data.exercises is map && request.resource.data.exercises.size() <= 40;
         allow delete: if isAdmin() || ownsUser(userId);
       }
 

@@ -2499,3 +2499,19 @@ input[type=number] {
    down from zero — a 0:00 timer reads as "rest, but none", which is wrong. */
 .rest-timer.is-handoff { border-top-color: hsl(var(--primary)); }
 .rest-timer-value.is-text { font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: .95rem; line-height: 1.25; white-space: normal; color: hsl(var(--primary)); }
+
+/* The finish control. Portalled to <body>, so its own rule places it rather
+   than the page's layout. It sits above the dock on mobile and returns to the
+   flow on desktop, where there is no dock and no reason to pin it. */
+.workout-save-bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: calc(60px + env(safe-area-inset-bottom));
+  z-index: 44;
+  padding: 1rem;
+  background: hsl(var(--background));
+  border-top: 1px solid var(--instrument-rule);
+}
+@media (min-width: 768px) {
+  .workout-save-bar { bottom: 0; padding: .75rem 1rem; }
+}

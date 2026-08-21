@@ -10,7 +10,7 @@ import { useLanguage, resolveTemplate } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { AlertCircle, ArrowLeft, CheckCircle2, Circle, FlaskConical, Repeat, Save, X } from 'lucide-react';
-import { doc, updateDoc, arrayUnion, increment, collection, query, where, getDocs, deleteField } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc, updateDoc, arrayUnion, increment, collection, query, where, getDocs, deleteField } from 'firebase/firestore';
 import { db } from '../firebase';
 import { cn } from '../lib/utils';
 import type { LiftingStats, WorkoutLog } from '../types';
@@ -634,6 +634,37 @@ export const WorkoutView: React.FC = () => {
         localStorage.setItem(softSaveKey, JSON.stringify(draftData));
     }, [exerciseData, exerciseNotes, user, dayData, weekNum, dayNum, activePlanConfig.program.id]);
 
+    /**
+     * The same draft, mirrored to Firestore.
+     *
+     * localStorage above is the fast path and still does the restoring; this
+     * exists because a keyword works from any device, so "my sets are gone" can
+     * mean a second phone rather than a crash — and localStorage cannot help
+     * there. Debounced, because it fires on every keystroke in a weight field.
+     *
+     * Failures are swallowed on purpose. This is a backup of something already
+     * saved locally; an alert here would interrupt a session over a write the
+     * athlete never asked for.
+     */
+    useEffect(() => {
+        if (!user || !dayData) return;
+        if (Object.keys(exerciseData).length === 0) return;
+
+        const handle = window.setTimeout(() => {
+            const draftRef = doc(db, 'users', user.id, 'drafts', `${activePlanConfig.program.id}_${weekNum}_${dayNum}`);
+            setDoc(draftRef, {
+                exercises: exerciseData,
+                notes: exerciseNotes,
+                updatedAt: new Date().toISOString(),
+                programId: activePlanConfig.program.id,
+                weekNum,
+                dayNum,
+            }).catch(error => console.warn('[draft] mirror failed', error));
+        }, 2500);
+
+        return () => window.clearTimeout(handle);
+    }, [exerciseData, exerciseNotes, user, dayData, weekNum, dayNum, activePlanConfig.program.id]);
+
     const handleSetChange = (exId: string, setIndex: number, field: 'reps' | 'weight', value: string, isPullup: boolean = false, suggestedReps: string = "0") => {
         setExerciseData(prev => {
             const currentSets = [...(prev[exId] || [])];
@@ -1033,6 +1064,9 @@ export const WorkoutView: React.FC = () => {
             const programId = activePlanConfig.program.id;
             const softSaveKey = `workout_draft_${user.id}_${programId}_${weekNum}_${dayNum}`;
             localStorage.removeItem(softSaveKey);
+            // The session is logged, so the draft is no longer the record of it.
+            deleteDoc(doc(db, 'users', user.id, 'drafts', `${programId}_${weekNum}_${dayNum}`))
+                .catch(error => console.warn('[draft] cleanup failed', error));
 
             // A calibration set established a max the rest of the plan is
             // computed from. Show what it found and what it unlocked before
@@ -2293,7 +2327,13 @@ export const WorkoutView: React.FC = () => {
                 </div>
             )}
 
-            <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t border-border md:static md:bg-transparent md:border-0 md:p-0">
+            {/* Portalled for the same reason as the rest timer: this bar is
+                `position: fixed`, and `.instrument-page` carries a transform on
+                mobile, which makes it the containing block for fixed children.
+                The button was landing some 3,700px down an 812px viewport —
+                present in the DOM, off the screen, and impossible to press. */}
+            {createPortal(
+            <div className="workout-save-bar">
                 <Button
                     className="w-full h-14 text-lg font-bold shadow-lg"
                     onClick={handleSaveSession}
@@ -2304,7 +2344,8 @@ export const WorkoutView: React.FC = () => {
                 >
                     {submitting ? t('workout.saving') : t('workout.completeWorkout')} <Save className="ml-2 h-5 w-5" />
                 </Button>
-            </div>
+            </div>,
+            document.body)}
 
             {/* Trinary: Weak Point Modal */}
             <WeakPointModal
