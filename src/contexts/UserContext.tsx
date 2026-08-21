@@ -13,17 +13,7 @@ import { getPlanExerciseConfig } from '../data/exercises/planConfigs';
 import type { PlanExerciseDoc } from '../data/exercises/types';
 import type { UserProfile, LiftingStats, PlanConfig, BadgeId, WorkoutLog } from '../types';
 
-export const KEYWORD_CLAIMED_CODE = 'keyword-claimed';
-
-export class KeywordClaimedError extends Error {
-    readonly code = KEYWORD_CLAIMED_CODE;
-    constructor() {
-        super('This keyword is already in use on another device.');
-        this.name = 'KeywordClaimedError';
-    }
-}
-
-type CodewordCheck = { status: 'exists' | 'not-found' | 'admin' | 'onboarding' | 'claimed'; allowedPlanIds?: string[] };
+type CodewordCheck = { status: 'exists' | 'not-found' | 'admin' | 'onboarding'; allowedPlanIds?: string[] };
 
 interface UserContextType {
     user: UserProfile | null;
@@ -239,16 +229,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             return { status: 'not-found' };
         }
 
-        const readUserDoc = async (id: string) => {
-            try {
-                return { kind: 'ok' as const, snap: await getDoc(doc(db, 'users', id)) };
-            } catch (error: unknown) {
-                if ((error as { code?: string })?.code === 'permission-denied') {
-                    return { kind: 'claimed' as const };
-                }
-                throw error;
-            }
-        };
+        // A keyword is the credential, and it works from any device. There is
+        // deliberately no ownership check here: the profile belongs to whoever
+        // knows the word, which is the whole access model.
+        const readUserDoc = async (id: string) => ({ snap: await getDoc(doc(db, 'users', id)) });
 
         const adoptProfile = (id: string, profile: UserProfile) => {
             if (!profile.programId) profile.programId = 'bench-domination';
@@ -256,36 +240,17 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setListeningId(id);
         };
 
-        const docRef = doc(db, 'users', sanitized);
         const own = await readUserDoc(sanitized);
 
-        if (own.kind === 'claimed') {
-            return { status: 'claimed' };
-        }
-
         if (own.snap.exists()) {
-            const profile = own.snap.data() as UserProfile;
-            if (!profile.ownerUid && auth.currentUser) {
-                await updateDoc(docRef, { ownerUid: auth.currentUser.uid });
-                profile.ownerUid = auth.currentUser.uid;
-            }
-            adoptProfile(sanitized, profile);
+            adoptProfile(sanitized, own.snap.data() as UserProfile);
             return { status: 'exists' };
         }
 
         if (trimmed !== sanitized) {
             const legacy = await readUserDoc(trimmed);
-            if (legacy.kind === 'claimed') {
-                return { status: 'claimed' };
-            }
             if (legacy.snap.exists()) {
-                const profile = legacy.snap.data() as UserProfile;
-                const legacyRef = doc(db, 'users', trimmed);
-                if (!profile.ownerUid && auth.currentUser) {
-                    await updateDoc(legacyRef, { ownerUid: auth.currentUser.uid });
-                    profile.ownerUid = auth.currentUser.uid;
-                }
-                adoptProfile(trimmed, profile);
+                adoptProfile(trimmed, legacy.snap.data() as UserProfile);
                 return { status: 'exists' };
             }
         }
@@ -337,9 +302,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 const snap = await getDoc(userRef);
                 existingData = snap.exists() ? snap.data() as UserProfile : null;
             } catch (error: unknown) {
-                if ((error as { code?: string })?.code === 'permission-denied') {
-                    throw new KeywordClaimedError();
-                }
                 throw error;
             }
 
@@ -426,9 +388,6 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
             // Clear any partial state
             setListeningId(null);
             // No localStorage persistence
-
-            if (error instanceof KeywordClaimedError) throw error;
-            if (error?.code === 'permission-denied') throw new KeywordClaimedError();
 
             // Re-throw with user-friendly message
             if (error.code === 'unavailable' || error.message?.includes('network')) {

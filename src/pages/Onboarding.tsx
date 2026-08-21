@@ -28,7 +28,7 @@ import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { doc, updateDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import { epley } from '../features/workout/progression/types';
-import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8, NEURAL_D4_SQUATS, KOS_BENCH_JOB1, KOS_BENCH_JOB2, KOS_BENCH_JOB3, LAZARUS_SQUATS, LAZARUS_CHEST, QUADFATHER_LOAD, REDLINE_FURNACE, ATLAS_HINGES, ATLAS_FRONT, needsPlanSelections } from '../features/planSelections/options';
+import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8, NEURAL_D4_SQUATS, KOS_SQUAT_BAR, KOS_BENCH_JOB1, KOS_BENCH_JOB2, KOS_BENCH_JOB3, LAZARUS_SQUATS, LAZARUS_CHEST, QUADFATHER_LOAD, REDLINE_FURNACE, ATLAS_HINGES, ATLAS_FRONT, needsPlanSelections } from '../features/planSelections/options';
 
 type Step = 'program' | 'days' | 'preferences' | 'stats' | 'bench-modules' | 'super-mutant-stats' | 'benchmark' | 'schedule' | 'plan-selections';
 
@@ -75,6 +75,7 @@ export const Onboarding: React.FC = () => {
     const [kaliWeek8, setKaliWeek8] = useState('none');
     const [coreRaise, setCoreRaise] = useState('hanging-leg-raise');
     const [neuralD4, setNeuralD4] = useState('front-squat');
+    const [kosSquatBar, setKosSquatBar] = useState('low-bar-squat');
     const [kosJob1, setKosJob1] = useState('long-pause-bench-press');
     const [kosJob2, setKosJob2] = useState('wide-grip-bench-press');
     const [kosJob3, setKosJob3] = useState('paused-bench-press');
@@ -393,8 +394,8 @@ export const Onboarding: React.FC = () => {
             navigate('/app/dashboard');
         } catch (err: any) {
             console.error("Registration failed:", err);
-            const message = err?.code === 'keyword-claimed'
-                ? t('entry.keywordClaimed')
+            const message = err?.code === 'permission-denied'
+                ? t('entry.keywordUnknown')
                 : "Failed to build program: " + (err.message || "Unknown error");
             alert(message);
         }
@@ -532,7 +533,7 @@ export const Onboarding: React.FC = () => {
             planPreferences['king-of-the-squat'] = {
                 scheduleMode: '4day',
                 updatedAt: now,
-                exerciseSelections: { benchJob1: kosJob1, benchJob2: kosJob2, benchJob3: kosJob3 },
+                exerciseSelections: { squatBar: kosSquatBar, benchJob1: kosJob1, benchJob2: kosJob2, benchJob3: kosJob3 },
             };
         }
         if (planId === 'lazarus') {
@@ -1594,6 +1595,18 @@ export const Onboarding: React.FC = () => {
                         )}
                         {selectedProgramId === 'king-of-the-squat' && (
                             <>
+                                <div className="space-y-3">
+                                    <Label className="text-base font-semibold">Squat bar</Label>
+                                    <p className="text-xs text-muted-foreground">The wave runs on whichever bar you squat. Pick the one you compete or train on.</p>
+                                    <RadioGroup value={kosSquatBar} onValueChange={setKosSquatBar}>
+                                        {KOS_SQUAT_BAR.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`kosbar-${option.id}`} />
+                                                <Label htmlFor={`kosbar-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
                                 <div className="space-y-3">
                                     <Label className="text-base font-semibold">Bench job 1 — technique</Label>
                                     <RadioGroup value={kosJob1} onValueChange={setKosJob1}>

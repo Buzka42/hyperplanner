@@ -36,6 +36,7 @@ export const LIFT_SOURCES: Record<string, Derivation> = {
     // --- squat -------------------------------------------------------------
     'barbell-squat': { from: 'squat', percent: 1 },
     'low-bar-squat': { from: 'lowBarSquat', percent: 1 },
+    'paused-low-bar-squat': { from: 'lowBarSquat', percent: 0.9 },
     'paused-squat': { from: 'squat', percent: 0.9 },
     'paused-back-squat': { from: 'squat', percent: 0.9 },
     'tempo-squat': { from: 'squat', percent: 0.85 },

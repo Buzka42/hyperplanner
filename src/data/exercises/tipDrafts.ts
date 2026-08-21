@@ -25,6 +25,7 @@
 export const TIP_DRAFTS_EN: Record<string, string> = {
     // --- squat and knee-dominant ---------------------------------------------
     'low-bar-squat': 'Bar on the rear delts, wrists neutral, more forward lean than a high-bar squat. Break at the hips and knees together; stop the set when the chest starts dropping ahead of the hips.',
+    'paused-low-bar-squat': 'Same setup as the low bar squat, then hold the bottom still — no bounce, no sinking. Count the pause out; the rep ends when you stand, not when you stop descending.',
     'high-box-squat': 'Sit back to the box under control and pause without rocking. The box sets the depth, not a bounce off it.',
     'low-box-squat': 'Sit to the box at or just below parallel, stay tight through the pause, then drive up without shifting forward.',
     'paused-squat': 'Full stop at the bottom with the torso braced. Hold the position rather than sinking into it, then stand without a bounce.',
@@ -146,6 +147,7 @@ export const TIP_DRAFTS_EN: Record<string, string> = {
 export const TIP_DRAFTS_PL: Record<string, string> = {
     // --- squat and knee-dominant ---------------------------------------------
     'low-bar-squat': 'Sztanga na tylnych aktonach barków, nadgarstki neutralne, większy pochyl niż przy high-barze. Schodź biodrami i kolanami razem; kończ serię, gdy klatka zaczyna wyprzedzać biodra.',
+    'paused-low-bar-squat': 'Ustawienie jak w low-barze, ale zatrzymaj się na dole bez odbicia i bez opadania. Odliczaj pauzę; powtórzenie kończy wstanie, nie samo zatrzymanie.',
     'high-box-squat': 'Siadaj na skrzynię pod kontrolą i pauzuj bez odbijania. To skrzynia ustawia głębokość, nie odbicie od niej.',
     'low-box-squat': 'Siadaj na skrzynię na równoległości lub minimalnie poniżej, utrzymaj napięcie w pauzie i wstań bez przesuwania się w przód.',
     'paused-squat': 'Pełne zatrzymanie na dole z usztywnionym tułowiem. Trzymaj pozycję zamiast w nią zapadać, potem wstań bez odbicia.',

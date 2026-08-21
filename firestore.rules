@@ -7,7 +7,10 @@ rules_version = '2';
 // accessKeys/{keyword}: issued keyword and plan inventory; admin lists/manages,
 //   signed-in clients may get one exact keyword, public clients may create only
 //   a self-authored public key within the configured plan inventory.
-// users/{keyword}: private training profile owned by ownerUid; admins may support it.
+// users/{keyword}: training profile reached by keyword. The keyword is the
+// credential and is not bound to a device — ownerUid records who first created
+// the profile but does not gate access. What keeps this closed is that a
+// profile can only be created for a keyword present in accessKeys.
 // users/{keyword}/workouts/{workoutId}: private scheduled or pair-select session log.
 // Dates are legacy ISO strings throughout the app and are length-bounded here.
 // ===============================================================
@@ -55,10 +58,11 @@ service cloud.firestore {
       ];
     }
 
+    // A keyword is the credential and it is not tied to a device: whoever knows
+    // it holds the account, from any browser. The profile must therefore exist
+    // (so an unissued keyword still gets nothing) but ownership is not checked.
     function ownsUser(userId) {
-      return signedIn() &&
-        exists(/databases/$(database)/documents/users/$(userId)) &&
-        get(/databases/$(database)/documents/users/$(userId)).data.ownerUid == request.auth.uid;
+      return signedIn() && exists(/databases/$(database)/documents/users/$(userId));
     }
 
     function onboardingConfig() {
@@ -383,18 +387,13 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid &&
+      // matchesIssuedAccess is what keeps this closed: a profile can only be
+      // created for a keyword an admin issued, or one self-serve creation put
+      // in accessKeys. Typing an unregistered word gets nothing.
+      allow create: if signedIn() &&
         request.resource.data.keys().hasOnly(profileKeys()) &&
         validUserProfile(request.resource.data, userId) && validSelectedProgram(request.resource.data) && matchesIssuedAccess(userId);
-      // Missing docs used to fail these ownerUid checks (resource is null),
-      // so getDoc threw permission-denied for both "new keyword" and
-      // "owned by another device". Allow get on a missing document so the
-      // client can tell those apart at codeword entry. An existing doc with
-      // someone else's ownerUid still denies.
-      allow get: if isAdmin() ||
-        (signedIn() && resource == null) ||
-        (signedIn() && resource.data.ownerUid == request.auth.uid) ||
-        (signedIn() && !('ownerUid' in resource.data));
+      allow get: if isAdmin() || signedIn();
       allow list: if isAdmin();
       // Evaluate cheap ownership checks before validUserProfile so a stolen
       // write never pays the full validator cost (and so a missing admin
@@ -402,14 +401,11 @@ service cloud.firestore {
       // and must not re-run validUserProfile — that document may predate
       // required fields.
       allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(profileKeys()) && (
-        (signedIn() && !('ownerUid' in resource.data) && request.resource.data.ownerUid == request.auth.uid &&
-          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ownerUid'])) ||
-        (signedIn() && 'ownerUid' in resource.data && resource.data.ownerUid == request.auth.uid &&
-          userAuthorityUnchanged() && validSelectedProgram(request.resource.data) &&
+        (signedIn() && userAuthorityUnchanged() && validSelectedProgram(request.resource.data) &&
           validUserProfile(request.resource.data, userId)) ||
         (isAdmin() && validUserProfile(request.resource.data, userId))
       );
-      allow delete: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
+      allow delete: if isAdmin();
 
       match /workouts/{workoutId} {
         allow read: if isAdmin() || ownsUser(userId);

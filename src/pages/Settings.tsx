@@ -12,7 +12,7 @@ import { Checkbox } from '../components/ui/checkbox';
 import { Save, CheckCircle2 } from 'lucide-react';
 import { doc, updateDoc } from 'firebase/firestore';
 import type { TrainingPreferences } from '../data/exercises/types';
-import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8, NEURAL_D4_SQUATS, KOS_BENCH_JOB1, KOS_BENCH_JOB2, KOS_BENCH_JOB3, LAZARUS_SQUATS, LAZARUS_CHEST, QUADFATHER_LOAD, REDLINE_FURNACE, ATLAS_HINGES, ATLAS_FRONT } from '../features/planSelections/options';
+import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8, NEURAL_D4_SQUATS, KOS_SQUAT_BAR, KOS_BENCH_JOB1, KOS_BENCH_JOB2, KOS_BENCH_JOB3, LAZARUS_SQUATS, LAZARUS_CHEST, QUADFATHER_LOAD, REDLINE_FURNACE, ATLAS_HINGES, ATLAS_FRONT } from '../features/planSelections/options';
 import { db } from '../firebase';
 import { PENCILNECK_PROGRAM } from '../data/pencilneck';
 import { BENCH_DOMINATION_PROGRAM } from '../data/program';
@@ -113,6 +113,7 @@ export const Settings: React.FC = () => {
     const [kaliWeek8, setKaliWeek8] = useState(user?.planPreferences?.kali?.exerciseSelections?.week8Intensifier ?? 'none');
     const [gravityAbs, setGravityAbs] = useState(user?.planPreferences?.['gravity-is-optional']?.exerciseSelections?.abs ?? user?.trainingPreferences?.coreRaiseId ?? 'hanging-leg-raise');
     const [neuralD4, setNeuralD4] = useState(user?.planPreferences?.['neural-overload']?.exerciseSelections?.d4Squat ?? 'front-squat');
+    const [kosSquatBar, setKosSquatBar] = useState(user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.squatBar ?? 'low-bar-squat');
     const [kosJob1, setKosJob1] = useState(user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob1 ?? 'long-pause-bench-press');
     const [kosJob2, setKosJob2] = useState(user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob2 ?? 'wide-grip-bench-press');
     const [kosJob3, setKosJob3] = useState(user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob3 ?? 'paused-bench-press');
@@ -129,6 +130,7 @@ export const Settings: React.FC = () => {
         const abs = user?.planPreferences?.['gravity-is-optional']?.exerciseSelections?.abs ?? user?.trainingPreferences?.coreRaiseId;
         if (abs) setGravityAbs(abs);
         if (user?.planPreferences?.['neural-overload']?.exerciseSelections?.d4Squat) setNeuralD4(user.planPreferences['neural-overload'].exerciseSelections.d4Squat);
+        if (user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.squatBar) setKosSquatBar(user.planPreferences['king-of-the-squat'].exerciseSelections.squatBar);
         if (user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob1) setKosJob1(user.planPreferences['king-of-the-squat'].exerciseSelections.benchJob1);
         if (user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob2) setKosJob2(user.planPreferences['king-of-the-squat'].exerciseSelections.benchJob2);
         if (user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob3) setKosJob3(user.planPreferences['king-of-the-squat'].exerciseSelections.benchJob3);
@@ -226,6 +228,7 @@ export const Settings: React.FC = () => {
                         updatedAt: now,
                         exerciseSelections: {
                             ...(user.planPreferences?.['king-of-the-squat']?.exerciseSelections ?? {}),
+                            squatBar: kosSquatBar,
                             benchJob1: kosJob1,
                             benchJob2: kosJob2,
                             benchJob3: kosJob3,
@@ -979,6 +982,17 @@ export const Settings: React.FC = () => {
                         )}
                         {user?.programId === 'king-of-the-squat' && (
                             <>
+                                <div className="space-y-2">
+                                    <Label>Squat bar</Label>
+                                    <RadioGroup value={kosSquatBar} onValueChange={v => { setKosSquatBar(v); setSaved(false); }}>
+                                        {KOS_SQUAT_BAR.map(option => (
+                                            <div key={option.id} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option.id} id={`set-kosbar-${option.id}`} />
+                                                <Label htmlFor={`set-kosbar-${option.id}`} className="font-normal">{option.label}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
                                 <div className="space-y-2">
                                     <Label>Bench job 1 — technique</Label>
                                     <RadioGroup value={kosJob1} onValueChange={v => { setKosJob1(v); setSaved(false); }}>

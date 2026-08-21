@@ -3642,7 +3642,7 @@
         "slots": [
           {
             "name": "Paused Low Bar Squat",
-            "id": "low-bar-squat",
+            "id": "paused-low-bar-squat",
             "sets": 4
           },
           {
@@ -3673,7 +3673,7 @@
         "slots": [
           {
             "name": "Paused Low Bar Squat",
-            "id": "low-bar-squat",
+            "id": "paused-low-bar-squat",
             "sets": 4
           },
           {
@@ -7956,7 +7956,7 @@
       }
     ],
     "repsByExercise": {
-      "Paused Low Bar Squat": "5",
+      "Low Bar Squat": "5",
       "Leg Extensions": "8-12",
       "Seated Ham Curl": "8-12",
       "Long Pause Bench Press": "6-8",
@@ -7980,7 +7980,7 @@
       "Machine Rear Delt Fly": "15-20"
     },
     "progressionByExercise": {
-      "Paused Low Bar Squat": {
+      "Low Bar Squat": {
         "from": "wave off squat",
         "advances": "each wave steps the percentage up"
       },
@@ -8248,7 +8248,7 @@
         "sets": 20,
         "slots": [
           {
-            "name": "Paused Low Bar Squat",
+            "name": "Low Bar Squat",
             "id": "low-bar-squat",
             "sets": 6
           },
@@ -13526,7 +13526,7 @@
       "Leaning One-Arm Lateral Raise": "12-20",
       "Bayesian Cable Curl": "10-15",
       "Cable Triceps Extension": "10-15",
-      "Paused Low Bar Squat": "1",
+      "Low Bar Squat": "1",
       "Seated Ham Curl": "8-12",
       "Leg Extensions": "10-15",
       "Hack Squat Calf Raises": "12-20",
@@ -13566,7 +13566,7 @@
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
-      "Paused Low Bar Squat": {
+      "Low Bar Squat": {
         "from": "computed by the plan each session",
         "advances": "the plan recalculates it from your logged work"
       },
@@ -13739,19 +13739,19 @@
         },
         {
           "day": "Day 2",
-          "name": "Paused Low Bar Squat"
+          "name": "Low Bar Squat"
         },
         {
           "day": "Day 2",
-          "name": "Paused Low Bar Squat"
+          "name": "Low Bar Squat"
         },
         {
           "day": "Day 2",
-          "name": "Paused Low Bar Squat"
+          "name": "Low Bar Squat"
         },
         {
           "day": "Day 2",
-          "name": "Paused Low Bar Squat"
+          "name": "Low Bar Squat"
         },
         {
           "day": "Day 3",
@@ -13872,22 +13872,22 @@
         "sets": 16,
         "slots": [
           {
-            "name": "Paused Low Bar Squat",
+            "name": "Low Bar Squat",
             "id": "low-bar-squat",
             "sets": 1
           },
           {
-            "name": "Paused Low Bar Squat",
+            "name": "Low Bar Squat",
             "id": "low-bar-squat",
             "sets": 1
           },
           {
-            "name": "Paused Low Bar Squat",
+            "name": "Low Bar Squat",
             "id": "low-bar-squat",
             "sets": 1
           },
           {
-            "name": "Paused Low Bar Squat",
+            "name": "Low Bar Squat",
             "id": "low-bar-squat",
             "sets": 1
           },

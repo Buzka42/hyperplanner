@@ -1147,10 +1147,26 @@ const CORE_LIBRARY: LibraryExercise[] = [
         weightMode: 'external',
         status: 'active',
     },
+    // The plain lift and the paused variant were one record named "Paused Low
+    // Bar Squat", so King of the Squat — which prescribes an ordinary low bar
+    // squat — displayed a pause it never asked for, and the load was computed
+    // as though no pause existed. They are separate movements.
     {
         id: 'low-bar-squat',
+        name: { en: 'Low Bar Squat', pl: 'Przysiad low-bar' },
+        aliases: ['Low Bar Squat (Ascension Test)', 'Low Bar Squat (Back-down)', 'Low Bar Squat (DE)', 'Low Bar Squat (Light)', 'Low Bar Squat (ME)', 'Low Bar Squat (RE)'],
+        pattern: 'squat',
+        primary: ['quads', 'glutes'],
+        secondary: ['hamstrings', 'adductors'],
+        equipment: ['barbell'],
+        weightMode: 'external',
+        swapGroup: 'squat-heavy',
+        status: 'active',
+    },
+    {
+        id: 'paused-low-bar-squat',
         name: { en: 'Paused Low Bar Squat', pl: 'Przysiad low-bar z pauzą' },
-        aliases: ['Low Bar Squat', 'Low Bar Squat (Ascension Test)', 'Low Bar Squat (Back-down)', 'Low Bar Squat (DE)', 'Low Bar Squat (Light)', 'Low Bar Squat (ME)', 'Low Bar Squat (RE)'],
+        aliases: [],
         pattern: 'squat',
         primary: ['quads', 'glutes'],
         secondary: ['hamstrings', 'adductors'],

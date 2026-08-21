@@ -23,6 +23,12 @@ export const NEURAL_D4_SQUATS = [
     { id: 'safety-bar-squat', label: 'Safety-bar squat' },
 ] as const;
 
+export const KOS_SQUAT_BAR = [
+    { id: 'low-bar-squat', label: 'Low bar' },
+    { id: 'high-bar-squat', label: 'High bar' },
+    { id: 'safety-bar-squat', label: 'Safety bar' },
+] as const;
+
 export const KOS_BENCH_JOB1 = [
     { id: 'long-pause-bench-press', label: 'Long-pause bench (CAT)' },
     { id: 'paused-bench-press', label: 'Paused bench' },

@@ -17,7 +17,6 @@ export const Entry: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [creating, setCreating] = useState(false);
     const [config, setConfig] = useState<OnboardingConfig>(DEFAULT_ONBOARDING_CONFIG);
-    const [selectedPlans, setSelectedPlans] = useState<string[]>([]);
     const { checkCodeword } = useUser();
     const { t, tArray, tObject } = useLanguage();
 
@@ -31,14 +30,22 @@ export const Entry: React.FC = () => {
 
     const [error, setError] = useState<string | null>(null);
 
-    const createPublicKeyword = async (keyword: string, allowedPlanIds: string[]) => {
+    /**
+     * A self-serve keyword grants the always-free plans and nothing else.
+     *
+     * It used to be handed `config.generalPlanIds`, which is the whole general
+     * catalogue — so anyone typing an unrecognised word at the login screen got
+     * a key to every plan in it. Paid inventory is issued from the admin panel.
+     */
+    const createPublicKeyword = async (keyword: string) => {
+        const allowedPlanIds = withAlwaysFreePlans([]);
         const ref = doc(db, 'accessKeys', keyword);
         const key = await getDoc(ref);
         if (key.exists()) throw new Error('That keyword is already in use.');
         const expiresAt = config.defaultExpiryDays > 0
             ? new Date(Date.now() + config.defaultExpiryDays * 86400000).toISOString() : null;
         await setDoc(ref, {
-            keyword, allowedPlanIds: withAlwaysFreePlans(allowedPlanIds), active: true, source: 'public',
+            keyword, allowedPlanIds, active: true, source: 'public',
             allowPlanSwitching: true, expiresAt, createdAt: new Date().toISOString(), createdBy: auth.currentUser?.uid || ''
         });
     };
@@ -48,8 +55,7 @@ export const Entry: React.FC = () => {
             const next = snap.exists() ? { ...DEFAULT_ONBOARDING_CONFIG, ...snap.data() } as OnboardingConfig : DEFAULT_ONBOARDING_CONFIG;
             next.generalPlanIds = withAlwaysFreePlans(next.generalPlanIds);
             setConfig(next);
-            setSelectedPlans(withAlwaysFreePlans([]));
-        }).catch(() => setSelectedPlans(withAlwaysFreePlans([])));
+        }).catch(() => undefined);
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -64,30 +70,23 @@ export const Entry: React.FC = () => {
                 navigate('/app/dashboard');
             } else if (result.status === 'admin') {
                 navigate('/admin');
-            } else if (result.status === 'claimed') {
-                setError(t('entry.keywordClaimed'));
             } else if (result.status === 'onboarding') {
                 navigate('/onboarding', { state: { codeword: normalizeKeyword(codeword), allowedPlanIds: result.allowedPlanIds } });
             } else {
+                // Entering a word nobody issued is a failed sign-in, not a
+                // sign-up. Registering on the spot is what let an unrecognised
+                // keyword walk straight into the whole catalogue.
                 const keyword = normalizeKeyword(codeword);
                 if (keyword === 'judziek') {
                     setError(`Admin authorization is required. Device UID: ${auth.currentUser?.uid || 'unavailable'}`);
-                } else if (!config.allowPublicKeywordCreation || !config.generalPlanIds.length) {
-                    setError('New keyword registration is currently unavailable.');
-                } else if (keyword.length < config.keywordMinLength || keyword.length > config.keywordMaxLength) {
-                    setError(`Use ${config.keywordMinLength}–${config.keywordMaxLength} characters.`);
                 } else {
-                    const allowedPlanIds = withAlwaysFreePlans(config.generalPlanIds);
-                    await createPublicKeyword(keyword, allowedPlanIds);
-                    navigate('/onboarding', { state: { codeword: keyword, allowedPlanIds } });
+                    setError(t('entry.keywordUnknown'));
                 }
             }
         } catch (err: any) {
             console.error("Entry Error:", err);
             let msg = err.message;
-            if (err.code === 'keyword-claimed') {
-                msg = t('entry.keywordClaimed');
-            } else if (err.code === 'auth/configuration-not-found' || err.message?.includes('configuration-not-found')) {
+            if (err.code === 'auth/configuration-not-found' || err.message?.includes('configuration-not-found')) {
                 msg = "Firebase Auth not enabled. Go to Console -> Authentication -> Sign-in method -> Enable Anonymous.";
             } else if (err.code === 'auth/operation-not-allowed') {
                 msg = "Anonymous Auth disabled in Firebase. Enable it in Console.";
@@ -105,11 +104,12 @@ export const Entry: React.FC = () => {
         if (keyword.length < config.keywordMinLength || keyword.length > config.keywordMaxLength) {
             setError(`Use ${config.keywordMinLength}–${config.keywordMaxLength} characters.`); return;
         }
-        if (!selectedPlans.length) { setError('Select at least one available plan.'); return; }
+        if (!config.allowPublicKeywordCreation) { setError(t('entry.creationUnavailable')); return; }
         setLoading(true);
         try {
-            await createPublicKeyword(keyword, selectedPlans);
-            navigate('/onboarding', { state: { codeword: keyword, allowedPlanIds: selectedPlans } });
+            const allowedPlanIds = withAlwaysFreePlans([]);
+            await createPublicKeyword(keyword);
+            navigate('/onboarding', { state: { codeword: keyword, allowedPlanIds } });
         } catch (err: any) { setError(err.message || 'Could not create keyword.'); }
         finally { setLoading(false); }
     };
@@ -151,13 +151,16 @@ export const Entry: React.FC = () => {
                             autoFocus
                         />
                     </label>
+                    {/* No picker: a self-serve keyword grants the free plans,
+                        and the athlete is told which those are rather than
+                        choosing from inventory they have not been given. */}
                     {creating && <div className="choice-rows" aria-label={t('entry.availablePlans')}>
-                        {PLAN_OPTIONS.filter(plan => config.generalPlanIds.includes(plan.id)).map(plan => (
+                        {PLAN_OPTIONS.filter(plan => isAlwaysFreePlan(plan.id)).map(plan => (
                             <label key={plan.id} className="choice-row">
-                                <span>{localizedPlanName(plan.id, plan.name)}{isAlwaysFreePlan(plan.id) ? ` · ${t('entry.freeTag')}` : ''}</span>
-                                <input type="checkbox" disabled={isAlwaysFreePlan(plan.id)} checked={selectedPlans.includes(plan.id)} onChange={() => setSelectedPlans(value => value.includes(plan.id) ? value.filter(id => id !== plan.id) : [...value, plan.id])} />
+                                <span>{localizedPlanName(plan.id, plan.name)} · {t('entry.freeTag')}</span>
                             </label>
                         ))}
+                        <p className="entry-description">{t('entry.freeOnlyNote')}</p>
                     </div>}
                     {/* Was `bg-zinc-100 text-black`, a per-page style fork that
                         rendered grey instead of the program signal. */}

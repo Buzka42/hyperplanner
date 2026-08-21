@@ -52,7 +52,7 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Heavy Squat · Volume Waves | 5 | 20 | Paused Low Bar Squat 6×5, Leg Extensions 3×8-12, Seated Ham Curl 3×8-12, Long Pause Bench Press 4×6-8, Hammer Upper Row 4×8-12 |
+| Heavy Squat · Volume Waves | 5 | 20 | Low Bar Squat 6×5, Leg Extensions 3×8-12, Seated Ham Curl 3×8-12, Long Pause Bench Press 4×6-8, Hammer Upper Row 4×8-12 |
 | Bench + Deadlift Maintenance · Volume Waves | 6 | 20 | Wide-Grip Bench Press 5×3-5, Conventional Deadlift 3×3, Hammer Lower Row 3×8-12, Glute-Ham Raise 3×10-15, Rear-Delt Rope Pulls to Face 3×12-20, Ab Wheel 3×10-20 |
 | Squat Volume · Volume Waves | 6 | 22 | Paused Back Squat 5×5-8, Heel-Elevated Goblet Squat 3×10-15, Hip Adduction 3×12-15, Pull-Up 4×6-10, Heavy Rolling Tricep Extensions 4×10-15, Seated DB Shoulder Press 3×8-12 |
 | Structural Squat + Heavy Bench · Volume Waves | 5 | 20 | Front Squats 5×3-6, Paused Bench Press 5×3, Hip-Supported Dumbbell Deadlift 3×8-12, Hack Squat Calf Raises 4×10-20, Machine Rear Delt Fly 3×15-20 |
@@ -143,7 +143,7 @@ on its own muscle earns them. The rest are worth a second look.
 
 **Four or more sets (10):**
 
-- Heavy Squat · Volume Waves — Paused Low Bar Squat, 6 sets *(session opener)*
+- Heavy Squat · Volume Waves — Low Bar Squat, 6 sets *(session opener)*
 - Heavy Squat · Volume Waves — Long Pause Bench Press, 4 sets
 - Heavy Squat · Volume Waves — Hammer Upper Row, 4 sets
 - Bench + Deadlift Maintenance · Volume Waves — Wide-Grip Bench Press, 5 sets *(session opener)*
@@ -172,7 +172,7 @@ same question; a real spread is the sign that each slot was chosen.
 | `3` | Conventional Deadlift, Paused Bench Press |
 | `3-5` | Wide-Grip Bench Press |
 | `3-6` | Front Squats |
-| `5` | Paused Low Bar Squat |
+| `5` | Low Bar Squat |
 | `5-8` | Paused Back Squat |
 | `6-10` | Pull-Up |
 | `6-8` | Long Pause Bench Press |
@@ -195,7 +195,7 @@ save-time handler that writes the next working load after a session.
 | Prescribed from | Advances by | Movements |
 |---|---|---|
 | carried working load | double progression +2.5kg | Ab Wheel, Glute-Ham Raise, Hack Squat Calf Raises, Hammer Lower Row, Hammer Upper Row, Heavy Rolling Tricep Extensions, Heel-Elevated Goblet Squat, Hip Adduction, Hip-Supported Dumbbell Deadlift, Leg Extensions, Long Pause Bench Press, Machine Rear Delt Fly, Pull-Up, Rear-Delt Rope Pulls to Face, Seated DB Shoulder Press, Seated Ham Curl |
-| wave off squat | each wave steps the percentage up | Paused Low Bar Squat |
+| wave off squat | each wave steps the percentage up | Low Bar Squat |
 | 85% of pausedBench | the tracked max is re-estimated from what you log | Wide-Grip Bench Press |
 | 57% of conventionalDeadlift | the tracked max is re-estimated from what you log | Conventional Deadlift |
 | 68% of squat | the tracked max is re-estimated from what you log | Paused Back Squat |
