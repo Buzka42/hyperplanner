@@ -538,6 +538,10 @@
 :root {
   --instrument-rule: hsl(var(--border) / 0.82);
   --instrument-rule-soft: hsl(var(--border) / 0.48);
+  /* The boundary of something you can type in. Derived from
+     --muted-foreground rather than --border because every theme defines it and
+     it is, by construction, legible against that theme's page. */
+  --instrument-field: hsl(var(--muted-foreground) / 0.62);
   --instrument-surface: hsl(var(--card));
   --instrument-raised: hsl(var(--secondary) / 0.62);
   --instrument-cut: 12px;
@@ -1234,11 +1238,18 @@ b { font-weight: 600; }
    affordance is the whole row, not the rule: every field is at least 44px tall,
    the label above it is a click target via <label>, and focus is a 2px accent
    underline rather than a ring that a hairline layout has nowhere to put. */
+/* A form field gets its own rule, deliberately stronger than the decorative
+   one. `--instrument-rule` is 1.31:1 against the page on the dark theme — fine
+   for a divider, which is meant to recede, and useless as the only thing
+   marking where you can type. On the onboarding numbers screen it made the
+   inputs read as static text. `--instrument-field` clears the 3:1 that WCAG
+   1.4.11 asks of a control boundary. */
 .instrument-input {
   border-radius: 0;
-  border-bottom: 1px solid var(--instrument-rule);
-  transition: border-color 180ms cubic-bezier(.16,1,.3,1);
+  border-bottom: 1px solid var(--instrument-field);
+  transition: border-color 180ms cubic-bezier(.16,1,.3,1), background-color 180ms;
 }
+.instrument-input:hover:not(:disabled) { border-bottom-color: hsl(var(--muted-foreground)); }
 .instrument-input::placeholder { color: hsl(var(--muted-foreground) / .7); }
 .instrument-input:focus-visible { border-bottom-color: hsl(var(--primary)); box-shadow: 0 1px 0 0 hsl(var(--primary)); }
 .instrument-input:disabled { border-bottom-style: dashed; }
@@ -2534,3 +2545,25 @@ input[type=number] {
 .admin-force:disabled { opacity: .35; }
 .admin-force.is-on { border-color: hsl(var(--primary)); background: hsl(var(--primary)/.14); color: hsl(var(--primary)); }
 @media (max-width: 900px) { .admin-prescription-field { grid-template-columns: 62px 1fr auto; } }
+
+/* Onboarding: an action reads as a control. These two were underlined text —
+   the kind of thing you only find if you already knew it was there — and they
+   set the number the whole plan is computed from. */
+.onboarding-apply {
+  display: inline-flex; align-items: center; min-height: 40px;
+  padding: 0 .85rem;
+  border: 1px solid hsl(var(--primary) / .55);
+  background: hsl(var(--primary) / .08);
+  color: hsl(var(--primary));
+  font-size: .8rem; font-weight: 600;
+}
+.onboarding-apply:hover { background: hsl(var(--primary) / .16); border-color: hsl(var(--primary)); }
+
+/* Both toggles on this screen share one shape; they used to differ only by
+   accident of where they sat in the markup. */
+.onboarding-check {
+  display: flex; align-items: center; gap: .65rem;
+  min-height: 44px; cursor: pointer;
+}
+.onboarding-check span { font-size: .875rem; color: hsl(var(--muted-foreground)); }
+.onboarding-check:hover span { color: hsl(var(--foreground)); }

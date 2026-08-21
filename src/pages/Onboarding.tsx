@@ -1978,13 +1978,13 @@ export const Onboarding: React.FC = () => {
                                             <button
                                                 type="button"
                                                 onClick={() => setStats(prev => ({ ...prev, [stat]: benchmarkSuggestions[stat]!.kg }))}
-                                                className="text-xs font-medium text-primary hover:underline"
+                                                className="onboarding-apply"
                                             >
                                                 {t(`onboarding.benchmark.suggest.${benchmarkSuggestions[stat]!.source}`, { kg: benchmarkSuggestions[stat]!.kg })}
                                             </button>
                                         )}
                                         {!isUnknown && (
-                                            <label className="flex items-center gap-2 pt-1 cursor-pointer">
+                                            <label className="onboarding-check">
                                                 <Checkbox
                                                     checked={estimateStats.has(stat)}
                                                     onCheckedChange={() => setEstimateStats(prev => {
@@ -2013,7 +2013,7 @@ export const Onboarding: React.FC = () => {
                                                     </label>
                                                 </div>
                                                 {estimateFor(stat) > 0 ? (
-                                                    <button type="button" className="text-xs font-medium text-primary hover:underline"
+                                                    <button type="button" className="onboarding-apply"
                                                         onClick={() => setStats(prev => ({ ...prev, [stat]: estimateFor(stat) }))}>
                                                         {t('onboarding.benchmark.estimateApply', { kg: estimateFor(stat) })}
                                                     </button>
@@ -2022,7 +2022,7 @@ export const Onboarding: React.FC = () => {
                                                 )}
                                             </div>
                                         )}
-                                        <label className="flex items-center gap-2 pt-1 cursor-pointer">
+                                        <label className="onboarding-check">
                                             <Checkbox
                                                 checked={isUnknown}
                                                 onCheckedChange={() => setUnknownStats(prev => {
