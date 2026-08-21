@@ -1025,7 +1025,18 @@ export const WorkoutView: React.FC = () => {
                         );
                     }
                 } catch (err) {
-                    console.warn("Workout history write skipped for test user:", err);
+                    // Rethrow. This used to swallow every failure, which is how
+                    // a rules rejection turned into "the session vanished": the
+                    // athlete was told nothing, the draft below was deleted, and
+                    // completedSessions still incremented because the profile
+                    // update is a separate write — so the session looked saved
+                    // and only the working load survived.
+                    //
+                    // Ephemeral test users are already excluded by the
+                    // `isEphemeralTestUser` check above, so nothing reaching
+                    // here is an expected failure.
+                    console.error('[workout] history write failed', err);
+                    throw err;
                 }
             }
 

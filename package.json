@@ -29,6 +29,7 @@
     "verify:profile-rules": "npx --yes tsx scripts/verify-profile-rules.ts",
     "verify:profile-writes": "npx --yes firebase-tools emulators:exec --only firestore \"npx --yes tsx scripts/test-profile-write-rules.ts\"",
     "verify:plan-config-writes": "npx --yes firebase-tools emulators:exec --only firestore \"npx --yes tsx scripts/test-plan-config-write-rules.ts\"",
+    "verify:workout-writes": "npx --yes firebase-tools emulators:exec --only firestore \"npx --yes tsx scripts/test-workout-write-rules.ts\"",
     "verify:portfolio": "npx --yes tsx scripts/verify-portfolio.ts",
     "verify:tips": "npx --yes tsx scripts/verify-tips.ts",
     "verify:tip-coverage": "npx --yes tsx scripts/verify-tip-coverage.ts",

@@ -304,7 +304,7 @@ service cloud.firestore {
         (!('day' in data) || (data.day is int && data.day >= 0 && data.day <= 7)) &&
         (!('weekNum' in data) || (data.weekNum is int && data.weekNum >= 0 && data.weekNum <= 1000)) &&
         (!('dayNum' in data) || (data.dayNum is int && data.dayNum >= 0 && data.dayNum <= 7)) &&
-        (!('sessionKind' in data) || data.sessionKind in ['scheduled', 'pair-select', 'session-select']) &&
+        (!('sessionKind' in data) || data.sessionKind in ['scheduled', 'pair-select', 'session-select', 'rotation']) &&
         (!('elapsedSeconds' in data) || (data.elapsedSeconds is int && data.elapsedSeconds >= 0 && data.elapsedSeconds <= 86400)) &&
         (!('notes' in data) || data.notes == null || (data.notes is string && data.notes.size() <= 5000)) &&
         (!('redline' in data) || (data.redline is map && data.redline.size() <= 4)) &&
