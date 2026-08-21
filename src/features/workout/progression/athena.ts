@@ -20,5 +20,31 @@ export const athenaProgression: ProgressionHandler = ctx => {
             loads[exercise.exerciseId] = clean ? current + 2.5 : current;
         }
     }
-    return { updates: { 'athenaStatus.exerciseLoads': loads }, appends: [], effects: [] };
+    /**
+     * The assisted pull-up graduates on clean reps, not on load.
+     *
+     * Five unassisted reps opening the movement, twice running, means the
+     * assistance has stopped being the limiter — the athlete moves to an
+     * overhand pull-up at 3-5. Five clean across every set instead earns a
+     * note to add their own weight next time.
+     */
+    const updates: Record<string, unknown> = { 'athenaStatus.exerciseLoads': loads };
+    const pullUp = ctx.workout.exercises.find(exercise => exercise.exerciseId === 'assisted-pull-up');
+    if (pullUp) {
+        const sets = workSets(ctx.sets[pullUp.id]).slice(0, pullUp.sets);
+        const cleanIn = (set: typeof sets[number] | undefined) => Number(set?.cleanReps ?? 0);
+        const openedClean = sets.length > 0 && sets[0]?.completed === true && cleanIn(sets[0]) >= 5;
+        const allClean = sets.length >= pullUp.sets && sets.every(set => set.completed && cleanIn(set) >= 5);
+        const streak = openedClean ? (ctx.user.athenaStatus?.cleanPullUpStreak ?? 0) + 1 : 0;
+
+        if (streak >= 2) {
+            updates['athenaStatus.pullUpGraduated'] = true;
+            updates['athenaStatus.cleanPullUpStreak'] = 0;
+        } else {
+            updates['athenaStatus.cleanPullUpStreak'] = streak;
+        }
+        updates['athenaStatus.pullUpAddLoad'] = allClean && streak < 2;
+    }
+
+    return { updates, appends: [], effects: [] };
 };

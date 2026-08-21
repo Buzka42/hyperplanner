@@ -51,9 +51,9 @@ The onboarding card claims:
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
 | Lower A — Squat · Wisdom | 6 | 15 | Barbell Squat 4×4-6, Romanian Deadlift 3×5-8, Front-Foot Elevated Bulgarian Split Squat 2×8-12, Seated Hamstring Curl 2×10-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 2×10-15 |
-| Upper A — Bench · Wisdom | 7 | 18 | Flat Barbell Bench Press 4×4-6, Single-Arm Hammer Strength Row 3×8-12, Assisted Pull-ups 3×8-12, Shoulder Press 2×8-12, Bench-Supported DB Rear Delt Fly 2×12-20, Rolling DB Tricep Extensions 2×10-15, Standing Straight-Bar Curl 2×10-15 |
+| Upper A — Bench · Wisdom | 7 | 18 | Flat Barbell Bench Press 4×4-6, Single-Arm Hammer Strength Row 3×8-12, Assisted Pull-ups 3×5, Shoulder Press 2×8-12, Bench-Supported DB Rear Delt Fly 2×12-20, Rolling DB Tricep Extensions 2×10-15, Standing Straight-Bar Curl 2×10-15 |
 | Lower B — Hinge · Wisdom | 7 | 16 | Romanian Deadlift 3×5-8, Paused Squat 3×5-8, Hip Thrusts 2×8-12, Leg Extensions 2×10-15, Lying Leg Curls 2×10-15, Hack Squat Calf Raises 2×12-20, Cable Crunch 2×10-15 |
-| Upper B — Press/Pull · Wisdom | 8 | 18 | Standing Military Press 3×4-6, Assisted Pull-ups 3×8-12, Incline DB Bench Press 2×8-12, Pec Deck 2×10-15, Single-Arm Hammer Strength Row 2×8-12, Leaning One-Arm Lateral Raise 2×12-20, Standing Straight-Bar Curl 2×10-15, Cable Triceps Extension 2×10-15 |
+| Upper B — Press/Pull · Wisdom | 8 | 18 | Standing Military Press 3×4-6, Assisted Pull-ups 3×5, Incline DB Bench Press 2×8-12, Pec Deck 2×10-15, Single-Arm Hammer Strength Row 2×8-12, Leaning One-Arm Lateral Raise 2×12-20, Standing Straight-Bar Curl 2×10-15, Cable Triceps Extension 2×10-15 |
 
 ### Week-to-week shape
 
@@ -145,7 +145,7 @@ on its own muscle earns them. The rest are worth a second look.
 
 ## 6. Rep schemes
 
-5 distinct rep ranges across the plan. A plan that prescribes one
+6 distinct rep ranges across the plan. A plan that prescribes one
 range for every movement is asking a lateral raise and a squat the
 same question; a real spread is the sign that each slot was chosen.
 
@@ -154,8 +154,9 @@ same question; a real spread is the sign that each slot was chosen.
 | `10-15` | Ab Wheel, Cable Crunch, Cable Triceps Extension, Leg Extensions, Lying Leg Curls, Pec Deck, Rolling DB Tricep Extensions, Seated Hamstring Curl, Standing Straight-Bar Curl |
 | `12-20` | Bench-Supported DB Rear Delt Fly, Hack Squat Calf Raises, Leaning One-Arm Lateral Raise |
 | `4-6` | Barbell Squat, Flat Barbell Bench Press, Standing Military Press |
+| `5` | Assisted Pull-ups |
 | `5-8` | Paused Squat, Romanian Deadlift |
-| `8-12` | Assisted Pull-ups, Front-Foot Elevated Bulgarian Split Squat, Hip Thrusts, Incline DB Bench Press, Shoulder Press, Single-Arm Hammer Strength Row |
+| `8-12` | Front-Foot Elevated Bulgarian Split Squat, Hip Thrusts, Incline DB Bench Press, Shoulder Press, Single-Arm Hammer Strength Row |
 
 ---
 
@@ -195,7 +196,7 @@ load: { systemic: 108, axial: 49, lower_back: 36, per_set_systemic: 1.61 }
 volume: { glutes: 17, shoulders: 11, back: 11, quads: 11, hamstrings: 10, chest: 8, biceps: 4, triceps: 4, calves: 4, core: 4 }
 coverage: { covered: 10, missing: [], in_band: 5, over: [], under: ['chest', 'biceps', 'triceps', 'calves', 'core'] }
 set_shape: { slots: 28, ones: 0, twos: 19, threes: 7, four_plus: 2, mean: 2.39 }
-rep_ranges: ['10-15', '12-20', '4-6', '5-8', '8-12']
+rep_ranges: ['10-15', '12-20', '4-6', '5', '5-8', '8-12']
 progression: { handler: own, slot_rules: true, distinct_rules: 4 }
 variety: { distinct: 23, density: 3.43, top_share: 0.09, evenness: 0.971 }
 ```

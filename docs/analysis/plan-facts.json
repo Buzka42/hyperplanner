@@ -16915,7 +16915,7 @@
       "Ab Wheel": "10-15",
       "Flat Barbell Bench Press": "4-6",
       "Single-Arm Hammer Strength Row": "8-12",
-      "Assisted Pull-ups": "8-12",
+      "Assisted Pull-ups": "5",
       "Shoulder Press": "8-12",
       "Bench-Supported DB Rear Delt Fly": "12-20",
       "Rolling DB Tricep Extensions": "10-15",
@@ -17037,6 +17037,7 @@
       "10-15",
       "12-20",
       "4-6",
+      "5",
       "5-8",
       "8-12"
     ],

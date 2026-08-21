@@ -20,6 +20,8 @@ export type LoggedSet = {
     kind?: string;
     rir?: number;
     quality?: 'clean' | 'borderline' | 'invalid';
+    /** Reps needing no help, on an assisted movement. */
+    cleanReps?: number;
 };
 
 export type ProgressionContext = {

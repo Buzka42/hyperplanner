@@ -17,14 +17,14 @@ const s = (ex: string, sets: number, reps = '8-12', restSeconds = 90): SlotSpec 
 
 export const ATHENA_FOUR_DAY: DaySpec[] = [
     { name: 'Lower A — Squat', dayOfWeek: 1, slots: [s('barbell-squat', 4, '4-6', 150), s('romanian-deadlift', 3, '5-8', 120), s('front-foot-elevated-bulgarian-split-squat', 2), s('seated-hamstring-curl', 2, '10-15', 75), s('hack-calf-raise', 2, '12-20', 60), s('ab-wheel', 2, '10-15', 60)] },
-        { name: 'Upper A — Bench', dayOfWeek: 2, slots: [s('flat-barbell-bench-press', 4, '4-6', 150), s('single-arm-hammer-row', 3), s('assisted-pull-up', 3), s('shoulder-press', 2), s('bench-supported-dumbbell-rear-delt-fly', 2, '12-20', 60), s('rolling-dumbbell-tricep-extension', 2, '10-15', 60), s('standing-straight-bar-curl', 2, '10-15', 60)] },
+        { name: 'Upper A — Bench', dayOfWeek: 2, slots: [s('flat-barbell-bench-press', 4, '4-6', 150), s('single-arm-hammer-row', 3), s('assisted-pull-up', 3, '5'), s('shoulder-press', 2), s('bench-supported-dumbbell-rear-delt-fly', 2, '12-20', 60), s('rolling-dumbbell-tricep-extension', 2, '10-15', 60), s('standing-straight-bar-curl', 2, '10-15', 60)] },
         { name: 'Lower B — Hinge', dayOfWeek: 4, slots: [s('romanian-deadlift', 3, '5-8', 150), s('paused-squat', 3, '5-8', 120), s('hip-thrust', 2), s('leg-extension', 2, '10-15', 75), s('lying-leg-curl', 2, '10-15', 75), s('hack-calf-raise', 2, '12-20', 60), s('cable-crunch', 2, '10-15', 60)] },
-        { name: 'Upper B — Press/Pull', dayOfWeek: 5, slots: [s('standing-barbell-military-press', 3, '4-6', 150), s('assisted-pull-up', 3), s('incline-dumbbell-bench-press', 2), s('pec-deck', 2, '10-15', 75), s('single-arm-hammer-row', 2), s('leaning-one-arm-lateral-raise', 2, '12-20', 60), s('standing-straight-bar-curl', 2, '10-15', 60), s('cable-triceps-extension', 2, '10-15', 60)] },
+        { name: 'Upper B — Press/Pull', dayOfWeek: 5, slots: [s('standing-barbell-military-press', 3, '4-6', 150), s('assisted-pull-up', 3, '5'), s('incline-dumbbell-bench-press', 2), s('pec-deck', 2, '10-15', 75), s('single-arm-hammer-row', 2), s('leaning-one-arm-lateral-raise', 2, '12-20', 60), s('standing-straight-bar-curl', 2, '10-15', 60), s('cable-triceps-extension', 2, '10-15', 60)] },
 ];
 
 export const ATHENA_THREE_DAY: DaySpec[] = [
     { name: 'Athena I — Squat Emphasis', dayOfWeek: 1, slots: [s('barbell-squat', 4, '4-6', 150), s('flat-barbell-bench-press', 3, '4-6', 120), s('single-arm-hammer-row', 3), s('seated-hamstring-curl', 2, '10-15', 75), s('leaning-one-arm-lateral-raise', 2, '12-20', 60), s('heavy-rolling-tricep-extension', 1, '10-15', 60)] },
-    { name: 'Athena II — Hinge Emphasis', dayOfWeek: 3, slots: [s('romanian-deadlift', 3, '5-8', 150), s('standing-barbell-military-press', 3, '4-6', 120), s('assisted-pull-up', 3), s('front-foot-elevated-bulgarian-split-squat', 3), s('standing-straight-bar-curl', 1, '10-15', 60), s('cable-crunch', 2, '10-15', 60)] },
+    { name: 'Athena II — Hinge Emphasis', dayOfWeek: 3, slots: [s('romanian-deadlift', 3, '5-8', 150), s('standing-barbell-military-press', 3, '4-6', 120), s('assisted-pull-up', 3, '5'), s('front-foot-elevated-bulgarian-split-squat', 3), s('standing-straight-bar-curl', 1, '10-15', 60), s('cable-crunch', 2, '10-15', 60)] },
     { name: 'Athena III — Press + Secondary Lower', dayOfWeek: 5, slots: [s('flat-barbell-bench-press', 4, '4-6', 150), s('paused-squat', 3, '5-8', 120), s('romanian-deadlift', 2, '5-8', 120), s('single-arm-hammer-row', 3), s('seated-dumbbell-shoulder-press', 2), s('hack-calf-raise', 1, '12-20', 60)] },
 ];
 
@@ -62,11 +62,43 @@ const replace = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
     }) };
 };
 
+/**
+ * The assisted pull-up is a fixed five reps, and the note it carries.
+ *
+ * Difficulty is modulated by how much the machine helps, not by rep count, so
+ * the prescription stays at five and the athlete chases needing less help. Once
+ * they graduate, `exerciseSwaps` has already replaced the movement with an
+ * overhand pull-up and the range becomes 3-5.
+ */
+const pullUpPrescription = (day: WorkoutDay, user: UserProfile): WorkoutDay => ({
+    ...day,
+    exercises: day.exercises.map(exercise => {
+        if (exercise.exerciseId !== 'assisted-pull-up') return exercise;
+        if (user.athenaStatus?.pullUpGraduated) {
+            const pullUp = EXERCISE_BY_ID['pull-up'];
+            return {
+                ...exercise,
+                exerciseId: pullUp.id,
+                name: pullUp.name.en,
+                target: { ...exercise.target, type: 'range' as const, reps: '3-5' },
+                notes: 'You earned these. Three to five, no assistance.',
+            };
+        }
+        return {
+            ...exercise,
+            target: { ...exercise.target, type: 'straight' as const, reps: '5' },
+            notes: user.athenaStatus?.pullUpAddLoad
+                ? 'Five clean on every set last time — add 2.5 kg of your own weight today.'
+                : 'Five reps. Take only as much assistance as you need, and log how many were clean.',
+        };
+    }),
+});
+
 const preprocess = (day: WorkoutDay, user: UserProfile): WorkoutDay => {
     const match = day.id?.match(/-w(\d+)-d(\d+)$/);
-    if (!match) return replace(day, user);
+    if (!match) return pullUpPrescription(replace(day, user), user);
     const selected = effectiveAthenaMode(user) === '4day' ? day : (three.program.weeks[Number(match[1]) - 1]?.days.find(candidate => candidate.dayOfWeek === Number(match[2])) ?? day);
-    return replace(selected, user);
+    return pullUpPrescription(replace(selected, user), user);
 };
 
 export const ATHENA_CONFIG: PlanConfig = { ...four, hooks: { ...four.hooks, preprocessDay: preprocess, calculateWeight: (target, user, exerciseName, context) => {

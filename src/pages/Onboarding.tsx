@@ -103,6 +103,16 @@ export const Onboarding: React.FC = () => {
 
     /** Stats the athlete marked "I don't know" on the benchmark step. */
     const [unknownStats, setUnknownStats] = useState<Set<keyof LiftingStats>>(new Set());
+    /**
+     * Lifts being estimated from a set rather than entered as a max.
+     *
+     * Most people have never tested a true single, so asking for one they do not
+     * have gets a guess typed into the field the whole plan is computed from. A
+     * set they actually did is a better input, and Epley turns it into the
+     * number the plan wants.
+     */
+    const [estimateStats, setEstimateStats] = useState<Set<string>>(new Set());
+    const [estimateInputs, setEstimateInputs] = useState<Record<string, { weight: string; reps: string }>>({});
     /** Suggested maxes for the benchmark step — profile first, log-derived e1RM next. */
     const [benchmarkSuggestions, setBenchmarkSuggestions] = useState<Partial<Record<keyof LiftingStats, { kg: number; source: 'profile' | 'history' }>>>({});
 
@@ -1907,6 +1917,13 @@ export const Onboarding: React.FC = () => {
         const onboarding = getPlan(selectedProgramId ?? undefined).onboarding;
         const lifts = benchmarkLiftsFor([...(onboarding?.requiredStats ?? []), ...(onboarding?.seedStats ?? [])]);
         const seeded = new Set(onboarding?.seedStats ?? []);
+        /** Epley on a set the athlete actually completed, rounded to the bar. */
+        const estimateFor = (stat: string): number => {
+            const entry = estimateInputs[stat];
+            const weight = Number(entry?.weight), reps = Number(entry?.reps);
+            if (!(weight > 0) || !(reps > 0) || reps > 15) return 0;
+            return Math.round(epley(weight, reps) / 2.5) * 2.5;
+        };
         const allUnknown = lifts.length > 0 && lifts.every(({ stat }) => unknownStats.has(stat));
 
         return (
@@ -1965,6 +1982,45 @@ export const Onboarding: React.FC = () => {
                                             >
                                                 {t(`onboarding.benchmark.suggest.${benchmarkSuggestions[stat]!.source}`, { kg: benchmarkSuggestions[stat]!.kg })}
                                             </button>
+                                        )}
+                                        {!isUnknown && (
+                                            <label className="flex items-center gap-2 pt-1 cursor-pointer">
+                                                <Checkbox
+                                                    checked={estimateStats.has(stat)}
+                                                    onCheckedChange={() => setEstimateStats(prev => {
+                                                        const next = new Set(prev);
+                                                        if (next.has(stat)) next.delete(stat); else next.add(stat);
+                                                        return next;
+                                                    })}
+                                                />
+                                                <span className="text-sm text-muted-foreground">{t('onboarding.benchmark.estimateToggle')}</span>
+                                            </label>
+                                        )}
+                                        {!isUnknown && estimateStats.has(stat) && (
+                                            <div className="space-y-2 rounded border border-primary/20 bg-primary/5 p-3">
+                                                <div className="flex items-end gap-3">
+                                                    <label className="flex-1 text-xs text-muted-foreground">
+                                                        {t('common.weight')}
+                                                        <Input type="number" min="0" step="2.5" inputMode="decimal" className="mt-1"
+                                                            value={estimateInputs[stat]?.weight ?? ''}
+                                                            onChange={e => setEstimateInputs(prev => ({ ...prev, [stat]: { reps: prev[stat]?.reps ?? '', weight: e.target.value } }))} />
+                                                    </label>
+                                                    <label className="flex-1 text-xs text-muted-foreground">
+                                                        {t('workout.reps')}
+                                                        <Input type="number" min="1" max="15" step="1" inputMode="numeric" className="mt-1"
+                                                            value={estimateInputs[stat]?.reps ?? ''}
+                                                            onChange={e => setEstimateInputs(prev => ({ ...prev, [stat]: { weight: prev[stat]?.weight ?? '', reps: e.target.value } }))} />
+                                                    </label>
+                                                </div>
+                                                {estimateFor(stat) > 0 ? (
+                                                    <button type="button" className="text-xs font-medium text-primary hover:underline"
+                                                        onClick={() => setStats(prev => ({ ...prev, [stat]: estimateFor(stat) }))}>
+                                                        {t('onboarding.benchmark.estimateApply', { kg: estimateFor(stat) })}
+                                                    </button>
+                                                ) : (
+                                                    <p className="text-xs text-muted-foreground">{t('onboarding.benchmark.estimateHint')}</p>
+                                                )}
+                                            </div>
                                         )}
                                         <label className="flex items-center gap-2 pt-1 cursor-pointer">
                                             <Checkbox

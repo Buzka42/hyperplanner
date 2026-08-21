@@ -237,7 +237,18 @@ export type ApexPredatorStatus = {
     emphasis?: { regions: [ApexRegion, ApexRegion]; sinceWeek: number };
     rom?: Record<string, { level: number; updatedWeek: number }>;
 };
-export type AthenaStatus = { exerciseLoads?: Record<string, number> };
+export type AthenaStatus = {
+    exerciseLoads?: Record<string, number>;
+    /**
+     * Consecutive sessions opening the assisted pull-up with five clean reps.
+     * Two in a row and the plan graduates the athlete to an overhand pull-up.
+     */
+    cleanPullUpStreak?: number;
+    /** Last session hit five clean reps on every set: earn your own weight. */
+    pullUpAddLoad?: boolean;
+    /** Two clean openers in a row: the athlete is off the assistance for good. */
+    pullUpGraduated?: boolean;
+};
 export type KaliStatus = { bodyweightKg?: number; aggressive?: boolean; baseline?: Partial<Record<'squat' | 'hinge' | 'push' | 'pull', number>> };
 export type RedlineStatus = { nextRecovery?: { response: 'recovered' | 'somewhat-fatigued' | 'performance-impaired'; confirmed: boolean; recordedAt: string }; baseline?: Record<string, number> };
 
@@ -630,6 +641,8 @@ export type WorkoutLog = {
             kind?: SetKind;
             rir?: number;
             quality?: 'clean' | 'borderline' | 'invalid';
+            /** Reps needing no help, on an assisted movement. */
+            cleanReps?: number;
         }[];
         notes?: string;
     }[];

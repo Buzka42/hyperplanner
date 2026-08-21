@@ -48,6 +48,14 @@ interface SetLog {
     quality?: 'clean' | 'borderline' | 'invalid';
     completionReason?: CompletionReason;
     totalSystemWeightKg?: number;
+    /**
+     * Reps completed with no help, on an assisted movement.
+     *
+     * An assisted pull-up progresses by needing less help, not by adding reps,
+     * so "8 reps" says nothing on its own. `reps` stays the total so every
+     * existing consumer is unaffected; this is the half that matters.
+     */
+    cleanReps?: number;
 }
 
 // The number of sets the PLAN itself prescribes for this exercise (before any
@@ -1161,6 +1169,14 @@ export const WorkoutView: React.FC = () => {
             ?? exerciseResolver.resolve(activeExercise.name))
         : undefined;
     const activeIsTimed = isTimed(activeLibraryEntry);
+    /**
+     * Assisted movements get two rep fields.
+     *
+     * On an assisted pull-up the target is a fixed five and the variable is how
+     * much of the machine you needed. Logging a single rep count hides exactly
+     * the thing that is meant to improve.
+     */
+    const activeIsAssisted = activeExercise?.exerciseId === 'assisted-pull-up';
     const activeHidesWeight = isBodyweightTimed(activeLibraryEntry);
     const activeTimedGoal = useMemo(() => {
         if (!activeIsTimed || !activeExercise) return undefined;
@@ -1454,7 +1470,35 @@ export const WorkoutView: React.FC = () => {
                             types their own. Principle 5, on the field it
                             describes rather than as a status line. */}
                         {!activeHidesWeight && <label data-len={figureLength(activeSet.weight)} style={figureChars(activeSet.weight)}><span>{t('common.weight')}{isAutoLoad(activeExercise, activeSet.weight, activeSetIndex) && <em> · {t('workout.auto')}</em>}</span><Input inputMode="decimal" value={activeSet.weight} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'weight', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={t('common.weight')} /><b>{t('common.kg')}</b></label>}
+                        {activeIsAssisted ? (
+                            <>
+                                <label data-len={figureLength(String(activeSet.cleanReps ?? ''))} style={figureChars(String(activeSet.cleanReps ?? ''))}>
+                                    <span>{t('workout.assisted.clean')}</span>
+                                    <Input inputMode="numeric" value={activeSet.cleanReps ?? ''} aria-label={t('workout.assisted.clean')}
+                                        onChange={event => {
+                                            const clean = event.target.value === '' ? undefined : Number(event.target.value);
+                                            setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => {
+                                                if (index !== activeSetIndex) return set;
+                                                // `reps` stays the total so history, volume and every
+                                                // other consumer keep working untouched.
+                                                const assisted = Math.max(0, Number(set.reps || 0) - (set.cleanReps ?? 0));
+                                                return { ...set, cleanReps: clean, reps: String((clean ?? 0) + assisted) };
+                                            }) }));
+                                        }} />
+                                </label>
+                                <label data-len={figureLength(String(Math.max(0, Number(activeSet.reps || 0) - (activeSet.cleanReps ?? 0))))} style={figureChars(String(Math.max(0, Number(activeSet.reps || 0) - (activeSet.cleanReps ?? 0))))}>
+                                    <span>{t('workout.assisted.assisted')}</span>
+                                    <Input inputMode="numeric" value={Math.max(0, Number(activeSet.reps || 0) - (activeSet.cleanReps ?? 0)) || ''} aria-label={t('workout.assisted.assisted')}
+                                        onChange={event => {
+                                            const assisted = event.target.value === '' ? 0 : Number(event.target.value);
+                                            setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) =>
+                                                index === activeSetIndex ? { ...set, reps: String((set.cleanReps ?? 0) + assisted) } : set) }));
+                                        }} />
+                                </label>
+                            </>
+                        ) : (
                         <label data-len={figureLength(activeSet.reps)} style={figureChars(activeSet.reps)}><span>{activeIsTimed ? t('workout.time') : t('workout.reps')}</span><Input inputMode="numeric" value={activeSet.reps} onChange={(event) => handleSetChange(activeExercise.id, activeSetIndex, 'reps', event.target.value, activeIsPullup, activeExercise.target.reps)} aria-label={activeIsTimed ? t('workout.time') : t('workout.reps')} />{activeIsTimed && <b>{t('workout.seconds')}</b>}</label>
+                        )}
                     </div>
                     {((activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press') || programData.id === 'oracle' || programData.id === 'blackout') && <div className="live-set-telemetry">
                         {(programData.id !== 'blackout' || activeSetIndex === 0) && (programData.id === 'oracle' || (activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press')) && <label><span>RIR</span><select value={activeSet.rir ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, rir: event.target.value === '' ? undefined : Number(event.target.value) } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3+</option></select></label>}

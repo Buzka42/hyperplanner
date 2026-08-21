@@ -69,6 +69,12 @@ export const translations = {
         workout: {
             time: "Time",
             seconds: "sec",
+            assisted: {
+                clean: "Clean reps",
+                assisted: "Assisted reps",
+                addLoad: "Five clean across every set. Add 2.5 kg of your own weight next session.",
+                graduated: "Two sessions opening with five clean reps — you are on overhand pull-ups now.",
+            },
             timed: {
                 best: "Best hold",
                 goal: "Aim for",
@@ -677,6 +683,9 @@ export const translations = {
                 buildButton: "BUILD MY PROGRAM",
                 allUnknownNote: "You're calibrating every lift. Your first session of each will find your loads — expect the first week to be exploratory.",
                 bodyweightRequired: "This plan loads every lift against your bodyweight, so enter it before building your program.",
+                estimateToggle: "I don't know my 1RM — work it out from a set",
+                estimateHint: "Enter a weight and how many reps you managed with it, up to 15.",
+                estimateApply: "Use {kg} kg — tap to apply",
                 suggest: {
                     profile: "From your profile: {kg} kg — tap to use",
                     history: "Estimated from your logs: ~{kg} kg — tap to use"
@@ -1588,6 +1597,12 @@ export const translations = {
         workout: {
             time: "Czas",
             seconds: "sek",
+            assisted: {
+                clean: "Czyste powt.",
+                assisted: "Z asystą",
+                addLoad: "Pięć czystych powtórzeń w każdej serii. Na następnym treningu dołóż 2,5 kg własnego obciążenia.",
+                graduated: "Dwa treningi z pięcioma czystymi powtórzeniami w pierwszej serii — przechodzisz na podciąganie nachwytem.",
+            },
             timed: {
                 best: "Najdłuższy",
                 goal: "Cel",
@@ -2182,6 +2197,9 @@ export const translations = {
                 buildButton: "ZBUDUJ MÓJ PROGRAM",
                 allUnknownNote: "Kalibrujesz każdy bój. Pierwszy trening każdego z nich wyznaczy ciężary — potraktuj pierwszy tydzień jako rozpoznanie.",
                 bodyweightRequired: "Ten plan liczy obciążenie względem twojej masy ciała, więc podaj ją przed zbudowaniem programu.",
+                estimateToggle: "Nie znam swojego 1RM — wylicz go z serii",
+                estimateHint: "Podaj ciężar i liczbę powtórzeń, które z nim zrobiłeś, maksymalnie 15.",
+                estimateApply: "Użyj {kg} kg — dotknij, aby zastosować",
                 suggest: {
                     profile: "Z twojego profilu: {kg} kg — dotknij, aby użyć",
                     history: "Oszacowane z twoich treningów: ~{kg} kg — dotknij, aby użyć"
