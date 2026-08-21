@@ -1,13 +1,15 @@
 
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useParams, useNavigate } from 'react-router-dom';
+import { warmupFor } from '../features/workout/warmup';
 import { isTimed, isBodyweightTimed, parseTimeTarget, bestHoldSeconds, nextTimedGoal, formatSeconds } from '../features/workout/timedExercise';
 import { percentageBaseFor } from '../features/onboarding/seedLoads';
 import { useUser } from '../contexts/UserContext';
 import { useLanguage, resolveTemplate } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { CheckCircle2, Circle, ArrowLeft, Save, AlertCircle, FlaskConical, Repeat } from 'lucide-react';
+import { AlertCircle, ArrowLeft, CheckCircle2, Circle, FlaskConical, Repeat, Save, X } from 'lucide-react';
 import { doc, updateDoc, arrayUnion, increment, collection, query, where, getDocs, deleteField } from 'firebase/firestore';
 import { db } from '../firebase';
 import { cn } from '../lib/utils';
@@ -16,7 +18,7 @@ import { getVariantTip } from '../data/exercises/variantTips';
 import { resolveTips } from '../features/tips/resolve';
 import { resolveDay } from '../lib/planResolution';
 import { PrescriptionBadges } from '../features/workout/PrescriptionBadges';
-import { nextSlot, partnersOf, type SupersetSlot } from '../features/workout/superset';
+import { handsOffToPartner, nextSlot, partnersOf, type SupersetSlot } from '../features/workout/superset';
 import { RestTimer } from '../features/workout/RestTimer';
 import { SwapSheet } from '../features/workout/SwapSheet';
 import { techniqueAppliesTo, techniqueRows } from '../features/workout/techniqueSets';
@@ -145,7 +147,7 @@ export const WorkoutView: React.FC = () => {
     const [selectedSet, setSelectedSet] = useState<{ exerciseId: string; index: number } | null>(null);
     const consoleRef = useRef<HTMLElement | null>(null);
     // Rest countdown for the set just logged; null when idle.
-    const [restTimer, setRestTimer] = useState<{ seconds: number; label: string; key: number } | null>(null);
+    const [restTimer, setRestTimer] = useState<{ seconds: number; label: string; key: number; handoff?: 'superset' | 'next' }  | null>(null);
     // Exercise the athlete is choosing a swap for.
     const [swapTarget, setSwapTarget] = useState<{ name: string; swap: import('../data/exercises/types').ResolvedSwap } | null>(null);
 
@@ -1244,8 +1246,29 @@ export const WorkoutView: React.FC = () => {
         // An athlete who does not want it turns it off in settings; an athlete
         // who does should not have to go looking for it first.
         const rest = (activeExercise as { restSeconds?: number }).restSeconds ?? activeExercise.prescription?.restSeconds;
-        if (rest && (user?.trainingPreferences?.restTimer?.enabled ?? true)) {
-            setRestTimer({ seconds: rest, label: activeExercise.name, key: Date.now() });
+        if (user?.trainingPreferences?.restTimer?.enabled ?? true) {
+            // Asked of the slots as they stand *after* this set, so an uneven
+            // pair (4 sets against 3) rests on the leftover set rather than
+            // being told to move to a partner that has nothing left.
+            const afterLog = supersetSlots.map(slot => slot.id === activeExercise.id
+                ? { ...slot, completedSets: slot.completedSets + 1 }
+                : slot);
+            const upNext = nextSlot(afterLog);
+            if (upNext && upNext.id !== activeExercise.id) {
+                // A prescribed rest is the rest *between sets of one movement*.
+                // Once the console has moved on there is nothing to wait for —
+                // walking to the next station is the rest — so the bar says so
+                // rather than counting down against work already finished.
+                const partner = dayData.exercises.find(ex => ex.id === upNext.id);
+                setRestTimer({
+                    seconds: 0,
+                    label: partner?.name ?? '',
+                    key: Date.now(),
+                    handoff: handsOffToPartner(afterLog, activeExercise.id) ? 'superset' : 'next',
+                });
+            } else if (rest) {
+                setRestTimer({ seconds: rest, label: activeExercise.name, key: Date.now() });
+            }
         }
     };
 
@@ -1261,14 +1284,41 @@ export const WorkoutView: React.FC = () => {
                 />
             )}
 
-            {restTimer && (
-                <RestTimer
-                    key={restTimer.key}
-                    seconds={restTimer.seconds}
-                    label={restTimer.label}
-                    autoStart={user?.trainingPreferences?.restTimer?.autoStart !== false}
-                    onDismiss={() => setRestTimer(null)}
-                />
+            {/* Portalled to <body> on purpose. The bar is `position: fixed`,
+                and a transformed ancestor becomes the containing block for a
+                fixed child — which is exactly what the mobile-only
+                `instrument-arrive` animation on `.instrument-page` does. The
+                timer was rendering thousands of pixels down the page instead of
+                pinned above the dock, so on a phone it simply never appeared.
+                A portal puts it outside any such ancestor for good. */}
+            {createPortal(
+                <>
+                {restTimer?.handoff && (
+                    <div className="rest-timer is-handoff" role="status">
+                        <div className="rest-timer-body">
+                            <div className="rest-timer-read">
+                                <span className="rest-timer-value is-text">{t(restTimer.handoff === 'superset' ? 'workout.restTimer.noRest' : 'workout.restTimer.moveOn')}</span>
+                                {restTimer.label && <span className="rest-timer-label">{restTimer.label}</span>}
+                            </div>
+                            <div className="rest-timer-actions">
+                                <button type="button" onClick={() => setRestTimer(null)} aria-label={t('workout.restTimer.skipLabel')} className="is-skip">
+                                    <X className="h-4 w-4" aria-hidden="true" /><span>{t('workout.restTimer.skip')}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {restTimer && !restTimer.handoff && (
+                    <RestTimer
+                        key={restTimer.key}
+                        seconds={restTimer.seconds}
+                        label={restTimer.label}
+                        autoStart={user?.trainingPreferences?.restTimer?.autoStart !== false}
+                        onDismiss={() => setRestTimer(null)}
+                    />
+                )}
+                </>,
+                document.body,
             )}
             {/* Pain & Glory: Deficit Snatch Grip RPE Modal */}
             {hipCapsuleAsk && (
@@ -1501,9 +1551,9 @@ export const WorkoutView: React.FC = () => {
                         )}
                     </div>
                     {((activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press') || programData.id === 'oracle' || programData.id === 'blackout') && <div className="live-set-telemetry">
-                        {(programData.id !== 'blackout' || activeSetIndex === 0) && (programData.id === 'oracle' || (activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press')) && <label><span>RIR</span><select value={activeSet.rir ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, rir: event.target.value === '' ? undefined : Number(event.target.value) } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3+</option></select></label>}
-                        {((activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'blackout' && activeSetIndex === 0)) && <label><span>{language === 'pl' ? 'Jakość' : 'Quality'}</span><select value={activeSet.quality ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, quality: event.target.value as SetLog['quality'] } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="clean">{language === 'pl' ? 'Czysta' : 'Clean'}</option><option value="borderline">{language === 'pl' ? 'Graniczna' : 'Borderline'}</option><option value="invalid">{language === 'pl' ? 'Nieważna' : 'Invalid'}</option></select></label>}
-                        {programData.id === 'blackout' && activeSetIndex === 0 && <label><span>{language === 'pl' ? 'Powód stopu' : 'Stop reason'}</span><select value={activeSet.completionReason ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, completionReason: (event.target.value || undefined) as SetLog['completionReason'] } : set) }))} className="min-h-11 bg-transparent border-b border-input"><option value="">—</option><option value="target-met">{language === 'pl' ? 'Cel osiągnięty' : 'Target completed'}</option><option value="muscular-failure">{language === 'pl' ? 'Upadek mięśniowy' : 'Muscular failure'}</option><option value="technical-failure">{language === 'pl' ? 'Upadek techniczny' : 'Technical failure'}</option><option value="stopped-early">{language === 'pl' ? 'Świadomy stop' : 'Voluntary stop'}</option><option value="pain">{language === 'pl' ? 'Ból' : 'Pain'}</option></select></label>}
+                        {(programData.id !== 'blackout' || activeSetIndex === 0) && (programData.id === 'oracle' || (activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'bench-domination' && dayNum === 3 && activeExercise.name === 'Paused Bench Press')) && <label><span>RIR</span><select value={activeSet.rir ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, rir: event.target.value === '' ? undefined : Number(event.target.value) } : set) }))} className="instrument-select"><option value="">—</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3+</option></select></label>}
+                        {((activeExercise.prescription?.topSetBackoff && activeSetIndex === 0) || (programData.id === 'blackout' && activeSetIndex === 0)) && <label><span>{language === 'pl' ? 'Jakość' : 'Quality'}</span><select value={activeSet.quality ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, quality: event.target.value as SetLog['quality'] } : set) }))} className="instrument-select"><option value="">—</option><option value="clean">{language === 'pl' ? 'Czysta' : 'Clean'}</option><option value="borderline">{language === 'pl' ? 'Graniczna' : 'Borderline'}</option><option value="invalid">{language === 'pl' ? 'Nieważna' : 'Invalid'}</option></select></label>}
+                        {programData.id === 'blackout' && activeSetIndex === 0 && <label><span>{language === 'pl' ? 'Powód stopu' : 'Stop reason'}</span><select value={activeSet.completionReason ?? ''} onChange={event => setExerciseData(prev => ({ ...prev, [activeExercise.id]: prev[activeExercise.id].map((set, index) => index === activeSetIndex ? { ...set, completionReason: (event.target.value || undefined) as SetLog['completionReason'] } : set) }))} className="instrument-select"><option value="">—</option><option value="target-met">{language === 'pl' ? 'Cel osiągnięty' : 'Target completed'}</option><option value="muscular-failure">{language === 'pl' ? 'Upadek mięśniowy' : 'Muscular failure'}</option><option value="technical-failure">{language === 'pl' ? 'Upadek techniczny' : 'Technical failure'}</option><option value="stopped-early">{language === 'pl' ? 'Świadomy stop' : 'Voluntary stop'}</option><option value="pain">{language === 'pl' ? 'Ból' : 'Pain'}</option></select></label>}
                     </div>}
                     {activeTimedGoal && (
                         <div className="live-set-telemetry">
@@ -1538,61 +1588,46 @@ export const WorkoutView: React.FC = () => {
                     const libraryEntry = (ex as { library?: ReturnType<typeof exerciseResolver.resolve> }).library
                         ?? exerciseResolver.resolve(ex.name);
 
-                    // Warm-up ramps assume a 20 kg bar, so they only make sense
-                    // for barbell main lifts — a dumbbell incline press or a
-                    // machine squat gets neither a bar ramp nor a bar cue.
+                    // Still used by the bar-technique cue below. Which movements
+                    // earn a ramp is decided in `warmupFor`, off the library's
+                    // own equipment and pattern, not from a name.
                     const isBarbellLift = libraryEntry
                         ? libraryEntry.equipment.includes('barbell')
                         : !/dumbbell|\bdb\b|smith|machine|cable|band|bodyweight/i.test(ex.name);
                     const lowerName = ex.name.toLowerCase();
-                    const isMainLift = isBarbellLift && (
-                        libraryEntry?.pattern === 'squat' ||
-                        (lowerName.includes('deadlift') && !/romanian|stiff/.test(lowerName)) ||
-                        ((libraryEntry?.pattern === 'horizontal-press' || (!libraryEntry && lowerName.includes('bench'))) &&
-                            (lowerName.includes('bench') || lowerName.includes('press')))
-                    );
 
-                    const isHeavyDay = ex.name.includes('(ME)') ||
-                        ex.name.includes('Heavy') ||
-                        ex.name.includes('Ascension Test') ||
-                        (!ex.name.includes('(Light)') && !ex.name.includes('(DE)') && !ex.name.includes('(RE)'));
+                    /**
+                     * Warm-ups now come from `warmupFor`, which covers every
+                     * exercise rather than the three barbell lifts this block
+                     * used to name by string. The scheme it picks:
+                     *
+                     *   - a barbell compound at 1-6 reps ramps from the empty
+                     *     bar, because you cannot open cold on a heavy triple;
+                     *   - anything else gets one set of 12 at half the load.
+                     *
+                     * It also answers when the working weight is unknown, which
+                     * the old block could not: a lift that has never been tested
+                     * shows "50% x 12" instead of showing nothing at all.
+                     */
+                    const working = targetWeight ? parseFloat(targetWeight) : undefined;
+                    let warmupSets: { weight: string; reps: string }[] | null =
+                        warmupFor(libraryEntry, ex.target?.reps, Number.isFinite(working!) ? working : undefined)
+                            .map(step => ({
+                                // The unit belongs to the number, so it is carried
+                                // in the string rather than appended at the render
+                                // site — otherwise "40%" and "Empty bar" come out
+                                // as "40%kg" and "Empty barkg".
+                                weight: step.weightKg !== undefined
+                                    ? `${step.weightKg}${t('common.kg')}`
+                                    : step.bar
+                                        ? t('workout.warmupBar')
+                                        : `${Math.round(step.percent * 100)}%`,
+                                reps: String(step.reps),
+                            }));
 
-                    let warmupSets: { weight: string; reps: string }[] | null = null;
-
-                    if (isMainLift && targetWeight && parseFloat(targetWeight) > 20) {
-                        const firstSetWeight = parseFloat(targetWeight);
-                        const roundTo2_5 = (w: number) => Math.floor(w / 2.5) * 2.5;
-
-                        // Special case: Deficit Snatch Grip Deadlift only gets 3 warm-up sets
-                        if (ex.name === "Deficit Snatch Grip Deadlift") {
-                            warmupSets = [
-                                { weight: '20', reps: '8-10' }, // Empty bar
-                                { weight: roundTo2_5(firstSetWeight * 0.5).toString(), reps: '5' },
-                                { weight: roundTo2_5(firstSetWeight * 0.7).toString(), reps: '3' }
-                            ];
-                        } else {
-                            // Check if this is a 1RM test
-                            const is1RMTest = ex.name.includes('1RM') || ex.name.includes('TEST');
-
-                            // Standard warm-up progression for other lifts
-                            // For 1RM tests: use 80%/90% (more conservative)
-                            // For normal: use 85%/95%
-                            const doublePercent = is1RMTest ? 0.80 : 0.85;
-                            const singlePercent = is1RMTest ? 0.90 : 0.95;
-
-                            warmupSets = [
-                                { weight: '20', reps: '8-10' }, // Empty bar
-                                { weight: roundTo2_5(firstSetWeight * 0.5).toString(), reps: '5' },
-                                { weight: roundTo2_5(firstSetWeight * 0.7).toString(), reps: '3' },
-                                { weight: roundTo2_5(firstSetWeight * doublePercent).toString(), reps: '2' }
-                            ];
-
-                            // Add final single only on heavy days
-                            if (isHeavyDay) {
-                                warmupSets.push({ weight: roundTo2_5(firstSetWeight * singlePercent).toString(), reps: '1' });
-                            }
-                        }
-                    }
+                    // A hold has no load to halve and a bodyweight movement has
+                    // nothing to scale, so neither gets a warm-up row.
+                    if (isTimed(libraryEntry) || libraryEntry?.weightMode === 'bodyweight') warmupSets = null;
 
                     const prevEx = exIndex > 0 ? dayData.exercises[exIndex - 1] : undefined;
                     if (prevEx && prevEx.name === ex.name && (prevEx.exerciseId ?? prevEx.name) === (ex.exerciseId ?? ex.name)) {
@@ -1868,7 +1903,7 @@ export const WorkoutView: React.FC = () => {
                                     {warmupSets.map((w, i) => (
                                         <div key={`warmup-${i}`} className="ledger-row is-warmup">
                                             <span className="ledger-row-n">W{i + 1}</span>
-                                            <span className="ledger-row-value">{w.weight}{t('common.kg')} × {w.reps}</span>
+                                            <span className="ledger-row-value">{w.weight} × {w.reps}</span>
                                             <span className="ledger-row-state" />
                                         </div>
                                     ))}

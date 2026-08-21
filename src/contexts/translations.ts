@@ -121,6 +121,7 @@ export const translations = {
             rowDone: "Logged",
             rowPending: "Not logged",
             warmup: "Warm-up — not logged",
+            warmupBar: "Empty bar",
             giantSet: "Giant set",
             amrap: "AMRAP",
             addSet: "Add set",
@@ -146,6 +147,8 @@ export const translations = {
                 resume: "Resume rest timer",
                 skipLabel: "Skip rest",
                 skip: "Skip",
+                noRest: "No rest — move to the next exercise",
+                moveOn: "Move to the next exercise",
             },
             swapSheet: {
                 title: "Swap {name}",
@@ -882,19 +885,9 @@ export const translations = {
             movements: "Movements",
             painGloryTagline: "Pain today, glory tomorrow",
             // Headers
-            timeTo: "Time to",
-            eradicateThe: "Eradicate the",
-            becomeA: "Become a",
-            dominate: "Dominate",
-            weakness: "Weakness",
-            threat: "Threat",
             welcomeBack: "Welcome back",
 
             // Peachy headers
-            feelingFroggy: "Feeling",
-            froggyStatus: "Froggy",
-            feelingPeachy: "Feeling",
-            peachyStatus: "Peachy",
 
             // Cycle banner
             cycleTitle: "Cycle {cycle}: Heavier. Meaner. Shoulders incoming.",
@@ -945,7 +938,6 @@ export const translations = {
             // Trinary Dashboard
             trinary: {
                 title: "TRINARY",
-                tagline: "Conjugate powerlifting – adapt to your weak points",
                 workoutProgress: "Workout {current} of {total}",
                 scheduleTip: "Schedule Tip",
                 scheduleAdvice: "For best gains train 3–4 days/week (e.g., Mon/Wed/Fri/Sat). The app tracks weekly workouts – after 4 workouts/week, accessory days auto-trigger.",
@@ -964,7 +956,6 @@ export const translations = {
 
             // Super Mutant Dashboard
             superMutant: {
-                tagline: "Evolve through iron and radiation",
                 recoveryInfo: "Upper: 48h (38h+ trainable) • Lower: 72h (62h+ trainable)",
                 mindsetTitle: "— MUTANT MINDSET —",
                 nextSession: "Next Mutation Session",
@@ -1643,6 +1634,7 @@ export const translations = {
             rowDone: "Zapisana",
             rowPending: "Niezapisana",
             warmup: "Rozgrzewka — nie zapisywana",
+            warmupBar: "Sam gryf",
             giantSet: "Seria gigant",
             amrap: "AMRAP",
             addSet: "Dodaj serię",
@@ -1666,6 +1658,8 @@ export const translations = {
                 resume: "Wznów licznik przerwy",
                 skipLabel: "Pomiń przerwę",
                 skip: "Pomiń",
+                noRest: "Bez przerwy — przejdź do następnego ćwiczenia",
+                moveOn: "Przejdź do następnego ćwiczenia",
             },
             swapSheet: {
                 title: "Zamień: {name}",
@@ -2389,18 +2383,8 @@ export const translations = {
             nextSession: "Następna sesja",
             movements: "Ruchy",
             painGloryTagline: "Ból dziś, chwała jutro",
-            timeTo: "Time to",
-            eradicateThe: "Protokół Eradykacji Ołówkowej Szyji:",
-            becomeA: "Stań się",
-            dominate: "Dominate",
-            weakness: "Aktywowany",
-            threat: "Zagrożeniem",
             welcomeBack: "Witaj",
 
-            feelingFroggy: "Status:",
-            froggyStatus: "Żabka",
-            feelingPeachy: "Status:",
-            peachyStatus: "Brzoskwinka",
 
             cycleTitle: "Cykl {cycle}: Ciężej. Brutalniej. Barki nadchodzą.",
             cycleDescription: "Obowiązkowe techniki intensywności aktywne. Ciężary podniesione. Powodzenia.",
@@ -2447,7 +2431,6 @@ export const translations = {
             // Trinary Dashboard
             trinary: {
                 title: "TRINARY",
-                tagline: "Metoda Conjugate – trening dostosowany do słabych punktów",
                 workoutProgress: "Trening {current} z {total}",
                 scheduleTip: "Wskazówka",
                 scheduleAdvice: "Dla najlepszych rezultatów trenuj 3-4 dni/tydzień (np. Pon/Śr/Pt/Sob). Aplikacja śledzi treningi – po 4 treningach/tydzień, dni akcesoryjne aktywują się automatycznie.",
@@ -2466,7 +2449,6 @@ export const translations = {
 
             // Super Mutant Dashboard
             superMutant: {
-                tagline: "Czas rozpocząć mutację",
                 recoveryInfo: "Górne: 48h (38h+ trenowalne) • Dolne: 72h (62h+ trenowalne)",
                 mindsetTitle: "— MUTANT MINDSET —",
                 nextSession: "Następna Sesja Mutacji",

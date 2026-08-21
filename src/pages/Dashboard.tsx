@@ -292,37 +292,23 @@ export const Dashboard: React.FC = () => {
     const redlineBlocked = activePlanConfig.id === 'redline' && !user.redlineStatus?.nextRecovery?.confirmed;
 
     /**
-     * The greeting's copy varies by program; its structure and styling do not.
+     * The greeting names the program and nothing else.
      *
-     * `mark` is the one place a program may contribute an image — Peachy's frog
-     * and peach are copy in the same sense the plan artwork is, not icons
-     * standing in for controls, which is what PRODUCT.md actually bans.
+     * It used to carry a per-plan slogan, with a default arm that handed
+     * "Time to Dominate" — Bench Domination's line — to every plan the switch
+     * did not name. Rather than widen the switch, the slogans are gone.
+     *
+     * `mark` survives because it is not copy: Peachy's frog and peach track
+     * which half of the program you are in.
      */
-    const greeting: { title: React.ReactNode; tagline?: string; mark?: React.ReactNode } = (() => {
-        if (isPeachy) {
-            return viewWeek <= 4
-                ? {
-                    title: <>{t('dashboard.feelingFroggy')} {t('dashboard.froggyStatus')}</>,
-                    mark: <img src="/frog.png" alt="" aria-hidden="true" className="dashboard-greeting-mark" />,
-                }
-                : {
-                    title: <>{t('dashboard.feelingPeachy')} {t('dashboard.peachyStatus')}</>,
-                    mark: <span className="dashboard-greeting-mark is-glyph" role="img" aria-label="Peach">🍑</span>,
-                };
-        }
-        if (isPainGlory) return { title: t('dashboard.painGloryTagline') };
-        if (isTrinary) return { title: t('dashboard.trinary.title'), tagline: t('dashboard.trinary.tagline') };
-        if (activePlanConfig.id === 'ritual-of-strength') return { title: t('tips.ritualDashboardTagline') };
-        if (isSuperMutant) return { title: activePlanConfig.program.name, tagline: t('dashboard.superMutant.tagline') };
-
-        const lead = activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.eradicateThe')
-            : activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.becomeA')
-                : t('dashboard.timeTo');
-        const target = activePlanConfig.id === 'pencilneck-eradication' ? t('dashboard.weakness')
-            : activePlanConfig.id === 'skeleton-to-threat' ? t('dashboard.threat')
-                : t('dashboard.dominate');
-        return { title: <>{lead} {target}</> };
-    })();
+    const greeting: { title: React.ReactNode; mark?: React.ReactNode } = {
+        title: activePlanConfig.program.name,
+        mark: isPeachy
+            ? (viewWeek <= 4
+                ? <img src="/frog.png" alt="" aria-hidden="true" className="dashboard-greeting-mark" />
+                : <span className="dashboard-greeting-mark is-glyph" role="img" aria-label="Peach">🍑</span>)
+            : undefined,
+    };
 
     /**
      * A plan counts as finished when its own weeks are all behind the athlete.
@@ -503,7 +489,6 @@ export const Dashboard: React.FC = () => {
                         </p>
                     )}
                     <h2>{greeting.title}</h2>
-                    {greeting.tagline && <p className="dashboard-greeting-tagline">{greeting.tagline}</p>}
                 </div>
                 {greeting.mark}
                 {activeWidgets.includes('workout_history') && (

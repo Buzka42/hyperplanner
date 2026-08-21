@@ -88,10 +88,27 @@ export const ApexDashboard = ({ user }: { user: UserProfile }) => {
                             </li>
                         ))}
                     </ol>
+                    {/* A region scored by what the position looks like asks
+                        for the observation directly; there is no angle to
+                        eyeball and no degrees to type. */}
+                    {APEX_INSTRUCTIONS[region].scoreOptions ? (
+                        <div className="apex-score-options">
+                            {APEX_INSTRUCTIONS[region].scoreOptions!.map(option => (
+                                <button key={option.value} type="button"
+                                    aria-pressed={value.score === option.value}
+                                    onClick={() => patchRegion(region, { score: value.score === option.value ? null : option.value, skipped: false })}
+                                    className={`apex-score-option${value.score === option.value ? ' is-selected' : ''}`}>
+                                    <span className="apex-score-option-value">{option.value}</span>
+                                    <span>{option[pl ? 'pl' : 'en']}</span>
+                                </button>
+                            ))}
+                        </div>
+                    ) : (
                     <div className="grid sm:grid-cols-3 gap-4">
                     {(['left', 'right'] as const).map(side => <label key={side} className="text-xs uppercase tracking-widest text-muted-foreground">{side === 'left' ? (pl ? 'Lewa' : 'Left') : (pl ? 'Prawa' : 'Right')} ({COPY[region].unit})<input type="number" value={value[side] ?? ''} onChange={e => patchRegion(region, { [side]: e.target.value === '' ? null : Number(e.target.value), skipped: false })} className="block w-full min-h-11 bg-transparent border-b border-input text-base text-foreground" /></label>)}
-                    <label className="text-xs uppercase tracking-widest text-muted-foreground">{pl ? 'Ocena zastępcza' : 'Fallback score'}<select value={value.score ?? ''} onChange={e => patchRegion(region, { score: e.target.value ? Number(e.target.value) as 1 | 2 | 3 : null })} className="block w-full min-h-11 bg-transparent border-b border-input text-base text-foreground"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></label>
-                </div><label className="block text-xs uppercase tracking-widest text-muted-foreground">{pl ? 'Odczucie' : 'Sensation'}<select value={value.pain} onChange={e => patchRegion(region, { pain: e.target.value as ApexPain })} className="block w-full min-h-11 bg-transparent border-b border-input text-base text-foreground"><option value="none">{pl ? 'Bez bólu' : 'No pain'}</option><option value="discomfort">{pl ? 'Dyskomfort' : 'Discomfort'}</option><option value="pain">{pl ? 'Ból — wynik nieważny' : 'Pain — invalidate result'}</option></select></label></>}
+                    <label className="text-xs uppercase tracking-widest text-muted-foreground">{pl ? 'Ocena zastępcza' : 'Fallback score'}<select value={value.score ?? ''} onChange={e => patchRegion(region, { score: e.target.value ? Number(e.target.value) as 1 | 2 | 3 : null })} className="instrument-select"><option value="">—</option><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></label>
+                </div>
+                    )}<label className="block text-xs uppercase tracking-widest text-muted-foreground">{pl ? 'Odczucie' : 'Sensation'}<select value={value.pain} onChange={e => patchRegion(region, { pain: e.target.value as ApexPain })} className="instrument-select"><option value="none">{pl ? 'Bez bólu' : 'No pain'}</option><option value="discomfort">{pl ? 'Dyskomfort' : 'Discomfort'}</option><option value="pain">{pl ? 'Ból — wynik nieważny' : 'Pain — invalidate result'}</option></select></label></>}
             </section>;
         })}</div>
         <p className="text-sm text-muted-foreground">{validCount < 3 ? (pl ? 'Mniej niż 3 ważne obszary: użyjemy domyślnie stawu skokowego i rotacji piersiowej.' : 'Fewer than 3 valid regions: ankle and thoracic rotation will be used by default.') : (pl ? `${validCount} ważnych obszarów.` : `${validCount} valid regions.`)}</p>

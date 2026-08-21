@@ -90,3 +90,24 @@ export const partnersOf = (slots: SupersetSlot[], id: string): SupersetSlot[] =>
 
 /** True when a group has more than one member — a lone `A1` is not a superset. */
 export const isSupersetted = (slots: SupersetSlot[], id: string): boolean => partnersOf(slots, id).length > 0;
+
+/**
+ * Does the set just logged hand straight over to a partner, with no rest?
+ *
+ * `slots` must already count the logged set, because the answer is about what
+ * comes next, not what just happened.
+ *
+ * This is deliberately asked of the ordering rather than of the label: a pair
+ * is not always even. A 4-set A1 against a 3-set A2 alternates for three rounds
+ * and then leaves A1 a set on its own — and that last set does rest, because
+ * there is no longer anything to move to. Reading `nextSlot` gets that for free,
+ * where "is this A1?" would wrongly suppress the rest.
+ */
+export const handsOffToPartner = (slots: SupersetSlot[], id: string): boolean => {
+    const slot = slots.find(candidate => candidate.id === id);
+    const group = slot && groupKeyOf(slot);
+    if (!group) return false;
+
+    const next = nextSlot(slots);
+    return !!next && next.id !== id && groupKeyOf(next) === group;
+};

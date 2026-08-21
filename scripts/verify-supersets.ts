@@ -10,7 +10,7 @@
  */
 
 import assert from 'node:assert/strict';
-import { groupKeyOf, isSupersetted, nextSlot, partnersOf, type SupersetSlot } from '../src/features/workout/superset';
+import { groupKeyOf, handsOffToPartner, isSupersetted, nextSlot, partnersOf, type SupersetSlot } from '../src/features/workout/superset';
 import { formatTempo } from '../src/features/workout/PrescriptionBadges';
 import { PLAN_REGISTRY } from '../src/data/plans';
 import { PLAN_IDS } from '../src/data/planMeta';
@@ -69,6 +69,25 @@ ok(formatTempo('40X0') === '4:0:X:0', 'four-phase tempo is separated for legibil
 ok(formatTempo('3010') === '3:0:1:0', 'digits-only tempo is separated too');
 ok(formatTempo('4:0:X:0') === '4:0:X:0', 'an already-separated tempo is left alone');
 ok(formatTempo('slow eccentric') === 'slow eccentric', 'authored prose is never mangled');
+
+// --- handoff ----------------------------------------------------------------------
+{
+    const run = (a: number, b: number, aDone: number, bDone: number) => [
+        { id: 'a', pair: 'A1', totalSets: a, completedSets: aDone },
+        { id: 'b', pair: 'A2', totalSets: b, completedSets: bDone },
+    ] as SupersetSlot[];
+
+    ok(handsOffToPartner(run(3, 3, 1, 0), 'a'), 'an even pair hands A1 over to A2');
+    ok(handsOffToPartner(run(3, 3, 1, 1), 'b'), 'and A2 back to A1');
+    ok(!handsOffToPartner(run(3, 3, 3, 3), 'b'), 'a finished group rests');
+
+    // The uneven case the owner called out: 4 against 3.
+    ok(handsOffToPartner(run(4, 3, 3, 2), 'a'), 'round three still alternates');
+    ok(!handsOffToPartner(run(4, 3, 4, 3), 'a'), 'the leftover fourth set rests');
+
+    ok(!handsOffToPartner([{ id: 'a', totalSets: 3, completedSets: 1 }], 'a'), 'straight sets rest');
+    ok(!handsOffToPartner([{ id: 'a', pair: 'A1', totalSets: 3, completedSets: 1 }], 'a'), 'a lone label rests');
+}
 
 // --- plans ------------------------------------------------------------------------
 for (const planId of PLAN_IDS) {

@@ -29,9 +29,19 @@ export type ApexStep = {
     image?: string;
 };
 
+export type ApexScoreOption = { value: 1 | 2 | 3; en: string; pl: string };
+
 export type ApexInstruction = {
     /** What the number represents, and why it is worth knowing. */
     measures: { en: string; pl: string };
+    /**
+     * Scored by what the position looks like rather than by a measurement.
+     *
+     * Where present the athlete picks one of these instead of entering degrees:
+     * some access is far easier to judge by whether you can hold a shape than
+     * by trying to eyeball an angle on your own body.
+     */
+    scoreOptions?: ApexScoreOption[];
     /** What you need to hand before starting. */
     needs: { en: string; pl: string };
     /** How the number becomes a 1-3 score. */
@@ -114,35 +124,51 @@ export const APEX_INSTRUCTIONS: Record<ApexRegion, ApexInstruction> = {
     },
     hipRotation: {
         measures: {
-            en: 'How far the back thigh rotates from a seated 90/90 position. This is the range that both a deep squat and a wide stance draw on.',
-            pl: 'Jak daleko obróci się tylne udo z pozycji siedzącej 90/90. To zakres, z którego korzysta i głęboki przysiad, i szeroka pozycja stóp.',
+            en: 'Whether you can sit in a 90/90 position at all, and what it costs you to hold it. Tight hips force the pelvis to tuck, and the only way to stay balanced is to lean back or prop yourself up.',
+            pl: 'Czy w ogóle usiądziesz w pozycji 90/90 i ile cię to kosztuje. Ciasne biodra podwijają miednicę, a jedynym sposobem na utrzymanie równowagi jest odchylenie się do tyłu albo podparcie rękami.',
         },
         needs: {
-            en: 'Clear floor, or a mat if the floor is hard. Test both sides by swapping which leg is in front.',
-            pl: 'Wolne miejsce na podłodze albo mata, jeśli podłoga jest twarda. Zbadaj obie strony, zamieniając nogę z przodu.',
+            en: 'Clear floor, or a mat if the floor is hard. Set the position on both sides — most people are noticeably better one way round.',
+            pl: 'Wolne miejsce na podłodze albo mata, jeśli podłoga jest twarda. Ustaw pozycję na obie strony — u większości osób jedna wychodzi wyraźnie lepiej.',
         },
         scoring: {
-            en: 'Under 25° scores 1 · 25–40° scores 2 · over 40° scores 3.',
-            pl: 'Poniżej 25° to 1 · 25–40° to 2 · powyżej 40° to 3.',
+            en: 'Judged by what it takes to hold the position, not by an angle. Pick the line below that describes you.',
+            pl: 'Ocena zależy od tego, czego wymaga utrzymanie pozycji, a nie od kąta. Wybierz opis, który do ciebie pasuje.',
         },
+        scoreOptions: [
+            {
+                value: 1,
+                en: 'I have to lean back to sit in it at all',
+                pl: 'Muszę odchylić się do tyłu, żeby w ogóle w niej usiąść',
+            },
+            {
+                value: 2,
+                en: 'I can stay upright, but only propped up on my hands',
+                pl: 'Utrzymam pion, ale tylko podpierając się rękami',
+            },
+            {
+                value: 3,
+                en: 'I can sit upright with my hands off the floor',
+                pl: 'Siedzę wyprostowany z rękami oderwanymi od podłogi',
+            },
+        ],
         steps: [
             {
-                en: 'Sit on the floor and set both legs to a right angle: the front shin crossing in front of you, the back shin running out to the side behind you. Sit tall with your hands resting lightly on the floor.',
-                pl: 'Usiądź na podłodze i ustaw obie nogi pod kątem prostym: przednie podudzie w poprzek przed sobą, tylne podudzie na bok, za tobą. Siedź wyprostowany, dłonie oparte lekko o podłogę.',
+                en: 'Sit on the floor and set both legs to a right angle: the front shin crossing in front of you, the back shin running out to the side behind you.',
+                pl: 'Usiądź na podłodze i ustaw obie nogi pod kątem prostym: przednie podudzie w poprzek przed sobą, tylne podudzie na bok, za tobą.',
                 image: 'hip9090-step1',
             },
             {
-                en: 'Without leaning your torso, rotate the back thigh so that knee travels down toward the floor. The movement happens at the hip only.',
-                pl: 'Nie przechylając tułowia, obracaj tylne udo tak, aby to kolano opadało w stronę podłogi. Ruch odbywa się wyłącznie w biodrze.',
+                en: 'Try to sit tall, chest up, and take your hands off the floor. Hold it for a few seconds and notice what your body does to stay there.',
+                pl: 'Spróbuj usiąść wyprostowany, z klatką w górze, i oderwij ręce od podłogi. Wytrzymaj kilka sekund i zauważ, co robi twoje ciało, żeby tam pozostać.',
                 watch: {
-                    en: 'It is easy to cheat here by leaning away or letting the pelvis roll with the leg. If your torso moves, sit up and start again — otherwise the number comes out far too generous.',
-                    pl: 'Łatwo tu oszukać, odchylając się albo pozwalając miednicy obracać się razem z nogą. Jeśli tułów się poruszy, usiądź prosto i zacznij od nowa — inaczej wynik wyjdzie mocno zawyżony.',
+                    en: 'Be honest about leaning. If your shoulders end up behind your hips, that is a lean — it is the pelvis tucking under you, and it is exactly what the test is looking for.',
+                    pl: 'Bądź szczery co do odchylenia. Jeśli barki znajdą się za biodrami, to jest odchylenie — miednica podwija się pod tobą, a właśnie tego szuka ten test.',
                 },
             },
             {
-                en: 'Judge how many degrees the back thigh travelled from where it started. Looking down at your own legs, as in the photo, makes this much easier to see.',
-                pl: 'Oceń, o ile stopni tylne udo przemieściło się od pozycji startowej. Patrząc na własne nogi z góry, jak na zdjęciu, znacznie łatwiej to ocenić.',
-                image: 'hip9090-step3',
+                en: 'Pick the option that matches what happened, and repeat with the legs swapped. Score the harder side.',
+                pl: 'Wybierz opis, który pasuje do tego, co się stało, i powtórz z zamienionymi nogami. Oceń trudniejszą stronę.',
             },
         ],
     },

@@ -53,7 +53,7 @@ export const NeuralDashboard = ({ user }: { user: UserProfile }) => {
                 <h2 className="text-2xl font-semibold">{pl ? 'Przysiad dnia 4' : 'Day 4 squat'}</h2>
                 <label className="text-xs uppercase tracking-widest text-muted-foreground">
                     {pl ? 'Wariant' : 'Variant'}
-                    <select value={d4Squat} onChange={e => setD4Squat(e.target.value)} className="block min-h-11 w-full bg-transparent border-b border-input text-base text-foreground">
+                    <select value={d4Squat} onChange={e => setD4Squat(e.target.value)} className="instrument-select">
                         {NEURAL_D4_SQUATS.filter(option => EXERCISE_BY_ID[option.id]).map(option => (
                             <option key={option.id} value={option.id}>{pl ? (EXERCISE_BY_ID[option.id].name.pl) : option.label}</option>
                         ))}
