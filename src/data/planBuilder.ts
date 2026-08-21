@@ -16,7 +16,7 @@
 
 import { EXERCISE_BY_ID } from './exercises/library';
 import type { IntensityTechniqueSpec } from './exercises/types';
-import { seedLoadFor } from '../features/onboarding/seedLoads';
+import { LIFT_SOURCES, percentageBaseFor, seedLoadFor } from '../features/onboarding/seedLoads';
 import type {
     Exercise,
     LiftingStats,
@@ -379,11 +379,6 @@ const buildWeightCalculator = (spec: PlanSpec): NonNullable<PlanConfig['hooks']>
         const weekInPhase = phase ? phase.weeks.indexOf(week) + 1 : week;
         const ctx: ProgressionContext = { week, weekInPhase, phase: phase?.name, user };
 
-        if (typeof target?.percentage === 'number' && target.percentageRef && user?.stats) {
-            const base = (user.stats[target.percentageRef] as number) || 0;
-            if (base) return round2p5(base * target.percentage).toString();
-        }
-
         let slot: SlotSpec | undefined;
         if (exerciseName && context?.day) {
             const daySpec = spec.days.find(d => d.dayOfWeek === context.day);
@@ -403,12 +398,39 @@ const buildWeightCalculator = (spec: PlanSpec): NonNullable<PlanConfig['hooks']>
             }
             if (!slot) slot = byName.get(exerciseName);
         }
+        /**
+         * The movement actually being performed, which is not always the slot's.
+         *
+         * King of the Squat lets the athlete swap the wide-grip bench for
+         * dumbbell bench or heavy dips. Resolving against the slot would have
+         * prescribed a dip at 85% of a wide-grip barbell max.
+         */
+        const performedId = (exerciseName
+            ? Object.values(EXERCISE_BY_ID).find(e => e.name.en === exerciseName)?.id
+            : undefined) ?? slot?.ex;
+
+        const baseMaxFor = (of: keyof LiftingStats): number => {
+            // A movement with no known relationship to the referenced max gets
+            // no prescription at all: the double-progression path seeds it or
+            // the athlete calibrates on the first set. A wrong number is worse
+            // than an empty field.
+            if (performedId && performedId !== slot?.ex && !LIFT_SOURCES[performedId]) return 0;
+            return percentageBaseFor(user?.stats, performedId, of);
+        };
+
+        // Resolved percentages carried on the target take the same route, so a
+        // built week and a live lookup can never disagree.
+        if (typeof target?.percentage === 'number' && target.percentageRef && user?.stats) {
+            const base = baseMaxFor(target.percentageRef);
+            if (base) return round2p5(base * target.percentage).toString();
+        }
+
         const progression = slot?.progression;
         if (!progression || !user) return undefined;
 
         switch (progression.type) {
             case 'percentage': {
-                const base = (user.stats[progression.of] as number) || 0;
+                const base = baseMaxFor(progression.of);
                 if (!base) return undefined;
                 const percent = typeof progression.percent === 'function'
                     ? progression.percent(ctx)
@@ -416,13 +438,13 @@ const buildWeightCalculator = (spec: PlanSpec): NonNullable<PlanConfig['hooks']>
                 return round2p5(base * percent).toString();
             }
             case 'wave': {
-                const base = (user.stats[progression.of] as number) || 0;
+                const base = baseMaxFor(progression.of);
                 if (!base) return undefined;
                 const percent = wavePercentForSet(progression, weekInPhase, context?.setIndex ?? 0);
                 return round2p5(base * percent).toString();
             }
             case 'linear': {
-                const base = (user.stats[progression.of] as number) || 0;
+                const base = baseMaxFor(progression.of);
                 if (!base) return undefined;
                 return round2p5(base * progression.startPercent + progression.increment * (week - 1)).toString();
             }

@@ -90,6 +90,31 @@ export const maxFor = (
 };
 
 /**
+ * The max a percentage prescription should be taken of, for one movement.
+ *
+ * A percentage is an intensity for *that* movement: 85% on a wide-grip bench
+ * means 85% of what you can wide-grip, not 85% of your paused bench. Where a
+ * plan prescribes off a parent lift, the variant's own ratio converts the
+ * parent max first.
+ *
+ * The conversion applies only when the referenced stat *is* that parent. A plan
+ * naming a movement's own tested max — Bench Domination collects the Spoto and
+ * low-pin maxes directly — must use that number untouched rather than an
+ * estimate derived from something else.
+ */
+export const percentageBaseFor = (
+    stats: Partial<LiftingStats> | undefined,
+    exerciseId: string | undefined,
+    ref: keyof LiftingStats,
+): number => {
+    const entered = (stats?.[ref] as number) || 0;
+    if (!entered || !exerciseId) return entered;
+    const source = LIFT_SOURCES[exerciseId];
+    if (!source || source.from !== ref || source.percent === 1) return entered;
+    return entered * source.percent;
+};
+
+/**
  * Opening working load for a rep target, from a max.
  *
  * Inverse Epley, then a deliberate 5% haircut: the first session of a block

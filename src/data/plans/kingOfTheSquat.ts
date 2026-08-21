@@ -34,7 +34,10 @@ const HEAVY_SQUAT: DaySpec = {
         },
         { ex: 'leg-extension', sets: 3, reps: '8-12', restSeconds: 90 },
         { ex: 'seated-ham-curl', sets: 3, reps: '8-12', restSeconds: 90 },
-        { ex: 'long-pause-bench-press', sets: 4, reps: '6-8', restSeconds: 180, tempo: '11X0' },
+        // 1s down, 3s held on the chest, explosive up. The old '11X0' was a
+        // one-second pause, which is the ordinary paused bench on day four —
+        // the long pause has to actually be longer to be a different lift.
+        { ex: 'long-pause-bench-press', sets: 4, reps: '6-8', restSeconds: 180, tempo: '13X0' },
         { ex: 'hammer-upper-row', sets: 4, reps: '8-12', restSeconds: 120 },
     ],
 };
@@ -163,6 +166,10 @@ export const KING_OF_THE_SQUAT_CONFIG = definePlan({
         preprocessDay: (day: WorkoutDay, user: UserProfile): WorkoutDay => {
             const choices = user.planPreferences?.['king-of-the-squat']?.exerciseSelections ?? {};
             const jobs: Array<[string, string | undefined]> = [
+                // The squat bar is the athlete's, chosen at onboarding: low bar,
+                // high bar or safety bar. Everything else about the wave is
+                // identical, so this is a swap rather than a separate plan.
+                ['low-bar-squat', choices.squatBar],
                 ['long-pause-bench-press', choices.benchJob1],
                 ['wide-grip-bench-press', choices.benchJob2],
                 ['paused-bench-press', choices.benchJob3],

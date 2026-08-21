@@ -9,7 +9,7 @@
  */
 
 import assert from 'node:assert/strict';
-import { LIFT_SOURCES, maxFor, openingLoad, seedLoadFor, statsUsedBy } from '../src/features/onboarding/seedLoads';
+import { percentageBaseFor, LIFT_SOURCES, maxFor, openingLoad, seedLoadFor, statsUsedBy } from '../src/features/onboarding/seedLoads';
 import { benchmarkLiftsFor } from '../src/data/benchmarkLifts';
 import { EXERCISE_BY_ID } from '../src/data/exercises/library';
 import { PLAN_REGISTRY } from '../src/data/plans';
@@ -93,5 +93,38 @@ const withoutSeed = config.hooks?.calculateWeight?.({ type: 'range', reps: '5-8'
 ok(withoutSeed === undefined, 'with no max, the generic calibration path runs instead');
 ok(config.hooks?.calculateWeight?.({ type: 'range', reps: '8-12' }, user, 'Hack Squat', { week: 1, day: 1 }) === undefined,
     'machine anchors are never seeded');
+
+// --- percentages are an intensity for the movement, not for its parent ------
+// A wide-grip bench prescribed at "85% of pausedBench" means 85% of what the
+// athlete can wide-grip. Before this, King of the Squat handed a 100kg bencher
+// 85kg on a movement they can only do about 92kg on.
+{
+    const stats2 = { pausedBench: 100, wideGripBench: 92, spotoPress: 95, squat: 140 } as never;
+    ok(percentageBaseFor(stats2, 'wide-grip-bench-press', 'pausedBench') === 92,
+        'a variant prescribed off its parent converts to the variant max first');
+    ok(percentageBaseFor(stats2, 'paused-back-squat', 'squat') === 126,
+        'a paused squat is prescribed off a paused-squat max');
+    ok(percentageBaseFor(stats2, 'front-squat', 'squat') === 119,
+        'a front squat is prescribed off a front-squat max');
+    // The other half of the rule, and the one that is easy to break: a tested
+    // max for the movement itself must never be replaced by an estimate.
+    ok(percentageBaseFor(stats2, 'wide-grip-bench-press', 'wideGripBench') === 92,
+        'an entered wide-grip max is used untouched');
+    ok(percentageBaseFor(stats2, 'spoto-press', 'spotoPress') === 95,
+        'an entered Spoto max is used untouched');
+    ok(percentageBaseFor(stats2, 'paused-bench-press', 'pausedBench') === 100,
+        'a movement that is the lift itself is unchanged');
+    ok(percentageBaseFor(stats2, undefined, 'squat') === 140,
+        'an unresolvable movement falls back to the entered max');
+    ok(percentageBaseFor({} as never, 'front-squat', 'squat') === 0,
+        'no entered max means no prescription, not a guess from zero');
+
+    const kos = PLAN_REGISTRY['king-of-the-squat'];
+    const u2 = { stats: stats2 } as unknown as UserProfile;
+    const wg = kos.hooks?.calculateWeight?.(
+        { type: 'range', reps: '3-5', percentage: 0.85, percentageRef: 'pausedBench' },
+        u2, 'Wide-Grip Bench Press', { week: 1, day: 3 });
+    ok(wg === '77.5', `King of the Squat's wide-grip resolves off the wide-grip max (got ${wg})`);
+}
 
 console.log(`Seed-load verification passed: ${assertions} assertions across ${Object.keys(LIFT_SOURCES).length} derivations and ${seeded.length} seeded plans.`);

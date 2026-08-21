@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { isTimed, isBodyweightTimed, parseTimeTarget, bestHoldSeconds, nextTimedGoal, formatSeconds } from '../features/workout/timedExercise';
+import { percentageBaseFor } from '../features/onboarding/seedLoads';
 import { useUser } from '../contexts/UserContext';
 import { useLanguage, resolveTemplate } from '../contexts/useTranslation';
 import { Button } from '../components/ui/button';
@@ -290,7 +291,10 @@ export const WorkoutView: React.FC = () => {
         const { percentage, percentageRef, weightAbsolute } = ex.target;
         if (weightAbsolute) return weightAbsolute.toString();
         if (percentage && percentageRef && user?.stats) {
-            const base = (user.stats[percentageRef as keyof LiftingStats] as number) || 0;
+            // Legacy plans carry names rather than library ids, so resolve one
+            // before asking what this movement's own max is.
+            const id = ex.exerciseId ?? exerciseResolver.resolve(ex.name)?.id;
+            const base = percentageBaseFor(user.stats, id, percentageRef as keyof LiftingStats);
             const raw = base * percentage;
             return (Math.round(raw / 2.5) * 2.5).toString();
         }
