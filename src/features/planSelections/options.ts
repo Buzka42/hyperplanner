@@ -23,6 +23,20 @@ export const NEURAL_D4_SQUATS = [
     { id: 'safety-bar-squat', label: 'Safety-bar squat' },
 ] as const;
 
+/**
+ * Athena's four movement families.
+ *
+ * These used to be chosen on the dashboard, which made a decision that shapes
+ * the whole twelve weeks look like a widget. They belong at onboarding, and in
+ * settings for the athlete who changes gym.
+ */
+export const ATHENA_FAMILIES = [
+    { key: 'squat', label: 'Squat', options: ['barbell-squat', 'hack-squat', 'safety-bar-squat', 'leg-press'] },
+    { key: 'hinge', label: 'Hinge', options: ['romanian-deadlift', 'conventional-deadlift', 'sumo-deadlift'] },
+    { key: 'bench', label: 'Bench', options: ['flat-barbell-bench-press', 'paused-bench-press', 'hammer-chest-press'] },
+    { key: 'verticalPress', label: 'Vertical press', options: ['standing-barbell-military-press', 'seated-dumbbell-shoulder-press', 'shoulder-press-machine'] },
+] as const;
+
 export const KOS_SQUAT_BAR = [
     { id: 'low-bar-squat', label: 'Low bar' },
     { id: 'high-bar-squat', label: 'High bar' },
@@ -94,4 +108,5 @@ export const needsPlanSelections = (planId: string) =>
     || planId === 'lazarus'
     || planId === 'quadfather'
     || planId === 'redline'
-    || planId === 'atlas';
+    || planId === 'atlas'
+    || planId === 'athena';

@@ -111,6 +111,9 @@ export const WorkoutView: React.FC = () => {
     const [meRpeSelected, setMeRpeSelected] = useState<Record<string, number | null>>({});
     const [slowVelocitySelected, setSlowVelocitySelected] = useState<Record<string, boolean>>({});
     const [hipCapsuleSelected, setHipCapsuleSelected] = useState<Record<string, boolean>>({});
+    /** Exercise id whose hip/capsule question is open, asked once the squat is done. */
+    const [hipCapsuleAsk, setHipCapsuleAsk] = useState<string | null>(null);
+    const [hipCapsuleAsked, setHipCapsuleAsked] = useState<Record<string, boolean>>({});
     const [carryLimiterSelected, setCarryLimiterSelected] = useState<Record<string, string>>({});
     const [romDepthSelected, setRomDepthSelected] = useState<Record<string, 'partial' | 'parallel' | 'below-parallel'>>({});
     const [kneeSeveritySelected, setKneeSeveritySelected] = useState<Record<string, 'normal' | 'strained' | 'impaired'>>({});
@@ -1207,6 +1210,20 @@ export const WorkoutView: React.FC = () => {
         // unresolved set instead of sitting on the one just logged.
         setSelectedSet(null);
 
+        // King of the Squat's swap rule needs to know whether the hips gave out.
+        // Asked when the last set of the squat is logged, so the answer is about
+        // a lift that has actually happened.
+        if (programData.id === 'king-of-the-squat' && !hipCapsuleAsked[activeExercise.id]) {
+            const squatIds = ['low-bar-squat', 'high-bar-squat', 'safety-bar-squat'];
+            const isSquat = squatIds.includes(activeExercise.exerciseId ?? '');
+            const remaining = (exerciseData[activeExercise.id] ?? [])
+                .filter((set, index) => index !== activeSetIndex && !set.completed).length;
+            if (isSquat && remaining === 0) {
+                setHipCapsuleAsk(activeExercise.id);
+                setHipCapsuleAsked(current => ({ ...current, [activeExercise.id]: true }));
+            }
+        }
+
         // On by default, and only where the plan actually prescribes a rest.
         // An athlete who does not want it turns it off in settings; an athlete
         // who does should not have to go looking for it first.
@@ -1238,6 +1255,30 @@ export const WorkoutView: React.FC = () => {
                 />
             )}
             {/* Pain & Glory: Deficit Snatch Grip RPE Modal */}
+            {hipCapsuleAsk && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+                    <div className="bg-card border border-border p-6 max-w-md w-full space-y-4">
+                        <h2 className="text-xl font-semibold">{language === 'pl' ? 'Co ograniczyło ten przysiad?' : 'What limited that squat?'}</h2>
+                        <p className="text-sm text-muted-foreground">
+                            {language === 'pl'
+                                ? 'Biodra są ograniczeniem, gdy na dole czujesz ciasne zablokowanie z przodu biodra albo miednica podwija się pod tobą, a nogi mają jeszcze siłę. Jeśli to nogi odmówiły posłuszeństwa, wybierz drugą opcję.'
+                                : 'Hips are the limiter when the bottom feels like a hard block at the front of the hip, or the pelvis tucks under you, while your legs still had force left. If your legs simply gave out, choose the second option.'}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                            {language === 'pl' ? 'Dwa takie zgłoszenia z rzędu zmieniają bój na safety bar.' : 'Two of these in a row swaps the lift to a safety bar.'}
+                        </p>
+                        <div className="grid gap-3">
+                            <Button size="lg" className="min-h-14" onClick={() => { setHipCapsuleSelected(c => ({ ...c, [hipCapsuleAsk]: true })); setHipCapsuleAsk(null); }}>
+                                {language === 'pl' ? 'Biodra / torebka stawowa' : 'Hips / capsule'}
+                            </Button>
+                            <Button size="lg" variant="outline" className="min-h-14" onClick={() => { setHipCapsuleSelected(c => ({ ...c, [hipCapsuleAsk]: false })); setHipCapsuleAsk(null); }}>
+                                {language === 'pl' ? 'Nogi — biodra były w porządku' : 'Legs — the hips were fine'}
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {showDeficitModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-in fade-in duration-300">
                     <div className="bg-card border-4 border-red-700 p-8 rounded-xl max-w-md w-full ">
@@ -1726,16 +1767,6 @@ export const WorkoutView: React.FC = () => {
                                     className={`min-h-11 w-full border px-3 py-2 text-left text-xs font-bold uppercase tracking-[0.08em] ${slowVelocitySelected[ex.id] ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
                                 >
                                     Bar speed died — hold this load next DE
-                                </button>
-                            )}
-                            {programData.id === 'king-of-the-squat' && (ex.exerciseId === 'low-bar-squat' || ex.exerciseId === 'high-bar-squat' || ex.exerciseId === 'safety-bar-squat' || ex.name === 'Paused Low Bar Squat' || ex.name === 'High Bar Squat' || ex.name === 'Safety Bar Squat') && (
-                                <button
-                                    type="button"
-                                    aria-pressed={Boolean(hipCapsuleSelected[ex.id])}
-                                    onClick={() => setHipCapsuleSelected(current => ({ ...current, [ex.id]: !current[ex.id] }))}
-                                    className={`min-h-11 w-full border px-3 py-2 text-left text-xs font-bold uppercase tracking-[0.08em] ${hipCapsuleSelected[ex.id] ? 'border-primary bg-primary/15 text-primary' : 'border-border text-muted-foreground'}`}
-                                >
-                                    Hips / capsule limited this squat — two flags swap to safety bar
                                 </button>
                             )}
                             {programData.id === 'atlas' && (ex.exerciseId?.includes('carry') || ex.exerciseId === 'suitcase-hold') && (

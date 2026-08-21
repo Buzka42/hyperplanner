@@ -74,6 +74,7 @@ export const ApexDashboard = ({ user }: { user: UserProfile }) => {
                     position looks like all belong on the screen taking it. */}
                 {!value.skipped && <>
                     <p className="text-sm text-muted-foreground">{APEX_INSTRUCTIONS[region].measures[pl ? 'pl' : 'en']}</p>
+                    <p className="text-sm text-muted-foreground">{APEX_INSTRUCTIONS[region].needs[pl ? 'pl' : 'en']}</p>
                     <p className="text-xs uppercase tracking-widest text-muted-foreground">{APEX_INSTRUCTIONS[region].scoring[pl ? 'pl' : 'en']}</p>
                     <ol className="apex-steps">
                         {APEX_INSTRUCTIONS[region].steps.map((step, index) => (
@@ -81,6 +82,7 @@ export const ApexDashboard = ({ user }: { user: UserProfile }) => {
                                 <span className="apex-step-index">{index + 1}</span>
                                 <div className="apex-step-body">
                                     <p>{step[pl ? 'pl' : 'en']}</p>
+                                    {step.watch && <p className="apex-step-watch">{step.watch[pl ? 'pl' : 'en']}</p>}
                                     {step.image && <img src={`/apex/${step.image}.jpg`} alt="" loading="lazy" className="apex-step-image" />}
                                 </div>
                             </li>

@@ -3,13 +3,19 @@
  *
  * The assessment used to be six number fields with no explanation of what to
  * measure or how, which is a reliable way to collect six numbers that mean
- * nothing. Each region now carries what it measures, how it is scored, the
- * steps, and photographs of the positions — the same model in every shot, so
- * the athlete is comparing like with like rather than reading six people.
+ * nothing. Each region now carries what it measures, what you need, how it is
+ * scored, the steps, and photographs of the positions — the same model in every
+ * shot, so the athlete is comparing like with like rather than reading six
+ * different people.
+ *
+ * Each step can carry a `watch`: the one mistake that quietly invalidates it.
+ * Those are separated from the instruction because they are read at a different
+ * moment — the instruction before moving, the warning while moving.
  *
  * Text is authored in both languages rather than run through the `t()`
- * dictionary: these are long instructional passages that belong next to the
- * images they describe.
+ * dictionary: these are long instructional passages that belong beside the
+ * images they describe, and splitting them across a key file would make them
+ * impossible to review as prose.
  */
 
 import type { ApexRegion } from '../../data/apexAccess';
@@ -17,13 +23,17 @@ import type { ApexRegion } from '../../data/apexAccess';
 export type ApexStep = {
     en: string;
     pl: string;
+    /** The mistake that invalidates this step, where there is an obvious one. */
+    watch?: { en: string; pl: string };
     /** File under `public/apex`, without extension. */
     image?: string;
 };
 
 export type ApexInstruction = {
-    /** What the number represents. */
+    /** What the number represents, and why it is worth knowing. */
     measures: { en: string; pl: string };
+    /** What you need to hand before starting. */
+    needs: { en: string; pl: string };
     /** How the number becomes a 1-3 score. */
     scoring: { en: string; pl: string };
     steps: ApexStep[];
@@ -32,8 +42,12 @@ export type ApexInstruction = {
 export const APEX_INSTRUCTIONS: Record<ApexRegion, ApexInstruction> = {
     ankle: {
         measures: {
-            en: 'How far the knee travels over the toes before the heel lifts. Measured in centimetres, both sides.',
-            pl: 'Jak daleko kolano wysunie się przed palce, zanim pięta oderwie się od podłoża. Pomiar w centymetrach, obie strony.',
+            en: 'How far your knee travels forward over your toes before the heel is pulled off the floor. This is what decides how upright you can stay in a deep squat.',
+            pl: 'Jak daleko kolano wysunie się przed palce, zanim pięta oderwie się od podłogi. To właśnie ten zakres decyduje, jak pionowo utrzymasz tułów w głębokim przysiadzie.',
+        },
+        needs: {
+            en: 'A wall and a tape measure. Bare feet. Test both sides — they are often different.',
+            pl: 'Ściana i miarka. Boso. Zbadaj obie strony — często się różnią.',
         },
         scoring: {
             en: 'Under 8 cm scores 1 · 8–10 cm scores 2 · over 10 cm scores 3.',
@@ -41,30 +55,38 @@ export const APEX_INSTRUCTIONS: Record<ApexRegion, ApexInstruction> = {
         },
         steps: [
             {
-                en: 'Stand facing a wall in a split stance, the test foot flat on the floor, toes about a hand’s width from the wall.',
-                pl: 'Stań przodem do ściany w wykroku, badana stopa płasko na podłodze, palce mniej więcej na szerokość dłoni od ściany.',
+                en: 'Stand facing a wall in a split stance with the foot you are testing in front, flat on the floor. Put the toes about a hand’s width from the wall and rest your hands on the wall for balance.',
+                pl: 'Stań przodem do ściany w wykroku — badana stopa z przodu, płasko na podłodze. Ustaw palce mniej więcej na szerokość dłoni od ściany i oprzyj dłonie o ścianę dla równowagi.',
                 image: 'ankle-step1',
             },
             {
-                en: 'Keep the heel glued down and the knee tracking over the second toe. Drive the knee forward toward the wall.',
-                pl: 'Trzymaj piętę przyklejoną do podłogi, a kolano prowadź nad drugim palcem. Wypchnij kolano do przodu w stronę ściany.',
+                en: 'Press the heel into the floor and drive the knee forward until it touches the wall. Let it travel straight out over the second toe, not inward.',
+                pl: 'Dociśnij piętę do podłogi i wypychaj kolano do przodu, aż dotknie ściany. Prowadź je prosto nad drugim palcem, a nie do środka.',
+                watch: {
+                    en: 'The moment the heel lifts, or the arch of the foot rolls inward, the attempt does not count. Both let the knee travel further than your ankle really allows.',
+                    pl: 'W chwili, gdy pięta się unosi albo łuk stopy zapada do środka, próba się nie liczy. Oba te błędy pozwalają kolanu przejechać dalej, niż faktycznie pozwala staw skokowy.',
+                },
                 image: 'ankle-step2',
             },
             {
-                en: 'If the knee touches easily, slide the foot back and repeat. Find the greatest distance where the knee still touches without the heel rising or the arch collapsing.',
-                pl: 'Jeśli kolano dotyka bez trudu, odsuń stopę i powtórz. Znajdź największą odległość, przy której kolano wciąż dotyka, a pięta nie odrywa się i łuk stopy nie zapada.',
+                en: 'If the knee reaches the wall easily, slide the foot back a centimetre and try again. Keep going until you find the furthest position where the knee still just touches with the heel down.',
+                pl: 'Jeśli kolano sięga ściany bez trudu, odsuń stopę o centymetr i spróbuj ponownie. Powtarzaj, aż znajdziesz najdalszą pozycję, w której kolano wciąż ledwo dotyka, a pięta zostaje na podłodze.',
             },
             {
-                en: 'Measure from the tip of the big toe to the wall. Record that number.',
-                pl: 'Zmierz odległość od czubka dużego palca do ściany. Zapisz tę liczbę.',
+                en: 'Hook the tape against the wall and run it along the line of your foot. Read off the number at the tip of your big toe and write it down. The photo shows a 9 cm result.',
+                pl: 'Zaczep miarkę o ścianę i poprowadź ją wzdłuż linii stopy. Odczytaj liczbę na wysokości czubka dużego palca i zapisz ją. Na zdjęciu wynik to 9 cm.',
                 image: 'ankle-step4',
             },
         ],
     },
     hipFlexion: {
         measures: {
-            en: 'How high one straight leg lifts from the floor while the other stays down. Measured in degrees, both sides.',
-            pl: 'Jak wysoko uniesiesz wyprostowaną nogę, trzymając drugą na podłodze. Pomiar w stopniach, obie strony.',
+            en: 'How high one straight leg lifts while the other stays flat on the floor. It tells you how much hip and hamstring range you have before your lower back starts helping.',
+            pl: 'Jak wysoko uniesiesz wyprostowaną nogę, gdy druga zostaje płasko na podłodze. Pokazuje, ile masz zakresu w biodrze i w dwugłowym uda, zanim zacznie dokładać odcinek lędźwiowy.',
+        },
+        needs: {
+            en: 'Floor space and a mat. Someone watching from the side helps, but you can judge it yourself. Test both sides.',
+            pl: 'Miejsce na podłodze i mata. Ktoś, kto popatrzy z boku, pomaga, ale poradzisz sobie sam. Zbadaj obie strony.',
         },
         scoring: {
             en: 'Under 45° scores 1 · 45–70° scores 2 · over 70° scores 3.',
@@ -72,25 +94,32 @@ export const APEX_INSTRUCTIONS: Record<ApexRegion, ApexInstruction> = {
         },
         steps: [
             {
-                en: 'Lie on your back on the floor with both legs straight and arms relaxed at your sides.',
-                pl: 'Połóż się na plecach, obie nogi wyprostowane, ręce swobodnie wzdłuż ciała.',
+                en: 'Lie flat on your back with both legs straight and your arms relaxed by your sides. Press your lower back gently down toward the floor.',
+                pl: 'Połóż się płasko na plecach, obie nogi wyprostowane, ręce swobodnie wzdłuż ciała. Delikatnie dociśnij dolne plecy do podłogi.',
             },
             {
-                en: 'Keep the down leg flat and the knee of the lifting leg locked. Raise one leg as far as it goes without the other leg breaking contact with the floor.',
-                pl: 'Noga leżąca zostaje płasko, kolano unoszonej nogi wyprostowane. Unieś jedną nogę tak wysoko, jak potrafisz, bez odrywania drugiej od podłogi.',
+                en: 'Keeping both knees locked straight, raise one leg as high as it will go. The other leg has to stay in contact with the floor the whole time.',
+                pl: 'Trzymając oba kolana wyprostowane, unieś jedną nogę tak wysoko, jak zdołasz. Druga noga przez cały czas musi pozostać na podłodze.',
+                watch: {
+                    en: 'Stop the moment the resting leg lifts or the raised knee bends. Past that point you are measuring your lower back, not your hip.',
+                    pl: 'Zatrzymaj się, gdy tylko leżąca noga się uniesie albo uniesione kolano się ugnie. Od tego momentu mierzysz już odcinek lędźwiowy, a nie biodro.',
+                },
                 image: 'aslr-step2',
             },
             {
-                en: 'Estimate the angle between the lifted leg and the floor. Straight up is 90°.',
-                pl: 'Oszacuj kąt między uniesioną nogą a podłogą. Pionowo w górę to 90°.',
-                image: 'aslr-step3',
+                en: 'Judge the angle between the raised leg and the floor. Straight up is 90°, and halfway to that is 45°. Round to the nearest five degrees and record it.',
+                pl: 'Oceń kąt między uniesioną nogą a podłogą. Pionowo w górę to 90°, a połowa tej drogi to 45°. Zaokrąglij do pięciu stopni i zapisz.',
             },
         ],
     },
     hipRotation: {
         measures: {
-            en: 'How far the rear thigh rotates from the 90/90 seated position. Measured in degrees, both sides.',
-            pl: 'Jak daleko tylne udo obróci się z pozycji siedzącej 90/90. Pomiar w stopniach, obie strony.',
+            en: 'How far the back thigh rotates from a seated 90/90 position. This is the range that both a deep squat and a wide stance draw on.',
+            pl: 'Jak daleko obróci się tylne udo z pozycji siedzącej 90/90. To zakres, z którego korzysta i głęboki przysiad, i szeroka pozycja stóp.',
+        },
+        needs: {
+            en: 'Clear floor, or a mat if the floor is hard. Test both sides by swapping which leg is in front.',
+            pl: 'Wolne miejsce na podłodze albo mata, jeśli podłoga jest twarda. Zbadaj obie strony, zamieniając nogę z przodu.',
         },
         scoring: {
             en: 'Under 25° scores 1 · 25–40° scores 2 · over 40° scores 3.',
@@ -98,25 +127,33 @@ export const APEX_INSTRUCTIONS: Record<ApexRegion, ApexInstruction> = {
         },
         steps: [
             {
-                en: 'Sit on the floor with the front leg bent 90° and the shin in front of you, and the rear leg bent 90° with the shin out to the side. Sit tall.',
-                pl: 'Usiądź na podłodze: przednia noga zgięta 90° z podudziem przed sobą, tylna zgięta 90° z podudziem na bok. Trzymaj tułów wyprostowany.',
+                en: 'Sit on the floor and set both legs to a right angle: the front shin crossing in front of you, the back shin running out to the side behind you. Sit tall with your hands resting lightly on the floor.',
+                pl: 'Usiądź na podłodze i ustaw obie nogi pod kątem prostym: przednie podudzie w poprzek przed sobą, tylne podudzie na bok, za tobą. Siedź wyprostowany, dłonie oparte lekko o podłogę.',
                 image: 'hip9090-step1',
             },
             {
-                en: 'Keep the torso upright and the pelvis still. Rotate the rear thigh toward the floor without letting the trunk lean.',
-                pl: 'Tułów wyprostowany, miednica nieruchoma. Obracaj tylne udo w stronę podłogi, nie pozwalając tułowiowi się przechylić.',
+                en: 'Without leaning your torso, rotate the back thigh so that knee travels down toward the floor. The movement happens at the hip only.',
+                pl: 'Nie przechylając tułowia, obracaj tylne udo tak, aby to kolano opadało w stronę podłogi. Ruch odbywa się wyłącznie w biodrze.',
+                watch: {
+                    en: 'It is easy to cheat here by leaning away or letting the pelvis roll with the leg. If your torso moves, sit up and start again — otherwise the number comes out far too generous.',
+                    pl: 'Łatwo tu oszukać, odchylając się albo pozwalając miednicy obracać się razem z nogą. Jeśli tułów się poruszy, usiądź prosto i zacznij od nowa — inaczej wynik wyjdzie mocno zawyżony.',
+                },
             },
             {
-                en: 'Estimate how far the rear thigh travelled from where it started.',
-                pl: 'Oszacuj, o ile stopni tylne udo przemieściło się od pozycji startowej.',
+                en: 'Judge how many degrees the back thigh travelled from where it started. Looking down at your own legs, as in the photo, makes this much easier to see.',
+                pl: 'Oceń, o ile stopni tylne udo przemieściło się od pozycji startowej. Patrząc na własne nogi z góry, jak na zdjęciu, znacznie łatwiej to ocenić.',
                 image: 'hip9090-step3',
             },
         ],
     },
     shoulderFlexion: {
         measures: {
-            en: 'How far both arms sweep overhead with the back flat against a wall. Measured in degrees, both sides.',
-            pl: 'Jak daleko obie ręce sięgną nad głowę przy plecach przylegających do ściany. Pomiar w stopniach, obie strony.',
+            en: 'How far your arms reach overhead before your ribs have to flare to let them. This decides whether you can press or hold anything directly above you.',
+            pl: 'Jak daleko ręce sięgną nad głowę, zanim żebra muszą się wysunąć, żeby im to umożliwić. To decyduje, czy możesz wyciskać lub trzymać cokolwiek pionowo nad sobą.',
+        },
+        needs: {
+            en: 'A clear stretch of wall, shoes off. Both arms move together, so this is one measurement rather than two.',
+            pl: 'Kawałek wolnej ściany, bez butów. Obie ręce poruszają się razem, więc to jeden pomiar, nie dwa.',
         },
         scoring: {
             en: 'Under 150° scores 1 · 150–170° scores 2 · over 170° scores 3.',
@@ -124,25 +161,32 @@ export const APEX_INSTRUCTIONS: Record<ApexRegion, ApexInstruction> = {
         },
         steps: [
             {
-                en: 'Stand with your back and head against a wall, feet a short step out from it.',
-                pl: 'Stań plecami i głową przy ścianie, stopy krok od niej.',
+                en: 'Stand with your back against the wall and your feet a short step away from it. Your head, upper back and buttocks should all be touching the wall.',
+                pl: 'Stań plecami do ściany, stopy krok od niej. Głowa, górna część pleców i pośladki mają dotykać ściany.',
             },
             {
-                en: 'Tuck the ribs so the lower back stays flat against the wall, then sweep both arms overhead. Stop the moment the ribs flare or the back leaves the wall.',
-                pl: 'Ściągnij żebra, żeby dolne plecy przylegały do ściany, i unieś obie ręce nad głowę. Zatrzymaj się, gdy żebra się wysuną albo plecy odejdą od ściany.',
+                en: 'Flatten your lower back against the wall by drawing your ribs down, then sweep both arms up overhead, keeping them as close to the wall as you can.',
+                pl: 'Dociśnij dolne plecy do ściany, ściągając żebra w dół, a potem unieś obie ręce nad głowę, prowadząc je jak najbliżej ściany.',
+                watch: {
+                    en: 'The test ends the instant your lower back arches away from the wall. Almost anyone can touch the wall with their hands if they let the ribs flare — but that measures the spine, not the shoulder.',
+                    pl: 'Test kończy się w chwili, gdy dolne plecy odrywają się od ściany. Prawie każdy dotknie ściany dłońmi, jeśli pozwoli żebrom się wysunąć — tyle że wtedy mierzy kręgosłup, a nie bark.',
+                },
                 image: 'shoulderflex-step2',
             },
             {
-                en: 'Estimate the angle between the upper arm and the floor. Arms flat overhead against the wall is 180°.',
-                pl: 'Oszacuj kąt między ramieniem a podłogą. Ręce płasko nad głową przy ścianie to 180°.',
-                image: 'shoulderflex-step3',
+                en: 'Judge the angle between your upper arm and the floor at the point where you had to stop. Arms flat against the wall overhead is 180°; straight out in front of you is 90°.',
+                pl: 'Oceń kąt między ramieniem a podłogą w miejscu, w którym musiałeś przerwać. Ręce płasko przy ścianie nad głową to 180°, wyprostowane przed sobą to 90°.',
             },
         ],
     },
     shoulderRotation: {
         measures: {
-            en: 'How far the forearm rotates upward with the elbow held at shoulder height. Measured in degrees, both sides.',
-            pl: 'Jak daleko przedramię obróci się w górę przy łokciu na wysokości barku. Pomiar w stopniach, obie strony.',
+            en: 'How far your forearm rotates upward with the elbow parked at shoulder height. It is the range needed both at the bottom of a bench press and to catch anything overhead.',
+            pl: 'Jak daleko przedramię obróci się w górę, gdy łokieć pozostaje na wysokości barku. To zakres potrzebny i na dole wyciskania, i przy każdym chwycie nad głową.',
+        },
+        needs: {
+            en: 'Nothing but room to stand. Test both arms — one side is often noticeably tighter.',
+            pl: 'Wystarczy miejsce, żeby stanąć. Zbadaj obie ręce — jedna strona bywa wyraźnie sztywniejsza.',
         },
         scoring: {
             en: 'Under 60° scores 1 · 60–80° scores 2 · over 80° scores 3.',
@@ -150,25 +194,33 @@ export const APEX_INSTRUCTIONS: Record<ApexRegion, ApexInstruction> = {
         },
         steps: [
             {
-                en: 'Raise one elbow to shoulder height and bend it to 90°, forearm pointing forward with the palm down.',
-                pl: 'Unieś łokieć na wysokość barku i zegnij go do 90°, przedramię skierowane do przodu, dłoń w dół.',
+                en: 'Raise one arm out to the side until the elbow is level with your shoulder, then bend the elbow to a right angle so the forearm points straight forward, palm facing down.',
+                pl: 'Unieś jedną rękę w bok, aż łokieć znajdzie się na wysokości barku, a potem zegnij łokieć pod kątem prostym, tak by przedramię wskazywało prosto przed siebie, dłonią w dół.',
                 image: 'shoulderrot-step1',
             },
             {
-                en: 'Keep the elbow at that height and the torso still, then rotate the forearm upward as far as it goes.',
-                pl: 'Trzymaj łokieć na tej wysokości, tułów nieruchomo, i obracaj przedramię w górę tak daleko, jak się da.',
+                en: 'Hold the elbow exactly where it is and rotate the forearm upward, as though turning a key. Stop when it will not go further without the rest of you joining in.',
+                pl: 'Utrzymaj łokieć dokładnie w tym miejscu i obracaj przedramię w górę, jakbyś przekręcał klucz. Zatrzymaj się, gdy dalszy obrót wymagałby ruchu resztą ciała.',
+                watch: {
+                    en: 'Two things quietly add degrees: the elbow drifting down toward your ribs, and the shoulder rolling forward. Keep the elbow at shoulder height and the chest still.',
+                    pl: 'Dwie rzeczy po cichu dodają stopni: opadanie łokcia w stronę żeber i wysuwanie barku do przodu. Trzymaj łokieć na wysokości barku, a klatkę nieruchomo.',
+                },
                 image: 'shoulderrot-step2',
             },
             {
-                en: 'Estimate the angle travelled from the start. Forearm straight up is 90°.',
-                pl: 'Oszacuj przebyty kąt od pozycji startowej. Przedramię pionowo w górę to 90°.',
+                en: 'Judge how far the forearm travelled from the starting position. Straight up is 90°, and the photo marks 80°.',
+                pl: 'Oceń, jak daleko przedramię przemieściło się od pozycji startowej. Pionowo w górę to 90°, a na zdjęciu zaznaczono 80°.',
             },
         ],
     },
     thoracicRotation: {
         measures: {
-            en: 'How far the top arm opens behind you with the knees pinned together. Measured in degrees, both sides.',
-            pl: 'Jak daleko górna ręka otworzy się za plecami przy złączonych kolanach. Pomiar w stopniach, obie strony.',
+            en: 'How far your upper back rotates when your hips are locked out of the movement. This is the range that lets you stay square under a bar instead of twisting.',
+            pl: 'Jak daleko obraca się górna część pleców, gdy biodra są wyłączone z ruchu. To zakres, dzięki któremu ustawiasz się równo pod sztangą, zamiast się skręcać.',
+        },
+        needs: {
+            en: 'A mat and floor space. Test both sides by rolling onto the other side and repeating.',
+            pl: 'Mata i miejsce na podłodze. Zbadaj obie strony, przewracając się na drugi bok i powtarzając.',
         },
         scoring: {
             en: 'Under 30° scores 1 · 30–50° scores 2 · over 50° scores 3.',
@@ -176,18 +228,22 @@ export const APEX_INSTRUCTIONS: Record<ApexRegion, ApexInstruction> = {
         },
         steps: [
             {
-                en: 'Lie on your side with hips and knees bent to 90°, both arms straight out in front, palms together.',
-                pl: 'Połóż się na boku, biodra i kolana zgięte do 90°, obie ręce wyprostowane przed sobą, dłonie złączone.',
+                en: 'Lie on your side with your hips and knees bent to a right angle, both arms stretched out in front of you at shoulder height, palms together.',
+                pl: 'Połóż się na boku, biodra i kolana zgięte pod kątem prostym, obie ręce wyciągnięte przed siebie na wysokości barków, dłonie złączone.',
                 image: 'openbook-step1',
             },
             {
-                en: 'Keep the knees stacked and pressed together — that is what stops the movement coming from the lower back. Open the top arm toward the floor behind you, following the hand with your eyes.',
-                pl: 'Kolana pozostają złączone i dociśnięte — to one nie pozwalają, by ruch pochodził z odcinka lędźwiowego. Otwieraj górną rękę w stronę podłogi za plecami, wodząc za nią wzrokiem.',
+                en: 'Press your knees firmly together and keep one stacked on the other — they are what stops your hips joining in. Now open the top arm away from the bottom one, toward the floor behind you, turning your head to follow your hand.',
+                pl: 'Mocno złącz kolana i trzymaj jedno na drugim — to one nie pozwalają biodrom włączyć się do ruchu. Teraz otwórz górną rękę od dolnej, w stronę podłogi za plecami, obracając głowę za dłonią.',
+                watch: {
+                    en: 'The knees are the whole test. The moment the top knee slides back off the bottom one, the movement has passed to your hips and lower back, and the number stops meaning anything.',
+                    pl: 'Kolana są istotą tego testu. W chwili, gdy górne kolano zsuwa się z dolnego, ruch przechodzi na biodra i odcinek lędźwiowy, a wynik przestaje cokolwiek znaczyć.',
+                },
                 image: 'openbook-step2',
             },
             {
-                en: 'Stop when the knees start to separate. Estimate the angle the top arm travelled from the start.',
-                pl: 'Zatrzymaj się, gdy kolana zaczną się rozchodzić. Oszacuj kąt, jaki pokonała górna ręka.',
+                en: 'Stop where the knees begin to part, and judge how far the top arm travelled from where it started. Flat on the floor behind you would be 90°.',
+                pl: 'Zatrzymaj się tam, gdzie kolana zaczynają się rozchodzić, i oceń, jak daleko przemieściła się górna ręka. Płasko na podłodze za plecami to 90°.',
             },
         ],
     },

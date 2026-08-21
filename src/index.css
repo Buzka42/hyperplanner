@@ -2437,3 +2437,10 @@ input[type=number] {
     display: block; width: 100%; max-width: 26rem; margin-top: 0.6rem;
     border: 1px solid var(--instrument-rule);
 }
+/* The mistake that invalidates a step, set apart from the instruction because
+   it is read while moving rather than before. */
+.apex-step-watch {
+    margin-top: 0.5rem; padding-left: 0.7rem;
+    border-left: 2px solid hsl(var(--primary));
+    font-size: 0.875rem; color: hsl(var(--muted-foreground));
+}

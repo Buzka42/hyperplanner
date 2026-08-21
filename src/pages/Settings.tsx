@@ -12,7 +12,8 @@ import { Checkbox } from '../components/ui/checkbox';
 import { Save, CheckCircle2 } from 'lucide-react';
 import { doc, updateDoc } from 'firebase/firestore';
 import type { TrainingPreferences } from '../data/exercises/types';
-import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8, NEURAL_D4_SQUATS, KOS_SQUAT_BAR, KOS_BENCH_JOB1, KOS_BENCH_JOB2, KOS_BENCH_JOB3, LAZARUS_SQUATS, LAZARUS_CHEST, QUADFATHER_LOAD, REDLINE_FURNACE, ATLAS_HINGES, ATLAS_FRONT } from '../features/planSelections/options';
+import { EXERCISE_BY_ID } from '../data/exercises/library';
+import { CORE_RAISE_OPTIONS, KALI_PULL_ANCHORS, KALI_WEEK8, NEURAL_D4_SQUATS, ATHENA_FAMILIES, KOS_SQUAT_BAR, KOS_BENCH_JOB1, KOS_BENCH_JOB2, KOS_BENCH_JOB3, LAZARUS_SQUATS, LAZARUS_CHEST, QUADFATHER_LOAD, REDLINE_FURNACE, ATLAS_HINGES, ATLAS_FRONT } from '../features/planSelections/options';
 import { db } from '../firebase';
 import { PENCILNECK_PROGRAM } from '../data/pencilneck';
 import { BENCH_DOMINATION_PROGRAM } from '../data/program';
@@ -113,6 +114,12 @@ export const Settings: React.FC = () => {
     const [kaliWeek8, setKaliWeek8] = useState(user?.planPreferences?.kali?.exerciseSelections?.week8Intensifier ?? 'none');
     const [gravityAbs, setGravityAbs] = useState(user?.planPreferences?.['gravity-is-optional']?.exerciseSelections?.abs ?? user?.trainingPreferences?.coreRaiseId ?? 'hanging-leg-raise');
     const [neuralD4, setNeuralD4] = useState(user?.planPreferences?.['neural-overload']?.exerciseSelections?.d4Squat ?? 'front-squat');
+    const [athenaMode, setAthenaMode] = useState<'3day' | '4day'>(
+        (user?.planPreferences?.athena?.scheduleMode as '3day' | '4day') ?? '4day');
+    const [athenaFamilies, setAthenaFamilies] = useState<Record<string, string>>({
+        ...Object.fromEntries(ATHENA_FAMILIES.map(f => [f.key, f.options[0]])),
+        ...(user?.planPreferences?.athena?.exerciseSelections ?? {}),
+    });
     const [kosSquatBar, setKosSquatBar] = useState(user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.squatBar ?? 'low-bar-squat');
     const [kosJob1, setKosJob1] = useState(user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob1 ?? 'long-pause-bench-press');
     const [kosJob2, setKosJob2] = useState(user?.planPreferences?.['king-of-the-squat']?.exerciseSelections?.benchJob2 ?? 'wide-grip-bench-press');
@@ -178,6 +185,19 @@ export const Settings: React.FC = () => {
                 ...trainingPrefs,
                 coreRaiseId: gravityAbs || trainingPrefs.coreRaiseId,
             };
+
+            if (user.programId === 'athena') {
+                const now = new Date().toISOString();
+                updates.planPreferences = {
+                    ...(user.planPreferences ?? {}),
+                    athena: {
+                        ...(user.planPreferences?.athena ?? {}),
+                        scheduleMode: athenaMode,
+                        updatedAt: now,
+                        exerciseSelections: athenaFamilies,
+                    },
+                };
+            }
 
             if (user.programId === 'kali') {
                 const now = new Date().toISOString();
@@ -1104,6 +1124,34 @@ export const Settings: React.FC = () => {
                                         ))}
                                     </RadioGroup>
                                 </div>
+                            </>
+                        )}
+                        {user?.programId === 'athena' && (
+                            <>
+                                <div className="space-y-2">
+                                    <Label>Schedule</Label>
+                                    <RadioGroup value={athenaMode} onValueChange={v => { setAthenaMode(v as '3day' | '4day'); setSaved(false); }}>
+                                        {(['4day', '3day'] as const).map(option => (
+                                            <div key={option} className="flex items-center space-x-2">
+                                                <RadioGroupItem value={option} id={`set-athena-mode-${option}`} />
+                                                <Label htmlFor={`set-athena-mode-${option}`} className="font-normal">{option === '4day' ? '4 days a week' : '3 days a week'}</Label>
+                                            </div>
+                                        ))}
+                                    </RadioGroup>
+                                </div>
+                                {ATHENA_FAMILIES.map(family => (
+                                    <div key={family.key} className="space-y-2">
+                                        <Label>{family.label}</Label>
+                                        <RadioGroup value={athenaFamilies[family.key]} onValueChange={v => { setAthenaFamilies(old => ({ ...old, [family.key]: v })); setSaved(false); }}>
+                                            {family.options.filter(id => EXERCISE_BY_ID[id]).map(id => (
+                                                <div key={id} className="flex items-center space-x-2">
+                                                    <RadioGroupItem value={id} id={`set-athena-${family.key}-${id}`} />
+                                                    <Label htmlFor={`set-athena-${family.key}-${id}`} className="font-normal">{EXERCISE_BY_ID[id].name.en}</Label>
+                                                </div>
+                                            ))}
+                                        </RadioGroup>
+                                    </div>
+                                ))}
                             </>
                         )}
                         {user?.programId === 'kali' && (
