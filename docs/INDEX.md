@@ -24,6 +24,7 @@ material; they are not implementation authority.
 - [AI integration](architecture/ai.md)
 - [Portfolio and recommendations](architecture/portfolio.md)
 - [Tip system](architecture/tips.md)
+- [Admin composer](architecture/admin-composer.md)
 - [Translation reference](../TRANSLATIONS.md)
 
 ## Implementation-ready plan specifications

@@ -5,19 +5,19 @@ import { AdminPanel } from '../AdminPanel';
 import { LibraryTab } from './LibraryTab';
 import { PlanComposerTab } from './PlanComposerTab';
 import { AnalysisTab } from './AnalysisTab';
-import { VersionsTab } from './VersionsTab';
+import { ChangelogTab } from './ChangelogTab';
 import { AiTab } from './AiTab';
 import { TipsTab } from './TipsTab';
 
-type TabId = 'access' | 'library' | 'tips' | 'composer' | 'analysis' | 'versions' | 'ai';
+type TabId = 'access' | 'library' | 'tips' | 'composer' | 'analysis' | 'changelog' | 'ai';
 
 const TABS: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: 'access', label: 'Access control', icon: KeyRound },
     { id: 'library', label: 'Exercise library', icon: Library },
     { id: 'tips', label: 'Exercise cues', icon: MessageSquare },
     { id: 'composer', label: 'Plan composer', icon: Layers },
-    { id: 'analysis', label: 'Volume analysis', icon: Activity },
-    { id: 'versions', label: 'History', icon: History },
+    { id: 'analysis', label: 'Analysis', icon: Activity },
+    { id: 'changelog', label: 'Changelog', icon: History },
     { id: 'ai', label: 'AI', icon: Sparkles },
 ];
 
@@ -25,9 +25,9 @@ const TABS: { id: TabId; label: string; icon: React.ComponentType<{ className?: 
  * Admin console shell.
  *
  * The access-control panel is the original AdminPanel, moved under a tab
- * unchanged. New tabs (exercise library, and later the plan composer, volume
- * analysis and version history) hang off the same shell and reuse the
- * `admin-*` styles already in index.css.
+ * unchanged. The other tabs — exercise library, cues, plan composer, volume
+ * analysis and the changelog — hang off the same shell and reuse the `admin-*`
+ * styles already in index.css.
  */
 export const AdminShell: React.FC = () => {
     const [tab, setTab] = useState<TabId>('access');
@@ -60,7 +60,7 @@ export const AdminShell: React.FC = () => {
             {tab === 'tips' && <TipsTab />}
             {tab === 'composer' && <PlanComposerTab />}
             {tab === 'analysis' && <AnalysisTab />}
-            {tab === 'versions' && <VersionsTab />}
+            {tab === 'changelog' && <ChangelogTab />}
             {tab === 'ai' && <AiTab />}
         </div>
     );

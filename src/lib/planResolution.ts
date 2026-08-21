@@ -113,8 +113,12 @@ const resolveExtraSets = (
     return Math.max(0, Math.min(rule.max ?? 0, pref.count ?? 0));
 };
 
-/** Heuristic: the first two movements of a day are its main work. */
-const isAccessorySlot = (index: number) => index >= 2;
+/**
+ * Heuristic: the first two movements of a day are its main work. Measured
+ * against the running order the athlete sees, so an admin who reorders a
+ * session also moves what counts as its main work.
+ */
+const isAccessorySlot = (position: number) => position >= 2;
 
 // ---------------------------------------------------------------------------
 // Swaps
@@ -277,7 +281,25 @@ export const resolveDay = (
     const exercises: ResolvedExercise[] = [];
     const usedGroups: Record<string, ExerciseGroup> = {};
 
-    day.exercises.forEach((exercise, index) => {
+    /**
+     * Admin-chosen running order.
+     *
+     * The default sort key is the movement's own generated index, so a day with
+     * no `order` set anywhere comes out exactly as the plan produced it, and
+     * setting `order` on one movement moves that movement without disturbing
+     * the others. `index` stays the generated one throughout: it addresses the
+     * slot override and stamps the logged `slot`, so reordering a session must
+     * never renumber it or the athlete's history would stop joining.
+     */
+    const ordered = day.exercises
+        .map((exercise, index) => ({
+            exercise,
+            index,
+            key: overrideFor(planConfig, resolver.resolveId(exercise.name), week, day.dayOfWeek, index).order ?? index,
+        }))
+        .sort((a, b) => a.key - b.key || a.index - b.index);
+
+    ordered.forEach(({ exercise, index }, position) => {
         const originalId = resolver.resolveId(exercise.name);
         const config = overrideFor(planConfig, originalId, week, day.dayOfWeek, index);
 
@@ -301,7 +323,7 @@ export const resolveDay = (
         const effectiveId = effective?.id ?? adminId;
 
         const baseSets = resolveBaseSets(exercise, config);
-        const extraSets = resolveExtraSets(user, config, defaults, isAccessorySlot(index));
+        const extraSets = resolveExtraSets(user, config, defaults, isAccessorySlot(position));
 
         const group = config.groupId ? planConfig?.groups?.[config.groupId] : undefined;
         if (group) usedGroups[group.id] = group;

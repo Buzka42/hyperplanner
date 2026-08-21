@@ -2567,3 +2567,102 @@ input[type=number] {
 }
 .onboarding-check span { font-size: .875rem; color: hsl(var(--muted-foreground)); }
 .onboarding-check:hover span { color: hsl(var(--foreground)); }
+
+/* ---------------------------------------------------------------------------
+   Admin composer — sessions, statistics and the changelog
+   ------------------------------------------------------------------------ */
+
+.admin-viewswitch { display:flex; gap:6px; flex-wrap:wrap; margin-top:16px; }
+.admin-viewswitch .admin-chip { display:inline-flex; align-items:center; gap:7px; }
+
+/* The session card: a header, its figures, then its movements in order. */
+.session-card { margin-top:18px; padding-bottom:6px; }
+.session-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; padding:18px 22px 14px; }
+.session-head h2 { margin:0; font-family:'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif; font-size:1.15rem; font-weight:600; letter-spacing:-.01em; }
+.session-head p { margin:3px 0 0; font-size:.75rem; text-transform:uppercase; letter-spacing:.07em; color:hsl(var(--muted-foreground)); }
+.session-head-actions { display:flex; gap:6px; flex-shrink:0; }
+
+.session-figures { display:flex; flex-wrap:wrap; gap:10px; padding:0 22px 16px; border-bottom:1px solid hsl(var(--border)); }
+.session-figure { display:flex; align-items:baseline; gap:7px; padding:8px 12px; border:1px solid hsl(var(--border)); background:hsl(var(--background)/.4); }
+.session-figure svg { align-self:center; color:hsl(var(--primary)); flex-shrink:0; }
+.session-figure-value { font-family:'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif; font-size:1.05rem; font-weight:600; }
+.session-figure-label { font-size:.68rem; text-transform:uppercase; letter-spacing:.07em; color:hsl(var(--muted-foreground)); }
+
+.session-detail { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:22px; padding:18px 22px; border-bottom:1px solid hsl(var(--border)); background:hsl(var(--background)/.28); }
+.session-detail-block h4 { margin:0 0 10px; font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:hsl(var(--muted-foreground)); }
+
+.session-rows { display:flex; flex-direction:column; }
+.session-row { display:grid; grid-template-columns:44px 1fr; align-items:start; border-bottom:1px solid hsl(var(--border)); }
+.session-row.is-customised { box-shadow:inset 2px 0 0 hsl(var(--primary)); }
+.session-row > .admin-slot-body, .session-row > .session-scope { grid-column:1 / -1; }
+
+.session-order { display:flex; flex-direction:column; align-items:center; gap:2px; padding:10px 0; }
+.session-order button { display:flex; align-items:center; justify-content:center; width:26px; height:22px; border:1px solid transparent; background:none; color:hsl(var(--muted-foreground)); cursor:pointer; }
+.session-order button:hover:not(:disabled) { border-color:hsl(var(--primary)/.5); color:hsl(var(--foreground)); background:hsl(var(--primary)/.1); }
+.session-order button:disabled { opacity:.25; cursor:not-allowed; }
+.session-position { font-family:'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif; font-size:.8rem; font-weight:700; color:hsl(var(--muted-foreground)); }
+
+.session-row-head { display:flex; align-items:center; gap:10px; width:100%; min-height:52px; padding:10px 18px 10px 4px; border:0; background:none; color:inherit; cursor:pointer; text-align:left; }
+.session-row-head:hover { background:hsl(var(--primary)/.04); }
+
+.session-scope { padding:14px 22px; border-top:1px solid hsl(var(--border)); background:hsl(var(--background)/.35); }
+.session-scope > span { display:block; margin-bottom:8px; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:hsl(var(--muted-foreground)); }
+.session-scope small { display:block; margin-top:8px; font-size:.7rem; color:hsl(var(--muted-foreground)); }
+
+.session-disabled { padding:14px 22px 18px; }
+.session-disabled h4 { display:flex; align-items:center; gap:6px; margin:0 0 8px; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:hsl(var(--muted-foreground)); }
+.session-disabled-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 0; font-size:.85rem; color:hsl(var(--muted-foreground)); }
+.session-disabled-row > span { text-decoration:line-through; }
+
+/* Statistics tables. */
+.session-table-scroll { overflow-x:auto; }
+.session-table { width:100%; border-collapse:collapse; font-size:.8rem; }
+.session-table.is-wide { min-width:820px; }
+.session-table th { padding:8px 10px; text-align:left; font-size:.66rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:hsl(var(--muted-foreground)); border-bottom:1px solid hsl(var(--border)); white-space:nowrap; }
+.session-table td { padding:8px 10px; border-bottom:1px solid hsl(var(--border)/.6); vertical-align:top; }
+.session-table tbody tr:hover { background:hsl(var(--primary)/.05); }
+.session-table tr.is-peak td { background:hsl(var(--primary)/.09); }
+.session-table .admin-tag { margin-left:6px; }
+.session-table.is-wide td .admin-tag { margin:0 4px 2px 0; }
+
+/* A secondary-involvement segment continues the direct bar rather than restarting it. */
+.volume-bar-track { position:relative; }
+.volume-bar.is-secondary { position:absolute; top:0; background:hsl(var(--muted-foreground)/.28); }
+.volume-figure small { color:hsl(var(--muted-foreground)); font-size:.68rem; }
+
+/* Editor sections group the controls so a long panel stays readable. */
+.admin-editor-section { padding:16px 0; border-bottom:1px solid hsl(var(--border)/.7); }
+.admin-editor-section:last-of-type { border-bottom:0; }
+.admin-editor-section > h4 { margin:0 0 12px; font-size:.7rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:hsl(var(--muted-foreground)); }
+.admin-editor-subsection { margin-top:14px; padding:14px; border:1px solid hsl(var(--border)); background:hsl(var(--background)/.4); display:grid; gap:8px; }
+.admin-field-grid.is-tight { grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; }
+.admin-inline-check.is-prominent { align-items:flex-start; }
+.admin-inline-check.is-prominent span { display:grid; gap:2px; }
+.admin-inline-check.is-prominent small { font-size:.7rem; color:hsl(var(--muted-foreground)); }
+
+/* Swap-list picker. */
+.admin-pool { display:grid; gap:10px; }
+.admin-pool-chosen { display:flex; flex-wrap:wrap; gap:6px; min-height:28px; align-items:center; }
+.admin-tag.is-removable { display:inline-flex; align-items:center; gap:5px; cursor:pointer; }
+.admin-tag.is-removable:hover { border-color:hsl(var(--destructive)/.6); color:hsl(var(--destructive)); }
+.admin-pool-results { display:grid; gap:2px; max-height:220px; overflow-y:auto; border:1px solid hsl(var(--border)); }
+.admin-pool-result { display:flex; align-items:baseline; justify-content:space-between; gap:10px; width:100%; padding:8px 10px; border:0; background:none; color:inherit; cursor:pointer; text-align:left; font-size:.8rem; }
+.admin-pool-result:hover { background:hsl(var(--primary)/.1); }
+.admin-pool-result small { color:hsl(var(--muted-foreground)); font-size:.68rem; white-space:nowrap; }
+
+/* Publish note sits in the save bar, next to what it describes. */
+.admin-note-field { max-width:420px; flex:1; }
+
+/* Changelog. */
+.changelog-head { display:flex; align-items:center; gap:10px; padding-right:18px; }
+.changelog-head .admin-slot-head { flex:1; }
+.changelog-version { margin-left:8px; font-family:'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif; font-size:.75rem; font-weight:700; color:hsl(var(--muted-foreground)); }
+.changelog-note { display:block; margin-top:4px; font-size:.78rem; color:hsl(var(--foreground)); font-style:italic; }
+
+@media (max-width: 760px) {
+  .session-head { flex-direction:column; }
+  .session-figures { padding-left:18px; padding-right:18px; }
+  .session-row { grid-template-columns:36px 1fr; }
+  .admin-savebar { flex-wrap:wrap; }
+  .admin-note-field { max-width:none; order:3; width:100%; }
+}

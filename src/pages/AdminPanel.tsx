@@ -37,7 +37,13 @@ export const AdminPanel: React.FC = () => {
                 setConfig(next);
             }
         });
-        const stopKeys = onSnapshot(collection(db, 'accessKeys'), snap => setKeys(snap.docs.map(item => item.data() as AccessKey)));
+        // The document id IS the keyword, so it is the identity to trust. Reading
+        // only data() meant a document whose `keyword` field was missing became
+        // an unidentifiable row: React saw a duplicate `undefined` key, and its
+        // copy, delete and toggle controls all addressed `accessKeys/undefined`.
+        const stopKeys = onSnapshot(collection(db, 'accessKeys'), snap => setKeys(
+            snap.docs.map(item => ({ ...(item.data() as AccessKey), keyword: (item.data() as AccessKey).keyword || item.id }))
+        ));
         getDocs(collection(db, 'users')).then(s => setUsers(s.docs.map(d => d.data())));
         return () => { stopConfig(); stopKeys(); };
     }, []);

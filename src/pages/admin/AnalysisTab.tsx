@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { AlertCircle, Activity, CheckCircle2 } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { AlertCircle, Activity, CheckCircle2, Timer } from 'lucide-react';
 
 import { PLAN_REGISTRY } from '../../data/plans';
 import { ORDERED_PLAN_META } from '../../data/planMeta';
@@ -7,6 +7,11 @@ import { EXERCISE_LIBRARY } from '../../data/exercises/library';
 import { createResolver } from '../../data/exercises';
 import { analyseWeek, summarise, PLAN_RULES } from '../../lib/volumeAnalysis';
 import type { WeekAnalysis } from '../../lib/volumeAnalysis';
+import { formatDuration, formatTonnage } from '../../lib/sessionStats';
+import { loadPlanConfig } from '../../data/exercises/planConfigRemote';
+import type { PlanExerciseDoc } from '../../data/exercises/types';
+import { materialiseSessions, hasStableSlots, type ComposerDay } from './composer/materialise';
+import { useLanguage, resolveTemplate } from '../../contexts/useTranslation';
 import { buildPreviewUser } from './previewUser';
 import type { WorkoutDay } from '../../types';
 
@@ -58,14 +63,87 @@ const analysePlan = (planId: string): WeekAnalysis[] => {
         .filter(w => w.totalSets > 0);
 };
 
+/**
+ * Every session of the plan, measured the same way the composer measures one.
+ *
+ * The weekly view answers whether a muscle group is trained often enough; this
+ * answers whether any one session is a reasonable thing to ask a person to do,
+ * which weekly totals hide entirely — four balanced weeks can still contain one
+ * two-hour Wednesday.
+ */
+const SessionTable: React.FC<{ sessions: ComposerDay[] }> = ({ sessions }) => {
+    const { t } = useLanguage();
+    const longest = Math.max(1, ...sessions.map(s => s.stats.estimatedSeconds));
+
+    return (
+        <section className="admin-ledger">
+            <div className="admin-ledger-tools">
+                <div>
+                    <h2><Timer /> Every session</h2>
+                    <p>Estimated from the prescription, with the plan's own rest. Sorted by the week they fall in.</p>
+                </div>
+            </div>
+            <div className="session-table-scroll">
+                <table className="session-table is-wide">
+                    <thead>
+                        <tr>
+                            <th>Week</th><th>Session</th><th>Movements</th><th>Sets</th>
+                            <th>Reps</th><th>Duration</th><th>Tonnage</th><th>Heaviest groups</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {sessions.map(session => (
+                            <tr key={session.key} className={session.stats.estimatedSeconds >= longest ? 'is-peak' : undefined}>
+                                <td>{session.week}</td>
+                                <td>{resolveTemplate(session.dayName, t)}</td>
+                                <td>{session.stats.movements}</td>
+                                <td>{session.stats.workingSets}</td>
+                                <td>{session.stats.estimatedReps ? `≈${Math.round(session.stats.estimatedReps)}` : '—'}</td>
+                                <td>{formatDuration(session.stats.estimatedSeconds)}</td>
+                                <td>{session.stats.tonnageCoverage ? formatTonnage(session.stats.tonnageKg) : '—'}</td>
+                                <td>
+                                    {/* Groups with no direct work are still listed in the
+                                        stats for their indirect share, but "heaviest
+                                        groups: shoulders 0" is not a fact worth a row. */}
+                                    {session.stats.muscles.filter(m => m.directSets > 0).slice(0, 3).map(m => (
+                                        <span className="admin-tag is-muted" key={m.group}>{m.group} {m.directSets}</span>
+                                    ))}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    );
+};
+
 export const AnalysisTab: React.FC = () => {
     const [planId, setPlanId] = useState(ORDERED_PLAN_META[0].id);
     const [weekIndex, setWeekIndex] = useState(0);
+    const [planConfig, setPlanConfig] = useState<PlanExerciseDoc | undefined>();
 
     const rules = PLAN_RULES[planId];
     const weeks = useMemo(() => analysePlan(planId), [planId]);
     const report = useMemo(() => summarise(weeks), [weeks]);
     const perVisit = useMemo(() => generatesPerVisit(planId), [planId]);
+
+    // Sessions are measured against the published config, so the table reflects
+    // what athletes are actually doing rather than the bundled definition.
+    useEffect(() => {
+        let live = true;
+        void loadPlanConfig(planId, true).then(config => { if (live) setPlanConfig(config); });
+        return () => { live = false; };
+    }, [planId]);
+
+    const sessions = useMemo(
+        // The config carries the plan it belongs to, so a result still in
+        // flight for the previous plan is ignored rather than measured.
+        () => (planConfig?.planId === planId && hasStableSlots(planId)
+            ? materialiseSessions(planId, planConfig, resolver)
+            : []),
+        [planId, planConfig]
+    );
 
     const week = weeks[Math.min(weekIndex, Math.max(0, weeks.length - 1))];
     const worked = week ? week.volumes.filter(v => v.directSets > 0).sort((a, b) => b.directSets - a.directSets) : [];
@@ -75,8 +153,8 @@ export const AnalysisTab: React.FC = () => {
         <main className="admin-console">
             <header className="admin-command-bar">
                 <div>
-                    <h1><Activity /> Volume analysis</h1>
-                    <p>Weekly sets and exposures per muscle group, checked against the programming rules.</p>
+                    <h1><Activity /> Analysis</h1>
+                    <p>Weekly sets and exposures per muscle group against the programming rules, and what every individual session costs.</p>
                 </div>
                 {week && <div className="admin-live"><span /> {week.totalSets} direct sets · week {week.week}</div>}
             </header>
@@ -206,6 +284,8 @@ export const AnalysisTab: React.FC = () => {
                     </section>
                 </>
             )}
+
+            {sessions.length > 0 && <SessionTable sessions={sessions} />}
         </main>
     );
 };

@@ -156,7 +156,7 @@ service cloud.firestore {
     // rules cannot cross-reference the bundled library.
     function validPlanExerciseDoc(data, planId) {
       return data.keys().hasAll(['planId', 'version', 'updatedAt', 'updatedBy', 'exercises']) &&
-        data.keys().hasOnly(['planId', 'version', 'updatedAt', 'updatedBy', 'exercises', 'slots', 'groups', 'defaults']) &&
+        data.keys().hasOnly(['planId', 'version', 'updatedAt', 'updatedBy', 'exercises', 'slots', 'groups', 'defaults', 'note']) &&
         data.planId is string && data.planId == planId && data.planId in validPlanIds() &&
         data.version is int && data.version >= 0 && data.version <= 100000 &&
         data.updatedAt is string && data.updatedAt.size() <= 64 &&
@@ -164,7 +164,8 @@ service cloud.firestore {
         data.exercises is map && data.exercises.size() <= 400 &&
         (!('slots' in data) || (data.slots is map && data.slots.size() <= 800)) &&
         (!('groups' in data) || (data.groups is map && data.groups.size() <= 100)) &&
-        (!('defaults' in data) || data.defaults is map);
+        (!('defaults' in data) || data.defaults is map) &&
+        (!('note' in data) || (data.note is string && data.note.size() <= 280));
     }
 
     function validLibraryMeta(data) {

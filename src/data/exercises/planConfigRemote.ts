@@ -117,8 +117,9 @@ const bumpPlanVersion = async (planId: string): Promise<number> => {
  */
 export const savePlanConfig = async (
     planId: string,
-    next: Omit<PlanExerciseDoc, 'version' | 'updatedAt' | 'updatedBy'>,
-    author: string
+    next: Omit<PlanExerciseDoc, 'version' | 'updatedAt' | 'updatedBy' | 'note'>,
+    author: string,
+    note = ''
 ): Promise<number> => {
     const ref = doc(db, 'planConfigs', planId);
 
@@ -129,12 +130,17 @@ export const savePlanConfig = async (
     }
 
     const version = await bumpPlanVersion(planId);
+    const trimmed = note.trim().slice(0, 280);
     const payload: PlanExerciseDoc = {
         ...next,
         planId,
         version,
         updatedAt: new Date().toISOString(),
         updatedBy: author,
+        // Omitted rather than written empty: the security rules only accept
+        // `note` once they are deployed, so a publish with nothing to say keeps
+        // working against the rules already in production.
+        ...(trimmed ? { note: trimmed } : {}),
     };
 
     await setDoc(ref, payload);
@@ -147,4 +153,70 @@ export const listPlanConfigVersions = async (planId: string): Promise<PlanExerci
         query(collection(doc(db, 'planConfigs', planId), 'versions'), orderBy('version', 'desc'), limit(25))
     );
     return snap.docs.map(d => d.data() as PlanExerciseDoc);
+};
+
+/**
+ * The stored document, without the bundled seed merged in.
+ *
+ * `loadPlanConfig` is what the athlete's session needs — seed plus overlay. The
+ * changelog needs the other thing: exactly what was published, so a diff
+ * between two versions reports what an admin changed rather than what the
+ * bundled seed happens to contain.
+ */
+export const loadRawPlanConfig = async (planId: string): Promise<PlanExerciseDoc | null> => {
+    const snap = await getDoc(doc(db, 'planConfigs', planId));
+    return snap.exists() ? (snap.data() as PlanExerciseDoc) : null;
+};
+
+/** Plans that have ever been published, newest version first is not implied. */
+export const listPublishedPlanIds = async (): Promise<string[]> => {
+    const meta = await fetchLibraryMeta();
+    return Object.entries(meta?.planConfigVersions ?? {})
+        .filter(([, version]) => (version ?? 0) > 0)
+        .map(([planId]) => planId);
+};
+
+export type PlanChangeEntry = {
+    planId: string;
+    doc: PlanExerciseDoc;
+    /** True for the version currently serving athletes. */
+    isLive: boolean;
+    /** The version this one replaced, for diffing. Absent for the first ever. */
+    previous?: PlanExerciseDoc;
+};
+
+/**
+ * Every published change across every plan, newest first.
+ *
+ * Reads only the plans that have actually been published — the portfolio is 36
+ * plans and most of them run entirely on their bundled definition, so fetching
+ * a history subcollection for each would be 36 wasted round trips.
+ */
+export const listAllPlanChanges = async (): Promise<PlanChangeEntry[]> => {
+    const planIds = await listPublishedPlanIds();
+
+    const perPlan = await Promise.all(planIds.map(async planId => {
+        try {
+            const [live, history] = await Promise.all([loadRawPlanConfig(planId), listPlanConfigVersions(planId)]);
+            const timeline = [...(live ? [live] : []), ...history]
+                // A live document is also snapshotted into `versions` the moment
+                // it is replaced, so the two lists overlap by one on every plan
+                // that has been edited twice.
+                .filter((entry, index, all) => all.findIndex(o => o.version === entry.version) === index)
+                .sort((a, b) => (b.version ?? 0) - (a.version ?? 0));
+
+            return timeline.map((entry, index): PlanChangeEntry => ({
+                planId,
+                doc: entry,
+                isLive: Boolean(live) && entry.version === live!.version,
+                previous: timeline[index + 1],
+            }));
+        } catch {
+            return [] as PlanChangeEntry[];
+        }
+    }));
+
+    return perPlan
+        .flat()
+        .sort((a, b) => (b.doc.updatedAt ?? '').localeCompare(a.doc.updatedAt ?? ''));
 };

@@ -56,8 +56,8 @@
     "hash": "5cbf1cf3afa6d82b1362eeb1f60cbd32"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\browser-all-plans-clickthrough.ts": {
-    "mtime": 1786627953.3177524,
-    "hash": "c0d78f04ca00d617f18cbcbc57e3a20e"
+    "mtime": 1787234975.9762807,
+    "hash": "1511188d9bfa49f118cde0a9bd875237"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\browser-clickthrough-test.ts": {
     "mtime": 1786627953.3187535,
@@ -84,8 +84,8 @@
     "hash": "0efd48960770d9a6ddaca8a8e579aee8"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\dump-plan-facts.ts": {
-    "mtime": 1787218936.5007558,
-    "hash": "3972fd27179be96c84656a7d68d4df44"
+    "mtime": 1787265922.9150097,
+    "hash": "c94a4920ce5e152579b9b30eb91d5951"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\extract-exercises.ts": {
     "mtime": 1786224923.4402263,
@@ -100,8 +100,8 @@
     "hash": "07c08ae804846382ed86e7542da897af"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\gen-plan-docs.py": {
-    "mtime": 1787218911.56419,
-    "hash": "07f92b60f09e3bab6eb2248b872e0de4"
+    "mtime": 1787265922.9179943,
+    "hash": "a7c742a7dff66802b13c96bd90b197b2"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\migrate-plan-ids.ts": {
     "mtime": 1786394345.1331038,
@@ -120,8 +120,8 @@
     "hash": "b459002c6dfe8301630cf9d69896f41e"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\review-flags.ts": {
-    "mtime": 1787218443.419911,
-    "hash": "e297890e63e829fc878fb696d28ad905"
+    "mtime": 1787225612.9305336,
+    "hash": "f591bbd9b561d378f9a7395b8d56cf3f"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\scaffold-library.ts": {
     "mtime": 1786224824.3236125,
@@ -151,9 +151,13 @@
     "mtime": 1786627953.3217535,
     "hash": "cf3615731f59f9c333f2b950971dff0a"
   },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\test-plan-config-write-rules.ts": {
+    "mtime": 1787335719.1642542,
+    "hash": "dd5e2b7b0ebe7af959824c20ae024a90"
+  },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\test-profile-write-rules.ts": {
-    "mtime": 1787218443.4219105,
-    "hash": "fa4ce6a0f468e940bd584a18b78fc47f"
+    "mtime": 1787317859.8547993,
+    "hash": "cfa31a62aaae73abd5b54f95d2634b7c"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\v2-change-map.ts": {
     "mtime": 1787218443.4229126,
@@ -166,6 +170,10 @@
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\v3-owner-decisions.ts": {
     "mtime": 1787218443.4239151,
     "hash": "067787e5adf82ccf0ae7a978302384cd"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-admin-defaults.ts": {
+    "mtime": 1787331089.9179277,
+    "hash": "d53adb2eb5d4e0ddbe830a952377e6cc"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-adventure.ts": {
     "mtime": 1787218443.4239151,
@@ -195,6 +203,10 @@
     "mtime": 1787218443.4529102,
     "hash": "f6cfd182c7472679badb8a76fd8d4a0a"
   },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-composer.ts": {
+    "mtime": 1787335252.084282,
+    "hash": "ec9430b8954a6216077343bf71fa862a"
+  },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-each-plan-against-doc.ts": {
     "mtime": 1786627953.322753,
     "hash": "ebd045d91e837f2fa4d28f06d0e6213a"
@@ -206,6 +218,10 @@
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-extra-sets.ts": {
     "mtime": 1786270690.4610157,
     "hash": "eecc3b8cae0a521572331def604a1f44"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-field-contrast.ts": {
+    "mtime": 1787331867.6731298,
+    "hash": "ab60e4d35776f9c7a48dcb0f11347460"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-group2-workhorse.ts": {
     "mtime": 1786627953.326758,
@@ -296,8 +312,8 @@
     "hash": "9e006d8765949b82eff50c74ee972c2d"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-quadfather.ts": {
-    "mtime": 1787218443.46691,
-    "hash": "b2772c33a588ca5d78301f6aa1736364"
+    "mtime": 1787319665.779737,
+    "hash": "bf210fa2a0c375cd524df44579d837ea"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-redline.ts": {
     "mtime": 1787218443.46691,
@@ -308,8 +324,8 @@
     "hash": "9a71aa4c43e9a3ec5a459be3b3df9093"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-seed-loads.ts": {
-    "mtime": 1786433923.8945737,
-    "hash": "30fec275d5ed4cc8114dbb31b6042311"
+    "mtime": 1787292344.3748422,
+    "hash": "dd8e14ce90cd90d2ea456a88abb95c2b"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-session-engines.ts": {
     "mtime": 1787218443.4679086,
@@ -324,12 +340,16 @@
     "hash": "3f14023e5249bb02558043173bb83471"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-supersets.ts": {
-    "mtime": 1786435360.5614479,
-    "hash": "239b45cff25513d5fd5b972622e0bb0b"
+    "mtime": 1787316845.5737004,
+    "hash": "2304253ee8640e1b240c2cfd022d53fa"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-techniques.ts": {
     "mtime": 1786271927.567008,
     "hash": "fc9bee36aca32689bf2f5a85eb7edd69"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-timed.ts": {
+    "mtime": 1787233036.0937896,
+    "hash": "4c770d2cabe96e2c9c70c631bda90397"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-tip-coverage.ts": {
     "mtime": 1786252146.2652676,
@@ -351,8 +371,12 @@
     "mtime": 1786394345.135105,
     "hash": "8c6df15c33540a752d33490e5e47f652"
   },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\scripts\\verify-warmups.ts": {
+    "mtime": 1787315877.5271966,
+    "hash": "8a6fe155732e0e0f7787795086f40326"
+  },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\App.tsx": {
-    "mtime": 1786398290.3026936,
+    "mtime": 1787335363.513002,
     "hash": "2bd6459fa8b3c823f37b5f770be0ed84"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\firebase.ts": {
@@ -364,8 +388,8 @@
     "hash": "df3369963799e47ef5a77cdca932abf0"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\types.ts": {
-    "mtime": 1787218443.5549119,
-    "hash": "d37895dbff6ce32623cb97ecf8c67dac"
+    "mtime": 1787310804.9694552,
+    "hash": "955e0731072a97ac6003fe33ecfc69cc"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\components\\AccessoryChoiceModal.tsx": {
     "mtime": 1786394345.1361034,
@@ -384,8 +408,8 @@
     "hash": "33fbcfdbad262928ef09043b4834ee22"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\components\\VariationSwapModal.tsx": {
-    "mtime": 1783075086.413765,
-    "hash": "4a67ec145ed5b66920ec20a6e22cbf1d"
+    "mtime": 1787316845.5747032,
+    "hash": "ddc81255c028894284b87e40d1459bb2"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\components\\WeakPointModal.tsx": {
     "mtime": 1786394345.1501057,
@@ -444,12 +468,12 @@
     "hash": "c4d09164a9760b5584a6c5653cdb2370"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\contexts\\translations.ts": {
-    "mtime": 1787218443.4709096,
-    "hash": "3960173456be6a87c006fa61298d1264"
+    "mtime": 1787316845.5766976,
+    "hash": "f932ce78327f4364fa51d8dd8766e730"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\contexts\\UserContext.tsx": {
-    "mtime": 1787218443.4689102,
-    "hash": "17a60722fefa07dc5ccdf9ea32cbcf35"
+    "mtime": 1787293365.1935315,
+    "hash": "2404862806533d6c444640938333a010"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\contexts\\useTranslation.tsx": {
     "mtime": 1783105492.721541,
@@ -484,12 +508,12 @@
     "hash": "874b2be2c936f5c1ce021c5b12a84303"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\pencilneck.ts": {
-    "mtime": 1787218443.48391,
-    "hash": "c65b434d8c91479363ea67773c19cc58"
+    "mtime": 1787266270.4112146,
+    "hash": "e25c6154eb19463ac5b270fcd32d16da"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\planBuilder.ts": {
-    "mtime": 1786627953.3467548,
-    "hash": "1fe38061305f74a54ce6f71ff57c5df2"
+    "mtime": 1787292687.876327,
+    "hash": "9f652b6a19a9b8c617e56d4466ed07fc"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\planIds.ts": {
     "mtime": 1786394345.164106,
@@ -508,8 +532,8 @@
     "hash": "1c317c93811bba3d8ae7b661cf6f3aa0"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\portfolio.ts": {
-    "mtime": 1787218443.5019107,
-    "hash": "61a7e8300e1d73ef85ac558987e38753"
+    "mtime": 1787225166.3743465,
+    "hash": "81f5180f61d5aa9edd877293624dffac"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\program.ts": {
     "mtime": 1787218443.5029092,
@@ -544,64 +568,64 @@
     "hash": "2b9ece913056f6748f2dd51b5356e007"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\exercises\\library.ts": {
-    "mtime": 1787218443.47391,
-    "hash": "74f04ad10aa9385131b3ac30ebd7060a"
+    "mtime": 1787318675.7530856,
+    "hash": "a69df83b16dfd6bb80888311c0b13a8d"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\exercises\\libraryAdditions.ts": {
-    "mtime": 1787218443.474912,
-    "hash": "d14e9cbdbd5e5cb1f975d52d1de72325"
+    "mtime": 1787318721.7972653,
+    "hash": "ff7de267c6ba96e7903742607e38b612"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\exercises\\planConfigRemote.ts": {
-    "mtime": 1786252326.5452166,
-    "hash": "6506bc865d89e658713f22dafb984932"
+    "mtime": 1787335436.0769086,
+    "hash": "7e090fe444715f47b3574c072ff32170"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\exercises\\planConfigs.ts": {
     "mtime": 1786627953.3387532,
     "hash": "1c30a9f72db87ea29f47197730bb8960"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\exercises\\remote.ts": {
-    "mtime": 1786431237.160073,
-    "hash": "440bbe849ee14c0f737cfee6b24fb76c"
+    "mtime": 1787330793.2551422,
+    "hash": "fb20415450de0221520f5f05c4decb1c"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\exercises\\tipDrafts.ts": {
-    "mtime": 1786627953.339753,
-    "hash": "ccbde77127c85141252f1d7422c9f7fd"
+    "mtime": 1787294095.9923613,
+    "hash": "bad991f7fba748b479f0dedd27e7e44f"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\exercises\\types.ts": {
-    "mtime": 1786627953.3427618,
-    "hash": "cca28205f862a3aeb5f2680566383258"
+    "mtime": 1787333863.0413115,
+    "hash": "4c84c6236b4d5bdeb7b8f7b4218e6df8"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\exercises\\variantTips.ts": {
     "mtime": 1786252130.015319,
     "hash": "2d983a0870a4427fd7402eb68fc27814"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\apexPredator.ts": {
-    "mtime": 1787218443.48491,
-    "hash": "e43fe4cfa9c5c5ab4439bf1c56afe385"
+    "mtime": 1787294745.069031,
+    "hash": "49e102c3000b2babbf13a0909b19255a"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\armsRace.ts": {
     "mtime": 1787218443.4859114,
     "hash": "b95e2a0c97cdae7edc2bc06c7c4505a7"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\athena.ts": {
-    "mtime": 1787218443.4859114,
-    "hash": "a98b7e22c903bca45ba21add4ff6ff4f"
+    "mtime": 1787319249.347492,
+    "hash": "2761105785e42e68b9a761f95d5294d2"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\atlas.ts": {
-    "mtime": 1787218443.486912,
-    "hash": "2069090d4820d4c77828cc00de91dc39"
+    "mtime": 1787319249.3484898,
+    "hash": "aed3f52d5f22535dd21123ddb59c34a9"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\blackout.ts": {
-    "mtime": 1787218443.4879117,
-    "hash": "ecde16702e13d78de4422feda083a0e0"
+    "mtime": 1787330325.3414648,
+    "hash": "3db708469e7ebd16fd8be7a44abb9478"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\cathedral.ts": {
-    "mtime": 1787218443.4879117,
-    "hash": "e41264753773f6eccf109679fa29fb05"
+    "mtime": 1787319249.3494904,
+    "hash": "582507a9c3866a7cc93737b15477f41c"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\eventHorizon.ts": {
-    "mtime": 1787218443.4889112,
-    "hash": "0a909df93840350ef744bc28e2eaa85e"
+    "mtime": 1787319249.3494904,
+    "hash": "44b6f8a61a25d9b3ec1e17e07f37d22c"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\gravityIsOptional.ts": {
     "mtime": 1787218443.4889112,
@@ -620,76 +644,80 @@
     "hash": "9852c702db605d37a14d8df4f12afe03"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\ironClock.ts": {
-    "mtime": 1786627953.3547533,
-    "hash": "3006e43af862331e25dd053dacd8bbdb"
+    "mtime": 1787330325.3435366,
+    "hash": "8cdf5253228a7903f1942f851d00f519"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\kali.ts": {
-    "mtime": 1787218443.4919105,
-    "hash": "15ef484af9213d625c19b04463783754"
+    "mtime": 1787319249.350491,
+    "hash": "1abe25675d45082de920d94f5ac942fe"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\kingOfTheSquat.ts": {
-    "mtime": 1787218443.4949126,
-    "hash": "642b22bafac726db9b622785700b7d2f"
+    "mtime": 1787292635.1900866,
+    "hash": "3b087d1db3c2c10263de757de2b2ab3e"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\lazarus.ts": {
-    "mtime": 1787218443.4949126,
-    "hash": "e0e7133ac829dba84ca95d2ded07adc2"
+    "mtime": 1787330325.3424642,
+    "hash": "e498b987e50ffe2008f3e828c7eca590"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\monolith.ts": {
-    "mtime": 1787218443.49591,
-    "hash": "741325ce6d80b0687028a99800a230d4"
+    "mtime": 1787330325.3404648,
+    "hash": "7d9355da3c8138673227c2bd7016b3f0"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\neuralOverload.ts": {
-    "mtime": 1787218443.49591,
-    "hash": "e2d8b82def42da77ea86ddb0e1a0b737"
+    "mtime": 1787319249.3544962,
+    "hash": "5cdf677f542e434b57ba6e3b2a90873f"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\oracle.ts": {
     "mtime": 1787218443.4969091,
     "hash": "05774d7febe2450a3be04e60848bc7ba"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\overheadDominion.ts": {
-    "mtime": 1787218443.4969091,
-    "hash": "ce9c81910fca806ff6ff73a1cfdb91b0"
+    "mtime": 1787320058.496153,
+    "hash": "97c7c5117e0684b04d2dd45e69799e43"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\projectChimera.ts": {
-    "mtime": 1787218443.4979093,
-    "hash": "527763bd3c31a95c526d78016f19bb35"
+    "mtime": 1787319257.0995142,
+    "hash": "9776d6e8343d8190dbae8c67f3ce5679"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\purgatorio.ts": {
-    "mtime": 1787218443.4989085,
-    "hash": "88141ae0b3f913dfc23abbcf3ada274e"
+    "mtime": 1787266270.4102128,
+    "hash": "9473b9e8e239326f113f9bd8fbbfd5c0"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\quadfather.ts": {
-    "mtime": 1787218443.4989085,
-    "hash": "4799ae817e6ac1daa1554c6c9c03c843"
+    "mtime": 1787319249.3564932,
+    "hash": "22dc87fa13a8c102dce7ad416c689f8b"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\redline.ts": {
-    "mtime": 1787218443.499909,
-    "hash": "8de3c61f852d21fb83b3232f0466b14d"
+    "mtime": 1787330325.3435366,
+    "hash": "7135815f1b971a7478bc5b654c6efda5"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\tenfold.ts": {
-    "mtime": 1787218443.499909,
-    "hash": "80d6c72fecaf6548a076f7ffe46737ad"
+    "mtime": 1787319249.3584955,
+    "hash": "fae2593e7285891ec65a15de2f4b8db2"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\theMinimum.ts": {
-    "mtime": 1787218443.500911,
-    "hash": "4f109509cb883809ca514f7fe23266f1"
+    "mtime": 1787319249.3594942,
+    "hash": "ece85e0aa111c1a07a4f73d30fe59a79"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\venusRising.ts": {
-    "mtime": 1787218443.500911,
-    "hash": "ad7eafe0b04c4e081efa6c48edb9ef8b"
+    "mtime": 1787319249.3604946,
+    "hash": "584e353cb88689e90cfdcd2670c3df69"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\data\\plans\\workhorse.ts": {
     "mtime": 1787218443.5019107,
     "hash": "c0d6ca8cdb886e0391242ebac07b285e"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\apexPredator\\ApexDashboard.tsx": {
-    "mtime": 1787218443.5059104,
-    "hash": "f7c8aef1590f5b7cf4faaa3d1cb9ed40"
+    "mtime": 1787316845.5777,
+    "hash": "a0d0b3c8ed6630fdb38713d2cad93d88"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\apexPredator\\assessment.ts": {
     "mtime": 1786399274.7976165,
     "hash": "0af98775a1e56e0c538a147d284ff16d"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\apexPredator\\instructions.ts": {
+    "mtime": 1787316845.5786984,
+    "hash": "fda67f197d641861c6a41a739c5b0884"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\apexPredator\\prescription.ts": {
     "mtime": 1786398982.0590997,
@@ -700,8 +728,8 @@
     "hash": "c7d08cd6e7e7ca94c8c2f9d917a9c222"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\athena\\AthenaDashboard.tsx": {
-    "mtime": 1787218443.5059104,
-    "hash": "64a5748af35a65fc733e0db65d0a5190"
+    "mtime": 1787307863.3221128,
+    "hash": "728eb1c10c22b9dbc2925533826cf126"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\atlas\\carries.ts": {
     "mtime": 1786627953.3832757,
@@ -720,16 +748,16 @@
     "hash": "25e54ab2146b1259bbba3739a17b9b6a"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\dashboard\\trackedLift.ts": {
-    "mtime": 1787218443.5079095,
-    "hash": "1f8e44380e742738b689fdba0aa1e0bd"
+    "mtime": 1787266210.7733278,
+    "hash": "2619b510c4c8fe89c0382d9fa9b857e2"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\eventHorizon\\costAwareSwaps.ts": {
     "mtime": 1786404157.5124035,
     "hash": "1dfadd0a9522b9da95343af9a09536d7"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\houseOfIron\\HouseDashboard.tsx": {
-    "mtime": 1786627953.3852756,
-    "hash": "9dbb1db629c88658acfddd2f1c000bab"
+    "mtime": 1787316845.5786984,
+    "hash": "defa73f16d45d981b19f4b9ce52577b6"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\houseOfIron\\prescription.ts": {
     "mtime": 1786398108.266255,
@@ -752,12 +780,12 @@
     "hash": "a813b14ff6c9a487c6edeb9b2533b6d6"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\neuralOverload\\NeuralDashboard.tsx": {
-    "mtime": 1787218443.5119104,
-    "hash": "10fc6ce5b3c979bf67daa75be19d7b48"
+    "mtime": 1787316845.581699,
+    "hash": "6ca99176084dde6653d68558c8475722"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\onboarding\\seedLoads.ts": {
-    "mtime": 1786627953.3872764,
-    "hash": "26196ab41b8a6b83ee96dbb04470d632"
+    "mtime": 1787293841.8949819,
+    "hash": "a40b54407388fe21247f8c70c8b35937"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\oracle\\prediction.ts": {
     "mtime": 1786418529.2638123,
@@ -796,8 +824,8 @@
     "hash": "8c90ff25d317572fd14ce11180da5344"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\planSelections\\options.ts": {
-    "mtime": 1787218443.5339112,
-    "hash": "ddb97994525f2b896177f93afd071c16"
+    "mtime": 1787307701.9115016,
+    "hash": "b025e440444293bd7d55be4c807fe300"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\portfolio\\FollowUps.tsx": {
     "mtime": 1786431909.5539758,
@@ -836,8 +864,8 @@
     "hash": "6954f8f7d7306538580715b77692012a"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\venusRising\\VenusDashboard.tsx": {
-    "mtime": 1787218443.535909,
-    "hash": "c5b3618f7c31fc57a680cdd45ed51e8a"
+    "mtime": 1787316845.581699,
+    "hash": "305db5e0e7c27648e3019e27817882a2"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\formatRest.ts": {
     "mtime": 1786261790.4002447,
@@ -852,8 +880,8 @@
     "hash": "907426a06d5127a6b0eb81569a95df6a"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\superset.ts": {
-    "mtime": 1786435081.9366128,
-    "hash": "91856e699843b6e41424d9bbc6cde295"
+    "mtime": 1787316845.5826972,
+    "hash": "6876ad5cbc4ebdb06b81e45f73b9e171"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\SwapSheet.tsx": {
     "mtime": 1786449997.2349925,
@@ -866,6 +894,14 @@
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\techniqueSets.ts": {
     "mtime": 1786271803.4790232,
     "hash": "d5dbca51c3fb135972aeb0dc6fbb793e"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\timedExercise.ts": {
+    "mtime": 1787232937.8091273,
+    "hash": "39dbffdbeb7bb5a80d9d82a1e8e5f453"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\warmup.ts": {
+    "mtime": 1787315654.2623613,
+    "hash": "8ed303bb633486697ea7f4c9ced9ecd8"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\engines\\confidence.ts": {
     "mtime": 1786396509.5092993,
@@ -912,8 +948,8 @@
     "hash": "bf958461a59a43645baa6a648f0a9d1e"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\progression\\athena.ts": {
-    "mtime": 1786400339.9938428,
-    "hash": "9aaa26ba269c32ae3b1ce472f20e7f0c"
+    "mtime": 1787310804.9694552,
+    "hash": "1f730e4b16990ead3f22f66fd6a6c2c1"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\progression\\atlas.ts": {
     "mtime": 1786627953.400801,
@@ -952,8 +988,8 @@
     "hash": "e11e7048095f6b08eee1418b975c1430"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\progression\\kingOfTheSquat.ts": {
-    "mtime": 1786627953.4028015,
-    "hash": "304b2d5a2566510350497e783c60476e"
+    "mtime": 1787265582.4218242,
+    "hash": "c5b9ffbd22f8a059c4f2163ef45bcac5"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\progression\\lazarus.ts": {
     "mtime": 1787218443.5399098,
@@ -964,8 +1000,8 @@
     "hash": "646a1fe4e0749b05100130c98d40c690"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\progression\\neuralOverload.ts": {
-    "mtime": 1786627953.4028015,
-    "hash": "616a0cda6ba270f71cc803a0e45ccbd0"
+    "mtime": 1787265602.771603,
+    "hash": "dfb92362cdc55cba47fb81362680f76a"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\progression\\oracle.ts": {
     "mtime": 1787218443.5399098,
@@ -996,24 +1032,28 @@
     "hash": "d08a25b43a2a62aecccf5252542312bc"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\progression\\tenfold.ts": {
-    "mtime": 1786627953.404801,
-    "hash": "7f6c58b7b78ebbe4482f77b32fdcd49c"
+    "mtime": 1787265602.771603,
+    "hash": "cf1403b103aea542b0e258ef5e9932ec"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\progression\\trinary.ts": {
     "mtime": 1786627953.404801,
     "hash": "268cb84f3c23f7fee7c2de31715e56a6"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\features\\workout\\progression\\types.ts": {
-    "mtime": 1787218443.5439112,
-    "hash": "334ba0f26f7c8115ecb4958ccb3093ed"
+    "mtime": 1787310698.174201,
+    "hash": "e9bc75d2a7ea0836e96b6be66be5e882"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\lib\\ai.ts": {
     "mtime": 1786419338.4103093,
     "hash": "a2899df530cabe2449054b5184ef0e4a"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\lib\\planResolution.ts": {
-    "mtime": 1786627953.4388,
-    "hash": "12c2a8bdec3a9baa473527837f597913"
+    "mtime": 1787335272.0983577,
+    "hash": "38adf22bec58e5d97890b4f5fad46899"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\src\\lib\\sessionStats.ts": {
+    "mtime": 1787333993.8023329,
+    "hash": "46932e8374348fc5a06fe0dc05b9ff8d"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\lib\\utils.ts": {
     "mtime": 1783075086.4377637,
@@ -1024,8 +1064,8 @@
     "hash": "4ccd8e6c004c8d19d398187ac211af03"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\AdminPanel.tsx": {
-    "mtime": 1786253376.2384768,
-    "hash": "df775ac3e146c59e3d78c320c6a55805"
+    "mtime": 1787335933.8239841,
+    "hash": "86f10254f2fcec6bd50dd0c2471af904"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\AdventureDashboard.tsx": {
     "mtime": 1786203891.7343304,
@@ -1036,12 +1076,12 @@
     "hash": "9613152d7d8e8975a1cc0da93e1f03da"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\Dashboard.tsx": {
-    "mtime": 1787218443.5479124,
-    "hash": "f220b696d3cb74bf271c53ee926dbc41"
+    "mtime": 1787316845.5852141,
+    "hash": "6b1c3e45103605e2cf2ecf0459c2046e"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\Entry.tsx": {
-    "mtime": 1787218443.549911,
-    "hash": "2cb86881deb7fdcaade11e1da27b6817"
+    "mtime": 1787293365.1935315,
+    "hash": "2fde61921942b9ce7ea88e72e0221e51"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\ExerciseBrowser.tsx": {
     "mtime": 1786268459.6442735,
@@ -1052,44 +1092,48 @@
     "hash": "b25d3eadd55fab096165410620a224dc"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\Onboarding.tsx": {
-    "mtime": 1787218443.5519102,
-    "hash": "1a401ed87a9fee7a47bc38995519d850"
+    "mtime": 1787331632.3796346,
+    "hash": "1015280513577642e33422f80a32f59a"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\Profile.tsx": {
     "mtime": 1786394345.1911044,
     "hash": "444c0b226d0c0dfc0ca111c0e22de575"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\Settings.tsx": {
-    "mtime": 1787218443.5529108,
-    "hash": "3a3e96544fc98417e7cf4610f97e8645"
+    "mtime": 1787307769.7901073,
+    "hash": "1dd22dd989071895dcb739f7b64407aa"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\WorkoutHistory.tsx": {
     "mtime": 1786394345.193107,
     "hash": "3c76cebb4fa98085ce26360290506003"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\WorkoutView.tsx": {
-    "mtime": 1787218443.5539098,
-    "hash": "55e0c8efbb60f61884b1cc5d1f0653d1"
+    "mtime": 1787328116.9429967,
+    "hash": "5af25abda2fb1a48c399f0ea43375c88"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\AdminShell.tsx": {
-    "mtime": 1786431173.8324885,
-    "hash": "63c216eda0f7ca079efc19612ad930c1"
+    "mtime": 1787334836.0370283,
+    "hash": "75f41254095dbc430f40527d0440c8e3"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\AiTab.tsx": {
     "mtime": 1786418460.0614529,
     "hash": "5422e09c53f85353c8982ad315a3debe"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\AnalysisTab.tsx": {
-    "mtime": 1786270903.1276586,
-    "hash": "9ca5ead537a44202a57d3fa292b3eb68"
+    "mtime": 1787335172.5216432,
+    "hash": "6c00b86523a7b5769618357fabf3912f"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\ChangelogTab.tsx": {
+    "mtime": 1787334326.7818568,
+    "hash": "e84d59410fac87721eb8cc5733b0af20"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\LibraryTab.tsx": {
-    "mtime": 1786394345.1961029,
-    "hash": "441c89bb564df818747f3ce98a063128"
+    "mtime": 1787330848.1313162,
+    "hash": "ae8ef9df17f144ea284a439f4ed2596b"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\PlanComposerTab.tsx": {
-    "mtime": 1786431173.833487,
-    "hash": "473539b67e22d2f90c567934aed56725"
+    "mtime": 1787334964.0996437,
+    "hash": "4b8921293d37779c79ee52161b614128"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\previewUser.ts": {
     "mtime": 1786394345.1971016,
@@ -1099,9 +1143,21 @@
     "mtime": 1786431237.1530776,
     "hash": "63fde28f123017bce9196f50cf2eaa34"
   },
-  "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\VersionsTab.tsx": {
-    "mtime": 1786271142.5758915,
-    "hash": "065eeecfcdabf9f7aef79a635bb6e7e6"
+  "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\composer\\materialise.ts": {
+    "mtime": 1787334058.080237,
+    "hash": "b7812e0af0b88a9e6ac23b225c6a563c"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\composer\\MovementEditor.tsx": {
+    "mtime": 1787334531.3627515,
+    "hash": "5b67b6a6721dc2c6f32516bc2e7cb6bd"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\composer\\prescriptionOptions.ts": {
+    "mtime": 1787334525.7184827,
+    "hash": "df7d9a7c341fa470d2fced6fdefdc949"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\src\\pages\\admin\\composer\\SessionStatsPanel.tsx": {
+    "mtime": 1787334167.2140317,
+    "hash": "f8ca84ed4d309a4f017393377f367982"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\ADMIN_DEVICE_SETUP.md": {
     "mtime": 1786007070.618506,
@@ -1312,12 +1368,16 @@
     "hash": "f80183a0e768e3cba186d280e2675080"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\INDEX.md": {
-    "mtime": 1786432218.892225,
-    "hash": "4ad27034c8f6577fabd8fbe6c0b267f3"
+    "mtime": 1787336558.7460737,
+    "hash": "3b8097d60351d68ca705c5d6166ccae2"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\analysis\\exercise-attribution-map.md": {
     "mtime": 1787218443.2849097,
     "hash": "954c713cef989aef887a033c131b4327"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\analysis\\plan-review-post-rebuild.md": {
+    "mtime": 1787224687.7434607,
+    "hash": "762c1e393beaae0754dcbf13a13d6e42"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\analysis\\portfolio-v2-review.html": {
     "mtime": 1787218443.2869103,
@@ -1326,6 +1386,14 @@
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\analysis\\portfolio-v2-simulation.md": {
     "mtime": 1787218443.287911,
     "hash": "fc34fa83233916a52c21348fad436ce0"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\analysis\\rep-scheme-review.md": {
+    "mtime": 1787233906.6157935,
+    "hash": "2abec67aa04f4adeac9a92f8fa6bb4aa"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\architecture\\admin-composer.md": {
+    "mtime": 1787336545.1000874,
+    "hash": "0e0393ba82611177305606b78b82a857"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\architecture\\ai.md": {
     "mtime": 1786419108.5052176,
@@ -1356,8 +1424,8 @@
     "hash": "cfa4fb9a78e09d1b0e1899df79d221f7"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\archive\\INDEX.md": {
-    "mtime": 1787218961.3469694,
-    "hash": "32c30edb65937d22317094fa75f01eeb"
+    "mtime": 1787224766.9661925,
+    "hash": "4adbb5a70d63cbed8de4e7e64f36a62e"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\archive\\legacy-plan-drafts\\30-minute-adventure-early-draft.md": {
     "mtime": 1786200703.5607705,
@@ -1776,156 +1844,156 @@
     "hash": "efc6bd8cc2381332ed9676792069fd2a"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\30-minute-adventure.md": {
-    "mtime": 1787218974.0809493,
-    "hash": "727052ab053aa27d015a0ebafd9ef15c"
+    "mtime": 1787330651.3719618,
+    "hash": "47bcf2396b1102e02a0aed1dac2d5202"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\apex-assessment-guide.md": {
     "mtime": 1786627953.1702044,
     "hash": "7de9024922eec185bb16d0f361f92c34"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\apex-predator.md": {
-    "mtime": 1787218974.0879686,
-    "hash": "57bede9df9af58ada3f2e8bcdf3e1715"
+    "mtime": 1787330651.3908293,
+    "hash": "a387ff2fd2f87e2485ddef6471896e1e"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\arms-race.md": {
-    "mtime": 1787218974.0859547,
-    "hash": "0058a442e770e981d8fa10517a69a702"
+    "mtime": 1787330651.3878078,
+    "hash": "4e5b47b96332b640a20037a03284c81f"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\athena.md": {
-    "mtime": 1787218974.0889463,
-    "hash": "9aec7b9cd45c0ac8d2d2afcbbcec0589"
+    "mtime": 1787330651.3918293,
+    "hash": "11c32e9c9e674e116c92f97652ce85b1"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\atlas.md": {
-    "mtime": 1787218974.0929453,
-    "hash": "e99e671e9c5d96c4caa2c2353baf6e34"
+    "mtime": 1787330651.3969219,
+    "hash": "20c3207d8ac484d328ba07bbe0d8bbdc"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\bench-domination.md": {
-    "mtime": 1787218974.075945,
-    "hash": "543a023eaf181e90417d4d74dee2caae"
+    "mtime": 1787330651.3719618,
+    "hash": "de1994db46b793fe8ef3f926137f9f69"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\blackout.md": {
-    "mtime": 1787218974.0919456,
-    "hash": "10ebf82dee4f008bafd0167106adcc19"
+    "mtime": 1787330651.395807,
+    "hash": "65f988f5de790eabf6ad1002807229a4"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\cathedral.md": {
-    "mtime": 1787218974.0919456,
-    "hash": "7a73585d86ef84308977760363638e1f"
+    "mtime": 1787330651.395807,
+    "hash": "aa757953052832612af102a56b8e477e"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\event-horizon.md": {
-    "mtime": 1787218974.0939455,
-    "hash": "df113ec1e28aa6fc54ecdb642335ce58"
+    "mtime": 1787330651.3979578,
+    "hash": "45a8b3566f721db4f82ff9b81c217f47"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\gravity-is-optional.md": {
-    "mtime": 1787218974.0829477,
-    "hash": "bd5db75ce356036ca6f4b8874c36e846"
+    "mtime": 1787330651.3719618,
+    "hash": "f0d94a983c59e2a0d59b619685ffbebd"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\hamstring-foundry.md": {
-    "mtime": 1787218974.084946,
-    "hash": "751318bc11285052c3be6d01094aefc4"
+    "mtime": 1787330651.3878078,
+    "hash": "f57b71f5903a14e91b88a3319947030a"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\house-of-iron.md": {
-    "mtime": 1787218974.0879686,
-    "hash": "3e862e3ab677ee0aa7c211cf700b585c"
+    "mtime": 1787330651.389822,
+    "hash": "3b70c467599439c3cc83b8a83af981b5"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\immaculate-restructure.md": {
-    "mtime": 1787218974.0839481,
-    "hash": "e384bc53487fe188d10dd1f24faecd93"
+    "mtime": 1787330651.3719618,
+    "hash": "101ce3fe4a5979508580f2e42e13611e"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\INDEX.md": {
-    "mtime": 1787218974.0949454,
-    "hash": "9e6caf66a999889f5cdd558f76a3699d"
+    "mtime": 1787330651.39994,
+    "hash": "3d64ef24c380b0dc030abdd7048bcdbe"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\iron-clock.md": {
-    "mtime": 1787218974.0899458,
-    "hash": "59f8c449e3d3121ce5463d4769b905e8"
+    "mtime": 1787330651.3938148,
+    "hash": "f0b724e872cbaadb0ce8616cb68df8bc"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\kali.md": {
-    "mtime": 1787218974.0899458,
-    "hash": "dab1244811961dd64a572c056d621899"
+    "mtime": 1787330651.3928082,
+    "hash": "e92b5edd24e61399ff8060a17a13c24a"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\king-of-the-squat.md": {
-    "mtime": 1787218974.0819492,
-    "hash": "4ab788b2cfe1f74487c5596f56b691eb"
+    "mtime": 1787330651.3719618,
+    "hash": "d1cf18068ecf0299f004fb41b2c6c77b"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\lazarus.md": {
-    "mtime": 1787218974.090945,
-    "hash": "34d5879eaec37b7b98e17030985f0cb4"
+    "mtime": 1787330651.394811,
+    "hash": "21b34e04958d5e7081734c5e5995803b"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\monolith.md": {
-    "mtime": 1787218974.0929453,
-    "hash": "353f11857199db7664e4a609ac239a87"
+    "mtime": 1787330651.3969219,
+    "hash": "26ae06ecea0ae33069dcfac6fc1aa644"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\neural-overload.md": {
-    "mtime": 1787218974.086945,
-    "hash": "676f87a8b6b2160d63e47f2cc1356ee6"
+    "mtime": 1787330651.3888106,
+    "hash": "5320fb81895d30d1c82ca74ae7db0085"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\oracle.md": {
-    "mtime": 1787218974.0949454,
-    "hash": "7329cd26e560798c9f56f3331bd23e39"
+    "mtime": 1787330651.3989422,
+    "hash": "c80a9710c979429db27a8ce84fdaf583"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\overhead-dominion.md": {
-    "mtime": 1787218974.084946,
-    "hash": "adba3ae114299567bf47e0841a94c4cd"
+    "mtime": 1787330651.3719618,
+    "hash": "2b2262730888a178b3fb88c21594e183"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\pain-and-glory.md": {
-    "mtime": 1787218974.0779448,
-    "hash": "98728749077559d64f5e8547cd216f08"
+    "mtime": 1787330651.3719618,
+    "hash": "4e6612833df5f940069b23e4272343ea"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\peachy.md": {
-    "mtime": 1787218974.0769458,
-    "hash": "34210c1b5c02cb551aa82c7613070171"
+    "mtime": 1787330651.3719618,
+    "hash": "44d53ec483a565af71bc40cb30bff5f8"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\pencilneck-eradication.md": {
-    "mtime": 1787218974.075945,
-    "hash": "0372b6a2d10d8e6a766fa3ff500c7c2b"
+    "mtime": 1787330651.3719618,
+    "hash": "a14da51fa1623bf7cfd21e6d86d629ae"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\project-chimera.md": {
-    "mtime": 1787218974.0939455,
-    "hash": "8850ccb4bf480023b29e144267ff98d2"
+    "mtime": 1787330651.3979578,
+    "hash": "6ea71619a4e4882c01e80c45d8c915da"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\purgatorio.md": {
-    "mtime": 1787218974.0839481,
-    "hash": "5d30519e4f6d5afbe230542e038fe920"
+    "mtime": 1787330651.3719618,
+    "hash": "80c0718d6130765dcc6f17753eff5bd5"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\quadfather.md": {
-    "mtime": 1787218974.0919456,
-    "hash": "5cd7859ff5aacc40ccd5457ae8a8880c"
+    "mtime": 1787330651.394811,
+    "hash": "699338f0fe805d0afa89c6c7add27ab8"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\redline.md": {
-    "mtime": 1787218974.0899458,
-    "hash": "94108e762492dd7745ab03a7f65f0eea"
+    "mtime": 1787330651.3928082,
+    "hash": "2245a8de406e130baafd5bbf7d5d0aad"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\ritual-of-strength.md": {
-    "mtime": 1787218974.078945,
-    "hash": "2ea47eb6eaa699b2fe263598a6c03013"
+    "mtime": 1787330651.3719618,
+    "hash": "bcbad647dcef1686d4a83353cb778c47"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\skeleton-to-threat.md": {
-    "mtime": 1787218974.0769458,
-    "hash": "33a95393004d1d57a2082688569382d1"
+    "mtime": 1787330651.3719618,
+    "hash": "1230a05df18f777240c41d50f34cadf4"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\super-mutant.md": {
-    "mtime": 1787218974.0799482,
-    "hash": "e051e6705c79cb01686b1ab534296068"
+    "mtime": 1787330651.3719618,
+    "hash": "3655bfc8bf50f8277b5848ffb0168c1d"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\tenfold.md": {
-    "mtime": 1787218974.086945,
-    "hash": "9f4ee22c238163f4e4eeb4556d5002c2"
+    "mtime": 1787330651.389822,
+    "hash": "a2a74254716a046710bb32fa72b9678f"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\the-minimum.md": {
-    "mtime": 1787218974.090945,
-    "hash": "bc607cf76ce91ea27105672ccace74a5"
+    "mtime": 1787330651.3938148,
+    "hash": "a5cb5a58cfbc518152cf89b0769629d8"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\trinary.md": {
-    "mtime": 1787218974.0779448,
-    "hash": "ab59adebb8a653e900f1fa33682acc03"
+    "mtime": 1787330651.3719618,
+    "hash": "36896fc31944bd36ddb7add767352b0d"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\venus-rising.md": {
-    "mtime": 1787218974.0889463,
-    "hash": "1c90a863ba98e1509c7c1b7f2d76009b"
+    "mtime": 1787330651.3908293,
+    "hash": "38c07d7d6e32bea1c9903abb056a771e"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\workhorse.md": {
-    "mtime": 1787218974.0859547,
-    "hash": "ff26af92cf67c163c18d41e606fd4ffe"
+    "mtime": 1787330651.3888106,
+    "hash": "6c4d12c131e4aab70a9181fe0b7dafb4"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\docs\\plans\\specs\\all-plans-enhancement-blueprint.md": {
     "mtime": 1787218443.287911,
@@ -2574,6 +2642,46 @@
   "C:\\Users\\Arawn\\Documents\\workout planner\\public\\workhorse.png": {
     "mtime": 1786394345.1311061,
     "hash": "d683b82b0c51910cdc09df48383f0c8a"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\public\\apex\\ankle-step1.jpg": {
+    "mtime": 1787295950.4724057,
+    "hash": "0e0acc44cd127a5024aed2f396803b94"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\public\\apex\\ankle-step2.jpg": {
+    "mtime": 1787307568.3981671,
+    "hash": "ec133e77fced39e8495809f36d32f8dd"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\public\\apex\\ankle-step4.jpg": {
+    "mtime": 1787308643.6749022,
+    "hash": "2651edb55ab1b2c9ed490d823d1c070e"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\public\\apex\\aslr-step2.jpg": {
+    "mtime": 1787295951.110029,
+    "hash": "1ec7aecd26a79a55f31bcce904ab301e"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\public\\apex\\hip9090-step1.jpg": {
+    "mtime": 1787295951.5220494,
+    "hash": "3b1d315e0fbe93a1356a90bcdf197578"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\public\\apex\\openbook-step1.jpg": {
+    "mtime": 1787295951.907056,
+    "hash": "bd627ff8ebdef30022c3ae935b334a08"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\public\\apex\\openbook-step2.jpg": {
+    "mtime": 1787295952.105753,
+    "hash": "f0e6d06d8410081ea7ae39338508f562"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\public\\apex\\shoulderflex-step2.jpg": {
+    "mtime": 1787307569.3632574,
+    "hash": "540dcdd1dac7e786f0e6c9399709b6d7"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\public\\apex\\shoulderrot-step1.jpg": {
+    "mtime": 1787295952.6455235,
+    "hash": "9c4981549e89411c42b2d9040cd525da"
+  },
+  "C:\\Users\\Arawn\\Documents\\workout planner\\public\\apex\\shoulderrot-step2.jpg": {
+    "mtime": 1787295952.8530388,
+    "hash": "110cdb80593c717a3c8047e889ddb393"
   },
   "C:\\Users\\Arawn\\Documents\\workout planner\\public\\badges\\100_sessions.png": {
     "mtime": 1765666921.4017622,

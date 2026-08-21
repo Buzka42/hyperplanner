@@ -425,6 +425,18 @@ export type PlanExerciseConfig = {
     /** Display role within the group, e.g. 'A1' | 'A2' | 'B1'. */
     groupRole?: string;
 
+    /**
+     * Explicit position within the day, as a sort key.
+     *
+     * Absent means "wherever the plan's generator put it", and the default key
+     * is the movement's own generated index — so setting `order` on one
+     * movement moves only that movement and leaves the rest of the day alone.
+     * Ordering is positional, so it belongs on a slot override; a movement-scope
+     * order would drag every appearance of the movement to the same position in
+     * every session it shows up in.
+     */
+    order?: number;
+
     /** Narrows this override to specific weeks/days. Absent = the whole plan. */
     scope?: { weeks?: number[]; days?: number[] };
 };
@@ -458,6 +470,9 @@ export type PlanExerciseDoc = {
 
     groups?: Record<string, ExerciseGroup>;
     defaults?: PlanExerciseDefaults;
+
+    /** Why this version was published, written by the admin. Shown in the changelog. */
+    note?: string;
 };
 
 /** Builds the canonical slot key for slot-scope overrides. */
