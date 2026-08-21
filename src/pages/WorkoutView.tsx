@@ -347,8 +347,22 @@ export const WorkoutView: React.FC = () => {
                 const savedDraft = localStorage.getItem(softSaveKey);
 
                 if (savedDraft) {
+                    // Parsing is the ONLY failure that justifies discarding the
+                    // draft. This try used to reach all the way past
+                    // fetchPreviousStats(), so a permission error or a dropped
+                    // connection — anything Firestore threw — deleted the
+                    // athlete's in-progress session from localStorage. The sets
+                    // were gone, and the cause was a read that has nothing to do
+                    // with them.
+                    let parsed: { exerciseData?: Record<string, SetLog[]>; exerciseNotes?: Record<string, string> } | null = null;
                     try {
-                        const parsed = JSON.parse(savedDraft);
+                        parsed = JSON.parse(savedDraft);
+                    } catch (e) {
+                        console.error('[initView] Failed to parse draft', e);
+                        localStorage.removeItem(softSaveKey);
+                    }
+
+                    if (parsed) {
                         const draftData: Record<string, SetLog[]> = parsed.exerciseData || {};
 
                         // Reconcile the draft against the CURRENT day. Dynamic programs
@@ -380,12 +394,17 @@ export const WorkoutView: React.FC = () => {
 
                         setExerciseData(merged);
                         setExerciseNotes(parsed.exerciseNotes || {});
-                        // Continue with loading history for previous stats, but don't overwrite the form
-                        setPreviousStats(await fetchPreviousStats());
+
+                        // Previous stats are a nicety — they fill the "last
+                        // time" line. Failing to read them must not cost the
+                        // athlete the session they are part way through, so the
+                        // draft stands whatever happens here.
+                        try {
+                            setPreviousStats(await fetchPreviousStats());
+                        } catch (e) {
+                            console.warn('[initView] previous stats unavailable; keeping the draft', e);
+                        }
                         return; // Exit early - don't fetch/load completed session
-                    } catch (e) {
-                        console.error('[initView] Failed to parse draft', e);
-                        localStorage.removeItem(softSaveKey);
                     }
                 }
 
