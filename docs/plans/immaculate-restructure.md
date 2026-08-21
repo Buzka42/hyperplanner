@@ -54,7 +54,7 @@ The onboarding card claims:
 |---|---:|---:|---|
 | Upper Structural A · Assessment | 6 | 19 | Close-Grip Bench Press 4×5-8, Weighted Chin-Up 4×5-8, Incline Barbell Bench Press 3×6-10, Single-Arm External Rotation 3×12-20, Reverse Curl 3×8-12, Machine Rear Delt Fly 2×15-20 |
 | Lower Structural A · Assessment | 6 | 19 | Front Squats 4×3-6, Single-Leg Hamstring Curl 3×8-12, Goblet Skater Squat 3×8-12, Hip-Supported Dumbbell Deadlift 3×8-12, Standing Calf Raises 3×10-20, Ab Wheel 3×6-15 |
-| Upper Structural B · Assessment | 7 | 21 | Seated DB Shoulder Press 4×6-10, Hammer Upper Row 4×8-12, Flat DB Press 3×8-12, Single-Arm External Rotation 3×12-20, EZ Preacher Curl 3×8-12, Cable Triceps Extension 2×10-15, Machine Rear Delt Fly 2×15-20 |
+| Upper Structural B · Assessment | 7 | 21 | Seated DB Shoulder Press 4×6-10, Hammer Upper Row 4×8-12, Flat DB Press 3×8-12, Single-Arm External Rotation 3×12-20, EZ Preacher Curl 3×8-12, Cable Straight-Bar Pressdown 2×10-15, Machine Rear Delt Fly 2×15-20 |
 | Lower Structural B · Assessment | 6 | 19 | Heel-Elevated Goblet Squat 4×10-15, Seated Ham Curl 3×8-12, Split Squat 3×8-12, Hip Thrusts 3×8-12, Standing Calf Raises 3×10-20, Hanging Leg Raises 3×10-20 |
 
 ### Week-to-week shape
@@ -156,7 +156,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Triceps Extension, Heel-Elevated Goblet Squat |
+| `10-15` | Cable Straight-Bar Pressdown, Heel-Elevated Goblet Squat |
 | `10-20` | Hanging Leg Raises, Standing Calf Raises |
 | `12-20` | Single-Arm External Rotation |
 | `15-20` | Machine Rear Delt Fly |
@@ -182,7 +182,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Ab Wheel, Cable Triceps Extension, Close-Grip Bench Press, EZ Preacher Curl, Flat DB Press, Front Squats, Goblet Skater Squat, Hammer Upper Row, Hanging Leg Raises, Heel-Elevated Goblet Squat, Hip Thrusts, Hip-Supported Dumbbell Deadlift, Incline Barbell Bench Press, Machine Rear Delt Fly, Reverse Curl, Seated DB Shoulder Press, Seated Ham Curl, Single-Arm External Rotation, Single-Leg Hamstring Curl, Split Squat, Standing Calf Raises, Weighted Chin-Up |
+| carried working load | double progression +2.5kg | Ab Wheel, Cable Straight-Bar Pressdown, Close-Grip Bench Press, EZ Preacher Curl, Flat DB Press, Front Squats, Goblet Skater Squat, Hammer Upper Row, Hanging Leg Raises, Heel-Elevated Goblet Squat, Hip Thrusts, Hip-Supported Dumbbell Deadlift, Incline Barbell Bench Press, Machine Rear Delt Fly, Reverse Curl, Seated DB Shoulder Press, Seated Ham Curl, Single-Arm External Rotation, Single-Leg Hamstring Curl, Split Squat, Standing Calf Raises, Weighted Chin-Up |
 
 ---
 

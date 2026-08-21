@@ -53,7 +53,7 @@ The onboarding card claims:
 | Lower A — Squat · Wisdom | 6 | 15 | Barbell Squat 4×4-6, Romanian Deadlift 3×5-8, Front-Foot Elevated Bulgarian Split Squat 2×8-12, Seated Hamstring Curl 2×10-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 2×10-15 |
 | Upper A — Bench · Wisdom | 7 | 18 | Flat Barbell Bench Press 4×4-6, Single-Arm Hammer Strength Row 3×8-12, Assisted Pull-ups 3×5, Shoulder Press 2×8-12, Bench-Supported DB Rear Delt Fly 2×12-20, Rolling DB Tricep Extensions 2×10-15, Standing Straight-Bar Curl 2×10-15 |
 | Lower B — Hinge · Wisdom | 7 | 16 | Romanian Deadlift 3×5-8, Paused Squat 3×5-8, Hip Thrusts 2×8-12, Leg Extensions 2×10-15, Lying Leg Curls 2×10-15, Hack Squat Calf Raises 2×12-20, Cable Crunch 2×10-15 |
-| Upper B — Press/Pull · Wisdom | 8 | 18 | Standing Military Press 3×4-6, Assisted Pull-ups 3×5, Incline DB Bench Press 2×8-12, Pec Deck 2×10-15, Single-Arm Hammer Strength Row 2×8-12, Leaning One-Arm Lateral Raise 2×12-20, Standing Straight-Bar Curl 2×10-15, Cable Triceps Extension 2×10-15 |
+| Upper B — Press/Pull · Wisdom | 8 | 18 | Standing Military Press 3×4-6, Assisted Pull-ups 3×5, Incline DB Bench Press 2×8-12, Pec Deck 2×10-15, Single-Arm Hammer Strength Row 2×8-12, Leaning One-Arm Lateral Raise 2×12-20, Bayesian Cable Curl 2×10-15, Cable Rope Pressdown 2×10-15 |
 
 ### Week-to-week shape
 
@@ -125,8 +125,8 @@ Direct sets, counted once per exercise per major group.
 | At 3 sets | 7 |
 | At 4+ sets | 2 |
 | Mean sets per slot | 2.39 |
-| Distinct exercises | 23 |
-| Variety density (exercises per 10 sets) | 3.43 |
+| Distinct exercises | 24 |
+| Variety density (exercises per 10 sets) | 3.58 |
 | Largest single-exercise share | 9% |
 
 ### Flagged slots
@@ -151,7 +151,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Ab Wheel, Cable Crunch, Cable Triceps Extension, Leg Extensions, Lying Leg Curls, Pec Deck, Rolling DB Tricep Extensions, Seated Hamstring Curl, Standing Straight-Bar Curl |
+| `10-15` | Ab Wheel, Bayesian Cable Curl, Cable Crunch, Cable Rope Pressdown, Leg Extensions, Lying Leg Curls, Pec Deck, Rolling DB Tricep Extensions, Seated Hamstring Curl, Standing Straight-Bar Curl |
 | `12-20` | Bench-Supported DB Rear Delt Fly, Hack Squat Calf Raises, Leaning One-Arm Lateral Raise |
 | `4-6` | Barbell Squat, Flat Barbell Bench Press, Standing Military Press |
 | `5` | Assisted Pull-ups |
@@ -174,7 +174,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | the plan's own rule (`athena` handler) | Ab Wheel, Assisted Pull-ups, Bench-Supported DB Rear Delt Fly, Cable Crunch, Cable Triceps Extension, Front-Foot Elevated Bulgarian Split Squat, Hack Squat Calf Raises, Hip Thrusts, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Leg Extensions, Lying Leg Curls, Pec Deck, Rolling DB Tricep Extensions, Seated Hamstring Curl, Shoulder Press, Single-Arm Hammer Strength Row, Standing Straight-Bar Curl |
+| carried working load | the plan's own rule (`athena` handler) | Ab Wheel, Assisted Pull-ups, Bayesian Cable Curl, Bench-Supported DB Rear Delt Fly, Cable Crunch, Cable Rope Pressdown, Front-Foot Elevated Bulgarian Split Squat, Hack Squat Calf Raises, Hip Thrusts, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Leg Extensions, Lying Leg Curls, Pec Deck, Rolling DB Tricep Extensions, Seated Hamstring Curl, Shoulder Press, Single-Arm Hammer Strength Row, Standing Straight-Bar Curl |
 | computed by the plan each session | the plan recalculates it from your logged work | Barbell Squat, Paused Squat |
 | carried working load | the plan's own rule (`athena` handler); later top set, then 2 back-off sets at 90% (+2.5kg) | Romanian Deadlift, Standing Military Press |
 | carried working load | the plan's own rule (`athena` handler); later top set, then 3 back-off sets at 90% (+2.5kg); later top set, then 2 back-off sets at 90% (+2.5kg) | Flat Barbell Bench Press |
@@ -198,5 +198,5 @@ coverage: { covered: 10, missing: [], in_band: 5, over: [], under: ['chest', 'bi
 set_shape: { slots: 28, ones: 0, twos: 19, threes: 7, four_plus: 2, mean: 2.39 }
 rep_ranges: ['10-15', '12-20', '4-6', '5', '5-8', '8-12']
 progression: { handler: own, slot_rules: true, distinct_rules: 4 }
-variety: { distinct: 23, density: 3.43, top_share: 0.09, evenness: 0.971 }
+variety: { distinct: 24, density: 3.58, top_share: 0.09, evenness: 0.971 }
 ```

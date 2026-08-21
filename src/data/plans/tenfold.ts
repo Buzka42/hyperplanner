@@ -31,7 +31,7 @@ const CHEST_TENFOLD: DaySpec = {
         tenfold('hammer-chest-press'),
         { ex: 'hammer-upper-row', sets: 2, reps: '8-12', restSeconds: 120, technique: { kind: 'last-set-failure' } },
         { ex: 'cable-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
-        { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'triangle-pushdown', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         { ex: 'machine-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };

@@ -53,7 +53,7 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Chest Tenfold · Ten Sets | 5 | 18 | Hammer Chest Press 10×10, Hammer Upper Row 2×8-12, Cable Lateral Raise 2×12-20, Cable Triceps Extension 2×10-15, Machine Curl 2×10-15 |
+| Chest Tenfold · Ten Sets | 5 | 18 | Hammer Chest Press 10×10, Hammer Upper Row 2×8-12, Cable Lateral Raise 2×12-20, Cable Triangle Pressdown 2×10-15, Machine Curl 2×10-15 |
 | Quad Tenfold · Ten Sets | 5 | 23 | Hack Squat 10×10, Seated Ham Curl 4×8-12, Hack Squat Calf Raises 3×12-20, Cable Crunch 3×12-20, Pec Deck 3×10-15 |
 | Back Tenfold · Ten Sets | 5 | 23 | Hammer Lower Row 10×10, Incline DB Bench Press 4×8-12, Machine Rear Delt Fly 3×15-20, EZ Preacher Curl 3×10-15, French Press 3×10-15 |
 | Hamstring Tenfold · Ten Sets | 6 | 24 | Seated Ham Curl 10×8-12, Heel-Elevated Goblet Squat 4×10-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 3×8-15, Assisted Pull-ups 3×8-12, Cable Lateral Raise 2×12-20 |
@@ -158,7 +158,7 @@ same question; a real spread is the sign that each slot was chosen.
 | Range | Movements |
 |---|---|
 | `10` | Hack Squat, Hammer Chest Press, Hammer Lower Row |
-| `10-15` | Cable Triceps Extension, EZ Preacher Curl, French Press, Heel-Elevated Goblet Squat, Machine Curl, Pec Deck |
+| `10-15` | Cable Triangle Pressdown, EZ Preacher Curl, French Press, Heel-Elevated Goblet Squat, Machine Curl, Pec Deck |
 | `12-20` | Cable Crunch, Cable Lateral Raise, Hack Squat Calf Raises |
 | `15-20` | Machine Rear Delt Fly |
 | `8-12` | Assisted Pull-ups, Hammer Upper Row, Incline DB Bench Press, Seated Ham Curl |
@@ -180,7 +180,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Ab Wheel, Assisted Pull-ups, Cable Crunch, Cable Lateral Raise, Cable Triceps Extension, EZ Preacher Curl, French Press, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Lower Row, Hammer Upper Row, Heel-Elevated Goblet Squat, Incline DB Bench Press, Machine Curl, Machine Rear Delt Fly, Pec Deck, Seated Ham Curl |
+| carried working load | double progression +2.5kg | Ab Wheel, Assisted Pull-ups, Cable Crunch, Cable Lateral Raise, Cable Triangle Pressdown, EZ Preacher Curl, French Press, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Lower Row, Hammer Upper Row, Heel-Elevated Goblet Squat, Incline DB Bench Press, Machine Curl, Machine Rear Delt Fly, Pec Deck, Seated Ham Curl |
 
 ---
 

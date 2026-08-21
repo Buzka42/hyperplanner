@@ -75,7 +75,7 @@ const BENCH_NEURAL: DaySpec = {
         { ex: 'wide-grip-cable-row', sets: 3, reps: '8-12', restSeconds: 90 },
         { ex: 'leaning-one-arm-lateral-raise', sets: 2, reps: '12-20', restSeconds: 60, technique: { kind: 'last-set-failure' } },
         { ex: 'bayesian-cable-curl', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
-        { ex: 'cable-triceps-extension', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
+        { ex: 'cable-ezbar-pressdown', sets: 2, reps: '10-15', restSeconds: 60, technique: { kind: 'last-set-failure' } },
     ],
 };
 

@@ -30,7 +30,13 @@ ok(exposures(['incline-dumbbell-bench-press', 'hammer-chest-press', 'dip']) === 
 ok(exposures(['lat-pulldown', 'hammer-pulldown', 'single-arm-hammer-row']) >= 2, 'back is maintained at least twice');
 ok(exposures(['romanian-deadlift', 'seated-hamstring-curl', 'lying-leg-curl']) === 2, 'hamstrings are maintained twice');
 ok(exposures(['hack-calf-raise']) === 2, 'calves are maintained twice');
-ok(exposures(['hammer-curl', 'ezbar-preacher-curl']) === 2 && exposures(['cable-triceps-extension', 'overhead-tricep-extension']) === 2, 'arms are maintained twice');
+// Counted by movement pattern rather than by a list of exercise ids. The
+// assertion is that arms get two exposures a week; naming the exercises made it
+// break whenever one was varied for a different attachment, which is a change
+// to the menu and not to the plan's structure.
+const armExposures = (pattern: string) => QUADFATHER_DAYS
+    .filter(day => day.slots.some(slot => EXERCISE_BY_ID[slot.ex]?.pattern === pattern)).length;
+ok(armExposures('elbow-flexion') === 2 && armExposures('elbow-extension') === 2, 'arms are maintained twice');
 
 // --- roles -------------------------------------------------------------------
 for (const day of quadDays) {

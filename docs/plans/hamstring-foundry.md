@@ -50,9 +50,9 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Heavy Hip Extension · Forging | 7 | 21 | Romanian Deadlift 4×5-8, Seated Ham Curl 4×8-12, Flat DB Press 3×8-12, Rope Cable Row 3×8-12, Cable Lateral Raise 3×12-20, Cable Curl 2×10-15, Overhead Tricep Extensions 2×10-15 |
+| Heavy Hip Extension · Forging | 7 | 21 | Romanian Deadlift 4×5-8, Seated Ham Curl 4×8-12, Flat DB Press 3×8-12, Rope Cable Row 3×8-12, Cable Lateral Raise 3×12-20, Cable EZ-Bar Curl 2×10-15, Overhead Tricep Extensions 2×10-15 |
 | Knee Flexion + Quads · Forging | 6 | 19 | Seated Ham Curl 4×8-12, Goblet Skater Squat 3×8-12, Sissy Squat 3×12-20, Pull-Up 3×8-12, Hammer Chest Press 3×8-12, Hack Squat Calf Raises 3×12-20 |
-| Upper Dominant · Forging | 8 | 20 | Incline DB Bench Press 4×8-12, Hammer Lower Row 2×8-12, Rope Cable Row 2×8-12, Lat Pulldown (Neutral) 3×8-12, Seated DB Shoulder Press 3×8-12, Machine Rear Delt Fly 2×15-20, Dumbbell Hammer Curl (legacy id) 2×10-15, Cable Triceps Extension 2×10-15 |
+| Upper Dominant · Forging | 8 | 20 | Incline DB Bench Press 4×8-12, Hammer Lower Row 2×8-12, Rope Cable Row 2×8-12, Lat Pulldown (Neutral) 3×8-12, Seated DB Shoulder Press 3×8-12, Machine Rear Delt Fly 2×15-20, Dumbbell Hammer Curl (legacy id) 2×10-15, Cable Straight-Bar Pressdown 2×10-15 |
 | Lengthened Hamstrings · Forging | 6 | 19 | Hip-Supported Dumbbell Deadlift 4×10-15, Single-Leg Hamstring Curl 3×10-15, Heel-Elevated Goblet Squat 3×10-15, Hack Squat Calf Raises 3×12-20, Ab Wheel 3×8-15, Pec Deck 3×10-15 |
 
 ### Week-to-week shape
@@ -152,7 +152,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Curl, Cable Triceps Extension, Dumbbell Hammer Curl (legacy id), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Overhead Tricep Extensions, Pec Deck, Single-Leg Hamstring Curl |
+| `10-15` | Cable EZ-Bar Curl, Cable Straight-Bar Pressdown, Dumbbell Hammer Curl (legacy id), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Overhead Tricep Extensions, Pec Deck, Single-Leg Hamstring Curl |
 | `12-20` | Cable Lateral Raise, Hack Squat Calf Raises, Sissy Squat |
 | `15-20` | Machine Rear Delt Fly |
 | `5-8` | Romanian Deadlift |
@@ -175,7 +175,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Ab Wheel, Cable Curl, Cable Lateral Raise, Cable Triceps Extension, Dumbbell Hammer Curl (legacy id), Flat DB Press, Goblet Skater Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Lower Row, Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Lat Pulldown (Neutral), Machine Rear Delt Fly, Overhead Tricep Extensions, Pec Deck, Pull-Up, Rope Cable Row, Seated DB Shoulder Press, Seated Ham Curl, Single-Leg Hamstring Curl, Sissy Squat |
+| carried working load | double progression +2.5kg | Ab Wheel, Cable EZ-Bar Curl, Cable Lateral Raise, Cable Straight-Bar Pressdown, Dumbbell Hammer Curl (legacy id), Flat DB Press, Goblet Skater Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Lower Row, Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Lat Pulldown (Neutral), Machine Rear Delt Fly, Overhead Tricep Extensions, Pec Deck, Pull-Up, Rope Cable Row, Seated DB Shoulder Press, Seated Ham Curl, Single-Leg Hamstring Curl, Sissy Squat |
 | carried working load | double progression +5kg | Romanian Deadlift |
 
 ---

@@ -53,7 +53,7 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Upper A · Accumulation | 6 | 21 | Flat DB Press 4×10-15, EZ Preacher Curl 3×10-15, Lat Pulldown (Neutral) 4×10-15, Rope Pressdown 3×10-15, Seated DB Shoulder Press 4×10-15, Leaning One-Arm Lateral Raise 3×10-15 |
+| Upper A · Accumulation | 6 | 21 | Flat DB Press 4×10-15, EZ Preacher Curl 3×10-15, Lat Pulldown (Neutral) 4×10-15, Cable Rope Pressdown 3×10-15, Seated DB Shoulder Press 4×10-15, Leaning One-Arm Lateral Raise 3×10-15 |
 | Lower A · Accumulation | 6 | 19 | Hack Squat 4×10-15, Hack Squat Calf Raises 3×10-15, Lying Leg Curls 3×10-15, Single-Leg Dumbbell Romanian Deadlift 3×10-15, Hip Adduction 3×10-15, Planks 3×Failure |
 | Upper B · Accumulation | 6 | 20 | Incline DB Bench Press 4×10-15, Dumbbell Hammer Curl (legacy id) 3×10-15, Seated Cable Row 4×10-15, French Press 3×10-15, Rear-Delt Rope Pulls to Face 3×10-15, Cable Lateral Raise 3×10-15 |
 | Lower B · Accumulation | 6 | 19 | Heel-Elevated Goblet Squat 4×10-15, Machine Hip Abduction 3×10-15, Seated Ham Curl 3×10-15, Standing Dumbbell/KB Calf Raise 3×10-15, DB Romanian Deadlift 3×10-15, Planks 3×Failure |
@@ -159,7 +159,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Lateral Raise, DB Romanian Deadlift, Dumbbell Hammer Curl (legacy id), EZ Preacher Curl, Flat DB Press, French Press, Hack Squat, Hack Squat Calf Raises, Heel-Elevated Goblet Squat, Hip Adduction, Incline DB Bench Press, Lat Pulldown (Neutral), Leaning One-Arm Lateral Raise, Lying Leg Curls, Machine Hip Abduction, Rear-Delt Rope Pulls to Face, Rope Pressdown, Seated Cable Row, Seated DB Shoulder Press, Seated Ham Curl, Single-Leg Dumbbell Romanian Deadlift, Standing Dumbbell/KB Calf Raise |
+| `10-15` | Cable Lateral Raise, Cable Rope Pressdown, DB Romanian Deadlift, Dumbbell Hammer Curl (legacy id), EZ Preacher Curl, Flat DB Press, French Press, Hack Squat, Hack Squat Calf Raises, Heel-Elevated Goblet Squat, Hip Adduction, Incline DB Bench Press, Lat Pulldown (Neutral), Leaning One-Arm Lateral Raise, Lying Leg Curls, Machine Hip Abduction, Rear-Delt Rope Pulls to Face, Seated Cable Row, Seated DB Shoulder Press, Seated Ham Curl, Single-Leg Dumbbell Romanian Deadlift, Standing Dumbbell/KB Calf Raise |
 | `Failure` | Planks |
 
 ---
@@ -184,7 +184,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Cable Lateral Raise, DB Romanian Deadlift, Dumbbell Hammer Curl (legacy id), EZ Preacher Curl, Flat DB Press, French Press, Hack Squat, Hack Squat Calf Raises, Heel-Elevated Goblet Squat, Hip Adduction, Incline DB Bench Press, Lat Pulldown (Neutral), Leaning One-Arm Lateral Raise, Lying Leg Curls, Machine Hip Abduction, Planks, Rear-Delt Rope Pulls to Face, Rope Pressdown, Seated Cable Row, Seated DB Shoulder Press, Seated Ham Curl, Single-Leg Dumbbell Romanian Deadlift, Standing Dumbbell/KB Calf Raise |
+| carried working load | double progression +2.5kg | Cable Lateral Raise, Cable Rope Pressdown, DB Romanian Deadlift, Dumbbell Hammer Curl (legacy id), EZ Preacher Curl, Flat DB Press, French Press, Hack Squat, Hack Squat Calf Raises, Heel-Elevated Goblet Squat, Hip Adduction, Incline DB Bench Press, Lat Pulldown (Neutral), Leaning One-Arm Lateral Raise, Lying Leg Curls, Machine Hip Abduction, Planks, Rear-Delt Rope Pulls to Face, Seated Cable Row, Seated DB Shoulder Press, Seated Ham Curl, Single-Leg Dumbbell Romanian Deadlift, Standing Dumbbell/KB Calf Raise |
 
 ---
 

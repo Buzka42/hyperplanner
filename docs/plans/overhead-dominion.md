@@ -52,10 +52,10 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Overhead Strength · Bombardment | 6 | 18 | Standing Military Press 5×5-8, Weighted Chin-Up 5×5-8, Cable Lateral Raise 2×12-20, Leaning One-Arm Lateral Raise 2×12-20, Rope Pressdown 2×10-15, Machine Rear Delt Fly 2×15-20 |
+| Overhead Strength · Bombardment | 6 | 18 | Standing Military Press 5×5-8, Weighted Chin-Up 5×5-8, Cable Lateral Raise 2×12-20, Leaning One-Arm Lateral Raise 2×12-20, Cable Rope Pressdown 2×10-15, Machine Rear Delt Fly 2×15-20 |
 | Delts + Legs · Bombardment | 8 | 21 | Cable Lateral Raise 2×12-20, Seated Dumbbell Lateral Raise 2×12-20, Single Arm Reverse Pec Deck 2×12-20, Hack Squat 3×8-12, Seated Ham Curl 3×8-12, Hammer Chest Press 3×8-12, Standing Calf Raises 3×12-20, Cable Crunch 3×12-20 |
-| Shoulder Hypertrophy · Bombardment | 8 | 21 | One-Arm Braced Dumbbell Press 4×8-12, Single-Arm DB Row 2×8-12, Lat Prayer 2×8-12, Seated Dumbbell Lateral Raise 2×12-20, Leaning One-Arm Lateral Raise 2×12-20, Machine Rear Delt Fly 3×15-20, Incline DB Bench Press 3×8-12, Cable Curl 3×10-15 |
-| Structural Shoulders + Legs · Bombardment | 7 | 21 | Seated DB Shoulder Press 3×8-12, Single-Arm External Rotation 3×12-20, Machine Rear Delt Fly 3×15-20, Goblet Skater Squat 3×8-12, Hip-Supported Dumbbell Deadlift 3×10-15, Standing Calf Raises 3×12-20, Rope Pressdown 3×10-15 |
+| Shoulder Hypertrophy · Bombardment | 8 | 21 | One-Arm Braced Dumbbell Press 4×8-12, Single-Arm DB Row 2×8-12, Lat Prayer 2×8-12, Seated Dumbbell Lateral Raise 2×12-20, Leaning One-Arm Lateral Raise 2×12-20, Machine Rear Delt Fly 3×15-20, Incline DB Bench Press 3×8-12, Cable EZ-Bar Curl 3×10-15 |
+| Structural Shoulders + Legs · Bombardment | 7 | 21 | Seated DB Shoulder Press 3×8-12, Single-Arm External Rotation 3×12-20, Machine Rear Delt Fly 3×15-20, Goblet Skater Squat 3×8-12, Hip-Supported Dumbbell Deadlift 3×10-15, Standing Calf Raises 3×12-20, Cable EZ-Bar Pressdown 3×12-20 |
 
 ### Week-to-week shape
 
@@ -125,8 +125,8 @@ Direct sets, counted once per exercise per major group.
 | At 3 sets | 15 |
 | At 4+ sets | 3 |
 | Mean sets per slot | 2.79 |
-| Distinct exercises | 22 |
-| Variety density (exercises per 10 sets) | 2.72 |
+| Distinct exercises | 23 |
+| Variety density (exercises per 10 sets) | 2.84 |
 | Largest single-exercise share | 10% |
 
 ### Flagged slots
@@ -152,8 +152,8 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Curl, Hip-Supported Dumbbell Deadlift, Rope Pressdown |
-| `12-20` | Cable Crunch, Cable Lateral Raise, Leaning One-Arm Lateral Raise, Seated Dumbbell Lateral Raise, Single Arm Reverse Pec Deck, Single-Arm External Rotation, Standing Calf Raises |
+| `10-15` | Cable EZ-Bar Curl, Cable Rope Pressdown, Hip-Supported Dumbbell Deadlift |
+| `12-20` | Cable Crunch, Cable EZ-Bar Pressdown, Cable Lateral Raise, Leaning One-Arm Lateral Raise, Seated Dumbbell Lateral Raise, Single Arm Reverse Pec Deck, Single-Arm External Rotation, Standing Calf Raises |
 | `15-20` | Machine Rear Delt Fly |
 | `5-8` | Standing Military Press, Weighted Chin-Up |
 | `8-12` | Goblet Skater Squat, Hack Squat, Hammer Chest Press, Incline DB Bench Press, Lat Prayer, One-Arm Braced Dumbbell Press, Seated DB Shoulder Press, Seated Ham Curl, Single-Arm DB Row |
@@ -174,7 +174,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Cable Crunch, Cable Curl, Cable Lateral Raise, Goblet Skater Squat, Hack Squat, Hammer Chest Press, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Lat Prayer, Leaning One-Arm Lateral Raise, Machine Rear Delt Fly, One-Arm Braced Dumbbell Press, Rope Pressdown, Seated DB Shoulder Press, Seated Dumbbell Lateral Raise, Seated Ham Curl, Single Arm Reverse Pec Deck, Single-Arm DB Row, Single-Arm External Rotation, Standing Calf Raises, Standing Military Press, Weighted Chin-Up |
+| carried working load | double progression +2.5kg | Cable Crunch, Cable EZ-Bar Curl, Cable EZ-Bar Pressdown, Cable Lateral Raise, Cable Rope Pressdown, Goblet Skater Squat, Hack Squat, Hammer Chest Press, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Lat Prayer, Leaning One-Arm Lateral Raise, Machine Rear Delt Fly, One-Arm Braced Dumbbell Press, Seated DB Shoulder Press, Seated Dumbbell Lateral Raise, Seated Ham Curl, Single Arm Reverse Pec Deck, Single-Arm DB Row, Single-Arm External Rotation, Standing Calf Raises, Standing Military Press, Weighted Chin-Up |
 
 ---
 
@@ -195,5 +195,5 @@ coverage: { covered: 9, missing: [], in_band: 2, over: ['shoulders'], under: ['c
 set_shape: { slots: 29, ones: 0, twos: 11, threes: 15, four_plus: 3, mean: 2.79 }
 rep_ranges: ['10-15', '12-20', '15-20', '5-8', '8-12']
 progression: { handler: shared, slot_rules: true, distinct_rules: 1 }
-variety: { distinct: 22, density: 2.72, top_share: 0.099, evenness: 0.979 }
+variety: { distinct: 23, density: 2.84, top_share: 0.099, evenness: 0.978 }
 ```

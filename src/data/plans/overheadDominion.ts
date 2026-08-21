@@ -86,7 +86,7 @@ const STRUCTURAL_SHOULDERS: DaySpec = {
         { ex: 'standing-calf-raise', sets: 3, reps: '12-20', restSeconds: 60 },
         // Second weekly tricep and chest exposure; the doc's own day lists
         // leave both at one, against its two-exposure minimum.
-        { ex: 'rope-pressdown', sets: 3, reps: '12-20', restSeconds: 60 },
+        { ex: 'cable-ezbar-pressdown', sets: 3, reps: '12-20', restSeconds: 60 },
     ],
 };
 

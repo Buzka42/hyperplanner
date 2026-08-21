@@ -60,8 +60,8 @@ export const CATHEDRAL_DAYS: DaySpec[] = [
         s('lat-pulldown', 3, '8-12'),
         s('seated-hammer-shoulder-press', 2, '8-12'),
         s('hack-calf-raise', 2, '12-20'),
-        s('cable-triceps-extension', 2, '10-15'),
-        s('ezbar-preacher-curl', 2, '10-15'),
+        s('triangle-pushdown', 2, '10-15'),
+        s('rope-hammer-curl', 2, '10-15'),
     ] },
 ];
 

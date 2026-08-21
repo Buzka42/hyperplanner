@@ -14,13 +14,13 @@ export const VENUS_FOUR_DAY: DaySpec[] = [
     { name: 'Lower A — Quads + Glutes', dayOfWeek: 1, slots: [slot('heel-elevated-goblet-squat', 3), slot('leg-press', 3), slot('seated-hamstring-curl', 2, '10-15', 60), slot('leg-extension', 2, '10-15', 60), slot('machine-hip-abduction', 2, '12-20', 60), slot('hack-calf-raise', 2, '12-20', 60), slot('cable-crunch', 2, '10-15', 60)] },
     { name: 'Upper A — Back + Delts', dayOfWeek: 2, slots: [slot('assisted-pull-up', 3), slot('single-arm-hammer-row', 3), slot('incline-dumbbell-bench-press', 3), slot('cable-lateral-raise', 3, '12-20', 60), slot('side-lying-rear-delt-fly', 2, '12-20', 60), slot('ezbar-preacher-curl', 2, '10-15', 60), slot('rope-pressdown', 2, '10-15', 60)] },
     { name: 'Lower B — Glutes + Posterior Chain', dayOfWeek: 4, slots: [slot('hip-thrust', 3), slot('cable-romanian-deadlift', 3), slot('b-stance-hip-thrust', 3), slot('supported-sissy-squat', 2, '10-15'), slot('lying-leg-curl', 2, '10-15', 60), slot('hack-calf-raise', 2, '12-20', 60)] },
-    { name: 'Upper B — Shape', dayOfWeek: 5, slots: [slot('hammer-pulldown', 3), slot('flat-dumbbell-press', 3), slot('pec-deck', 2), slot('seated-hammer-shoulder-press', 2), slot('seated-cable-row', 3), slot('machine-curl', 2, '10-15', 60), slot('cable-triceps-extension', 2, '10-15', 60), slot('plank', 2, '30-60sec', 60)] },
+    { name: 'Upper B — Shape', dayOfWeek: 5, slots: [slot('hammer-pulldown', 3), slot('flat-dumbbell-press', 3), slot('pec-deck', 2), slot('seated-hammer-shoulder-press', 2), slot('seated-cable-row', 3), slot('machine-curl', 2, '10-15', 60), slot('machine-tricep-pushdown', 2, '10-15', 60), slot('plank', 2, '30-60sec', 60)] },
 ];
 
 export const VENUS_THREE_DAY: DaySpec[] = [
     { name: 'FBW A — Quad / Lat / Glute', dayOfWeek: 1, slots: [slot('heel-elevated-goblet-squat', 3), slot('assisted-pull-up', 3), slot('hip-thrust', 3), slot('incline-dumbbell-bench-press', 2), slot('cable-lateral-raise', 2, '12-20', 60), slot('seated-hamstring-curl', 2), slot('ezbar-preacher-curl', 2)] },
-    { name: 'FBW B — Hinge / Row / Delt', dayOfWeek: 3, slots: [slot('cable-romanian-deadlift', 3), slot('single-arm-hammer-row', 3), slot('leg-press', 3), slot('seated-hammer-shoulder-press', 2), slot('side-lying-rear-delt-fly', 2, '12-20', 60), slot('cable-triceps-extension', 2), slot('hack-calf-raise', 1)] },
-    { name: 'FBW C — Glute / Shape', dayOfWeek: 5, slots: [slot('b-stance-hip-thrust', 3), slot('hammer-chest-press', 2), slot('dumbbell-pullover', 2), slot('leg-extension', 2), slot('cable-lateral-raise', 3, '12-20', 60), slot('side-glute-medius-hip-thrust', 2), slot('machine-curl', 2), slot('cable-triceps-extension', 2)] },
+    { name: 'FBW B — Hinge / Row / Delt', dayOfWeek: 3, slots: [slot('cable-romanian-deadlift', 3), slot('single-arm-hammer-row', 3), slot('leg-press', 3), slot('seated-hammer-shoulder-press', 2), slot('side-lying-rear-delt-fly', 2, '12-20', 60), slot('rope-pressdown', 2), slot('hack-calf-raise', 1)] },
+    { name: 'FBW C — Glute / Shape', dayOfWeek: 5, slots: [slot('b-stance-hip-thrust', 3), slot('hammer-chest-press', 2), slot('dumbbell-pullover', 2), slot('leg-extension', 2), slot('cable-lateral-raise', 3, '12-20', 60), slot('side-glute-medius-hip-thrust', 2), slot('machine-curl', 2), slot('machine-tricep-pushdown', 2)] },
 ];
 
 const phases = [

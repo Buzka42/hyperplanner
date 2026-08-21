@@ -54,7 +54,7 @@ The onboarding card claims:
 |---|---:|---:|---|
 | Heavy Gravity · Ascent | 5 | 19 | Weighted Chin-Up 5×3-5, Weighted Dip 5×3-5, Hammer Upper Row 3×8-12, Sissy Squat 3×10-15, Hanging Leg Raises 3×10-20 |
 | Single-Leg Gravity · Ascent | 6 | 20 | Goblet Skater Squat 4×8-12, Hip-Supported Dumbbell Deadlift 4×8-12, TRX Body Row 3×10-15, Deficit Pushups 3×AMRAP, Standing Calf Raises 3×12-20, Ab Wheel 3×6-15 |
-| Volume Gravity · Ascent | 6 | 22 | Chin-Up 6×AMRAP, Dip 6×AMRAP, Heel-Elevated Goblet Squat 4×10-15, Cable Lateral Raise 2×12-20, Cable Curl 2×10-15, Cable Triceps Extension 2×10-15 |
+| Volume Gravity · Ascent | 6 | 22 | Chin-Up 6×AMRAP, Dip 6×AMRAP, Heel-Elevated Goblet Squat 4×10-15, Cable Lateral Raise 2×12-20, Cable EZ-Bar Curl 2×10-15, Cable Straight-Bar Pressdown 2×10-15 |
 | Control Gravity · Ascent | 7 | 21 | TRX Push-Up 3×10-20, TRX Body Row 3×10-15, Cable Lateral Raise 3×12-20, Sissy Squat 3×10-15, Hip-Supported Dumbbell Deadlift 3×8-12, Standing Calf Raises 3×12-20, Hanging Knee Raise 3×12-20 |
 
 ### Week-to-week shape
@@ -157,7 +157,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Curl, Cable Triceps Extension, Heel-Elevated Goblet Squat, Sissy Squat, TRX Body Row |
+| `10-15` | Cable EZ-Bar Curl, Cable Straight-Bar Pressdown, Heel-Elevated Goblet Squat, Sissy Squat, TRX Body Row |
 | `10-20` | Hanging Leg Raises, TRX Push-Up |
 | `12-20` | Cable Lateral Raise, Hanging Knee Raise, Standing Calf Raises |
 | `3-5` | Weighted Chin-Up, Weighted Dip |
@@ -187,7 +187,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Ab Wheel, Cable Curl, Cable Lateral Raise, Cable Triceps Extension, Chin-Up, Deficit Pushups, Dip, Goblet Skater Squat, Hammer Upper Row, Hanging Knee Raise, Hanging Leg Raises, Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Sissy Squat, Standing Calf Raises, TRX Body Row, TRX Push-Up, Weighted Chin-Up, Weighted Dip |
+| carried working load | double progression +2.5kg | Ab Wheel, Cable EZ-Bar Curl, Cable Lateral Raise, Cable Straight-Bar Pressdown, Chin-Up, Deficit Pushups, Dip, Goblet Skater Squat, Hammer Upper Row, Hanging Knee Raise, Hanging Leg Raises, Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Sissy Squat, Standing Calf Raises, TRX Body Row, TRX Push-Up, Weighted Chin-Up, Weighted Dip |
 
 ---
 

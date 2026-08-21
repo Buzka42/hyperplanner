@@ -51,10 +51,10 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| PRESSURE · Ignition | 9 | 17 | Leg Press 3×4-6, Incline DB Bench Press 2×6-10, Single-Arm Hammer Strength Row 2×6-10, Seated Hamstring Curl 2×8-12, Cable Lateral Raise 2×12-15, Rope Hammer Curl 2×8-15, Overhead Tricep Extensions 2×8-15, Kettlebell Swing 1×10-15, Farmer Carry 1×20-30 |
+| PRESSURE · Ignition | 9 | 17 | Leg Press 3×4-6, Incline DB Bench Press 2×6-10, Single-Arm Hammer Strength Row 2×6-10, Seated Hamstring Curl 2×8-12, Cable Lateral Raise 2×12-15, Cable Rope Hammer Curl 2×8-15, Overhead Tricep Extensions 2×8-15, Kettlebell Swing 1×10-15, Farmer Carry 1×20-30 |
 | REDLINE · Ignition | 10 | 18 | Lat Pulldown (Neutral) 3×4-6, Front-Foot Elevated Bulgarian Split Squat 2×8-10, Deficit Pushups 2×6-10, Hip-Supported Dumbbell Deadlift 2×8-10, Single Arm Reverse Pec Deck 2×12-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 2×8-15, Heel-Elevated Goblet Squat 1×8, Push-Up 1×6-10, Farmer Carry 1×20-30 |
-| FURNACE · Ignition | 10 | 18 | Paused Bench Press 3×4-6, Goblet Skater Squat 2×8-12, Bench-Supported Single-Arm Cable Pulldown 2×6-10, Leg Extensions 2×10-15, Lat Prayer 2×10-15, Behind-the-Back Cable Lateral Raise 2×12-20, Rope Hammer Curl 2×8-15, Kettlebell Swing 1×10-15, Deficit Reverse Lunge 1×8, Deficit Pushups 1×6-10 |
-| AFTERBURN · Ignition | 10 | 20 | Trap-Bar Deadlift 3×4-6, Deficit Pushups 2×6-10, Hammer Pulldown (Underhand) 2×8-12, Deficit Reverse Lunge 2×8, Single-Arm Hammer Strength Row 2×6-10, Behind-the-Back Cable Lateral Raise 2×12-20, Cable Triceps Extension 2×8-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 2×8-15, Farmer Carry 1×20-30 |
+| FURNACE · Ignition | 10 | 18 | Paused Bench Press 3×4-6, Goblet Skater Squat 2×8-12, Bench-Supported Single-Arm Cable Pulldown 2×6-10, Leg Extensions 2×10-15, Lat Prayer 2×10-15, Behind-the-Back Cable Lateral Raise 2×12-20, 30° Incline-Lying Dumbbell Curl 2×8-15, Kettlebell Swing 1×10-15, Deficit Reverse Lunge 1×8, Deficit Pushups 1×6-10 |
+| AFTERBURN · Ignition | 10 | 20 | Trap-Bar Deadlift 3×4-6, Deficit Pushups 2×6-10, Hammer Pulldown (Underhand) 2×8-12, Deficit Reverse Lunge 2×8, Single-Arm Hammer Strength Row 2×6-10, Behind-the-Back Cable Lateral Raise 2×12-20, Cable Triangle Pressdown 2×8-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 2×8-15, Farmer Carry 1×20-30 |
 
 ### Week-to-week shape
 
@@ -110,9 +110,9 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 2.05 |
-| Mean stability demand (0-4) | 1.48 |
+| Mean stability demand (0-4) | 1.51 |
 | Stimulus per unit fatigue | 1.25 |
-| Failure-safe share of sets | 33% |
+| Failure-safe share of sets | 30% |
 
 ---
 
@@ -126,8 +126,8 @@ Direct sets, counted once per exercise per major group.
 | At 3 sets | 0 |
 | At 4+ sets | 0 |
 | Mean sets per slot | 1.87 |
-| Distinct exercises | 28 |
-| Variety density (exercises per 10 sets) | 3.84 |
+| Distinct exercises | 29 |
+| Variety density (exercises per 10 sets) | 3.97 |
 | Largest single-exercise share | 7% |
 
 No slot sits at one set and none carries more than three. Nothing to flag.
@@ -151,7 +151,7 @@ same question; a real spread is the sign that each slot was chosen.
 | `8` | Deficit Reverse Lunge, Heel-Elevated Goblet Squat |
 | `8-10` | Front-Foot Elevated Bulgarian Split Squat, Hip-Supported Dumbbell Deadlift |
 | `8-12` | Goblet Skater Squat, Hammer Pulldown (Underhand), Seated Hamstring Curl |
-| `8-15` | Ab Wheel, Cable Triceps Extension, Overhead Tricep Extensions, Rope Hammer Curl |
+| `8-15` | 30° Incline-Lying Dumbbell Curl, Ab Wheel, Cable Rope Hammer Curl, Cable Triangle Pressdown, Overhead Tricep Extensions |
 
 ---
 
@@ -169,7 +169,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Ab Wheel, Behind-the-Back Cable Lateral Raise, Bench-Supported Single-Arm Cable Pulldown, Cable Lateral Raise, Cable Triceps Extension, Deficit Pushups, Deficit Reverse Lunge, Farmer Carry, Front-Foot Elevated Bulgarian Split Squat, Goblet Skater Squat, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Kettlebell Swing, Lat Prayer, Lat Pulldown (Neutral), Leg Extensions, Leg Press, Overhead Tricep Extensions, Push-Up, Rope Hammer Curl, Seated Hamstring Curl, Single Arm Reverse Pec Deck, Single-Arm Hammer Strength Row |
+| carried working load | double progression +2.5kg | 30° Incline-Lying Dumbbell Curl, Ab Wheel, Behind-the-Back Cable Lateral Raise, Bench-Supported Single-Arm Cable Pulldown, Cable Lateral Raise, Cable Rope Hammer Curl, Cable Triangle Pressdown, Deficit Pushups, Deficit Reverse Lunge, Farmer Carry, Front-Foot Elevated Bulgarian Split Squat, Goblet Skater Squat, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Kettlebell Swing, Lat Prayer, Lat Pulldown (Neutral), Leg Extensions, Leg Press, Overhead Tricep Extensions, Push-Up, Seated Hamstring Curl, Single Arm Reverse Pec Deck, Single-Arm Hammer Strength Row |
 | computed by the plan each session | the plan recalculates it from your logged work | Paused Bench Press, Trap-Bar Deadlift |
 
 ---
@@ -191,5 +191,5 @@ coverage: { covered: 10, missing: [], in_band: 6, over: [], under: ['triceps', '
 set_shape: { slots: 39, ones: 0, twos: 0, threes: 0, four_plus: 0, mean: 1.87 }
 rep_ranges: ['10-15', '12-15', '12-20', '20-30', '4-6', '6-10', '8', '8-10', '8-12', '8-15']
 progression: { handler: own+double, slot_rules: true, distinct_rules: 2 }
-variety: { distinct: 28, density: 3.84, top_share: 0.068, evenness: 0.979 }
+variety: { distinct: 29, density: 3.97, top_share: 0.068, evenness: 0.981 }
 ```

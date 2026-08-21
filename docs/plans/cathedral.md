@@ -54,7 +54,7 @@ The onboarding card claims:
 | Nave — Press · Foundation | 7 | 18 | Incline DB Bench Press 4×6-10, Dip 3×8-12, Low-to-High Cable Flyes 2×12-15, Pec Deck 2×12-15, Single-Arm Hammer Strength Row 3×8-12, Lying Cable Lat Raises 2×12-15, French Press 2×10-15 |
 | Crypt — Lower · Foundation | 6 | 15 | Leg Press 3×10-15, Romanian Deadlift 3×8-12, Seated Hamstring Curl 3×10-15, Supported Sissy Squat 2×12-15, Hack Squat Calf Raises 2×12-20, Cable Crunch 2×8-12 |
 | Transept — Stretch · Foundation | 6 | 15 | Mid Cable Flyes (Seated) 2×10-15, 30° Smith Incline Bench Press 4×8-12, Cable Crossover 2×12-20, Hammer Pulldown (Underhand) 3×8-12, Side-Lying Rear Delt Flyes 2×12-15, EZ Preacher Curl 2×8-12 |
-| Spire — Adduction · Foundation | 9 | 20 | Pec Deck 2×12-15, Flat DB Press 3×8-12, Dip 2×8-12, Cable Flyes (mid height) 2×12-15, Lat Pulldown (Neutral) 3×8-12, Seated Hammer Shoulder Press 2×8-12, Hack Squat Calf Raises 2×12-20, Cable Triceps Extension 2×10-15, EZ Preacher Curl 2×8-12 |
+| Spire — Adduction · Foundation | 9 | 20 | Pec Deck 2×12-15, Flat DB Press 3×8-12, Dip 2×8-12, Cable Flyes (mid height) 2×12-15, Lat Pulldown (Neutral) 3×8-12, Seated Hammer Shoulder Press 2×8-12, Hack Squat Calf Raises 2×12-20, Cable Triangle Pressdown 2×10-15, Cable Rope Hammer Curl 2×10-15 |
 
 ### Week-to-week shape
 
@@ -126,8 +126,8 @@ Direct sets, counted once per exercise per major group.
 | At 3 sets | 8 |
 | At 4+ sets | 2 |
 | Mean sets per slot | 2.43 |
-| Distinct exercises | 24 |
-| Variety density (exercises per 10 sets) | 3.53 |
+| Distinct exercises | 25 |
+| Variety density (exercises per 10 sets) | 3.68 |
 | Largest single-exercise share | 7% |
 
 ### Flagged slots
@@ -152,7 +152,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Triceps Extension, French Press, Leg Press, Mid Cable Flyes (Seated), Seated Hamstring Curl |
+| `10-15` | Cable Rope Hammer Curl, Cable Triangle Pressdown, French Press, Leg Press, Mid Cable Flyes (Seated), Seated Hamstring Curl |
 | `12-15` | Cable Flyes (mid height), Low-to-High Cable Flyes, Lying Cable Lat Raises, Pec Deck, Side-Lying Rear Delt Flyes, Supported Sissy Squat |
 | `12-20` | Cable Crossover, Hack Squat Calf Raises |
 | `6-10` | Incline DB Bench Press |
@@ -174,7 +174,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Cable Crossover, Cable Crunch, Cable Flyes (mid height), Cable Triceps Extension, Dip, EZ Preacher Curl, Flat DB Press, French Press, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Incline DB Bench Press, Lat Pulldown (Neutral), Leg Press, Low-to-High Cable Flyes, Lying Cable Lat Raises, Mid Cable Flyes (Seated), Pec Deck, Romanian Deadlift, Seated Hammer Shoulder Press, Seated Hamstring Curl, Side-Lying Rear Delt Flyes, Single-Arm Hammer Strength Row, Supported Sissy Squat |
+| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Cable Crossover, Cable Crunch, Cable Flyes (mid height), Cable Rope Hammer Curl, Cable Triangle Pressdown, Dip, EZ Preacher Curl, Flat DB Press, French Press, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Incline DB Bench Press, Lat Pulldown (Neutral), Leg Press, Low-to-High Cable Flyes, Lying Cable Lat Raises, Mid Cable Flyes (Seated), Pec Deck, Romanian Deadlift, Seated Hammer Shoulder Press, Seated Hamstring Curl, Side-Lying Rear Delt Flyes, Single-Arm Hammer Strength Row, Supported Sissy Squat |
 
 ---
 
@@ -195,5 +195,5 @@ coverage: { covered: 9, missing: [], in_band: 2, over: ['chest'], under: ['back'
 set_shape: { slots: 28, ones: 0, twos: 18, threes: 8, four_plus: 2, mean: 2.43 }
 rep_ranges: ['10-15', '12-15', '12-20', '6-10', '8-12']
 progression: { handler: shared, slot_rules: true, distinct_rules: 1 }
-variety: { distinct: 24, density: 3.53, top_share: 0.074, evenness: 0.985 }
+variety: { distinct: 25, density: 3.68, top_share: 0.074, evenness: 0.985 }
 ```

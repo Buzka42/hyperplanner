@@ -54,7 +54,7 @@ The onboarding card claims:
 | The Offer — Load · Introduction | 7 | 19 | Hack Squat 4×5-8, Heel-Elevated Goblet Squat 3×8-12, Leg Extensions 2×12-15, Incline DB Bench Press 3×6-10, Single-Arm Hammer Strength Row 3×8-12, Cable Lateral Raise 2×12-15, Cable Crunch 2×12-20 |
 | The Family — Maintain · Introduction | 8 | 20 | Romanian Deadlift 3×6-10, Lat Prayer 3×8-12, Dip 3×8-12, Seated Hamstring Curl 3×10-15, Bench-Supported DB Rear Delt Fly 2×12-15, EZ Preacher Curl 2×8-12, Overhead Tricep Extensions 2×8-15, Hack Squat Calf Raises 2×12-20 |
 | The Debt — Depth · Introduction | 7 | 19 | Front-Foot Elevated Bulgarian Split Squat 3×8-12, Leg Press 3×10-15, Supported Sissy Squat 2×10-15, Seated Hammer Shoulder Press 3×8-12, Hammer Pulldown (Underhand) 3×8-12, Hack Squat Calf Raises 2×12-20, Cable Crunch 3×12-20 |
-| The Reckoning — Burn · Introduction | 7 | 17 | Knee-Over-Toe Split Squat 3×8-12, Stripper Squat 3×10-15, Reverse Nordic Curls 2×8-12, Lying Leg Curls 2×10-15, Single-Arm Hammer Strength Row 3×8-12, EZ Preacher Curl 2×8-12, Cable Triceps Extension 2×10-15 |
+| The Reckoning — Burn · Introduction | 7 | 17 | Knee-Over-Toe Split Squat 3×8-12, Stripper Squat 3×10-15, Reverse Nordic Curls 2×8-12, Lying Leg Curls 2×10-15, Single-Arm Hammer Strength Row 3×8-12, Bayesian Cable Curl 2×10-15, Cable Triangle Pressdown 2×10-15 |
 
 ### Week-to-week shape
 
@@ -110,9 +110,9 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 2.11 |
-| Mean stability demand (0-4) | 1.08 |
+| Mean stability demand (0-4) | 1.11 |
 | Stimulus per unit fatigue | 1.46 |
-| Failure-safe share of sets | 48% |
+| Failure-safe share of sets | 45% |
 
 ---
 
@@ -126,8 +126,8 @@ Direct sets, counted once per exercise per major group.
 | At 3 sets | 15 |
 | At 4+ sets | 1 |
 | Mean sets per slot | 2.59 |
-| Distinct exercises | 25 |
-| Variety density (exercises per 10 sets) | 3.33 |
+| Distinct exercises | 26 |
+| Variety density (exercises per 10 sets) | 3.47 |
 | Largest single-exercise share | 8% |
 
 ### Flagged slots
@@ -151,7 +151,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Triceps Extension, Leg Press, Lying Leg Curls, Seated Hamstring Curl, Stripper Squat, Supported Sissy Squat |
+| `10-15` | Bayesian Cable Curl, Cable Triangle Pressdown, Leg Press, Lying Leg Curls, Seated Hamstring Curl, Stripper Squat, Supported Sissy Squat |
 | `12-15` | Bench-Supported DB Rear Delt Fly, Cable Lateral Raise, Leg Extensions |
 | `12-20` | Cable Crunch, Hack Squat Calf Raises |
 | `5-8` | Hack Squat |
@@ -175,7 +175,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Bench-Supported DB Rear Delt Fly, Cable Crunch, Cable Lateral Raise, Cable Triceps Extension, Dip, EZ Preacher Curl, Front-Foot Elevated Bulgarian Split Squat, Hack Squat, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Incline DB Bench Press, Knee-Over-Toe Split Squat, Lat Prayer, Leg Extensions, Leg Press, Lying Leg Curls, Overhead Tricep Extensions, Reverse Nordic Curls, Romanian Deadlift, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single-Arm Hammer Strength Row, Stripper Squat, Supported Sissy Squat |
+| carried working load | double progression +2.5kg | Bayesian Cable Curl, Bench-Supported DB Rear Delt Fly, Cable Crunch, Cable Lateral Raise, Cable Triangle Pressdown, Dip, EZ Preacher Curl, Front-Foot Elevated Bulgarian Split Squat, Hack Squat, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Incline DB Bench Press, Knee-Over-Toe Split Squat, Lat Prayer, Leg Extensions, Leg Press, Lying Leg Curls, Overhead Tricep Extensions, Reverse Nordic Curls, Romanian Deadlift, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single-Arm Hammer Strength Row, Stripper Squat, Supported Sissy Squat |
 
 ---
 
@@ -196,5 +196,5 @@ coverage: { covered: 10, missing: [], in_band: 4, over: ['quads'], under: ['ches
 set_shape: { slots: 29, ones: 0, twos: 13, threes: 15, four_plus: 1, mean: 2.59 }
 rep_ranges: ['10-15', '12-15', '12-20', '5-8', '6-10', '8-12', '8-15']
 progression: { handler: own+double, slot_rules: true, distinct_rules: 1 }
-variety: { distinct: 25, density: 3.33, top_share: 0.08, evenness: 0.985 }
+variety: { distinct: 26, density: 3.47, top_share: 0.08, evenness: 0.984 }
 ```

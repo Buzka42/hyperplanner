@@ -332,8 +332,8 @@ export const LIBRARY_ADDITIONS: LibraryExercise[] = [
     },
     {
         id: 'cable-curl',
-        name: { en: 'Cable Curl', pl: 'Uginanie na wyciągu' },
-        aliases: ['Cable Biceps Curl'],
+        name: { en: 'Cable EZ-Bar Curl', pl: 'Uginanie ramion na wyciągu z łamanym drążkiem' },
+        aliases: ['Cable Biceps Curl', 'Cable Curl'],
         pattern: 'elbow-flexion',
         primary: ['biceps'],
         secondary: ['brachialis'],
@@ -347,8 +347,8 @@ export const LIBRARY_ADDITIONS: LibraryExercise[] = [
     },
     {
         id: 'cable-triceps-extension',
-        name: { en: 'Cable Triceps Extension', pl: 'Prostowanie ramion na wyciągu' },
-        aliases: ['Cable Tricep Extension', 'Overhead Cable Extension'],
+        name: { en: 'Cable Straight-Bar Pressdown', pl: 'Prostowanie ramion na wyciągu z prostym drążkiem' },
+        aliases: ['Cable Tricep Extension', 'Cable Triceps Extension', 'Overhead Cable Extension'],
         pattern: 'elbow-extension',
         primary: ['triceps'],
         equipment: ['cable'],
@@ -898,5 +898,74 @@ export const LIBRARY_ADDITIONS: LibraryExercise[] = [
         unilateral: true,
         weightMode: 'external', failureMode: 'muscular', status: 'active',
         tip: { en: 'Foot high and slightly out. Drive through the heel and keep the knee from locking the set.', pl: 'Stopa wysoko i lekko na zewnątrz. Pchaj piętą i nie pozwalaj kolanu kończyć serii wyprostem.' },
+    },
+    // --- arm work -----------------------------------------------------------
+    // Added so the cable pressdown and cable curl slots can vary by attachment
+    // instead of every plan prescribing the same one, and so a plan that wants
+    // a free-weight or machine elbow movement has one to reach for.
+    {
+        id: 'cable-ezbar-pressdown',
+        name: { en: 'Cable EZ-Bar Pressdown', pl: 'Prostowanie ramion na wyciągu z łamanym drążkiem' },
+        aliases: [],
+        pattern: 'elbow-extension',
+        primary: ['triceps'],
+        equipment: ['cable', 'ez-bar'],
+        weightMode: 'external', status: 'active',
+        tip: {
+            en: 'The angled grip spares the wrists a straight bar punishes. Elbows pinned, only the forearm moves.',
+            pl: 'Łamany uchwyt oszczędza nadgarstki, które prosty drążek męczy. Łokcie przy tułowiu, porusza się tylko przedramię.',
+        },
+    },
+    {
+        id: 'machine-tricep-pushdown',
+        name: { en: 'Machine Triceps Pushdown', pl: 'Prostowanie ramion w maszynie' },
+        aliases: [],
+        pattern: 'elbow-extension',
+        primary: ['triceps'],
+        equipment: ['machine'],
+        weightMode: 'external', status: 'active',
+        tip: {
+            en: 'The pad takes the balance out of it, so chase a clean stretch and lockout rather than load.',
+            pl: 'Oparcie eliminuje stabilizację, więc szukaj czystego rozciągnięcia i domknięcia, a nie ciężaru.',
+        },
+    },
+    {
+        id: 'smith-skullcrusher',
+        name: { en: 'Smith Machine Skullcrusher', pl: 'Wyciskanie francuskie w maszynie Smitha' },
+        aliases: [],
+        pattern: 'elbow-extension',
+        primary: ['triceps'],
+        equipment: ['machine'],
+        weightMode: 'external', status: 'active',
+        tip: {
+            en: 'The fixed bar path lets you push closer to failure than a free bar over your face safely allows.',
+            pl: 'Stały tor gryfu pozwala podejść bliżej upadku niż wolny gryf nad twarzą.',
+        },
+    },
+    {
+        id: 'jm-press',
+        name: { en: 'JM Press', pl: 'Wyciskanie JM' },
+        aliases: [],
+        pattern: 'elbow-extension',
+        primary: ['triceps'], secondary: ['chest'],
+        equipment: ['barbell', 'ez-bar'],
+        weightMode: 'external', status: 'active',
+        tip: {
+            en: 'Half skullcrusher, half close-grip press: the bar tracks to the throat, not the forehead. Start lighter than you think.',
+            pl: 'Pół wyciskania francuskiego, pół wyciskania wąsko: gryf idzie do gardła, nie do czoła. Zacznij lżej niż planujesz.',
+        },
+    },
+    {
+        id: 'straight-bar-preacher-curl',
+        name: { en: 'Straight-Bar Preacher Curl', pl: 'Uginanie ramion na modlitewniku z prostym drążkiem' },
+        aliases: [],
+        pattern: 'elbow-flexion',
+        primary: ['biceps'], secondary: ['brachialis'],
+        equipment: ['barbell'],
+        weightMode: 'external', status: 'active',
+        tip: {
+            en: 'The pad removes the swing. Straighten the arm fully at the bottom — that stretch is the reason to use it.',
+            pl: 'Oparcie eliminuje zamach. Na dole prostuj ramiona do końca — to rozciągnięcie jest sensem tego ćwiczenia.',
+        },
     },
 ];

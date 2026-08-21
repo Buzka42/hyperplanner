@@ -32,6 +32,7 @@ export const SLOT_QUALITY: Record<string, Quality> = {
     'lateral-raise': 'hypertrophy', 'leaning-one-arm-lateral-raise': 'hypertrophy',
     'hammer-curl': 'hypertrophy', 'standing-straight-bar-curl': 'hypertrophy',
     'cable-triceps-extension': 'hypertrophy', 'overhead-tricep-extension': 'hypertrophy', 'heavy-rolling-tricep-extension': 'hypertrophy',
+    'jm-press': 'hypertrophy', 'bayesian-cable-curl': 'hypertrophy',
     'single-arm-reverse-pec-deck': 'hypertrophy', 'side-lying-rear-delt-fly': 'hypertrophy',
     'leg-extension': 'hypertrophy', 'hack-calf-raise': 'hypertrophy', 'cable-crunch': 'hypertrophy',
 };
@@ -63,8 +64,8 @@ export const CHIMERA_DAYS: DaySpec[] = [
         s('barbell-row', 3, '6-10', 'pull'),
         s('hammer-chest-press', 3, '8-12', 'push'),
         s('side-lying-rear-delt-fly', 2, '12-15', 'hypertrophy', { unilateral: true, technique: { kind: 'last-set-failure' } }),
-        s('cable-triceps-extension', 2, '10-15', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
-        s('standing-straight-bar-curl', 2, '8-12', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
+        s('jm-press', 2, '10-15', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
+        s('bayesian-cable-curl', 2, '8-12', 'hypertrophy', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Chimera — Lower B', dayOfWeek: 5, slots: [
         s('trap-bar-deadlift', 4, '4-6', 'hinge', { systemicCompound: true, primary: true }),

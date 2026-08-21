@@ -54,7 +54,7 @@ The onboarding card claims:
 |---|---:|---:|---|
 | Chimera — Upper A · Block I | 9 | 22 | Flat Barbell Bench Press 4×5-8, Single-Arm Hammer Strength Row 2×8-12, Bench-Supported One-Arm Dumbbell Row 2×8-12, Single-Arm Landmine Press 3×8-12, Pull-Up 3×8-12, Leaning One-Arm Lateral Raise 2×12-15, Standing Straight-Bar Curl 2×8-12, Heavy Rolling Tricep Extensions 2×10-15, Cable Crunch 2×8-12 |
 | Chimera — Lower A · Block I | 6 | 18 | Barbell Squat 4×5-8, Romanian Deadlift 3×6-10, Front-Foot Elevated Bulgarian Split Squat 3×8-12, Seated Hamstring Curl 3×10-15, Leg Extensions 2×12-15, Hack Squat Calf Raises 3×12-20 |
-| Chimera — Upper B · Block I | 8 | 20 | Hammer Pulldown (Underhand) 4×8-12, Incline DB Bench Press 2×6-10, 30° Smith Incline Bench Press 2×6-10, Barbell Row 3×6-10, Hammer Chest Press 3×8-12, Side-Lying Rear Delt Flyes 2×12-15, Cable Triceps Extension 2×10-15, Standing Straight-Bar Curl 2×8-12 |
+| Chimera — Upper B · Block I | 8 | 20 | Hammer Pulldown (Underhand) 4×8-12, Incline DB Bench Press 2×6-10, 30° Smith Incline Bench Press 2×6-10, Barbell Row 3×6-10, Hammer Chest Press 3×8-12, Side-Lying Rear Delt Flyes 2×12-15, JM Press 2×10-15, Bayesian Cable Curl 2×8-12 |
 | Chimera — Lower B · Block I | 6 | 19 | Trap-Bar Deadlift 4×4-6, Leg Press 3×8-12, Weighted Step-Up 3×8-10, Lying Leg Curls 3×10-15, Single Leg Machine Hip Thrust 3×10-15, Hack Squat Calf Raises 3×12-20 |
 
 ### Week-to-week shape
@@ -111,9 +111,9 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 2.09 |
-| Mean stability demand (0-4) | 1.41 |
+| Mean stability demand (0-4) | 1.43 |
 | Stimulus per unit fatigue | 1.25 |
-| Failure-safe share of sets | 38% |
+| Failure-safe share of sets | 35% |
 
 ---
 
@@ -127,8 +127,8 @@ Direct sets, counted once per exercise per major group.
 | At 3 sets | 13 |
 | At 4+ sets | 4 |
 | Mean sets per slot | 2.72 |
-| Distinct exercises | 27 |
-| Variety density (exercises per 10 sets) | 3.42 |
+| Distinct exercises | 28 |
+| Variety density (exercises per 10 sets) | 3.54 |
 | Largest single-exercise share | 8% |
 
 ### Flagged slots
@@ -155,14 +155,14 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Triceps Extension, Heavy Rolling Tricep Extensions, Lying Leg Curls, Seated Hamstring Curl, Single Leg Machine Hip Thrust |
+| `10-15` | Heavy Rolling Tricep Extensions, JM Press, Lying Leg Curls, Seated Hamstring Curl, Single Leg Machine Hip Thrust |
 | `12-15` | Leaning One-Arm Lateral Raise, Leg Extensions, Side-Lying Rear Delt Flyes |
 | `12-20` | Hack Squat Calf Raises |
 | `4-6` | Trap-Bar Deadlift |
 | `5-8` | Barbell Squat, Flat Barbell Bench Press |
 | `6-10` | 30° Smith Incline Bench Press, Barbell Row, Incline DB Bench Press, Romanian Deadlift |
 | `8-10` | Weighted Step-Up |
-| `8-12` | Bench-Supported One-Arm Dumbbell Row, Cable Crunch, Front-Foot Elevated Bulgarian Split Squat, Hammer Chest Press, Hammer Pulldown (Underhand), Leg Press, Pull-Up, Single-Arm Hammer Strength Row, Single-Arm Landmine Press, Standing Straight-Bar Curl |
+| `8-12` | Bayesian Cable Curl, Bench-Supported One-Arm Dumbbell Row, Cable Crunch, Front-Foot Elevated Bulgarian Split Squat, Hammer Chest Press, Hammer Pulldown (Underhand), Leg Press, Pull-Up, Single-Arm Hammer Strength Row, Single-Arm Landmine Press, Standing Straight-Bar Curl |
 
 ---
 
@@ -180,7 +180,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Barbell Row, Bench-Supported One-Arm Dumbbell Row, Cable Crunch, Cable Triceps Extension, Flat Barbell Bench Press, Front-Foot Elevated Bulgarian Split Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Pulldown (Underhand), Heavy Rolling Tricep Extensions, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Leg Extensions, Leg Press, Lying Leg Curls, Pull-Up, Romanian Deadlift, Seated Hamstring Curl, Side-Lying Rear Delt Flyes, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Single-Arm Landmine Press, Standing Straight-Bar Curl, Weighted Step-Up |
+| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Barbell Row, Bayesian Cable Curl, Bench-Supported One-Arm Dumbbell Row, Cable Crunch, Flat Barbell Bench Press, Front-Foot Elevated Bulgarian Split Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Pulldown (Underhand), Heavy Rolling Tricep Extensions, Incline DB Bench Press, JM Press, Leaning One-Arm Lateral Raise, Leg Extensions, Leg Press, Lying Leg Curls, Pull-Up, Romanian Deadlift, Seated Hamstring Curl, Side-Lying Rear Delt Flyes, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Single-Arm Landmine Press, Standing Straight-Bar Curl, Weighted Step-Up |
 | computed by the plan each session | the plan recalculates it from your logged work | Barbell Squat, Trap-Bar Deadlift |
 
 ---
@@ -202,5 +202,5 @@ coverage: { covered: 9, missing: [], in_band: 6, over: ['glutes'], under: ['bice
 set_shape: { slots: 29, ones: 0, twos: 12, threes: 13, four_plus: 4, mean: 2.72 }
 rep_ranges: ['10-15', '12-15', '12-20', '4-6', '5-8', '6-10', '8-10', '8-12']
 progression: { handler: shared, slot_rules: true, distinct_rules: 2 }
-variety: { distinct: 27, density: 3.42, top_share: 0.076, evenness: 0.985 }
+variety: { distinct: 28, density: 3.54, top_share: 0.076, evenness: 0.985 }
 ```

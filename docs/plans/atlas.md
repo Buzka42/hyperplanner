@@ -53,7 +53,7 @@ The onboarding card claims:
 |---|---:|---:|---|
 | Atlas I — Carry the Bar · Gauntlet I | 6 | 17 | Safety Bar Squat 4×5-8, Standing Military Press 3×5-8, Single-Arm Hammer Strength Row 3×8-12, Single-Leg Romanian Deadlift 2×8-10, Ab Wheel 2×8-12, Farmer Carry 3×40-60 |
 | Atlas II — Carry the Weight · Gauntlet I | 7 | 18 | Trap-Bar Deadlift 4×4-6, Weighted Pull-ups 3×4-8, Incline DB Bench Press 3×6-10, Front-Foot Elevated Bulgarian Split Squat 2×8-12, Hack Squat Calf Raises 2×12-20, Heavy Rolling Tricep Extensions 2×10-15, Suitcase Carry 2×30-40 |
-| Atlas III — Carry the Rest · Gauntlet I | 9 | 21 | Safety Bar Squat 3×5-8, Flat DB Press 3×6-10, Barbell Row 3×6-10, Seated Hamstring Curl 2×10-15, Leaning One-Arm Lateral Raise 2×12-15, Standing Straight-Bar Curl 2×8-12, Cable Triceps Extension 2×10-15, Hack Squat Calf Raises 2×12-20, Suitcase Hold 2×30-45 |
+| Atlas III — Carry the Rest · Gauntlet I | 9 | 21 | Safety Bar Squat 3×5-8, Flat DB Press 3×6-10, Barbell Row 3×6-10, Seated Hamstring Curl 2×10-15, Leaning One-Arm Lateral Raise 2×12-15, Standing Straight-Bar Curl 2×8-12, Cable EZ-Bar Pressdown 2×10-15, Hack Squat Calf Raises 2×12-20, Suitcase Hold 2×30-45 |
 
 ### Week-to-week shape
 
@@ -149,7 +149,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Triceps Extension, Heavy Rolling Tricep Extensions, Seated Hamstring Curl |
+| `10-15` | Cable EZ-Bar Pressdown, Heavy Rolling Tricep Extensions, Seated Hamstring Curl |
 | `12-15` | Leaning One-Arm Lateral Raise |
 | `12-20` | Hack Squat Calf Raises |
 | `30-40` | Suitcase Carry |
@@ -178,7 +178,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Ab Wheel, B-Stance Romanian Deadlift, Barbell Row, Cable Triceps Extension, Dip, Farmer Carry, Flat DB Press, Front-Foot Elevated Bulgarian Split Squat, Hack Squat Calf Raises, Half-Kneeling Rotational Cable Row, Hanging Knee Raise, Heavy Rolling Tricep Extensions, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Lying Leg Curls, Seated Hamstring Curl, Single-Arm Hammer Strength Row, Single-Arm Standing Press, Single-Leg Romanian Deadlift, Standing Military Press, Standing Straight-Bar Curl, Suitcase Carry, Suitcase Hold, Weighted Pull-ups, Weighted Step-Up |
+| carried working load | double progression +2.5kg | Ab Wheel, B-Stance Romanian Deadlift, Barbell Row, Cable EZ-Bar Pressdown, Dip, Farmer Carry, Flat DB Press, Front-Foot Elevated Bulgarian Split Squat, Hack Squat Calf Raises, Half-Kneeling Rotational Cable Row, Hanging Knee Raise, Heavy Rolling Tricep Extensions, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Lying Leg Curls, Seated Hamstring Curl, Single-Arm Hammer Strength Row, Single-Arm Standing Press, Single-Leg Romanian Deadlift, Standing Military Press, Standing Straight-Bar Curl, Suitcase Carry, Suitcase Hold, Weighted Pull-ups, Weighted Step-Up |
 | computed by the plan each session | the plan recalculates it from your logged work | Front Squats, Safety Bar Squat, Trap-Bar Deadlift |
 
 ---

@@ -51,9 +51,9 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Upper · Placement | 8 | 24 | Hammer Chest Press 4×6-10, Hammer Pulldown (Underhand) 3×8-12, Single-Arm Hammer Strength Row 3×8-12, Seated Hammer Shoulder Press 3×8-12, Machine Press/Fly Combo 3×10-15, Cable Triceps Extension 3×10-15, Machine Curl 3×8-12, Cable Crunch 2×12-20 |
+| Upper · Placement | 8 | 24 | Hammer Chest Press 4×6-10, Hammer Pulldown (Underhand) 3×8-12, Single-Arm Hammer Strength Row 3×8-12, Seated Hammer Shoulder Press 3×8-12, Machine Press/Fly Combo 3×10-15, JM Press 3×10-15, Machine Curl 3×8-12, Cable Crunch 2×12-20 |
 | Lower · Placement | 6 | 18 | Leg Press 4×8-12, Leg Extensions 3×10-15, Lying Leg Curls 3×10-15, Single Leg Machine Hip Thrust 3×10-15, Standing Dumbbell/KB Calf Raise 3×12-20, Cable Crunch 2×12-20 |
-| Full (light) · Placement | 10 | 26 | Pec Deck 3×12-15, Hammer Pulldown (Underhand) 2×8-12, Machine Rear Delt Fly 3×12-15, Seated Hamstring Curl 3×10-15, Leg Extensions 2×10-15, Standing Dumbbell/KB Calf Raise 3×12-20, Machine Hip Abduction 3×12-20, Hip Adduction 3×12-20, Cable Triceps Extension 2×10-15, Machine Curl 2×8-12 |
+| Full (light) · Placement | 10 | 26 | Pec Deck 3×12-15, Hammer Pulldown (Underhand) 2×8-12, Machine Rear Delt Fly 3×12-15, Seated Hamstring Curl 3×10-15, Leg Extensions 2×10-15, Standing Dumbbell/KB Calf Raise 3×12-20, Machine Hip Abduction 3×12-20, Hip Adduction 3×12-20, Cable Rope Pressdown 2×10-15, Cable EZ-Bar Curl 2×8-12 |
 
 ### Week-to-week shape
 
@@ -109,9 +109,9 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 1.74 |
-| Mean stability demand (0-4) | 0.4 |
+| Mean stability demand (0-4) | 0.47 |
 | Stimulus per unit fatigue | 1.64 |
-| Failure-safe share of sets | 79% |
+| Failure-safe share of sets | 75% |
 
 ---
 
@@ -125,8 +125,8 @@ Direct sets, counted once per exercise per major group.
 | At 3 sets | 16 |
 | At 4+ sets | 2 |
 | Mean sets per slot | 2.83 |
-| Distinct exercises | 18 |
-| Variety density (exercises per 10 sets) | 2.65 |
+| Distinct exercises | 20 |
+| Variety density (exercises per 10 sets) | 2.94 |
 | Largest single-exercise share | 9% |
 
 ### Flagged slots
@@ -151,11 +151,11 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Triceps Extension, Leg Extensions, Lying Leg Curls, Machine Press/Fly Combo, Seated Hamstring Curl, Single Leg Machine Hip Thrust |
+| `10-15` | Cable Rope Pressdown, JM Press, Leg Extensions, Lying Leg Curls, Machine Press/Fly Combo, Seated Hamstring Curl, Single Leg Machine Hip Thrust |
 | `12-15` | Machine Rear Delt Fly, Pec Deck |
 | `12-20` | Cable Crunch, Hip Adduction, Machine Hip Abduction, Standing Dumbbell/KB Calf Raise |
 | `6-10` | Hammer Chest Press |
-| `8-12` | Hammer Pulldown (Underhand), Leg Press, Machine Curl, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
+| `8-12` | Cable EZ-Bar Curl, Hammer Pulldown (Underhand), Leg Press, Machine Curl, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
 
 ---
 
@@ -173,7 +173,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Cable Crunch, Cable Triceps Extension, Hammer Chest Press, Hammer Pulldown (Underhand), Hip Adduction, Leg Extensions, Leg Press, Lying Leg Curls, Machine Curl, Machine Hip Abduction, Machine Press/Fly Combo, Machine Rear Delt Fly, Pec Deck, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Standing Dumbbell/KB Calf Raise |
+| carried working load | double progression +2.5kg | Cable Crunch, Cable EZ-Bar Curl, Cable Rope Pressdown, Hammer Chest Press, Hammer Pulldown (Underhand), Hip Adduction, JM Press, Leg Extensions, Leg Press, Lying Leg Curls, Machine Curl, Machine Hip Abduction, Machine Press/Fly Combo, Machine Rear Delt Fly, Pec Deck, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Standing Dumbbell/KB Calf Raise |
 
 ---
 
@@ -194,5 +194,5 @@ coverage: { covered: 10, missing: [], in_band: 3, over: [], under: ['shoulders',
 set_shape: { slots: 24, ones: 0, twos: 6, threes: 16, four_plus: 2, mean: 2.83 }
 rep_ranges: ['10-15', '12-15', '12-20', '6-10', '8-12']
 progression: { handler: shared, slot_rules: true, distinct_rules: 1 }
-variety: { distinct: 18, density: 2.65, top_share: 0.088, evenness: 0.989 }
+variety: { distinct: 20, density: 2.94, top_share: 0.088, evenness: 0.987 }
 ```

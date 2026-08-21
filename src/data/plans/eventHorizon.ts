@@ -24,7 +24,7 @@ export const EVENT_HORIZON_DAYS: DaySpec[] = [
         s('close-neutral-grip-lat-pulldown', 3, '8-12'),
         s('cable-lateral-raise', 2, '12-15', { technique: { kind: 'last-set-failure' } }),
         s('bayesian-cable-curl', 2, '8-12', { technique: { kind: 'last-set-failure' } }),
-        s('cable-triceps-extension', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
+        s('rope-pressdown', 2, '10-15', { technique: { kind: 'last-set-failure' } }),
     ] },
     { name: 'Horizon — Lower A', dayOfWeek: 2, slots: [
         s('hack-squat', 4, '6-10', { systemicCompound: true, primary: true }),

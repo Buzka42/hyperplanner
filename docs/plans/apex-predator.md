@@ -51,7 +51,7 @@ The onboarding card claims:
 |---|---:|---:|---|
 | A — Lower Access + Push/Pull · Stalk | 7 | 17 | Loaded Ankle Rock 2×8-12, Open-Book Rotation 2×8-12, Heel-Elevated Goblet Squat 3×8-12, Incline DB Bench Press 3×8-12, Bench-Supported One-Arm Dumbbell Row 3×8-12, Seated Hamstring Curl 2×10-15, Single-Arm Overhead Triceps Extension 2×12-20 |
 | B — Hinge + Vertical · Stalk | 8 | 17 | Loaded Ankle Rock 2×8-12, Romanian Deadlift 3×6-10, Assisted Pull-ups 3×6-10, Single-Arm Landmine Press 2×8-12, Front-Foot Elevated Bulgarian Split Squat 2×8-12, Bench-Supported DB Rear Delt Fly 2×12-20, Ab Wheel 2×8-12, Suitcase Carry 1×30-60 |
-| C — Unilateral + Shape · Stalk | 7 | 16 | Loaded Ankle Rock 2×8-12, Open-Book Rotation 2×8-12, Deficit Reverse Lunge 3×8-12, Hammer Chest Press 2×8-15, Single-Arm Hammer Strength Row 3×8-15, Hip Thrusts 2×8-15, Rope Pressdown 2×12-20 |
+| C — Unilateral + Shape · Stalk | 7 | 16 | Loaded Ankle Rock 2×8-12, Open-Book Rotation 2×8-12, Deficit Reverse Lunge 3×8-12, Hammer Chest Press 2×8-15, Single-Arm Hammer Strength Row 3×8-15, Hip Thrusts 2×8-15, Cable Rope Pressdown 2×12-20 |
 
 ### Week-to-week shape
 
@@ -153,7 +153,7 @@ same question; a real spread is the sign that each slot was chosen.
 | Range | Movements |
 |---|---|
 | `10-15` | Seated Hamstring Curl |
-| `12-20` | Bench-Supported DB Rear Delt Fly, Rope Pressdown, Single-Arm Overhead Triceps Extension |
+| `12-20` | Bench-Supported DB Rear Delt Fly, Cable Rope Pressdown, Single-Arm Overhead Triceps Extension |
 | `30-60` | Suitcase Carry |
 | `6-10` | Assisted Pull-ups, Romanian Deadlift |
 | `8-12` | Ab Wheel, Bench-Supported One-Arm Dumbbell Row, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Heel-Elevated Goblet Squat, Incline DB Bench Press, Loaded Ankle Rock, Open-Book Rotation, Single-Arm Landmine Press |
@@ -175,7 +175,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Ab Wheel, Assisted Pull-ups, Bench-Supported DB Rear Delt Fly, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Hammer Chest Press, Heel-Elevated Goblet Squat, Hip Thrusts, Loaded Ankle Rock, Open-Book Rotation, Romanian Deadlift, Rope Pressdown, Seated Hamstring Curl, Single-Arm Hammer Strength Row, Single-Arm Landmine Press, Single-Arm Overhead Triceps Extension, Suitcase Carry |
+| carried working load | double progression +2.5kg | Ab Wheel, Assisted Pull-ups, Bench-Supported DB Rear Delt Fly, Cable Rope Pressdown, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Hammer Chest Press, Heel-Elevated Goblet Squat, Hip Thrusts, Loaded Ankle Rock, Open-Book Rotation, Romanian Deadlift, Seated Hamstring Curl, Single-Arm Hammer Strength Row, Single-Arm Landmine Press, Single-Arm Overhead Triceps Extension, Suitcase Carry |
 | carried working load | double progression +2kg | Bench-Supported One-Arm Dumbbell Row, Incline DB Bench Press |
 
 ---

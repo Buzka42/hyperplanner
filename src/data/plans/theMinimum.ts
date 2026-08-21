@@ -27,7 +27,7 @@ export const MINIMUM_DAYS: DaySpec[] = [
         s('single-arm-hammer-row', 2, '8-12', { unilateral: true }),
         s('cable-lateral-raise', 2, '12-15'),
         s('ezbar-preacher-curl', 2, '8-12'),
-        s('cable-triceps-extension', 2, '8-15'),
+        s('lying-dumbbell-skullcrusher', 2, '8-15'),
         s('hack-calf-raise', 2, '12-20'),
         s('ab-wheel', 2, '8-12'),
     ] },

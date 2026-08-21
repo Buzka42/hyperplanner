@@ -50,7 +50,7 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Weighted Chin Strength · Ascent | 6 | 18 | Weighted Chin-Up 6×3-5, Hammer Chest Press 3×8-12, Hammer Lower Row 3×8-12, Machine Rear Delt Fly 2×15-20, Cable Triceps Extension 2×10-15, Cable Lateral Raise 2×12-20 |
+| Weighted Chin Strength · Ascent | 6 | 18 | Weighted Chin-Up 6×3-5, Hammer Chest Press 3×8-12, Hammer Lower Row 3×8-12, Machine Rear Delt Fly 2×15-20, Cable Straight-Bar Pressdown 2×10-15, Cable Lateral Raise 2×12-20 |
 | Legs + Vertical Pull Volume · Ascent | 6 | 19 | Goblet Skater Squat 3×8-12, Hip-Supported Dumbbell Deadlift 3×8-12, Hack Squat Calf Raises 3×12-20, Pull-Up 4×6-10, 30° Incline-Lying Dumbbell Curl 3×10-15, Ab Wheel 3×8-15 |
 | Horizontal Back · Ascent | 7 | 22 | Dumbbell Seal Row 4×6-10, Hammer Lower Row 3×8-12, Incline DB Bench Press 3×8-12, Standing Military Press 3×6-10, Reverse Curl 3×10-15, Overhead Tricep Extensions 3×12-20, Bench-Supported DB Rear Delt Fly 3×15-20 |
 | Legs + Chest · Ascent | 7 | 20 | Heel-Elevated Goblet Squat 3×10-15, Sissy Squat 2×12-20, Seated Ham Curl 3×10-15, Pec Deck 3×8-12, Hanging Leg Raises 3×10-20, Hack Squat Calf Raises 3×12-20, Seated Dumbbell Lateral Raise 3×12-20 |
@@ -151,7 +151,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | 30° Incline-Lying Dumbbell Curl, Cable Triceps Extension, Heel-Elevated Goblet Squat, Reverse Curl, Seated Ham Curl |
+| `10-15` | 30° Incline-Lying Dumbbell Curl, Cable Straight-Bar Pressdown, Heel-Elevated Goblet Squat, Reverse Curl, Seated Ham Curl |
 | `10-20` | Hanging Leg Raises |
 | `12-20` | Cable Lateral Raise, Hack Squat Calf Raises, Overhead Tricep Extensions, Seated Dumbbell Lateral Raise, Sissy Squat |
 | `15-20` | Bench-Supported DB Rear Delt Fly, Machine Rear Delt Fly |
@@ -176,7 +176,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | 30° Incline-Lying Dumbbell Curl, Ab Wheel, Bench-Supported DB Rear Delt Fly, Cable Lateral Raise, Cable Triceps Extension, Dumbbell Seal Row, Goblet Skater Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Lower Row, Hanging Leg Raises, Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Machine Rear Delt Fly, Overhead Tricep Extensions, Pec Deck, Pull-Up, Reverse Curl, Seated Dumbbell Lateral Raise, Seated Ham Curl, Sissy Squat, Standing Military Press, Weighted Chin-Up |
+| carried working load | double progression +2.5kg | 30° Incline-Lying Dumbbell Curl, Ab Wheel, Bench-Supported DB Rear Delt Fly, Cable Lateral Raise, Cable Straight-Bar Pressdown, Dumbbell Seal Row, Goblet Skater Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Lower Row, Hanging Leg Raises, Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Machine Rear Delt Fly, Overhead Tricep Extensions, Pec Deck, Pull-Up, Reverse Curl, Seated Dumbbell Lateral Raise, Seated Ham Curl, Sissy Squat, Standing Military Press, Weighted Chin-Up |
 
 ---
 

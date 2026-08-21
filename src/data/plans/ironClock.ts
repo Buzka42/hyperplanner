@@ -60,7 +60,7 @@ export const IRON_CLOCK_FOUR_DAY: DaySpec[] = [
         block('leg-extension', 'bell-3-b', 'B1', 4, '10-15', IRON_CLOCK_WINDOWS.b),
         block('lat-prayer', 'bell-3-b', 'B2', 4, '10-15', IRON_CLOCK_WINDOWS.b),
         block('hammer-curl', 'bell-3-c', 'C1', 4, '8-15', IRON_CLOCK_WINDOWS.c),
-        block('cable-triceps-extension', 'bell-3-c', 'C2', 4, '8-15', IRON_CLOCK_WINDOWS.c),
+        block('cable-ezbar-pressdown', 'bell-3-c', 'C2', 4, '8-15', IRON_CLOCK_WINDOWS.c),
     ] },
     { name: 'Final Bell', dayOfWeek: 5, slots: [
         anchor('romanian-deadlift', 3, '5-8'),
@@ -69,7 +69,7 @@ export const IRON_CLOCK_FOUR_DAY: DaySpec[] = [
         block('deficit-reverse-lunge', 'bell-4-b', 'B1', 4, '8-12', IRON_CLOCK_WINDOWS.b),
         block('lateral-raise', 'bell-4-b', 'B2', 4, '12-20', IRON_CLOCK_WINDOWS.b),
         block('hack-calf-raise', 'bell-4-c', 'C1', 4, '12-20', IRON_CLOCK_WINDOWS.c),
-        block('cable-triceps-extension', 'bell-4-c', 'C2', 4, '10-15', IRON_CLOCK_WINDOWS.c),
+        block('smith-skullcrusher', 'bell-4-c', 'C2', 4, '10-15', IRON_CLOCK_WINDOWS.c),
     ] },
 ];
 
@@ -103,7 +103,7 @@ export const IRON_CLOCK_THREE_DAY: DaySpec[] = [
         block('leg-extension', 'clock-3-b', 'B1', 4, '10-15', IRON_CLOCK_WINDOWS.b),
         block('lat-prayer', 'clock-3-b', 'B2', 4, '10-15', IRON_CLOCK_WINDOWS.b),
         block('hammer-curl', 'clock-3-c', 'C1', 4, '8-15', IRON_CLOCK_WINDOWS.c),
-        block('cable-triceps-extension', 'clock-3-c', 'C2', 4, '8-15', IRON_CLOCK_WINDOWS.c),
+        block('smith-skullcrusher', 'clock-3-c', 'C2', 4, '8-15', IRON_CLOCK_WINDOWS.c),
     ] },
 ];
 

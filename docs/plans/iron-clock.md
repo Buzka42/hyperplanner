@@ -54,8 +54,8 @@ The onboarding card claims:
 |---|---:|---:|---|
 | First Bell · Winding | 7 | 9 | Hack Squat 3×5-8, Incline DB Bench Press 1×8-10, Single-Arm Hammer Strength Row 1×8-10, Seated Hamstring Curl 1×10-12, Lateral Raises 1×12-15, Kettlebell Swing 1×12-15, Ab Wheel 1×8-12 |
 | Second Bell · Winding | 7 | 9 | Lat Pulldown (Neutral) 3×6-8, Front-Foot Elevated Bulgarian Split Squat 1×8-10, Hammer Chest Press 1×8-10, Hip-Supported Dumbbell Deadlift 1×8-12, Single Arm Reverse Pec Deck 1×12-15, Hack Squat Calf Raises 1×12-20, Hammer Curls 1×8-15 |
-| Third Bell · Winding | 7 | 9 | Paused Bench Press 3×4-6, Goblet Skater Squat 1×8-12, Hammer Pulldown (Underhand) 1×8-10, Leg Extensions 1×10-15, Lat Prayer 1×10-15, Hammer Curls 1×8-15, Cable Triceps Extension 1×8-15 |
-| Final Bell · Winding | 7 | 9 | Romanian Deadlift 3×5-8, Hammer Chest Press 1×8-10, Single-Arm Hammer Strength Row 1×8-10, Deficit Reverse Lunge 1×8-12, Lateral Raises 1×12-15, Hack Squat Calf Raises 1×12-20, Cable Triceps Extension 1×8-15 |
+| Third Bell · Winding | 7 | 9 | Paused Bench Press 3×4-6, Goblet Skater Squat 1×8-12, Hammer Pulldown (Underhand) 1×8-10, Leg Extensions 1×10-15, Lat Prayer 1×10-15, Hammer Curls 1×8-15, Cable EZ-Bar Pressdown 1×8-15 |
+| Final Bell · Winding | 7 | 9 | Romanian Deadlift 3×5-8, Hammer Chest Press 1×8-10, Single-Arm Hammer Strength Row 1×8-10, Deficit Reverse Lunge 1×8-12, Lateral Raises 1×12-15, Hack Squat Calf Raises 1×12-20, Smith Machine Skullcrusher 1×10-15 |
 
 ### Week-to-week shape
 
@@ -111,7 +111,7 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 2.19 |
-| Mean stability demand (0-4) | 1.39 |
+| Mean stability demand (0-4) | 1.36 |
 | Stimulus per unit fatigue | 1.32 |
 | Failure-safe share of sets | 33% |
 
@@ -127,8 +127,8 @@ Direct sets, counted once per exercise per major group.
 | At 3 sets | 0 |
 | At 4+ sets | 0 |
 | Mean sets per slot | 1.29 |
-| Distinct exercises | 22 |
-| Variety density (exercises per 10 sets) | 6.11 |
+| Distinct exercises | 23 |
+| Variety density (exercises per 10 sets) | 6.39 |
 | Largest single-exercise share | 8% |
 
 No slot sits at one set and none carries more than three. Nothing to flag.
@@ -144,7 +144,7 @@ same question; a real spread is the sign that each slot was chosen.
 | Range | Movements |
 |---|---|
 | `10-12` | Seated Hamstring Curl |
-| `10-15` | Lat Prayer, Leg Extensions |
+| `10-15` | Lat Prayer, Leg Extensions, Smith Machine Skullcrusher |
 | `12-15` | Kettlebell Swing, Lateral Raises, Single Arm Reverse Pec Deck |
 | `12-20` | Hack Squat Calf Raises |
 | `4-6` | Paused Bench Press |
@@ -152,7 +152,7 @@ same question; a real spread is the sign that each slot was chosen.
 | `6-8` | Lat Pulldown (Neutral) |
 | `8-10` | Front-Foot Elevated Bulgarian Split Squat, Hammer Chest Press, Hammer Pulldown (Underhand), Incline DB Bench Press, Single-Arm Hammer Strength Row |
 | `8-12` | Ab Wheel, Deficit Reverse Lunge, Goblet Skater Squat, Hip-Supported Dumbbell Deadlift |
-| `8-15` | Cable Triceps Extension, Hammer Curls |
+| `8-15` | Cable EZ-Bar Pressdown, Hammer Curls |
 
 ---
 
@@ -170,7 +170,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Ab Wheel, Cable Triceps Extension, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Goblet Skater Squat, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Curls, Hammer Pulldown (Underhand), Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Kettlebell Swing, Lat Prayer, Lat Pulldown (Neutral), Lateral Raises, Leg Extensions, Romanian Deadlift, Seated Hamstring Curl, Single Arm Reverse Pec Deck, Single-Arm Hammer Strength Row |
+| carried working load | double progression +2.5kg | Ab Wheel, Cable EZ-Bar Pressdown, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Goblet Skater Squat, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Curls, Hammer Pulldown (Underhand), Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Kettlebell Swing, Lat Prayer, Lat Pulldown (Neutral), Lateral Raises, Leg Extensions, Romanian Deadlift, Seated Hamstring Curl, Single Arm Reverse Pec Deck, Single-Arm Hammer Strength Row, Smith Machine Skullcrusher |
 | computed by the plan each session | the plan recalculates it from your logged work | Paused Bench Press |
 
 ---
@@ -192,5 +192,5 @@ coverage: { covered: 6, missing: [], in_band: 1, over: [], under: ['chest', 'sho
 set_shape: { slots: 28, ones: 0, twos: 0, threes: 0, four_plus: 0, mean: 1.29 }
 rep_ranges: ['10-12', '10-15', '12-15', '12-20', '4-6', '5-8', '6-8', '8-10', '8-12', '8-15']
 progression: { handler: shared, slot_rules: true, distinct_rules: 2 }
-variety: { distinct: 22, density: 6.11, top_share: 0.083, evenness: 0.966 }
+variety: { distinct: 23, density: 6.39, top_share: 0.083, evenness: 0.965 }
 ```

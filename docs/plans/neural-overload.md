@@ -52,7 +52,7 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Bench Neural · Charge | 9 | 17 | Paused Bench Press 1×1, Paused Bench Press 1×1, Paused Bench Press 1×1, Paused Bench Press 1×1, Barbell Row 4×8-12, Wide-Grip Cable Row 3×8-12, Leaning One-Arm Lateral Raise 2×12-20, Bayesian Cable Curl 2×10-15, Cable Triceps Extension 2×10-15 |
+| Bench Neural · Charge | 9 | 17 | Paused Bench Press 1×1, Paused Bench Press 1×1, Paused Bench Press 1×1, Paused Bench Press 1×1, Barbell Row 4×8-12, Wide-Grip Cable Row 3×8-12, Leaning One-Arm Lateral Raise 2×12-20, Bayesian Cable Curl 2×10-15, Cable EZ-Bar Pressdown 2×10-15 |
 | Squat Neural · Charge | 8 | 16 | Low Bar Squat 1×1, Low Bar Squat 1×1, Low Bar Squat 1×1, Low Bar Squat 1×1, Seated Ham Curl 3×8-12, Leg Extensions 3×10-15, Hack Squat Calf Raises 3×12-20, Cable Crunch 3×12-20 |
 | Chin Neural · Charge | 8 | 17 | Weighted Chin-Up 1×1-2, Weighted Chin-Up 1×1-2, Weighted Chin-Up 1×1-2, Weighted Chin-Up 1×1-2, Incline DB Bench Press 4×8-12, Machine Rear Delt Fly 3×15-20, Standing Straight-Bar Curl 3×10-15, Heavy Rolling Tricep Extensions 3×10-15 |
 | Lower Powerbuilding · Charge | 6 | 20 | Front Squats 5×3-5, Hip-Supported Dumbbell Deadlift 3×8-12, Goblet Skater Squat 3×10-12, Seated Ham Curl 3×8-12, Hack Squat Calf Raises 3×12-20, Low-to-High Cable Flyes 3×8-12 |
@@ -171,7 +171,7 @@ same question; a real spread is the sign that each slot was chosen.
 | `1` | Low Bar Squat, Paused Bench Press |
 | `1-2` | Weighted Chin-Up |
 | `10-12` | Goblet Skater Squat |
-| `10-15` | Bayesian Cable Curl, Cable Triceps Extension, Heavy Rolling Tricep Extensions, Leg Extensions, Standing Straight-Bar Curl |
+| `10-15` | Bayesian Cable Curl, Cable EZ-Bar Pressdown, Heavy Rolling Tricep Extensions, Leg Extensions, Standing Straight-Bar Curl |
 | `12-20` | Cable Crunch, Hack Squat Calf Raises, Leaning One-Arm Lateral Raise |
 | `15-20` | Machine Rear Delt Fly |
 | `3-5` | Front Squats |
@@ -193,7 +193,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Barbell Row, Bayesian Cable Curl, Cable Crunch, Cable Triceps Extension, Goblet Skater Squat, Hack Squat Calf Raises, Heavy Rolling Tricep Extensions, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Leg Extensions, Low-to-High Cable Flyes, Machine Rear Delt Fly, Seated Ham Curl, Standing Straight-Bar Curl, Weighted Chin-Up, Wide-Grip Cable Row |
+| carried working load | double progression +2.5kg | Barbell Row, Bayesian Cable Curl, Cable Crunch, Cable EZ-Bar Pressdown, Goblet Skater Squat, Hack Squat Calf Raises, Heavy Rolling Tricep Extensions, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Leaning One-Arm Lateral Raise, Leg Extensions, Low-to-High Cable Flyes, Machine Rear Delt Fly, Seated Ham Curl, Standing Straight-Bar Curl, Weighted Chin-Up, Wide-Grip Cable Row |
 | computed by the plan each session | the plan recalculates it from your logged work | Low Bar Squat, Paused Bench Press |
 | 65% of squat | the tracked max is re-estimated from what you log | Front Squats |
 

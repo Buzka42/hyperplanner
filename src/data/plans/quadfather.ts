@@ -56,8 +56,8 @@ export const QUADFATHER_DAYS: DaySpec[] = [
         s('reverse-nordic-curl', 2, '8-12', { technique: { kind: 'last-set-failure' } }),
         s('lying-leg-curl', 2, '10-15'),
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
-        s('ezbar-preacher-curl', 2, '10-15'),
-        s('cable-triceps-extension', 2, '10-15'),
+        s('bayesian-cable-curl', 2, '10-15'),
+        s('triangle-pushdown', 2, '10-15'),
     ] },
 ];
 

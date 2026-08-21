@@ -50,9 +50,9 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Volume + Legs · Escalation | 7 | 21 | Close-Grip Bench Press 4×6-10, Rope Hammer Curl 4×8-12, Reverse Curl 3×8-12, Rope Pressdown 2×12-20, Hack Squat 3×8-12, Hack Squat Calf Raises 3×12-20, Hip-Supported Dumbbell Deadlift 2×8-12 |
+| Volume + Legs · Escalation | 7 | 21 | Close-Grip Bench Press 4×6-10, Cable Rope Hammer Curl 4×8-12, Reverse Curl 3×8-12, Cable Rope Pressdown 2×12-20, Hack Squat 3×8-12, Hack Squat Calf Raises 3×12-20, Hip-Supported Dumbbell Deadlift 2×8-12 |
 | Lengthened · Escalation | 7 | 20 | Bayesian Cable Curl 4×8-12, Rolling DB Tricep Extensions 4×10-15, 30° Incline-Lying Dumbbell Curl 3×12-15, French Press 2×10-15, Bench-Supported Single-Arm Cable Pulldown 3×8-12, Pec Deck 2×12-15, Behind-the-Back Cable Lateral Raise 2×15-20 |
-| Pump · Escalation | 8 | 24 | Standing Straight-Bar Curl 4×8-12, Lying Dumbbell Skullcrusher 4×12-15, Machine Curl 3×10-15, Triangle Pushdown 2×12-20, Heel-Elevated Goblet Squat 3×10-15, Hack Squat Calf Raises 3×12-20, Cable Crunch 3×12-20, Seated Ham Curl 2×10-15 |
+| Pump · Escalation | 8 | 24 | Standing Straight-Bar Curl 4×8-12, Lying Dumbbell Skullcrusher 4×12-15, Machine Curl 3×10-15, Cable Triangle Pressdown 2×12-20, Heel-Elevated Goblet Squat 3×10-15, Hack Squat Calf Raises 3×12-20, Cable Crunch 3×12-20, Seated Ham Curl 2×10-15 |
 | Go Nuclear (optional) · Escalation | 7 | 15 | Bodyweight Dips 2, Rolling DB Tricep Extensions 2×10-15, Banded EZ Bar Skullcrushers 2, 30° Incline-Lying Dumbbell Curl 1×12-15, 30° Smith Incline Bench Press 3×8-12, Hammer Upper Row 3×8-12, Machine Rear Delt Fly 2×15-20 |
 
 ### Week-to-week shape
@@ -141,7 +141,7 @@ on its own muscle earns them. The rest are worth a second look.
 **Four or more sets (6):**
 
 - Volume + Legs · Escalation — Close-Grip Bench Press, 4 sets *(session opener)*
-- Volume + Legs · Escalation — Rope Hammer Curl, 4 sets
+- Volume + Legs · Escalation — Cable Rope Hammer Curl, 4 sets
 - Lengthened · Escalation — Bayesian Cable Curl, 4 sets *(session opener)*
 - Lengthened · Escalation — Rolling DB Tricep Extensions, 4 sets
 - Pump · Escalation — Standing Straight-Bar Curl, 4 sets *(session opener)*
@@ -159,10 +159,10 @@ same question; a real spread is the sign that each slot was chosen.
 |---|---|
 | `10-15` | French Press, Heel-Elevated Goblet Squat, Machine Curl, Rolling DB Tricep Extensions, Seated Ham Curl |
 | `12-15` | 30° Incline-Lying Dumbbell Curl, Lying Dumbbell Skullcrusher, Pec Deck |
-| `12-20` | Cable Crunch, Hack Squat Calf Raises, Rope Pressdown, Triangle Pushdown |
+| `12-20` | Cable Crunch, Cable Rope Pressdown, Cable Triangle Pressdown, Hack Squat Calf Raises |
 | `15-20` | Behind-the-Back Cable Lateral Raise, Machine Rear Delt Fly |
 | `6-10` | Close-Grip Bench Press |
-| `8-12` | 30° Smith Incline Bench Press, Bayesian Cable Curl, Bench-Supported Single-Arm Cable Pulldown, Hack Squat, Hammer Upper Row, Hip-Supported Dumbbell Deadlift, Reverse Curl, Rope Hammer Curl, Standing Straight-Bar Curl |
+| `8-12` | 30° Smith Incline Bench Press, Bayesian Cable Curl, Bench-Supported Single-Arm Cable Pulldown, Cable Rope Hammer Curl, Hack Squat, Hammer Upper Row, Hip-Supported Dumbbell Deadlift, Reverse Curl, Standing Straight-Bar Curl |
 | `Giant` | Tricep Giant Set |
 
 ---
@@ -181,7 +181,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | 30° Incline-Lying Dumbbell Curl, 30° Smith Incline Bench Press, Bayesian Cable Curl, Behind-the-Back Cable Lateral Raise, Bench-Supported Single-Arm Cable Pulldown, Cable Crunch, Close-Grip Bench Press, French Press, Hack Squat, Hack Squat Calf Raises, Hammer Upper Row, Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Lying Dumbbell Skullcrusher, Machine Curl, Machine Rear Delt Fly, Pec Deck, Reverse Curl, Rolling DB Tricep Extensions, Rope Hammer Curl, Rope Pressdown, Seated Ham Curl, Standing Straight-Bar Curl, Triangle Pushdown, Tricep Giant Set |
+| carried working load | double progression +2.5kg | 30° Incline-Lying Dumbbell Curl, 30° Smith Incline Bench Press, Bayesian Cable Curl, Behind-the-Back Cable Lateral Raise, Bench-Supported Single-Arm Cable Pulldown, Cable Crunch, Cable Rope Hammer Curl, Cable Rope Pressdown, Cable Triangle Pressdown, Close-Grip Bench Press, French Press, Hack Squat, Hack Squat Calf Raises, Hammer Upper Row, Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Lying Dumbbell Skullcrusher, Machine Curl, Machine Rear Delt Fly, Pec Deck, Reverse Curl, Rolling DB Tricep Extensions, Seated Ham Curl, Standing Straight-Bar Curl, Tricep Giant Set |
 
 ---
 

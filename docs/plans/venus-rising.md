@@ -49,9 +49,9 @@ The onboarding card claims:
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
 | Lower A — Quads + Glutes · Foundation | 7 | 16 | Heel-Elevated Goblet Squat 3×8-12, Leg Press 3×8-12, Seated Hamstring Curl 2×10-15, Leg Extensions 2×10-15, Machine Hip Abduction 2×12-20, Hack Squat Calf Raises 2×12-20, Cable Crunch 2×10-15 |
-| Upper A — Back + Delts · Foundation | 7 | 18 | Assisted Pull-ups 3×8-12, Single-Arm Hammer Strength Row 3×8-12, Incline DB Bench Press 3×8-12, Cable Lateral Raise 3×12-20, Side-Lying Rear Delt Flyes 2×12-20, EZ Preacher Curl 2×10-15, Rope Pressdown 2×10-15 |
+| Upper A — Back + Delts · Foundation | 7 | 18 | Assisted Pull-ups 3×8-12, Single-Arm Hammer Strength Row 3×8-12, Incline DB Bench Press 3×8-12, Cable Lateral Raise 3×12-20, Side-Lying Rear Delt Flyes 2×12-20, EZ Preacher Curl 2×10-15, Cable Rope Pressdown 2×10-15 |
 | Lower B — Glutes + Posterior Chain · Foundation | 6 | 15 | Hip Thrusts 3×8-12, Cable Romanian Deadlift 3×8-12, B-Stance Hip Thrust 3×8-12, Supported Sissy Squat 2×10-15, Lying Leg Curls 2×10-15, Hack Squat Calf Raises 2×12-20 |
-| Upper B — Shape · Foundation | 8 | 19 | Hammer Pulldown (Underhand) 3×8-12, Flat DB Press 3×8-12, Pec Deck 2×8-12, Seated Hammer Shoulder Press 2×8-12, Seated Cable Row 3×8-12, Machine Curl 2×10-15, Cable Triceps Extension 2×10-15, Planks 2×30-60sec |
+| Upper B — Shape · Foundation | 8 | 19 | Hammer Pulldown (Underhand) 3×8-12, Flat DB Press 3×8-12, Pec Deck 2×8-12, Seated Hammer Shoulder Press 2×8-12, Seated Cable Row 3×8-12, Machine Curl 2×10-15, Machine Triceps Pushdown 2×10-15, Planks 2×30-60sec |
 
 ### Week-to-week shape
 
@@ -107,7 +107,7 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 1.91 |
-| Mean stability demand (0-4) | 0.76 |
+| Mean stability demand (0-4) | 0.74 |
 | Stimulus per unit fatigue | 1.55 |
 | Failure-safe share of sets | 68% |
 
@@ -139,7 +139,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Crunch, Cable Triceps Extension, EZ Preacher Curl, Leg Extensions, Lying Leg Curls, Machine Curl, Rope Pressdown, Seated Hamstring Curl, Supported Sissy Squat |
+| `10-15` | Cable Crunch, Cable Rope Pressdown, EZ Preacher Curl, Leg Extensions, Lying Leg Curls, Machine Curl, Machine Triceps Pushdown, Seated Hamstring Curl, Supported Sissy Squat |
 | `12-20` | Cable Lateral Raise, Hack Squat Calf Raises, Machine Hip Abduction, Side-Lying Rear Delt Flyes |
 | `30-60sec` | Planks |
 | `8-12` | Assisted Pull-ups, B-Stance Hip Thrust, Cable Romanian Deadlift, Flat DB Press, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip Thrusts, Incline DB Bench Press, Leg Press, Pec Deck, Seated Cable Row, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
@@ -160,7 +160,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Assisted Pull-ups, B-Stance Hip Thrust, Cable Crunch, Cable Lateral Raise, Cable Romanian Deadlift, Cable Triceps Extension, EZ Preacher Curl, Flat DB Press, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip Thrusts, Incline DB Bench Press, Leg Extensions, Leg Press, Lying Leg Curls, Machine Curl, Machine Hip Abduction, Pec Deck, Planks, Rope Pressdown, Seated Cable Row, Seated Hammer Shoulder Press, Seated Hamstring Curl, Side-Lying Rear Delt Flyes, Single-Arm Hammer Strength Row, Supported Sissy Squat |
+| carried working load | double progression +2.5kg | Assisted Pull-ups, B-Stance Hip Thrust, Cable Crunch, Cable Lateral Raise, Cable Romanian Deadlift, Cable Rope Pressdown, EZ Preacher Curl, Flat DB Press, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip Thrusts, Incline DB Bench Press, Leg Extensions, Leg Press, Lying Leg Curls, Machine Curl, Machine Hip Abduction, Machine Triceps Pushdown, Pec Deck, Planks, Seated Cable Row, Seated Hammer Shoulder Press, Seated Hamstring Curl, Side-Lying Rear Delt Flyes, Single-Arm Hammer Strength Row, Supported Sissy Squat |
 
 ---
 

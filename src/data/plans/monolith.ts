@@ -26,7 +26,7 @@ export const MONOLITH_DAYS: DaySpec[] = [
         s('single-arm-hammer-row', 3, '8-12', { unilateral: true }),
         s('seated-hammer-shoulder-press', 3, '8-12'),
         s('machine-press-fly-combo', 3, '10-15'),
-        s('cable-triceps-extension', 3, '10-15'),
+        s('jm-press', 3, '10-15'),
         s('machine-curl', 3, '8-12'),
         s('cable-crunch', 2, '12-20'),
     ] },
@@ -47,8 +47,8 @@ export const MONOLITH_DAYS: DaySpec[] = [
         s('standing-dumbbell-kb-calf-raise', 3, '12-20'),
         s('machine-hip-abduction', 3, '12-20'),
         s('hip-adduction', 3, '12-20'),
-        s('cable-triceps-extension', 2, '10-15'),
-        s('machine-curl', 2, '8-12'),
+        s('rope-pressdown', 2, '10-15'),
+        s('cable-curl', 2, '8-12'),
     ] },
 ];
 
@@ -61,7 +61,7 @@ const TECHNIQUE_SAFE = new Set([
     'leg-extension', 'lying-leg-curl', 'seated-hamstring-curl', 'pec-deck',
     'machine-hip-abduction', 'hip-adduction', 'hammer-chest-press', 'hammer-pulldown',
     'single-arm-hammer-row', 'machine-press-fly-combo', 'seated-hammer-shoulder-press',
-    'machine-curl', 'cable-triceps-extension', 'cable-crunch', 'rear-delt-fly',
+    'cable-curl', 'rope-pressdown', 'cable-crunch', 'rear-delt-fly',
 ]);
 
 const phases = [

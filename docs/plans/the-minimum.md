@@ -48,7 +48,7 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Session A · Establish | 9 | 18 | Hack Squat 2×6-10, Hip-Supported Dumbbell Deadlift 2×6-10, Incline DB Bench Press 2×6-10, Single-Arm Hammer Strength Row 2×8-12, Cable Lateral Raise 2×12-15, EZ Preacher Curl 2×8-12, Cable Triceps Extension 2×8-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 2×8-12 |
+| Session A · Establish | 9 | 18 | Hack Squat 2×6-10, Hip-Supported Dumbbell Deadlift 2×6-10, Incline DB Bench Press 2×6-10, Single-Arm Hammer Strength Row 2×8-12, Cable Lateral Raise 2×12-15, EZ Preacher Curl 2×8-12, Lying Dumbbell Skullcrusher 2×8-15, Hack Squat Calf Raises 2×12-20, Ab Wheel 2×8-12 |
 | Session B · Establish | 10 | 20 | Leg Press 2×8-12, Seated Hamstring Curl 2×10-15, 30° Smith Incline Bench Press 2×8-12, Close Neutral Grip Lat Pulldown 2×8-12, Seated Hammer Shoulder Press 2×8-12, Single Leg Machine Hip Thrust 2×10-15, Bayesian Cable Curl 2×10-15, Overhead Tricep Extensions 2×10-15, Standing Calf Raises 2×12-20, Hanging Knee Raise 2×10-15 |
 
 ### Week-to-week shape
@@ -105,9 +105,9 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 2 |
-| Mean stability demand (0-4) | 1.05 |
+| Mean stability demand (0-4) | 1.11 |
 | Stimulus per unit fatigue | 1.41 |
-| Failure-safe share of sets | 47% |
+| Failure-safe share of sets | 42% |
 
 ---
 
@@ -142,7 +142,7 @@ same question; a real spread is the sign that each slot was chosen.
 | `12-20` | Hack Squat Calf Raises, Standing Calf Raises |
 | `6-10` | Hack Squat, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press |
 | `8-12` | 30° Smith Incline Bench Press, Ab Wheel, Close Neutral Grip Lat Pulldown, EZ Preacher Curl, Leg Press, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
-| `8-15` | Cable Triceps Extension |
+| `8-15` | Lying Dumbbell Skullcrusher |
 
 ---
 
@@ -160,7 +160,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Ab Wheel, Bayesian Cable Curl, Cable Lateral Raise, Cable Triceps Extension, Close Neutral Grip Lat Pulldown, EZ Preacher Curl, Hack Squat, Hack Squat Calf Raises, Hanging Knee Raise, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Leg Press, Overhead Tricep Extensions, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Standing Calf Raises |
+| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Ab Wheel, Bayesian Cable Curl, Cable Lateral Raise, Close Neutral Grip Lat Pulldown, EZ Preacher Curl, Hack Squat, Hack Squat Calf Raises, Hanging Knee Raise, Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Leg Press, Lying Dumbbell Skullcrusher, Overhead Tricep Extensions, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Standing Calf Raises |
 
 ---
 
