@@ -51,9 +51,9 @@ The onboarding card claims:
 
 | Day | Slots | Sets | Work (sets×reps) |
 |---|---:|---:|---|
-| Upper · Placement | 8 | 24 | Hammer Chest Press 4×6-10, Hammer Pulldown (Underhand) 3×8-12, Single-Arm Hammer Strength Row 3×8-12, Seated Hammer Shoulder Press 3×8-12, Machine Press/Fly Combo 3×10-15, JM Press 3×10-15, Machine Curl 3×8-12, Cable Crunch 2×12-20 |
+| Upper · Placement | 8 | 24 | Hammer Chest Press 4×6-10, Hammer Pulldown (Underhand) 3×8-12, Single-Arm Hammer Strength Row 3×8-12, Seated Hammer Shoulder Press 3×8-12, Machine Press/Fly Combo 3×10-15, Machine Triceps Pushdown 3×10-15, Machine Curl 3×8-12, Cable Crunch 2×12-20 |
 | Lower · Placement | 6 | 18 | Leg Press 4×8-12, Leg Extensions 3×10-15, Lying Leg Curls 3×10-15, Single Leg Machine Hip Thrust 3×10-15, Standing Dumbbell/KB Calf Raise 3×12-20, Cable Crunch 2×12-20 |
-| Full (light) · Placement | 10 | 26 | Pec Deck 3×12-15, Hammer Pulldown (Underhand) 2×8-12, Machine Rear Delt Fly 3×12-15, Seated Hamstring Curl 3×10-15, Leg Extensions 2×10-15, Standing Dumbbell/KB Calf Raise 3×12-20, Machine Hip Abduction 3×12-20, Hip Adduction 3×12-20, Cable Rope Pressdown 2×10-15, Cable EZ-Bar Curl 2×8-12 |
+| Full (light) · Placement | 10 | 26 | Pec Deck 3×12-15, Hammer Pulldown (Underhand) 2×8-12, Machine Rear Delt Fly 3×12-15, Seated Hamstring Curl 3×10-15, Leg Extensions 2×10-15, Standing Dumbbell/KB Calf Raise 3×12-20, Machine Hip Abduction 3×12-20, Hip Adduction 3×12-20, Cable Rope Pressdown 2×10-15, Bayesian Cable Curl 2×8-12 |
 
 ### Week-to-week shape
 
@@ -109,9 +109,9 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 1.74 |
-| Mean stability demand (0-4) | 0.47 |
+| Mean stability demand (0-4) | 0.41 |
 | Stimulus per unit fatigue | 1.64 |
-| Failure-safe share of sets | 75% |
+| Failure-safe share of sets | 76% |
 
 ---
 
@@ -151,11 +151,11 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | Cable Rope Pressdown, JM Press, Leg Extensions, Lying Leg Curls, Machine Press/Fly Combo, Seated Hamstring Curl, Single Leg Machine Hip Thrust |
+| `10-15` | Cable Rope Pressdown, Leg Extensions, Lying Leg Curls, Machine Press/Fly Combo, Machine Triceps Pushdown, Seated Hamstring Curl, Single Leg Machine Hip Thrust |
 | `12-15` | Machine Rear Delt Fly, Pec Deck |
 | `12-20` | Cable Crunch, Hip Adduction, Machine Hip Abduction, Standing Dumbbell/KB Calf Raise |
 | `6-10` | Hammer Chest Press |
-| `8-12` | Cable EZ-Bar Curl, Hammer Pulldown (Underhand), Leg Press, Machine Curl, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
+| `8-12` | Bayesian Cable Curl, Hammer Pulldown (Underhand), Leg Press, Machine Curl, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
 
 ---
 
@@ -173,7 +173,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Cable Crunch, Cable EZ-Bar Curl, Cable Rope Pressdown, Hammer Chest Press, Hammer Pulldown (Underhand), Hip Adduction, JM Press, Leg Extensions, Leg Press, Lying Leg Curls, Machine Curl, Machine Hip Abduction, Machine Press/Fly Combo, Machine Rear Delt Fly, Pec Deck, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Standing Dumbbell/KB Calf Raise |
+| carried working load | double progression +2.5kg | Bayesian Cable Curl, Cable Crunch, Cable Rope Pressdown, Hammer Chest Press, Hammer Pulldown (Underhand), Hip Adduction, Leg Extensions, Leg Press, Lying Leg Curls, Machine Curl, Machine Hip Abduction, Machine Press/Fly Combo, Machine Rear Delt Fly, Machine Triceps Pushdown, Pec Deck, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single Leg Machine Hip Thrust, Single-Arm Hammer Strength Row, Standing Dumbbell/KB Calf Raise |
 
 ---
 

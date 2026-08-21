@@ -49,7 +49,7 @@ export const REDLINE_DAYS: DaySpec[] = [
         b('leg-extension', 2, '10-15', 'furnace-b', 'B1'),
         b('lat-prayer', 2, '10-15', 'furnace-b', 'B2'),
         b('behind-the-back-cable-lateral-raise', 2, '12-20', 'furnace-c', 'C1'),
-        b('30-incline-lying-dumbbell-curl', 2, '8-15', 'furnace-c', 'C2'),
+        b('bayesian-cable-curl', 2, '8-15', 'furnace-c', 'C2'),
         f('kettlebell-swing', '10', 'furnace-finisher'),
         f('deficit-reverse-lunge', '8', 'furnace-finisher', 'D1'),
         f('deficit-push-up', '6', 'furnace-finisher', 'D2'),

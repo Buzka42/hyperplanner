@@ -55,7 +55,7 @@ The onboarding card claims:
 | First Bell · Winding | 7 | 9 | Hack Squat 3×5-8, Incline DB Bench Press 1×8-10, Single-Arm Hammer Strength Row 1×8-10, Seated Hamstring Curl 1×10-12, Lateral Raises 1×12-15, Kettlebell Swing 1×12-15, Ab Wheel 1×8-12 |
 | Second Bell · Winding | 7 | 9 | Lat Pulldown (Neutral) 3×6-8, Front-Foot Elevated Bulgarian Split Squat 1×8-10, Hammer Chest Press 1×8-10, Hip-Supported Dumbbell Deadlift 1×8-12, Single Arm Reverse Pec Deck 1×12-15, Hack Squat Calf Raises 1×12-20, Hammer Curls 1×8-15 |
 | Third Bell · Winding | 7 | 9 | Paused Bench Press 3×4-6, Goblet Skater Squat 1×8-12, Hammer Pulldown (Underhand) 1×8-10, Leg Extensions 1×10-15, Lat Prayer 1×10-15, Hammer Curls 1×8-15, Cable EZ-Bar Pressdown 1×8-15 |
-| Final Bell · Winding | 7 | 9 | Romanian Deadlift 3×5-8, Hammer Chest Press 1×8-10, Single-Arm Hammer Strength Row 1×8-10, Deficit Reverse Lunge 1×8-12, Lateral Raises 1×12-15, Hack Squat Calf Raises 1×12-20, Smith Machine Skullcrusher 1×10-15 |
+| Final Bell · Winding | 7 | 9 | Romanian Deadlift 3×5-8, Hammer Chest Press 1×8-10, Single-Arm Hammer Strength Row 1×8-10, Deficit Reverse Lunge 1×8-12, Lateral Raises 1×12-15, Hack Squat Calf Raises 1×12-20, Rolling DB Tricep Extensions 1×10-15 |
 
 ### Week-to-week shape
 
@@ -111,9 +111,9 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 2.19 |
-| Mean stability demand (0-4) | 1.36 |
+| Mean stability demand (0-4) | 1.42 |
 | Stimulus per unit fatigue | 1.32 |
-| Failure-safe share of sets | 33% |
+| Failure-safe share of sets | 31% |
 
 ---
 
@@ -144,7 +144,7 @@ same question; a real spread is the sign that each slot was chosen.
 | Range | Movements |
 |---|---|
 | `10-12` | Seated Hamstring Curl |
-| `10-15` | Lat Prayer, Leg Extensions, Smith Machine Skullcrusher |
+| `10-15` | Lat Prayer, Leg Extensions, Rolling DB Tricep Extensions |
 | `12-15` | Kettlebell Swing, Lateral Raises, Single Arm Reverse Pec Deck |
 | `12-20` | Hack Squat Calf Raises |
 | `4-6` | Paused Bench Press |
@@ -170,7 +170,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | Ab Wheel, Cable EZ-Bar Pressdown, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Goblet Skater Squat, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Curls, Hammer Pulldown (Underhand), Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Kettlebell Swing, Lat Prayer, Lat Pulldown (Neutral), Lateral Raises, Leg Extensions, Romanian Deadlift, Seated Hamstring Curl, Single Arm Reverse Pec Deck, Single-Arm Hammer Strength Row, Smith Machine Skullcrusher |
+| carried working load | double progression +2.5kg | Ab Wheel, Cable EZ-Bar Pressdown, Deficit Reverse Lunge, Front-Foot Elevated Bulgarian Split Squat, Goblet Skater Squat, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Curls, Hammer Pulldown (Underhand), Hip-Supported Dumbbell Deadlift, Incline DB Bench Press, Kettlebell Swing, Lat Prayer, Lat Pulldown (Neutral), Lateral Raises, Leg Extensions, Rolling DB Tricep Extensions, Romanian Deadlift, Seated Hamstring Curl, Single Arm Reverse Pec Deck, Single-Arm Hammer Strength Row |
 | computed by the plan each session | the plan recalculates it from your logged work | Paused Bench Press |
 
 ---

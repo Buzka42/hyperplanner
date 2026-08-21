@@ -56,7 +56,7 @@ The onboarding card claims:
 |---|---:|---:|---|
 | Return I · Remembering | 8 | 19 | Heel-Elevated Goblet Squat 3×8-12, 30° Smith Incline Bench Press 3×8-12, Single-Arm Hammer Strength Row 3×8-12, Seated Hamstring Curl 2×10-15, Cable Lateral Raise 2×12-15, Overhead Tricep Extensions 2×8-15, Hack Squat Calf Raises 2×12-20, Cable Crunch 2×8-12 |
 | Return II · Remembering | 7 | 17 | Hip-Supported Dumbbell Deadlift 3×8-12, Overhand Mid-Grip Pulldown 3×8-12, Dip 3×8-12, Reverse Nordic Curls 2×10-15, Machine Rear Delt Fly 2×12-15, Hack Squat Calf Raises 2×12-20, Machine Curl 2×8-12 |
-| Return III · Remembering | 8 | 20 | Leg Press 3×10-15, Seated Hammer Shoulder Press 3×8-12, Hammer Pulldown (Underhand) 3×8-12, Machine Press/Fly Combo 3×8-12, Lying Leg Curls 2×10-15, EZ Preacher Curl 2×8-12, Lying Dumbbell Skullcrusher 2×8-15, Planks 2×30-60sec |
+| Return III · Remembering | 8 | 20 | Leg Press 3×10-15, Seated Hammer Shoulder Press 3×8-12, Hammer Pulldown (Underhand) 3×8-12, Machine Press/Fly Combo 3×8-12, Lying Leg Curls 2×10-15, Cable Rope Hammer Curl 2×8-12, Cable Straight-Bar Pressdown 2×8-15, Planks 2×30-60sec |
 
 ### Week-to-week shape
 
@@ -111,9 +111,9 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 2.02 |
-| Mean stability demand (0-4) | 0.77 |
+| Mean stability demand (0-4) | 0.73 |
 | Stimulus per unit fatigue | 1.47 |
-| Failure-safe share of sets | 50% |
+| Failure-safe share of sets | 54% |
 
 ---
 
@@ -147,8 +147,8 @@ same question; a real spread is the sign that each slot was chosen.
 | `12-15` | Cable Lateral Raise, Machine Rear Delt Fly |
 | `12-20` | Hack Squat Calf Raises |
 | `30-60sec` | Planks |
-| `8-12` | 30° Smith Incline Bench Press, Cable Crunch, Dip, EZ Preacher Curl, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Machine Curl, Machine Press/Fly Combo, Overhand Mid-Grip Pulldown, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
-| `8-15` | Lying Dumbbell Skullcrusher, Overhead Tricep Extensions |
+| `8-12` | 30° Smith Incline Bench Press, Cable Crunch, Cable Rope Hammer Curl, Dip, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Machine Curl, Machine Press/Fly Combo, Overhand Mid-Grip Pulldown, Seated Hammer Shoulder Press, Single-Arm Hammer Strength Row |
+| `8-15` | Cable Straight-Bar Pressdown, Overhead Tricep Extensions |
 
 ---
 
@@ -166,7 +166,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Cable Crunch, Cable Lateral Raise, Dip, EZ Preacher Curl, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Leg Press, Lying Dumbbell Skullcrusher, Lying Leg Curls, Machine Curl, Machine Press/Fly Combo, Machine Rear Delt Fly, Overhand Mid-Grip Pulldown, Overhead Tricep Extensions, Planks, Reverse Nordic Curls, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single-Arm Hammer Strength Row |
+| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Cable Crunch, Cable Lateral Raise, Cable Rope Hammer Curl, Cable Straight-Bar Pressdown, Dip, Hack Squat Calf Raises, Hammer Pulldown (Underhand), Heel-Elevated Goblet Squat, Hip-Supported Dumbbell Deadlift, Leg Press, Lying Leg Curls, Machine Curl, Machine Press/Fly Combo, Machine Rear Delt Fly, Overhand Mid-Grip Pulldown, Overhead Tricep Extensions, Planks, Reverse Nordic Curls, Seated Hammer Shoulder Press, Seated Hamstring Curl, Single-Arm Hammer Strength Row |
 
 ---
 

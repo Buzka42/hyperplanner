@@ -53,7 +53,7 @@ The onboarding card claims:
 |---|---:|---:|---|
 | Blackout I · Adjustment | 7 | 7 | Leg Press 1×5-8, 30° Smith Incline Bench Press 1×6-10, Single-Arm Hammer Strength Row 1×8-12, Seated Hamstring Curl 1×10-15, Cable Lateral Raise 1×12-15, Leg Extensions 1×12-15, Machine Curl 1×8-12 |
 | Blackout II · Adjustment | 7 | 7 | Hammer Chest Press 1×4-6, Hammer Pulldown (Underhand) 1×8-12, Hack Squat 1×8-12, Seated Hamstring Curl 1×10-15, Machine Rear Delt Fly 1×12-15, Rolling DB Tricep Extensions 1×10-15, Hack Squat Calf Raises 1×12-20 |
-| Blackout III · Adjustment | 9 | 9 | Front-Foot Elevated Bulgarian Split Squat 1×6-10, Shoulder Press 1×6-10, Overhand Mid-Grip Pulldown 1×8-12, Lying Leg Curls 1×10-15, Pec Deck 1×12-15, 30° Incline-Lying Dumbbell Curl 1×10-15, Lying Dumbbell Skullcrusher 1×10-15, Hack Squat Calf Raises 1×12-20, Cable Crunch 1×10-15 |
+| Blackout III · Adjustment | 9 | 9 | Front-Foot Elevated Bulgarian Split Squat 1×6-10, Shoulder Press 1×6-10, Overhand Mid-Grip Pulldown 1×8-12, Lying Leg Curls 1×10-15, Pec Deck 1×12-15, Bayesian Cable Curl 1×10-15, Smith Machine Skullcrusher 1×10-15, Hack Squat Calf Raises 1×12-20, Cable Crunch 1×10-15 |
 
 ### Week-to-week shape
 
@@ -108,9 +108,9 @@ Direct sets, counted once per exercise per major group.
 | Stimulus quality | Value |
 |---|---|
 | Mean lengthened bias (0-4) | 1.96 |
-| Mean stability demand (0-4) | 0.83 |
+| Mean stability demand (0-4) | 0.74 |
 | Stimulus per unit fatigue | 1.55 |
-| Failure-safe share of sets | 56% |
+| Failure-safe share of sets | 61% |
 
 ---
 
@@ -156,8 +156,8 @@ on its own muscle earns them. The rest are worth a second look.
 - Blackout III · Adjustment — Overhand Mid-Grip Pulldown
 - Blackout III · Adjustment — Lying Leg Curls
 - Blackout III · Adjustment — Pec Deck
-- Blackout III · Adjustment — 30° Incline-Lying Dumbbell Curl
-- Blackout III · Adjustment — Lying Dumbbell Skullcrusher
+- Blackout III · Adjustment — Bayesian Cable Curl
+- Blackout III · Adjustment — Smith Machine Skullcrusher
 - Blackout III · Adjustment — Hack Squat Calf Raises
 - Blackout III · Adjustment — Cable Crunch
 
@@ -171,7 +171,7 @@ same question; a real spread is the sign that each slot was chosen.
 
 | Range | Movements |
 |---|---|
-| `10-15` | 30° Incline-Lying Dumbbell Curl, Cable Crunch, Lying Dumbbell Skullcrusher, Lying Leg Curls, Rolling DB Tricep Extensions, Seated Hamstring Curl |
+| `10-15` | Bayesian Cable Curl, Cable Crunch, Lying Leg Curls, Rolling DB Tricep Extensions, Seated Hamstring Curl, Smith Machine Skullcrusher |
 | `12-15` | Cable Lateral Raise, Leg Extensions, Machine Rear Delt Fly, Pec Deck |
 | `12-20` | Hack Squat Calf Raises |
 | `4-6` | Hammer Chest Press |
@@ -195,7 +195,7 @@ save-time handler that writes the next working load after a session.
 
 | Prescribed from | Advances by | Movements |
 |---|---|---|
-| carried working load | double progression +2.5kg | 30° Incline-Lying Dumbbell Curl, 30° Smith Incline Bench Press, Cable Crunch, Cable Lateral Raise, Front-Foot Elevated Bulgarian Split Squat, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Pulldown (Underhand), Leg Extensions, Leg Press, Lying Dumbbell Skullcrusher, Lying Leg Curls, Machine Curl, Machine Rear Delt Fly, Overhand Mid-Grip Pulldown, Pec Deck, Rolling DB Tricep Extensions, Seated Hamstring Curl, Shoulder Press, Single-Arm Hammer Strength Row |
+| carried working load | double progression +2.5kg | 30° Smith Incline Bench Press, Bayesian Cable Curl, Cable Crunch, Cable Lateral Raise, Front-Foot Elevated Bulgarian Split Squat, Hack Squat, Hack Squat Calf Raises, Hammer Chest Press, Hammer Pulldown (Underhand), Leg Extensions, Leg Press, Lying Leg Curls, Machine Curl, Machine Rear Delt Fly, Overhand Mid-Grip Pulldown, Pec Deck, Rolling DB Tricep Extensions, Seated Hamstring Curl, Shoulder Press, Single-Arm Hammer Strength Row, Smith Machine Skullcrusher |
 
 ---
 

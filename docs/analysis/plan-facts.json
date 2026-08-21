@@ -18290,7 +18290,7 @@
       "Leg Extensions": "10-15",
       "Lat Prayer": "10-15",
       "Behind-the-Back Cable Lateral Raise": "12-20",
-      "30° Incline-Lying Dumbbell Curl": "8-15",
+      "Bayesian Cable Curl": "8-15",
       "Deficit Reverse Lunge": "8",
       "Trap-Bar Deadlift": "4-6",
       "Hammer Pulldown (Underhand)": "8-12",
@@ -18393,7 +18393,7 @@
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
-      "30° Incline-Lying Dumbbell Curl": {
+      "Bayesian Cable Curl": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
@@ -18716,8 +18716,8 @@
             "block": true
           },
           {
-            "name": "30° Incline-Lying Dumbbell Curl",
-            "id": "30-incline-lying-dumbbell-curl",
+            "name": "Bayesian Cable Curl",
+            "id": "bayesian-cable-curl",
             "sets": 2,
             "block": true
           },
@@ -19062,7 +19062,7 @@
       "Cable EZ-Bar Pressdown": "8-15",
       "Romanian Deadlift": "5-8",
       "Deficit Reverse Lunge": "8-12",
-      "Smith Machine Skullcrusher": "10-15"
+      "Rolling DB Tricep Extensions": "10-15"
     },
     "progressionByExercise": {
       "Hack Squat": {
@@ -19153,7 +19153,7 @@
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
-      "Smith Machine Skullcrusher": {
+      "Rolling DB Tricep Extensions": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       }
@@ -19219,9 +19219,9 @@
       },
       "twicePlusGroups": 9,
       "avgLengthened": 2.19,
-      "avgStability": 1.36,
+      "avgStability": 1.42,
       "stimulusPerFatigue": 1.32,
-      "failureSafeShare": 0.333,
+      "failureSafeShare": 0.306,
       "weeklyShoulderCost": 9,
       "weeklyKneeCost": 15,
       "weeklyElbowCost": 19,
@@ -19483,8 +19483,8 @@
             "block": true
           },
           {
-            "name": "Smith Machine Skullcrusher",
-            "id": "smith-skullcrusher",
+            "name": "Rolling DB Tricep Extensions",
+            "id": "rolling-dumbbell-tricep-extension",
             "sets": 1,
             "block": true
           }
@@ -20225,8 +20225,8 @@
       "Hammer Pulldown (Underhand)": "8-12",
       "Machine Press/Fly Combo": "8-12",
       "Lying Leg Curls": "10-15",
-      "EZ Preacher Curl": "8-12",
-      "Lying Dumbbell Skullcrusher": "8-15",
+      "Cable Rope Hammer Curl": "8-12",
+      "Cable Straight-Bar Pressdown": "8-15",
       "Planks": "30-60sec"
     },
     "progressionByExercise": {
@@ -20306,11 +20306,11 @@
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
-      "EZ Preacher Curl": {
+      "Cable Rope Hammer Curl": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
-      "Lying Dumbbell Skullcrusher": {
+      "Cable Straight-Bar Pressdown": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
@@ -20378,9 +20378,9 @@
       },
       "twicePlusGroups": 10,
       "avgLengthened": 2.02,
-      "avgStability": 0.77,
+      "avgStability": 0.73,
       "stimulusPerFatigue": 1.47,
-      "failureSafeShare": 0.5,
+      "failureSafeShare": 0.536,
       "weeklyShoulderCost": 19,
       "weeklyKneeCost": 22,
       "weeklyElbowCost": 34,
@@ -20565,13 +20565,13 @@
             "sets": 2
           },
           {
-            "name": "EZ Preacher Curl",
-            "id": "ezbar-preacher-curl",
+            "name": "Cable Rope Hammer Curl",
+            "id": "rope-hammer-curl",
             "sets": 2
           },
           {
-            "name": "Lying Dumbbell Skullcrusher",
-            "id": "lying-dumbbell-skullcrusher",
+            "name": "Cable Straight-Bar Pressdown",
+            "id": "cable-triceps-extension",
             "sets": 2
           },
           {
@@ -22221,8 +22221,8 @@
       "Overhand Mid-Grip Pulldown": "8-12",
       "Lying Leg Curls": "10-15",
       "Pec Deck": "12-15",
-      "30° Incline-Lying Dumbbell Curl": "10-15",
-      "Lying Dumbbell Skullcrusher": "10-15",
+      "Bayesian Cable Curl": "10-15",
+      "Smith Machine Skullcrusher": "10-15",
       "Cable Crunch": "10-15"
     },
     "progressionByExercise": {
@@ -22298,11 +22298,11 @@
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
-      "30° Incline-Lying Dumbbell Curl": {
+      "Bayesian Cable Curl": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
-      "Lying Dumbbell Skullcrusher": {
+      "Smith Machine Skullcrusher": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
@@ -22369,9 +22369,9 @@
       },
       "twicePlusGroups": 9,
       "avgLengthened": 1.96,
-      "avgStability": 0.83,
+      "avgStability": 0.74,
       "stimulusPerFatigue": 1.55,
-      "failureSafeShare": 0.565,
+      "failureSafeShare": 0.609,
       "weeklyShoulderCost": 7,
       "weeklyKneeCost": 11,
       "weeklyElbowCost": 14,
@@ -22481,11 +22481,11 @@
         },
         {
           "day": "Day 3",
-          "name": "30° Incline-Lying Dumbbell Curl"
+          "name": "Bayesian Cable Curl"
         },
         {
           "day": "Day 3",
-          "name": "Lying Dumbbell Skullcrusher"
+          "name": "Smith Machine Skullcrusher"
         },
         {
           "day": "Day 3",
@@ -22644,13 +22644,13 @@
             "sets": 1
           },
           {
-            "name": "30° Incline-Lying Dumbbell Curl",
-            "id": "30-incline-lying-dumbbell-curl",
+            "name": "Bayesian Cable Curl",
+            "id": "bayesian-cable-curl",
             "sets": 1
           },
           {
-            "name": "Lying Dumbbell Skullcrusher",
-            "id": "lying-dumbbell-skullcrusher",
+            "name": "Smith Machine Skullcrusher",
+            "id": "smith-skullcrusher",
             "sets": 1
           },
           {
@@ -22905,7 +22905,7 @@
       "Single-Arm Hammer Strength Row": "8-12",
       "Seated Hammer Shoulder Press": "8-12",
       "Machine Press/Fly Combo": "10-15",
-      "JM Press": "10-15",
+      "Machine Triceps Pushdown": "10-15",
       "Machine Curl": "8-12",
       "Cable Crunch": "12-20",
       "Leg Press": "8-12",
@@ -22919,7 +22919,7 @@
       "Machine Hip Abduction": "12-20",
       "Hip Adduction": "12-20",
       "Cable Rope Pressdown": "10-15",
-      "Cable EZ-Bar Curl": "8-12"
+      "Bayesian Cable Curl": "8-12"
     },
     "progressionByExercise": {
       "Hammer Chest Press": {
@@ -22942,7 +22942,7 @@
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
-      "JM Press": {
+      "Machine Triceps Pushdown": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
@@ -22998,7 +22998,7 @@
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       },
-      "Cable EZ-Bar Curl": {
+      "Bayesian Cable Curl": {
         "from": "carried working load",
         "advances": "double progression +2.5kg"
       }
@@ -23059,9 +23059,9 @@
       },
       "twicePlusGroups": 10,
       "avgLengthened": 1.74,
-      "avgStability": 0.47,
+      "avgStability": 0.41,
       "stimulusPerFatigue": 1.64,
-      "failureSafeShare": 0.75,
+      "failureSafeShare": 0.765,
       "weeklyShoulderCost": 19,
       "weeklyKneeCost": 24,
       "weeklyElbowCost": 38,
@@ -23156,8 +23156,8 @@
             "sets": 3
           },
           {
-            "name": "JM Press",
-            "id": "jm-press",
+            "name": "Machine Triceps Pushdown",
+            "id": "machine-tricep-pushdown",
             "sets": 3
           },
           {
@@ -23258,8 +23258,8 @@
             "sets": 2
           },
           {
-            "name": "Cable EZ-Bar Curl",
-            "id": "cable-curl",
+            "name": "Bayesian Cable Curl",
+            "id": "bayesian-cable-curl",
             "sets": 2
           }
         ]
